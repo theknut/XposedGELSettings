@@ -4,7 +4,7 @@
        	android:summary="@string/pref_support_thread_summary">
        	<intent
 	        android:action="android.intent.action.VIEW"
-	        android:data="http://www.bit.ly/NzmSow" />
+	        android:data="http://forum.xda-developers.com/showthread.php?t=2647275" />
     </PreferenceScreen>
     <PreferenceCategory android:title="@string/pref_cat_title_restart_launcher">
          <PreferenceScreen
