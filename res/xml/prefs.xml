@@ -1,0 +1,66 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+       	android:title="@string/pref_support_thread_title"
+       	android:summary="@string/pref_support_thread_summary">
+       	<intent
+	        android:action="android.intent.action.VIEW"
+	        android:data="http://www.bit.ly/NzmSow" />
+    </PreferenceScreen>
+    <PreferenceCategory android:title="@string/pref_cat_title_restart_launcher">
+         <PreferenceScreen
+             	android:summary="@string/pref_restart_launcher_summary"
+             	android:key="restartlauncher" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="hide apps">
+         <PreferenceScreen
+             	android:title="@string/pref_selectappstohide_summary">   	
+             	<intent
+		        android:action="android.intent.action.VIEW"
+		        android:targetPackage="de.theknut.xposedgelsettings"
+		        android:targetClass="de.theknut.xposedgelsettings.AllAppsList" />
+          </PreferenceScreen>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_cat_title_searchbar">
+        <de.theknut.xposedgelsettings.CustomSwitchPreference
+	        android:key="hidesearchbar"
+	        android:summary="@string/pref_hide_google_search_bar_summary" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_cat_title_icon_labels" >
+    	<de.theknut.xposedgelsettings.CustomSwitchPreference
+        	android:key="hideiconhomescreen"
+        	android:summary="@string/pref_hide_icon_label_on_homescreen_summary" />
+	    <de.theknut.xposedgelsettings.CustomSwitchPreference
+	        android:key="hideiconappdrawer"
+	        android:summary="@string/pref_hide_icon_label_on_app_drawer_summary" />
+    </PreferenceCategory>    
+    <PreferenceCategory android:title="@string/pref_cat_title_grid_size">
+        <Preference android:summary="@string/pref_grid_size_explain"/>
+        <de.theknut.xposedgelsettings.CustomSwitchPreference
+            android:key="changegridsize"
+            android:title="@string/pref_switch_enable_grid_size_title"/>
+        <ListPreference
+            android:key="xcounthomescreen"
+            android:title="@string/pref_xcount_title"
+            android:summary="@string/pref_xcount_summary"
+            android:entries="@array/grid_size_entries"
+            android:entryValues="@array/grid_size_entries"/>
+        <ListPreference
+            android:key="ycounthomescreen"
+            android:title="@string/pref_ycount_title"
+            android:summary="@string/pref_ycount_summary"
+            android:entries="@array/grid_size_entries"
+            android:entryValues="@array/grid_size_entries"/>        
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_cat_title_hotseat">
+        <de.theknut.xposedgelsettings.CustomSwitchPreference
+            android:key="changehotseatcount"
+            android:title="@string/pref_switch_hotseatcount_title"
+            android:summary="@string/pref_cat_title_hotseat_explain_summary" />
+        <ListPreference
+            android:key="hotseatcount"
+            android:title="@string/pref_hotseatcount_title"
+            android:summary="@string/pref_hotseatcount_summary"
+            android:entries="@array/hotseat_entries"
+            android:entryValues="@array/hotseat_entries"/>
+    </PreferenceCategory>
+</PreferenceScreen>

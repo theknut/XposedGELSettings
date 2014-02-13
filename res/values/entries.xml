@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="grid_size_entries">
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+    </string-array>
+    <string-array name="hotseat_entries">
+        <item>4</item>
+        <item>6</item>
+        <item>8</item>
+    </string-array>
+</resources>
