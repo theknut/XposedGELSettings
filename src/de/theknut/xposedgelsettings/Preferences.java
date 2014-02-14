@@ -67,6 +67,9 @@ public class Preferences extends Activity {
             Preference pref = this.findPreference("hidesearchbar");
             pref.setOnPreferenceChangeListener(onChangeListenerSwitch);
             
+            pref = this.findPreference("autohidehidesearchbar");
+            pref.setOnPreferenceChangeListener(onChangeListenerSwitch);
+            
             pref = this.findPreference("hideiconhomescreen");
             pref.setOnPreferenceChangeListener(onChangeListenerSwitch);
             

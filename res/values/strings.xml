@@ -3,6 +3,7 @@
     <string name="app_name">Xposed GEL Settings</string>
     <string name="activity_name">Xposed GEL Settings</string>
     <string name="pref_hide_google_search_bar_summary">Hide Google search bar</string>
+    <string name="pref_autohide_google_search_bar_summary">Automatically show on Google Now page</string>
     <string name="pref_hide_icon_label_on_homescreen_summary">Hide icon labels on home screen</string>
     <string name="pref_hide_icon_label_on_app_drawer_summary">Hide icon labels on app drawer</string>
     <string name="toast_reboot">Please restart the launcher for this changes to take effect!</string>

@@ -9,6 +9,7 @@ import de.theknut.xposedgelsettings.Common;
 public class PreferencesHelper {
 	public static XSharedPreferences prefs = new XSharedPreferences(Common.PACKAGE_NAME);
 	public static boolean hideSearchBar = prefs.getBoolean("hidesearchbar", false);
+	public static boolean autoHideSearchBar = prefs.getBoolean("autohidehidesearchbar", false);
 	public static boolean hideIconLabelHome = prefs.getBoolean("hideiconhomescreen", false);
 	public static boolean hideIconLabelApps = prefs.getBoolean("hideiconappdrawer", false);
 	public static boolean changeGridSize = prefs.getBoolean("changegridsize", false);

@@ -46,7 +46,7 @@ public class GELSettings implements IXposedHookLoadPackage {
 			final Class<?> dg = findClass(Common.DYNAMIC_GRID, lpparam.classLoader);
 			XposedBridge.hookAllMethods(dg, "layout", new DynamicGridHook());
 			
-			if (lpparam.packageName.equals(Common.GEL_PACKAGE)) {
+			if (lpparam.packageName.equals(Common.GEL_PACKAGE) && PreferencesHelper.autoHideSearchBar) {
 				// show Google Search Bar on GEL sidekick
 				final Class<?> pv = findClass(Common.PAGED_VIEW, lpparam.classLoader);
 				XposedBridge.hookAllMethods(pv, "onPageBeginMoving", new OnPageBeginMovingHook());
