@@ -27,15 +27,7 @@
         <de.theknut.xposedgelsettings.CustomSwitchPreference
 	        android:key="autohidehidesearchbar"
 	        android:summary="@string/pref_autohide_google_search_bar_summary" />
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/pref_cat_title_icon_labels" >
-    	<de.theknut.xposedgelsettings.CustomSwitchPreference
-        	android:key="hideiconhomescreen"
-        	android:summary="@string/pref_hide_icon_label_on_homescreen_summary" />
-	    <de.theknut.xposedgelsettings.CustomSwitchPreference
-	        android:key="hideiconappdrawer"
-	        android:summary="@string/pref_hide_icon_label_on_app_drawer_summary" />
-    </PreferenceCategory>    
+    </PreferenceCategory>   
     <PreferenceCategory android:title="@string/pref_cat_title_grid_size">
         <Preference android:summary="@string/pref_grid_size_explain"/>
         <de.theknut.xposedgelsettings.CustomSwitchPreference
@@ -45,25 +37,71 @@
             android:key="xcounthomescreen"
             android:title="@string/pref_xcount_title"
             android:summary="@string/pref_xcount_summary"
-            android:entries="@array/grid_size_entries"
-            android:entryValues="@array/grid_size_entries"/>
+            android:entries="@array/homescreen_grid_size_entries"
+            android:entryValues="@array/homescreen_grid_size_entries"/>
         <ListPreference
             android:key="ycounthomescreen"
             android:title="@string/pref_ycount_title"
             android:summary="@string/pref_ycount_summary"
-            android:entries="@array/grid_size_entries"
-            android:entryValues="@array/grid_size_entries"/>        
+            android:entries="@array/homescreen_grid_size_entries"
+            android:entryValues="@array/homescreen_grid_size_entries"/>
+        <ListPreference
+            android:key="xcountallapps"
+            android:title="@string/pref_xcountallapps_title"
+            android:summary="@string/pref_xcountallapps_summary"
+            android:entries="@array/allapps_grid_size_entries"
+            android:entryValues="@array/allapps_grid_size_entries"/>
+        <ListPreference
+            android:key="ycountallapps"
+            android:title="@string/pref_ycountallapps_title"
+            android:summary="@string/pref_ycountallapps_summary"
+            android:entries="@array/allapps_grid_size_entries"
+            android:entryValues="@array/allapps_grid_size_entries"/>
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/pref_cat_title_hotseat">
+    <PreferenceCategory android:title="@string/pref_cat_title_appicons">
         <de.theknut.xposedgelsettings.CustomSwitchPreference
-            android:key="changehotseatcount"
-            android:title="@string/pref_switch_hotseatcount_title"
-            android:summary="@string/pref_cat_title_hotseat_explain_summary" />
+            android:key="iconsettingsswitch"
+            android:title="@string/pref_switch_appicons_title"
+            android:summary="@string/pref_switch_appicons_explain_summary" />
+        <de.theknut.xposedgelsettings.CustomSwitchPreference
+        	android:key="hideiconhomescreen"
+        	android:summary="@string/pref_hide_icon_label_on_homescreen_summary" />
+	    <de.theknut.xposedgelsettings.CustomSwitchPreference
+	        android:key="hideiconappdrawer"
+	        android:summary="@string/pref_hide_icon_label_on_app_drawer_summary" />
+        <ListPreference
+            android:key="iconsize"
+            android:title="@string/pref_iconsize_title"
+            android:summary="@string/pref_iconsize_summary"
+            android:entries="@array/iconsize_entries"
+            android:entryValues="@array/iconsize_entries"/>
+        <ListPreference
+            android:key="icontextsize"
+            android:title="@string/pref_icontextsize_title"
+            android:summary="@string/pref_icontextsize_summary"
+            android:entries="@array/iconsize_entries"
+            android:entryValues="@array/iconsize_entries"/>
+        <ListPreference
+            android:key="hotseaticonsize"
+            android:title="@string/pref_hotseaticonsize_title"
+            android:summary="@string/pref_hotseaticonsize_summary"
+            android:entries="@array/iconsize_entries"
+            android:entryValues="@array/iconsize_entries"/>
         <ListPreference
             android:key="hotseatcount"
             android:title="@string/pref_hotseatcount_title"
             android:summary="@string/pref_hotseatcount_summary"
             android:entries="@array/hotseat_entries"
             android:entryValues="@array/hotseat_entries"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_cat_eximport_settings">
+        <PreferenceScreen
+            android:key="importsettings"
+       		android:title="@string/pref_settings_import_title"
+       		android:summary="@string/pref_settings_import_summary" />
+        <PreferenceScreen
+            android:key="exportsettings"
+       		android:title="@string/pref_settings_export_title"
+       		android:summary="@string/pref_settings_export_summary" />
     </PreferenceCategory>
 </PreferenceScreen>

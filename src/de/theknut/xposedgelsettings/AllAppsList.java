@@ -46,7 +46,7 @@ public class AllAppsList extends ListActivity {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		SharedPreferences prefs = getSharedPreferences(Common.PACKAGE_NAME + "_preferences", Context.MODE_WORLD_READABLE);
+		SharedPreferences prefs = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
 		SharedPreferences.Editor editor = prefs.edit();
 		editor.remove("hiddenapps");
 		editor.commit();
@@ -58,7 +58,7 @@ public class AllAppsList extends ListActivity {
 	protected void onResume() {
 		super.onResume();
 		
-		hiddenApps = getSharedPreferences(Common.PACKAGE_NAME + "_preferences", Context.MODE_WORLD_READABLE).getStringSet("hiddenapps", new HashSet<String>());
+		hiddenApps = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).getStringSet("hiddenapps", new HashSet<String>());
 	}
 	
 	public class AppArrayAdapter extends ArrayAdapter<ResolveInfo> {
