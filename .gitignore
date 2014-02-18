@@ -17,6 +17,7 @@ local.properties
 .loadpath
 gen/
 libs/
+src/de/theknut/xposedgelsettings/hooks/TestRange
 
 # External tool builders
 .externalToolBuilders/
