@@ -8,13 +8,13 @@
         <item>8</item>
     </string-array>
     <string-array name="allapps_grid_size_entries">
-        <item>10</item>
-        <item>9</item>
-        <item>8</item>
-        <item>7</item>
-        <item>6</item>
-        <item>5</item>
         <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
     </string-array>
     <string-array name="hotseat_entries">
         <item>4</item>
@@ -22,6 +22,10 @@
         <item>8</item>
     </string-array>
     <string-array name="iconsize_entries">
+        <item>120</item>
+        <item>115</item>
+        <item>110</item>
+        <item>105</item>
         <item>100</item>
         <item>95</item>
         <item>90</item>
@@ -31,7 +35,17 @@
         <item>70</item>
         <item>65</item>
         <item>60</item>
-        <item>55</item>
-        <item>50</item>
+    </string-array>
+    <string-array name="defaulthomescreen">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
     </string-array>
 </resources>

@@ -3,10 +3,12 @@ package de.theknut.xposedgelsettings.hooks.GoogleSearchBar;
 import static de.robv.android.xposed.XposedHelpers.getBooleanField;
 import android.view.ViewGroup.LayoutParams;
 import de.robv.android.xposed.XC_MethodHook;
-import de.theknut.xposedgelsettings.Common;
-import de.theknut.xposedgelsettings.hooks.GELSettings;
+import de.theknut.xposedgelsettings.hooks.Common;
 
 public final class OnPageEndMovingHook extends XC_MethodHook {
+	
+	// http://androidxref.com/4.4.2_r1/xref/packages/apps/Launcher3/src/com/android/launcher3/PagedView.java#599
+	// protected void onPageEndMoving()
 	
 	@Override
 	protected void afterHookedMethod(MethodHookParam param) throws Throwable {
@@ -16,8 +18,9 @@ public final class OnPageEndMovingHook extends XC_MethodHook {
 			return;
 		}
 		
+		// show the search bar as soon as the page has stopped moving and the GNow overlay is visible
 		if (getBooleanField(Common.GEL_INSTANCE, "mNowEnabled") && getBooleanField(Common.NOW_OVERLAY_INSTANCE, "mVisible")) {
-			GELSettings.setLayoutParams(Common.LAUNCHER_INSTANCE, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, Common.SEARCH_BAR_SPACE_WIDTH, Common.SEARCH_BAR_SPACE_HEIGHT);					
+			GoogleSearchBarHooks.setLayoutParams(Common.LAUNCHER_INSTANCE, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, Common.SEARCH_BAR_SPACE_WIDTH, Common.SEARCH_BAR_SPACE_HEIGHT);					
 		}
 	}	
 }

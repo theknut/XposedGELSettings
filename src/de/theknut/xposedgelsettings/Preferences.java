@@ -1,15 +1,17 @@
 package de.theknut.xposedgelsettings;
 
-import static de.robv.android.xposed.XposedHelpers.getShortField;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Method;
 import java.util.List;
 
+import de.theknut.xposedgelsettings.hooks.Common;
+
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
@@ -18,13 +20,15 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Path;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
 import android.preference.Preference.OnPreferenceChangeListener;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 public class Preferences extends Activity {
@@ -43,6 +47,50 @@ public class Preferences extends Activity {
 		
 		if (savedInstanceState == null)
 			getFragmentManager().beginTransaction().replace(R.id.container, new PrefsFragment()).commit();
+		
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.menu, menu);
+	    return true;
+	}
+	
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	    // action with ID action_refresh was selected
+	    case R.id.action_refresh:
+	      restartLauncher();
+	      break;
+	    default:
+	      break;
+	    }
+
+	    return true;
+	  }
+	
+	private static boolean restartLauncher() {
+		ActivityManager am = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+    	 String msg = "Killed:\n";
+    	 
+    	 List<RunningAppProcessInfo> processes = am.getRunningAppProcesses();
+    	 for (RunningAppProcessInfo process : processes) {
+    		 if (Common.PACKAGE_NAMES.contains(process.processName)) {
+    			 am.killBackgroundProcesses(process.processName);
+    			 msg += process.processName + "\n"; 
+    		 }                        			 
+    	 }
+    	 
+    	 if (msg.equals("Killed:\n")) {
+    		 msg = msg.substring(0, msg.lastIndexOf('\n')) + " " + mContext.getString(R.string.toast_reboot_failed_nothing_msg) + "... :(\n" + mContext.getString(R.string.toast_reboot_failed);
+    	 }
+    	 else {
+    		 msg = msg.substring(0, msg.lastIndexOf('\n'));
+    	 }
+    	 
+    	 Toast.makeText(mContext, msg, Toast.LENGTH_LONG).show();
+    	 return true;
 	}
 	
 	public static class PrefsFragment extends PreferenceFragment {
@@ -60,14 +108,6 @@ public class Preferences extends Activity {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     
-                    String key = preference.getKey();
-                    SharedPreferences prefs = getPreferenceManager().getSharedPreferences();
-            		SharedPreferences.Editor editor = prefs.edit();
-            		editor.remove(key);
-            		editor.commit();
-            		editor.putBoolean(key, (Boolean) newValue);
-            		editor.commit();
-                    
                     if (!toastShown) {                 
                     	Toast.makeText(mContext, R.string.toast_reboot, Toast.LENGTH_LONG).show();
                     	toastShown = true;
@@ -77,52 +117,30 @@ public class Preferences extends Activity {
                 }
             };
             
-            Preference pref = this.findPreference("iconsettingsswitch");
-            pref.setOnPreferenceChangeListener(onChangeListenerSwitch);
+            this.findPreference("hidesearchbar").setOnPreferenceChangeListener(onChangeListenerSwitch);            
+            this.findPreference("autohidehidesearchbar").setOnPreferenceChangeListener(onChangeListenerSwitch);
+            this.findPreference("hideiconhomescreen").setOnPreferenceChangeListener(onChangeListenerSwitch);
+            this.findPreference("hideiconappdrawer").setOnPreferenceChangeListener(onChangeListenerSwitch);
+            this.findPreference("changegridsizehome").setOnPreferenceChangeListener(onChangeListenerSwitch);
+            this.findPreference("changegridsizeapps").setOnPreferenceChangeListener(onChangeListenerSwitch);
+            this.findPreference("iconsettingsswitchapps").setOnPreferenceChangeListener(onChangeListenerSwitch);
+            this.findPreference("iconsettingsswitchhome").setOnPreferenceChangeListener(onChangeListenerSwitch);
+            this.findPreference("hidepageindicator").setOnPreferenceChangeListener(onChangeListenerSwitch);
+            this.findPreference("enablerotation").setOnPreferenceChangeListener(onChangeListenerSwitch);
+            this.findPreference("resizeallwidgets").setOnPreferenceChangeListener(onChangeListenerSwitch);
+            this.findPreference("homescreeniconlabelshadow").setOnPreferenceChangeListener(onChangeListenerSwitch);
+            this.findPreference("longpressallappsbutton").setOnPreferenceChangeListener(onChangeListenerSwitch);
+            this.findPreference("disablewallpaperscroll").setOnPreferenceChangeListener(onChangeListenerSwitch);
             
-            pref = this.findPreference("hidesearchbar");
-            pref.setOnPreferenceChangeListener(onChangeListenerSwitch);
-            
-            pref = this.findPreference("autohidehidesearchbar");
-            pref.setOnPreferenceChangeListener(onChangeListenerSwitch);
-            
-            pref = this.findPreference("hideiconhomescreen");
-            pref.setOnPreferenceChangeListener(onChangeListenerSwitch);
-            
-            pref = this.findPreference("hideiconappdrawer");
-            pref.setOnPreferenceChangeListener(onChangeListenerSwitch);
-            
-            pref = this.findPreference("changegridsize");
-            pref.setOnPreferenceChangeListener(onChangeListenerSwitch);
-            
-            pref = this.findPreference("restartlauncher");
-            pref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+            this.findPreference("restartlauncher").setOnPreferenceClickListener(new OnPreferenceClickListener() {
                          public boolean onPreferenceClick(Preference preference) {
-                        	 ActivityManager am = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
-                        	 String msg = "Killed:\n";
-                        	 
-                        	 List<RunningAppProcessInfo> processes = am.getRunningAppProcesses();
-                        	 for (RunningAppProcessInfo process : processes) {
-                        		 if (Common.PACKAGE_NAMES.contains(process.processName)) {
-                        			 am.killBackgroundProcesses(process.processName);
-                        			 msg += process.processName + "\n"; 
-                        		 }                        			 
-                        	 }
-                        	 
-                        	 if (msg.equals("Killed:\n")) {
-                        		 msg = msg.substring(0, msg.lastIndexOf('\n')) + " " + getString(R.string.toast_reboot_failed_nothing_msg) + "... :(\n" + getString(R.string.toast_reboot_failed);
-                        	 }
-                        	 else {
-                        		 msg = msg.substring(0, msg.lastIndexOf('\n'));
-                        	 }
-                        	 
-                        	 Toast.makeText(mContext, msg, Toast.LENGTH_LONG).show();
-                        	 return true;
+                        	 return restartLauncher();
                          }
                      });
             
-            OnPreferenceClickListener ImExportSettingsListener = new OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference preference) {
+            OnPreferenceClickListener ImExportResetSettingsListener = new OnPreferenceClickListener() {
+                @SuppressLint("WorldReadableFiles")
+				public boolean onPreferenceClick(Preference preference) {
                 	
                 	File sdcard = new File(Environment.getExternalStorageDirectory().getPath() + "/XposedGELSettings/" + Common.PREFERENCES_NAME + ".xml");
                 	File data = new File(mContext.getFilesDir(), "../shared_prefs/"+ Common.PREFERENCES_NAME + ".xml");
@@ -130,44 +148,69 @@ public class Preferences extends Activity {
                 	sdcard.getParentFile().mkdirs();
                 	data.getParentFile().mkdirs();
                 	
-                	if (preference.getKey().contains("import")) {
+                	if (preference.getKey().contains("importsettings")) {
                 		boolean success = false;
                 		
 						try {
+							// copy from sdcard to data
 							success = copy(sdcard, data);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
+							
+							// set permissions
+							chmod(new File (mContext.getFilesDir(), "../shared_prefs"), 0771);
+							chmod(data, 0664);							
+						} catch (Exception e) {
 							e.printStackTrace();
 						}
                 		
                 		if (success) {
                 			Toast.makeText(mContext, R.string.toast_import, Toast.LENGTH_LONG).show();
-                			
-                			Intent mStartActivity = new Intent(mContext, Preferences.class);
-                			int mPendingIntentId = 0xB00B5; // tell me when you've found this
-                			PendingIntent mPendingIntent = PendingIntent.getActivity(mContext, mPendingIntentId,    mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
-                			AlarmManager mgr = (AlarmManager)mContext.getSystemService(Context.ALARM_SERVICE);
-                			mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
-                			System.exit(0);
+                			restartActivity();
+                		}
+                		else {
+                			Toast.makeText(mContext, R.string.toast_import_failed, Toast.LENGTH_LONG).show();
                 		}
                 	}
-                	else if (preference.getKey().contains("export")) {
+                	else if (preference.getKey().contains("exportsettings")) {
                 		boolean success = false;
                 		
 						try {
+							// copy from data to sdcard
 							success = copy(data, sdcard);
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
                 		
                 		if (success) {
                 			Toast.makeText(mContext, R.string.toast_export, Toast.LENGTH_LONG).show();
                 		}
+                		else {
+                			Toast.makeText(mContext, R.string.toast_export_failed, Toast.LENGTH_LONG).show();
+                		}
+                	}
+                	else if (preference.getKey().contains("resetsettings")) {
+                		// reset your settings, I mean you wanted that so lets do it!
+                		boolean success = mContext.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).edit().clear().commit();
+                		
+                		if (success) {
+                			Toast.makeText(mContext, R.string.toast_reset, Toast.LENGTH_LONG).show();
+                			restartActivity();
+                		}
+                		else {
+                			Toast.makeText(mContext, R.string.toast_reset_failed, Toast.LENGTH_LONG).show();
+                		}
                 	}
                 	
                 	return true;
                 }
+
+				private void restartActivity() {					
+					Intent mStartActivity = new Intent(mContext, Preferences.class);
+					int mPendingIntentId = 0xB00B5; // tell me when you've found this - make a post only saying "Banana" in the support thread and you'll get a cookie! Honestly!
+					PendingIntent mPendingIntent = PendingIntent.getActivity(mContext, mPendingIntentId,    mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+					AlarmManager mgr = (AlarmManager)mContext.getSystemService(Context.ALARM_SERVICE);
+					mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
+					System.exit(0);
+				}
                 
                 public boolean copy(File src, File dst) throws IOException {
                 	
@@ -193,14 +236,17 @@ public class Preferences extends Activity {
                     
                     return true;
                 }
+                
+                public int chmod(File path, int mode) throws Exception {
+                    Class<?> fileUtils = Class.forName("android.os.FileUtils");
+                    Method setPermissions = fileUtils.getMethod("setPermissions", String.class, int.class, int.class, int.class);
+                    return (Integer) setPermissions.invoke(null, path.getAbsolutePath(), mode, -1, -1);
+                }
             };
             
-            
-            pref = this.findPreference("importsettings");
-            pref.setOnPreferenceClickListener(ImExportSettingsListener);
-            
-            pref = this.findPreference("exportsettings");
-            pref.setOnPreferenceClickListener(ImExportSettingsListener);
+            this.findPreference("importsettings").setOnPreferenceClickListener(ImExportResetSettingsListener);
+            this.findPreference("exportsettings").setOnPreferenceClickListener(ImExportResetSettingsListener);
+            this.findPreference("resetsettings").setOnPreferenceClickListener(ImExportResetSettingsListener);
         }
     }
 }

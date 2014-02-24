@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import android.annotation.SuppressLint;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -22,30 +23,38 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import de.theknut.xposedgelsettings.hooks.Common;
+
 public class AllAppsList extends ListActivity {
 	
 	public static Set<String> hiddenApps;
 	
-	@SuppressWarnings("deprecation")
+	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		PackageManager pm = getPackageManager();
-				
-		// load all launcher activities 
+		
+		// load all apps which are listed in the app drawer
     	final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         final List<ResolveInfo> apps = pm.queryIntentActivities(mainIntent, 0);
+        
+        // sort them
         Collections.sort(apps, new ResolveInfo.DisplayNameComparator(pm));
         
 		AppArrayAdapter adapter = new AppArrayAdapter(this, getPackageManager(), apps);
-	    setListAdapter(adapter);    
+	    setListAdapter(adapter);
 	}
 	
+	@SuppressLint("WorldReadableFiles")
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onPause() {
 		super.onPause();
+		
+		// save our new list
 		SharedPreferences prefs = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
 		SharedPreferences.Editor editor = prefs.edit();
 		editor.remove("hiddenapps");
@@ -54,10 +63,13 @@ public class AllAppsList extends ListActivity {
 		editor.commit();
 	}
 	
+	@SuppressLint("WorldReadableFiles")
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onResume() {
 		super.onResume();
 		
+		// get our hidden app list
 		hiddenApps = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).getStringSet("hiddenapps", new HashSet<String>());
 	}
 	
@@ -80,12 +92,15 @@ public class AllAppsList extends ListActivity {
 				
 				ResolveInfo item = values.get(position);
 				
+				// setup app icon to row
 				ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
 				imageView.setImageDrawable(item.loadIcon(pm));
 				
+				// setup app label to row
 				TextView textView = (TextView) rowView.findViewById(R.id.name);
 				textView.setText(item.loadLabel(pm));
 				
+				// setup checkbox to row
 				CheckBox checkBox = (CheckBox) rowView.findViewById(R.id.checkbox);
 				checkBox.setTag(item.activityInfo.packageName + "#" + item.loadLabel(pm));
 				checkBox.setChecked(hiddenApps.contains(checkBox.getTag()));
@@ -96,17 +111,20 @@ public class AllAppsList extends ListActivity {
 												
 						if (isChecked) {
 							if (!hiddenApps.contains(buttonView.getTag())) {
+								// app is not in the list, so lets add it
 								hiddenApps.add((String)buttonView.getTag());
 							}
 						}
 						else {
 							if (hiddenApps.contains(buttonView.getTag())) {
+								// app is in the list but the checkbox is no longer checked, we can remove it
 								hiddenApps.remove((String)buttonView.getTag());
 							}
 						}
 					}
 				});
 				
+				// add the row to the listview
 				return rowView;
 		  }
 	}
