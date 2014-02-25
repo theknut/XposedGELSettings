@@ -17,9 +17,17 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.renderscript.Allocation;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
@@ -36,7 +44,7 @@ import de.theknut.xposedgelsettings.hooks.Homescreen.HomescreenHooks;
 public class TestRange {
 		
 	public static void initAllHooks(LoadPackageParam lpparam) {
-		
+		XposedBridge.log("Testrange");
 //		final Class<?> DynamicGridClass = findClass(Common.LAUNCHER3 + "Workspace", lpparam.classLoader);
 //		XposedBridge.hookAllMethods(DynamicGridClass, "animateBackgroundGradient", new XC_MethodHook() {
 //			@Override
@@ -45,6 +53,27 @@ public class TestRange {
 //				param.args[1] = false;
 //			}
 //		});
+		
+//		final Class<?> DynamicGridClass = findClass(Common.LAUNCHER3 + "Workspace", lpparam.classLoader);
+//		XposedBridge.hookAllMethods(DynamicGridClass, "initWorkspace", new XC_MethodHook() {
+//			@Override
+//			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+//				
+//				Drawable f = (Drawable) getObjectField(param.thisObject, "mBackground");
+//				
+//				Bitmap bitmap = Bitmap.createBitmap(f.getIntrinsicWidth(), f.getIntrinsicHeight(), Config.ARGB_8888);
+//			    Canvas canvas = new Canvas(bitmap); 
+//			    f.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+//			    f.draw(canvas);
+//			    
+//			    Blur
+//			}
+//		});
+		
+
+	}
+		
+		 
 		
 		
 		
@@ -67,8 +96,29 @@ public class TestRange {
 //				}.start();
 //			}
 //		});
-	}
-	public void l(String msg) {
+		
+		
+//	}
+//	
+//	Bitmap BlurImage (Bitmap input)
+//	{
+//		RenderScript rsScript = RenderScript.create (Common.LAUNCHER_CONTEXT);
+//		Allocation alloc = Allocation.createFromBitmap(rsScript, input);
+//
+//		ScriptIntrinsicBlur blur = ScriptIntrinsicBlur.create (rsScript, alloc.getElement());
+//		blur.setRadius(12);
+//		blur.setInput(alloc);
+//
+//		Bitmap result = Bitmap.createBitmap(input.getWidth(), input.getHeight(), input.getConfig());
+//		Allocation outAlloc = Allocation.createFromBitmap(rsScript, result);
+//		blur.forEach (outAlloc);
+//		outAlloc.copyTo (result);
+//
+//		rsScript.destroy();
+//		return result;
+//	}
+	
+	public static void l(String msg) {
 		XposedBridge.log(msg);
 	}
 }

@@ -15,8 +15,8 @@ public class HomescreenHooks {
 		final Class<?> WorkspaceClass = findClass(Common.WORKSPACE, lpparam.classLoader);
 		XposedBridge.hookAllMethods(WorkspaceClass, "moveToDefaultScreen", new MoveToDefaultScreenHook());
 		
-		// animate background to semitransparent
-		XposedBridge.hookAllMethods(WorkspaceClass, "animateBackgroundGradient", new AnimateBackgroundGradientHook());
+		// don't animate background to semitransparent
+		// XposedBridge.hookAllMethods(WorkspaceClass, "animateBackgroundGradient", new AnimateBackgroundGradientHook());
 		
 		final Class<?> DeviceProfileClass = findClass(Common.DEVICE_PROFILE, lpparam.classLoader);		
 		// modify homescreen grid

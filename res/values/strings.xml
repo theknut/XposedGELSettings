@@ -52,7 +52,7 @@
     <string name="pref_hotseatcount_summary">Change the hotseat icon count (excluding the app drawer icon)</string>
     <string name="pref_selectappstohide_summary">Select the apps to hide</string>
     <string name="pref_cat_title_restart_launcher">Restart launcher</string>
-    <string name="pref_restart_launcher_summary">Click here to restart the launcher and load it with your settings</string>
+    <string name="pref_restart_launcher_summary">Click here to restart the launcher and load it with your settings.</string>
     <string name="pref_donate_title">Like this module? - Donate!</string>
     <string name="pref_donate_summary">XGELS is free and ever will be. However, if you like my work and want to recompense me for the hours I spent, make sure to donate to me. Press this button!</string>
     <string name="pref_support_thread_title">Need help?</string>

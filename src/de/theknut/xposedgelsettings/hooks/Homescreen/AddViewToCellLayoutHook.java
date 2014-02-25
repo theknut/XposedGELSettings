@@ -1,12 +1,13 @@
 package de.theknut.xposedgelsettings.hooks.Homescreen;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
+import static de.robv.android.xposed.XposedHelpers.getBooleanField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
-import net.margaritov.preference.colorpicker.ColorPickerPreference;
 
+import net.margaritov.preference.colorpicker.ColorPickerPreference;
 import android.graphics.Color;
+
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 
 public final class AddViewToCellLayoutHook extends XC_MethodHook {
@@ -20,9 +21,12 @@ public final class AddViewToCellLayoutHook extends XC_MethodHook {
 	protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 		
 		if (param.args[0].getClass().getName().contains("BubbleTextView")) {
-			XposedBridge.log("Shadow: " + PreferencesHelper.homescreenIconLabelShadow);
-			callMethod(param.args[0], "setShadowsEnabled", PreferencesHelper.homescreenIconLabelShadow);
-			callMethod(param.args[0], "setTextColor", newColor);
+			
+			// apps in folders don't have a shadow so we can filter that for future customization
+			if (getBooleanField(param.args[0], "mShadowsEnabled")) {
+				callMethod(param.args[0], "setShadowsEnabled", PreferencesHelper.homescreenIconLabelShadow);
+				callMethod(param.args[0], "setTextColor", newColor);
+			}
 			
 			if (PreferencesHelper.hideIconLabelHome) {
 				callMethod(param.args[0], "setShadowsEnabled", false);

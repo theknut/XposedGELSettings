@@ -52,7 +52,7 @@
   <string name="pref_hotseatcount_summary">Изменить количество значков быстрого доступа (за исключением меню приложений)</string>
   <string name="pref_selectappstohide_summary">Выберите приложения для скрытия</string>
   <string name="pref_cat_title_restart_launcher">Перезапустить лаунчер</string>
-  <string name="pref_restart_launcher_summary">Нажмите здесь для перезапуска лаунчера и применения ваших настроек</string>
+  <string name="pref_restart_launcher_summary">Нажмите здесь для перезапуска лаунчера и применения ваших настроек.</string>
   <string name="pref_donate_title">Нравится этот модуль? - Пожертвуйте!</string>
   <string name="pref_donate_summary">"Если вам нравится этот модуль, то не забудьте купить мне пива! Время было потрачено! Как&#8230; без пива. Нажмите здесь! "</string>
   <string name="pref_support_thread_title">Нужна помощь?</string>
