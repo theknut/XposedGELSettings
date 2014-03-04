@@ -35,6 +35,18 @@ public class AppDrawerHooks {
 			XposedBridge.hookAllMethods(AppsCustomizeTabHostClass, "onTabChangedEnd", new OnTabChangedHook());
 		}
 		
+		if (PreferencesHelper.continuousScroll) {
+			// open app drawer on overscroll of last page
+			final Class<?> AppsCustomizePagedViewClass = findClass(Common.APPS_CUSTOMIZE_PAGED_VIEW, lpparam.classLoader);
+			XposedBridge.hookAllConstructors(AppsCustomizePagedViewClass, new AppsCustomizePagedViewConstructorHook());
+			XposedBridge.hookAllMethods(AppsCustomizePagedViewClass, "overScroll", new OverScrollAppDrawerHook());
+		}
+		
+		if (PreferencesHelper.closeAppdrawerAfterAppStarted) {
+			final Class<?> AppsCustomizePagedViewClass = findClass(Common.APPS_CUSTOMIZE_PAGED_VIEW, lpparam.classLoader);
+			XposedBridge.hookAllMethods(AppsCustomizePagedViewClass, "onClick", new OnClickHook());
+		}
+		
 		// hiding apps from the app drawer
 		final Class<?> AllAppsListClass = findClass(Common.ALL_APPS_LIST, lpparam.classLoader);
 		XposedBridge.hookAllMethods(AllAppsListClass, "add", new AllAppsListAddHook());

@@ -2,10 +2,13 @@ package de.theknut.xposedgelsettings.hooks.General;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
+
 import android.content.Context;
+
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
+
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 
@@ -26,7 +29,6 @@ public class GeneralHooks extends XC_MethodHook {
 		if (PreferencesHelper.enableRotation) {
 			// enable rotation
 			XposedBridge.hookAllMethods(LauncherClass, "isRotationEnabled", new IsRotationEnabledHook());			
-			
 		}
 		
 		if (PreferencesHelper.resizeAllWidgets) {
@@ -45,6 +47,13 @@ public class GeneralHooks extends XC_MethodHook {
 			// don't scroll the wallpaper
 			final Class<?> DynamicGridClass = findClass(Common.WORKSPACE + "$WallpaperOffsetInterpolator", lpparam.classLoader);
 			XposedBridge.hookAllMethods(DynamicGridClass, "syncWithScroll", new SyncWithScrollHook());
+		}
+		
+		if (PreferencesHelper.lockHomescreen) {
+			final Class<?> WorkspaceClass = findClass(Common.WORKSPACE, lpparam.classLoader);
+			XposedBridge.hookAllMethods(WorkspaceClass, "startDrag", new StartDragHook());
+			final Class<?> AppCustomizePagedViewClass = findClass(Common.APPS_CUSTOMIZE_PAGED_VIEW, lpparam.classLoader);
+			XposedBridge.hookAllMethods(AppCustomizePagedViewClass, "beginDraggingApplication", new BeginnDragHook());
 		}
 	}
 }

@@ -1,4 +1,4 @@
-package de.theknut.xposedgelsettings.hooks.Homescreen;
+package de.theknut.xposedgelsettings.hooks.General;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.setIntField;

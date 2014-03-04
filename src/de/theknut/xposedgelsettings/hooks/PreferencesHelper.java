@@ -21,6 +21,15 @@ public class PreferencesHelper {
 	public static boolean homescreenIconLabelShadow = prefs.getBoolean("homescreeniconlabelshadow", true);
 	public static boolean longpressAllAppsButton = prefs.getBoolean("longpressallappsbutton", false);
 	public static boolean disableWallpaperScroll = prefs.getBoolean("disablewallpaperscroll", false);
+	public static boolean hideHotseat = prefs.getBoolean("hidehotseat", false);
+	public static boolean lockHomescreen = prefs.getBoolean("lockhomescreen", false);
+	public static boolean continuousScroll = prefs.getBoolean("continuousscroll", false);
+	public static boolean continuousScrollWithAppDrawer = prefs.getBoolean("continuousscrollwithappdrawer", false);
+	public static boolean closeAppdrawerAfterAppStarted = prefs.getBoolean("closeappdrawerafterappstarted", false);
+	public static boolean gestureSwipeDownLeft = prefs.getBoolean("gestureswipedownleft", false);
+	public static boolean gestureSwipeDownRight = prefs.getBoolean("gestureswipedownright", false);
+	public static boolean gestureSwipeUp_Hotseat = prefs.getBoolean("gestureswipeuphotseat", false);
+	public static boolean gestureSwipeUp_AppDrawer = prefs.getBoolean("gestureswipeupappdrawer", false);
 	public static int xCountHomescreen = Integer.parseInt(prefs.getString("xcounthomescreen", "4"));
 	public static int yCountHomescreen = Integer.parseInt(prefs.getString("ycounthomescreen", "5"));
 	public static int xCountAllApps = Integer.parseInt(prefs.getString("xcountallapps", "4"));
@@ -32,6 +41,7 @@ public class PreferencesHelper {
 	public static int homescreenIconLabelColor = prefs.getInt("homescreeniconlabelcolor", Color.WHITE);
 	public static int appdrawerIconLabelColor = prefs.getInt("appdrawericonlabelcolor", Color.WHITE);
 	public static int appdrawerBackgroundColor = prefs.getInt("appdrawerbackgroundcolor", Color.argb(0xA5, 0X00, 0x00, 0x00));
+	public static int hotseatBackgroundColor = prefs.getInt("hotseatbackgroundcolor", Color.argb(0xA5, 0X00, 0x00, 0x00));
 	public static int defaultHomescreen = Integer.parseInt(prefs.getString("defaulthomescreen", "1"));
 	public static Set<String> hiddenApps = prefs.getStringSet("hiddenapps", new HashSet<String>());
 }

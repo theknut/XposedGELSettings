@@ -1,8 +1,12 @@
 package de.theknut.xposedgelsettings.hooks.Homescreen;
 
+import static de.robv.android.xposed.XposedHelpers.setIntField;
+
 import android.content.Context;
+
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
+
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 
@@ -35,7 +39,7 @@ public final class DeviceProfileConstructorHook extends XC_MethodHook {
 				param.args[NUMCOLUMNS] = PreferencesHelper.xCountHomescreen;
 			}
 			
-			if (PreferencesHelper.iconSettingsSwitchApps || PreferencesHelper.iconSettingsSwitchHome) {	
+			if (PreferencesHelper.iconSettingsSwitchHome) {	
 				
 				// calculating custom sizes
 				float newIconSize = (float) (Math.ceil((Float) param.args[ICONSIZE] * (PreferencesHelper.iconSize / 100.0)));
@@ -69,6 +73,9 @@ public final class DeviceProfileConstructorHook extends XC_MethodHook {
 				// number of hotseat icons also includes the app drawer so there has to be an odd number
 				param.args[NUMHOTSEATICONS] = PreferencesHelper.hotseatCount + 1;
 			}
+			
+			int hotseatBarHeight = (int) (Math.round((Float)param.args[ICONSIZE]) + 24);
+			setIntField(param.thisObject, "hotseatBarHeightPx", hotseatBarHeight);
 		}
 	}
 }

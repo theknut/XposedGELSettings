@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -131,6 +132,63 @@ public class Preferences extends Activity {
             this.findPreference("homescreeniconlabelshadow").setOnPreferenceChangeListener(onChangeListenerSwitch);
             this.findPreference("longpressallappsbutton").setOnPreferenceChangeListener(onChangeListenerSwitch);
             this.findPreference("disablewallpaperscroll").setOnPreferenceChangeListener(onChangeListenerSwitch);
+            this.findPreference("lockhomescreen").setOnPreferenceChangeListener(onChangeListenerSwitch);
+            this.findPreference("continuousscroll").setOnPreferenceChangeListener(onChangeListenerSwitch);
+            this.findPreference("continuousscrollwithappdrawer").setOnPreferenceChangeListener(onChangeListenerSwitch);
+            this.findPreference("closeappdrawerafterappstarted").setOnPreferenceChangeListener(onChangeListenerSwitch);
+            this.findPreference("gestureswipedownleft").setOnPreferenceChangeListener(onChangeListenerSwitch);
+            this.findPreference("gestureswipedownright").setOnPreferenceChangeListener(onChangeListenerSwitch);
+            
+            final Preference swipeuphotseat = this.findPreference("gestureswipeuphotseat");
+            final Preference swipeupappdrawer = this.findPreference("gestureswipeupappdrawer");
+            
+            OnPreferenceChangeListener onChangeListenerSwitchSwipeUp = new Preference.OnPreferenceChangeListener() {
+
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    
+                    if (!toastShown) {                 
+                    	Toast.makeText(mContext, R.string.toast_reboot, Toast.LENGTH_LONG).show();
+                    	toastShown = true;
+                    }
+                    
+                    if ((Boolean) newValue) {                		
+                		if (preference.getKey().equals(swipeuphotseat.getKey())) {
+                			((CustomSwitchPreference) swipeupappdrawer).setChecked(false);
+                		}
+                		else if (preference.getKey().equals(swipeupappdrawer.getKey())) {
+                			((CustomSwitchPreference) swipeuphotseat).setChecked(false);
+                		}
+                    }
+                    
+                    return true;
+                }
+            };
+            
+            swipeuphotseat.setOnPreferenceChangeListener(onChangeListenerSwitchSwipeUp);
+            swipeupappdrawer.setOnPreferenceChangeListener(onChangeListenerSwitchSwipeUp);
+            
+            this.findPreference("hidehotseat").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    
+                    if (!toastShown) {                 
+                    	Toast.makeText(mContext, R.string.toast_reboot, Toast.LENGTH_LONG).show();
+                    	toastShown = true;
+                    }
+                    
+                    if ((Boolean) newValue) {                		       		
+            			((CustomSwitchPreference) swipeupappdrawer).setChecked(false);
+            			((CustomSwitchPreference) swipeuphotseat).setChecked(true);
+                    }
+                    else {
+                    	((CustomSwitchPreference) swipeuphotseat).setChecked(false);
+                    	((CustomSwitchPreference) swipeupappdrawer).setChecked(true);
+                    }
+                    
+                    return true;
+                }});
             
             this.findPreference("restartlauncher").setOnPreferenceClickListener(new OnPreferenceClickListener() {
                          public boolean onPreferenceClick(Preference preference) {
@@ -163,11 +221,11 @@ public class Preferences extends Activity {
 						}
                 		
                 		if (success) {
-                			Toast.makeText(mContext, R.string.toast_import, Toast.LENGTH_LONG).show();
+                			Toast.makeText(mContext, getString(R.string.toast_import), Toast.LENGTH_LONG).show();
                 			restartActivity();
                 		}
                 		else {
-                			Toast.makeText(mContext, R.string.toast_import_failed, Toast.LENGTH_LONG).show();
+                			Toast.makeText(mContext, getString(R.string.toast_import_failed), Toast.LENGTH_LONG).show();
                 		}
                 	}
                 	else if (preference.getKey().contains("exportsettings")) {
@@ -181,10 +239,10 @@ public class Preferences extends Activity {
 						}
                 		
                 		if (success) {
-                			Toast.makeText(mContext, R.string.toast_export, Toast.LENGTH_LONG).show();
+                			Toast.makeText(mContext, getString(R.string.toast_export), Toast.LENGTH_LONG).show();
                 		}
                 		else {
-                			Toast.makeText(mContext, R.string.toast_export_failed, Toast.LENGTH_LONG).show();
+                			Toast.makeText(mContext, getString(R.string.toast_export_failed), Toast.LENGTH_LONG).show();
                 		}
                 	}
                 	else if (preference.getKey().contains("resetsettings")) {
@@ -192,11 +250,11 @@ public class Preferences extends Activity {
                 		boolean success = mContext.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).edit().clear().commit();
                 		
                 		if (success) {
-                			Toast.makeText(mContext, R.string.toast_reset, Toast.LENGTH_LONG).show();
+                			Toast.makeText(mContext, getString(R.string.toast_reset), Toast.LENGTH_LONG).show();
                 			restartActivity();
                 		}
                 		else {
-                			Toast.makeText(mContext, R.string.toast_reset_failed, Toast.LENGTH_LONG).show();
+                			Toast.makeText(mContext, getString(R.string.toast_reset_failed), Toast.LENGTH_LONG).show();
                 		}
                 	}
                 	

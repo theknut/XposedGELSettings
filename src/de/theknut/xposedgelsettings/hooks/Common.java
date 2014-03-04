@@ -25,12 +25,16 @@ public final class Common {
 	public static Object NOW_OVERLAY_INSTANCE;
 	public static Object PAGED_VIEW_INSTANCE;
 	public static Object LAUNCHER_APP_STATE_INSTANCE;
+	public static Object CONTENT_TYPE;
+	public static Object WORKSPACE_INSTANCE;
+	public static Object APP_DRAWER_INSTANCE;
 	
 	public static Context LAUNCHER_CONTEXT;
 		
 	// saved messures of the search bar
 	public static int SEARCH_BAR_SPACE_HEIGHT;
 	public static int SEARCH_BAR_SPACE_WIDTH;
+	public static int HOTSEAT_BAR_HEIGHT;
 	
 	// saved measures for the icon sizes
 	public static float NEW_ICON_SIZE;
@@ -62,6 +66,10 @@ public final class Common {
 	
 	public static String LAUNCHER3 = "com.android.launcher3.";
 	
+	public static boolean HOTSEAT_HIDDEN = true;	
+	public static boolean IS_INIT = false;
+	public static boolean HOOKS_AFTER_WORKSPACE_LOADED_INITIALIZED = false;
+	public static boolean OVERSCROLLED = false;
 	
 	// all launchers we support (hopefully :-S)
 	public static final List<String> PACKAGE_NAMES = new ArrayList<String>(Arrays.asList("com.android.launcher2", "com.android.launcher3", Common.GEL_PACKAGE, Common.TREBUCHET_PACKAGE));

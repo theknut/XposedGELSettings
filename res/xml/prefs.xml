@@ -39,6 +39,19 @@
 	        android:key="disablewallpaperscroll"
 	        android:title="@string/pref_disable_wallpaper_scroll_title"
 	        android:summary="@string/pref_disable_wallpaper_scroll_summary" />  
+        <de.theknut.xposedgelsettings.CustomSwitchPreference
+	        android:key="lockhomescreen"
+	        android:title="@string/pref_lock_desktop_title"
+	        android:summary="@string/pref_lock_desktop_summary" />
+        <de.theknut.xposedgelsettings.CustomSwitchPreference
+	        android:key="continuousscroll"
+	        android:title="@string/pref_continuous_scroll_title"
+	        android:summary="@string/pref_continuous_scroll_summary" />
+        <de.theknut.xposedgelsettings.CustomSwitchPreference
+	        android:key="continuousscrollwithappdrawer"
+	        android:title="@string/pref_continuous_scroll_with_app_drawer_title"
+	        android:summary="@string/pref_continuous_scroll_with_app_drawer_summary"
+	        android:dependency="continuousscroll"/>
         <ListPreference
             android:key="defaulthomescreen"
             android:title="@string/pref_default_homescreen_title"
@@ -53,12 +66,13 @@
         <de.theknut.xposedgelsettings.CustomSwitchPreference
 	        android:key="autohidehidesearchbar"
 	        android:title="@string/pref_autohide_google_search_bar_title"
+	        android:dependency="hidesearchbar"
 	        android:summary="@string/pref_autohide_google_search_bar_summary" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_cat_title_homescreen">
         <PreferenceScreen
-       	android:title="@string/pref_grid_size_explain_title"
-       	android:summary="@string/pref_grid_size_explain_summary" />
+	       	android:title="@string/pref_grid_size_explain_title"
+	       	android:summary="@string/pref_grid_size_explain_summary" />
         <de.theknut.xposedgelsettings.CustomSwitchPreference
             android:key="changegridsizehome"
             android:title="@string/pref_switch_enable_grid_size_title"
@@ -67,51 +81,71 @@
             android:key="xcounthomescreen"
             android:title="@string/pref_xcount_title"
             android:summary="@string/pref_xcount_summary"
+            android:dependency="changegridsizehome"
             android:entries="@array/homescreen_grid_size_entries"
             android:entryValues="@array/homescreen_grid_size_entries"/>
         <ListPreference
             android:key="ycounthomescreen"
             android:title="@string/pref_ycount_title"
             android:summary="@string/pref_ycount_summary"
+            android:dependency="changegridsizehome"
             android:entries="@array/homescreen_grid_size_entries"
             android:entryValues="@array/homescreen_grid_size_entries"/>
+        <de.theknut.xposedgelsettings.CustomSwitchPreference
+            android:key="hidehotseat"
+            android:title="@string/pref_switch_hidehotseat_title"
+            android:summary="@string/pref_switch_hidehotseat_summary" />
+        <net.margaritov.preference.colorpicker.ColorPickerPreference 
+			android:key="hotseatbackgroundcolor"
+			android:title="@string/pref_hotseat_background_color_title"
+			android:summary="@string/pref_hotseat_background_color_summary"
+			android:dependency="hidehotseat"
+			android:defaultValue="0xA5000000"  
+			alphaSlider="true" />
         <de.theknut.xposedgelsettings.CustomSwitchPreference
             android:key="iconsettingsswitchhome"
             android:title="@string/pref_switch_appicons_title"
             android:summary="@string/pref_switch_appicons_explain_summary" />
         <de.theknut.xposedgelsettings.CustomSwitchPreference
         	android:key="hideiconhomescreen"
-        	android:title="@string/pref_hide_icon_label_on_homescreen_title" />
+        	android:title="@string/pref_hide_icon_label_on_homescreen_title"
+        	android:dependency="iconsettingsswitchhome" />
         <net.margaritov.preference.colorpicker.ColorPickerPreference 
 			android:key="homescreeniconlabelcolor"
 			android:title="@string/pref_icon_label_color"
 			android:defaultValue="0xffffffff"
+			android:dependency="iconsettingsswitchhome"
 			alphaSlider="true" />
         <de.theknut.xposedgelsettings.CustomSwitchPreference
             android:key="homescreeniconlabelshadow"
-            android:title="@string/pref_switch_icon_shadow_title" />
+            android:title="@string/pref_switch_icon_shadow_title"
+            android:dependency="iconsettingsswitchhome"/>
         <ListPreference
             android:key="iconsize"
             android:title="@string/pref_iconsize_title"
             android:summary="@string/pref_iconsize_summary"
+            android:dependency="iconsettingsswitchhome"
             android:entries="@array/iconsize_entries"
-            android:entryValues="@array/iconsize_entries"/>
+            android:entryValues="@array/iconsize_entries" />
         <ListPreference
             android:key="icontextsize"
             android:title="@string/pref_icontextsize_title"
             android:summary="@string/pref_icontextsize_summary"
+            android:dependency="iconsettingsswitchhome"
             android:entries="@array/iconsize_entries"
             android:entryValues="@array/iconsize_entries"/>
         <ListPreference
             android:key="hotseaticonsize"
             android:title="@string/pref_hotseaticonsize_title"
             android:summary="@string/pref_hotseaticonsize_summary"
+            android:dependency="iconsettingsswitchhome"
             android:entries="@array/iconsize_entries"
             android:entryValues="@array/iconsize_entries"/>
         <ListPreference
             android:key="hotseatcount"
             android:title="@string/pref_hotseatcount_title"
             android:summary="@string/pref_hotseatcount_summary"
+            android:dependency="iconsettingsswitchhome"
             android:entries="@array/hotseat_entries"
             android:entryValues="@array/hotseat_entries"/>
     </PreferenceCategory>
@@ -131,14 +165,20 @@
             android:key="xcountallapps"
             android:title="@string/pref_xcountallapps_title"
             android:summary="@string/pref_xcountallapps_summary"
+            android:dependency="changegridsizeapps"
             android:entries="@array/allapps_grid_size_entries"
             android:entryValues="@array/allapps_grid_size_entries"/>
         <ListPreference
             android:key="ycountallapps"
             android:title="@string/pref_ycountallapps_title"
             android:summary="@string/pref_ycountallapps_summary"
+            android:dependency="changegridsizeapps"
             android:entries="@array/allapps_grid_size_entries"
             android:entryValues="@array/allapps_grid_size_entries"/>
+        <de.theknut.xposedgelsettings.CustomSwitchPreference
+            android:key="closeappdrawerafterappstarted"
+            android:title="@string/pref_switch_close_app_drawer_after_app_started_title"
+            android:summary="@string/pref_switch_close_app_drawer_after_app_started_summary" />
         <net.margaritov.preference.colorpicker.ColorPickerPreference 
 			android:key="appdrawerbackgroundcolor"
 			android:title="@string/pref_app_drawer_background_color_title"
@@ -151,13 +191,36 @@
             android:summary="@string/pref_switch_appicons_explain_summary" />
         <de.theknut.xposedgelsettings.CustomSwitchPreference
 	        android:key="hideiconappdrawer"
-	        android:title="@string/pref_hide_icon_label_on_app_drawer_title" />
+	        android:title="@string/pref_hide_icon_label_on_app_drawer_title"
+	        android:dependency="iconsettingsswitchapps"/>
         <net.margaritov.preference.colorpicker.ColorPickerPreference 
 			android:key="appdrawericonlabelcolor"
 			android:title="@string/pref_icon_label_color"
+			android:dependency="iconsettingsswitchapps"
 			android:defaultValue="0xffffffff"  
 			alphaSlider="true" />
     	</PreferenceCategory>
+    	<PreferenceCategory android:title="@string/pref_cat_gestures">
+    	    <PreferenceScreen
+             	android:title="@string/pref_gestures_note_title"
+             	android:summary="@string/pref_gestures_note_summary" />
+    	    <de.theknut.xposedgelsettings.CustomSwitchPreference
+            android:key="gestureswipedownleft"
+            android:title="@string/pref_switch_gesture_swipe_down_left_title"
+            android:summary="@string/pref_switch_gesture_swipe_down_left_summary" />
+    	    <de.theknut.xposedgelsettings.CustomSwitchPreference
+            android:key="gestureswipedownright"
+            android:title="@string/pref_switch_gesture_swipe_down_right_title"
+            android:summary="@string/pref_switch_gesture_swipe_down_right_summary" />
+    	    <de.theknut.xposedgelsettings.CustomSwitchPreference
+            android:key="gestureswipeuphotseat"
+            android:title="@string/pref_switch_gesture_swipe_up_hotseat_title"
+            android:summary="@string/pref_switch_gesture_swipe_up_hotseat_summary" />
+    	    <de.theknut.xposedgelsettings.CustomSwitchPreference
+            android:key="gestureswipeupappdrawer"
+            android:title="@string/pref_switch_gesture_swipe_up_app_drawer_title"
+            android:summary="@string/pref_switch_gesture_swipe_up_app_drawer_summary" />
+   	    </PreferenceCategory>
     	<PreferenceCategory android:title="@string/pref_cat_eximport_settings">
         <PreferenceScreen
             android:key="importsettings"

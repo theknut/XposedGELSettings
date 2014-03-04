@@ -6,7 +6,7 @@
     <string name="pref_autohide_google_search_bar_summary">Automatically show on Google Now page</string>
     <string name="pref_hide_icon_label_on_homescreen_title">Hide icon labels</string>
     <string name="pref_hide_icon_label_on_app_drawer_title">Hide icon labels</string>
-    <string name="toast_reboot">Please restart the launcher for this changes to take effect!</string>
+    <string name="toast_reboot">Please restart the launcher for these changes to take effect!</string>
     <string name="toast_reboot_failed_nothing_msg">nothing</string>
     <string name="toast_reboot_failed">Please reboot your device manually!</string>
     <string name="toast_export">Successfully exported!</string>
@@ -79,4 +79,30 @@
     <string name="restart_launcher_icon_title">Restart</string>
     <string name="pref_disable_wallpaper_scroll_title">Wallpaper scrolling</string>
     <string name="pref_disable_wallpaper_scroll_summary">Disable synchronized wallpaper scrolling</string>
+    <!-- V1.3 -->
+    <string name="toast_desktop_locked">XGELS: Desktop is locked!</string>
+    <string name="toast_fail">Well&#8230; that didn\'t work :-S\nPlease see the logcat!</string>
+    <string name="pref_switch_hidehotseat_title">Hide hotseat</string>
+    <string name="pref_switch_hidehotseat_summary">Swipe up to show again</string>
+    <string name="pref_lock_desktop_title">Lock desktop</string>
+    <string name="pref_lock_desktop_summary">Prevent accidental dragging by locking the desktop</string>
+    <string name="pref_continuous_scroll_title">Continuous scroll</string>
+    <string name="pref_continuous_scroll_summary">Overscroll to first page\n(Experimental)</string>
+    <string name="pref_continuous_scroll_with_app_drawer_title">Include app drawer</string>
+    <string name="pref_continuous_scroll_with_app_drawer_summary">Includes the app drawer in continuous scroll</string>
+    <string name="pref_switch_close_app_drawer_after_app_started_title">Close app drawer</string>
+    <string name="pref_switch_close_app_drawer_after_app_started_summary">Close the app drawer after an app was launched</string>
+    <string name="pref_hotseat_background_color_title">Hotseat background color</string>
+    <string name="pref_hotseat_background_color_summary">Choose the background color of the hotseat overlay</string>
+    <string name="pref_cat_gestures">Gestures</string>
+    <string name="pref_switch_gesture_swipe_down_left_title">Swipe down left</string>
+    <string name="pref_switch_gesture_swipe_down_left_summary">Opens the notification panel</string>
+    <string name="pref_switch_gesture_swipe_down_right_title">Swipe down right</string>
+    <string name="pref_switch_gesture_swipe_down_right_summary">Opens the settings panel</string>
+    <string name="pref_switch_gesture_swipe_up_hotseat_title">Hotseat</string>
+    <string name="pref_switch_gesture_swipe_up_hotseat_summary">Unhide - swipe up / Hide - swipe down</string>
+    <string name="pref_switch_gesture_swipe_up_app_drawer_title">App drawer</string>
+    <string name="pref_switch_gesture_swipe_up_app_drawer_summary">Opens the app drawer on swipe up</string>
+    <string name="pref_gestures_note_title">Note</string>
+    <string name="pref_gestures_note_summary">Gestures need one or two minutes after boot to initialize</string>
 </resources>
