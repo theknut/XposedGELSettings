@@ -176,13 +176,15 @@ public class GestureHooks {
 							}
 							else if ((upY - downY) > 100.0 && Common.HOTSEAT_HIDDEN
 									|| (upY - downY) > 50.0 && (downY <= (height - (height / 2.0))) && !Common.HOTSEAT_HIDDEN) {
-								if (downX <= (width/2) && ev.getRawX() <= (width/2) && PreferencesHelper.gestureSwipeDownLeft) {
+								if (downX <= (width/2) && ev.getRawX() <= (width/2) && PreferencesHelper.gestureSwipeDownLeft
+									|| PreferencesHelper.gestureSwipeDownLeft && !PreferencesHelper.gestureSwipeDownRight) {
 									Intent myIntent = new Intent();
 									myIntent.putExtra("XGELSACTION", "NOTIFICATION_BAR");
 									myIntent.setAction(Common.PACKAGE_NAME + ".Intent");
 									Common.LAUNCHER_CONTEXT.sendBroadcast(myIntent);
 								}
-								if (downX > (width/2) && ev.getRawX() > (width/2)  && PreferencesHelper.gestureSwipeDownRight) {
+								if (downX > (width/2) && ev.getRawX() > (width/2)  && PreferencesHelper.gestureSwipeDownRight
+										|| PreferencesHelper.gestureSwipeDownRight && !PreferencesHelper.gestureSwipeDownLeft) {
 									Intent myIntent = new Intent();
 									myIntent.putExtra("XGELSACTION", "SETTINGS_BAR");
 									myIntent.setAction(Common.PACKAGE_NAME + ".Intent");
