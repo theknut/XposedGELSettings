@@ -106,4 +106,5 @@
     <string name="pref_switch_gesture_swipe_up_app_drawer_summary">上滑打开应用程序抽屉</string>
     <string name="pref_gestures_note_title">提示</string>
     <string name="pref_gestures_note_summary">手势需要在启动后的1～2分钟时间来初始化</string>
+    <string name="input_new_name_dialog_title">输入新的名字</string>
 </resources>
