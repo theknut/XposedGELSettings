@@ -57,7 +57,14 @@
             android:title="@string/pref_default_homescreen_title"
             android:summary="@string/pref_default_homescreen_summary"
             android:entries="@array/defaulthomescreen"
-            android:entryValues="@array/defaulthomescreen" />       
+            android:entryValues="@array/defaulthomescreen" />    
+        <PreferenceScreen
+             	android:title="@string/pref_selectappstorename_summary">   	
+             	<intent
+		        android:action="android.intent.action.VIEW"
+		        android:targetPackage="de.theknut.xposedgelsettings"
+		        android:targetClass="de.theknut.xposedgelsettings.AllAppsListToRename" />
+         </PreferenceScreen> 
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_cat_title_searchbar">
         <de.theknut.xposedgelsettings.CustomSwitchPreference
@@ -155,7 +162,7 @@
              	<intent
 		        android:action="android.intent.action.VIEW"
 		        android:targetPackage="de.theknut.xposedgelsettings"
-		        android:targetClass="de.theknut.xposedgelsettings.AllAppsList" />
+		        android:targetClass="de.theknut.xposedgelsettings.AllAppsListToHide" />
          </PreferenceScreen>
          <de.theknut.xposedgelsettings.CustomSwitchPreference
             android:key="changegridsizeapps"

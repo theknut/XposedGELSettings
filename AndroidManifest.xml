@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
     
     <application
+        android:name="de.theknut.xposedgelsettings.AppApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -44,12 +45,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="de.theknut.xposedgelsettings.AllAppsList"
+            android:name="de.theknut.xposedgelsettings.AllAppsListToHide"
+            android:parentActivityName="de.theknut.xposedgelsettings.Preferences"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
+        </activity>
+        <activity
+            android:name="de.theknut.xposedgelsettings.AllAppsListToRename"
+            android:parentActivityName="de.theknut.xposedgelsettings.Preferences"
+            android:label="@string/app_name" >
         </activity>
 		
 		<receiver

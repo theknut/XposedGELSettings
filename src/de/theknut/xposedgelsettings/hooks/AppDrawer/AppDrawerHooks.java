@@ -4,6 +4,7 @@ import static de.robv.android.xposed.XposedHelpers.findClass;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
+import de.theknut.xposedgelsettings.AppApplication;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 

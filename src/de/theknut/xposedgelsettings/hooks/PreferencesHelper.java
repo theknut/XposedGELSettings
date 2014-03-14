@@ -1,6 +1,8 @@
 package de.theknut.xposedgelsettings.hooks;
 
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import android.graphics.Color;
 import de.robv.android.xposed.XSharedPreferences;
@@ -44,4 +46,6 @@ public class PreferencesHelper {
 	public static int hotseatBackgroundColor = prefs.getInt("hotseatbackgroundcolor", Color.argb(0xA5, 0X00, 0x00, 0x00));
 	public static int defaultHomescreen = Integer.parseInt(prefs.getString("defaulthomescreen", "1"));
 	public static Set<String> hiddenApps = prefs.getStringSet("hiddenapps", new HashSet<String>());
+	public static Set<String> renamedApps = prefs.getStringSet("renamedapps", new HashSet<String>());
+	public static Set<String> modifiedIconApps = prefs.getStringSet("modifiediconapps", new HashSet<String>());
 }

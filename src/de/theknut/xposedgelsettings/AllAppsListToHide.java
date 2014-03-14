@@ -25,7 +25,7 @@ import android.widget.TextView;
 
 import de.theknut.xposedgelsettings.hooks.Common;
 
-public class AllAppsList extends ListActivity {
+public class AllAppsListToHide extends ListActivity {
 	
 	public static Set<String> hiddenApps;
 	
