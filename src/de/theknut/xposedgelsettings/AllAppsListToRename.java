@@ -11,6 +11,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import de.theknut.xposedgelsettings.hooks.Common;
 
@@ -32,6 +35,8 @@ import java.util.Set;
 public class AllAppsListToRename extends ListActivity {
 
     public static Set<String> renamedApps;
+
+    public static Set<String> modifiedIconApps;
 
     public static final String separator = "#";
 
@@ -69,8 +74,10 @@ public class AllAppsListToRename extends ListActivity {
                 Context.MODE_WORLD_READABLE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.remove("renamedapps");
+        editor.remove("modifiediconapps");
         editor.commit();
         editor.putStringSet("renamedapps", renamedApps);
+        editor.putStringSet("modifiediconapps", modifiedIconApps);
         editor.commit();
     }
 
@@ -83,11 +90,16 @@ public class AllAppsListToRename extends ListActivity {
         // get our hidden app list
         renamedApps = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE)
                 .getStringSet("renamedapps", new HashSet<String>());
+        modifiedIconApps = getSharedPreferences(Common.PREFERENCES_NAME,
+                Context.MODE_WORLD_READABLE)
+                .getStringSet("modifiediconapps", new HashSet<String>());
     }
 
     public class AppArrayAdapter extends ArrayAdapter<ResolveInfo> {
         private Context context;
         private PackageManager pm;
+        private final boolean Original_Icon = true;
+        private final boolean Modified_Icon = false;
 
         public AppArrayAdapter(Context context, PackageManager pm) {
             super(context, R.layout.rename_row, mApps);
@@ -101,13 +113,38 @@ public class AllAppsListToRename extends ListActivity {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View rowView = inflater.inflate(R.layout.rename_row, parent, false);
 
-            ResolveInfo item = mApps.get(position);
+            final ResolveInfo item = mApps.get(position);
 
             rowView.setTag(item.activityInfo.packageName);
 
             // setup app icon to row
-            ImageView imageView = (ImageView) rowView.findViewById(R.id.rename_icon);
-            imageView.setImageDrawable(item.loadIcon(pm));
+            final ImageView imageView = (ImageView) rowView.findViewById(R.id.rename_icon);
+            
+            if (!modifiedIconApps.contains(item.activityInfo.packageName)){
+                imageView.setImageDrawable(item.loadIcon(pm));
+                imageView.setTag(Original_Icon);
+            }else{
+                Drawable modifiedDrawable = Resources.getSystem().getDrawable(android.R.drawable.sym_def_app_icon);
+                imageView.setImageDrawable(modifiedDrawable);
+                imageView.setTag(Modified_Icon);
+            }
+            imageView.setOnClickListener(new View.OnClickListener() {
+                
+                @Override
+                public void onClick(View v) {
+                    if ((Boolean) imageView.getTag() == Original_Icon){
+                        Drawable modifiedDrawable = Resources.getSystem().getDrawable(android.R.drawable.sym_def_app_icon);
+                        imageView.setImageDrawable(modifiedDrawable);
+                        imageView.setTag(Modified_Icon);
+                        //由于图标暂时固定，不需判断图标是否一致。
+                        modifiedIconApps.add(item.activityInfo.packageName);
+                    }else{
+                        imageView.setImageDrawable(item.loadIcon(pm));
+                        imageView.setTag(Original_Icon);
+                        modifiedIconApps.remove(item.activityInfo.packageName);
+                    }
+                }
+            });
 
             // setup app label to row
             TextView textView = (TextView) rowView.findViewById(R.id.name);
@@ -170,7 +207,7 @@ public class AllAppsListToRename extends ListActivity {
         et.setText(oldName);
         AlertDialog.Builder builder = new AlertDialog.Builder(this).setView(et)
                 .setTitle(getResources().getString(R.string.input_new_name_dialog_title))
-                .setPositiveButton(android.R.string.ok, new NewNameDialogListener(oldName,et, v))
+                .setPositiveButton(android.R.string.ok, new NewNameDialogListener(oldName, et, v))
                 .setNegativeButton(android.R.string.cancel, new OnClickListener() {
 
                     @Override
@@ -187,7 +224,7 @@ public class AllAppsListToRename extends ListActivity {
         private EditText mEditText;
         private View mView;
 
-        public NewNameDialogListener(String oldName,EditText et, View v) {
+        public NewNameDialogListener(String oldName, EditText et, View v) {
             mOldName = oldName;
             mEditText = et;
             mView = v;
@@ -198,7 +235,7 @@ public class AllAppsListToRename extends ListActivity {
             String newName = mEditText.getText().toString();
             if (!newName.equals(mOldName)) {
                 List<String> toRemove = new ArrayList<String>();
-                
+
                 for (String item : renamedApps) {
                     if (item.split(separator)[0].equals(mView.getTag())) {
                         toRemove.add(item);
@@ -206,7 +243,7 @@ public class AllAppsListToRename extends ListActivity {
                 }
                 renamedApps.removeAll(toRemove);
                 renamedApps.add(mView.getTag() + separator + newName);
-            }else{
+            } else {
                 List<String> toRemove = new ArrayList<String>();
                 for (String item : renamedApps) {
                     if (item.split(separator)[0].equals(mView.getTag())) {
@@ -214,7 +251,7 @@ public class AllAppsListToRename extends ListActivity {
                     }
                 }
                 renamedApps.removeAll(toRemove);
-                }
+            }
         }
 
     }

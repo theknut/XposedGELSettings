@@ -47,4 +47,5 @@ public class PreferencesHelper {
 	public static int defaultHomescreen = Integer.parseInt(prefs.getString("defaulthomescreen", "1"));
 	public static Set<String> hiddenApps = prefs.getStringSet("hiddenapps", new HashSet<String>());
 	public static Set<String> renamedApps = prefs.getStringSet("renamedapps", new HashSet<String>());
+	public static Set<String> modifiedIconApps = prefs.getStringSet("modifiediconapps", new HashSet<String>());
 }
