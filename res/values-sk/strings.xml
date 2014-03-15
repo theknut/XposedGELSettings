@@ -45,7 +45,6 @@
     <string name="pref_icontextsize_summary">Vyberte percento</string>
     <string name="pref_icontextcolor_homescreen_title">Farba textu na domovskej obrazovke</string>
     <string name="pref_icontextcolor_appdrawer_title">Farba v ponuke aplikácií</string>
-    <!-- TODO -->
     <string name="pref_hotseaticonsize_title">Veľkosť ikony v rýchlom prístupe</string>
     <string name="pref_hotseaticonsize_summary">Vyberte percento</string>
     <string name="pref_cat_title_app_drawer">Ponuka aplikácií</string>
