@@ -221,3 +221,13 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+res/xml/donate_fragment.xml
+src/de/theknut/xposedgelsettings/inappbilling/Base64.java
+src/de/theknut/xposedgelsettings/inappbilling/Base64DecoderException.java
+src/de/theknut/xposedgelsettings/inappbilling/IabException.java
+src/de/theknut/xposedgelsettings/inappbilling/IabHelper.java
+src/de/theknut/xposedgelsettings/inappbilling/IabResult.java
+src/de/theknut/xposedgelsettings/inappbilling/Inventory.java
+src/de/theknut/xposedgelsettings/inappbilling/Purchase.java
+src/de/theknut/xposedgelsettings/inappbilling/Security.java
+src/de/theknut/xposedgelsettings/inappbilling/SkuDetails.java
