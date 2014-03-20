@@ -17,7 +17,12 @@ local.properties
 .loadpath
 gen/
 libs/
+src/de/theknut/xposedgelsettings/ui/FragmentDonate.java
+src/de/theknut/xposedgelsettings/ui/InAppPurchase.java
 src/de/theknut/xposedgelsettings/hooks/TestRange
+src/de/theknut/xposedgelsettings/hooks/inappbilling
+src/com/android/vending
+res/xml/donation_fragment.xml
 
 # External tool builders
 .externalToolBuilders/
