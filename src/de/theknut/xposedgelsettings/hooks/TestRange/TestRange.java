@@ -1,4 +1,4 @@
-package de.theknut.xposedgelsettings.hooks.TestRange;
+package de.theknut.xposedgelsettings.hooks.testrange;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
@@ -15,11 +15,15 @@ import java.util.HashMap;
 
 import net.margaritov.preference.colorpicker.ColorPickerPreference;
 
+import android.annotation.SuppressLint;
 import android.app.WallpaperManager;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -39,15 +43,17 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
+import android.widget.ImageView;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
+import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
-import de.theknut.xposedgelsettings.hooks.GoogleSearchBar.DynamicGridLayoutHook;
-import de.theknut.xposedgelsettings.hooks.Homescreen.HomescreenHooks;
+import de.theknut.xposedgelsettings.hooks.googlesearchbar.DynamicGridLayoutHook;
+import de.theknut.xposedgelsettings.hooks.homescreen.HomescreenHooks;
 
 public class TestRange {
 		
@@ -78,8 +84,13 @@ public class TestRange {
 //			}
 //		});
 		
-		
-		
+//		final Class<?> hotseat = findClass(Common.DEVICE_PROFILE, lpparam.classLoader);
+//		XposedBridge.hookAllMethods(hotseat, "addAllAppsFolder", new XC_MethodHook() {
+//			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+//				XposedBridge.log("Nee");
+//				param.setResult(null);
+//			};
+//		});		
 	}
 		
 		 

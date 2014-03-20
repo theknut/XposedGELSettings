@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+	   android:title="@string/pref_gestures_note_title"
+	   android:summary="@string/pref_gestures_note_summary"
+	   android:selectable="false" />
+    <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+       android:key="gestureswipedownleft"
+       android:title="@string/pref_switch_gesture_swipe_down_left_title"
+       android:summary="@string/pref_switch_gesture_swipe_down_left_summary" />
+    <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+       android:key="gestureswipedownright"
+       android:title="@string/pref_switch_gesture_swipe_down_right_title"
+       android:summary="@string/pref_switch_gesture_swipe_down_right_summary" />
+    <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+       android:key="gestureswipeupappdock"
+       android:title="@string/pref_switch_gesture_swipe_up_appdock_title"
+       android:summary="@string/pref_switch_gesture_swipe_up_appdock_summary" />
+    <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+       android:key="gestureswipeupappdrawer"
+       android:title="@string/pref_switch_gesture_swipe_up_app_drawer_title"
+       android:summary="@string/pref_switch_gesture_swipe_up_app_drawer_summary" />
+    <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+       android:key="gestureswipedowncloseappdrawer"
+       android:title="@string/pref_switch_gesture_swipe_down_close_app_drawer_title"
+       android:summary="@string/pref_switch_gesture_swipe_down_close_app_drawer_summary" />
+</PreferenceScreen>

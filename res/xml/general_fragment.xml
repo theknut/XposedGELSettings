@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+	    android:key="hidepageindicator"
+	    android:title="@string/pref_pageindicator_title"
+	    android:summary="@string/pref_pageindicator_summary"/>
+	<de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+		android:key="longpressallappsbutton"
+		android:title="@string/pref_title_longpress_app_drawer_button"
+		android:summary="@string/pref_summary_longpress_app_drawer_button" />
+	<de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+		android:key="resizeallwidgets"
+		android:title="@string/pref_resize_all_widgets_title"
+		android:summary="@string/pref_resize_all_widgets_summary" />
+	<de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+		android:key="enablerotation"
+		android:title="@string/pref_enable_rotation_title"
+		android:summary="@string/pref_enable_rotation_summary" />
+	<de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+		android:key="disablewallpaperscroll"
+		android:title="@string/pref_disable_wallpaper_scroll_title"
+		android:summary="@string/pref_disable_wallpaper_scroll_summary" />  
+	<de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+		android:key="lockhomescreen"
+		android:title="@string/pref_lock_desktop_title"
+		android:summary="@string/pref_lock_desktop_summary" />
+	<de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+		android:key="continuousscroll"
+		android:title="@string/pref_continuous_scroll_title"
+		android:summary="@string/pref_continuous_scroll_summary" />
+	<de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+		android:key="continuousscrollwithappdrawer"
+		android:title="@string/pref_continuous_scroll_with_app_drawer_title"
+		android:summary="@string/pref_continuous_scroll_with_app_drawer_summary"
+		android:dependency="continuousscroll"/>
+</PreferenceScreen>

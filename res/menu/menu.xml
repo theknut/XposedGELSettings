@@ -4,6 +4,6 @@
         android:id="@+id/action_refresh"
         android:orderInCategory="100"
         android:showAsAction="always"
-        android:icon="@drawable/restart"
+        android:icon="@drawable/ic_menu_refresh"
         android:title="@string/restart_launcher_icon_title"/>
 </menu>

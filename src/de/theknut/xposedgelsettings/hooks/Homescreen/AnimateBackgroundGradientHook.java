@@ -1,4 +1,4 @@
-package de.theknut.xposedgelsettings.hooks.Homescreen;
+package de.theknut.xposedgelsettings.hooks.homescreen;
 
 import de.robv.android.xposed.XC_MethodHook;
 

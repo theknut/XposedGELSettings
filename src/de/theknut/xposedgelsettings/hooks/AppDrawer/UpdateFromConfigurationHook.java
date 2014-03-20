@@ -1,4 +1,4 @@
-package de.theknut.xposedgelsettings.hooks.AppDrawer;
+package de.theknut.xposedgelsettings.hooks.appdrawer;
 
 import static de.robv.android.xposed.XposedHelpers.setObjectField;
 import de.robv.android.xposed.XC_MethodHook;

@@ -1,4 +1,4 @@
-package de.theknut.xposedgelsettings.hooks.General;
+package de.theknut.xposedgelsettings.hooks.general;
 
 import android.appwidget.AppWidgetHostView;
 import android.appwidget.AppWidgetProviderInfo;

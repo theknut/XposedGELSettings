@@ -1,4 +1,4 @@
-package de.theknut.xposedgelsettings.hooks.AppDrawer;
+package de.theknut.xposedgelsettings.hooks.appdrawer;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.getBooleanField;
@@ -7,7 +7,7 @@ import de.robv.android.xposed.XC_MethodHook;
 
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
-import de.theknut.xposedgelsettings.hooks.GoogleSearchBar.GoogleSearchBarHooks;
+import de.theknut.xposedgelsettings.hooks.googlesearchbar.GoogleSearchBarHooks;
 
 public class OverScrollAppDrawerHook extends XC_MethodHook {
 	

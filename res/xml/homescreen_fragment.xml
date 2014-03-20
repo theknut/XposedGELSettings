@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	  <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+      	android:title="@string/pref_grid_size_explain_title"
+      	android:summary="@string/pref_grid_size_explain_summary"
+	    android:selectable="false" />
+      <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+		android:key="changegridsizehome"
+		android:title="@string/pref_switch_enable_grid_size_title"
+		android:summary="@string/pref_switch_enable_grid_size_summary" />
+      <de.theknut.xposedgelsettings.ui.MyListPreference
+		android:key="xcounthomescreen"
+		android:title="@string/pref_xcount_title"
+		android:summary="@string/pref_xcount_summary"
+		android:dependency="changegridsizehome"
+		android:entries="@array/homescreen_grid_size_entries"
+		android:entryValues="@array/homescreen_grid_size_entries"/>
+      <de.theknut.xposedgelsettings.ui.MyListPreference
+		android:key="ycounthomescreen"
+		android:title="@string/pref_ycount_title"
+		android:summary="@string/pref_ycount_summary"
+		android:dependency="changegridsizehome"
+		android:entries="@array/homescreen_grid_size_entries"
+		android:entryValues="@array/homescreen_grid_size_entries"/>
+      <de.theknut.xposedgelsettings.ui.MyListPreference
+		android:key="defaulthomescreen"
+		android:title="@string/pref_default_homescreen_title"
+		android:summary="@string/pref_default_homescreen_summary"
+		android:entries="@array/defaulthomescreen"
+		android:entryValues="@array/defaulthomescreen" />  
+      <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+		android:key="hideappdock"
+		android:title="@string/pref_switch_appdock_title"
+		android:summary="@string/pref_switch_appdock_summary" />
+      <net.margaritov.preference.colorpicker.ColorPickerPreference 
+		android:key="appdockbackgroundcolor"
+		android:title="@string/pref_appdock_background_color_title"
+		android:summary="@string/pref_appdock_background_color_summary"
+		android:dependency="hideappdock"
+		android:defaultValue="0xA5000000"  
+		alphaSlider="true" />
+      <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+		android:key="noallappsbutton"
+		android:title="@string/pref_switch_no_all_apps_button_title"
+		android:summary="@string/pref_switch_no_all_apps_button_summary" />
+      <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+		android:key="iconsettingsswitchhome"
+		android:title="@string/pref_switch_appicons_title"
+		android:summary="@string/pref_switch_appicons_explain_summary" />
+      <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+		android:key="hideiconhomescreen"
+		android:title="@string/pref_hide_icon_label_on_homescreen_title"
+		android:dependency="iconsettingsswitchhome" />
+      <net.margaritov.preference.colorpicker.ColorPickerPreference 
+		android:key="homescreeniconlabelcolor"
+		android:title="@string/pref_icon_label_color"
+		android:defaultValue="0xffffffff"
+		android:dependency="iconsettingsswitchhome"
+		alphaSlider="true" />
+      <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+		android:key="homescreeniconlabelshadow"
+		android:title="@string/pref_switch_icon_shadow_title"
+		android:dependency="iconsettingsswitchhome"/>
+      <de.theknut.xposedgelsettings.ui.MyListPreference
+		android:key="iconsize"
+		android:title="@string/pref_iconsize_title"
+		android:summary="@string/pref_iconsize_summary"
+		android:dependency="iconsettingsswitchhome"
+		android:entries="@array/iconsize_entries"
+		android:entryValues="@array/iconsize_entries" />
+      <de.theknut.xposedgelsettings.ui.MyListPreference
+		android:key="icontextsize"
+		android:title="@string/pref_icontextsize_title"
+		android:summary="@string/pref_icontextsize_summary"
+		android:dependency="iconsettingsswitchhome"
+		android:entries="@array/iconsize_entries"
+		android:entryValues="@array/iconsize_entries"/>
+      <de.theknut.xposedgelsettings.ui.MyListPreference
+		android:key="appdockiconsize"
+		android:title="@string/pref_appdockiconsize_title"
+		android:summary="@string/pref_appdockiconsize_summary"
+		android:dependency="iconsettingsswitchhome"
+		android:entries="@array/iconsize_entries"
+		android:entryValues="@array/iconsize_entries"/>
+      <de.theknut.xposedgelsettings.ui.MyListPreference
+		android:key="appdockcount"
+		android:title="@string/pref_appdock_count_title"
+		android:summary="@string/pref_appdock_count_summary"
+		android:dependency="iconsettingsswitchhome"
+		android:entries="@array/appdock_entries"
+		android:entryValues="@array/appdock_entries"/>
+</PreferenceScreen>

@@ -1,4 +1,4 @@
-package de.theknut.xposedgelsettings.hooks.General;
+package de.theknut.xposedgelsettings.hooks.general;
 
 import android.content.Context;
 import android.widget.Toast;

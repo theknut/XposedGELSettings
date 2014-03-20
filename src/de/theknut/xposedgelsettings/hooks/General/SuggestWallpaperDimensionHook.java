@@ -1,4 +1,4 @@
-package de.theknut.xposedgelsettings.hooks.General;
+package de.theknut.xposedgelsettings.hooks.general;
 
 import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import android.app.WallpaperManager;

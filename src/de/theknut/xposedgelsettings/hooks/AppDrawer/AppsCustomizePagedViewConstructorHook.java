@@ -1,4 +1,4 @@
-package de.theknut.xposedgelsettings.hooks.AppDrawer;
+package de.theknut.xposedgelsettings.hooks.appdrawer;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.theknut.xposedgelsettings.hooks.Common;

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+       	android:key="needsDonate"
+	    android:title="@string/pref_requires_donation_title"
+	    android:summary="@string/pref_requires_donation_summary"
+	    android:selectable="false" />
+    <de.theknut.xposedgelsettings.ui.MyPreferenceCategory
+        android:title="@string/pref_cat_backuprestore_homescreen_title">
+        <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+		    android:title="@string/pref_backuprestore_note_title"
+		    android:summary="@string/pref_backuprestore_note_summary"
+		    android:selectable="false" />
+	    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+		    android:key="backuphomescreen"
+			android:title="@string/pref_backup_homescreen_title"
+			android:summary="@string/pref_backup_homescreen_summary" />
+		<de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+		    android:key="restorehomescreen"
+			android:title="@string/pref_restore_homescreen_title"
+			android:summary="@string/pref_restore_homescreen_summary" />
+	</de.theknut.xposedgelsettings.ui.MyPreferenceCategory>
+</PreferenceScreen>

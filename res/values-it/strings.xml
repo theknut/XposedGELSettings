@@ -45,11 +45,11 @@
     <string name="pref_icontextsize_summary">Seleziona una percentuale</string>
     <string name="pref_icontextcolor_homescreen_title">Colore testo home</string>
     <string name="pref_icontextcolor_appdrawer_title">Colore app drawer</string>
-    <string name="pref_hotseaticonsize_title">Gran della icone</string>
-    <string name="pref_hotseaticonsize_summary">Selezione una percentuale</string>
+    <string name="pref_appdockiconsize_title">Gran della icone</string>
+    <string name="pref_appdockiconsize_summary">Selezione una percentuale</string>
     <string name="pref_cat_title_app_drawer">App drawer</string>
-    <string name="pref_hotseatcount_title">Distanza icone</string>
-    <string name="pref_hotseatcount_summary">Cambia la distanza tra le icone (escluso l\'app drawer)</string>
+    <string name="pref_appdock_count_title">Distanza icone</string>
+    <string name="pref_appdock_count_summary">Cambia la distanza tra le icone (escluso l\'app drawer)</string>
     <string name="pref_selectappstohide_summary">Seleziona le app da nascondere</string>
     <string name="pref_cat_title_restart_launcher">Riavvia Google Now</string>
     <string name="pref_restart_launcher_summary">Clicca per riavviare il launcher e usare le tue impostazioni</string>
@@ -82,8 +82,8 @@
     <!-- V1.3 -->
     <string name="toast_desktop_locked">Home bloccata</string>
     <string name="toast_fail">Errore\nGuarda il log!</string>
-    <string name="pref_switch_hidehotseat_title">Nascondi app dal dock</string>
-    <string name="pref_switch_hidehotseat_summary">Swipe in su per mostrare</string>
+    <string name="pref_switch_hideappdock_title">Nascondi app dal dock</string>
+    <string name="pref_switch_hideappdock_summary">Swipe in su per mostrare</string>
     <string name="pref_lock_desktop_title">Blocca home</string>
     <string name="pref_lock_desktop_summary">Previeni modifiche bloccando la home</string>
     <string name="pref_continuous_scroll_title">Scorrimento continuo</string>
@@ -92,8 +92,8 @@
     <string name="pref_continuous_scroll_with_app_drawer_summary">Includi l\'app drawer nello scorrimento continuo</string>
     <string name="pref_switch_close_app_drawer_after_app_started_title">Chiudi app drawer</string>
     <string name="pref_switch_close_app_drawer_after_app_started_summary">Chiudi l\'app drawer dopo aver avviato un\'app </string>
-    <string name="pref_hotseat_background_color_title">Colore di sfondo</string>
-    <string name="pref_hotseat_background_color_summary">Scegli il colore di sfondo del dock</string>
+    <string name="pref_appdock_background_color_title">Colore di sfondo</string>
+    <string name="pref_appdock_background_color_summary">Scegli il colore di sfondo del dock</string>
     <string name="pref_cat_gestures">Gesti</string>
     <string name="pref_switch_gesture_swipe_down_left_title">Swipe giu e sinistra</string>
     <string name="pref_switch_gesture_swipe_down_left_summary">Apri il pannello delle notifiche</string>

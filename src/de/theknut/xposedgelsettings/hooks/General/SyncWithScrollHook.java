@@ -1,4 +1,4 @@
-package de.theknut.xposedgelsettings.hooks.General;
+package de.theknut.xposedgelsettings.hooks.general;
 
 import de.robv.android.xposed.XC_MethodHook;
 

@@ -1,4 +1,4 @@
-package de.theknut.xposedgelsettings.hooks.GoogleSearchBar;
+package de.theknut.xposedgelsettings.hooks.googlesearchbar;
 
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setBooleanField;

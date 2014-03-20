@@ -16,6 +16,8 @@
 
 package net.margaritov.preference.colorpicker;
 
+import de.theknut.xposedgelsettings.ui.FragmentBase;
+import de.theknut.xposedgelsettings.ui.CommonUI;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -87,6 +89,8 @@ public class ColorPickerPreference
 		super.onBindView(view);
 		mView = view;
 		setPreviewColor();
+		
+		CommonUI.setCustomStyle(view, true, true);
 	}
 
 	private void setPreviewColor() {

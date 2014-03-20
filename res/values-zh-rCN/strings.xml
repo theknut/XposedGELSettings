@@ -45,11 +45,11 @@
     <string name="pref_icontextsize_summary">选择百分比</string>
     <string name="pref_icontextcolor_homescreen_title">主页中的程序标签颜色</string>
     <string name="pref_icontextcolor_appdrawer_title">抽屉中的程序标签颜色</string>
-    <string name="pref_hotseaticonsize_title">托盘图标大小</string>
-    <string name="pref_hotseaticonsize_summary">选择百分比</string>
+    <string name="pref_appdockiconsize_title">托盘图标大小</string>
+    <string name="pref_appdockiconsize_summary">选择百分比</string>
     <string name="pref_cat_title_app_drawer">应用程序抽屉</string>
-    <string name="pref_hotseatcount_title">托盘图标个数</string>
-    <string name="pref_hotseatcount_summary">改变托盘图标个数（其中不包括应用程序抽屉按钮）</string>
+    <string name="pref_appdock_count_title">托盘图标个数</string>
+    <string name="pref_appdock_count_summary">改变托盘图标个数（其中不包括应用程序抽屉按钮）</string>
     <string name="pref_selectappstohide_summary">选择需要隐藏的程序</string>
     <string name="pref_cat_title_restart_launcher">重启启动器</string>
     <string name="pref_restart_launcher_summary">点击这里去重启启动器</string>
@@ -83,8 +83,8 @@
     <!-- V1.3 -->
     <string name="toast_desktop_locked">XGELS：桌面已经锁定！</string>
     <string name="toast_fail">好吧&#8230; 没能生效 :-S\n请察看logcat！</string>
-    <string name="pref_switch_hidehotseat_title">隐藏托盘</string>
-    <string name="pref_switch_hidehotseat_summary">向上滑动将再次显示</string>
+    <string name="pref_switch_hideappdock_title">隐藏托盘</string>
+    <string name="pref_switch_hideappdock_summary">向上滑动将再次显示</string>
     <string name="pref_lock_desktop_title">锁定桌面</string>
     <string name="pref_lock_desktop_summary">锁定桌面以禁止图标的拖动</string>
     <string name="pref_continuous_scroll_title">无限滚动</string>
@@ -93,15 +93,15 @@
     <string name="pref_continuous_scroll_with_app_drawer_summary">无限滚动也包含应用程序抽屉</string>
     <string name="pref_switch_close_app_drawer_after_app_started_title">关闭应用程序抽屉</string>
     <string name="pref_switch_close_app_drawer_after_app_started_summary">应用程序启动后关闭抽屉</string>
-    <string name="pref_hotseat_background_color_title">托盘背景颜色</string>
-    <string name="pref_hotseat_background_color_summary">选择托盘区域的背景颜色</string>
+    <string name="pref_appdock_background_color_title">托盘背景颜色</string>
+    <string name="pref_appdock_background_color_summary">选择托盘区域的背景颜色</string>
     <string name="pref_cat_gestures">手势</string>
     <string name="pref_switch_gesture_swipe_down_left_title">左侧下滑</string>
     <string name="pref_switch_gesture_swipe_down_left_summary">打开通知面板</string>
     <string name="pref_switch_gesture_swipe_down_right_title">右侧下滑</string>
     <string name="pref_switch_gesture_swipe_down_right_summary">打开设置面板</string>
-    <string name="pref_switch_gesture_swipe_up_hotseat_title">托盘</string>
-    <string name="pref_switch_gesture_swipe_up_hotseat_summary">显示 - 上滑 / 隐藏 - 下滑</string>
+    <string name="pref_switch_gesture_swipe_up_appdock_title">托盘</string>
+    <string name="pref_switch_gesture_swipe_up_appdock_summary">显示 - 上滑 / 隐藏 - 下滑</string>
     <string name="pref_switch_gesture_swipe_up_app_drawer_title">应用程序抽屉</string>
     <string name="pref_switch_gesture_swipe_up_app_drawer_summary">上滑打开应用程序抽屉</string>
     <string name="pref_gestures_note_title">提示</string>

@@ -1,4 +1,4 @@
-package de.theknut.xposedgelsettings.hooks.GoogleSearchBar;
+package de.theknut.xposedgelsettings.hooks.googlesearchbar;
 
 import android.view.ViewGroup.LayoutParams;
 import de.robv.android.xposed.XC_MethodHook;

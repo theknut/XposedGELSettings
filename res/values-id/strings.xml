@@ -45,11 +45,11 @@
     <string name="pref_icontextsize_summary">Pilih persentase</string>
     <string name="pref_icontextcolor_homescreen_title">Warna teks aomescreen</string>
     <string name="pref_icontextcolor_appdrawer_title">Warna app drawer</string>
-    <string name="pref_hotseaticonsize_title">Ukuran ikon hotseat</string>
-    <string name="pref_hotseaticonsize_summary">Select a percentage</string>
+    <string name="pref_appdockiconsize_title">Ukuran ikon appdock</string>
+    <string name="pref_appdockiconsize_summary">Select a percentage</string>
     <string name="pref_cat_title_app_drawer">App drawer</string>
-    <string name="pref_hotseatcount_title">Jumlah ikon Hotseat</string>
-    <string name="pref_hotseatcount_summary">Ubah jumlah ikon dari hotseat (tidak termasuk ikon pada app drawer)</string>
+    <string name="pref_appdock_count_title">Jumlah ikon appdock</string>
+    <string name="pref_appdock_count_summary">Ubah jumlah ikon dari app dock (tidak termasuk ikon pada app drawer)</string>
     <string name="pref_selectappstohide_summary">Pilih aplikasi untuk disembunyikan</string>
     <string name="pref_cat_title_restart_launcher">Mulai ulang launcher</string>
     <string name="pref_restart_launcher_summary">Klik di sini untuk memulai ulang launcher dan memuatnya dengan pengaturan Anda</string>

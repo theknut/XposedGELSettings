@@ -45,11 +45,11 @@
     <string name="pref_icontextsize_summary">Select a percentage</string>
     <string name="pref_icontextcolor_homescreen_title">Homescreen text color</string>
     <string name="pref_icontextcolor_appdrawer_title">App drawer color</string>
-    <string name="pref_hotseaticonsize_title">Hotseat icon size</string>
-    <string name="pref_hotseaticonsize_summary">Select a percentage</string>
+    <string name="pref_appdockiconsize_title">Dock icon size</string>
+    <string name="pref_appdockiconsize_summary">Select a percentage</string>
     <string name="pref_cat_title_app_drawer">App drawer</string>
-    <string name="pref_hotseatcount_title">Hotseat icon count</string>
-    <string name="pref_hotseatcount_summary">Change the hotseat icon count (excluding the app drawer icon)</string>
+    <string name="pref_appdock_count_title">Dock icon count</string>
+    <string name="pref_appdock_count_summary">Change the app dock icon count</string>
     <string name="pref_selectappstohide_summary">Select the apps to hide</string>
     <string name="pref_cat_title_restart_launcher">Restart launcher</string>
     <string name="pref_restart_launcher_summary">Click here to restart the launcher and load it with your settings.</string>
@@ -82,8 +82,8 @@
     <!-- V1.3 -->
     <string name="toast_desktop_locked">XGELS: Desktop is locked!</string>
     <string name="toast_fail">Well&#8230; that didn\'t work :-S\nPlease see the logcat!</string>
-    <string name="pref_switch_hidehotseat_title">Hide hotseat</string>
-    <string name="pref_switch_hidehotseat_summary">Swipe up to show again</string>
+    <string name="pref_switch_appdock_title">Hide dock</string>
+    <string name="pref_switch_appdock_summary">Swipe up to show again</string>
     <string name="pref_lock_desktop_title">Lock desktop</string>
     <string name="pref_lock_desktop_summary">Prevent accidental dragging by locking the desktop</string>
     <string name="pref_continuous_scroll_title">Continuous scroll</string>
@@ -92,17 +92,85 @@
     <string name="pref_continuous_scroll_with_app_drawer_summary">Includes the app drawer in continuous scroll</string>
     <string name="pref_switch_close_app_drawer_after_app_started_title">Close app drawer</string>
     <string name="pref_switch_close_app_drawer_after_app_started_summary">Close the app drawer after an app was launched</string>
-    <string name="pref_hotseat_background_color_title">Hotseat background color</string>
-    <string name="pref_hotseat_background_color_summary">Choose the background color of the hotseat overlay</string>
+    <string name="pref_appdock_background_color_title">Dock background color</string>
+    <string name="pref_appdock_background_color_summary">Choose the background color of the app dock overlay</string>
     <string name="pref_cat_gestures">Gestures</string>
     <string name="pref_switch_gesture_swipe_down_left_title">Swipe down left</string>
     <string name="pref_switch_gesture_swipe_down_left_summary">Opens the notification panel</string>
     <string name="pref_switch_gesture_swipe_down_right_title">Swipe down right</string>
     <string name="pref_switch_gesture_swipe_down_right_summary">Opens the settings panel</string>
-    <string name="pref_switch_gesture_swipe_up_hotseat_title">Hotseat</string>
-    <string name="pref_switch_gesture_swipe_up_hotseat_summary">Unhide - swipe up / Hide - swipe down</string>
+    <string name="pref_switch_gesture_swipe_up_appdock_title">App dock</string>
+    <string name="pref_switch_gesture_swipe_up_appdock_summary">Unhide - swipe up / Hide - swipe down</string>
     <string name="pref_switch_gesture_swipe_up_app_drawer_title">App drawer</string>
     <string name="pref_switch_gesture_swipe_up_app_drawer_summary">Opens the app drawer on swipe up</string>
     <string name="pref_gestures_note_title">Note</string>
     <string name="pref_gestures_note_summary">Gestures need one or two minutes after boot to initialize</string>
+    <!-- V1.4 -->
+    <string name="pref_switch_no_all_apps_button_title">App drawer button</string>
+    <string name="pref_switch_no_all_apps_button_summary">Hide the app drawer button. Please remove the icon from the app drawer if you turn this option off!</string>
+    
+    <string-array name="fragmenttitles_array">
+        <item>Welcome</item>
+        <item>General</item>
+        <item>Google Search Bar</item>
+        <item>Homescreen</item>
+        <item>App Drawer</item>
+        <item>Gestures</item>
+        <item>System UI Tweaks</item>
+        <item>Im-/Export</item>
+        <item>Settings</item>
+        <item>Donate/Support</item>
+    </string-array>
+    
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="pref_systemui_explain_title">Note</string>
+    <string name="pref_systemui_explain_summary">All of these settings may or may not work depending on your device and/or on the installed ROM. Furthermore all of these settings require a full reboot to take effect.</string>
+    <string name="pref_cat_systemui_navbar_title">Navigation bar</string>
+    <string name="pref_cat_systemui_statusbar_title">Status bar</string>
+    <string name="pref_dynamic_backbutton_title">Back button</string>
+    <string name="pref_dynamic_backbutton_summary">Switches to \"Go to sleep\" on default homescreen</string>
+    <string name="pref_dynamic_homebutton_title">Home button</string>
+    <string name="pref_dynamic_homebutton_summary">Switches to \"Open app drawer\" on default homescreen</string>
+    <string name="pref_dynamic_hideclock_title">Hide clock</string>
+    <string name="pref_dynamic_hideclock_summary">Hides the clock on default homescreen</string> 
+    <string name="toast_restore_success">Successfully restored homescreen layout</string>
+    <string name="toast_restore_failed">Well&#8230; that didn\'t work :-S</string>
+    <string name="toast_backup_success">Homescreen layout successfully backed up</string>
+    <string name="toast_backup_failed">Well&#8230; that didn\'t work :-S</string>
+    <string name="pref_cat_backuprestore_homescreen_title">Launcher Homescreen Layout</string>
+    <string name="pref_backuprestore_note_title">Note</string>
+    <string name="pref_backuprestore_note_summary">This only backup/restores your icons and folders. Widgets and their positions will be lost and need to be placed again! This features also require root!</string>
+    <string name="pref_backup_homescreen_title">Backup</string>
+    <string name="pref_backup_homescreen_summary">Backup your homescreen layout (only icons and folders) to\n/sdcard/XposedGELSettings</string>
+    <string name="pref_restore_homescreen_title">Restore</string>
+    <string name="pref_restore_homescreen_summary">Restore your homescreen layout (only icons and folders) from\n/sdcard/XposedGELSettings</string>
+    <string name="pref_animate_dynamic_homebutton_title">Animate icon switching</string>
+    <string name="pref_animate_dynamic_homebutton_summary">Quick fade in animation when changing</string>
+    <string name="pref_change_dynamic_homebutton_title">Dynamic home button icon</string>
+    <string name="pref_change_dynamic_homebutton_summary">Changes the home icon to an app drawer icon on default homescreen</string>
+    <string name="pref_animate_dynamic_backbutton_title">Animate icon switching</string>
+    <string name="pref_animate_dynamic_backbutton_summary">Quick fade in animation when changing</string>
+    <string name="pref_change_dynamic_backbutton_title">Dynamic back button icon</string>
+    <string name="pref_change_dynamic_backbutton_summary">Changes the back icon to a power off icon on default homescreen</string>
+    <string name="toast_full_reboot">For this change to take effect please perform a full reboot!</string>
+    <string name="pref_switch_gesture_swipe_down_close_app_drawer_title">App drawer</string>
+    <string name="pref_switch_gesture_swipe_down_close_app_drawer_summary">Swipe down to close the app drawer</string>
+    <string name="toast_donate_only">This feature is donate only!</string>
+    <string name="toast_getprices_fail">Something went wrong while receiving the price list. Please check the logcat!</string>
+    <string name="toast_donation_result_fail">Something went wrong. You may want to kill XGELS and start it again. Please check the logcat!</string>
+    <string name="pref_donate_button">Donate and support me!</string>
+    <string name="pref_donated_button">Thank you for donating!</string>
+    <string name="toast_donate_thanks">Yeah, you are awesome! Pat yourself on the shoulder!</string>
+    <string name="pref_xgel_group_summary">Please click here to apply for the XGELS Donators Group! Include your Google Plus e-mail address so that I can add you to the private group.</string>
+    <string name="pref_requires_donation_title">Not available</string>
+    <string name="pref_requires_donation_summary">The following features are only available in the donation version.</string>
+    <string name="alert_reboot_needed_title">Full reboot required!</string>
+    <string name="alert_reboot_needed_summary">You\'ve made changes which require at least a full reboot (requires root). Please choose your method!</string>
+    <string name="progress_requesting_root_title">Please wait&#8230;</string>
+    <string name="progress_requesting_root_summary">Requesting root privilege&#8230;</string>
+    <string name="pref_auto_blur_wallpaper_title">Dynamic background</string>
+    <string name="pref_auto_blur_wallpaper_summary">Blur the device wallpaper every time it gets changed and use it as XGELS background. This may drain your battery if you use apps which changed the wallpaper within certain intervals.</string>
+    <string name="pref_dynamic_backbuttononeveryscreen_title">Sleep on every screen</string>
+    <string name="pref_dynamic_backbuttononeveryscreen_summary">Goes to sleep on every home screen. If this checkbox is not checked, it will only go to sleep on your default home screen.</string>
 </resources>

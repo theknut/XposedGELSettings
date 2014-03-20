@@ -1,4 +1,4 @@
-package de.theknut.xposedgelsettings.hooks.Homescreen;
+package de.theknut.xposedgelsettings.hooks.homescreen;
 
 import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
@@ -9,7 +9,8 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
-import de.theknut.xposedgelsettings.hooks.General.MoveToDefaultScreenHook;
+import de.theknut.xposedgelsettings.hooks.general.MoveToDefaultScreenHook;
+import de.theknut.xposedgelsettings.hooks.systemui.SystemUIHooks;
 
 public class HomescreenHooks {
 
@@ -52,11 +53,13 @@ public class HomescreenHooks {
 			XposedBridge.hookAllMethods(LauncherClass, "onWorkspaceShown", new OnWorkspaceShownHook());
 		}
 		
-		if (PreferencesHelper.hideHotseat) {
+		if (PreferencesHelper.hideAppDock) {
 			
-			// hide the hotseat
+			// hide the app dock
 			final Class<?> dp = findClass(Common.DEVICE_PROFILE, lpparam.classLoader);
 			XposedBridge.hookAllMethods(dp, "getWorkspacePadding", new GetWorkspacePaddingHook());
 		}
+		
+		SystemUIHooks.initAllHooks(lpparam);	
 	}
 }

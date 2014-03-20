@@ -1,4 +1,4 @@
-package de.theknut.xposedgelsettings.hooks.Homescreen;
+package de.theknut.xposedgelsettings.hooks.homescreen;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.getBooleanField;

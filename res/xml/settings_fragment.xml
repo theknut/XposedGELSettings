@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+       	android:key="needsDonate"
+	    android:title="@string/pref_requires_donation_title"
+	    android:summary="@string/pref_requires_donation_summary"
+	    android:selectable="false"/>
+    <de.theknut.xposedgelsettings.ui.MyCheckboxPreference
+        android:key="autoblurimage"
+        android:title="@string/pref_auto_blur_wallpaper_title"
+    	android:summary="@string/pref_auto_blur_wallpaper_summary" />
+    <de.theknut.xposedgelsettings.ui.MyPreferenceCategory
+        android:title="@string/pref_cat_eximport_settings">
+	    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+		    android:key="importsettings"
+			android:title="@string/pref_settings_import_title"
+			android:summary="@string/pref_settings_import_summary" />
+		<de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+		    android:key="exportsettings"
+			android:title="@string/pref_settings_export_title"
+			android:summary="@string/pref_settings_export_summary" />
+		<de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+		    android:key="resetsettings"
+			android:title="@string/pref_settings_reset_title"
+			android:summary="@string/pref_settings_reset_summary" />
+	</de.theknut.xposedgelsettings.ui.MyPreferenceCategory>
+</PreferenceScreen>

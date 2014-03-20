@@ -1,7 +1,7 @@
 XposedGELSettings
 =================
 
-Hide Google search bar, hide apps from launcher, change grid size, change hotseat count, remove icon labels and more to come
+Hide Google search bar, hide apps from launcher, change grid size, change app dock count, remove icon labels and more to come
 
 Support thread
 =================

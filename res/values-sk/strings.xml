@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<<<<<<< HEAD
+=======
+    <string name="app_name">Xposed GEL Settings</string>
+>>>>>>> Update to V1.4.1
     <string name="pref_hide_google_search_bar_title">Skryť</string>
     <string name="pref_autohide_google_search_bar_title">Automaticky skrývať</string>
     <string name="pref_autohide_google_search_bar_summary">Automaticky zobraziť na stránke Asistenta Google</string>
@@ -14,6 +18,7 @@
     <string name="toast_export_failed">Ok&#8230; toto nefunguje :-S</string>
     <string name="toast_import_failed">Ok&#8230; toto nefunguje :-S</string>
     <string name="toast_reset_failed">Ok&#8230; toto nefunguje :-S</string>
+<<<<<<< HEAD
     <string name="pref_cat_title_icon_labels">Viditeľnosž menoviek ikon</string>
     <string name="pref_cat_title_searchbar">Vyhľadávací riadok Google</string>
     <string name="pref_cat_title_general">Všeobecné</string>
@@ -33,6 +38,27 @@
     <string name="pref_ycountallapps_title">App drawer rows</string>
     <string name="pref_ycountallapps_summary">Change the row count apps</string>
     <string name="pref_cat_title_homescreen">Homescreen</string>
+=======
+    <string name="pref_cat_title_icon_labels">Viditeľnosť menoviek ikon</string>
+    <string name="pref_cat_title_searchbar">Vyhľadávací riadok Google</string>
+    <string name="pref_cat_title_general">Všeobecné</string>
+    <string name="pref_cat_title_hide_apps">Skryť aplikácie</string>
+    <string name="pref_grid_size_explain_title">Upozornenie!</string>
+    <string name="pref_grid_size_explain_summary">Prosím, majte na pamäti: Zmena veľkosti mriežka spôsobí neporiadok v poradí ikon. Ak máte menšiu veľkosť mriežky, niektoré ikony môžu byť stratené. Zväčšenie veľkosti mriežky ich privedie späť. Okrem toho v prípade, že veľkosť mriežky je príliš veľká, časti ikon budú orezané. Nezvyšujte ju príliš veľa.</string>
+    <string name="pref_switch_enable_grid_size_title">Povoliť</string>
+    <string name="pref_switch_enable_grid_size_summary">Povoliť zmeny na veľkosti mriežky</string>
+    <string name="pref_resize_all_widgets_title">Zmena veľkosti miniaplikácií</string>
+    <string name="pref_resize_all_widgets_summary">Povoliť zmenu veľkosti u všetkých miniaplikáciách</string>
+    <string name="pref_xcount_title">Stĺpce na domovskej obrazovke</string>
+    <string name="pref_xcount_summary">Zmeniť počet stĺpcov ikon na domovskej obrazovke</string>
+    <string name="pref_ycount_title">Riadky na domovskej obrazovke</string>
+    <string name="pref_ycount_summary">Zmeniť počet riadkov ikon na domovskej obrazovke</string>
+    <string name="pref_xcountallapps_title">Stĺpce v ponuke aplikácií</string>
+    <string name="pref_xcountallapps_summary">Zmeniť počet stĺpcov aplikácií</string>
+    <string name="pref_ycountallapps_title">Riadky v ponuke aplikácií</string>
+    <string name="pref_ycountallapps_summary">Zmeniť počet riadkov aplikácií</string>
+    <string name="pref_cat_title_homescreen">Domovská obrazovka</string>
+>>>>>>> Update to V1.4.1
     <string name="pref_title_longpress_app_drawer_button">Tlačidlo všetkých aplikácií</string>
     <string name="pref_summary_longpress_app_drawer_button">Otvoriť XGELS po dlhom stlačení</string>
     <string name="pref_cat_title_appicons">Nastavenia ikon</string>
@@ -42,6 +68,7 @@
     <string name="pref_iconsize_summary">Vyberte percento</string>
     <string name="pref_icontextsize_title">Veľkosť textu ikony</string>
     <string name="pref_icontextsize_summary">Vyberte percento</string>
+<<<<<<< HEAD
     <string name="pref_icontextcolor_homescreen_title">Homescreen text color</string>
     <string name="pref_icontextcolor_appdrawer_title">App drawer color</string>
     <!-- TODO -->
@@ -57,12 +84,29 @@
     <string name="pref_donate_summary">XGELS is free and ever will be. However, if you like my work and want to recompense me for the hours I spent, make sure to donate to me. Press this button!</string>
     <string name="pref_support_thread_title">Need help?</string>
     <string name="pref_support_thread_summary">Please show some love to the support thread. If you need help or have feedback please click here to open the thread.</string>
+=======
+    <string name="pref_icontextcolor_homescreen_title">Farba textu na domovskej obrazovke</string>
+    <string name="pref_icontextcolor_appdrawer_title">Farba v ponuke aplikácií</string>
+    <string name="pref_hotseaticonsize_title">Veľkosť ikony v rýchlom prístupe</string>
+    <string name="pref_hotseaticonsize_summary">Vyberte percento</string>
+    <string name="pref_cat_title_app_drawer">Ponuka aplikácií</string>
+    <string name="pref_appdock_count_title">Počet ikon v rýchlom prístupe</string>
+    <string name="pref_appdock_count_summary">Zmeniť počet ikon v rýchlom prístupe (okrem ikony ponuky aplikácií)</string>
+    <string name="pref_selectappstohide_summary">Vybrať aplikácie na skrytie</string>
+    <string name="pref_cat_title_restart_launcher">Reštartovať spúšťač</string>
+    <string name="pref_restart_launcher_summary">Kliknite tu pre reštart spúšťača a jeho spustenie s vašimi nastaveniami.</string>
+    <string name="pref_donate_title">Páči sa vám tento modul? - Prispejte!</string>
+    <string name="pref_donate_summary">XGELS je zadarmo a vždy bude. Avšak, ak sa vám páči moja práca a chcete ma odmeniť za hodiny, ktoré som strávil s vývojom tohto modulu, môžete mi prispieť. Stlačte toto tlačidlo!</string>
+    <string name="pref_support_thread_title">Potrebujete pomoc?</string>
+    <string name="pref_support_thread_summary">Ak potrebujete pomoc alebo máte spätnú väzbu, prosím, kliknite tu pre otvorenie témy podpory.</string>
+>>>>>>> Update to V1.4.1
     <string name="pref_cat_eximport_settings">Importovať/exportovať nastavenia</string>
     <string name="pref_settings_import_title">Importovať</string>
     <string name="pref_settings_import_summary">Importovať vaše nastavenia z \n/sdcard/XposedGELSettings</string>
     <string name="pref_settings_export_title">Exportovať</string>
     <string name="pref_settings_export_summary">Exportvať vaše nastavenia do\n/sdcard/XposedGELSettings</string>
     <string name="pref_settings_reset_title">Resetovať</string>
+<<<<<<< HEAD
     <string name="pref_settings_reset_summary">Reset your settings</string>
     <string name="pref_pageindicator_title">Page indicator</string>
     <string name="pref_pageindicator_summary">Hide the page indicator from the homescreen and app drawer</string>
@@ -105,4 +149,48 @@
     <string name="pref_switch_gesture_swipe_up_app_drawer_summary">Opens the app drawer on swipe up</string>
     <string name="pref_gestures_note_title">Note</string>
     <string name="pref_gestures_note_summary">Gestures need one or two minutes after boot to initialize</string>
+=======
+    <string name="pref_settings_reset_summary">Resetovať vaše nastavenia</string>
+    <string name="pref_pageindicator_title">Ukazovateľ strán</string>
+    <string name="pref_pageindicator_summary">Skryť ukazovateľ strán z domovskej obrazovky a ponuky aplikácií</string>
+    <string name="pref_default_homescreen_title">Predvolená domovská obrazovka</string>
+    <string name="pref_default_homescreen_summary">Vybrať predvolenú domovskú obrazovku</string>
+    <string name="pref_enable_rotation_title">Otáčanie</string>
+    <string name="pref_enable_rotation_summary">Povoliť otáčanie\n(Vyžaduje úplný reštart)</string>
+    <string name="pref_icon_label_color">Farba textu</string>
+    <string name="pref_switch_icon_shadow_title">Tieň textu</string>
+    <string name="pref_app_drawer_background_color_title">Farba pozadia</string>
+    <string name="pref_app_drawer_background_color_summary">Tip: spravte pozadie úplne priehľadné!</string>
+    <string name="colorpicker_apply">Použiť</string>
+    <string name="colorpicker_hex_hint">Vlastná farba v HEX formáte</string>
+    <string name="restart_launcher_icon_title">Reštartovať</string>
+    <string name="pref_disable_wallpaper_scroll_title">Posun tapety</string>
+    <string name="pref_disable_wallpaper_scroll_summary">Zakázať synchronizovaný posun tapety</string>
+    <!-- V1.3 -->
+    <string name="toast_desktop_locked">XGELS: Plocha je zamknutá!</string>
+    <string name="toast_fail">Ok&#8230; toto nefunguje :-S\nProsím, pozrite logcat</string>
+    <string name="pref_switch_hideappdock_title">Skryť rýchly prístup</string>
+    <string name="pref_switch_hideappdock_summary">Posunúť nahor pre ich opätovné zobrazenie</string>
+    <string name="pref_lock_desktop_title">Zamknúť plochu</string>
+    <string name="pref_lock_desktop_summary">Zabrániť nechcenému ťahaniu</string>
+    <string name="pref_continuous_scroll_title">Nepretržitý posun</string>
+    <string name="pref_continuous_scroll_summary">Posun z poslednej na prvú stránku\n(Experimentálne)</string>
+    <string name="pref_continuous_scroll_with_app_drawer_title">Zahrnúť ponuku aplikácií</string>
+    <string name="pref_continuous_scroll_with_app_drawer_summary">Zahrnúť ponuku aplikácií v nepretržitom posune</string>
+    <string name="pref_switch_close_app_drawer_after_app_started_title">Zavrieť ponuku aplikácií</string>
+    <string name="pref_switch_close_app_drawer_after_app_started_summary">Zavrieť ponuku aplikácií po spustení aplikácie</string>
+    <string name="pref_appdock_background_color_title">Farba pozadia rýchleho prístupu</string>
+    <string name="pref_appdock_background_color_summary">Vybrať farbu pozadia rýchleho prístupu</string>
+    <string name="pref_cat_gestures">Gestá</string>
+    <string name="pref_switch_gesture_swipe_down_left_title">Posun dole vľavo</string>
+    <string name="pref_switch_gesture_swipe_down_left_summary">Otvorí panel oznámení</string>
+    <string name="pref_switch_gesture_swipe_down_right_title">Posun dole vpravo</string>
+    <string name="pref_switch_gesture_swipe_down_right_summary">Otvorí panel nastavení</string>
+    <string name="pref_switch_gesture_swipe_up_appdock_title">Rýchly prístup</string>
+    <string name="pref_switch_gesture_swipe_up_appdock_summary">Zobraziť - posun hore / Skryť - posun dole</string>
+    <string name="pref_switch_gesture_swipe_up_app_drawer_title">Ponuka aplikácií</string>
+    <string name="pref_switch_gesture_swipe_up_app_drawer_summary">Otvorí ponuku aplikácií po posunutí nahor</string>
+    <string name="pref_gestures_note_title">Poznámka</string>
+    <string name="pref_gestures_note_summary">Gesturá pre inicializáciu potrebujú jednu alebo dve minúty po spustení zariadenia</string>
+>>>>>>> Update to V1.4.1
 </resources>

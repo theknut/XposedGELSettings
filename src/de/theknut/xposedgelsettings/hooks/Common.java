@@ -12,6 +12,10 @@ public final class Common {
 	// our package name
 	public static final String PACKAGE_NAME = Common.class.getPackage().getName().replace(".hooks", "");
 	
+	// XGELS intent
+	public static final String XGELS_INTENT = PACKAGE_NAME + ".Intent";
+	public static final String XGELS_ACTION = "XGELSACTION";
+	
 	// the name of the settings file
 	public static final String PREFERENCES_NAME = Common.PACKAGE_NAME + "_preferences";
 	
@@ -48,6 +52,7 @@ public final class Common {
 	public static String DYNAMIC_GRID;
 	public static String LAUNCHER;
 	public static String PAGED_VIEW;
+	public static String PAGED_VIEW_WITH_DRAGGABLE_ITEMS;
 	public static String APPS_CUSTOMIZE_PAGED_VIEW;
 	public static String APPS_CUSTOMIZE_LAYOUT;
 	public static String PAGED_VIEW_ICON;
@@ -66,15 +71,19 @@ public final class Common {
 	
 	public static String LAUNCHER3 = "com.android.launcher3.";
 	
-	public static boolean HOTSEAT_HIDDEN = true;	
+	public static boolean APPDOCK_HIDDEN = true;	
 	public static boolean IS_INIT = false;
 	public static boolean HOOKS_AFTER_WORKSPACE_LOADED_INITIALIZED = false;
 	public static boolean OVERSCROLLED = false;
+	public static boolean LAUNCHER_PAUSED = false;
+	public static boolean SCREEN_OFF = false;
 	
 	// all launchers we support (hopefully :-S)
 	public static final List<String> PACKAGE_NAMES = new ArrayList<String>(Arrays.asList("com.android.launcher2", "com.android.launcher3", Common.GEL_PACKAGE, Common.TREBUCHET_PACKAGE));
 	
 	public static void initClassNames(String launcherName) {
+		//log("Common.initClassNames: converting to " + launcherName);
+		
 		String launcherPackage = "com.android." + launcherName + ".";
 		ALL_APPS_LIST = launcherPackage + "AllAppsList";
 		ITEM_INFO = launcherPackage + "ItemInfo";
@@ -83,6 +92,7 @@ public final class Common {
 		DYNAMIC_GRID = launcherPackage + "DeviceProfile";
 		LAUNCHER = launcherPackage + "Launcher";
 		PAGED_VIEW = launcherPackage + "PagedView";
+		PAGED_VIEW_WITH_DRAGGABLE_ITEMS = launcherPackage + "PagedViewWithDraggableItems";
 		APPS_CUSTOMIZE_PAGED_VIEW = launcherPackage + "AppsCustomizePagedView";
 		APPS_CUSTOMIZE_LAYOUT = launcherPackage + "AppsCustomizeLayout";
 		PAGED_VIEW_ICON = launcherPackage + "PagedViewIcon";

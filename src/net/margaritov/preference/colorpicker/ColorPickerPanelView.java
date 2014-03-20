@@ -105,7 +105,7 @@ public class ColorPickerPanelView extends View {
 		super.onSizeChanged(w, h, oldw, oldh);
 
 		mDrawingRect = new RectF();
-		mDrawingRect.left =  getPaddingLeft();
+		mDrawingRect.left =  getPaddingLeft() - 100;
 		mDrawingRect.right  = w - getPaddingRight();
 		mDrawingRect.top = getPaddingTop();
 		mDrawingRect.bottom = h - getPaddingBottom();
