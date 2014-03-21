@@ -59,6 +59,6 @@
                 android:value="2.0*"/>
         <meta-data
                 android:name="xposeddescription"
-                android:value="Hide Google search bar, hide apps from launcher, change grid size of homescreen and app drawer, change icon size, change text size, change app dock count, remove icon labels and more to come"/>
+                android:value="@string/app_description" />
     </application>
 </manifest>
