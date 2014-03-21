@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Xposed GEL Settings</string>
+    <string name="app_description">Hide Google search bar, hide apps from launcher, change grid size of homescreen and app drawer, change icon size, change text size, change app dock count, remove icon labels and more to come</string>
     <string name="pref_hide_google_search_bar_title">Hide</string>
     <string name="pref_autohide_google_search_bar_title">Auto hide</string>
     <string name="pref_autohide_google_search_bar_summary">Automatically show on Google Now page</string>
