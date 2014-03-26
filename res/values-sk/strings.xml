@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Xposed GEL Settings</string>
+    <string name="app_description">Skryť vyhľadávaci riadok Google, skryť aplikácie z spúšťača, zmeniť veľkosť mriežky domovskej obrazovky a ponuky aplikácií, zmeniť veľkosť ikon, zmeniť veľkosť textu, zmeniť počet aplikácií doku, odstrániť menovky ikony a ďalšie</string>
     <string name="pref_hide_google_search_bar_title">Skryť</string>
     <string name="pref_autohide_google_search_bar_title">Automaticky skrývať</string>
     <string name="pref_autohide_google_search_bar_summary">Automaticky zobraziť na stránke Asistenta Google</string>
@@ -45,15 +46,15 @@
     <string name="pref_icontextsize_summary">Vyberte percento</string>
     <string name="pref_icontextcolor_homescreen_title">Farba textu na domovskej obrazovke</string>
     <string name="pref_icontextcolor_appdrawer_title">Farba v ponuke aplikácií</string>
-    <string name="pref_hotseaticonsize_title">Veľkosť ikony v rýchlom prístupe</string>
-    <string name="pref_hotseaticonsize_summary">Vyberte percento</string>
+    <string name="pref_appdockiconsize_title">Veľkosť ikony aplikácie v doku</string>
+    <string name="pref_appdockiconsize_summary">Vyberte percento</string>
     <string name="pref_cat_title_app_drawer">Ponuka aplikácií</string>
-    <string name="pref_hotseatcount_title">Počet ikon v rýchlom prístupe</string>
-    <string name="pref_hotseatcount_summary">Zmeniť počet ikon v rýchlom prístupe (okrem ikony ponuky aplikácií)</string>
+    <string name="pref_appdock_count_title">Počet ikon aplikácií v doku</string>
+    <string name="pref_appdock_count_summary">Zmeniť počet ikon aplikácií v doku (okrem ikony ponuky aplikácií)</string>
     <string name="pref_selectappstohide_summary">Vybrať aplikácie na skrytie</string>
     <string name="pref_cat_title_restart_launcher">Reštartovať spúšťač</string>
     <string name="pref_restart_launcher_summary">Kliknite tu pre reštart spúšťača a jeho spustenie s vašimi nastaveniami.</string>
-    <string name="pref_donate_title">Páči sa vám tento modul? - Prispejte!</string>
+    <string name="pref_donate_title">Páči sa vám táto aplikácia? - Prispejte!</string>
     <string name="pref_donate_summary">XGELS je zadarmo a vždy bude. Avšak, ak sa vám páči moja práca a chcete ma odmeniť za hodiny, ktoré som strávil s vývojom tohto modulu, môžete mi prispieť. Stlačte toto tlačidlo!</string>
     <string name="pref_support_thread_title">Potrebujete pomoc?</string>
     <string name="pref_support_thread_summary">Ak potrebujete pomoc alebo máte spätnú väzbu, prosím, kliknite tu pre otvorenie témy podpory.</string>
@@ -61,7 +62,7 @@
     <string name="pref_settings_import_title">Importovať</string>
     <string name="pref_settings_import_summary">Importovať vaše nastavenia z \n/sdcard/XposedGELSettings</string>
     <string name="pref_settings_export_title">Exportovať</string>
-    <string name="pref_settings_export_summary">Exportvať vaše nastavenia do\n/sdcard/XposedGELSettings</string>
+    <string name="pref_settings_export_summary">Exportovať vaše nastavenia do\n/sdcard/XposedGELSettings</string>
     <string name="pref_settings_reset_title">Resetovať</string>
     <string name="pref_settings_reset_summary">Resetovať vaše nastavenia</string>
     <string name="pref_pageindicator_title">Ukazovateľ strán</string>
@@ -81,9 +82,9 @@
     <string name="pref_disable_wallpaper_scroll_summary">Zakázať synchronizovaný posun tapety</string>
     <!-- V1.3 -->
     <string name="toast_desktop_locked">XGELS: Plocha je zamknutá!</string>
-    <string name="toast_fail">Ok&#8230; toto nefunguje :-S\nProsím, pozrite logcat</string>
-    <string name="pref_switch_hidehotseat_title">Skryť rýchly prístup</string>
-    <string name="pref_switch_hidehotseat_summary">Posunúť nahor pre ich opätovné zobrazenie</string>
+    <string name="toast_fail">Ok&#8230; toto nefunguje :-S\nProsím, skontrolujte logcat</string>
+    <string name="pref_switch_appdock_title">Skryť dok</string>
+    <string name="pref_switch_appdock_summary">Posunúť nahor pre jeho opätovné zobrazenie</string>
     <string name="pref_lock_desktop_title">Zamknúť plochu</string>
     <string name="pref_lock_desktop_summary">Zabrániť nechcenému ťahaniu</string>
     <string name="pref_continuous_scroll_title">Nepretržitý posun</string>
@@ -92,17 +93,86 @@
     <string name="pref_continuous_scroll_with_app_drawer_summary">Zahrnúť ponuku aplikácií v nepretržitom posune</string>
     <string name="pref_switch_close_app_drawer_after_app_started_title">Zavrieť ponuku aplikácií</string>
     <string name="pref_switch_close_app_drawer_after_app_started_summary">Zavrieť ponuku aplikácií po spustení aplikácie</string>
-    <string name="pref_hotseat_background_color_title">Farba pozadia rýchleho prístupu</string>
-    <string name="pref_hotseat_background_color_summary">Vybrať farbu pozadia rýchleho prístupu</string>
+    <string name="pref_appdock_background_color_title">Farba pozadia doku</string>
+    <string name="pref_appdock_background_color_summary">Vybrať farbu pozadia doku aplikácií</string>
     <string name="pref_cat_gestures">Gestá</string>
     <string name="pref_switch_gesture_swipe_down_left_title">Posun dole vľavo</string>
     <string name="pref_switch_gesture_swipe_down_left_summary">Otvorí panel oznámení</string>
     <string name="pref_switch_gesture_swipe_down_right_title">Posun dole vpravo</string>
     <string name="pref_switch_gesture_swipe_down_right_summary">Otvorí panel nastavení</string>
-    <string name="pref_switch_gesture_swipe_up_hotseat_title">Rýchly prístup</string>
-    <string name="pref_switch_gesture_swipe_up_hotseat_summary">Zobraziť - posun hore / Skryť - posun dole</string>
+    <string name="pref_switch_gesture_swipe_up_appdock_title">Dok aplikácií</string>
+    <string name="pref_switch_gesture_swipe_up_appdock_summary">Zobraziť - posun hore / Skryť - posun dole</string>
     <string name="pref_switch_gesture_swipe_up_app_drawer_title">Ponuka aplikácií</string>
     <string name="pref_switch_gesture_swipe_up_app_drawer_summary">Otvorí ponuku aplikácií po posunutí nahor</string>
     <string name="pref_gestures_note_title">Poznámka</string>
     <string name="pref_gestures_note_summary">Gesturá pre inicializáciu potrebujú jednu alebo dve minúty po spustení zariadenia</string>
+    <!-- V1.4 -->
+    <string name="pref_switch_no_all_apps_button_title">Tlačidlo ponuky aplikácií</string>
+    <string name="pref_switch_no_all_apps_button_summary">Skryť tlačidlo ponuky aplikácií. Prosím, odstráňte ikonu z ponuky aplikácií, ak túto možnosť zakážete!</string>
+    
+    <string-array name="fragmenttitles_array">
+        <item>Vitajte</item>
+        <item>Všeobecné</item>
+        <item>Vyhľadávací riadok</item>
+        <item>Domovská obrazovka</item>
+        <item>Ponuka aplikácií</item>
+        <item>Gestá</item>
+        <item>Vylepšenia rozhrania</item>
+        <item>Import/Export</item>
+        <item>Nastavenia</item>
+        <item>Dar/Podpora</item>
+    </string-array>
+    
+    <string name="drawer_open">Otvoriť navigačnú ponuku</string>
+    <string name="drawer_close">Zatvoriť navigačnú ponuku</string>
+    <string name="pref_systemui_explain_title">Poznámka</string>
+    <string name="pref_systemui_explain_summary">Všetky tieto nastavenia môžu no nemusia fungovať na vašom zariadení a/alebo na nainštalovanej ROM. Navyše všetky tieto nastavenia vyžadujú úplný reštart, aby sa prejavili.</string>
+    <string name="pref_cat_systemui_navbar_title">Navigačná lišta</string>
+    <string name="pref_cat_systemui_statusbar_title">Stavový riadok</string>
+    <string name="pref_dynamic_backbutton_title">Tlačidlo Späť</string>
+    <string name="pref_dynamic_backbutton_summary">Prepnúť na \"Uspať\" na predvolenej domovskej obrazovke</string>
+    <string name="pref_dynamic_homebutton_title">Tlačidlo Domov</string>
+    <string name="pref_dynamic_homebutton_summary">Prepnúť na \"Otvoriť ponuku aplikácií\" na predvolenej domovskej obrazovke</string>
+    <string name="pref_dynamic_hideclock_title">Skryť hodiny</string>
+    <string name="pref_dynamic_hideclock_summary">Skryť hodiny na predvolenej domovskej obrazovke</string>
+    <string name="toast_restore_success">Úspešne obnovené rozloženie domovkskej obrazovky</string>
+    <string name="toast_restore_failed">Ok&#8230; toto nefungovalo :-S</string>
+    <string name="toast_backup_success">Úspešne zálohované rozloženie domovkskej obrazovky</string>
+    <string name="toast_backup_failed">Ok&#8230; toto nefungovalo :-S</string>
+    <string name="pref_cat_backuprestore_homescreen_title">Rozloženie domovskej obrazovky a spúšťača</string>
+    <string name="pref_backuprestore_note_title">Poznámka</string>
+    <string name="pref_backuprestore_note_summary">Toto len zazálohuje/obnoví vaše ikony a priečinky. Miniaplikácie a ich pozície sa stratia a bude potrebné ich znova umiestniť! Táto funkcia taktiež vyžaduje root!</string>
+    <string name="pref_backup_homescreen_title">Zálohovať</string>
+    <string name="pref_backup_homescreen_summary">Zálohovať vaše rozloženie domovskej obrazovky (len ikony a priečinky) do\n/sdcard/XposedGELSettings</string>
+    <string name="pref_restore_homescreen_title">Obnoviť</string>
+    <string name="pref_restore_homescreen_summary">Obnoviť vaše rozloženie domovskej obrazovky (len ikony a priečinky) z\n/sdcard/XposedGELSettings</string>
+    <string name="pref_animate_dynamic_homebutton_title">>Animovať prepínanie ikon</string>
+    <string name="pref_animate_dynamic_homebutton_summary">Rýchle stmavnutie v animácií pri zmene</string>
+    <string name="pref_change_dynamic_homebutton_title">Dynamická ikona tlačidla Domov</string>
+    <string name="pref_change_dynamic_homebutton_summary">Zmeniť ikonu tlačidla Domov na ikonu ponuky aplikácií na predvolenej obrazovke<</string>
+    <string name="pref_animate_dynamic_backbutton_title">Animovať prepínanie ikon</string>
+    <string name="pref_animate_dynamic_backbutton_summary">Rýchle stmavnutie v animácií pri zmene</string>
+    <string name="pref_change_dynamic_backbutton_title">Dynamická ikona tlačidla Späť</string>
+    <string name="pref_change_dynamic_backbutton_summary">Zmeniť ikonu tlačidla Späť na ikonu vypnutia na predvolenej obrazovke</string>
+    <string name="toast_full_reboot">Prosím, vykonajte úplný reštart, aby sa zmena prejavila!</string>
+    <string name="pref_switch_gesture_swipe_down_close_app_drawer_title">Ponuka aplikácií</string>
+    <string name="pref_switch_gesture_swipe_down_close_app_drawer_summary">Potiahnutím nadol zatvoriť ponuku aplikácií</string>
+    <string name="toast_donate_only">Táto funkcia je len pre darcov!</string>
+    <string name="toast_getprices_fail">Niečo sa pokazilo pri získavaní zoznamu cien. Prosím, skontrolujte logcat!</string>
+    <string name="toast_donation_result_fail">Niečo sa pokazilo. Možno chcete ukončiť XGELS a znovu ju spustiť. Prosím, skontrolujte logcat!</string>
+    <string name="pref_donate_button">Darovať a podporiť!</string>
+    <string name="pref_donated_button">Ďakujeme vám za darovanie!</string>
+    <string name="toast_donate_thanks">Áno, ste úžasný! Ďakujeme vám!</string>
+    <string name="pref_xgel_group_summary">Prosím, kliknite sem pre požiadanie o vstup do skupiny XGELS darcov! Zahrňte vašu Gmail adresu, aby sme vás mohli pridať do súkromnej skupiny.</string>
+    <string name="pref_requires_donation_title">Nie je k dispozícii</string>
+    <string name="pref_requires_donation_summary">Nasledujúce funkcie sú dostupné len v darcovskej verzii.</string>
+    <string name="alert_reboot_needed_title">Vyžadovaný úlný reštart!</string>
+    <string name="alert_reboot_needed_summary">Vykonali ste zmeny, ktoré vyžadujú úplný reštart (vyžaduje sa root). Prosím, vyberte spôsob!</string>
+    <string name="progress_requesting_root_title">Prosím, počkajte&#8230;</string>
+    <string name="progress_requesting_root_summary">Vyžaduje sa root prístup&#8230;</string>
+    <string name="pref_auto_blur_wallpaper_title">Dynamické pozadie</string>
+    <string name="pref_auto_blur_wallpaper_summary">Rozmazať pozadie zariadenie zakaždým, keď sa zmení a použiť ho ako pozadie XGELS. Toto môže rýchlo vybíjať batériu, ak používate aplikácie, ktoré menia tapetu v určitých intervaloch.</string>
+    <string name="pref_dynamic_backbuttononeveryscreen_title">Uspať na každej obrazovke</string>
+    <string name="pref_dynamic_backbuttononeveryscreen_summary">Uspať na každej domovskejobrazovke. Ak táto možnosť nie je povolená, uspanie prebehne len na predvolenej domovskej obrazovke.</string>
+</resources>
 </resources>
