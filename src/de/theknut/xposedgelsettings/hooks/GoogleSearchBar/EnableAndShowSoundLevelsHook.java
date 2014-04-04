@@ -1,8 +1,6 @@
 package de.theknut.xposedgelsettings.hooks.googlesearchbar;
 
-import android.view.ViewGroup.LayoutParams;
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
 import de.theknut.xposedgelsettings.hooks.Common;
 
 public class EnableAndShowSoundLevelsHook extends XC_MethodHook {
@@ -15,6 +13,6 @@ public class EnableAndShowSoundLevelsHook extends XC_MethodHook {
 		}
 		
 		// show the search bar
-		GoogleSearchBarHooks.setLayoutParams(Common.LAUNCHER_INSTANCE, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, Common.SEARCH_BAR_SPACE_WIDTH, Common.SEARCH_BAR_SPACE_HEIGHT);
+		GoogleSearchBarHooks.showSearchbar();
 	}
 }

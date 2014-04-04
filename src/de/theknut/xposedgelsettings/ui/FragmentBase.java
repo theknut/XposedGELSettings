@@ -3,6 +3,7 @@ package de.theknut.xposedgelsettings.ui;
 import de.theknut.xposedgelsettings.R;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -16,9 +17,9 @@ import android.widget.Toast;
 
 public class FragmentBase extends PreferenceFragment {
 	
-	public static Context mContext;
-	
+	public static Context mContext;	
 	public static boolean toastShown = false;
+	public static String TAG = "XGELS";
 	
 	OnPreferenceChangeListener onChangeListenerLauncherReboot = new Preference.OnPreferenceChangeListener() {
 

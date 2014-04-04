@@ -1,5 +1,6 @@
 package de.theknut.xposedgelsettings.hooks.homescreen;
 
+import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.setIntField;
 
 import android.content.Context;
@@ -43,7 +44,6 @@ public final class DeviceProfileConstructorHook extends XC_MethodHook {
 				
 				// calculating custom sizes
 				float newIconSize = (float) (Math.ceil((Float) param.args[ICONSIZE] * (PreferencesHelper.iconSize / 100.0)));
-				float newHotseatIconSize = (float) (Math.ceil((Float) param.args[HOTSEATICONSIZE] * (PreferencesHelper.appdockIconSize / 100.0)));
 				float newIconTextSize = (float) (Math.ceil((Float) param.args[ICONTEXTSIZE] * (PreferencesHelper.iconTextSize / 100.0)));
 				
 				// some validation
@@ -55,6 +55,18 @@ public final class DeviceProfileConstructorHook extends XC_MethodHook {
 				}
 				
 				// some validation
+				if (newIconTextSize > 0.0) {
+					param.args[ICONTEXTSIZE] = newIconTextSize;
+				}
+				else {
+					XposedBridge.log("Didn't change icon text size! Value was " + newIconTextSize);
+				}
+			}
+			
+			if (PreferencesHelper.appdockSettingsSwitch) {
+				float newHotseatIconSize = (float) (Math.ceil((Float) param.args[HOTSEATICONSIZE] * (PreferencesHelper.appdockIconSize / 100.0)));
+				
+				// some validation
 				if (newHotseatIconSize > 0.0) {
 					param.args[HOTSEATICONSIZE] = Common.NEW_HOTSEAT_ICON_SIZE = newHotseatIconSize;
 				}
@@ -62,19 +74,11 @@ public final class DeviceProfileConstructorHook extends XC_MethodHook {
 					XposedBridge.log("Didn't change hotseat icon size! Value was " + newHotseatIconSize);
 				}
 				
-				// some validation
-				if (newIconTextSize > 0.0) {
-					param.args[ICONTEXTSIZE] = newIconTextSize;
-				}
-				else {
-					XposedBridge.log("Didn't change icon text size! Value was " + newIconTextSize);
-				}
-				
 				param.args[NUMHOTSEATICONS] = PreferencesHelper.appDockCount;
+				
+				int hotseatBarHeight = (int) (Math.round((Float)param.args[ICONSIZE]) + 24);
+				setIntField(param.thisObject, "hotseatBarHeightPx", hotseatBarHeight);
 			}
-			
-			int hotseatBarHeight = (int) (Math.round((Float)param.args[ICONSIZE]) + 24);
-			setIntField(param.thisObject, "hotseatBarHeightPx", hotseatBarHeight);
 		}
 	}
 	

@@ -174,4 +174,63 @@
     <string name="pref_auto_blur_wallpaper_summary">Blur the device wallpaper every time it gets changed and use it as XGELS background. This may drain your battery if you use apps which changed the wallpaper within certain intervals.</string>
     <string name="pref_dynamic_backbuttononeveryscreen_title">Sleep on every screen</string>
     <string name="pref_dynamic_backbuttononeveryscreen_summary">Goes to sleep on every home screen. If this checkbox is not checked, it will only go to sleep on your default home screen.</string>
+    <!-- V1.5 -->
+    <string name="pref_selectwidgetstohide_summary">Select the widgets to hide</string>
+    <string name="pref_workspacerect_title">Homescreen left/right margin</string>
+    <string name="pref_workspacerect_summary">Choose a margin multiplier for left and right side of the homescreen</string>
+    <string name="pref_workspacerect_dialog">Choose a multiplier</string>
+    <string name="toast_openinstaller_failed">Couldn\'t open Xposed Installer. Please start it manually!</string>
+    <string name="pref_cat_homescreen_folder_title">Folders</string>
+    <string name="pref_cat_homescreen_icon_title">Icons</string>
+    <string name="pref_cat_homescreen_appdock_title">App dock</string>
+    <string name="pref_switch_appdocksettings_title">Enable</string>
+    <string name="pref_switch_appdocksettings_explain_summary">Enable changes to the app dock</string>
+    <string name="pref_switch_autohideappdock_title">Auto hide</string>
+    <string name="pref_switch_autohideappdock_summary">Automatically hide the app dock</string>
+    <string name="pref_switch_folder_title">Enable</string>
+    <string name="pref_switch_folder_summary">Enable changes to folders</string>
+    <string name="pref_folder_background_color">Background color</string>
+    <string name="pref_folder_applabel_color">Icon text color</string>
+    <string name="pref_folder_namelabel_color">Folder name text color</string>
+    <string name="pref_folder_preview_color">Folder preview color</string>
+    
+    <string-array name="gesture_actions_entries">
+        <item>None</item>
+        <item>Notification bar</item>
+        <item>Quick settings</item>
+        <item>App drawer</item>
+        <item>Recent app</item>
+        <item>Android settings</item>
+        <item>Go to sleep</item>
+        <item>Toggle dock</item>
+        <item>Open app</item>
+    </string-array>
+    
+    <string-array name="gesture_actions_entries_limited">
+        <item>None</item>
+        <item>App drawer</item>
+        <item>Toggle dock</item>
+    </string-array>
+    
+    <string name="pref_choose_gesture_action_title">Choose a gesture action</string>
+    <string name="pref_switch_gesture_appdrawer_title">App drawer</string>
+    <string name="pref_switch_gesture_appdrawer_summary">Swipe down - close app drawer\nSwipe up - toggle between all apps and widgets</string>
+    <string name="pref_switch_gesture_double_tap_title">Double tap</string>
+    <string name="pref_switch_gesture_double_tap_summary">except folders and widgets</string>
+    <string name="pref_cat_gesture_down_title">Swipe down gestures</string>
+    <string name="pref_cat_gesture_up_title">Swipe up gestures</string>
+    <string name="pref_gesture_down_left_title">Swipe down left</string>
+    <string name="pref_gesture_down_middle_title">Swipe down middle</string>
+    <string name="pref_gesture_down_right_title">Swipe down right</string>
+    <string name="pref_gesture_up_left_title">Swipe up left</string>
+    <string name="pref_gesture_up_middle_title">Swipe up middle</string>
+    <string name="pref_gesture_up_right_title">Swipe up right</string>
+    <string name="alert_hidedock_summary">Please make sure to set a hide/unhide toggle either in the gestures menu or activate the dynamic home button in SystemUI tweaks. Otherwise you won\'t be able to open the app drawer anymore!</string>
+    <string name="alert_hidewidgets_title">Note</string>
+    <string name="alert_hidewidgets_summary">You can only select widgets in this list. Shortcuts can\'t be hidden at the moment.</string>
+    <string name="pref_limited_title">Limited</string>
+    <string name="pref_limited_summary">Some of the following features are only available in the donate version.</string>
+    
+    <!-- V1.5.2 -->
+    
 </resources>

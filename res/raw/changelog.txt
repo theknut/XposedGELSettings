@@ -1,0 +1,85 @@
+<html>
+  <head>
+    <style type='text/css'>
+      body {background-color:#222222;}
+      a {
+      	color:#5c5cff }
+      div.title    { 
+        color:#33B5E5; 
+        font-size:1.2em; 
+        font-weight:bold; 
+        margin-top:1em; 
+        margin-bottom:0.5em; 
+        text-align:center }
+      div.subtitle { 
+        color:#33B5E5; 
+        font-size:0.8em; 
+        margin-bottom:1em; 
+		text-align:center }
+      div.freetext {
+		color:#FFFFFF;
+		font-weight:bold }
+      div.list {
+      	color:#FFFFFF }
+    </style>
+  </head>
+  <body>
+
+$ 1.5.2
+ % Version 1.5.2
+ _ 2014-04-03
+
+! Fixed:
+* go to sleep and recent app gesture actions now work on "unsupported" ROMs
+* fallback if launcher can't be restarted - needs root (e.g. if Swipeback is installed) 
+
+$ 1.5.1
+ % Version 1.5.1
+ _ 2014-04-02
+
+! Fixed:
+* toggle dock option for non donators
+* SystemUI crashes in some rare cases
+* removed left over logging
+  
+$ 1.5
+ % Version 1.5
+ _ 2014-04-01
+ 
+! Added:
+* <b>Gestures</b>
+* &nbsp;&nbsp;Swipe up left, middle, right
+* &nbsp;&nbsp;Swipe down left, middle, right
+* &nbsp;&nbsp;Swipe down to close app drawer 
+* &nbsp;&nbsp;Swipe up to toggle between all apps and widgets
+* &nbsp;&nbsp;Double tap
+
+* <b>Gesture actions</b>
+* &nbsp;&nbsp; Notification bar
+* &nbsp;&nbsp; Quicksettings panel
+* &nbsp;&nbsp; App drawer
+* &nbsp;&nbsp; Recent app
+* &nbsp;&nbsp; Android settings
+* &nbsp;&nbsp; Go to sleep
+* &nbsp;&nbsp; Unhide dock
+* &nbsp;&nbsp; Launch app
+
+* hide widgets (found under general)
+* set margins on homescreen
+* customizable folders
+* autohide option if dock is hidden
+* change dock color even if it's not hidden
+* option to show power off button on every screen
+* increased choosable grid sizes
+* added Tinted Statusbar support
+* changelog under settings menu
+
+! Fixed:
+* navigation bar action should now work even though the icons may not change because of your ROM/mods
+* search bar is now showing on drag from app drawer (bug introduced with recent GNL update)
+* flashing navigation bar buttons
+* hide clock now also works if no dynamic navigation bar buttons are enabled
+* crash from crash reports
+$ END_OF_CHANGE_LOG
+  </body>
+</html>

@@ -23,6 +23,7 @@ public final class OnDragEnd extends XC_MethodHook {
 		qsb.setAlpha(1f);
 		
 		// hide the search bar
-		GoogleSearchBarHooks.setLayoutParams(Common.LAUNCHER_INSTANCE, 0, 0, 0, 0);
+		Common.IS_DRAGGING = false;
+		GoogleSearchBarHooks.hideSearchbar();
 	}
 }

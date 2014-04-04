@@ -1,17 +1,11 @@
 package de.theknut.xposedgelsettings.ui;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Looper;
-import android.renderscript.Allocation;
-import android.renderscript.RenderScript;
-import android.renderscript.ScriptIntrinsicBlur;
 import android.util.Log;
-import android.widget.Toast;
 
 public class Blur {
 	
@@ -20,11 +14,9 @@ public class Blur {
 			return fastblur(sentBitmap, radius);
 		} catch (RuntimeException re) {
 			Log.w("XGELS", "RuntimeException while blurring the new wallpaper");
-			Toast.makeText(CommonUI.CONTEXT, "XGELS: Out of memory! Couldn't blur your image :(", Toast.LENGTH_LONG).show();
 			return null;
 		} catch (OutOfMemoryError oome) {
 			Log.w("XGELS", "OutOfMemoryError while blurring the new wallpaper");
-			Toast.makeText(CommonUI.CONTEXT, "XGELS: Out of memory! Couldn't blur your image :(", Toast.LENGTH_LONG).show();
 			return null;
 		}
 	}

@@ -3,6 +3,7 @@ package de.theknut.xposedgelsettings.hooks.appdrawer;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import net.margaritov.preference.colorpicker.ColorPickerPreference;
 import android.graphics.Color;
+import android.widget.TextView;
 import de.robv.android.xposed.XC_MethodHook;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 
@@ -17,10 +18,14 @@ public final class ApplyFromApplicationInfoHook extends XC_MethodHook {
 	protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 		
 		if (PreferencesHelper.hideIconLabelApps) {
-			callMethod(param.thisObject, "setTextColor", Color.argb(0, 0, 0, 0));
+			callMethod(param.thisObject, "setTextColor", Color.TRANSPARENT);
 		}
 		else {
 			callMethod(param.thisObject, "setTextColor", newColor);
+
+			if (!PreferencesHelper.appdrawerIconLabelShadow) {
+				((TextView) param.thisObject).getPaint().clearShadowLayer();
+			}
 		}
 	}
 }

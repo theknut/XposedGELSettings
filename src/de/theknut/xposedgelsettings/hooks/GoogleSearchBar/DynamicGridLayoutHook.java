@@ -23,7 +23,7 @@ public final class DynamicGridLayoutHook extends XC_MethodHook {
 	protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 		
 		// hide search bar
-		GoogleSearchBarHooks.setLayoutParams(Common.LAUNCHER_INSTANCE, 0, 0, 0, 0);
+		GoogleSearchBarHooks.hideSearchbar();
 		
 		// save height and with of the search bar
 		Common.SEARCH_BAR_SPACE_HEIGHT = getIntField(Common.DEVICE_PROFILE_INSTANCE, "searchBarHeightPx") + 12; // + 2x padding

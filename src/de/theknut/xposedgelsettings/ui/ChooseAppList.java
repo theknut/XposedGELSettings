@@ -12,15 +12,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewManager;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,9 +30,10 @@ import android.widget.TextView;
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 
-public class AllAppsList extends ListActivity {
+public class ChooseAppList extends ListActivity {
 	
-	public static Set<String> hiddenApps;
+	String gestureKey;
+	Intent intent;
 	
 	@SuppressLint("NewApi")
 	@Override
@@ -40,6 +43,10 @@ public class AllAppsList extends ListActivity {
 		getListView().setCacheColorHint(CommonUI.UIColor);
 		getListView().setBackgroundColor(CommonUI.UIColor);
 		getActionBar().setBackgroundDrawable(new ColorDrawable(CommonUI.UIColor));
+		
+		// retrieve the preference key so that we can save a app linked with the gesture
+		intent = getIntent();
+		gestureKey = intent.getStringExtra("gesture");
 		
 		PackageManager pm = getPackageManager();
 		
@@ -55,29 +62,10 @@ public class AllAppsList extends ListActivity {
 	    setListAdapter(adapter);
 	}
 	
-	@SuppressLint("WorldReadableFiles")
-	@SuppressWarnings("deprecation")
 	@Override
-	protected void onPause() {
-		super.onPause();
-		
-		// save our new list
-		SharedPreferences prefs = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
-		SharedPreferences.Editor editor = prefs.edit();
-		editor.remove("hiddenapps");
-		editor.apply();
-		editor.putStringSet("hiddenapps", hiddenApps);
-		editor.apply();
-	}
-	
-	@SuppressLint("WorldReadableFiles")
-	@SuppressWarnings("deprecation")
-	@Override
-	protected void onResume() {
-		super.onResume();
-		
-		// get our hidden app list
-		hiddenApps = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).getStringSet("hiddenapps", new HashSet<String>());
+	public void onBackPressed() {
+		setResult(RESULT_CANCELED, intent);
+        ChooseAppList.this.finish();
 	}
 	
 	public class AppArrayAdapter extends ArrayAdapter<ResolveInfo> {
@@ -103,31 +91,28 @@ public class AllAppsList extends ListActivity {
 				ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
 				imageView.setImageDrawable(item.loadIcon(pm));
 				
+				CheckBox checkBox = (CheckBox) rowView.findViewById(R.id.checkbox);
+				checkBox.setVisibility(View.GONE);
+				
 				// setup app label to row
 				TextView textView = (TextView) rowView.findViewById(R.id.name);
 				textView.setText(item.loadLabel(pm));
 				
-				// setup checkbox to row
-				CheckBox checkBox = (CheckBox) rowView.findViewById(R.id.checkbox);
-				checkBox.setTag(item.activityInfo.packageName + "#" + item.loadLabel(pm));
-				checkBox.setChecked(hiddenApps.contains(checkBox.getTag()));
-				checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener () {
-
+				rowView.setTag(item.activityInfo.packageName);
+				rowView.setOnClickListener(new OnClickListener() {
+					
 					@Override
-					public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-												
-						if (isChecked) {
-							if (!hiddenApps.contains(buttonView.getTag())) {
-								// app is not in the list, so lets add it
-								hiddenApps.add((String)buttonView.getTag());
-							}
-						}
-						else {
-							if (hiddenApps.contains(buttonView.getTag())) {
-								// app is in the list but the checkbox is no longer checked, we can remove it
-								hiddenApps.remove((String)buttonView.getTag());
-							}
-						}
+					public void onClick(View v) {
+						
+						SharedPreferences prefs = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
+						SharedPreferences.Editor editor = prefs.edit();
+						editor.remove(gestureKey + "_launch");
+						editor.apply();
+						editor.putString(gestureKey + "_launch", (String) v.getTag());
+						editor.apply();
+						
+						setResult(RESULT_OK, intent);
+				        ChooseAppList.this.finish();
 					}
 				});
 				

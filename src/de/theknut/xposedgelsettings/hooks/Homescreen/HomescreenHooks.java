@@ -1,7 +1,10 @@
 package de.theknut.xposedgelsettings.hooks.homescreen;
 
+import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
+import android.graphics.Color;
+import android.view.ViewGroup;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
@@ -30,7 +33,7 @@ public class HomescreenHooks {
 		// modify homescreen grid
 		XposedBridge.hookAllConstructors(DeviceProfileClass, new DeviceProfileConstructorHook());
 		
-		if (PreferencesHelper.iconSettingsSwitchHome) {			
+		if (PreferencesHelper.iconSettingsSwitchHome || PreferencesHelper.homescreenFolderSwitch || PreferencesHelper.appdockSettingsSwitch) {			
 			final Class<?> CellLayoutClass = findClass(Common.CELL_LAYOUT, lpparam.classLoader);
 			// changing the appearence of the icons on the homescreen
 			XposedBridge.hookAllMethods(CellLayoutClass, "addViewToCellLayout", new AddViewToCellLayoutHook());
@@ -53,13 +56,18 @@ public class HomescreenHooks {
 			XposedBridge.hookAllMethods(LauncherClass, "onWorkspaceShown", new OnWorkspaceShownHook());
 		}
 		
-		if (PreferencesHelper.hideAppDock) {
+		if (PreferencesHelper.appdockSettingsSwitch || PreferencesHelper.changeGridSizeHome) {
 			
 			// hide the app dock
 			final Class<?> dp = findClass(Common.DEVICE_PROFILE, lpparam.classLoader);
 			XposedBridge.hookAllMethods(dp, "getWorkspacePadding", new GetWorkspacePaddingHook());
-		}
+			
+			if (PreferencesHelper.appdockSettingsSwitch) {
+				final Class<?> HotseatClass = findClass(Common.LAUNCHER3 + "Hotseat", lpparam.classLoader);
+				XposedBridge.hookAllConstructors(HotseatClass, new HotseatConstructorHook());
+			}
+		}		
 		
-		SystemUIHooks.initAllHooks(lpparam);	
+		SystemUIHooks.initAllHooks(lpparam);
 	}
 }

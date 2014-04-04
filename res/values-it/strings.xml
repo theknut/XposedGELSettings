@@ -45,7 +45,7 @@
     <string name="pref_icontextsize_summary">Seleziona una percentuale</string>
     <string name="pref_icontextcolor_homescreen_title">Colore testo home</string>
     <string name="pref_icontextcolor_appdrawer_title">Colore app drawer</string>
-    <string name="pref_appdockiconsize_title">Gran della icone</string>
+    <string name="pref_appdockiconsize_title">Grandezza icone dock</string>
     <string name="pref_appdockiconsize_summary">Selezione una percentuale</string>
     <string name="pref_cat_title_app_drawer">App drawer</string>
     <string name="pref_appdock_count_title">Distanza icone</string>

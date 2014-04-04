@@ -52,7 +52,7 @@ public class OverScrollAppDrawerHook extends XC_MethodHook {
 			callMethod(getObjectField(param.thisObject, "mLauncher"), "showWorkspace", true);			
 			
 			if (PreferencesHelper.hideSearchBar) {
-				GoogleSearchBarHooks.setLayoutParams(getObjectField(param.thisObject, "mLauncher"), 0, 0, 0, 0);
+				GoogleSearchBarHooks.hideSearchbar();
 			}
 		}
 	}

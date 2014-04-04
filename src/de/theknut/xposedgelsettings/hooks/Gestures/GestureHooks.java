@@ -8,15 +8,24 @@ import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setIntField;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import net.margaritov.preference.colorpicker.ColorPickerPreference;
 
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.ActivityManager.RecentTaskInfo;
+import android.app.ActivityManager.RunningAppProcessInfo;
+import android.app.ActivityManager.RunningTaskInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.gesture.Gesture;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.view.Display;
@@ -24,36 +33,35 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
 import android.view.WindowManager;
+import android.widget.Toast;
 import android.widget.FrameLayout.LayoutParams;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
+import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.googlesearchbar.GoogleSearchBarHooks;
 
-public class GestureHooks extends HooksBaseClass {
+public class GestureHooks extends GestureHelper {
 	
-	static WindowManager wm;
-	static Display display;
-	static Point size;
-	static int width;
-	static int height;
-	static int animateDuration = 300;
-	static boolean isLandscape;
-	static boolean isAnimating;
-	static boolean unhideAppdockOnSwipeUP = PreferencesHelper.hideAppDock && PreferencesHelper.gestureSwipeUp_AppDock;
-	static ViewPropertyAnimator hideAnimation;
-	static ViewPropertyAnimator showAnimation;
+	static boolean autoHideAppDock = PreferencesHelper.hideAppDock && PreferencesHelper.autoHideAppDock;
+	static ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
+	static ScheduledFuture<?> delayedTask = null;
+	static long lastTouchTime = 0;
+	static long currTouchTime = 0;
+	static Object lastTouchView = null;
+	static Object instance = null;
+	static boolean isScheduledOrRunning = false;
 	
 	public static void initAllHooks(LoadPackageParam lpparam) {
 		
 		final Class<?> WorkspaceClass = findClass(Common.WORKSPACE, lpparam.classLoader);
 		
-		if (unhideAppdockOnSwipeUP) {
+		if (PreferencesHelper.appdockSettingsSwitch && autoHideAppDock) {
 			final Class<?> LauncherClass = findClass(Common.LAUNCHER, lpparam.classLoader);
 			
 			XposedBridge.hookAllMethods(LauncherClass, "showHotseat", new XC_MethodHook() {
@@ -69,13 +77,19 @@ public class GestureHooks extends HooksBaseClass {
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 					hideAppdock(0);
 				}
-			});		
+			});
 		
 			XposedBridge.hookAllMethods(WorkspaceClass, "onWindowVisibilityChanged", new XC_MethodHook() {
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 					if (!Common.APPDOCK_HIDDEN) {
-						hideAppdock(200);
+						
+						if (autoHideAppDock) {
+							hideAppdock(200);
+						} else {
+							hideAppdock(0);
+							showAppdock(0);
+						}
 					}
 				}
 			});
@@ -84,39 +98,32 @@ public class GestureHooks extends HooksBaseClass {
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 					if (!Common.APPDOCK_HIDDEN) {
-						hideAppdock(200);
+						if (autoHideAppDock) {
+							hideAppdock(200);
+						} else {
+							hideAppdock(0);
+							showAppdock(0);
+						}
 					}
 				}
 			});
 		}
 		
-		if (PreferencesHelper.gestureSwipeDownLeft || PreferencesHelper.gestureSwipeDownRight || PreferencesHelper.hideAppDock || PreferencesHelper.gestureSwipeUp_AppDrawer || PreferencesHelper.gestureSwipeUp_AppDock) {
+		if (true) {
 			XposedBridge.hookAllMethods(WorkspaceClass, "onInterceptTouchEvent", new XC_MethodHook() {
 				
 				boolean gnow = true;
-				float downY, downX;
-				
-				void init() throws IOException {
-					wm = (WindowManager) Common.LAUNCHER_CONTEXT.getSystemService(Context.WINDOW_SERVICE);
-					display = wm.getDefaultDisplay();
-					size = new Point();
-					display.getSize(size);
-					width = size.x;
-					height = size.y;
-					
-//					if (Common.NOW_OVERLAY_INSTANCE != null && Common.GEL_INSTANCE != null) {
-//						gnow = getBooleanField(Common.GEL_INSTANCE, "mNowEnabled");
-//					}
-					
-					gnow = (Boolean) callMethod(Common.LAUNCHER_INSTANCE, "hasCustomContentToLeft");
-				}			
+				float downY = 0, downX = 0;
 				
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-					if (wm == null) init();
+					if (wm == null) {
+						init();
+						gnow = (Boolean) callMethod(Common.LAUNCHER_INSTANCE, "hasCustomContentToLeft");
+					}
 					
 					final int currentPage = getIntField(Common.WORKSPACE_INSTANCE, "mCurrentPage");					
-					if (currentPage == 0 && gnow) return;
+					if (currentPage == 0 && gnow) return;					
 					
 					MotionEvent ev = (MotionEvent) param.args[0];
 					
@@ -124,9 +131,10 @@ public class GestureHooks extends HooksBaseClass {
 					switch (rotation) {
 						case Configuration.ORIENTATION_PORTRAIT:
 							if (isLandscape) {
-								if (unhideAppdockOnSwipeUP) { 
+								if (autoHideAppDock) { 
 									hideAppdock(0);
 								}
+								
 								init();
 							}
 							
@@ -134,9 +142,10 @@ public class GestureHooks extends HooksBaseClass {
 							break;
 						case Configuration.ORIENTATION_LANDSCAPE:
 							if (!isLandscape) {
-								if (unhideAppdockOnSwipeUP) { 
+								if (autoHideAppDock) { 
 									hideAppdock(0);
 								}
+								
 								init();
 							}
 							
@@ -150,80 +159,47 @@ public class GestureHooks extends HooksBaseClass {
 							downY = ev.getRawY();
 							downX = ev.getRawX();
 							
-							if (!isAppdockHidden() && PreferencesHelper.hideAppDock) {
+							if (autoHideAppDock) {
 								hideAppdock(animateDuration);
 							}
 							
 							break;
 						case MotionEvent.ACTION_UP:
-							float upY = ev.getRawY();
-							if (!isAnimating && unhideAppdockOnSwipeUP && !Common.APPDOCK_HIDDEN
-									&& upY > downY && (upY - downY) > 100 && (upY >= (height - ((float) height / 3.0)))) {
-								((Activity)Common.LAUNCHER_INSTANCE).runOnUiThread(new Runnable() {
-								     @Override
-								     public void run() {
-								    	 hideAppdock(animateDuration);
-								     }
-								    });
+							
+							switch (identifyGesture(ev.getRawX(), ev.getRawY(), downX, downY)) {
+								case DOWN_LEFT:
+									handleGesture(getGestureKey(Gestures.DOWN_LEFT), PreferencesHelper.gesture_one_down_left);
+									break;
+								case DOWN_MIDDLE:
+									handleGesture(getGestureKey(Gestures.DOWN_MIDDLE), PreferencesHelper.gesture_one_down_middle);
+									break;
+								case DOWN_RIGHT:
+									handleGesture(getGestureKey(Gestures.DOWN_RIGHT), PreferencesHelper.gesture_one_down_right);
+									break;
+								case UP_LEFT:
+									handleGesture(getGestureKey(Gestures.UP_LEFT), PreferencesHelper.gesture_one_up_left);
+									break;
+								case UP_MIDDLE:
+									handleGesture(getGestureKey(Gestures.UP_MIDDLE), PreferencesHelper.gesture_one_up_middle);
+									break;
+								case UP_RIGHT:
+									handleGesture(getGestureKey(Gestures.UP_RIGHT), PreferencesHelper.gesture_one_up_right);
+									break;
+								default:
+									break;
 							}
-							else if (!isAnimating && unhideAppdockOnSwipeUP && Common.APPDOCK_HIDDEN
-									&& downY > upY && (downY - upY) > 100 && (downY >= (height - ((float) height / 2.0)))) {
-								
-								((Activity)Common.LAUNCHER_INSTANCE).runOnUiThread(new Runnable() {
-								     @Override
-								     public void run() {
-								    	 showAppdock(animateDuration);
-								     }
-								    });
-							}
-							else if ((PreferencesHelper.gestureSwipeUp_AppDrawer)
-									&& downY > upY && (downY - upY) > 100) {
-								
-								((Activity)Common.LAUNCHER_INSTANCE).runOnUiThread(new Runnable() {
-								     @Override
-								     public void run() {
-								    	 callMethod(Common.LAUNCHER_INSTANCE, "showAllApps", true, Common.CONTENT_TYPE, true);
-								    	 
-								    	 if (currentPage == (PreferencesHelper.defaultHomescreen - 1)) {
-								    		 Intent myIntent = new Intent();								    	 
-											 myIntent.putExtra(Common.XGELS_ACTION, "HOME_ORIG");						
-											 myIntent.setAction(Common.XGELS_INTENT);
-											 Common.LAUNCHER_CONTEXT.sendBroadcast(myIntent);
-								    	 }
-								     }
-								    });
-							}
-							else if ((upY - downY) > 100.0 && Common.APPDOCK_HIDDEN
-									|| (upY - downY) > 50.0 && (downY <= (height - (height / 2.0))) && !Common.APPDOCK_HIDDEN) {
-								
-								if (downX <= (width/2) && ev.getRawX() <= (width/2) && PreferencesHelper.gestureSwipeDownLeft
-									|| PreferencesHelper.gestureSwipeDownLeft && !PreferencesHelper.gestureSwipeDownRight) {
-									
-									Intent myIntent = new Intent();
-									myIntent.putExtra("XGELSACTION", "NOTIFICATION_BAR");
-									myIntent.setAction(Common.PACKAGE_NAME + ".Intent");
-									Common.LAUNCHER_CONTEXT.sendBroadcast(myIntent);
-								}
-								if (downX > (width/2) && ev.getRawX() > (width/2)  && PreferencesHelper.gestureSwipeDownRight
-									|| PreferencesHelper.gestureSwipeDownRight && !PreferencesHelper.gestureSwipeDownLeft) {
-									
-									Intent myIntent = new Intent();
-									myIntent.putExtra("XGELSACTION", "SETTINGS_BAR");
-									myIntent.setAction(Common.PACKAGE_NAME + ".Intent");
-									Common.LAUNCHER_CONTEXT.sendBroadcast(myIntent);
-								}
-							}
+							
 							break;
 						case MotionEvent.ACTION_MOVE:
 							break;
 						default:
 							break;
 					}
-				}			
+				}
 			});
 		}
 		
-		if (PreferencesHelper.gestureSwipeDown_CloseAppDrawer) {
+		if (PreferencesHelper.gesture_appdrawer) {
 			XC_MethodHook gestureHook = new XC_MethodHook() {
 				
 				void init() throws IOException {
@@ -283,7 +259,26 @@ public class GestureHooks extends HooksBaseClass {
 							log("UP: " + ev.getRawY());
 							isDown = false;
 							if ((ev.getRawY() - downY) > (height / 6)) {
+								
 								callMethod(getObjectField(param.thisObject, "mLauncher"), "showWorkspace", true);
+								
+							} else if ((ev.getRawY() - downY) < -(height / 6)) {
+								
+								Object tabhost = getObjectField(Common.LAUNCHER_INSTANCE, "mAppsCustomizeTabHost");
+								
+								if (!getBooleanField(tabhost, "mInTransition")) {
+								
+									String tabtag = (String) callMethod(tabhost, "getCurrentTabTag");
+									if (tabtag.equals("APPS")) {
+										callMethod(getObjectField(param.thisObject, "mLauncher"), "showWorkspace", false);
+										Object ContentType = callMethod(tabhost, "getContentTypeForTabTag", "WIDGETS");
+										callMethod(Common.LAUNCHER_INSTANCE, "showAllApps", true, ContentType, true);
+									} else if (tabtag.equals("WIDGETS")) {
+										callMethod(getObjectField(param.thisObject, "mLauncher"), "showWorkspace", false);
+										Object ContentType = callMethod(tabhost, "getContentTypeForTabTag", "APPS");
+										callMethod(Common.LAUNCHER_INSTANCE, "showAllApps", true, ContentType, true);
+									}
+								}
 							}
 							
 							break;
@@ -304,100 +299,58 @@ public class GestureHooks extends HooksBaseClass {
 				XposedBridge.hookAllMethods(PagedViewWithDraggableItemsClass, "onInterceptTouchEvent", gestureHook);
 			}
 		}
-	}
-	
-	private static void showAppdock(int duration) {
-		if (Common.LAUNCHER_INSTANCE == null) return;
 		
-		final View mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, "mHotseat");
-		final LayoutParams lp = (LayoutParams) mHotseat.getLayoutParams();
-		
-		if (isLandscape) {
-			lp.width = Common.HOTSEAT_BAR_HEIGHT;
-			lp.height = LayoutParams.MATCH_PARENT;
-		}
-		else {
-			lp.width = LayoutParams.MATCH_PARENT;
-			lp.height = Common.HOTSEAT_BAR_HEIGHT;
-		}
-	
-		showAnimation = mHotseat.animate();
-		showAnimation.setListener(new AnimatorListener() {						
-			@Override
-			public void onAnimationEnd(Animator animation) {
-				Common.APPDOCK_HIDDEN = false;
-				isAnimating = false;
-			}
-
-			@Override
-			public void onAnimationCancel(Animator animation) {
-				isAnimating = false;
-			}
-
-			@Override
-			public void onAnimationRepeat(Animator animation) {}
-
-			@Override
-			public void onAnimationStart(Animator animation) {
-				
-				mHotseat.setLayoutParams(lp);
-				mHotseat.setBackgroundColor(Color.parseColor(ColorPickerPreference.convertToARGB(PreferencesHelper.appDockBackgroundColor)));
-				mHotseat.setVisibility(View.VISIBLE);
-				isAnimating = true;
-			}
-		});
-		showAnimation.alpha(1f).setDuration(duration).start();				
-	}
-	
-	private static boolean isAppdockHidden() {
-		return Common.APPDOCK_HIDDEN;
-	}
-	
-	private static void hideAppdock(int duration) {
-		if (Common.LAUNCHER_INSTANCE == null) return;
-		
-		final View mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, "mHotseat");
-		
-		if (duration != 0) {
+		if (!PreferencesHelper.gesture_double_tap.equals("NONE")) {
 			
-			hideAnimation = mHotseat.animate();
-			hideAnimation.setListener(new AnimatorListener() {						
-				@Override
-				public void onAnimationEnd(Animator animation) {
-					hide();
-				}
-
-				@Override
-				public void onAnimationCancel(Animator animation) {
-					hide();
-				}
-
-				@Override
-				public void onAnimationRepeat(Animator animation) {}
-
-				@Override
-				public void onAnimationStart(Animator animation) {
-					isAnimating = true;
-				}
+			final Class<?> LauncherClass = findClass(Common.LAUNCHER, lpparam.classLoader);			
+			XposedBridge.hookAllMethods(LauncherClass, "onClick", new XC_MethodHook() {
 				
-				public void hide() {
-					mHotseat.setVisibility(View.GONE);
-					Common.APPDOCK_HIDDEN = true;
-					isAnimating = false;
+				Runnable r = new Runnable() {
 					
-					LayoutParams lp = (LayoutParams) mHotseat.getLayoutParams();
-					lp.width = 0;
-					lp.height = 0;				
+					@Override
+					public void run() {
+						log(currTouchTime + " " + lastTouchTime + " " + (currTouchTime == lastTouchTime) + " " + (currTouchTime - lastTouchTime));
+						if (currTouchTime == lastTouchTime) {
+							callMethod(Common.LAUNCHER_INSTANCE, "onClick", lastTouchView);						
+						} else if ((currTouchTime - lastTouchTime) < 400) {
+							
+							handleGesture(getGestureKey(Gestures.DOUBLE_TAP), PreferencesHelper.gesture_double_tap);
+						}
+					}
+				};
+				
+				@Override
+				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+					currTouchTime = System.currentTimeMillis();
 					
-					mHotseat.setLayoutParams(lp);
+					View view = (View) param.args[0];
+					Object tag = view.getTag();
+					if (tag != null && !tag.getClass().getName().contains("FolderInfo")) {
+						
+						if (isScheduledOrRunning) {
+							isScheduledOrRunning = false;
+							
+							log("isScheduledOrRunning");
+							if (delayedTask.getDelay(TimeUnit.MILLISECONDS) > 0) {
+								log("niet");
+								param.setResult(null);
+							}
+						} else {
+							log("else");
+							if (executor.getQueue().size() == 0) {
+								log("schedule");
+								lastTouchTime = currTouchTime;
+								lastTouchView = view;
+								
+								delayedTask = executor.schedule(r, 400, TimeUnit.MILLISECONDS);
+								isScheduledOrRunning = true;
+								
+								param.setResult(null);
+							}						
+						}
+					}
 				}
 			});
-			
-			hideAnimation.alpha(0f).setDuration(duration).start();
-		}
-		else {
-			mHotseat.setVisibility(View.GONE);
-			Common.APPDOCK_HIDDEN = true;
 		}
 	}
 }

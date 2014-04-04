@@ -1,7 +1,12 @@
 package de.theknut.xposedgelsettings.ui;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +32,27 @@ public class FragmentGeneral extends FragmentBase {
         this.findPreference("lockhomescreen").setOnPreferenceChangeListener(onChangeListenerLauncherReboot);
         this.findPreference("continuousscroll").setOnPreferenceChangeListener(onChangeListenerLauncherReboot);
         this.findPreference("continuousscrollwithappdrawer").setOnPreferenceChangeListener(onChangeListenerLauncherReboot);
+        
+        this.findPreference("hidewidgets").setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				
+				new AlertDialog.Builder(CommonUI.CONTEXT)
+				.setCancelable(false)
+			    .setTitle(R.string.alert_hidewidgets_title)
+			    .setMessage(R.string.alert_hidewidgets_summary)
+			    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+			        public void onClick(DialogInterface dialog, int which) {
+			        	Intent intent = new Intent(getActivity(), AllWidgetsList.class);
+			        	CommonUI.CONTEXT.startActivity(intent);
+			        	dialog.dismiss();
+			        }
+		        }).show();
+				
+				return true;
+			}
+		});
         
         rootView = CommonUI.setBackground(rootView, R.id.prefbackground);
         

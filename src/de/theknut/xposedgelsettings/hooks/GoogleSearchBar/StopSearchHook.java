@@ -12,6 +12,6 @@ public class StopSearchHook extends XC_MethodHook {
 		}
 		
 		// hide the search bar on stop search
-		GoogleSearchBarHooks.setLayoutParams(Common.LAUNCHER_INSTANCE, 0, 0, 0, 0);
+		GoogleSearchBarHooks.hideSearchbar();
 	}
 }

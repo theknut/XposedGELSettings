@@ -11,6 +11,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import de.theknut.xposedgelsettings.hooks.appdrawer.AllAppsListAddHook;
 
 public class GeneralHooks extends XC_MethodHook {
 	
@@ -55,5 +56,9 @@ public class GeneralHooks extends XC_MethodHook {
 			final Class<?> AppCustomizePagedViewClass = findClass(Common.APPS_CUSTOMIZE_PAGED_VIEW, lpparam.classLoader);
 			XposedBridge.hookAllMethods(AppCustomizePagedViewClass, "beginDraggingApplication", new BeginnDragHook());
 		}
+		
+		// hiding widgets
+		final Class<?> AppsCustomizePagedViewClass = findClass(Common.APPS_CUSTOMIZE_PAGED_VIEW, lpparam.classLoader);		
+		XposedBridge.hookAllMethods(AppsCustomizePagedViewClass, "onPackagesUpdated", new OnPackagesUpdatedHook());
 	}
 }

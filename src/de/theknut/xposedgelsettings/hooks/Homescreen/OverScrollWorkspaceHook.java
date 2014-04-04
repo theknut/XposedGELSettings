@@ -3,6 +3,7 @@ package de.theknut.xposedgelsettings.hooks.homescreen;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.getBooleanField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
+
 import de.robv.android.xposed.XC_MethodHook;
 
 import de.theknut.xposedgelsettings.hooks.Common;
@@ -13,8 +14,7 @@ public class OverScrollWorkspaceHook extends XC_MethodHook {
 	// http://androidxref.com/4.4.2_r1/xref/packages/apps/Launcher3/src/com/android/launcher3/Workspace.java#1536
 	// overScroll(float amount)
 	
-	enum State { NORMAL, SPRING_LOADED, SMALL, OVERVIEW};
-	
+	boolean boom = false;
 	@Override
 	protected void beforeHookedMethod(MethodHookParam param) throws Throwable
 	{
@@ -23,6 +23,7 @@ public class OverScrollWorkspaceHook extends XC_MethodHook {
 		
 		if(overscroll > 50.0 && isPageMoving) {
 			if (PreferencesHelper.continuousScrollWithAppDrawer) {
+				
 				callMethod(getObjectField(param.thisObject, "mLauncher"), "showAllApps", true, Common.CONTENT_TYPE, true);
 				Common.OVERSCROLLED = true;
 			}

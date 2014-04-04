@@ -1,31 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">XGELS</string>
+    <string name="app_name">Xposed GEL Settings</string>
+    <string name="app_description">Ocultar barra de pesquisa Google, esconder aplicativos do lançador, tamanho da grade mudança de homescreen e tela aplicativos, mudar o tamanho do ícone, o tamanho do texto da mudança, app mudança contagem doca, remover rótulos de ícones e muito mais para vir</string>
     <string name="pref_hide_google_search_bar_title">Ocultar</string>
-    <string name="pref_autohide_google_search_bar_title">Auto ocultar</string>
+    <string name="pref_autohide_google_search_bar_title">Auto Ocultar</string>
     <string name="pref_autohide_google_search_bar_summary">Mostrar automaticamente na página Google Now</string>
     <string name="pref_hide_icon_label_on_homescreen_title">Ocultar títulos de ícones</string>
     <string name="pref_hide_icon_label_on_app_drawer_title">Ocultar títulos de ícones</string>
-    <string name="toast_reboot">Por favor reinicie o aplicativo para que essas mudanças sejam efetivadas!</string>
+    <string name="toast_reboot">Por favor, reinicie o aplicativo para que essas alterações entrem em vigor!</string>
     <string name="toast_reboot_failed_nothing_msg">nenhuma</string>
-    <string name="toast_reboot_failed">Por favor reinicie o dispositivo manualmente!</string>
+    <string name="toast_reboot_failed">Por favor, reinicie o seu dispositivo manualmente!</string>
     <string name="toast_export">Exportado com sucesso!</string>
     <string name="toast_import">Importado com sucesso!</string>
     <string name="toast_reset">Configurações definidas com sucesso!</string>
     <string name="toast_export_failed">Não foi possível aplicar as alterações!</string>
     <string name="toast_import_failed">Não foi possível aplicar as alterações!</string>
     <string name="toast_reset_failed">Não foi possível aplicar as alterações!</string>
-    <string name="pref_cat_title_icon_labels">Visibilidade dos títulos de ícones</string>
-    <string name="pref_cat_title_searchbar">Barra de pesquisa Google</string>
+    <string name="pref_cat_title_icon_labels">visibilidade dos títulos de ícones</string>
+    <string name="pref_cat_title_searchbar">Barra de pesquisa do Google</string>
     <string name="pref_cat_title_general">Geral</string>
     <string name="pref_cat_title_hide_apps">Ocultar aplicativos</string>
-<<<<<<< HEAD
-    <string name="pref_grid_size_explain_title">Atenção!</string>
-    <string name="pref_grid_size_explain_summary">"Alterar o tamanho da grade ocorrerá alterações nos ícones. Se você diminuir o tamanho alguns ícones podem ser perdidos."</string>
-=======
-    <string name="pref_grid_size_explain_title">Nota</string>
+    <string name="pref_grid_size_explain_title">Atenção</string>
     <string name="pref_grid_size_explain_summary">Alterar o tamanho da grade ocorrerá alterações nos ícones. Se você diminuir o tamanho alguns ícones podem ser perdidos.</string>
->>>>>>> Update to V1.4.1
     <string name="pref_switch_enable_grid_size_title">Habilitar</string>
     <string name="pref_switch_enable_grid_size_summary">Ativar mudanças para o tamanho da grade</string>
     <string name="pref_resize_all_widgets_title">Redimensionar widgets</string>
@@ -39,11 +35,7 @@
     <string name="pref_ycountallapps_title">Linhas da Tela Aplicativos</string>
     <string name="pref_ycountallapps_summary">Altere os aplicativos o número de linhas</string>
     <string name="pref_cat_title_homescreen">Tela Inicial</string>
-<<<<<<< HEAD
-    <string name="pref_title_longpress_app_drawer_button">Todos aplicativos</string>
-=======
-    <string name="pref_title_longpress_app_drawer_button">Botão aplicativos</string>
->>>>>>> Update to V1.4.1
+    <string name="pref_title_longpress_app_drawer_button">Botão aplicativos geral</string>
     <string name="pref_summary_longpress_app_drawer_button">XGELS abrir na pressionada longa</string>
     <string name="pref_cat_title_appicons">Configurações de ícone</string>
     <string name="pref_switch_appicons_title">Habilitar</string>
@@ -54,40 +46,25 @@
     <string name="pref_icontextsize_summary">Selecione uma porcentagem</string>
     <string name="pref_icontextcolor_homescreen_title">Cor do título Tela Inicial</string>
     <string name="pref_icontextcolor_appdrawer_title">Cor da Tela Aplicativos</string>
-<<<<<<< HEAD
-    <string name="pref_hotseaticonsize_title">Tamanho dos ícones, Barra Inicial</string>
-    <string name="pref_hotseaticonsize_summary">Selecione uma porcentagem</string>
-    <string name="pref_cat_title_app_drawer">Tela Aplicativos</string>
-    <string name="pref_hotseatcount_title">Total de ícones na Barra Inicial</string>
-    <string name="pref_hotseatcount_summary">Altere a contagem ícones na Barra Inicial</string>
-    <string name="pref_selectappstohide_summary">Selecione os aplicativos para ocultar</string>
-=======
     <string name="pref_appdockiconsize_title">Tamanho dos ícones na Barra Inicial</string>
     <string name="pref_appdockiconsize_summary">Selecione uma porcentagem</string>
     <string name="pref_cat_title_app_drawer">Tela Aplicativos</string>
     <string name="pref_appdock_count_title">Total de ícones na Barra Inicial</string>
     <string name="pref_appdock_count_summary">Altere a contagem ícones na Barra Inicial</string>
     <string name="pref_selectappstohide_summary">Ocultar aplicativos</string>
->>>>>>> Update to V1.4.1
-    <string name="pref_cat_title_restart_launcher">Reiniciar aplicativo</string>
-    <string name="pref_restart_launcher_summary">Clique aqui para reiniciar o aplicativo e carregá-lo com as suas configurações.</string>
+    <string name="pref_cat_title_restart_launcher">Reiniciar dispositivo</string>
+    <string name="pref_restart_launcher_summary">Clique aqui para reiniciar o dispositivo e carregá-lo com as suas configurações.</string>
     <string name="pref_donate_title">Gosta deste módulo? - Doe!</string>
     <string name="pref_donate_summary">XGELS é gratuito e sempre será. No entanto, se você gosta e quer apoiar. Clique aqui!</string>
     <string name="pref_support_thread_title">Precisa de ajuda?</string>
     <string name="pref_support_thread_summary">Se você precisar de ajuda ou tem algum feedback por favor clique aqui.</string>
     <string name="pref_cat_eximport_settings">Configurações de Importação / Exportação</string>
     <string name="pref_settings_import_title">Importação</string>
-<<<<<<< HEAD
-    <string name="pref_settings_import_summary">Importe suas configurações de\n/ sdcard/XposedGELSettings</string>
-    <string name="pref_settings_export_title">Exportação</string>
-    <string name="pref_settings_export_summary">Exporte suas configurações para \n/ sdcard/XposedGELSettings</string>
-=======
     <string name="pref_settings_import_summary">"Importe suas configurações de
 /sdcard/XposedGELSettings"</string>
     <string name="pref_settings_export_title">Exportação</string>
     <string name="pref_settings_export_summary">"Exporte suas configurações para
 /sdcard/XposedGELSettings"</string>
->>>>>>> Update to V1.4.1
     <string name="pref_settings_reset_title">Restaurar</string>
     <string name="pref_settings_reset_summary">Restaurar configurações</string>
     <string name="pref_pageindicator_title">Indicador de página</string>
@@ -95,12 +72,8 @@
     <string name="pref_default_homescreen_title">Tela Inicial padrão</string>
     <string name="pref_default_homescreen_summary">Selecione a Tela Inicial padrão</string>
     <string name="pref_enable_rotation_title">Rotação</string>
-<<<<<<< HEAD
-    <string name="pref_enable_rotation_summary">Ativar rotação\n(Requer uma reinicialização completa)</string>
-=======
     <string name="pref_enable_rotation_summary">"Ativar rotação
 (Requer uma reinicialização completa)"</string>
->>>>>>> Update to V1.4.1
     <string name="pref_icon_label_color">Cor do título</string>
     <string name="pref_switch_icon_shadow_title">Título com sombra</string>
     <string name="pref_app_drawer_background_color_title">Cor de fundo</string>
@@ -110,20 +83,9 @@
     <string name="restart_launcher_icon_title">Reiniciar</string>
     <string name="pref_disable_wallpaper_scroll_title">Rolagem papel de parede</string>
     <string name="pref_disable_wallpaper_scroll_summary">Desativar rolagem papel de parede</string>
-<<<<<<< HEAD
     <!-- V1.3 -->
-    <string name="toast_desktop_locked">ALERTA: área de trabalho bloqueada!</string>
-    <string name="toast_fail">Por favor, veja o logcat!</string>
-    <string name="pref_switch_hidehotseat_title">Ocultar ícones da Barra Inicial</string>
-    <string name="pref_switch_hidehotseat_summary">Passe para mostrar novamente</string>
-    <string name="pref_lock_desktop_title">Bloquear área de trabalho</string>
-    <string name="pref_lock_desktop_summary">Evitar arrastar acidental os ícones e widgets, bloqueando a área de trabalho</string>
-    <string name="pref_continuous_scroll_title">Rolagem contínua</string>
-    <string name="pref_continuous_scroll_summary">Rolagem para a primeira página \n (Experimental)</string>
-=======
-	<!-- V1.3 -->
     <string name="toast_desktop_locked">ALERTA: Tela Inicial bloqueada!</string>
-    <string name="toast_fail">Por favor, veja o logcat!</string>
+    <string name="toast_fail">Não foi possível aplicar as alterações!\nPor favor, veja o log!</string>
     <string name="pref_switch_appdock_title">Ocultar ícones da Barra Inicial</string>
     <string name="pref_switch_appdock_summary">Passe para mostrar novamente</string>
     <string name="pref_lock_desktop_title">Bloquear tela inicial</string>
@@ -131,22 +93,10 @@
     <string name="pref_continuous_scroll_title">Rolagem contínua</string>
     <string name="pref_continuous_scroll_summary">"Rolagem para a primeira página
 (Experimental)"</string>
->>>>>>> Update to V1.4.1
     <string name="pref_continuous_scroll_with_app_drawer_title">Incluir na Tela Aplicativos</string>
     <string name="pref_continuous_scroll_with_app_drawer_summary">Inclui na Tela Aplicativos rolagem contínua</string>
     <string name="pref_switch_close_app_drawer_after_app_started_title">Fechar Tela Aplicativos</string>
     <string name="pref_switch_close_app_drawer_after_app_started_summary">Feche a Tela Aplicativos após acionado</string>
-<<<<<<< HEAD
-    <string name="pref_hotseat_background_color_title">Cor de fundo da Barra Inicial</string>
-    <string name="pref_hotseat_background_color_summary">Escolha a cor da sobreposição da Barra Inicial</string>
-    <string name="pref_cat_gestures">Gestos</string>
-    <string name="pref_switch_gesture_swipe_down_left_title">Deslize esquerda</string>
-    <string name="pref_switch_gesture_swipe_down_left_summary">Abre o painel de notificação</string>
-    <string name="pref_switch_gesture_swipe_down_right_title">Deslize para a direita</string>
-    <string name="pref_switch_gesture_swipe_down_right_summary">Abre o painel de configurações</string>
-    <string name="pref_switch_gesture_swipe_up_hotseat_title">Barra Inicial</string>
-    <string name="pref_switch_gesture_swipe_up_hotseat_summary">Exibir - deslizar para cima / Ocultar - deslizar para baixo</string>
-=======
     <string name="pref_appdock_background_color_title">Cor de fundo da Barra Inicial</string>
     <string name="pref_appdock_background_color_summary">Escolha a cor da sobreposição da Barra Inicial</string>
     <string name="pref_cat_gestures">Gestos</string>
@@ -156,17 +106,27 @@
     <string name="pref_switch_gesture_swipe_down_right_summary">Abre o painel de configurações</string>
     <string name="pref_switch_gesture_swipe_up_appdock_title">Barra Inicial</string>
     <string name="pref_switch_gesture_swipe_up_appdock_summary">Exibir - deslizar para cima / Ocultar - deslizar para baixo</string>
->>>>>>> Update to V1.4.1
     <string name="pref_switch_gesture_swipe_up_app_drawer_title">Tela Aplicativos</string>
     <string name="pref_switch_gesture_swipe_up_app_drawer_summary">Abre a Tela Aplicativos ao deslizar para cima</string>
     <string name="pref_gestures_note_title">Nota</string>
     <string name="pref_gestures_note_summary">Gestos precisa de 1 ou 2 minutos após a reinicialização para iniciar</string>
-<<<<<<< HEAD
-</resources>
-=======
     <!-- V1.4 -->
-	<string name="pref_switch_no_all_apps_button_title">Botão Tela Aplicativos</string>
+    <string name="pref_switch_no_all_apps_button_title">Botão Tela Aplicativos</string>
     <string name="pref_switch_no_all_apps_button_summary">Ocultar o botão tela aplicativos. Por favor, remova o ícone da tela aplicativos se você desativar essa opção!</string>
+    
+    <string-array name="fragmenttitles_array">
+        <item>Bem-Vindo</item>
+        <item>Geral</item>
+        <item>Barra de pesquisa</item>
+        <item>Tela Inicial</item>
+        <item>Tela Aplicativos</item>
+        <item>Gstos</item>
+        <item>Sistema UI</item>
+        <item>Importação/Exportação</item>
+        <item>Configurações</item>
+        <item>Suporte/Doe!</item>
+    </string-array>
+    
     <string name="drawer_open">Abrir botão Tela Aplicativos</string>
     <string name="drawer_close">Fechar botão Tela Aplicativo</string>
     <string name="pref_systemui_explain_title">Nota</string>
@@ -220,17 +180,4 @@
     <string name="pref_auto_blur_wallpaper_summary">Desfocar o papel de parede do dispositivo cada vez que fica alterado e usá-lo como XGELS fundo. Pode drenar bateria se usar aplicativos que mudaram o wallpaper dentro determinados intervalos.</string>
 	<string name="pref_dynamic_backbuttononeveryscreen_title">Dormir em todas as telas</string>
     <string name="pref_dynamic_backbuttononeveryscreen_summary">Vai dormir em cada tela inicial. Se esta opção não estiver marcada, ela só vai dormir na sua tela inicial padrão.</string>
-    <string-array name="fragmenttitles_array">
-		<item>XGELS</item>
-        <item>Geral</item>
-        <item>Barra de Pesquisa</item>
-        <item>Tela Inicial</item>
-        <item>Tela Aplicativos</item>
-        <item>Gestos</item>
-        <item>Ajustes Sistema UI</item>
-        <item>Importação/Exportação</item>
-        <item>Configuração</item>
-        <item>Suporte</item>
-    </string-array>
-</resources>	
->>>>>>> Update to V1.4.1
+</resources>

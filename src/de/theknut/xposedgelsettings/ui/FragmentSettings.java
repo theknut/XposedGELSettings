@@ -163,18 +163,23 @@ public class FragmentSettings extends FragmentBase {
 			}
 		});
         
+        this.findPreference("showchangelog").setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				Changelog cl = new Changelog(mContext);
+				cl.getFullLogDialog().show();
+				return true;
+			}
+		});
+        
         PreferenceScreen preferenceScreen = getPreferenceScreen();
         
-        if (!InAppPurchase.isDonate) {        	
-        	for (int i = 0; i < preferenceScreen.getPreferenceCount(); i++) {
-        		Preference pref = preferenceScreen.getPreference(i);
-        		
-        		if (pref.hasKey() && pref.getKey().equals("needsDonate")) {
-        			continue;
-        		}
-        		
-        		pref.setEnabled(false);
-        	}
+        if (!InAppPurchase.isDonate) {
+        	this.findPreference("autoblurimage").setEnabled(false);
+        	this.findPreference("importsettings").setEnabled(false);
+            this.findPreference("exportsettings").setEnabled(false);
+            this.findPreference("resetsettings").setEnabled(false);
         }
         else {
         	preferenceScreen.removePreference(this.findPreference("needsDonate"));

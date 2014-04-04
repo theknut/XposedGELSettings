@@ -3,7 +3,6 @@ package de.theknut.xposedgelsettings.hooks.googlesearchbar;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setBooleanField;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import de.robv.android.xposed.XC_MethodHook;
 import de.theknut.xposedgelsettings.hooks.Common;
 
@@ -25,7 +24,9 @@ public final class OnDragStart extends XC_MethodHook {
 	
 	@Override
 	protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+		Common.IS_DRAGGING = true;
+		
 		// show the search bar
-		GoogleSearchBarHooks.setLayoutParams(Common.LAUNCHER_INSTANCE, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, Common.SEARCH_BAR_SPACE_WIDTH, Common.SEARCH_BAR_SPACE_HEIGHT);
+		GoogleSearchBarHooks.showSearchbar();
 	}
 }

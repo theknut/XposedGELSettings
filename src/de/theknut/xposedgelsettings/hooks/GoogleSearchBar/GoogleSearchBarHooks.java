@@ -63,13 +63,25 @@ public class GoogleSearchBarHooks {
 		}
 	}
 	
+	// method to hide the Google search bar
+	public static void hideSearchbar() {
+		setLayoutParams(0, 0, 0, 0);
+	}
+	
+	// method to show the Google search bar
+	public static void showSearchbar() {
+		setLayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, Common.SEARCH_BAR_SPACE_WIDTH, Common.SEARCH_BAR_SPACE_HEIGHT);
+	}
+	
 	// method to show or hide the Google search bar
-	public static void setLayoutParams(Object launcher, int width, int height, int searchBarSpaceWidthPx, int searchBarSpaceHeightPx) {
+	public static void setLayoutParams(int width, int height, int searchBarSpaceWidthPx, int searchBarSpaceHeightPx) {
 		
-		if (launcher == null) {
+		if (Common.LAUNCHER_INSTANCE == null) {
 			XposedBridge.log("Couldn't do anything because the launcher instance is null");
 			return;
 		}
+		
+		Object launcher = Common.LAUNCHER_INSTANCE;
 		
 		// Layout the search bar space
 		View searchBar = (View) callMethod(launcher, "getSearchBar");

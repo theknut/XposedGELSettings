@@ -30,15 +30,15 @@ import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnLongClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class MainActivity extends InAppPurchase {
     private DrawerLayout mDrawerLayout;
@@ -60,6 +60,9 @@ public class MainActivity extends InAppPurchase {
         mFragmentTitles = getResources().getStringArray(R.array.fragmenttitles_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        
+        mDrawerLayout.getRootView().setBackgroundColor(CommonUI.UIColor);
+		getActionBar().setBackgroundDrawable(new ColorDrawable(CommonUI.UIColor));
 
         // set a custom shadow that overlays the main content when the drawer opens
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
@@ -70,7 +73,7 @@ public class MainActivity extends InAppPurchase {
         // enable ActionBar app icon to behave as action to toggle nav drawer
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
-        getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#222222")));
+        getActionBar().setBackgroundDrawable(new ColorDrawable(CommonUI.UIColor));
 
         // ActionBarDrawerToggle ties together the the proper interactions
         // between the sliding drawer and the action bar app icon
@@ -98,6 +101,14 @@ public class MainActivity extends InAppPurchase {
         if (savedInstanceState == null) {
             selectItem(0);
         }
+    }
+    
+    @Override
+    public void onResume() {
+    	super.onResume();
+    	
+    	// sending the colors to Tinted Status Bar
+    	StatusBarTintApi.sendColorChangeIntent(CommonUI.UIColor, Color.WHITE, CommonUI.UIColor, Color.WHITE, mContext);
     }
 
     @Override

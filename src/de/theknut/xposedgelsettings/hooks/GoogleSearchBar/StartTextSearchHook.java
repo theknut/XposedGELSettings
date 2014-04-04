@@ -1,6 +1,5 @@
 package de.theknut.xposedgelsettings.hooks.googlesearchbar;
 
-import android.view.ViewGroup.LayoutParams;
 import de.robv.android.xposed.XC_MethodHook;
 import de.theknut.xposedgelsettings.hooks.Common;
 
@@ -13,6 +12,6 @@ public class StartTextSearchHook extends XC_MethodHook {
 		}
 		
 		// show the search if a text search is started
-		GoogleSearchBarHooks.setLayoutParams(Common.LAUNCHER_INSTANCE, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, Common.SEARCH_BAR_SPACE_WIDTH, Common.SEARCH_BAR_SPACE_HEIGHT);
+		GoogleSearchBarHooks.showSearchbar();
 	}
 }

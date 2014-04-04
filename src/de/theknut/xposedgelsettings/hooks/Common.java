@@ -15,6 +15,9 @@ public final class Common {
 	// XGELS intent
 	public static final String XGELS_INTENT = PACKAGE_NAME + ".Intent";
 	public static final String XGELS_ACTION = "XGELSACTION";
+	public static final String XGELS_ACTION_EXTRA = "XGELSACTION_EXTRA";
+	public static final String XGELS_ACTION_NAVBAR = "NAVIGATION_BAR";
+	public static final String XGELS_ACTION_OTHER = "OTHER";
 	
 	// the name of the settings file
 	public static final String PREFERENCES_NAME = Common.PACKAGE_NAME + "_preferences";
@@ -28,7 +31,7 @@ public final class Common {
 	public static Object DEVICE_PROFILE_INSTANCE;
 	public static Object NOW_OVERLAY_INSTANCE;
 	public static Object PAGED_VIEW_INSTANCE;
-	public static Object LAUNCHER_APP_STATE_INSTANCE;
+	//public static Object LAUNCHER_APP_STATE_INSTANCE;
 	public static Object CONTENT_TYPE;
 	public static Object WORKSPACE_INSTANCE;
 	public static Object APP_DRAWER_INSTANCE;
@@ -55,6 +58,7 @@ public final class Common {
 	public static String PAGED_VIEW_WITH_DRAGGABLE_ITEMS;
 	public static String APPS_CUSTOMIZE_PAGED_VIEW;
 	public static String APPS_CUSTOMIZE_LAYOUT;
+	public static String APPS_CUSTOMIZE_CELL_LAYOUT;
 	public static String PAGED_VIEW_ICON;
 	public static String DEVICE_PROFILE;
 	public static String WORKSPACE;
@@ -77,6 +81,7 @@ public final class Common {
 	public static boolean OVERSCROLLED = false;
 	public static boolean LAUNCHER_PAUSED = false;
 	public static boolean SCREEN_OFF = false;
+	public static boolean IS_DRAGGING = false;
 	
 	// all launchers we support (hopefully :-S)
 	public static final List<String> PACKAGE_NAMES = new ArrayList<String>(Arrays.asList("com.android.launcher2", "com.android.launcher3", Common.GEL_PACKAGE, Common.TREBUCHET_PACKAGE));
@@ -95,6 +100,7 @@ public final class Common {
 		PAGED_VIEW_WITH_DRAGGABLE_ITEMS = launcherPackage + "PagedViewWithDraggableItems";
 		APPS_CUSTOMIZE_PAGED_VIEW = launcherPackage + "AppsCustomizePagedView";
 		APPS_CUSTOMIZE_LAYOUT = launcherPackage + "AppsCustomizeLayout";
+		APPS_CUSTOMIZE_CELL_LAYOUT = launcherPackage + "AppsCustomizeCellLayout";
 		PAGED_VIEW_ICON = launcherPackage + "PagedViewIcon";
 		DEVICE_PROFILE = launcherPackage + "DeviceProfile";
 		WORKSPACE = launcherPackage + "Workspace";

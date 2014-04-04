@@ -49,4 +49,8 @@
 			android:dependency="iconsettingsswitchapps"
 			android:defaultValue="0xffffffff"  
 			alphaSlider="true" />
+<!--         <de.theknut.xposedgelsettings.ui.CustomSwitchPreference -->
+<!-- 			android:key="appdrawericonlabelshadow" -->
+<!-- 			android:title="@string/pref_switch_icon_shadow_title" -->
+<!-- 			android:dependency="iconsettingsswitchapps"/> -->
 </PreferenceScreen>

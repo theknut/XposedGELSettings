@@ -27,6 +27,8 @@ public class CommonUI {
 	public static Bitmap bluredBackground = null;
 	public static Context CONTEXT;
 	
+	public static int UIColor = Color.parseColor("#222222");
+	
 	public static boolean AUTO_BLUR_IMAGE;
 	public static boolean needFullReboot = false;
 	private static Shell.Interactive rootSession;
@@ -96,7 +98,7 @@ public class CommonUI {
     	    			return;
     	    		}
     	        	
-    	        	openRootShell(new String[]{"su", "-c", "reboot now"});
+    	        	openRootShell(new String[]{"sU", "-c", "reboot now"});
     	        }
 	        }
     	     )
@@ -126,75 +128,94 @@ public class CommonUI {
     	
 		 ActivityManager am = (ActivityManager) CONTEXT.getSystemService(Context.ACTIVITY_SERVICE);
 	   	 String msg = "Killed:\n";
+	   	 boolean neededRoot = false;
 	   	 
 	   	 List<RunningAppProcessInfo> processes = am.getRunningAppProcesses();
 	   	 for (RunningAppProcessInfo process : processes) {
-	   		 if (Common.PACKAGE_NAMES.contains(process.processName)) {   			 
+	   		 if (Common.PACKAGE_NAMES.contains(process.processName)) {  
+	   			 
 	   			 am.killBackgroundProcesses(process.processName);
-	   			 msg += process.processName + "\n"; 
+	   			 
+	   			 List<RunningAppProcessInfo> processesAfterKill = am.getRunningAppProcesses();
+	   			 for (RunningAppProcessInfo processAfterKill : processesAfterKill) {
+		   			 if (processAfterKill.pid == process.pid) {
+			   		 	 // process wasn't killed for some reason
+			   		 	 // kill it with fire
+		   				 neededRoot = true;
+			   		 	 CommonUI.openRootShell(new String[]{"su","kill -9 " + processAfterKill.pid});
+		   			 }
+	   			 }
+	   			 
+	   			 if (!neededRoot) {
+	   				 msg += process.processName + "\n";
+	   			 }
 	   		 }                        			 
 	   	 }
 	   	 
-	   	 if (msg.equals("Killed:\n")) {
-	   		 msg = msg.substring(0, msg.lastIndexOf('\n')) + " " + context.getString(R.string.toast_reboot_failed_nothing_msg) + "... :(\n" + context.getString(R.string.toast_reboot_failed);
+	   	 if (!neededRoot) {
+	   		 
+		   	 if (msg.equals("Killed:\n")) {
+		   		 msg = msg.substring(0, msg.lastIndexOf('\n')) + " " + context.getString(R.string.toast_reboot_failed_nothing_msg) + "... :(\n" + context.getString(R.string.toast_reboot_failed);
+		   	 } else {
+		   		 msg = msg.substring(0, msg.lastIndexOf('\n'));
+		   	 }
+		   	 
+		   	 Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
 	   	 }
-	   	 else {
-	   		 msg = msg.substring(0, msg.lastIndexOf('\n'));
-	   	 }
-	   	 
-	   	 Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
 	   	 return true;
 	}
     
-    	public static void openRootShell(final String[] command) {
-        if (rootSession != null) {
-            sendRootCommand(command);
-        } else {
-            // We're creating a progress dialog here because we want the user to wait.
-            final ProgressDialog dialog = new ProgressDialog(CONTEXT);
-            dialog.setTitle(R.string.progress_requesting_root_title);
-            dialog.setMessage(CONTEXT.getString(R.string.progress_requesting_root_summary));
-            dialog.setIndeterminate(true);
-            dialog.setCancelable(false);
-            dialog.show();
-
-            // start the shell in the background and keep it alive as long as the app is running
-            rootSession = new Shell.Builder().
-                    useSU().
-                    setWantSTDERR(true).
-                    setWatchdogTimeout(5).
-                    setMinimalLogging(true).
-                    open(new Shell.OnCommandResultListener() {
-
-                        // Callback to report whether the shell was successfully started up 
-                        @Override
-                        public void onCommandResult(int commandCode, int exitCode, List<String> output) {
-                            // note: this will FC if you rotate the phone while the dialog is up
-                            dialog.dismiss();
-
-                            if (exitCode != Shell.OnCommandResultListener.SHELL_RUNNING) {
-                                Toast.makeText(CONTEXT, "Error opening root shell: exitCode " + exitCode, Toast.LENGTH_LONG).show();
-                            } else {
-                                // Shell is up: send our first request 
-                                sendRootCommand(command);
-                            }
-                        }
-                    });
-        }
+	public static void openRootShell(final String[] command) {
+	    if (rootSession != null) {
+	        sendRootCommand(command);
+	    } else {
+	        // We're creating a progress dialog here because we want the user to wait.
+	        final ProgressDialog dialog = new ProgressDialog(CONTEXT);
+	        dialog.setTitle(R.string.progress_requesting_root_title);
+	        dialog.setMessage(CONTEXT.getString(R.string.progress_requesting_root_summary));
+	        dialog.setIndeterminate(true);
+	        dialog.setCancelable(false);
+	        dialog.show();
+	
+	        // start the shell in the background and keep it alive as long as the app is running
+	        rootSession = new Shell.Builder().
+	                useSU().
+	                setWantSTDERR(true).
+	                setWatchdogTimeout(5).
+	                setMinimalLogging(true).
+	                open(new Shell.OnCommandResultListener() {
+	
+	                    // Callback to report whether the shell was successfully started up 
+	                    @Override
+	                    public void onCommandResult(int commandCode, int exitCode, List<String> output) {
+	                        // note: this will FC if you rotate the phone while the dialog is up
+	                        dialog.dismiss();
+	
+	                        if (exitCode != Shell.OnCommandResultListener.SHELL_RUNNING) {
+	                            Toast.makeText(CONTEXT, "Error opening root shell: exitCode " + exitCode, Toast.LENGTH_LONG).show();
+	                        } else {
+	                            // Shell is up: send our first request 
+	                            sendRootCommand(command);
+	                        }
+	                    }
+	                });
+	    }
     }
     	
-    	private static void sendRootCommand(String[] command) {
-            rootSession.addCommand(command, 0,
-                    new Shell.OnCommandResultListener() {
-                public void onCommandResult(int commandCode, int exitCode, List<String> output) {
-                    if (exitCode < 0) {
-                    	Toast.makeText(CONTEXT, "Error executing commands: exitCode " + exitCode, Toast.LENGTH_LONG).show();
-                    } else {
-                    	if (output.size() == 0) {
-                    		Toast.makeText(CONTEXT, "Success", Toast.LENGTH_LONG).show();
-                    	}
-                    }
-                }
-            });
-        }
+	private static void sendRootCommand(String[] command) {
+        rootSession.addCommand(command, 0,
+                new Shell.OnCommandResultListener() {
+		            public void onCommandResult(int commandCode, int exitCode, List<String> output) {
+		                if (exitCode < 0) {
+		                	Toast.makeText(CONTEXT, "Error executing commands: exitCode " + exitCode, Toast.LENGTH_LONG).show();
+		                } else {
+		                	if (output.size() == 0) {
+		                		Toast.makeText(CONTEXT, "Success", Toast.LENGTH_LONG).show();
+		                	} else {
+		                		Toast.makeText(CONTEXT, "Failed: " + output, Toast.LENGTH_LONG).show();
+		                	}
+		                }
+		            }
+		        });
+    }
 }

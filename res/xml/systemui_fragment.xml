@@ -31,10 +31,11 @@
 		android:key="dynamicbackbutton"
 		android:title="@string/pref_dynamic_backbutton_title"
 		android:summary="@string/pref_dynamic_backbutton_summary" />
-<!--       <de.theknut.xposedgelsettings.ui.MyCheckboxPreference -->
-<!-- 		android:key="dynamicbackbuttononeveryscreen" -->
-<!-- 		android:title="@string/pref_dynamic_backbuttononeveryscreen_title" -->
-<!-- 		android:summary="@string/pref_dynamic_backbuttononeveryscreen_summary" /> -->
+      <de.theknut.xposedgelsettings.ui.MyCheckboxPreference
+		android:key="dynamicbackbuttononeveryscreen"
+		android:title="@string/pref_dynamic_backbuttononeveryscreen_title"
+		android:summary="@string/pref_dynamic_backbuttononeveryscreen_summary"
+		android:dependency="dynamicbackbutton" />
       <de.theknut.xposedgelsettings.ui.MyCheckboxPreference
         android:key="changeicondynamicbackbutton"
 		android:title="@string/pref_change_dynamic_backbutton_title"

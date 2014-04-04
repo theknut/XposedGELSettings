@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" xmlns:android="http://schemas.android.com/apk/res/android">
+<resources>
   <string name="app_name">Xposed GEL Settings</string>
   <string name="pref_hide_google_search_bar_title">Скрыть</string>
-  <string name="pref_autohide_google_search_bar_title">Автоскрытие</string>
+  <string name="pref_autohide_google_search_bar_title">Автоотображение</string>
   <string name="pref_autohide_google_search_bar_summary">Автоматически показать в Google Now</string>
   <string name="pref_hide_icon_label_on_homescreen_title">Скрыть подписи иконок</string>
   <string name="pref_hide_icon_label_on_app_drawer_title">Скрыть подписи иконок</string>
@@ -86,7 +86,6 @@
   <string name="toast_fail">"Ну что же… это не работает :-S
 Пожалуйста, посмотрите logcat!"</string>
   <string name="pref_switch_appdock_title">Скрыть док-панель</string>
-  <string name="pref_switch_appdock_summary">Свайп вверх для отображения</string>
   <string name="pref_lock_desktop_title">Заблокировать экран</string>
   <string name="pref_lock_desktop_summary">Предотвратить случайные изменения рабочего стола</string>
   <string name="pref_continuous_scroll_title">Продолжительная прокрутка</string>
@@ -99,20 +98,10 @@
   <string name="pref_appdock_background_color_title">Цвет док-панели</string>
   <string name="pref_appdock_background_color_summary">Выберите цвет для фона док-панели</string>
   <string name="pref_cat_gestures">Жесты</string>
-  <string name="pref_switch_gesture_swipe_down_left_title">Свайп вниз слева</string>
-  <string name="pref_switch_gesture_swipe_down_left_summary">Открыть панель уведомлений</string>
-  <string name="pref_switch_gesture_swipe_down_right_title">Свайп вниз справа</string>
-  <string name="pref_switch_gesture_swipe_down_right_summary">Открыть панель настроек</string>
   <string name="pref_switch_gesture_swipe_up_appdock_title">Быстрый доступ</string>
-  <string name="pref_switch_gesture_swipe_up_appdock_summary">Отобразить - свайп вверх / Спрятать - свайп вниз</string>
-  <string name="pref_switch_gesture_swipe_up_app_drawer_title">Меню приложений</string>
-  <string name="pref_switch_gesture_swipe_up_app_drawer_summary">Открыть меню приложений по свайпу вверх</string>
   <string name="pref_gestures_note_title">Заметка</string>
   <string name="pref_gestures_note_summary">Подождите 1–2 минуты после загрузки устройства для работы жестов</string>
   <string name="pref_switch_no_all_apps_button_title">Кнопка Меню приложений</string>
-  <string name="pref_switch_no_all_apps_button_summary">Скрыть Меню приложений</string>
-  <string name="drawer_open">Открыть Меню приложений</string>
-  <string name="drawer_close">Закрыть Меню приложений</string>
   <string name="pref_systemui_explain_title">Заметка</string>
   <string name="pref_systemui_explain_summary">Каждая из этих опций может работать или не работать на вашем устройстве и/или прошивке</string>
   <string name="pref_cat_systemui_navbar_title">Навигационная панель</string>
@@ -120,8 +109,7 @@
   <string name="pref_dynamic_backbutton_title">Кнопка Назад</string>
   <string name="pref_dynamic_backbutton_summary">Изменяется на \"Go to sleep\" на главном экране</string>
   <string name="pref_dynamic_homebutton_title">Кнопка Домой</string>
-  <string name="pref_dynamic_homebutton_summary">Изменяется на \"Open app drawer\" на главном экране
-</string>
+  <string name="pref_dynamic_homebutton_summary">Изменяется на \"Open app drawer\" на главном экране</string>
   <string name="pref_dynamic_hideclock_title">Скрыть часы</string>
   <string name="pref_dynamic_hideclock_summary">Скрывает часы на главном экране</string>
   <string name="toast_restore_success">Удачно восстановлено настройки рабочего стола</string>
@@ -132,9 +120,11 @@
   <string name="pref_backuprestore_note_title">Заметка</string>
   <string name="pref_backuprestore_note_summary">Это только резервирует ваши ярлыки и папки... Виджеты резервированию не поддаются..</string>
   <string name="pref_backup_homescreen_title">Бэкап</string>
-  <string name="pref_backup_homescreen_summary">Резервирование ярлыков и папок в \n/sdcard/XposedGELSettings</string>
+  <string name="pref_backup_homescreen_summary">"Резервирование ярлыков и папок в 
+/sdcard/XposedGELSettings"</string>
   <string name="pref_restore_homescreen_title">Восстановление</string>
-  <string name="pref_restore_homescreen_summary">Восстановление ярлыков и папок с \n/sdcard/XposedGELSettings</string>
+  <string name="pref_restore_homescreen_summary">"Восстановление ярлыков и папок с 
+/sdcard/XposedGELSettings"</string>
   <string name="pref_animate_dynamic_homebutton_title">Анимированая смена значка</string>
   <string name="pref_animate_dynamic_homebutton_summary">Быстрое изменение иконки</string>
   <string name="pref_change_dynamic_homebutton_title">Динамическая кнопка Домой</string>
@@ -144,8 +134,6 @@
   <string name="pref_change_dynamic_backbutton_title">Динамическая кнопка Назад</string>
   <string name="pref_change_dynamic_backbutton_summary">Изменяет иконку Назад на кнопку Выключения экрана на главном экране</string>
   <string name="toast_full_reboot">Для применения эфекта требуется перезагрузка</string>
-  <string name="pref_switch_gesture_swipe_down_close_app_drawer_title">Меню приложений</string>
-  <string name="pref_switch_gesture_swipe_down_close_app_drawer_summary">Свайп вниз для закрытия Меню приложений</string>
   <string name="toast_donate_only">Эта функция требует Donate!</string>
   <string name="toast_getprices_fail">Что-то пошло не так при получении списка цен. Пожалуйста, проверьте logcat!</string>
   <string name="toast_donation_result_fail">Какая-то ошибка. Вы можете убить XGELS и запустить заново. Пожалуйста, проверьте logcat!</string>
@@ -163,16 +151,59 @@
   <string name="pref_auto_blur_wallpaper_summary">Размытие фонового изображения и использование его как фон XGELS. Это может усилить потребление аккумулятора, если вы используете приложения, которые изменяют фон в определенные промежутки времени.</string>
   <string name="pref_dynamic_backbuttononeveryscreen_title">Выключение на каждом экране</string>
   <string name="pref_dynamic_backbuttononeveryscreen_summary">Кнопка выключения экрана на каждом рабочем столе. Если этот флажок не установлен, то это будет действовать отлько на главном экране.</string>
+  <string name="pref_selectwidgetstohide_summary">Выберите виджеты для скрытия</string>
+  <string name="pref_workspacerect_title">Отступы слева/справа на домашнем экране</string>
+  <string name="pref_workspacerect_summary">Выберите величину отступов слева/справа на рабочем столе</string>
+  <string name="pref_workspacerect_dialog">Выберите коэффициент</string>
+  <string name="toast_openinstaller_failed">"Не могу открыть Xposed Installer. Пожалуйста, запустите его вручную!"</string>
+  <string name="pref_cat_homescreen_folder_title">Папки</string>
+  <string name="pref_cat_homescreen_icon_title">Значки</string>
+  <string name="pref_cat_homescreen_appdock_title">Док панель</string>
+  <string name="pref_switch_appdocksettings_title">Активация</string>
+  <string name="pref_switch_appdocksettings_explain_summary">Активировать изменения док панели</string>
+  <string name="pref_switch_autohideappdock_title">Автоскрытие</string>
+  <string name="pref_switch_autohideappdock_summary">Автоматически скрывать док панель</string>
+  <string name="pref_switch_folder_title">Активация</string>
+  <string name="pref_switch_folder_summary">Активировать изменение папок</string>
+  <string name="pref_folder_background_color">Фоновый цвет</string>
+  <string name="pref_folder_applabel_color">Цвет подписи значков</string>
+  <string name="pref_folder_namelabel_color">Цвет названия папки</string>
+  <string name="pref_choose_gesture_action_title">Выберите действие жеста</string>
+  <string name="pref_switch_gesture_appdrawer_summary">"Свайп вниз -  закрыть меню приложений
+Свайп вверх - переключиться между приложениями и виджетами"</string>
+  <string name="pref_switch_gesture_double_tap_title">Двойной тап</string>
+  <string name="pref_switch_gesture_double_tap_summary">исключая папки и виджеты</string>
+  <string name="pref_cat_gesture_down_title">Жесты по Свайпу вниз</string>
+  <string name="pref_cat_gesture_up_title">Жесты по Свайпу вверх</string>
+  <string name="pref_gesture_down_left_title">Свайп вниз слева</string>
+  <string name="pref_gesture_down_middle_title">Свайп вниз посредине</string>
+  <string name="pref_gesture_down_right_title">Свайп вниз справа</string>
+  <string name="pref_gesture_up_left_title">Свайп вверх слева</string>
+  <string name="pref_gesture_up_middle_title">Свайп вверх посредине</string>
+  <string name="pref_gesture_up_right_title">Свайп вверх справа</string>
+  <string name="alert_hidedock_summary">Пожалуйста, будьте уверены, что вы установили переключатель отображения/скрытия док-панели на жесты или активировали динамичную кнопку Домой в Твиках SustemUI. В противном случае вы на сможете запустить приложения!</string>
+  
   <string-array name="fragmenttitles_array">
-    <item>Привет!</item>
-    <item>Основные</item>
-    <item>Google Поиск</item>
-    <item>Домашний экран</item>
-    <item>Меню приложений</item>
-    <item>Жесты</item>
-    <item>Твики System UI</item>
-    <item>Им-/Экспорт</item>
-    <item>Настройки</item>
-    <item>Donate/Поддержка</item>
-  </string-array>
+        <item>Привет!</item>
+        <item>Основные</item>
+        <item>Google Поиск</item>
+        <item>Домашний экран</item>
+        <item>Меню приложений</item>
+        <item>Жесты</item>
+        <item>Твики System UI</item>
+        <item>Им-/Экспорт</item>
+        <item>Настройки</item>
+        <item>Donate/Поддержка</item>
+    </string-array>
+    <string-array name="gesture_actions_entries">
+        <item>Ничего</item>
+        <item>Панель уведомлений</item>
+        <item>Быстрые настройки</item>
+        <item>Меню прилодений</item>
+        <item>Последнее приложение</item>
+        <item>Настройки Android</item>
+        <item>Выключить экран</item>
+        <item>Док панель</item>
+        <item>Открыть приложение</item>
+    </string-array>
 </resources>

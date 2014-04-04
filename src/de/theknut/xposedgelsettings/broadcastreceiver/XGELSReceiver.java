@@ -1,20 +1,13 @@
 package de.theknut.xposedgelsettings.broadcastreceiver;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.lang.reflect.Method;
-import java.net.URL;
-import java.security.MessageDigest;
-import java.util.HashSet;
 
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.ui.Blur;
 import de.theknut.xposedgelsettings.ui.CommonUI;
-import de.theknut.xposedgelsettings.ui.MainActivity;
-
-import android.app.Activity;
 import android.app.WallpaperManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -22,7 +15,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.util.Log;
 import android.widget.Toast;
 
 public class XGELSReceiver extends BroadcastReceiver {
@@ -43,13 +35,11 @@ public class XGELSReceiver extends BroadcastReceiver {
         	if (extra != null) {
 	        	if (extra.equals("NOTIFICATION_BAR")) {
 	        		showNotificationPanel(context);
-				}
-	        	else if (extra.equals("SETTINGS_BAR")) {
+				} else if (extra.equals("SETTINGS_BAR")) {
 	        		showSettingsPanel(context);
 	        	}
         	}
-        }
-        else if (intent.getAction().equals(Intent.ACTION_WALLPAPER_CHANGED)) {
+        } else if (intent.getAction().equals(Intent.ACTION_WALLPAPER_CHANGED)) {
         	boolean autoBlurImage = context.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).getBoolean("autoblurimage", false);
         	
         	if (autoBlurImage) {

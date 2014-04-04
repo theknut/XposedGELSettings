@@ -16,9 +16,9 @@ public final class OnPageBeginMovingHook extends XC_MethodHook {
 				||	Common.GEL_INSTANCE == null) {
 				return;
 		}
-			
-		if (getBooleanField(Common.GEL_INSTANCE, "mNowEnabled")) {
-			GoogleSearchBarHooks.setLayoutParams(Common.LAUNCHER_INSTANCE, 0, 0, 0, 0);					
+		
+		if (getBooleanField(Common.GEL_INSTANCE, "mNowEnabled") && !Common.IS_DRAGGING) {
+			GoogleSearchBarHooks.hideSearchbar();					
 		}
 	}
 }

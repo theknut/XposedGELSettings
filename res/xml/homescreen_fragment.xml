@@ -23,26 +23,63 @@
 		android:entries="@array/homescreen_grid_size_entries"
 		android:entryValues="@array/homescreen_grid_size_entries"/>
       <de.theknut.xposedgelsettings.ui.MyListPreference
+		android:key="workspacerect"
+		android:title="@string/pref_workspacerect_title"
+		android:summary="@string/pref_workspacerect_summary"
+		android:dialogTitle="@string/pref_workspacerect_dialog"
+		android:entries="@array/workspacerect"
+		android:entryValues="@array/workspacerect"
+		android:dependency="changegridsizehome"/>
+      <de.theknut.xposedgelsettings.ui.MyListPreference
 		android:key="defaulthomescreen"
 		android:title="@string/pref_default_homescreen_title"
 		android:summary="@string/pref_default_homescreen_summary"
 		android:entries="@array/defaulthomescreen"
-		android:entryValues="@array/defaulthomescreen" />  
-      <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
-		android:key="hideappdock"
-		android:title="@string/pref_switch_appdock_title"
-		android:summary="@string/pref_switch_appdock_summary" />
-      <net.margaritov.preference.colorpicker.ColorPickerPreference 
-		android:key="appdockbackgroundcolor"
-		android:title="@string/pref_appdock_background_color_title"
-		android:summary="@string/pref_appdock_background_color_summary"
-		android:dependency="hideappdock"
-		android:defaultValue="0xA5000000"  
-		alphaSlider="true" />
+		android:entryValues="@array/defaulthomescreen" />
+    <de.theknut.xposedgelsettings.ui.MyPreferenceCategory
+  	android:title="@string/pref_cat_homescreen_appdock_title">
       <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
 		android:key="noallappsbutton"
 		android:title="@string/pref_switch_no_all_apps_button_title"
 		android:summary="@string/pref_switch_no_all_apps_button_summary" />
+      <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+		android:key="appdocksettingsswitch"
+		android:title="@string/pref_switch_appdocksettings_title"
+		android:summary="@string/pref_switch_appdocksettings_explain_summary" />
+      <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+		android:key="hide_appdock"
+		android:title="@string/pref_switch_appdock_title"
+		android:summary="@string/pref_switch_appdock_summary"
+		android:dependency="appdocksettingsswitch" />
+      <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+		android:key="autohideappdock"
+		android:title="@string/pref_switch_autohideappdock_title"
+		android:summary="@string/pref_switch_autohideappdock_summary"
+		android:dependency="hide_appdock" />
+      <net.margaritov.preference.colorpicker.ColorPickerPreference 
+		android:key="appdockbackgroundcolor"
+		android:title="@string/pref_appdock_background_color_title"
+		android:summary="@string/pref_appdock_background_color_summary"
+		android:dependency="appdocksettingsswitch"
+		android:defaultValue="0x00000000"  
+		alphaSlider="true" />
+      <de.theknut.xposedgelsettings.ui.MyListPreference
+		android:key="appdockiconsize"
+		android:title="@string/pref_appdockiconsize_title"
+		android:summary="@string/pref_appdockiconsize_summary"
+		android:dependency="appdocksettingsswitch"
+		android:entries="@array/iconsize_entries"
+		android:entryValues="@array/iconsize_entries"/>
+      <de.theknut.xposedgelsettings.ui.MyListPreference
+		android:key="appdockcount"
+		android:title="@string/pref_appdock_count_title"
+		android:summary="@string/pref_appdock_count_summary"
+		android:dependency="appdocksettingsswitch"
+		android:entries="@array/appdock_entries"
+		android:entryValues="@array/appdock_entries"/>
+ </de.theknut.xposedgelsettings.ui.MyPreferenceCategory>
+   <de.theknut.xposedgelsettings.ui.MyPreferenceCategory
+        android:title="@string/pref_cat_homescreen_icon_title">
       <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
 		android:key="iconsettingsswitchhome"
 		android:title="@string/pref_switch_appicons_title"
@@ -75,18 +112,36 @@
 		android:dependency="iconsettingsswitchhome"
 		android:entries="@array/iconsize_entries"
 		android:entryValues="@array/iconsize_entries"/>
-      <de.theknut.xposedgelsettings.ui.MyListPreference
-		android:key="appdockiconsize"
-		android:title="@string/pref_appdockiconsize_title"
-		android:summary="@string/pref_appdockiconsize_summary"
-		android:dependency="iconsettingsswitchhome"
-		android:entries="@array/iconsize_entries"
-		android:entryValues="@array/iconsize_entries"/>
-      <de.theknut.xposedgelsettings.ui.MyListPreference
-		android:key="appdockcount"
-		android:title="@string/pref_appdock_count_title"
-		android:summary="@string/pref_appdock_count_summary"
-		android:dependency="iconsettingsswitchhome"
-		android:entries="@array/appdock_entries"
-		android:entryValues="@array/appdock_entries"/>
+  </de.theknut.xposedgelsettings.ui.MyPreferenceCategory>
+ <de.theknut.xposedgelsettings.ui.MyPreferenceCategory
+      	android:title="@string/pref_cat_homescreen_folder_title">
+     <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+		android:key="homescreenfolderswitch"
+		android:title="@string/pref_switch_folder_title"
+		android:summary="@string/pref_switch_folder_summary" />
+      <net.margaritov.preference.colorpicker.ColorPickerPreference 
+		android:key="homescreenfoldercolor"
+		android:title="@string/pref_folder_background_color"
+		android:defaultValue="0xA5ffffff"
+		android:dependency="homescreenfolderswitch"
+		alphaSlider="true" />
+      <net.margaritov.preference.colorpicker.ColorPickerPreference 
+		android:key="homescreenfolderpreviewcolor"
+		android:title="@string/pref_folder_preview_color"
+		android:defaultValue="0xA5ffffff"
+		android:dependency="homescreenfolderswitch"
+		alphaSlider="true" />
+      <net.margaritov.preference.colorpicker.ColorPickerPreference 
+		android:key="homescreenfolderapptextcolor"
+		android:title="@string/pref_folder_applabel_color"
+		android:defaultValue="0xff000000"
+		android:dependency="homescreenfolderswitch"
+		alphaSlider="true" />
+      <net.margaritov.preference.colorpicker.ColorPickerPreference 
+		android:key="homescreenfoldernametextcolor"
+		android:title="@string/pref_folder_namelabel_color"
+		android:defaultValue="0xff777777"
+		android:dependency="homescreenfolderswitch"
+		alphaSlider="true" />
+  </de.theknut.xposedgelsettings.ui.MyPreferenceCategory>
 </PreferenceScreen>
