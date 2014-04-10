@@ -86,7 +86,7 @@
         <item>TOGGLE_DOCK</item>
     </string-array>
     <string-array name="donationArray">
-        <item>a Paulana beer</item>
+        <item>a Paulaner beer</item>
         <item>two German Bratwursts</item>
         <item>a Schnitzel with fries</item>
     </string-array>
