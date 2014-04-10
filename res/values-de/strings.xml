@@ -73,7 +73,7 @@
     <string name="pref_icon_label_color">Textfarbe</string>
     <string name="pref_switch_icon_shadow_title">Textschatten</string>
     <string name="pref_app_drawer_background_color_title">Hintergrund-Farbe</string>
-    <string name="pref_app_drawer_background_color_summary">Tip: Machen Sie ihn komplett transparent!</string>
+    <string name="pref_app_drawer_background_color_summary">Tipp: Machen Sie ihn komplett transparent!</string>
     <string name="colorpicker_apply">Anwenden</string>
     <string name="colorpicker_hex_hint">Individueller HEX-Farbcode</string>
     <string name="restart_launcher_icon_title">Neustart</string>
@@ -81,8 +81,8 @@
     <string name="pref_disable_wallpaper_scroll_summary">Schaltet das synchronisierte Scrollen des Hintergrundes ab</string>
     <string name="toast_desktop_locked">XGELS: Desktop ist gesperrt!</string>
     <string name="toast_fail">Öhm&#8230; das hat nicht funktioniert :-S\nBitte für weitere Infos im logcat nachschauen!</string>
-    <string name="pref_switch_hideappdock_title">Dock verbergen</string>
-    <string name="pref_switch_hideappdock_summary">Nach oben wischen um es wieder einzublenden</string>
+    <string name="pref_switch_appdock_title">Dock verbergen</string>
+    <string name="pref_switch_appdock_summary">Nach oben wischen um es wieder einzublenden</string>
     <string name="pref_lock_desktop_title">Desktop sperren</string>
     <string name="pref_lock_desktop_summary">Verhindert unbeabsichtigtes Verschieben von Icons indem der Desktop gesperrt wird</string>
     <string name="pref_continuous_scroll_title">Durchgehendes Scrollen</string>
@@ -104,4 +104,127 @@
     <string name="pref_switch_gesture_swipe_up_app_drawer_summary">Öffnet die App-Übersicht beim Wischen nach oben</string>
     <string name="pref_gestures_note_title">Hinweis</string>
     <string name="pref_gestures_note_summary">Gesten brauchen nach dem Einschalten ein bis zwei Minuten zum Initialisieren</string>
+    
+    <!-- V1.4 -->
+    <string name="pref_switch_no_all_apps_button_title">App-Übersicht Button</string>
+    <string name="pref_switch_no_all_apps_button_summary">Verbirgt den App-Übersicht Button</string>
+    
+    <string-array name="fragmenttitles_array">
+        <item>Willkommen</item>
+        <item>Allgemein</item>
+        <item>Google Suchleiste</item>
+        <item>Homescreen</item>
+        <item>App-Übersicht</item>
+        <item>Gesten</item>
+        <item>System UI Tweaks</item>
+        <item>Sichern/Wiederherstellen</item>
+        <item>Einstellungen</item>
+        <item>Spenden/Support</item>
+    </string-array>
+    
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="pref_systemui_explain_title">Hinweis</string>
+    <string name="pref_systemui_explain_summary">Die folgenden Einstellungenfunktionieren je nachdem welches ROM oder Module installiert besser oder schlechter. Außerdem benötigen alle Einstellungen einen Geräteneustart, um wirksam zu werden.</string>
+    <string name="pref_cat_systemui_navbar_title">Navigationsleiste</string>
+    <string name="pref_cat_systemui_statusbar_title">Statusleiste</string>
+    <string name="pref_dynamic_backbutton_title">Zurück-Button</string>
+    <string name="pref_dynamic_backbutton_summary">Ändert sich zu \"Bildschirm ausschalten\", wenn auf dem Standard-Homescreen</string>
+    <string name="pref_dynamic_homebutton_title">Home-Button</string>
+    <string name="pref_dynamic_homebutton_summary">Ändert sich zu \"Öffne App-Übersicht\", wenn auf dem Standard-Homescreen</string>
+    <string name="pref_dynamic_hideclock_title">Verberge Uhr</string>
+    <string name="pref_dynamic_hideclock_summary">Verbirgt die Uhr auf dem Standard-Homescreen</string> 
+    <string name="toast_restore_success">Homescreen-Layout erfolgreich wiederhergestellt</string>
+    <string name="toast_restore_failed">Öhm&#8230; das hat nicht funktioniert :-S</string>
+    <string name="toast_backup_success">Homescreen-Layout erfolgreich wiederhergestellt</string>
+    <string name="toast_backup_failed">Öhm&#8230; das hat nicht funktioniert :-S</string>
+    <string name="pref_cat_backuprestore_homescreen_title">Launcher Homescreen-Layout</string>
+    <string name="pref_backuprestore_note_title">Hinweis</string>
+    <string name="pref_backuprestore_note_summary">Es werden nur Icons und Ordner gesichert/wiederhergestellt. Widgets und ihre Position werden nicht gesichert und müssen erneut platziert werden! Für diese Funktion wird Root benötigt!</string>
+    <string name="pref_backup_homescreen_title">Sichern</string>
+    <string name="pref_backup_homescreen_summary">Homescreen-Layout sichern (nur Icons und Ordner) und speichern unter\n/sdcard/XposedGELSettings</string>
+    <string name="pref_restore_homescreen_title">Wiederherstellen</string>
+    <string name="pref_restore_homescreen_summary">Homescreen-Layout wiederherstellen (nur Icons und Ordner) von\n/sdcard/XposedGELSettings</string>
+    <string name="pref_animate_dynamic_homebutton_title">Iconwechsel animieren</string>
+    <string name="pref_animate_dynamic_homebutton_summary">Zeigt ein kurzes Ein-/Ausblenden beim Iconwechsel</string>
+    <string name="pref_change_dynamic_homebutton_title">Dynamisches Home-Button Icon</string>
+    <string name="pref_change_dynamic_homebutton_summary">Ändert das Icon zu einem App-Übersicht Icon wenn auf dem Standard-Homescreen</string>
+    <string name="pref_animate_dynamic_backbutton_title">Iconwechsel animieren</string>
+    <string name="pref_animate_dynamic_backbutton_summary">Zeigt ein kurzes Ein-/Ausblenden beim Iconwechsel</string>
+    <string name="pref_change_dynamic_backbutton_title">Dynamisches Zurück-Button Icon</string>
+    <string name="pref_change_dynamic_backbutton_summary">Ändert das Icon zu einem Ein-/Ausschalter Icon wenn auf dem Standard-Homescreen</string>
+    <string name="toast_full_reboot">Bitte einen Geräteneustart durchführen, um diese Einstellungen wirksam zu machen!</string>
+    <string name="toast_donate_only">Dieses Feature gibt es nur in der Spendenversion!</string>
+    <string name="toast_getprices_fail">Irgendwas ist beim Übertragen der Preisliste schiefgegangen. Bitte Logcat überprüfen!</string>
+    <string name="toast_donation_result_fail">Irgendetwas ist schief gegangen. Bitte XGELS neustarten. Logcat überprüfen!</string>
+    <string name="pref_donate_button">Spende und unterstütze mich!</string>
+    <string name="pref_donated_button">Danke für deine Spende!</string>
+    <string name="toast_donate_thanks">Yeah, du bist großartig! Klopf dir auf die Schulter!</string>
+    <string name="pref_xgel_group_summary">Bitte hier klicken, um sich für die XGELS Donators Group zu bewerben. Bitte Google Plus E-Mailadresse mit angeben, sodass eine Einladung erfolgen kann.</string>
+    <string name="pref_requires_donation_title">Nicht verfügbar</string>
+    <string name="pref_requires_donation_summary">Die folgenden Funktionen sind nur in der Spenden-Version verfügbar.</string>
+    <string name="alert_reboot_needed_title">Geräteneustart erforderlich!</string>
+    <string name="alert_reboot_needed_summary">Es wurden Einstellungen gemacht, die einen kompletten Neustart benötigen. Bitte die gewünschte Methoden auswählen!</string>
+    <string name="progress_requesting_root_title">Bitte warten&#8230;</string>
+    <string name="progress_requesting_root_summary">Fordere Root-Berechtigung an&#8230;</string>
+    <string name="pref_auto_blur_wallpaper_title">Dynamischer Hintergrund</string>
+    <string name="pref_auto_blur_wallpaper_summary">Homescreen-Hintergrundbild verwischen (blur) und als XGELS Hintergrundbild verwenden. Darunter kann unter Umständen die Batterie leiden, wenn der Hintergrund durch andere Apps zyklisch verändert wird.</string>
+    <string name="pref_dynamic_backbuttononeveryscreen_summary">Schaltet das Display auf jedem Bildschirm aus. Wenn diese Einstellung nicht gemacht wird, wird nur auf dem Standard-Homescreen das Display ausgeschaltet.</string>
+    <!-- V1.5 -->
+    <string name="pref_selectwidgetstohide_summary">Zu verbergende Widgets auswählen</string>
+    <string name="pref_workspacerect_title">Homescreen Links/Rechts-Abstand</string>
+    <string name="pref_workspacerect_summary">Wähle einen Multiplikator für die linken und rechten Homescreen-Abstände aus</string>
+    <string name="pref_workspacerect_dialog">Wähle einen Multiplikator</string>
+    <string name="toast_openinstaller_failed">Xposed Installer konnte nicht gestartet werden. Bitte selbständig öffnen!</string>
+    <string name="pref_cat_homescreen_folder_title">Ordner</string>
+    <string name="pref_cat_homescreen_icon_title">Icons</string>
+    <string name="pref_cat_homescreen_appdock_title">App Dock</string>
+    <string name="pref_switch_appdocksettings_title">Aktivieren</string>
+    <string name="pref_switch_appdocksettings_explain_summary">Erlaube Einstellungen am App Dock</string>
+    <string name="pref_switch_autohideappdock_title">Automatisch Verbergen</string>
+    <string name="pref_switch_autohideappdock_summary">Verbirgt das App Dock automatisch</string>
+    <string name="pref_switch_folder_title">Aktivieren</string>
+    <string name="pref_switch_folder_summary">Erlaube Einstellungen an Ordnern</string>
+    <string name="pref_folder_background_color">Hintergrundfarbe</string>
+    <string name="pref_folder_applabel_color">Icon Textfarbe</string>
+    <string name="pref_folder_namelabel_color">Ordnername Textfarbe</string>
+    <string name="pref_folder_preview_color">Ordnervorschau-Farbe</string>
+    
+    <string-array name="gesture_actions_entries">
+        <item>Keine</item>
+        <item>Benachrichtigungszeile</item>
+        <item>Quicktoggles</item>
+        <item>App-Übersicht</item>
+        <item>Zuletzt verwendete App</item>
+        <item>Android-Einstellungen</item>
+        <item>Display ausschalten</item>
+        <item>Toggle Dock</item>
+        <item>App öffnen</item>
+    </string-array>
+    
+    <string-array name="gesture_actions_entries_limited">
+        <item>Keine</item>
+        <item>App-Übersicht</item>
+        <item>Toggle Dock</item>
+    </string-array>
+    
+    <string name="pref_choose_gesture_action_title">Gestenaktion auswählen</string>
+    <string name="pref_switch_gesture_appdrawer_title">App-Übersicht</string>
+    <string name="pref_switch_gesture_appdrawer_summary">Runterwischen - App-Übersicht schließen\nHochwischen - zwischen App-Übersicht und Widgets wechseln</string>
+    <string name="pref_switch_gesture_double_tap_title">Doppelklick</string>
+    <string name="pref_switch_gesture_double_tap_summary">außer auf Ordnern und Widgets</string>
+    <string name="pref_cat_gesture_down_title">Runterwischen Gesten</string>
+    <string name="pref_cat_gesture_up_title">Hochwischen Gesten</string>
+    <string name="pref_gesture_down_left_title">Links runterwischen</string>
+    <string name="pref_gesture_down_middle_title">Mitte runterwischen</string>
+    <string name="pref_gesture_down_right_title">Rechts runterwischen</string>
+    <string name="pref_gesture_up_left_title">Links hochwischen</string>
+    <string name="pref_gesture_up_middle_title">Mitte hochwischen</string>
+    <string name="pref_gesture_up_right_title">Rechts hochwischen</string>
+    <string name="alert_hidedock_summary">Bitte einen App-Übersicht Geste oder die Home-Button Option in den SystemUI Tweaks aktivieren! Andererseits gibt es keine Möglichkeit mehr die App-Übersicht zu öffnen!</string>
+    <string name="alert_hidewidgets_title">Hinweis</string>
+    <string name="alert_hidewidgets_summary">In dieser Liste können nur Widgets ausgewählt werden. Verknüpfungen können momentan noch nicht verborgen werden.</string>
+    <string name="pref_limited_title">Beschränkt nutzbar</string>
+    <string name="pref_limited_summary">Einige der folgenden Einstellungen sind nur in der Spenden-Version verfügbar.</string>
+    
 </resources>

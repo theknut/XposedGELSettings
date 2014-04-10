@@ -118,7 +118,7 @@
         <item>Ponuka aplikácií</item>
         <item>Gestá</item>
         <item>Vylepšenia rozhrania</item>
-        <item>Backup/Restore</item>
+        <item>Import/Export</item>
         <item>Nastavenia</item>
         <item>Dar/Podpora</item>
     </string-array>
@@ -130,7 +130,7 @@
     <string name="pref_cat_systemui_navbar_title">Navigačná lišta</string>
     <string name="pref_cat_systemui_statusbar_title">Stavový riadok</string>
     <string name="pref_dynamic_backbutton_title">Tlačidlo Späť</string>
-    <string name="pref_dynamic_backbutton_summary">Prepnúť na \"Uspať\" na predvolenej domovskej obrazovke</string>
+    <string name="pref_dynamic_backbutton_summary">Prepnúť na \">Prejsť do spánku\" na predvolenej domovskej obrazovke</string>
     <string name="pref_dynamic_homebutton_title">Tlačidlo Domov</string>
     <string name="pref_dynamic_homebutton_summary">Prepnúť na \"Otvoriť ponuku aplikácií\" na predvolenej domovskej obrazovke</string>
     <string name="pref_dynamic_hideclock_title">Skryť hodiny</string>
@@ -172,6 +172,64 @@
     <string name="progress_requesting_root_summary">Vyžaduje sa root prístup&#8230;</string>
     <string name="pref_auto_blur_wallpaper_title">Dynamické pozadie</string>
     <string name="pref_auto_blur_wallpaper_summary">Rozmazať pozadie zariadenie zakaždým, keď sa zmení a použiť ho ako pozadie XGELN. Toto môže rýchlo vybíjať batériu, ak používate aplikácie, ktoré menia tapetu v určitých intervaloch.</string>
-    <string name="pref_dynamic_backbuttononeveryscreen_title">Uspať na každej obrazovke</string>
-    <string name="pref_dynamic_backbuttononeveryscreen_summary">Uspať na každej domovskej obrazovke. Ak táto možnosť nie je povolená, uspanie prebehne len na predvolenej domovskej obrazovke.</string>
+    <string name="pref_dynamic_backbuttononeveryscreen_title">Prejsť do spánku na každej obrazovke</string>
+    <string name="pref_dynamic_backbuttononeveryscreen_summary">>Prejsť do spánku na každej domovskej obrazovke. Ak táto možnosť nie je povolená, uspanie prebehne len na predvolenej domovskej obrazovke.</string>
+    
+     <!-- V1.5 -->
+    <string name="pref_selectwidgetstohide_summary">Vybrať miniaplikácie na skrytie</string>
+    <string name="pref_workspacerect_title">Ľavý/pravý okraj domovskej obrazovky</string>
+    <string name="pref_workspacerect_summary">Zvoliť násobiteľa okraja pre ľavú a pravú stranu domovskej obrazovky</string>
+    <string name="pref_workspacerect_dialog">Vyberte násobiteľ</string>
+    <string name="toast_openinstaller_failed">Nemožno otvoriť Xposed Inštalátor. Prosím, spustite ho ručne!</string>
+    <string name="pref_cat_homescreen_folder_title">Priečinky</string>
+    <string name="pref_cat_homescreen_icon_title">Ikony</string>
+    <string name="pref_cat_homescreen_appdock_title">Dok aplikácií</string>
+    <string name="pref_switch_appdocksettings_title">Povoliť</string>
+    <string name="pref_switch_appdocksettings_explain_summary">Povoliť zmeny na doku aplikácií</string>
+    <string name="pref_switch_autohideappdock_title">Automaticky skrývať</string>
+    <string name="pref_switch_autohideappdock_summary">Automaticky skrývať dok aplikácií</string>
+    <string name="pref_switch_folder_title">Povoliť</string>
+    <string name="pref_switch_folder_summary">Povoliť zmeny na priečinkoch</string>
+    <string name="pref_folder_background_color">Farba pozadia</string>
+    <string name="pref_folder_applabel_color">Farba textu ikony</string>
+    <string name="pref_folder_namelabel_color">Farba textu názvu priečinka</string>
+    <string name="pref_folder_preview_color">Farba náhľadu priečinka</string>
+    
+    <string-array name="gesture_actions_entries">
+        <item>Žiadna</item>
+        <item>Notifikačná lišta</item>
+        <item>Rýchle nastavenia</item>
+        <item>Ponuka aplikácií</item>
+        <item>Nedávne aplikácie</item>
+        <item>Nastavenia Androidu</item>
+        <item>Prejsť do spánku</item>
+        <item>Prepnúť dok</item>
+        <item>Otvoriť aplikáciu</item>
+    </string-array>
+    
+    <string-array name="gesture_actions_entries_limited">
+        <item>Žiadna</item>
+        <item>Ponuka aplikácií</item>
+        <item>Prepnúť dok</item>
+    </string-array>
+    
+    <string name="pref_choose_gesture_action_title">Vyberte akciu gesta</string>
+    <string name="pref_switch_gesture_appdrawer_title">Ponuka aplikácií</string>
+    <string name="pref_switch_gesture_appdrawer_summary">Potiahnutie nadol - zatvoriť ponuku aplikácií\nPotiahnutie nahor - prepnúť medzi všetkými aplikáciami a miniaplikáciami</string>
+    <string name="pref_switch_gesture_double_tap_title">Dvojité poklepanie</string>
+    <string name="pref_switch_gesture_double_tap_summary">Okrem priečinkov a miniaplikácií</string>
+    <string name="pref_cat_gesture_down_title">Gestá potiahnutia nadol</string>
+    <string name="pref_cat_gesture_up_title">Gestá potiahnutia nahor</string>
+    <string name="pref_gesture_down_left_title">Potiahnutie nadol vľavo</string>
+    <string name="pref_gesture_down_middle_title">Potiahnutie nadol v strede</string>
+    <string name="pref_gesture_down_right_title">Swipe down right</string>
+    <string name="pref_gesture_up_left_title">Potiahnutie nahor vľavo</string>
+    <string name="pref_gesture_up_middle_title">Potiahnutie nahor v strede</string>
+    <string name="pref_gesture_up_right_title">Potiahnutie nahor vpravo</string>
+    <string name="alert_hidedock_summary">Prosím, uistite sa, že ste nastavili prepínač skrytia/zobrazenia buď v ponuke gest alebo aktivovali dynamické tlačidlo Domov v sekcii Vylepšenia rozhrania. V opačnom prípade nebudete môcť otvoriť ponuku aplikácií!</string>
+    <string name="alert_hidewidgets_title">Poznámka</string>
+    <string name="alert_hidewidgets_summary">Môžete vybrať len miniaplikácie v tomto zozname. Odkazy momentálne skryté byť nemôžu.</string>
+    <string name="pref_limited_title">Limitované</string>
+    <string name="pref_limited_summary">Niektoré z týchto funkcií sú k dispozícii len v darcovskej verzii.</string>
+    
 </resources>

@@ -1,16 +1,11 @@
 package de.theknut.xposedgelsettings.ui;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.Preference.OnPreferenceChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+
 import de.theknut.xposedgelsettings.R;
-import de.theknut.xposedgelsettings.hooks.Common;
 
 public class FragmentSystemUI extends FragmentBase {
 	
@@ -28,7 +23,7 @@ public class FragmentSystemUI extends FragmentBase {
         this.findPreference("changeicondynamicbackbutton").setOnPreferenceChangeListener(onChangeListenerFullReboot);
         this.findPreference("animatedynamicbackbutton").setOnPreferenceChangeListener(onChangeListenerFullReboot);
         this.findPreference("animatedynamichomebutton").setOnPreferenceChangeListener(onChangeListenerFullReboot);
-        //this.findPreference("dynamicbackbuttononeveryscreen").setOnPreferenceChangeListener(onChangeListenerFullReboot);
+        this.findPreference("dynamicbackbuttononeveryscreen").setOnPreferenceChangeListener(onChangeListenerFullReboot);
         
         rootView = CommonUI.setBackground(rootView, R.id.prefbackground);
         

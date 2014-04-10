@@ -24,6 +24,21 @@
     </style>
   </head>
   <body>
+  
+$ 1.5.3
+ % Version 1.5.3
+ _ 2014-04-09
+
+! Fixed:
+* lag in app UI on certain devices<br>(please update your rating on Google Play)
+* launcher layout backup/restore not working
+* navigation bar icons don't work on CM
+* can't exit overview on long press
+* hide app dock not working after some time
+* dock not hiding after launching an app
+* search bar showing when overscrolling 
+* search bar disappearing after canceling a search
+* fixed crashs from crash reports
 
 $ 1.5.2
  % Version 1.5.2

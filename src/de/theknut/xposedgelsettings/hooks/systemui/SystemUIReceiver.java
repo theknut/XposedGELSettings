@@ -252,15 +252,18 @@ public class SystemUIReceiver extends HooksBaseClass {
                 
                 Object navBar = null;
 				
-				try {
-					navBar = getObjectField(PHONE_STATUSBAR_OBJECT, "mNavigationBarView");
-					HOME_BUTTON = (ImageView) callMethod(navBar, "getHomeButton");
-					BACK_BUTTON = (ImageView) callMethod(navBar, "getBackButton");
-					HOME_BUTTON_ORIG = HOME_BUTTON.getDrawable();
-					BACK_BUTTON_ORIG = BACK_BUTTON.getDrawable();
-					BACK_BUTTON_ORIG_SCALE = BACK_BUTTON.getScaleType();
-				} catch (Exception ex) {
+                try {
 					try {
+						
+						navBar = getObjectField(PHONE_STATUSBAR_OBJECT, "mNavigationBarView");
+						HOME_BUTTON = (ImageView) callMethod(navBar, "getHomeButton");
+						BACK_BUTTON = (ImageView) callMethod(navBar, "getBackButton");
+						HOME_BUTTON_ORIG = HOME_BUTTON.getDrawable();
+						BACK_BUTTON_ORIG = BACK_BUTTON.getDrawable();
+						BACK_BUTTON_ORIG_SCALE = BACK_BUTTON.getScaleType();
+						
+					} catch (NoSuchMethodError nsme) {
+						
 						// probably running CM
 						navBar = getObjectField(PHONE_STATUSBAR_OBJECT, "mNavigationBarView");
 						View mCurrentView = (View) getObjectField(navBar, "mCurrentView");
@@ -276,13 +279,12 @@ public class SystemUIReceiver extends HooksBaseClass {
 						
 						HOME_BUTTON_ORIG = HOME_BUTTON.getDrawable();
 						BACK_BUTTON_ORIG = BACK_BUTTON.getDrawable();
-						BACK_BUTTON_ORIG_SCALE = BACK_BUTTON.getScaleType();
-					} catch (Exception ex2) {
-						// okay probably not
-						XposedBridge.log("XGELS: Something went wrong when hooking to SystemUI. Changing the navigation bar icons will not work. Please show this to dev:");
-						XposedBridge.log(ex);
-						XposedBridge.log(ex2);
+						BACK_BUTTON_ORIG_SCALE = BACK_BUTTON.getScaleType();						
 					}
+                }catch (Exception ex) {
+					// okay probably not
+					XposedBridge.log("XGELS: Something went wrong when hooking to SystemUI. Changing the navigation bar icons will not work. Please show this to dev:");
+					XposedBridge.log(ex);
 				}
 			};
 		});

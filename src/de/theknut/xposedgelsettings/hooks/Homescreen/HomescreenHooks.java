@@ -1,10 +1,7 @@
 package de.theknut.xposedgelsettings.hooks.homescreen;
 
-import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
-import android.graphics.Color;
-import android.view.ViewGroup;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;

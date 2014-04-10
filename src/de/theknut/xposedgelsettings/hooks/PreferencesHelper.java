@@ -52,11 +52,11 @@ public class PreferencesHelper {
 	public static int homescreenIconLabelColor = prefs.getInt("homescreeniconlabelcolor", Color.WHITE);
 	public static int appdrawerIconLabelColor = prefs.getInt("appdrawericonlabelcolor", Color.WHITE);
 	public static int appdrawerBackgroundColor = prefs.getInt("appdrawerbackgroundcolor", Color.argb(0xA5, 0x00, 0x00, 0x00));
-	public static int appDockBackgroundColor = prefs.getInt("appdockbackgroundcolor", Color.argb(0x00, 0x00, 0x00, 0x00));
-	public static int homescreenFolderColor = prefs.getInt("homescreenfoldercolor", Color.argb(0xA5, 0x00, 0x00, 0x00));
+	public static int appDockBackgroundColor = prefs.getInt("appdockbackgroundcolor", Color.argb(0x00, 0xFF, 0xFF, 0xFF));
+	public static int homescreenFolderColor = prefs.getInt("homescreenfoldercolor", Color.argb(0xFF, 0xFF, 0xFF, 0xFF));
 	public static int homescreenFolderAppTextColor = prefs.getInt("homescreenfolderapptextcolor", Color.argb(0xFF, 0xFF, 0xFF, 0xFF));
 	public static int homescreenFolderNameTextColor = prefs.getInt("homescreenfoldernametextcolor", Color.argb(0xFF, 0x77, 0x77, 0x77));
-	public static int homescreenFolderPreviewColor = prefs.getInt("homescreenfolderpreviewcolor", Color.argb(0xA5, 0x00, 0x00, 0x00));
+	public static int homescreenFolderPreviewColor = prefs.getInt("homescreenfolderpreviewcolor", Color.argb(0xFF, 0xFF, 0xFF, 0xFF));
 	public static int defaultHomescreen = Integer.parseInt(prefs.getString("defaulthomescreen", "1"));
 	public static int workspaceRect = Integer.parseInt(prefs.getString("workspacerect", "1"));
 	public static String gesture_one_up_left = prefs.getString("gesture_one_up_left", "NONE");

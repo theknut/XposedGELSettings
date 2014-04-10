@@ -5,33 +5,17 @@ import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.getBooleanField;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
-import static de.robv.android.xposed.XposedHelpers.setIntField;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import net.margaritov.preference.colorpicker.ColorPickerPreference;
-
-import android.animation.Animator;
-import android.animation.Animator.AnimatorListener;
-import android.app.Activity;
-import android.app.ActivityManager;
-import android.app.ActivityManager.RecentTaskInfo;
-import android.app.ActivityManager.RunningAppProcessInfo;
-import android.app.ActivityManager.RunningTaskInfo;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
-import android.gesture.Gesture;
-import android.graphics.Color;
 import android.graphics.Point;
-import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewPropertyAnimator;
 import android.view.WindowManager;
 import android.widget.Toast;
 import android.widget.FrameLayout.LayoutParams;
@@ -40,11 +24,8 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
-import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
-import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
-import de.theknut.xposedgelsettings.hooks.googlesearchbar.GoogleSearchBarHooks;
 
 public class GestureHooks extends GestureHelper {
 	
@@ -75,21 +56,30 @@ public class GestureHooks extends GestureHelper {
 				
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+					log("onTransitionPrepare");
 					hideAppdock(0);
 				}
 			});
-		
+			
 			XposedBridge.hookAllMethods(WorkspaceClass, "onWindowVisibilityChanged", new XC_MethodHook() {
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-					if (!Common.APPDOCK_HIDDEN) {
-						
-						if (autoHideAppDock) {
-							hideAppdock(200);
-						} else {
-							hideAppdock(0);
-							showAppdock(0);
+					log("onWindowVisibilityChanged");
+					
+					try {
+						if (mHotseat.getAlpha() != 1.0f) {
+							
+							if (autoHideAppDock) {
+								log("onWindowVisibilityChanged autoHideAppDock");
+								hideAppdock(0);
+							} else {
+								log("onWindowVisibilityChanged !autoHideAppDock");
+								hideAppdock(0);
+								showAppdock(0);
+							}
 						}
+					} catch (Exception ex) {
+						log(ex.getMessage());
 					}
 				}
 			});
@@ -97,13 +87,22 @@ public class GestureHooks extends GestureHelper {
 			XposedBridge.hookAllMethods(WorkspaceClass, "onRequestFocusInDescendants", new XC_MethodHook() {
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-					if (!Common.APPDOCK_HIDDEN) {
-						if (autoHideAppDock) {
-							hideAppdock(200);
-						} else {
-							hideAppdock(0);
-							showAppdock(0);
+					log("onRequestFocusInDescendants");
+					
+					try {
+						if (mHotseat.getAlpha() == 1.0f) {
+							
+							if (autoHideAppDock) {
+								log("onRequestFocusInDescendants autoHideAppDock");
+								hideAppdock(200);
+							} else {
+								log("onRequestFocusInDescendants !autoHideAppDock");
+								hideAppdock(0);
+								showAppdock(0);
+							}
 						}
+					} catch (Exception ex) {
+						log(ex.getMessage());
 					}
 				}
 			});
@@ -131,7 +130,7 @@ public class GestureHooks extends GestureHelper {
 					switch (rotation) {
 						case Configuration.ORIENTATION_PORTRAIT:
 							if (isLandscape) {
-								if (autoHideAppDock) { 
+								if (PreferencesHelper.appdockSettingsSwitch && PreferencesHelper.hideAppDock) { 
 									hideAppdock(0);
 								}
 								
@@ -142,7 +141,7 @@ public class GestureHooks extends GestureHelper {
 							break;
 						case Configuration.ORIENTATION_LANDSCAPE:
 							if (!isLandscape) {
-								if (autoHideAppDock) { 
+								if (PreferencesHelper.appdockSettingsSwitch && PreferencesHelper.hideAppDock) { 
 									hideAppdock(0);
 								}
 								
@@ -159,8 +158,21 @@ public class GestureHooks extends GestureHelper {
 							downY = ev.getRawY();
 							downX = ev.getRawX();
 							
-							if (autoHideAppDock) {
-								hideAppdock(animateDuration);
+							mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, "mHotseat");
+							
+							if (PreferencesHelper.appdockSettingsSwitch && PreferencesHelper.hideAppDock) {
+								LayoutParams lp = (LayoutParams) mHotseat.getLayoutParams();
+								if (mHotseat.getAlpha() == 1.0f
+									&& (lp.width == 0 || lp.height == 0)) {
+
+									mHotseat.setAlpha(0.0f);
+									lp.width = lp.width = 0;
+									mHotseat.setLayoutParams(lp);
+									
+								} else if (autoHideAppDock) {
+									
+									hideAppdock(animateDuration);
+								}
 							}
 							
 							break;
@@ -264,19 +276,28 @@ public class GestureHooks extends GestureHelper {
 								
 							} else if ((ev.getRawY() - downY) < -(height / 6)) {
 								
+								if (Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE)) {
+									Toast.makeText(Common.LAUNCHER_CONTEXT, "XGELS: Unfortunately swipe up to toggle apps/widgets doesn't work on Trebuchet", Toast.LENGTH_LONG).show();
+									return;
+								}
+								
 								Object tabhost = getObjectField(Common.LAUNCHER_INSTANCE, "mAppsCustomizeTabHost");
 								
 								if (!getBooleanField(tabhost, "mInTransition")) {
 								
 									String tabtag = (String) callMethod(tabhost, "getCurrentTabTag");
 									if (tabtag.equals("APPS")) {
+										
 										callMethod(getObjectField(param.thisObject, "mLauncher"), "showWorkspace", false);
 										Object ContentType = callMethod(tabhost, "getContentTypeForTabTag", "WIDGETS");
 										callMethod(Common.LAUNCHER_INSTANCE, "showAllApps", true, ContentType, true);
+										
 									} else if (tabtag.equals("WIDGETS")) {
+										
 										callMethod(getObjectField(param.thisObject, "mLauncher"), "showWorkspace", false);
 										Object ContentType = callMethod(tabhost, "getContentTypeForTabTag", "APPS");
 										callMethod(Common.LAUNCHER_INSTANCE, "showAllApps", true, ContentType, true);
+										
 									}
 								}
 							}
@@ -289,14 +310,18 @@ public class GestureHooks extends GestureHelper {
 			};
 			
 			if (Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE)) {
+				
 				final Class<?> PagedViewWithDraggableItemsClass = findClass(Common.PAGED_VIEW_WITH_DRAGGABLE_ITEMS, lpparam.classLoader);
 				XposedBridge.hookAllMethods(PagedViewWithDraggableItemsClass, "onTouchEvent", gestureHook);
 				XposedBridge.hookAllMethods(PagedViewWithDraggableItemsClass, "onInterceptTouchEvent", gestureHook);
+				
 			}
 			else if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE)) {
+				
 				final Class<?> PagedViewWithDraggableItemsClass = findClass(Common.PAGED_VIEW_WITH_DRAGGABLE_ITEMS, lpparam.classLoader);
 				XposedBridge.hookAllMethods(PagedViewWithDraggableItemsClass, "onTouchEvent", gestureHook);
 				XposedBridge.hookAllMethods(PagedViewWithDraggableItemsClass, "onInterceptTouchEvent", gestureHook);
+				
 			}
 		}
 		
@@ -305,16 +330,25 @@ public class GestureHooks extends GestureHelper {
 			final Class<?> LauncherClass = findClass(Common.LAUNCHER, lpparam.classLoader);			
 			XposedBridge.hookAllMethods(LauncherClass, "onClick", new XC_MethodHook() {
 				
+				// http://androidxref.com/4.4.2_r1/xref/packages/apps/Launcher3/src/com/android/launcher3/LauncherSettings.java
+				// https://github.com/CyanogenMod/android_packages_apps_Trebuchet/blob/cm-11.0/src/com/android/launcher3/LauncherSettings.java
+				final int ITEM_TYPE_ALLAPPS = 5;
+				final int ITEM_TYPE_FOLDER = 2;
+				
 				Runnable r = new Runnable() {
 					
 					@Override
 					public void run() {
+						
 						log(currTouchTime + " " + lastTouchTime + " " + (currTouchTime == lastTouchTime) + " " + (currTouchTime - lastTouchTime));
+						
 						if (currTouchTime == lastTouchTime) {
-							callMethod(Common.LAUNCHER_INSTANCE, "onClick", lastTouchView);						
+							
+							callMethod(Common.LAUNCHER_INSTANCE, "onClick", lastTouchView);
+							
 						} else if ((currTouchTime - lastTouchTime) < 400) {
 							
-							handleGesture(getGestureKey(Gestures.DOUBLE_TAP), PreferencesHelper.gesture_double_tap);
+							handleGesture(getGestureKey(Gestures.DOUBLE_TAP), PreferencesHelper.gesture_double_tap);							
 						}
 					}
 				};
@@ -323,9 +357,23 @@ public class GestureHooks extends GestureHelper {
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 					currTouchTime = System.currentTimeMillis();
 					
-					View view = (View) param.args[0];
-					Object tag = view.getTag();
-					if (tag != null && !tag.getClass().getName().contains("FolderInfo")) {
+					if (getObjectField(Common.WORKSPACE_INSTANCE, "mState").toString().equals("NORMAL")) {
+						
+						View view = (View) param.args[0];
+						Object tag = view.getTag();
+						if (tag == null) return;
+						
+						if (view.getTag().getClass().getName().contains("ShortcutInfo")) {
+							
+							int itemType = getIntField(tag, "itemType");
+							if (itemType == ITEM_TYPE_ALLAPPS
+								|| itemType == ITEM_TYPE_FOLDER) {
+								return;
+							}	
+						} else if (view.getTag().getClass().getName().contains("FolderInfo")) {
+							
+							return;
+						}
 						
 						if (isScheduledOrRunning) {
 							isScheduledOrRunning = false;

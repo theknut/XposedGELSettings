@@ -34,7 +34,7 @@ public class CommonUI {
 	private static Shell.Interactive rootSession;
 	
 	public static View setBackground(View rootView, int layout) {
-    	
+		
     	if (CommonUI.AUTO_BLUR_IMAGE && CommonUI.setBluredBackground(CONTEXT, rootView, layout)) {
     		return rootView;
     	}
@@ -47,11 +47,12 @@ public class CommonUI {
 	
 	public static boolean setBluredBackground (Context context, View v, int imageViewId) {
 		
+		ImageView background = (ImageView) v.findViewById(imageViewId);
+		
 		if (CommonUI.bluredBackground == null) {
 			
 			String pathBackground = Environment.getExternalStorageDirectory().getPath() + "/XposedGELSettings/bluredbackground.png";			
-			File fileBackground = new File(pathBackground);
-			ImageView background = (ImageView) v.findViewById(imageViewId);
+			File fileBackground = new File(pathBackground);			
 			
 			if (fileBackground.exists()) {
 				CommonUI.bluredBackground = BitmapFactory.decodeFile(pathBackground);
@@ -62,7 +63,6 @@ public class CommonUI {
 			}
 		}
 		else {
-			ImageView background = (ImageView) v.findViewById(imageViewId);
 	    	background.setImageBitmap(CommonUI.bluredBackground);
 		}
 		
@@ -98,7 +98,7 @@ public class CommonUI {
     	    			return;
     	    		}
     	        	
-    	        	openRootShell(new String[]{"sU", "-c", "reboot now"});
+    	        	openRootShell(new String[]{"su", "-c", "reboot now"});
     	        }
 	        }
     	     )

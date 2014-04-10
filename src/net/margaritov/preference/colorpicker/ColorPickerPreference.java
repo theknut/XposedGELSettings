@@ -16,7 +16,6 @@
 
 package net.margaritov.preference.colorpicker;
 
-import de.theknut.xposedgelsettings.ui.FragmentBase;
 import de.theknut.xposedgelsettings.ui.CommonUI;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -92,7 +91,7 @@ public class ColorPickerPreference
 		
 		CommonUI.setCustomStyle(view, true, true);
 	}
-
+	
 	private void setPreviewColor() {
 		if (mView == null) return;
 		ImageView iView = new ImageView(getContext());
@@ -112,7 +111,7 @@ public class ColorPickerPreference
 		}
 		widgetFrameView.addView(iView);
 		widgetFrameView.setMinimumWidth(0);
-		iView.setBackgroundDrawable(new AlphaPatternDrawable((int)(5 * mDensity)));
+		iView.setBackground(new AlphaPatternDrawable((int)(5 * mDensity)));
 		iView.setImageBitmap(getPreviewBitmap());
 	}
 

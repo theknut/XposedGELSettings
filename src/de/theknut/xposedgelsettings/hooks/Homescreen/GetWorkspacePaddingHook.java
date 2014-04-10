@@ -3,11 +3,8 @@ package de.theknut.xposedgelsettings.hooks.homescreen;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.setIntField;
 
-import javax.crypto.spec.OAEPParameterSpec;
-
 import android.graphics.Rect;
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 

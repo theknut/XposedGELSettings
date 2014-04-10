@@ -38,8 +38,7 @@ public class StatusBarTintApi {
 	protected static final String METADATA_OVERRIDE_COLORS = "override_tinted_status_bar_defaults";
 
 	/* Helper method, pass -1 for a colour you don't want to change */
-	public static void sendColorChangeIntent(int statusBarTint, int iconColorTint,
-			int navBarTint, int navBarIconTint, Context context) {
+	public static void sendColorChangeIntent(int statusBarTint, int iconColorTint, int navBarTint, int navBarIconTint, Context context) {
 		Intent intent = new Intent(INTENT_CHANGE_COLOR_NAME);
 		if (statusBarTint != -1)
 			intent.putExtra(KEY_STATUS_BAR_TINT, statusBarTint);

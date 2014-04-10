@@ -22,6 +22,8 @@ public final class OnPageEndMovingHook extends XC_MethodHook {
 			&& getIntField(Common.WORKSPACE_INSTANCE, "mCurrentPage") == 0) {
 			
 			GoogleSearchBarHooks.showSearchbar();					
+		} else if (!Common.IS_DRAGGING) {
+			GoogleSearchBarHooks.hideSearchbar();
 		}
 	}	
 }

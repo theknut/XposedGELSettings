@@ -22,7 +22,6 @@ import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 public class SystemUIHooks extends HooksBaseClass {
 	
 	static ActivityManager activityManager = null;
-	static boolean backPressed = false;
 	
 	public static void initAllHooks(LoadPackageParam lpparam) {
 		
@@ -31,6 +30,7 @@ public class SystemUIHooks extends HooksBaseClass {
 			return;
 		}
 		
+		final Class<?> WorkspaceClass = findClass(Common.WORKSPACE, lpparam.classLoader);
 		final Class<?> PagedViewClass = findClass(Common.PAGED_VIEW, lpparam.classLoader);
 		final Class<?> LauncherClass = findClass(Common.LAUNCHER, lpparam.classLoader);
 		
@@ -73,7 +73,6 @@ public class SystemUIHooks extends HooksBaseClass {
 			}
 		});
 		
-		final Class<?> WorkspaceClass = findClass(Common.WORKSPACE, lpparam.classLoader);
 		XposedBridge.hookAllMethods(WorkspaceClass, "onPageBeginMoving", new XC_MethodHook() {
 			
 			int TOUCH_STATE_REST = 0;
@@ -287,6 +286,20 @@ public class SystemUIHooks extends HooksBaseClass {
 			}
 		});
 		
+		XposedBridge.hookAllMethods(LauncherClass, "showAllApps", new XC_MethodHook() {
+			
+			@Override
+			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+				log("showAllApps");
+				
+				Intent myIntent = new Intent();
+				myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_NAVBAR);
+				myIntent.putExtra(Common.XGELS_ACTION, "BACK_HOME_ORIG");						
+				myIntent.setAction(Common.XGELS_INTENT);
+				Common.LAUNCHER_CONTEXT.sendBroadcast(myIntent);
+			}
+		});
+		
 		if (PreferencesHelper.dynamicBackbutton) {
 			
 			if (PreferencesHelper.dynamicIconBackbutton) {
@@ -380,23 +393,6 @@ public class SystemUIHooks extends HooksBaseClass {
 							param.setResult(null);
 						}
 					}
-				}
-			});
-		}
-			
-		if (PreferencesHelper.dynamicHomebutton) {
-			
-			XposedBridge.hookAllMethods(LauncherClass, "showAllApps", new XC_MethodHook() {
-				
-				@Override
-				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-					log("showAllApps");
-					
-					Intent myIntent = new Intent();
-					myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_NAVBAR);
-					myIntent.putExtra(Common.XGELS_ACTION, "BACK_HOME_ORIG");						
-					myIntent.setAction(Common.XGELS_INTENT);
-					Common.LAUNCHER_CONTEXT.sendBroadcast(myIntent);
 				}
 			});
 		}

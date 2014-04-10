@@ -1,14 +1,11 @@
 package de.theknut.xposedgelsettings.ui;
 
-import de.theknut.xposedgelsettings.R;
 import android.content.Context;
-import android.graphics.Color;
 import android.preference.SwitchPreference;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Switch;
-import android.widget.TextView;
 
 /**
  * 

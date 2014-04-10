@@ -46,6 +46,8 @@ public class FragmentWelcome extends FragmentBase {
     		
     		if (!isXposedInstalled()) {
         		alerts.add(IsXposedInstalledAlert);
+        		new ShowAlertsAsyncTask().execute();
+        		return;
         	}
         	
         	if (!isXGELSActive()) {
@@ -173,7 +175,9 @@ public class FragmentWelcome extends FragmentBase {
     		super.onPreExecute();
     		
     		try {
-    			alerts.get(alertToShow).show();
+    			//if (!getActivity().isFinishing()) {
+    				alerts.get(alertToShow).show();
+    			//}
     		} catch (Exception e) {
     			e.printStackTrace();
     			this.cancel(true);
@@ -184,7 +188,7 @@ public class FragmentWelcome extends FragmentBase {
 		protected Void doInBackground(final Void... params) {
 			
 			while(alerts.get(alertToShow).isShowing()) {
-				try { Thread.sleep(500); } catch (InterruptedException e) { e.printStackTrace(); }
+				try { Thread.sleep(300); } catch (InterruptedException e) { e.printStackTrace(); }
 			}
 			
 			return null;

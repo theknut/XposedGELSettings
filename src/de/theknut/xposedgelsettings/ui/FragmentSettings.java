@@ -17,13 +17,13 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
-import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 
@@ -37,7 +37,8 @@ public class FragmentSettings extends FragmentBase {
         addPreferencesFromResource(R.xml.settings_fragment);
         
         OnPreferenceClickListener ImExportResetSettingsListener = new OnPreferenceClickListener() {
-            @SuppressLint("WorldReadableFiles")
+            @SuppressWarnings("deprecation")
+			@SuppressLint("WorldReadableFiles")
 			public boolean onPreferenceClick(Preference preference) {
             	
             	File sdcard = new File(Environment.getExternalStorageDirectory().getPath() + "/XposedGELSettings/" + Common.PREFERENCES_NAME + ".xml");

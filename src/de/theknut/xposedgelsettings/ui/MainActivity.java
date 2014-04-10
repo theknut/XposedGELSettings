@@ -16,8 +16,7 @@
 
 package de.theknut.xposedgelsettings.ui;
 
-import de.theknut.xposedgelsettings.R;
-import de.theknut.xposedgelsettings.hooks.Common;
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
@@ -31,7 +30,6 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -40,6 +38,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import de.theknut.xposedgelsettings.R;
+import de.theknut.xposedgelsettings.hooks.Common;
+
+@SuppressLint("WorldReadableFiles")
 public class MainActivity extends InAppPurchase {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -48,14 +50,16 @@ public class MainActivity extends InAppPurchase {
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
     private String[] mFragmentTitles;
+    private Fragment mCurrFragment = null;
 
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
         CommonUI.CONTEXT = (Context) this;
-
+        
         mTitle = mDrawerTitle = getTitle();
         mFragmentTitles = getResources().getStringArray(R.array.fragmenttitles_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -108,24 +112,15 @@ public class MainActivity extends InAppPurchase {
     	super.onResume();
     	
     	// sending the colors to Tinted Status Bar
-    	StatusBarTintApi.sendColorChangeIntent(CommonUI.UIColor, Color.WHITE, CommonUI.UIColor, Color.WHITE, mContext);
+    	StatusBarTintApi.sendColorChangeIntent(CommonUI.UIColor, Color.WHITE, CommonUI.UIColor, Color.WHITE, this);
     }
-
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
     	MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.menu.menu, menu);
 	    
         return super.onCreateOptionsMenu(menu);
-    }
-
-    /* Called whenever we call invalidateOptionsMenu() */
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        // If the nav drawer is open, hide action items related to the content view
-        //boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-        //menu.findItem(R.id.action_refresh).setVisible(!drawerOpen);
-        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -156,6 +151,8 @@ public class MainActivity extends InAppPurchase {
         }
     }
     
+    
+    
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
     	boolean beforeIsDonate = isDonate;
@@ -169,55 +166,46 @@ public class MainActivity extends InAppPurchase {
 
     private void selectItem(final int position) {
     	
-    	new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-            	
-            	mDrawerLayout.closeDrawer(mDrawerList);
-            }
-        }, 350);
-    	
     	// update the main content by replacing fragments
-        Fragment fragment = null;
         FragmentManager fm = getFragmentManager();
         
         switch(position) {
 	        case 0:
-	        	fragment = new FragmentWelcome();
+	        	mCurrFragment = new FragmentWelcome();
 	        	break;
 	        case 1:
-	        	fragment = new FragmentGeneral();
+	        	mCurrFragment = new FragmentGeneral();
 	        	break;
 	        case 2:
-	        	fragment = new FragmentSearchbar();
+	        	mCurrFragment = new FragmentSearchbar();
 	        	break;
 	        case 3:
-	        	fragment = new FragmentHomescreen();
+	        	mCurrFragment = new FragmentHomescreen();
 	        	break;
 	        case 4:
-	        	fragment = new FragmentAppDrawer();
+	        	mCurrFragment = new FragmentAppDrawer();
 	        	break;
 	        case 5:
-	        	fragment = new FragmentGestures();
+	        	mCurrFragment = new FragmentGestures();
 	        	break;
 	        case 6:
-	        	fragment = new FragmentSystemUI();
+	        	mCurrFragment = new FragmentSystemUI();
 	        	break;
 	        case 7:
-	        	fragment = new FragmentImExport();
+	        	mCurrFragment = new FragmentBackupRestore();
 	        	break;
 	        case 8:
-	        	fragment = new FragmentSettings();
+	        	mCurrFragment = new FragmentSettings();
 	        	break;
 	        // !!!! don't forget to change onActivityResult, too !!!!
 	        case 9:
-	        	fragment = new FragmentDonate();
+	        	mCurrFragment = new FragmentDonate();
 	        	break;
         }
         
-        fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
+        fm.beginTransaction().replace(R.id.content_frame, mCurrFragment).commit();
 
-        // update selected item and title, then close the drawer
+        // update selected item and title
         mDrawerList.setItemChecked(position, true);
         setTitle(mFragmentTitles[position]);
     }
@@ -226,6 +214,17 @@ public class MainActivity extends InAppPurchase {
     public void setTitle(CharSequence title) {
         mTitle = title;
         getActionBar().setTitle(mTitle);
+    }
+    
+    public static void closeDrawer() {
+    	
+    	new Handler().postDelayed(new Runnable() {
+          @Override
+          public void run() {
+          	
+        	  ((DrawerLayout) mActivity.findViewById(R.id.drawer_layout)).closeDrawer(Gravity.LEFT);
+          }
+        }, 350);
     }
 
     /**

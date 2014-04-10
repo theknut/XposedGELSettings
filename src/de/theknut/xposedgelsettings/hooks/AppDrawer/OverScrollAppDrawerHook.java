@@ -34,7 +34,11 @@ public class OverScrollAppDrawerHook extends XC_MethodHook {
 				else {					
 					callMethod(getObjectField(param.thisObject, "mLauncher"), "showWorkspace", true);
 				}
-			}			
+			}
+
+			if (PreferencesHelper.hideSearchBar) {
+				GoogleSearchBarHooks.hideSearchbar();
+			}
 			
 			callMethod(getObjectField(param.thisObject, "mLauncher"), "showWorkspace", true);
 		}
@@ -49,11 +53,11 @@ public class OverScrollAppDrawerHook extends XC_MethodHook {
 				}
 			}
 			
-			callMethod(getObjectField(param.thisObject, "mLauncher"), "showWorkspace", true);			
-			
 			if (PreferencesHelper.hideSearchBar) {
 				GoogleSearchBarHooks.hideSearchbar();
 			}
+			
+			callMethod(getObjectField(param.thisObject, "mLauncher"), "showWorkspace", true);			
 		}
 	}
 }

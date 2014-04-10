@@ -8,6 +8,7 @@ import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.ui.Blur;
 import de.theknut.xposedgelsettings.ui.CommonUI;
+import android.annotation.SuppressLint;
 import android.app.WallpaperManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -17,6 +18,7 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.widget.Toast;
 
+@SuppressLint("WorldReadableFiles")
 public class XGELSReceiver extends BroadcastReceiver {
 	
 	public static Object sbservice = null;
@@ -26,7 +28,8 @@ public class XGELSReceiver extends BroadcastReceiver {
 	public static String NOTIFICATION_PANEL = "expandNotificationsPanel";
 	public static String SETTINGS_PANEL = "expandSettingsPanel";
 
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals(Common.XGELS_INTENT)) {
         	

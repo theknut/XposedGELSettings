@@ -1,9 +1,7 @@
 package de.theknut.xposedgelsettings.ui;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import android.annotation.SuppressLint;
 import android.app.ListActivity;
@@ -18,18 +16,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewManager;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.Toast;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 
+@SuppressLint("WorldReadableFiles")
 public class ChooseAppList extends ListActivity {
 	
 	String gestureKey;
@@ -101,6 +96,7 @@ public class ChooseAppList extends ListActivity {
 				rowView.setTag(item.activityInfo.packageName);
 				rowView.setOnClickListener(new OnClickListener() {
 					
+					@SuppressWarnings("deprecation")
 					@Override
 					public void onClick(View v) {
 						

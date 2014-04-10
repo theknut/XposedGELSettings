@@ -1,7 +1,6 @@
 package de.theknut.xposedgelsettings.ui;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.preference.PreferenceCategory;
 import android.util.AttributeSet;

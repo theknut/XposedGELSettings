@@ -3,7 +3,6 @@ package de.theknut.xposedgelsettings.ui;
 import de.theknut.xposedgelsettings.R;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -12,7 +11,6 @@ import android.preference.PreferenceFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class FragmentBase extends PreferenceFragment {
@@ -52,7 +50,8 @@ public class FragmentBase extends PreferenceFragment {
     
     public FragmentBase() { }
     
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	
     	getPreferenceManager().setSharedPreferencesMode(Context.MODE_WORLD_READABLE);
@@ -63,5 +62,15 @@ public class FragmentBase extends PreferenceFragment {
     public void onAttach(Activity activity) {
     	super.onAttach(activity);
     	mContext = activity;
+    }
+    
+    @Override
+    public void onResume() {
+    	super.onResume();
+    	
+    	MainActivity.closeDrawer();
+    	
+    	// sending the colors to Tinted Status Bar
+        StatusBarTintApi.sendColorChangeIntent(CommonUI.UIColor, Color.WHITE, CommonUI.UIColor, Color.WHITE, CommonUI.CONTEXT);
     }
 }

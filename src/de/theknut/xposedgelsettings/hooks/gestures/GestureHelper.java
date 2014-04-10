@@ -38,11 +38,12 @@ public class GestureHelper extends HooksBaseClass {
 	
 	static float gestureDistance = 50.0f;
 	static int animateDuration = 300;
-	static boolean isAnimating;
-	static boolean isDockHidden = true;
+	static boolean isAnimating = false;
 	static boolean autoHideAppDock = PreferencesHelper.hideAppDock && PreferencesHelper.autoHideAppDock;
 	static ViewPropertyAnimator hideAnimation;
+	static AnimatorListener hideListener;
 	static ViewPropertyAnimator showAnimation;
+	static AnimatorListener showListener;
 	static View mHotseat;
 	
 	static WindowManager wm;
@@ -54,6 +55,8 @@ public class GestureHelper extends HooksBaseClass {
 	static boolean isLandscape;
 	
 	static void init() throws IOException {
+		
+		log("init gesture");
 		wm = (WindowManager) Common.LAUNCHER_CONTEXT.getSystemService(Context.WINDOW_SERVICE);
 		display = wm.getDefaultDisplay();
 		size = new Point();
@@ -63,7 +66,81 @@ public class GestureHelper extends HooksBaseClass {
 		
 		sector = (Integer) (width / 3);
 		
-		mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, "mHotseat");
+		if (PreferencesHelper.appdockSettingsSwitch && PreferencesHelper.hideAppDock) {
+			
+			isAnimating = false;
+			mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, "mHotseat");
+			mHotseat.setBackgroundColor(Color.parseColor(ColorPickerPreference.convertToARGB(PreferencesHelper.appDockBackgroundColor)));
+			
+			showListener = new AnimatorListener() {
+				
+				@Override
+				public void onAnimationEnd(Animator animation) {
+					isAnimating = false;
+					Common.APPDOCK_HIDDEN = false;
+					log("onend show");
+				}
+	
+				@Override
+				public void onAnimationCancel(Animator animation) {
+					isAnimating = false;
+					Common.APPDOCK_HIDDEN = false;
+					log("oncancel show");
+				}
+	
+				@Override
+				public void onAnimationRepeat(Animator animation) {
+					isAnimating = true;
+					log("onrepeat show");
+				}
+	
+				@Override
+				public void onAnimationStart(Animator animation) {
+					//Common.APPDOCK_HIDDEN = false;
+					isAnimating = true;
+					mHotseat.setVisibility(View.VISIBLE);
+				}
+			};		
+			
+			hideListener = new AnimatorListener() {	
+				
+				@Override
+				public void onAnimationEnd(Animator animation) {
+					hide();
+					log("onend hide");
+				}
+	
+				@Override
+				public void onAnimationCancel(Animator animation) {
+					hide();
+					log("oncancel hide");
+				}
+	
+				@Override
+				public void onAnimationRepeat(Animator animation) {
+					isAnimating = true;
+					log("onrepeat hide");
+				}
+	
+				@Override
+				public void onAnimationStart(Animator animation) {
+					//Common.APPDOCK_HIDDEN = true;
+					isAnimating = true;
+				}
+				
+				public void hide() {
+					mHotseat.setVisibility(View.INVISIBLE);
+					
+					LayoutParams lp = (LayoutParams) mHotseat.getLayoutParams();
+					lp.width = 0;
+					lp.height = 0;				
+					
+					mHotseat.setLayoutParams(lp);
+					isAnimating = false;
+					Common.APPDOCK_HIDDEN = true;
+				}
+			};
+		}
 	}
 	
 	static String getGestureKey(Gestures gesture) {
@@ -105,7 +182,8 @@ public class GestureHelper extends HooksBaseClass {
 			Common.LAUNCHER_CONTEXT.sendBroadcast(myIntent);
 			
 		} else if (action.equals("OPEN_APPDRAWER")) {
-			((Activity)Common.LAUNCHER_INSTANCE).runOnUiThread(new Runnable() {
+			
+			((Activity) Common.LAUNCHER_INSTANCE).runOnUiThread(new Runnable() {
 			     @Override
 			     public void run() {
 			    	 
@@ -136,10 +214,10 @@ public class GestureHelper extends HooksBaseClass {
 			Common.LAUNCHER_CONTEXT.sendBroadcast(myIntent);
 			
 		} else if (action.equals("TOGGLE_DOCK")) {
-			log("handle toggle dock");
+			
 			if (PreferencesHelper.appdockSettingsSwitch && PreferencesHelper.hideAppDock) {
 				
-				if (isDockHidden) {
+				if (mHotseat.getAlpha() == 0.0f) {
 					showAppdock(animateDuration);
 				} else {
 					hideAppdock(animateDuration);
@@ -229,8 +307,12 @@ public class GestureHelper extends HooksBaseClass {
 	}
 	
 	static void showAppdock(int duration) {
-		if (Common.LAUNCHER_INSTANCE == null) return;
+		mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, "mHotseat");
+		if (Common.LAUNCHER_INSTANCE == null || mHotseat == null
+				|| mHotseat.getAlpha() != 0.0f) { log("lol"); return;}
 		log("Show");
+		
+		
 		
 		final LayoutParams lp = (LayoutParams) mHotseat.getLayoutParams();
 		
@@ -242,79 +324,49 @@ public class GestureHelper extends HooksBaseClass {
 			lp.width = LayoutParams.MATCH_PARENT;
 			lp.height = Common.HOTSEAT_BAR_HEIGHT;
 		}
-	
+		
+		mHotseat.setLayoutParams(lp);
+		
 		showAnimation = mHotseat.animate();
-		showAnimation.setListener(new AnimatorListener() {						
-			@Override
-			public void onAnimationEnd(Animator animation) {
-				isDockHidden = false;
-				isAnimating = false;
-			}
-
-			@Override
-			public void onAnimationCancel(Animator animation) {
-				isAnimating = false;
-			}
-
-			@Override
-			public void onAnimationRepeat(Animator animation) {}
-
-			@Override
-			public void onAnimationStart(Animator animation) {
-				
-				mHotseat.setLayoutParams(lp);
-				mHotseat.setBackgroundColor(Color.parseColor(ColorPickerPreference.convertToARGB(PreferencesHelper.appDockBackgroundColor)));
-				mHotseat.setVisibility(View.VISIBLE);
-				isAnimating = true;
-			}
-		});
-		showAnimation.alpha(1f).setDuration(duration).start();	
+		showAnimation.setListener(showListener);
+		showAnimation
+			.alpha(1f)
+			.setDuration(duration)
+			.start();	
 	}
 	
-	static void hideAppdock(int duration) {
-		if (Common.LAUNCHER_INSTANCE == null) return;
-		log("hide");
+	static void hideAppdock(final int duration) {
+		log("lol2 " + mHotseat.getAlpha());
+		if (Common.LAUNCHER_INSTANCE == null || mHotseat == null
+			|| isAnimating
+			|| mHotseat.getAlpha() == 0.0f) { log("lol2 " + isAnimating + " " + mHotseat); return;}
+		
+		log("hide " + duration);
 		
 		if (duration != 0) {
 			
+			mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, "mHotseat");
 			hideAnimation = mHotseat.animate();
-			hideAnimation.setListener(new AnimatorListener() {						
-				@Override
-				public void onAnimationEnd(Animator animation) {
-					hide();
-				}
-
-				@Override
-				public void onAnimationCancel(Animator animation) {
-					hide();
-				}
-
-				@Override
-				public void onAnimationRepeat(Animator animation) {}
-
-				@Override
-				public void onAnimationStart(Animator animation) {
-					isAnimating = true;
-				}
-				
-				public void hide() {
-					mHotseat.setVisibility(View.GONE);
-					isDockHidden = true;
-					isAnimating = false;
-					
-					LayoutParams lp = (LayoutParams) mHotseat.getLayoutParams();
-					lp.width = 0;
-					lp.height = 0;				
-					
-					mHotseat.setLayoutParams(lp);
-				}
-			});
+			hideAnimation.setListener(hideListener);
 			
-			hideAnimation.alpha(0f).setDuration(duration).start();
+			((Activity) Common.LAUNCHER_INSTANCE).runOnUiThread(new Runnable() {
+			     @Override
+			     public void run() {
+			    	 
+			    	 hideAnimation
+				    	 .alpha(0f)
+				    	 .setDuration(duration)
+				    	 .start();
+			     }
+		    });			
 		}
 		else {
-			mHotseat.setVisibility(View.GONE);
-			isDockHidden = true;
+			
+			LayoutParams lp = (LayoutParams) mHotseat.getLayoutParams();
+			lp.width = 0;
+			lp.height = 0;				
+			
+			mHotseat.setLayoutParams(lp);
 		}
 	}
 }

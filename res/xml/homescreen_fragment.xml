@@ -122,13 +122,13 @@
       <net.margaritov.preference.colorpicker.ColorPickerPreference 
 		android:key="homescreenfoldercolor"
 		android:title="@string/pref_folder_background_color"
-		android:defaultValue="0xA5ffffff"
+		android:defaultValue="0xffffffff"
 		android:dependency="homescreenfolderswitch"
 		alphaSlider="true" />
       <net.margaritov.preference.colorpicker.ColorPickerPreference 
 		android:key="homescreenfolderpreviewcolor"
 		android:title="@string/pref_folder_preview_color"
-		android:defaultValue="0xA5ffffff"
+		android:defaultValue="0xffffffff"
 		android:dependency="homescreenfolderswitch"
 		alphaSlider="true" />
       <net.margaritov.preference.colorpicker.ColorPickerPreference 

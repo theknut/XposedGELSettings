@@ -12,6 +12,7 @@ public class OnPackagesUpdatedHook extends XC_MethodHook {
 	// http://androidxref.com/4.4.2_r1/xref/packages/apps/Launcher3/src/com/android/launcher3/AppsCustomizePagedView.java#432
 	// public void onPackagesUpdated(ArrayList<Object> widgetsAndShortcuts)
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 		

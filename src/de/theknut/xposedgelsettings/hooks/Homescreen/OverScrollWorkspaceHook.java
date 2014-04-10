@@ -22,6 +22,7 @@ public class OverScrollWorkspaceHook extends XC_MethodHook {
 		boolean isPageMoving = getBooleanField(param.thisObject, "mIsPageMoving");
 		
 		if(overscroll > 50.0 && isPageMoving) {
+			
 			if (PreferencesHelper.continuousScrollWithAppDrawer) {
 				
 				callMethod(getObjectField(param.thisObject, "mLauncher"), "showAllApps", true, Common.CONTENT_TYPE, true);

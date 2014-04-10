@@ -5,7 +5,7 @@ import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import android.content.ComponentName;
 
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
+
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 
 public final class AllAppsListAddHook extends XC_MethodHook {

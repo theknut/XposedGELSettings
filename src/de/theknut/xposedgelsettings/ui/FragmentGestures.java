@@ -3,27 +3,26 @@ package de.theknut.xposedgelsettings.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.preference.Preference.OnPreferenceChangeListener;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RemoteViews;
 import android.widget.Toast;
+
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 
+@SuppressLint("WorldReadableFiles")
 public class FragmentGestures extends FragmentBase {
 	
 	public FragmentGestures() { }
@@ -160,7 +159,8 @@ public class FragmentGestures extends FragmentBase {
     	}
     }
     
-    private String getAppName(String gestureKey) {
+    @SuppressWarnings("deprecation")
+	private String getAppName(String gestureKey) {
     	final PackageManager pm = mContext.getPackageManager();
     	String app = mContext.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).getString(gestureKey + "_launch", "");
     	

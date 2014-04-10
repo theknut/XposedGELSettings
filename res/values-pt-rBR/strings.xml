@@ -180,4 +180,62 @@
     <string name="pref_auto_blur_wallpaper_summary">Desfocar o papel de parede do dispositivo cada vez que fica alterado e usá-lo como XGELS fundo. Pode drenar bateria se usar aplicativos que mudaram o wallpaper dentro determinados intervalos.</string>
 	<string name="pref_dynamic_backbuttononeveryscreen_title">Dormir em todas as telas</string>
     <string name="pref_dynamic_backbuttononeveryscreen_summary">Vai dormir em cada tela inicial. Se esta opção não estiver marcada, ela só vai dormir na sua tela inicial padrão.</string>
+	<!-- V1.5 -->
+    <string name="pref_selectwidgetstohide_summary">Selecione os widgets que deseja ocultar</string>
+    <string name="pref_workspacerect_title">Margem esquerda/direita da Tela Inicial</string>
+    <string name="pref_workspacerect_summary">Escolha um multiplicador de margem para o lado esquerdo e direito da tela inicial</string>
+    <string name="pref_workspacerect_dialog">Escolha um multiplicador</string>
+    <string name="toast_openinstaller_failed">Não foi possível abrir Xposed Installer. Por favor, iniciá-lo manualmente!</string>
+    <string name="pref_cat_homescreen_folder_title">Pastas</string>
+    <string name="pref_cat_homescreen_icon_title">Ícones</string>
+    <string name="pref_cat_homescreen_appdock_title">Aplicativos da  Barra de Aplicativos</string>
+    <string name="pref_switch_appdocksettings_title">Habilitar</string>
+    <string name="pref_switch_appdocksettings_explain_summary">Ativar mudanças para a Barra de Aplicativos</string>
+    <string name="pref_switch_autohideappdock_title">Ocultar automaticamente</string>
+    <string name="pref_switch_autohideappdock_summary">Ocultar automaticamente a Barra de Aplicativos</string>
+    <string name="pref_switch_folder_title">Habilitar</string>
+    <string name="pref_switch_folder_summary">Habilitar alterações em pastas</string>
+    <string name="pref_folder_background_color">Cor de fundo</string>
+    <string name="pref_folder_applabel_color">Cor do título do ícone</string>
+    <string name="pref_folder_namelabel_color">Nome da pasta cor do título</string>
+    <string name="pref_folder_preview_color">Cor de visualização de pastas</string>
+    
+    <string-array name="gesture_actions_entries">
+        <item>Nenhum</item>
+        <item>Barra de notificação</item>
+        <item>Configurações rápidas</item>
+        <item>Tela Aplicativos</item>
+        <item>Aplicativos recentes</item>
+        <item>Configurações do Android</item>
+        <item>Dormir</item>
+        <item>Alternar Barra de Aplicativos</item>
+        <item>Abrir aplicativo</item>
+    </string-array>
+    
+    <string-array name="gesture_actions_entries_limited">
+        <item>Nenhum</item>
+        <item>Tela Aplicativos</item>
+        <item>Barra de Aplicativos</item>
+    </string-array>
+    
+    <string name="pref_choose_gesture_action_title">Escolha uma ação gesto</string>
+    <string name="pref_switch_gesture_appdrawer_title">Tela Aplicativos</string>
+    <string name="pref_switch_gesture_appdrawer_summary">Deslize - Tela Aplicativos, Para Cima - alternância entre todos os apps e widgets</string>
+    <string name="pref_switch_gesture_double_tap_title">Toque duas vezes</string>
+    <string name="pref_switch_gesture_double_tap_summary">Exceto pastas e widgets</string>
+    <string name="pref_cat_gesture_down_title">Deslizar para baixo </string>
+    <string name="pref_cat_gesture_up_title">Deslize para cima</string>
+    <string name="pref_gesture_down_left_title">Deslizar para baixo esquerda</string>
+    <string name="pref_gesture_down_middle_title">Deslizar para baixo do meio</string>
+    <string name="pref_gesture_down_right_title">Deslizar para baixo à direita</string>
+    <string name="pref_gesture_up_left_title">Deslize para cima esquerda</string>
+    <string name="pref_gesture_up_middle_title">Deslize até o meio</string>
+    <string name="pref_gesture_up_right_title">Deslize para cima direita</string>
+    <string name="alert_hidedock_summary">Por favor, certifique-se de definir uma alternância esconder ou no menu de gestos ou ativar o botão home dinâmica SystemUI ajustes. Caso contrário, você não será capaz de abrir a Tela Aplicativos!</string>
+    <string name="alert_hidewidgets_title">Nota</string>
+    <string name="alert_hidewidgets_summary">Você só pode selecionar os widgets nesta lista. Atalhos não pode ser escondida no momento.</string>
+    <string name="pref_limited_title">Limitado</string>
+    <string name="pref_limited_summary">Alguns dos seguintes recursos só estão disponíveis na versão paga.</string>
+    
+    <!-- V1.5.2 -->
 </resources>

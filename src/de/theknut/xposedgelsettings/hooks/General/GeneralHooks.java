@@ -11,7 +11,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
-import de.theknut.xposedgelsettings.hooks.appdrawer.AllAppsListAddHook;
 
 public class GeneralHooks extends XC_MethodHook {
 	

@@ -12,7 +12,6 @@ import de.theknut.xposedgelsettings.hooks.googlesearchbar.GoogleSearchBarHooks;
 import de.theknut.xposedgelsettings.hooks.homescreen.HomescreenHooks;
 import de.theknut.xposedgelsettings.hooks.pagindicator.PageIndicatorHooks;
 import de.theknut.xposedgelsettings.hooks.systemui.SystemUIReceiver;
-import de.theknut.xposedgelsettings.hooks.testrange.TestRange;
 
 public class GELSettings extends HooksBaseClass implements IXposedHookLoadPackage {
 	@Override

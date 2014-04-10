@@ -84,7 +84,7 @@
     <string name="toast_desktop_locked">XGELS: Desktop is locked!</string>
     <string name="toast_fail">Well&#8230; that didn\'t work :-S\nPlease see the logcat!</string>
     <string name="pref_switch_appdock_title">Hide dock</string>
-    <string name="pref_switch_appdock_summary">Swipe up to show again</string>
+    <string name="pref_switch_appdock_summary">Hide the dock</string>
     <string name="pref_lock_desktop_title">Lock desktop</string>
     <string name="pref_lock_desktop_summary">Prevent accidental dragging by locking the desktop</string>
     <string name="pref_continuous_scroll_title">Continuous scroll</string>
@@ -106,6 +106,7 @@
     <string name="pref_switch_gesture_swipe_up_app_drawer_summary">Opens the app drawer on swipe up</string>
     <string name="pref_gestures_note_title">Note</string>
     <string name="pref_gestures_note_summary">Gestures need one or two minutes after boot to initialize</string>
+    
     <!-- V1.4 -->
     <string name="pref_switch_no_all_apps_button_title">App drawer button</string>
     <string name="pref_switch_no_all_apps_button_summary">Hide the app drawer button. Please remove the icon from the app drawer if you turn this option off!</string>
@@ -118,7 +119,7 @@
         <item>App Drawer</item>
         <item>Gestures</item>
         <item>System UI Tweaks</item>
-        <item>Im-/Export</item>
+        <item>Backup/Restore</item>
         <item>Settings</item>
         <item>Donate/Support</item>
     </string-array>
@@ -231,6 +232,6 @@
     <string name="pref_limited_title">Limited</string>
     <string name="pref_limited_summary">Some of the following features are only available in the donate version.</string>
     
-    <!-- V1.5.2 -->
+    <!-- V1.5.3 -->
     
 </resources>

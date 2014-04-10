@@ -11,7 +11,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.Preference;
 import android.preference.PreferenceScreen;
 import android.preference.Preference.OnPreferenceClickListener;
@@ -19,19 +18,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 
-public class FragmentImExport extends FragmentBase {
+@SuppressLint("SdCardPath")
+public class FragmentBackupRestore extends FragmentBase {
 	
-	public FragmentImExport() { }
+	public FragmentBackupRestore() { }
      
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	super.onCreateView(inflater, container, savedInstanceState);
     	
     	View rootView = inflater.inflate(R.layout.options_fragment, container, false);
-        addPreferencesFromResource(R.xml.imexport_fragment);
+        addPreferencesFromResource(R.xml.backuprestore_fragment);
         
         OnPreferenceClickListener BackupRestoreHomescreenListener = new OnPreferenceClickListener() {
         	
@@ -39,14 +40,11 @@ public class FragmentImExport extends FragmentBase {
         	
             @SuppressLint("WorldReadableFiles")
 			public boolean onPreferenceClick(Preference preference) {
-            	String path = Environment.getExternalStorageDirectory().getPath();
+            	String path = getExternalSDCardDirectory();            	
             	String sd_trebuchet = path + "/XposedGELSettings/Trebuchet/";
             	String data_trebuchet = "/data/data/" + Common.TREBUCHET_PACKAGE + "/";
             	String sd_gel = path + "/XposedGELSettings/GEL/";
             	String data_gel = "/data/data/" + Common.GEL_PACKAGE + "/";
-            	File sdcard_xgels = new File(path + "/XposedGELSettings/" + Common.PREFERENCES_NAME + ".xml");
-            	File sdcard_gels = new File(sd_gel + Common.PREFERENCES_NAME + ".xml");
-            	File sdcard_trebuchet = new File(sd_trebuchet + Common.PREFERENCES_NAME + ".xml");
             	String sdcard_gel_launcherDB = sd_gel + "launcher.db";
             	String sdcard_gel_launcherDBJournal = sd_gel + "launcher.db-journal";
             	String data_gel_launcherDB = data_gel + "databases/launcher.db";
@@ -56,7 +54,7 @@ public class FragmentImExport extends FragmentBase {
             	String data_trebuchet_launcherDB = data_trebuchet + "databases/launcher.db";
             	String data_trebuchet_launcherDBJournal = data_trebuchet + "databases/launcher.db-journal";
             	
-            	sdcard_xgels.getParentFile().mkdirs();            	
+            	//sdcard_xgels.getParentFile().mkdirs();
             	
             	if (preference.getKey().contains("restorehomescreen")) {
             		
@@ -82,31 +80,34 @@ public class FragmentImExport extends FragmentBase {
 						if (launcherDBJournal.length() == 0) {
 							// copy from sdcard to data
 							String sd2data_3 = copyCommand + sdcard_trebuchet_launcherDB + " > " + data_trebuchet_launcherDB;
-							String sd2data_4 = copyCommand + sdcard_trebuchet_launcherDBJournal + " > " + data_trebuchet_launcherDBJournal;
-							copy(Common.TREBUCHET_PACKAGE, sd2data_3, sd2data_4, true);
+							copy(Common.TREBUCHET_PACKAGE, sd2data_3, true);
 						}
 						else {
-							
+							// copy from sdcard to data
+							String sd2data_3 = copyCommand + sdcard_trebuchet_launcherDB + " > " + data_trebuchet_launcherDB;
+							String sd2data_4 = copyCommand + sdcard_trebuchet_launcherDBJournal + " > " + data_trebuchet_launcherDBJournal;
+							copy(Common.TREBUCHET_PACKAGE, sd2data_3, sd2data_4, true);
 						}
 					}
 					
 					restartLauncher();
             	}
             	else if (preference.getKey().contains("backuphomescreen")) {
-            		boolean success = false;
             		
 					if (isPackageInstalled(Common.GEL_PACKAGE, mContext)) {
 						File launcherDBJournal = new File(data_gel_launcherDBJournal);
 						
 						if (launcherDBJournal.length() == 0) {
 							String data2sd_1 = copyCommand + data_gel_launcherDB + " > " + sdcard_gel_launcherDB;
-							sdcard_gels.getParentFile().mkdirs();
+							//sdcard_gels.getParentFile().mkdirs();
 							copy(Common.GEL_PACKAGE, data2sd_1, false);
 						}
 						else {
+							
 							String data2sd_1 = copyCommand + data_gel_launcherDB + " > " + sdcard_gel_launcherDB;
 							String data2sd_2 = copyCommand + data_gel_launcherDBJournal + " > " + sdcard_gel_launcherDBJournal;
-							sdcard_gels.getParentFile().mkdirs();
+							//sdcard_gels.getParentFile().mkdirs();
+							
 							copy(Common.GEL_PACKAGE, data2sd_1, data2sd_2, false);
 						}
 					}
@@ -116,13 +117,13 @@ public class FragmentImExport extends FragmentBase {
 						
 						if (launcherDBJournal.length() == 0) {
 							String data2sd_1 = copyCommand + data_trebuchet_launcherDB + " > " + sdcard_trebuchet_launcherDB;
-							sdcard_trebuchet.getParentFile().mkdirs();
+							//sdcard_trebuchet.getParentFile().mkdirs();
 							copy(Common.TREBUCHET_PACKAGE, data2sd_1, false);
 						}
 						else {
 							String data2sd_3 = copyCommand + data_trebuchet_launcherDB + " > " + sdcard_trebuchet_launcherDB;
 							String data2sd_4 = copyCommand + data_trebuchet_launcherDBJournal + " > " + sdcard_trebuchet_launcherDBJournal;
-							sdcard_trebuchet.getParentFile().mkdirs();
+							//sdcard_trebuchet.getParentFile().mkdirs();
 							copy(Common.TREBUCHET_PACKAGE, data2sd_3, data2sd_4, false);
 						}
 					}
@@ -172,6 +173,8 @@ public class FragmentImExport extends FragmentBase {
             	
             	ArrayList<String> commands = new ArrayList<String>();
             	commands.add("su");
+            	commands.add("mkdir -p " + getExternalSDCardDirectory() + "/XposedGELSettings/GEL");
+            	commands.add("mkdir -p " + getExternalSDCardDirectory() + "/XposedGELSettings/Trebuchet");
             	commands.add(command1);
             	commands.add(command2);
 
@@ -199,6 +202,11 @@ public class FragmentImExport extends FragmentBase {
         	   CommonUI.openRootShell(commands.toArray(new String[commands.size()]));
         	   
         	   return true;
+            }
+            
+            public String getExternalSDCardDirectory()
+            {            	
+            	return "mnt/sdcard/";
             }
         };
         

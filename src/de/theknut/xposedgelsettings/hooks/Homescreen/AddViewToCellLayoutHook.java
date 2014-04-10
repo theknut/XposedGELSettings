@@ -5,25 +5,16 @@ import static de.robv.android.xposed.XposedHelpers.getBooleanField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
 import net.margaritov.preference.colorpicker.ColorPickerPreference;
-import android.content.Context;
+
 import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.PorterDuff.Mode;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.NinePatchDrawable;
-import android.graphics.drawable.PaintDrawable;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
-import de.theknut.xposedgelsettings.R;
-import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 
 public final class AddViewToCellLayoutHook extends XC_MethodHook {
@@ -45,15 +36,15 @@ public final class AddViewToCellLayoutHook extends XC_MethodHook {
 			if (!getBooleanField(param.args[0], "mShadowsEnabled")) {
 				if (PreferencesHelper.homescreenFolderSwitch) {
 					callMethod(param.args[0], "setTextColor", newFolderAppLabelColor);
-				} else {
-					callMethod(param.args[0], "setTextColor", Color.BLACK);
 				}
 			} else {
-				callMethod(param.args[0], "setShadowsEnabled", PreferencesHelper.homescreenIconLabelShadow);
-				callMethod(param.args[0], "setTextColor", newAppLabelColor);
+				if (PreferencesHelper.iconSettingsSwitchHome) {
+					callMethod(param.args[0], "setShadowsEnabled", PreferencesHelper.homescreenIconLabelShadow);
+					callMethod(param.args[0], "setTextColor", newAppLabelColor);
+				}
 			}
 			
-			if (PreferencesHelper.hideIconLabelHome) {
+			if (PreferencesHelper.iconSettingsSwitchHome && PreferencesHelper.hideIconLabelHome) {
 				callMethod(param.args[0], "setShadowsEnabled", false);
 				callMethod(param.args[0], "setTextColor", Color.argb(0, 0, 0, 0));
 			}
