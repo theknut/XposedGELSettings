@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Xposed GEL Nastavenia</string>
+    <string name="app_name">Xposed GEL Settings</string>
     <string name="app_description">Skryť vyhľadávací riadok Google, skryť aplikácie z spúšťača, zmeniť veľkosť mriežky domovskej obrazovky a ponuky aplikácií, zmeniť veľkosť ikon, zmeniť veľkosť textu, zmeniť počet aplikácií doku, odstrániť menovky ikony a ďalšie</string>
     <string name="pref_hide_google_search_bar_title">Skryť</string>
     <string name="pref_autohide_google_search_bar_title">Automaticky skrývať</string>
@@ -54,8 +54,6 @@
     <string name="pref_selectappstohide_summary">Vybrať aplikácie na skrytie</string>
     <string name="pref_cat_title_restart_launcher">Reštartovať spúšťač</string>
     <string name="pref_restart_launcher_summary">Kliknite tu pre reštart spúšťača a jeho spustenie s vašimi nastaveniami.</string>
-    <string name="pref_donate_title">Páči sa vám táto aplikácia? - Prispejte!</string>
-    <string name="pref_donate_summary">XGELN je zadarmo a vždy bude. Avšak, ak sa vám páči moja práca a chcete ma odmeniť za hodiny, ktoré som strávil s vývojom tohto modulu, môžete mi prispieť. Stlačte toto tlačidlo!</string>
     <string name="pref_support_thread_title">Potrebujete pomoc?</string>
     <string name="pref_support_thread_summary">Ak potrebujete pomoc alebo máte spätnú väzbu, prosím, kliknite tu pre otvorenie témy podpory.</string>
     <string name="pref_cat_eximport_settings">Importovať/exportovať nastavenia</string>
@@ -84,7 +82,7 @@
     <string name="toast_desktop_locked">XGELN: Plocha je zamknutá!</string>
     <string name="toast_fail">Ok&#8230; toto nefunguje :-S\nProsím, skontrolujte logcat</string>
     <string name="pref_switch_appdock_title">Skryť dok</string>
-    <string name="pref_switch_appdock_summary">Posunúť nahor pre jeho opätovné zobrazenie</string>
+    <string name="pref_switch_appdock_summary">Skryť dok aplikácií</string>
     <string name="pref_lock_desktop_title">Zamknúť plochu</string>
     <string name="pref_lock_desktop_summary">Zabrániť nechcenému ťahaniu</string>
     <string name="pref_continuous_scroll_title">Nepretržitý posun</string>
@@ -117,11 +115,11 @@
         <item>Domovská obrazovka</item>
         <item>Ponuka aplikácií</item>
         <item>Gestá</item>
-        <item>Notification Badges</item>
+        <item>Symboly oznámení</item>
         <item>Vylepšenia rozhrania</item>
-        <item>Import/Export</item>
+        <item>Zálohovať/Obnoviť</item>
         <item>Nastavenia</item>
-        <item>Dar/Podpora</item>
+        <item>Prémium/Podpora</item>
     </string-array>
     
     <string name="drawer_open">Otvoriť navigačnú ponuku</string>
@@ -158,11 +156,8 @@
     <string name="toast_full_reboot">Prosím, vykonajte úplný reštart, aby sa zmena prejavila!</string>
     <string name="pref_switch_gesture_swipe_down_close_app_drawer_title">Ponuka aplikácií</string>
     <string name="pref_switch_gesture_swipe_down_close_app_drawer_summary">Potiahnutím nadol zatvoriť ponuku aplikácií</string>
-    <string name="toast_donate_only">Táto funkcia je len pre darcov!</string>
     <string name="toast_getprices_fail">Niečo sa pokazilo pri získavaní zoznamu cien. Prosím, skontrolujte logcat!</string>
     <string name="toast_donation_result_fail">Niečo sa pokazilo. Možno chcete ukončiť XGELN a znovu ju spustiť. Prosím, skontrolujte logcat!</string>
-    <string name="pref_donate_button">Darovať a podporiť!</string>
-    <string name="pref_donated_button">Ďakujeme vám za darovanie!</string>
     <string name="toast_donate_thanks">Áno, ste úžasný! Ďakujeme vám!</string>
     <string name="pref_xgel_group_summary">Prosím, kliknite sem pre požiadanie o vstup do skupiny XGELN darcov! Zahrňte vašu Gmail adresu, aby sme vás mohli pridať do súkromnej skupiny.</string>
     <string name="pref_requires_donation_title">Nie je k dispozícii</string>
@@ -202,7 +197,7 @@
         <item>Rýchle nastavenia</item>
         <item>Ponuka aplikácií</item>
         <item>Nedávne aplikácie</item>
-        <item>Show recents</item>
+        <item>Zobraziť nedávne</item>
         <item>Nastavenia Androidu</item>
         <item>Prejsť do spánku</item>
         <item>Prepnúť dok</item>
@@ -224,7 +219,7 @@
     <string name="pref_cat_gesture_up_title">Gestá potiahnutia nahor</string>
     <string name="pref_gesture_down_left_title">Potiahnutie nadol vľavo</string>
     <string name="pref_gesture_down_middle_title">Potiahnutie nadol v strede</string>
-    <string name="pref_gesture_down_right_title">Swipe down right</string>
+    <string name="pref_gesture_down_right_title">Potiahnutie nadol vpravo</string>
     <string name="pref_gesture_up_left_title">Potiahnutie nahor vľavo</string>
     <string name="pref_gesture_up_middle_title">Potiahnutie nahor v strede</string>
     <string name="pref_gesture_up_right_title">Potiahnutie nahor vpravo</string>
@@ -232,6 +227,55 @@
     <string name="alert_hidewidgets_title">Poznámka</string>
     <string name="alert_hidewidgets_summary">Môžete vybrať len miniaplikácie v tomto zozname. Odkazy momentálne skryté byť nemôžu.</string>
     <string name="pref_limited_title">Limitované</string>
-    <string name="pref_limited_summary">Niektoré z týchto funkcií sú k dispozícii len v darcovskej verzii.</string>
+    <!-- V1.6 -->
+    <string-array name="notificationbadge_presets_entries">
+        <item>Vlastné</item>
+        <item>G+ štýl</item>
+        <item>G+ štýl (polopriehľadné)</item>
+    </string-array>
+    <string name="pref_debug">Povoliť záznamy na ladenie</string>
+    <string name="pref_send_bugreport">Poslať hlásenie o chybe</string>
+    <string name="toast_no_log_found">Nemožno nájsť debug.log Xposed Inštalátora</string>
+    <string name="alert_debug_logging_activated_title">Záznamy na ladenie aktivované!</string>
+    <string name="alert_debug_logging_activated_summary">Záznamy na ladenie sú teraz povolené. Prosím, zopakujte kroky, ktoré viedli k chybe a odošlite záznam na ladenie.</string>
+    <string name="alert_debug_logging_not_activated_title">Záznamy na ladenie deaktivované!</string>
+    <string name="alert_debug_logging_not_activated_summary">Záznamy na ladenie sú teraz zakázané. Uistite sa, že ste povolili záznamy na ladenie a zopakovali kroky, ktoré viedli k chybe pred odoslaní súboru záznamu.</string>
+    
+    <string name="alert_autokill_title">Poznámka</string>
+    <string name="alert_autokill_summary">XGELS automaticky ukončí GNL/Trebuchet po zmene nastavenia. Po návrate na domovskú obrazovku bude spúšťač GNL/Trebuchet spustený s novými nastaveniami.</string>
+    <string name="alert_autokill_ok">Chápem!</string>
+    <string name="alert_autokill_cancel">Spravím to sám!</string>
+    <string name="alert_autokill_checkbox">Už nezobrazovať</string>
+    <string name="pref_autokill_launcher_title">Ukončiť spúšťač</string>
+    <string name="pref_autokill_launcher_summary">Ukončiť GNL/Trebuchet automaticky po zmene nastavenia. Po návrate na domovskú obrazovku bude spúšťač GNL/Trebuchet spustený s novými nastaveniami.</string>
+    
+    <string name="pref_notificationbadge_enable_title">Povoliť symboly</string>
+    <string name="pref_notificationbadge_backgroundcolor_title">Farba pozadia</string>
+    <string name="pref_notificationbadge_textcolor_title">Farba textu</string>
+    <string name="pref_notificationbadge_textsize_title">Veľkosť textu</string>
+    <string name="pref_notificationbadge_framecolor_title">Farba rámu</string>
+    <string name="pref_notificationbadge_framesize_title">Veľkosť rámu</string>
+    <string name="pref_notificationbadge_corner_title">Polomer rohu</string>
+    <string name="pref_notificationbadge_presets_title">Predvoľby</string>
+    <string name="pref_notificationbadge_leftright_padding_title">Výplň na ľavo a na pravo</string>
+    <string name="pref_notificationbadge_topbottom_padding_title">Výplň na vrchu a na spodku</string>
+    
+    <string name="pref_switch_gesture_double_tap_only_on_wallpaper_title">Len na tapete</string>
+    <string name="pref_switch_gesture_double_tap_only_on_wallpaper_summary">Povoliť dvojité kliknutie len na tapete. Zníži sa oneskorenie kvôli rozpoznávaniu gesta dvojitého kliknutia na ikony.</string>
+    
+    <string name="pref_switch_appdrawer_remember_last_position_title">Zapamätať pozíciu</string>
+    <string name="pref_switch_appdrawer_remember_last_position_summary">Spustiť ponuku aplikácií z poslednej pozície pred jej ukončením</string>
+    
+    <string name="alert_xgels_updated_title">XGELS bol aktualizovaný!</string>
+    <string name="alert_xgels_updated_summary">Vyžaduje sa reštart na aktiváciu aktualizácie. Chcete reštartovať teraz?</string>
+    <string name="alert_xgels_updated_cancel">Neskôr</string>
+    
+    <string name="alert_launcher_not_installed_title">Nenájdený podporovaný spúšťač!</string>
+    <string name="alert_launcher_not_installed_summary">Zdá sa, že nemáte nainštalovaný Google Now Launcher (GNL) alebo Trebuchet. Tento modul je navrhnutý pre tieto dva spúšťače a nefunguje s inými. Prosím, nainštalujte GNL alebo Trebuchet pred použitím tejto aplikácie!</string>
+    <string name="alert_launcher_not_installed_get_gnl">Získať GNL</string>
+    <string name="toast_donate_only">Táto funkcia vyžaduje XGELS Prémium!</string>
+    <string name="pref_donate_button">Zakúpiť Prémium a podporiť vývojára!</string>
+    <string name="pref_donated_button">Ďakujeme vám za váš nákup!</string>
+    <string name="pref_limited_summary">Niektoré z nasledujúcich funkcií sú dostupné len v XGELS Prémium.</string>
     
 </resources>
