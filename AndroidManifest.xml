@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.theknut.xposedgelsettings"
-    android:versionCode="24"
-    android:versionName="1.5.3" >
+    android:versionCode="32"
+    android:versionName="1.6" >
 
     <uses-sdk
         android:minSdkVersion="16"
         android:targetSdkVersion="19" />
+    
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
     <uses-permission android:name="com.android.vending.BILLING" />
     
     <application

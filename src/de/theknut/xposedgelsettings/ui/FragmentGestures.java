@@ -24,8 +24,6 @@ import de.theknut.xposedgelsettings.hooks.Common;
 
 @SuppressLint("WorldReadableFiles")
 public class FragmentGestures extends FragmentBase {
-	
-	public FragmentGestures() { }
      
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -34,6 +32,7 @@ public class FragmentGestures extends FragmentBase {
     	View rootView = inflater.inflate(R.layout.options_fragment, container, false);
         addPreferencesFromResource(R.xml.gestures_fragment);
         
+        MyCheckboxPreference gesture_double_tap_only_on_wallpaper = (MyCheckboxPreference) this.findPreference("gesture_double_tap_only_on_wallpaper");
         MyListPreference gesture_double_tap = (MyListPreference) this.findPreference("gesture_double_tap");
         MyListPreference gesture_one_down_left = (MyListPreference) this.findPreference("gesture_one_down_left");
         MyListPreference gesture_one_down_middle = (MyListPreference) this.findPreference("gesture_one_down_middle");
@@ -104,6 +103,7 @@ public class FragmentGestures extends FragmentBase {
             gesture_one_down_middle.setEnabled(false);
             gesture_one_up_left.setEnabled(false);    
             gesture_one_up_right.setEnabled(false);
+            gesture_double_tap_only_on_wallpaper.setEnabled(false);
             
             gesture_one_up_middle.setEntryValues(R.array.gesture_actions_values_limited);
             gesture_one_up_middle.setEntries(R.array.gesture_actions_entries_limited);
@@ -137,7 +137,7 @@ public class FragmentGestures extends FragmentBase {
         
         return rootView;
     }
-    
+        
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
     	

@@ -69,12 +69,68 @@
         <item>9</item>
         <item>10</item>
     </string-array>
+    <string-array name="notificationbadge_textsize_values">
+        <item>6</item>
+        <item>8</item>
+        <item>10</item>
+        <item>12</item>
+        <item>14</item>
+        <item>16</item>
+    </string-array>
+    <string-array name="notificationbadge_frame_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+    <string-array name="notificationbadge_corner_values">
+        <item>0</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>25</item>
+        <item>30</item>
+    </string-array>
+    <string-array name="notificationbadge_leftright_padding_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
+    <string-array name="notificationbadge_topbottom_padding_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+    <string-array name="notificationbadge_presets_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string-array name="notificationbadge_presets_entries">
+        <item>Custom</item>
+        <item>G+ Style</item>
+        <item>G+ Style (Semi-Transparent)</item>
+    </string-array>
     <string-array name="gesture_actions_values">
         <item>NONE</item>
         <item>NOTIFICATION_BAR</item>
         <item>QUICKSETTINGS_PANEL</item>
         <item>OPEN_APPDRAWER</item>
         <item>LAST_APP</item>
+        <item>SHOW_RECENTS</item>
         <item>OPEN_SETTINGS</item>
         <item>SCREEN_OFF</item>
         <item>TOGGLE_DOCK</item>

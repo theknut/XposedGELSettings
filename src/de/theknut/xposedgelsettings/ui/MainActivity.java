@@ -132,12 +132,12 @@ public class MainActivity extends InAppPurchase {
         }
         
         switch (item.getItemId()) {
-	    // action with ID action_refresh was selected
-	    case R.id.action_refresh:
-	    	CommonUI.restartLauncherOrDevice(getApplicationContext());
-	      break;
-	    default:
-	      break;
+		    // action with ID action_refresh was selected
+		    case R.id.action_refresh:
+		    	CommonUI.restartLauncherOrDevice();
+		      break;
+		    default:
+		      break;
 	    }
 
 	    return true;
@@ -151,8 +151,6 @@ public class MainActivity extends InAppPurchase {
         }
     }
     
-    
-    
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
     	boolean beforeIsDonate = isDonate;
@@ -160,7 +158,7 @@ public class MainActivity extends InAppPurchase {
     	super.onActivityResult(requestCode, resultCode, data);
     	
     	if (isDonate && !beforeIsDonate) {
-    		selectItem(9);
+    		selectItem(10);
     	}
     }
 
@@ -189,16 +187,19 @@ public class MainActivity extends InAppPurchase {
 	        	mCurrFragment = new FragmentGestures();
 	        	break;
 	        case 6:
-	        	mCurrFragment = new FragmentSystemUI();
+	        	mCurrFragment = new FragmentNotificationBadges();
 	        	break;
 	        case 7:
-	        	mCurrFragment = new FragmentBackupRestore();
+	        	mCurrFragment = new FragmentSystemUI();
 	        	break;
 	        case 8:
+	        	mCurrFragment = new FragmentBackupRestore();
+	        	break;
+	        case 9:
 	        	mCurrFragment = new FragmentSettings();
 	        	break;
 	        // !!!! don't forget to change onActivityResult, too !!!!
-	        case 9:
+	        case 10:
 	        	mCurrFragment = new FragmentDonate();
 	        	break;
         }

@@ -104,7 +104,7 @@ public class XGELSReceiver extends BroadcastReceiver {
 		@Override
 		protected Void doInBackground(final Context... params) {
 			
-			String pathBackground = Environment.getExternalStorageDirectory().getPath() + "/XposedGELSettings/bluredbackground.png";
+			String pathBackground = "/mnt/sdcard/XposedGELSettings/bluredbackground.png";
 			File fileBackground = new File(pathBackground);
 			
 			final WallpaperManager wallpaperManager = WallpaperManager.getInstance(params[0]);

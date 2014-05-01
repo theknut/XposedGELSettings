@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedBridge;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 
 public final class AddViewToCellLayoutHook extends XC_MethodHook {
@@ -30,6 +31,7 @@ public final class AddViewToCellLayoutHook extends XC_MethodHook {
 	
 	@Override
 	protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+		
 		if (param.args[0].getClass().getName().contains("BubbleTextView")) {
 			
 			// apps in folders don't have a shadow so we can filter that for future customization
@@ -48,8 +50,8 @@ public final class AddViewToCellLayoutHook extends XC_MethodHook {
 				callMethod(param.args[0], "setShadowsEnabled", false);
 				callMethod(param.args[0], "setTextColor", Color.argb(0, 0, 0, 0));
 			}
-		}
-		else if (param.args[0].getClass().getName().contains("FolderIcon")) {
+			
+		} else if (param.args[0].getClass().getName().contains("FolderIcon")) {
 			Object folderName = getObjectField(param.args[0], "mFolderName");
 			
 			if (PreferencesHelper.iconSettingsSwitchHome) {

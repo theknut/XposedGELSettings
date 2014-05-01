@@ -116,6 +116,7 @@
         <item>Homescreen</item>
         <item>App-Übersicht</item>
         <item>Gesten</item>
+        <item>Notification Badges</item>
         <item>System UI Tweaks</item>
         <item>Sichern/Wiederherstellen</item>
         <item>Einstellungen</item>
@@ -196,6 +197,7 @@
         <item>Quicktoggles</item>
         <item>App-Übersicht</item>
         <item>Zuletzt verwendete App</item>
+        <item>Öffne Recents</item>
         <item>Android-Einstellungen</item>
         <item>Display ausschalten</item>
         <item>Toggle Dock</item>

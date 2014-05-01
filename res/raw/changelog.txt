@@ -25,6 +25,34 @@
   </head>
   <body>
   
+ $ 1.6
+ % Version 1.6
+ _ 2014-04-30
+ 
+! XGELS is discontinued. Read <a href="http://bit.ly/1kpB3GF">here</a> why!
+! Nonetheless I decided to push my local build which you can still use with <a href="http://bit.ly/1n025cA">G Now 3.3</a>.
+
+! Added:
+* Notification badges (require MissedIt!)
+* Open app drawer from last closed position
+* Gesture action - show recents
+* Option to only allow double tap on wallpaper (reduces delay)
+* Send debug logs (Settings menu)
+* Don't show Google Play warning again
+
+! Fixed:
+* app dock not hiding after a while
+* navigation bar buttons not changed after reboot
+* not on default homescreen after reboot
+* gesture need 1-2 minutes after reboot
+* nasty flip animation when pulling down the quick settings panel
+* navigation bar buttons not changed when notification/quicksettings bar is expanded
+* fixed backup/restore on Samsung devices
+
+! Misc:
+* Auto kill launcher on preference changed
+* Donate is now Premium, see my statement <a href="http://bit.ly/1hpMdwm">here</a>
+  
 $ 1.5.3
  % Version 1.5.3
  _ 2014-04-09

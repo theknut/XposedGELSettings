@@ -1,9 +1,15 @@
 package de.theknut.xposedgelsettings.ui;
 
-import de.theknut.xposedgelsettings.R;
+import java.util.Arrays;
+import java.util.List;
+
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
-import android.graphics.Color;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
@@ -11,12 +17,19 @@ import android.preference.PreferenceFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
+import de.theknut.xposedgelsettings.R;
+import de.theknut.xposedgelsettings.hooks.Common;
+
+@SuppressLint("WorldReadableFiles")
 public class FragmentBase extends PreferenceFragment {
 	
 	public static Context mContext;	
 	public static boolean toastShown = false;
+	public static boolean alertShown = false;
+	public static boolean alertAnswerKill = false;
 	public static String TAG = "XGELS";
 	
 	OnPreferenceChangeListener onChangeListenerLauncherReboot = new Preference.OnPreferenceChangeListener() {
@@ -48,7 +61,64 @@ public class FragmentBase extends PreferenceFragment {
         }
     };
     
-    public FragmentBase() { }
+    OnSharedPreferenceChangeListener onChangeListenerKillLauncher = new OnSharedPreferenceChangeListener() {
+    	
+    	List<String> keys = Arrays.asList("PREFS_VERSION_KEY", "dontshowkilldialog", "autokilllauncher", "dontshowgoogleplaydialog", "debug");
+    	
+		@Override
+		public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+    		
+    		if (keys.contains(key)) return;
+            
+    		if (!sharedPreferences.getBoolean("dontshowkilldialog", false) && !alertShown) {
+            
+	            LayoutInflater adbInflater = LayoutInflater.from(mContext);
+	            View dontShowAgainLayout = adbInflater.inflate(R.layout.dialog_with_checkbox, null);
+	            final CheckBox dontShowAgain = (CheckBox) dontShowAgainLayout.findViewById(R.id.skip);
+	            dontShowAgain.setIncludeFontPadding(false);
+	            dontShowAgain.setText(R.string.alert_autokill_checkbox);
+	            
+	            new AlertDialog.Builder(mContext)
+	            .setView(dontShowAgainLayout)
+	            .setCancelable(false)
+	    	    .setTitle(R.string.alert_autokill_title)
+	    	    .setMessage(R.string.alert_autokill_summary)
+	    	    .setPositiveButton(R.string.alert_autokill_ok, new DialogInterface.OnClickListener() {
+	    	        public void onClick(DialogInterface dialog, int which) { 
+	    	        	
+	    	        	if (dontShowAgain.isChecked()) {
+	    		        	SharedPreferences settings = mContext.getSharedPreferences(Common.PREFERENCES_NAME, 0);
+	    	                SharedPreferences.Editor editor = settings.edit();
+	    	                editor.putBoolean("dontshowkilldialog", true).commit();
+	    	                editor.putBoolean("autokilllauncher", true).commit();
+	    	        	}
+	    	        	
+	    	        	alertAnswerKill = true;
+	    	        	CommonUI.restartLauncher(false);
+	    	        }
+	            })
+	    	    .setNegativeButton(R.string.alert_autokill_cancel, new DialogInterface.OnClickListener() {
+	    	        public void onClick(DialogInterface dialog, int which) {
+	    	        	
+	    	        	if (dontShowAgain.isChecked()) {
+	    		        	SharedPreferences settings = mContext.getSharedPreferences(Common.PREFERENCES_NAME, 0);
+	    	                SharedPreferences.Editor editor = settings.edit();
+	    	                editor.putBoolean("dontshowkilldialog", true).commit();
+	    	                editor.putBoolean("autokilllauncher", false).commit();
+	    	        	}
+	    	        	
+	    	            dialog.dismiss();
+	    	        }
+	    	    }).show();
+	            
+	            alertShown = true;
+    		}
+    		
+    		if (sharedPreferences.getBoolean("autokilllauncher", false) || alertAnswerKill) {
+    			CommonUI.restartLauncher(false);
+    		}
+        }
+    };
     
     @SuppressWarnings("deprecation")
 	@Override
@@ -68,9 +138,15 @@ public class FragmentBase extends PreferenceFragment {
     public void onResume() {
     	super.onResume();
     	
+    	getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(onChangeListenerKillLauncher);
     	MainActivity.closeDrawer();
+    }
+    
+    @Override
+    public void onPause() {   	
     	
-    	// sending the colors to Tinted Status Bar
-        StatusBarTintApi.sendColorChangeIntent(CommonUI.UIColor, Color.WHITE, CommonUI.UIColor, Color.WHITE, CommonUI.CONTEXT);
+    	getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(onChangeListenerKillLauncher);
+    	
+    	super.onPause();
     }
 }

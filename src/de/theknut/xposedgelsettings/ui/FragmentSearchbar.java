@@ -16,9 +16,6 @@ public class FragmentSearchbar extends FragmentBase {
     	View rootView = inflater.inflate(R.layout.options_fragment, container, false);
         addPreferencesFromResource(R.xml.searchbar_fragment);
         
-        this.findPreference("hidesearchbar").setOnPreferenceChangeListener(onChangeListenerLauncherReboot);
-        this.findPreference("autohidehidesearchbar").setOnPreferenceChangeListener(onChangeListenerLauncherReboot);
-        
         rootView = CommonUI.setBackground(rootView, R.id.prefbackground);
         
         return rootView;

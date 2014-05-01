@@ -121,6 +121,7 @@
         <item>Tela Inicial</item>
         <item>Tela Aplicativos</item>
         <item>Gstos</item>
+        <item>Notification Badges</item>
         <item>Sistema UI</item>
         <item>Importação/Exportação</item>
         <item>Configurações</item>
@@ -206,6 +207,7 @@
         <item>Configurações rápidas</item>
         <item>Tela Aplicativos</item>
         <item>Aplicativos recentes</item>
+        <item>Show recents</item>
         <item>Configurações do Android</item>
         <item>Dormir</item>
         <item>Alternar Barra de Aplicativos</item>

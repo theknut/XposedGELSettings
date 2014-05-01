@@ -25,7 +25,7 @@ public class OverScrollWorkspaceHook extends XC_MethodHook {
 			
 			if (PreferencesHelper.continuousScrollWithAppDrawer) {
 				
-				callMethod(getObjectField(param.thisObject, "mLauncher"), "showAllApps", true, Common.CONTENT_TYPE, true);
+				callMethod(getObjectField(param.thisObject, "mLauncher"), "showAllApps", true, Common.CONTENT_TYPE, !PreferencesHelper.appdrawerRememberLastPosition);
 				Common.OVERSCROLLED = true;
 			}
 			else {				
@@ -39,7 +39,7 @@ public class OverScrollWorkspaceHook extends XC_MethodHook {
 		}
 		else if (overscroll < -50.0 && isPageMoving) {
 			if (PreferencesHelper.continuousScrollWithAppDrawer) {
-				callMethod(getObjectField(param.thisObject, "mLauncher"), "showAllApps", true, Common.CONTENT_TYPE, true);
+				callMethod(getObjectField(param.thisObject, "mLauncher"), "showAllApps", true, Common.CONTENT_TYPE, !PreferencesHelper.appdrawerRememberLastPosition);
 				
 				int lastPage = (Integer) callMethod(Common.APP_DRAWER_INSTANCE, "getChildCount") - 1;
 				callMethod(Common.APP_DRAWER_INSTANCE, "setCurrentPage", lastPage);

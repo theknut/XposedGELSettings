@@ -3,17 +3,20 @@ package de.theknut.xposedgelsettings.hooks;
 import java.text.DateFormat;
 import java.util.Calendar;
 
+import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
-import de.theknut.xposedgelsettings.BuildConfig;
 
-public class HooksBaseClass {
+public class HooksBaseClass extends XC_MethodHook {
 	
-	static Calendar cal = Calendar.getInstance();
-	static DateFormat sdf = DateFormat.getTimeInstance(DateFormat.SHORT);
+	protected static boolean DEBUG = PreferencesHelper.Debug;
 	
 	public static void log(String msg) {
-		if (BuildConfig.DEBUG) {
-			XposedBridge.log(sdf.format(cal.getTime()) + " XGELS: " + msg);
-		}
+		String timestamp = DateFormat.getTimeInstance(DateFormat.SHORT).format(Calendar.getInstance().getTime());
+		XposedBridge.log(timestamp + " XGELS| " + msg);
 	}
+	
+	public static void log(MethodHookParam param, String msg) {
+		String timestamp = DateFormat.getTimeInstance(DateFormat.SHORT).format(Calendar.getInstance().getTime());
+		XposedBridge.log(timestamp + " XGELS| " + param.method.getName() + ": " + msg);
+	}	
 }

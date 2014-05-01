@@ -54,8 +54,6 @@
     <string name="pref_selectappstohide_summary">Select the apps to hide</string>
     <string name="pref_cat_title_restart_launcher">Restart launcher</string>
     <string name="pref_restart_launcher_summary">Click here to restart the launcher and load it with your settings.</string>
-    <string name="pref_donate_title">Like this module? - Donate!</string>
-    <string name="pref_donate_summary">XGELS is free and ever will be. However, if you like my work and want to recompense me for the hours I spent, make sure to donate to me. Press this button!</string>
     <string name="pref_support_thread_title">Need help?</string>
     <string name="pref_support_thread_summary">Please show some love to the support thread. If you need help or have feedback please click here to open the thread.</string>
     <string name="pref_cat_eximport_settings">Import/Export Settings</string>
@@ -109,21 +107,7 @@
     
     <!-- V1.4 -->
     <string name="pref_switch_no_all_apps_button_title">App drawer button</string>
-    <string name="pref_switch_no_all_apps_button_summary">Hide the app drawer button. Please remove the icon from the app drawer if you turn this option off!</string>
-    
-    <string-array name="fragmenttitles_array">
-        <item>Welcome</item>
-        <item>General</item>
-        <item>Google Search Bar</item>
-        <item>Homescreen</item>
-        <item>App Drawer</item>
-        <item>Gestures</item>
-        <item>System UI Tweaks</item>
-        <item>Backup/Restore</item>
-        <item>Settings</item>
-        <item>Donate/Support</item>
-    </string-array>
-    
+    <string name="pref_switch_no_all_apps_button_summary">Hide the app drawer button. Please remove the icon from the app drawer if you turn this option off!</string>    
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="pref_systemui_explain_title">Note</string>
@@ -158,11 +142,8 @@
     <string name="toast_full_reboot">For this change to take effect please perform a full reboot!</string>
     <string name="pref_switch_gesture_swipe_down_close_app_drawer_title">App drawer</string>
     <string name="pref_switch_gesture_swipe_down_close_app_drawer_summary">Swipe down to close the app drawer</string>
-    <string name="toast_donate_only">This feature is donate only!</string>
     <string name="toast_getprices_fail">Something went wrong while receiving the price list. Please check the logcat!</string>
     <string name="toast_donation_result_fail">Something went wrong. You may want to kill XGELS and start it again. Please check the logcat!</string>
-    <string name="pref_donate_button">Donate and support me!</string>
-    <string name="pref_donated_button">Thank you for donating!</string>
     <string name="toast_donate_thanks">Yeah, you are awesome! Pat yourself on the shoulder!</string>
     <string name="pref_xgel_group_summary">Please click here to apply for the XGELS Donators Group! Include your Google Plus e-mail address so that I can add you to the private group.</string>
     <string name="pref_requires_donation_title">Not available</string>
@@ -175,6 +156,7 @@
     <string name="pref_auto_blur_wallpaper_summary">Blur the device wallpaper every time it gets changed and use it as XGELS background. This may drain your battery if you use apps which changed the wallpaper within certain intervals.</string>
     <string name="pref_dynamic_backbuttononeveryscreen_title">Sleep on every screen</string>
     <string name="pref_dynamic_backbuttononeveryscreen_summary">Goes to sleep on every home screen. If this checkbox is not checked, it will only go to sleep on your default home screen.</string>
+    
     <!-- V1.5 -->
     <string name="pref_selectwidgetstohide_summary">Select the widgets to hide</string>
     <string name="pref_workspacerect_title">Homescreen left/right margin</string>
@@ -194,18 +176,6 @@
     <string name="pref_folder_applabel_color">Icon text color</string>
     <string name="pref_folder_namelabel_color">Folder name text color</string>
     <string name="pref_folder_preview_color">Folder preview color</string>
-    
-    <string-array name="gesture_actions_entries">
-        <item>None</item>
-        <item>Notification bar</item>
-        <item>Quick settings</item>
-        <item>App drawer</item>
-        <item>Recent app</item>
-        <item>Android settings</item>
-        <item>Go to sleep</item>
-        <item>Toggle dock</item>
-        <item>Open app</item>
-    </string-array>
     
     <string-array name="gesture_actions_entries_limited">
         <item>None</item>
@@ -230,8 +200,80 @@
     <string name="alert_hidewidgets_title">Note</string>
     <string name="alert_hidewidgets_summary">You can only select widgets in this list. Shortcuts can\'t be hidden at the moment.</string>
     <string name="pref_limited_title">Limited</string>
-    <string name="pref_limited_summary">Some of the following features are only available in the donate version.</string>
     
-    <!-- V1.5.3 -->
+    <!-- V1.6 -->
+    <string name="pref_debug">Enable debug logging</string>
+    <string name="pref_send_bugreport">Send bug report</string>
+    <string name="toast_no_log_found">Couldn\'t find debug.log of Xposed Installer</string>
+    <string name="alert_debug_logging_activated_title">Debug logging activated!</string>
+    <string name="alert_debug_logging_activated_summary">Debug logging is now enabled. Please reproduce the error and send the debug log.</string>
+    <string name="alert_debug_logging_not_activated_title">Debug logging not activated!</string>
+    <string name="alert_debug_logging_not_activated_summary">Debug logging is not enabled. Make sure to enable debug logging and reproduce the error before sending a logfile.</string>
+    
+    <string name="alert_autokill_title">Note</string>
+    <string name="alert_autokill_summary">XGELS automatically kills GNL/Trebuchet as soon as a change is made. When returning to the homescreen GNL/Trebuchet will be launched with the new settings.</string>
+    <string name="alert_autokill_ok">Got it!</string>
+    <string name="alert_autokill_cancel">I\'ll do that myself!</string>
+    <string name="alert_autokill_checkbox">Don\'t show again</string>
+    <string name="pref_autokill_launcher_title">Kill Launcher</string>
+    <string name="pref_autokill_launcher_summary">Kill GNL/Trebuchet automatically once a preference is changed. When going back to the homescreen GNL/Trebuchet will then be loaded with the new settings.</string>
+    
+    <string name="pref_notificationbadge_enable_title">Enable badges</string>
+    <string name="pref_notificationbadge_backgroundcolor_title">Background color</string>
+    <string name="pref_notificationbadge_textcolor_title">Text color</string>
+    <string name="pref_notificationbadge_textsize_title">Text size</string>
+    <string name="pref_notificationbadge_framecolor_title">Frame color</string>
+    <string name="pref_notificationbadge_framesize_title">Frame size</string>
+    <string name="pref_notificationbadge_corner_title">Corner radius</string>
+    <string name="pref_notificationbadge_presets_title">Presets</string>
+    <string name="pref_notificationbadge_leftright_padding_title">Left/Right padding</string>
+    <string name="pref_notificationbadge_topbottom_padding_title">Top/Bottom padding</string>
+    
+    <string name="pref_switch_gesture_double_tap_only_on_wallpaper_title">Only on wallpaper</string>
+    <string name="pref_switch_gesture_double_tap_only_on_wallpaper_summary">Check this option to only allow double tap on wallpaper. This will eliminate the delay for recognizing the double tap gesture when double tapping icons.</string>
+    
+    <string name="pref_switch_appdrawer_remember_last_position_title">Remember position</string>
+    <string name="pref_switch_appdrawer_remember_last_position_summary">Start the app drawer from the last position it was closed</string>
+    
+    <string name="alert_xgels_updated_title">XGELS has been updated!</string>
+    <string name="alert_xgels_updated_summary">A reboot is required in order to activate the update. Would you like to reboot now?</string>
+    <string name="alert_xgels_updated_cancel">Later</string>
+    
+    <string name="alert_launcher_not_installed_title">Supported launcher not found!</string>
+    <string name="alert_launcher_not_installed_summary">It seems like you neither have Google Now Launcher nor Trebuchet installed. This module is designed for those two launchers and won\'t work if none of them is installed. Please make sure to install GNL or Trebuchet before using this app!</string>
+    <string name="alert_launcher_not_installed_get_gnl">Get GNL</string>
+    
+    <!-- These strings are already existing, please try to edit them -->
+    <string-array name="fragmenttitles_array">
+        <item>Welcome</item>
+        <item>General</item>
+        <item>Google Search Bar</item>
+        <item>Homescreen</item>
+        <item>App Drawer</item>
+        <item>Gestures</item>
+        <item>Notification Badges</item> <!-- NEW -->
+        <item>System UI Tweaks</item>
+        <item>Backup/Restore</item>
+        <item>Settings</item>
+        <item>Premium/Support</item> <!-- NEW -->
+    </string-array>
+    
+    <string-array name="gesture_actions_entries">
+        <item>None</item>
+        <item>Notification bar</item>
+        <item>Quick settings</item>
+        <item>App drawer</item>
+        <item>Recent app</item>
+        <item>Show recents</item>  <!-- NEW -->
+        <item>Android settings</item>
+        <item>Go to sleep</item>
+        <item>Toggle dock</item>
+        <item>Open app</item>
+    </string-array>
+    
+    <string name="toast_donate_only">This feature requires XGELS Premium!</string>
+    <string name="pref_donate_button">Buy Premium and support me!</string>
+    <string name="pref_donated_button">Thank you for your purchase!</string>
+    <string name="pref_limited_summary">Some of the following features are only available in XGELS Premium.</string>
     
 </resources>

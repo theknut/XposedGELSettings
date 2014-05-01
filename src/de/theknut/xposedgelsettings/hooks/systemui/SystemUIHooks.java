@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
+import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
@@ -32,7 +33,7 @@ public class SystemUIHooks extends HooksBaseClass {
 		
 		final Class<?> WorkspaceClass = findClass(Common.WORKSPACE, lpparam.classLoader);
 		final Class<?> PagedViewClass = findClass(Common.PAGED_VIEW, lpparam.classLoader);
-		final Class<?> LauncherClass = findClass(Common.LAUNCHER, lpparam.classLoader);
+		final Class<?> LauncherClass = findClass(Common.LAUNCHER, lpparam.classLoader);		
 		
 		XposedBridge.hookAllMethods(PagedViewClass, "snapToPage", new XC_MethodHook() {
 			
@@ -78,9 +79,9 @@ public class SystemUIHooks extends HooksBaseClass {
 			int TOUCH_STATE_REST = 0;
 			
 			@Override
-			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+			protected void afterHookedMethod(MethodHookParam param) throws Throwable {				
+				if (DEBUG) log("SystemUIHooks: onPageBeginMoving TouchState " + getObjectField(Common.WORKSPACE_INSTANCE, "mTouchState"));
 				
-				log("onPageBeginMoving " + getObjectField(Common.WORKSPACE_INSTANCE, "mTouchState"));
 				int currentPage = getIntField(param.thisObject, "mCurrentPage");
 				
 				if (!((Boolean) callMethod(Common.LAUNCHER_INSTANCE, "isAllAppsVisible"))
@@ -110,9 +111,8 @@ public class SystemUIHooks extends HooksBaseClass {
 		XposedBridge.hookAllMethods(WorkspaceClass, "onPageEndMoving", new XC_MethodHook() {
 			
 			@Override
-			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-				
-				log("onPageEndMoving " + getObjectField(Common.WORKSPACE_INSTANCE, "mTouchState"));
+			protected void afterHookedMethod(MethodHookParam param) throws Throwable {				
+				if (DEBUG) log("SystemUIHooks: onPageEndMoving TouchState" + getObjectField(Common.WORKSPACE_INSTANCE, "mTouchState"));
 				
 				if (!((Boolean) callMethod(Common.LAUNCHER_INSTANCE, "isAllAppsVisible"))
 					&& getObjectField(Common.WORKSPACE_INSTANCE, "mState").toString().equals("NORMAL")) {
@@ -139,7 +139,8 @@ public class SystemUIHooks extends HooksBaseClass {
 			
 			@Override
 			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-				log("enterOverviewMode");
+				if (DEBUG) log("SystemUIHooks: enterOverviewMode");
+				
 				Intent myIntent = new Intent();
 				myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_NAVBAR);
 				myIntent.putExtra(Common.XGELS_ACTION, "BACK_HOME_ORIG");
@@ -151,9 +152,8 @@ public class SystemUIHooks extends HooksBaseClass {
 		XposedBridge.hookAllMethods(LauncherClass, "onPause", new XC_MethodHook() {
 			
 			@Override
-			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-				
-				log("onPause");
+			protected void afterHookedMethod(MethodHookParam param) throws Throwable {				
+				if (DEBUG) log("SystemUIHooks: onPause");
 				
 				if (getObjectField(Common.WORKSPACE_INSTANCE, "mState").toString().equals("NORMAL")) {
 					Intent myIntent = new Intent();
@@ -168,9 +168,8 @@ public class SystemUIHooks extends HooksBaseClass {
 		XposedBridge.hookAllMethods(LauncherClass, "onStop", new XC_MethodHook() {
 			
 			@Override
-			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-				
-				log("onStop " + getBooleanField(param.thisObject, "mPaused"));
+			protected void afterHookedMethod(MethodHookParam param) throws Throwable {				
+				if (DEBUG) log("SystemUIHooks: onStop isPaused " + getBooleanField(param.thisObject, "mPaused"));
 				
 				if (getObjectField(Common.WORKSPACE_INSTANCE, "mState").toString().equals("NORMAL")) {
 					
@@ -186,9 +185,9 @@ public class SystemUIHooks extends HooksBaseClass {
 		XposedBridge.hookAllMethods(LauncherClass, "onStart", new XC_MethodHook() {
 			
 			@Override
-			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+			protected void afterHookedMethod(MethodHookParam param) throws Throwable {				
+				if (DEBUG) log("SystemUIHooks: onStart");
 				
-				log("onStart");
 				boolean isDefaultHomescreen = getIntField(Common.WORKSPACE_INSTANCE, "mCurrentPage") == (PreferencesHelper.defaultHomescreen - 1);
 				
 				if (activityManager == null) {
@@ -214,9 +213,8 @@ public class SystemUIHooks extends HooksBaseClass {
 		XposedBridge.hookAllMethods(LauncherClass, "onResume", new XC_MethodHook() {
 			
 			@Override
-			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-				
-				log("onResume " + getIntField(Common.WORKSPACE_INSTANCE, "mCurrentPage"));
+			protected void afterHookedMethod(MethodHookParam param) throws Throwable {				
+				if (DEBUG) log("SystemUIHooks: onResume currentPage" + getIntField(Common.WORKSPACE_INSTANCE, "mCurrentPage"));
 				
 				if (activityManager == null) {
 					activityManager = (ActivityManager) Common.LAUNCHER_CONTEXT.getSystemService(Context.ACTIVITY_SERVICE);
@@ -244,8 +242,8 @@ public class SystemUIHooks extends HooksBaseClass {
 			
 			@Override
 			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+				if (DEBUG) log("SystemUIHooks: onWorkspaceShown");
 				
-				log("onWorkspaceShown");
 				int currentPage = getIntField(Common.WORKSPACE_INSTANCE, "mCurrentPage");
 				
 				if (activityManager == null) {
@@ -254,8 +252,8 @@ public class SystemUIHooks extends HooksBaseClass {
 				
 				List<RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
 				
-				log(getBooleanField(param.thisObject, "mPaused") + " onWorkspaceShown " + (PreferencesHelper.defaultHomescreen - 1) + " " + appProcesses.get(0).processName);
-				log("State " + callMethod(Common.WORKSPACE_INSTANCE, "isInOverviewMode"));
+				if (DEBUG) log("SystemUIHooks: paused " + getBooleanField(param.thisObject, "mPaused") + " onWorkspaceShown defaultscreen " + (PreferencesHelper.defaultHomescreen - 1) + " " + appProcesses.get(0).processName);
+				if (DEBUG) log("SystemUIHooks: isInOverViewMode " + callMethod(Common.WORKSPACE_INSTANCE, "isInOverviewMode"));
 				
 				if (currentPage == (PreferencesHelper.defaultHomescreen - 1)
 					&& Common.PACKAGE_NAMES.contains(appProcesses.get(0).processName.replace(":search", ""))
@@ -274,9 +272,8 @@ public class SystemUIHooks extends HooksBaseClass {
 		XposedBridge.hookAllMethods(LauncherClass, "moveToCustomContentScreen", new XC_MethodHook() {
 			
 			@Override
-			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-				
-				log("moveToCustomContentScreen");
+			protected void afterHookedMethod(MethodHookParam param) throws Throwable {				
+				if (DEBUG) log("SystemUIHooks: moveToCustomContentScreen");
 				
 				Intent myIntent = new Intent();
 				myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_NAVBAR);
@@ -290,7 +287,7 @@ public class SystemUIHooks extends HooksBaseClass {
 			
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				log("showAllApps");
+				if (DEBUG) log("SystemUIHooks: showAllApps");
 				
 				Intent myIntent = new Intent();
 				myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_NAVBAR);
@@ -307,12 +304,13 @@ public class SystemUIHooks extends HooksBaseClass {
 				XposedBridge.hookAllMethods(LauncherClass, "openFolder", new XC_MethodHook() {
 					
 					@Override
-					protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+					protected void afterHookedMethod(MethodHookParam param) throws Throwable {						
+						if (DEBUG) log("SystemUIHooks: openFolder");
 						
-						log("openFolder");
 						int currentPage = getIntField(Common.WORKSPACE_INSTANCE, "mCurrentPage");
 						
-						if (currentPage == (PreferencesHelper.defaultHomescreen - 1)) {					
+						if (currentPage == (PreferencesHelper.defaultHomescreen - 1)
+							|| PreferencesHelper.dynamicBackButtonOnEveryScreen) {					
 							Intent myIntent = new Intent();
 							myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_NAVBAR);
 							myIntent.putExtra(Common.XGELS_ACTION, "BACK_ORIG");						
@@ -326,13 +324,14 @@ public class SystemUIHooks extends HooksBaseClass {
 					
 					@Override
 					protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+						if (DEBUG) log("SystemUIHooks: closeFolder");
 						
-						log("closeFolder");						
 						int currentPage = getIntField(Common.WORKSPACE_INSTANCE, "mCurrentPage");
 						
 						if (callMethod(Common.WORKSPACE_INSTANCE, "getOpenFolder") != null
-							&& currentPage == (PreferencesHelper.defaultHomescreen - 1)
-							&& !getBooleanField(param.thisObject, "mPaused")) {
+							&& (currentPage == (PreferencesHelper.defaultHomescreen - 1) || PreferencesHelper.dynamicBackButtonOnEveryScreen)
+							&& !getBooleanField(param.thisObject, "mPaused")
+							&& getObjectField(Common.WORKSPACE_INSTANCE, "mState").toString().equals("NORMAL")) {
 							
 							Intent myIntent = new Intent();
 							myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_NAVBAR);
@@ -352,7 +351,7 @@ public class SystemUIHooks extends HooksBaseClass {
 					boolean isDefaultHomescreen = (getIntField(Common.WORKSPACE_INSTANCE, "mCurrentPage") == (PreferencesHelper.defaultHomescreen - 1))
 							|| (getIntField(Common.WORKSPACE_INSTANCE, "mNextPage") == (PreferencesHelper.defaultHomescreen - 1));
 					
-					log("onBackPressed " + (PreferencesHelper.defaultHomescreen - 1) + " : " + isDefaultHomescreen);
+					if (DEBUG) log("SystemUIHooks: onBackPressed " + (PreferencesHelper.defaultHomescreen - 1) + " : " + isDefaultHomescreen);
 					
 					if (!((Boolean) callMethod(param.thisObject, "isAllAppsVisible"))
 						&& callMethod(Common.WORKSPACE_INSTANCE, "getOpenFolder") == null
@@ -374,9 +373,8 @@ public class SystemUIHooks extends HooksBaseClass {
 			XposedBridge.hookAllMethods(LauncherClass, "onNewIntent", new XC_MethodHook() {
 				
 				@Override
-				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-					
-					log("onNewIntent");
+				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {					
+					if (DEBUG) log("SystemUIHooks: onNewIntent");
 					
 					if (Intent.ACTION_MAIN.equals(((Intent)param.args[0]).getAction())
 						&& !((Boolean) callMethod(param.thisObject, "isAllAppsVisible"))
@@ -389,12 +387,12 @@ public class SystemUIHooks extends HooksBaseClass {
 							&& getBooleanField(param.thisObject, "mHasFocus")
 							&& getObjectField(Common.WORKSPACE_INSTANCE, "mState").toString().equals("NORMAL")) {
 							
-							callMethod(Common.LAUNCHER_INSTANCE, "showAllApps", true, Common.CONTENT_TYPE, true);
+							callMethod(Common.LAUNCHER_INSTANCE, "showAllApps", true, Common.CONTENT_TYPE, !PreferencesHelper.appdrawerRememberLastPosition);
 							param.setResult(null);
 						}
 					}
 				}
 			});
-		}
+		}	
 	}
 }

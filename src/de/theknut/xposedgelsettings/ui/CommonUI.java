@@ -84,7 +84,7 @@ public class CommonUI {
         }
 	}
 	
-	public static void restartLauncherOrDevice(final Context context) {  	
+	public static void restartLauncherOrDevice() {
     	
     	if (needFullReboot) {
     		
@@ -94,7 +94,7 @@ public class CommonUI {
     	    .setPositiveButton("Full reboot", new DialogInterface.OnClickListener() {
     	        public void onClick(DialogInterface dialog, int which) {
     	        	if (!InAppPurchase.isDonate) {
-    	    			Toast.makeText(context, context.getString(R.string.toast_donate_only), Toast.LENGTH_SHORT).show();
+    	    			Toast.makeText(CONTEXT, CONTEXT.getString(R.string.toast_donate_only), Toast.LENGTH_SHORT).show();
     	    			return;
     	    		}
     	        	
@@ -106,25 +106,25 @@ public class CommonUI {
 
 			      public void onClick(DialogInterface dialog, int id) {
 			    	if (!InAppPurchase.isDonate) {
-			  			Toast.makeText(context, context.getString(R.string.toast_donate_only), Toast.LENGTH_SHORT).show();
+			  			Toast.makeText(CONTEXT, CONTEXT.getString(R.string.toast_donate_only), Toast.LENGTH_SHORT).show();
 			  			return;
 			  		}
 			    	  
-			    	openRootShell(new String[]{ "su", "-c", "busybox killall system_server"});			
+			    	openRootShell(new String[]{ "su", "-c", "killall system_server"});			
 			    }})
     	    .setNegativeButton("Launcher reboot", new DialogInterface.OnClickListener() {
     	        public void onClick(DialogInterface dialog, int which) { 
-    	            restartLauncher(context);
+    	            restartLauncher();
     	        }
     	     })
     	     .show();
     	}
     	else {
-    		restartLauncher(CONTEXT);
+    		restartLauncher();
     	}
     }
     
-    private static boolean restartLauncher(Context context) {   	
+    public static boolean restartLauncher(boolean showToast) {   	
     	
 		 ActivityManager am = (ActivityManager) CONTEXT.getSystemService(Context.ACTIVITY_SERVICE);
 	   	 String msg = "Killed:\n";
@@ -155,14 +155,22 @@ public class CommonUI {
 	   	 if (!neededRoot) {
 	   		 
 		   	 if (msg.equals("Killed:\n")) {
-		   		 msg = msg.substring(0, msg.lastIndexOf('\n')) + " " + context.getString(R.string.toast_reboot_failed_nothing_msg) + "... :(\n" + context.getString(R.string.toast_reboot_failed);
+		   		 msg = msg.substring(0, msg.lastIndexOf('\n')) + " " + CONTEXT.getString(R.string.toast_reboot_failed_nothing_msg) + "... :(\n" + CONTEXT.getString(R.string.toast_reboot_failed);
 		   	 } else {
 		   		 msg = msg.substring(0, msg.lastIndexOf('\n'));
 		   	 }
 		   	 
-		   	 Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+		   	if (showToast) {
+		   		Toast.makeText(CONTEXT, msg, Toast.LENGTH_LONG).show();
+		   	}
 	   	 }
+	   	 
 	   	 return true;
+	}
+    
+    public static boolean restartLauncher() {		 
+	   	 
+	   	 return restartLauncher(true);
 	}
     
 	public static void openRootShell(final String[] command) {

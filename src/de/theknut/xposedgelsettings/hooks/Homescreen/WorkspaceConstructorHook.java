@@ -10,6 +10,6 @@ public class WorkspaceConstructorHook extends XC_MethodHook {
 	
 	protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 		// save the workspace instance
-		Common.WORKSPACE_INSTANCE = param.thisObject;		
+		Common.WORKSPACE_INSTANCE = param.thisObject;
 	};
 }

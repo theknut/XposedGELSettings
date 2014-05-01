@@ -45,6 +45,7 @@ public class GestureHelper extends HooksBaseClass {
 	static ViewPropertyAnimator showAnimation;
 	static AnimatorListener showListener;
 	static View mHotseat;
+	static int FORCEHIDE = 0xB00B5;
 	
 	static WindowManager wm;
 	static Display display;
@@ -54,9 +55,9 @@ public class GestureHelper extends HooksBaseClass {
 	static int sector;
 	static boolean isLandscape;
 	
-	static void init() throws IOException {
+	static void init() throws IOException {		
+		if (DEBUG) log("Init Gestures");
 		
-		log("init gesture");
 		wm = (WindowManager) Common.LAUNCHER_CONTEXT.getSystemService(Context.WINDOW_SERVICE);
 		display = wm.getDefaultDisplay();
 		size = new Point();
@@ -78,20 +79,20 @@ public class GestureHelper extends HooksBaseClass {
 				public void onAnimationEnd(Animator animation) {
 					isAnimating = false;
 					Common.APPDOCK_HIDDEN = false;
-					log("onend show");
+					if (DEBUG)  log("OnEnd Showanimation");
 				}
 	
 				@Override
 				public void onAnimationCancel(Animator animation) {
 					isAnimating = false;
 					Common.APPDOCK_HIDDEN = false;
-					log("oncancel show");
+					if (DEBUG) log("OnCancel Showanimation");
 				}
 	
 				@Override
 				public void onAnimationRepeat(Animator animation) {
 					isAnimating = true;
-					log("onrepeat show");
+					if (DEBUG) log("OnRepeat Showanimation");
 				}
 	
 				@Override
@@ -107,19 +108,19 @@ public class GestureHelper extends HooksBaseClass {
 				@Override
 				public void onAnimationEnd(Animator animation) {
 					hide();
-					log("onend hide");
+					if (DEBUG) log("OnEnd Hideanimation");
 				}
 	
 				@Override
 				public void onAnimationCancel(Animator animation) {
 					hide();
-					log("oncancel hide");
+					if (DEBUG) log("OnCancel Hideanimation");
 				}
 	
 				@Override
 				public void onAnimationRepeat(Animator animation) {
 					isAnimating = true;
-					log("onrepeat hide");
+					if (DEBUG) log("OnRepeat Hideanimation");
 				}
 	
 				@Override
@@ -169,16 +170,28 @@ public class GestureHelper extends HooksBaseClass {
 		
 		if (action.equals("NOTIFICATION_BAR")) {
 			
+//			Intent myIntent = new Intent();
+//			myIntent.putExtra(Common.XGELS_ACTION, "NOTIFICATION_BAR");
+//			myIntent.setAction(Common.PACKAGE_NAME + ".Intent");
+//			Common.LAUNCHER_CONTEXT.sendBroadcast(myIntent);
+			
 			Intent myIntent = new Intent();
-			myIntent.putExtra(Common.XGELS_ACTION, "NOTIFICATION_BAR");
-			myIntent.setAction(Common.PACKAGE_NAME + ".Intent");
+			myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_OTHER);
+			myIntent.putExtra(Common.XGELS_ACTION, "SHOW_NOTIFICATION_BAR");						
+			myIntent.setAction(Common.XGELS_INTENT);
 			Common.LAUNCHER_CONTEXT.sendBroadcast(myIntent);
 			
 		} else if (action.equals("QUICKSETTINGS_PANEL")) {
 			
+//			Intent myIntent = new Intent();
+//			myIntent.putExtra(Common.XGELS_ACTION, "SETTINGS_BAR");
+//			myIntent.setAction(Common.PACKAGE_NAME + ".Intent");
+//			Common.LAUNCHER_CONTEXT.sendBroadcast(myIntent);
+			
 			Intent myIntent = new Intent();
-			myIntent.putExtra(Common.XGELS_ACTION, "SETTINGS_BAR");
-			myIntent.setAction(Common.PACKAGE_NAME + ".Intent");
+			myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_OTHER);
+			myIntent.putExtra(Common.XGELS_ACTION, "SHOW_SETTINGS_PANEL");						
+			myIntent.setAction(Common.XGELS_INTENT);
 			Common.LAUNCHER_CONTEXT.sendBroadcast(myIntent);
 			
 		} else if (action.equals("OPEN_APPDRAWER")) {
@@ -187,7 +200,7 @@ public class GestureHelper extends HooksBaseClass {
 			     @Override
 			     public void run() {
 			    	 
-			    	 callMethod(Common.LAUNCHER_INSTANCE, "showAllApps", true, Common.CONTENT_TYPE, true);
+			    	 callMethod(Common.LAUNCHER_INSTANCE, "showAllApps", true, Common.CONTENT_TYPE, !PreferencesHelper.appdrawerRememberLastPosition);
 			     }
 		    });
 			
@@ -196,6 +209,14 @@ public class GestureHelper extends HooksBaseClass {
 			Intent myIntent = new Intent();
 			myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_OTHER);
 			myIntent.putExtra(Common.XGELS_ACTION, "GESTURE_LAST_APP");						
+			myIntent.setAction(Common.XGELS_INTENT);
+			Common.LAUNCHER_CONTEXT.sendBroadcast(myIntent);
+			
+		} else if (action.equals("SHOW_RECENTS")) {
+			
+			Intent myIntent = new Intent();
+			myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_OTHER);
+			myIntent.putExtra(Common.XGELS_ACTION, "SHOW_RECENTS");						
 			myIntent.setAction(Common.XGELS_INTENT);
 			Common.LAUNCHER_CONTEXT.sendBroadcast(myIntent);
 			
@@ -308,11 +329,13 @@ public class GestureHelper extends HooksBaseClass {
 	
 	static void showAppdock(int duration) {
 		mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, "mHotseat");
-		if (Common.LAUNCHER_INSTANCE == null || mHotseat == null
-				|| mHotseat.getAlpha() != 0.0f) { log("lol"); return;}
-		log("Show");
 		
+		if (Common.LAUNCHER_INSTANCE == null || mHotseat == null || mHotseat.getAlpha() != 0.0f) {
+			if (DEBUG) log("Don't show App Dock");
+			return;
+		}
 		
+		if (DEBUG) log("Show App Dock");
 		
 		final LayoutParams lp = (LayoutParams) mHotseat.getLayoutParams();
 		
@@ -336,12 +359,26 @@ public class GestureHelper extends HooksBaseClass {
 	}
 	
 	static void hideAppdock(final int duration) {
-		log("lol2 " + mHotseat.getAlpha());
-		if (Common.LAUNCHER_INSTANCE == null || mHotseat == null
-			|| isAnimating
-			|| mHotseat.getAlpha() == 0.0f) { log("lol2 " + isAnimating + " " + mHotseat); return;}
 		
-		log("hide " + duration);
+		if (duration == FORCEHIDE) {
+			
+			mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, "mHotseat");
+			
+			LayoutParams lp = (LayoutParams) mHotseat.getLayoutParams();
+			lp.width = 0;
+			lp.height = 0;				
+			
+			isAnimating = false;
+			mHotseat.setAlpha(0.0f);
+			mHotseat.setLayoutParams(lp);
+		}
+		
+		if (Common.LAUNCHER_INSTANCE == null || mHotseat == null || isAnimating || mHotseat.getAlpha() == 0.0f) {
+			if (DEBUG) log("Don't hide App Dock " + isAnimating + " " + mHotseat + " " + mHotseat.getAlpha());
+			return;
+		}
+		
+		if (DEBUG) log("Hide App Dock (duration " + duration + ")");
 		
 		if (duration != 0) {
 			

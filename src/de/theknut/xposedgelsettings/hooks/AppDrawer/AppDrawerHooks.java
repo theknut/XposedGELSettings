@@ -4,16 +4,19 @@ import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setIntField;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.view.ViewGroup;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
+import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 
-public class AppDrawerHooks {
+public class AppDrawerHooks extends HooksBaseClass {
 	
 	public static void initAllHooks(LoadPackageParam lpparam) {
 			
@@ -55,6 +58,34 @@ public class AppDrawerHooks {
 		
 		if (PreferencesHelper.closeAppdrawerAfterAppStarted) {
 			XposedBridge.hookAllMethods(AppsCustomizePagedViewClass, "onClick", new OnClickHook());
+		}
+		
+		if (PreferencesHelper.appdrawerRememberLastPosition) {
+			
+			final Class<?> LauncherClass = findClass(Common.LAUNCHER, lpparam.classLoader);
+			XposedBridge.hookAllMethods(LauncherClass, "hideAppsCustomizeHelper", new XC_MethodHook() {
+				
+				@Override
+				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+					Common.APPDRAWER_LAST_POSITION = (Integer) callMethod(Common.APP_DRAWER_INSTANCE, "getCurrentPage");
+					if (DEBUG) log(param, "AppDrawerHooks: get current position - " + Common.APPDRAWER_LAST_POSITION);
+				}
+			});
+			
+			XposedBridge.hookAllMethods(LauncherClass, "showAllApps", new XC_MethodHook() {
+				
+				@Override
+				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+					
+					int lastPage = (Integer) callMethod(Common.APP_DRAWER_INSTANCE, "getChildCount") - 1;
+					if (Common.APPDRAWER_LAST_POSITION > lastPage) {
+						Common.APPDRAWER_LAST_POSITION = lastPage;
+					}
+					
+					if (DEBUG) log(param, "AppDrawerHooks: set to last position " + Common.APPDRAWER_LAST_POSITION);
+					callMethod(Common.APP_DRAWER_INSTANCE, "setCurrentPage", Common.APPDRAWER_LAST_POSITION);
+				}
+			});
 		}
 		
 		final Class<?> AllAppsListClass = findClass(Common.ALL_APPS_LIST, lpparam.classLoader);

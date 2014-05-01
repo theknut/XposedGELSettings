@@ -3,24 +3,34 @@ package de.theknut.xposedgelsettings.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import de.theknut.xposedgelsettings.BuildConfig;
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 
+@SuppressLint("WorldReadableFiles")
 public class FragmentWelcome extends FragmentBase {
 	
 	static boolean shown = false;
-	AlertDialog IsXposedInstalledAlert, IsModuleActive, IsInstalledFromPlayStore;
+	AlertDialog IsXposedInstalledAlert, IsModuleActive, IsInstalledFromPlayStore, IsSupportedLauncherInstalled, NeedReboot;
 	List<AlertDialog> alerts;
 	int alertToShow = 0;
      
@@ -28,13 +38,27 @@ public class FragmentWelcome extends FragmentBase {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	super.onCreateView(inflater, container, savedInstanceState);
     	
-    	View rootView = inflater.inflate(R.layout.welcome, container, false);
-    	
+    	View rootView = inflater.inflate(R.layout.welcome, container, false);    	
     	rootView = CommonUI.setBackground(rootView, R.id.welcomebackground);
+    	
+    	if (BuildConfig.DEBUG) {
+    		
+	    	((TextView) rootView.findViewById(R.id.welcometext)).setOnTouchListener(new OnTouchListener() {
+				
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					CommonUI.openRootShell(new String[]{ "su", "-c", "killall system_server"});
+					
+					return true;
+				}
+			});
+    	}
+    	
         return rootView;
     }
     
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public void onResume() {
     	super.onResume();
     	
@@ -49,19 +73,27 @@ public class FragmentWelcome extends FragmentBase {
         		new ShowAlertsAsyncTask().execute();
         		return;
         	}
+    		
+    		if (!isSupportedLauncherInstalled()) {
+    			alerts.add(IsSupportedLauncherInstalled);
+    		}
         	
         	if (!isXGELSActive()) {
         		alerts.add(IsModuleActive);
         	}
         	
+        	SharedPreferences settings = mContext.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
         	if (!isInstalledFromPlay()) {
-        		alerts.add(IsInstalledFromPlayStore);
+        		if (!settings.getBoolean("dontshowgoogleplaydialog", false)) {
+        			alerts.add(IsInstalledFromPlayStore);
+        		}
         	}
     		
     		Changelog cl = new Changelog(CommonUI.CONTEXT);
     	    if (cl.firstRun()) {
     	    	CommonUI.needFullReboot = true;
-    	        alerts.add(cl.getFullLogDialog());
+    	        alerts.add(cl.getLogDialog());
+    	        alerts.add(NeedReboot);
     	    }
     	    
     	    if (alerts.size() != 0) {
@@ -70,8 +102,29 @@ public class FragmentWelcome extends FragmentBase {
     	}
     }
     
+    // this method gets replaced by the module and returns true
     public boolean isXGELSActive() {
     	return false;
+    }
+    
+    public boolean isSupportedLauncherInstalled() {
+    	
+    	boolean retVal = false;
+    	PackageManager pm = mContext.getPackageManager();
+    	
+        try {
+            pm.getPackageInfo(Common.GEL_PACKAGE, PackageManager.GET_ACTIVITIES);
+            retVal = true;
+        }
+        catch (PackageManager.NameNotFoundException e) { }
+        
+        try {
+            pm.getPackageInfo(Common.TREBUCHET_PACKAGE, PackageManager.GET_ACTIVITIES);
+            retVal = true;
+        }
+        catch (PackageManager.NameNotFoundException e) { }
+        
+        return retVal;
     }
     
     private boolean isXposedInstalled() {
@@ -129,7 +182,11 @@ public class FragmentWelcome extends FragmentBase {
 		        	if (LaunchIntent == null) {
 		        		Toast.makeText(mContext, R.string.toast_openinstaller_failed, Toast.LENGTH_LONG).show();
 		        	} else {
-		        		startActivity(LaunchIntent);
+		        		Intent i = new Intent();
+		        		i.setClassName("de.robv.android.xposed.installer", "de.robv.android.xposed.installer.XposedInstallerActivity");
+		        		i.putExtra("opentab", "modules");
+		        		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		        		startActivity(i);
 		        	}
 	        	} catch (Exception e) {
 	        		Toast.makeText(mContext, "Ehm... that didn't work. Please open Xposed Installer manually and activate the module. Restart your device!", Toast.LENGTH_LONG).show();
@@ -144,12 +201,26 @@ public class FragmentWelcome extends FragmentBase {
 	     })
 	     .create();
 		
-		IsInstalledFromPlayStore = new AlertDialog.Builder(CommonUI.CONTEXT)
-		.setCancelable(false)
-	    .setTitle("Module not installed from Google Play!")
-	    .setMessage("XGELS is not installed from Google Play! Please reinstall XGELS and download the module from the store to get updates automatically!")
-	    .setPositiveButton("Open Play Store", new DialogInterface.OnClickListener() {
+		LayoutInflater adbInflater = LayoutInflater.from(mContext);
+        View dontShowAgainLayout = adbInflater.inflate(R.layout.dialog_with_checkbox, null);
+        final CheckBox dontShowAgain = (CheckBox) dontShowAgainLayout.findViewById(R.id.skip);
+        dontShowAgain.setIncludeFontPadding(false);
+        dontShowAgain.setText("Don't show again");
+        
+        AlertDialog.Builder adb = new AlertDialog.Builder(CommonUI.CONTEXT);        
+        adb.setView(dontShowAgainLayout);
+        adb.setCancelable(false);
+	    adb.setTitle("Module not installed from Google Play!");
+	    adb.setMessage("XGELS is not installed from Google Play! Please reinstall XGELS and download the module from the store to get updates automatically!");
+	    adb.setPositiveButton("Open Play Store", new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) { 
+	        	
+	        	if (dontShowAgain.isChecked()) {
+		        	SharedPreferences settings = mContext.getSharedPreferences(Common.PREFERENCES_NAME, 0);
+	                SharedPreferences.Editor editor = settings.edit();
+	                editor.putBoolean("dontshowgoogleplaydialog", true);
+	                editor.commit();
+	        	}
 	        	
 	        	final String appPackageName = Common.PACKAGE_NAME;
 	        	try {
@@ -158,14 +229,65 @@ public class FragmentWelcome extends FragmentBase {
 	        	    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName)));
 	        	}
 	        }
+        });
+	    adb.setNegativeButton("Continue", new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) {
+	        	
+	        	if (dontShowAgain.isChecked()) {
+		        	SharedPreferences settings = mContext.getSharedPreferences(Common.PREFERENCES_NAME, 0);
+	                SharedPreferences.Editor editor = settings.edit();
+	                editor.putBoolean("dontshowgoogleplaydialog", true);
+	                editor.commit();
+	        	}
+	        	
+	            dialog.dismiss();
+	        }
+	    });
+	     
+	    IsInstalledFromPlayStore = adb.create();
+	    
+	    NeedReboot = new AlertDialog.Builder(CommonUI.CONTEXT)
+		.setCancelable(false)
+	    .setTitle(R.string.alert_xgels_updated_title)
+	    .setMessage(R.string.alert_xgels_updated_summary)
+	    .setPositiveButton("Full reboot", new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) {
+	        	
+	        	CommonUI.openRootShell(new String[]{"su", "-c", "reboot now"});
+	        }
         }
 	     )
-	    .setNegativeButton("Continue", new DialogInterface.OnClickListener() {
+	     .setNeutralButton("Hot reboot", new DialogInterface.OnClickListener() {
+
+		      public void onClick(DialogInterface dialog, int id) {
+		    	  
+		    	  CommonUI.openRootShell(new String[]{ "su", "-c", "killall system_server"});			
+		    }})
+	    .setNegativeButton(R.string.alert_xgels_updated_cancel, new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) { 
 	            dialog.dismiss();
 	        }
-	     })
-	     .create();
+	     }).create();
+	    
+	    IsSupportedLauncherInstalled = new AlertDialog.Builder(CommonUI.CONTEXT)
+		.setCancelable(false)
+	    .setTitle(R.string.alert_launcher_not_installed_title)
+	    .setMessage(R.string.alert_launcher_not_installed_summary)
+	    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) {
+	        	
+	        	dialog.dismiss();
+	        }
+         })
+	     .setNeutralButton(R.string.alert_launcher_not_installed_get_gnl, new DialogInterface.OnClickListener() {
+
+		      public void onClick(DialogInterface dialog, int id) {
+		    	  try {
+		    		  startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + Common.GEL_PACKAGE)));
+		    	  } catch (android.content.ActivityNotFoundException anfe) {
+		    		  startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + Common.GEL_PACKAGE)));
+		    	  }	
+		 }}).create();
     }
     
     private class ShowAlertsAsyncTask extends AsyncTask<Void, Void, Void> {

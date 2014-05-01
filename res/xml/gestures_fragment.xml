@@ -5,10 +5,6 @@
 	    android:title="@string/pref_limited_title"
 	    android:summary="@string/pref_limited_summary"
 	    android:selectable="false"/>
-    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
-	   android:title="@string/pref_gestures_note_title"
-	   android:summary="@string/pref_gestures_note_summary"
-	   android:selectable="false" />
     <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
        android:key="gesture_appdrawer"
        android:title="@string/pref_switch_gesture_appdrawer_title"
@@ -20,6 +16,10 @@
 	   android:entries="@array/gesture_actions_entries"
 	   android:entryValues="@array/gesture_actions_values"
 	   android:defaultValue="NONE" />
+    <de.theknut.xposedgelsettings.ui.MyCheckboxPreference
+        android:key="gesture_double_tap_only_on_wallpaper"
+		android:title="@string/pref_switch_gesture_double_tap_only_on_wallpaper_title"
+		android:summary="@string/pref_switch_gesture_double_tap_only_on_wallpaper_summary" />
     <de.theknut.xposedgelsettings.ui.MyPreferenceCategory
         android:title="@string/pref_cat_gesture_down_title">
 	    <de.theknut.xposedgelsettings.ui.MyListPreference

@@ -44,6 +44,7 @@ public class GestureHooks extends GestureHelper {
 		
 		if (PreferencesHelper.appdockSettingsSwitch && autoHideAppDock) {
 			final Class<?> LauncherClass = findClass(Common.LAUNCHER, lpparam.classLoader);
+			final Class<?> FolderClass = findClass(Common.FOLDER, lpparam.classLoader);
 			
 			XposedBridge.hookAllMethods(LauncherClass, "showHotseat", new XC_MethodHook() {
 				@Override
@@ -56,24 +57,44 @@ public class GestureHooks extends GestureHelper {
 				
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-					log("onTransitionPrepare");
+					if (DEBUG) log("GestureHooks: onTransitionPrepare");
 					hideAppdock(0);
+				}
+			});
+			
+			XposedBridge.hookAllMethods(LauncherClass, "onResume", new XC_MethodHook() {
+				
+				@Override
+				protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+					if (DEBUG) log("GestureHooks: onPause");
+					
+						hideAppdock(FORCEHIDE);
+				}
+			});
+			
+			XposedBridge.hookAllMethods(LauncherClass, "hideAppsCustomizeHelper", new XC_MethodHook() {
+				
+				@Override
+				protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+					if (DEBUG) log("GestureHooks: onPause");
+					
+						hideAppdock(FORCEHIDE);
 				}
 			});
 			
 			XposedBridge.hookAllMethods(WorkspaceClass, "onWindowVisibilityChanged", new XC_MethodHook() {
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-					log("onWindowVisibilityChanged");
+					if (DEBUG) log("GestureHooks: onWindowVisibilityChanged");
 					
 					try {
 						if (mHotseat.getAlpha() != 1.0f) {
 							
 							if (autoHideAppDock) {
-								log("onWindowVisibilityChanged autoHideAppDock");
+								if (DEBUG) log("GestureHooks: onWindowVisibilityChanged autoHideAppDock");
 								hideAppdock(0);
 							} else {
-								log("onWindowVisibilityChanged !autoHideAppDock");
+								if (DEBUG) log("GestureHooks: onWindowVisibilityChanged !autoHideAppDock");
 								hideAppdock(0);
 								showAppdock(0);
 							}
@@ -87,16 +108,16 @@ public class GestureHooks extends GestureHelper {
 			XposedBridge.hookAllMethods(WorkspaceClass, "onRequestFocusInDescendants", new XC_MethodHook() {
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-					log("onRequestFocusInDescendants");
+					if (DEBUG) log("GestureHooks: onRequestFocusInDescendants");
 					
 					try {
 						if (mHotseat.getAlpha() == 1.0f) {
 							
 							if (autoHideAppDock) {
-								log("onRequestFocusInDescendants autoHideAppDock");
+								if (DEBUG) log("GestureHooks: onRequestFocusInDescendants autoHideAppDock");
 								hideAppdock(200);
 							} else {
-								log("onRequestFocusInDescendants !autoHideAppDock");
+								if (DEBUG) log("GestureHooks: onRequestFocusInDescendants !autoHideAppDock");
 								hideAppdock(0);
 								showAppdock(0);
 							}
@@ -255,7 +276,7 @@ public class GestureHooks extends GestureHelper {
 					switch (ev.getAction() & MotionEvent.ACTION_MASK) {
 					
 						case MotionEvent.ACTION_MOVE:
-							log("MOVE: " + ev.getRawY());
+							if (DEBUG) log("MOVE: " + ev.getRawY());
 							
 							if (!isDown) {
 								downY = ev.getRawY();
@@ -263,12 +284,14 @@ public class GestureHooks extends GestureHelper {
 							
 							break;
 						case MotionEvent.ACTION_DOWN:
-							log("DOWN: " + ev.getRawY());
+							if (DEBUG) log("DOWN: " + ev.getRawY());
+							
 							downY = ev.getRawY();
 							isDown = true;
 							break;
 						case MotionEvent.ACTION_UP:
-							log("UP: " + ev.getRawY());
+							if (DEBUG) log("UP: " + ev.getRawY());
+							
 							isDown = false;
 							if ((ev.getRawY() - downY) > (height / 6)) {
 								
@@ -290,13 +313,13 @@ public class GestureHooks extends GestureHelper {
 										
 										callMethod(getObjectField(param.thisObject, "mLauncher"), "showWorkspace", false);
 										Object ContentType = callMethod(tabhost, "getContentTypeForTabTag", "WIDGETS");
-										callMethod(Common.LAUNCHER_INSTANCE, "showAllApps", true, ContentType, true);
+										callMethod(Common.LAUNCHER_INSTANCE, "showAllApps", true, ContentType, !PreferencesHelper.appdrawerRememberLastPosition);
 										
 									} else if (tabtag.equals("WIDGETS")) {
 										
 										callMethod(getObjectField(param.thisObject, "mLauncher"), "showWorkspace", false);
 										Object ContentType = callMethod(tabhost, "getContentTypeForTabTag", "APPS");
-										callMethod(Common.LAUNCHER_INSTANCE, "showAllApps", true, ContentType, true);
+										callMethod(Common.LAUNCHER_INSTANCE, "showAllApps", true, ContentType, !PreferencesHelper.appdrawerRememberLastPosition);
 										
 									}
 								}
@@ -340,7 +363,7 @@ public class GestureHooks extends GestureHelper {
 					@Override
 					public void run() {
 						
-						log(currTouchTime + " " + lastTouchTime + " " + (currTouchTime == lastTouchTime) + " " + (currTouchTime - lastTouchTime));
+						if (DEBUG) log("Doubletap: " + currTouchTime + " " + lastTouchTime + " " + (currTouchTime == lastTouchTime) + " " + (currTouchTime - lastTouchTime));
 						
 						if (currTouchTime == lastTouchTime) {
 							
@@ -363,30 +386,42 @@ public class GestureHooks extends GestureHelper {
 						Object tag = view.getTag();
 						if (tag == null) return;
 						
-						if (view.getTag().getClass().getName().contains("ShortcutInfo")) {
+						if (PreferencesHelper.gesture_double_tap_only_on_wallpaper) {
 							
-							int itemType = getIntField(tag, "itemType");
-							if (itemType == ITEM_TYPE_ALLAPPS
-								|| itemType == ITEM_TYPE_FOLDER) {
+							if (!view.getTag().getClass().getName().contains("CellInfo")) {
+								
 								return;
-							}	
-						} else if (view.getTag().getClass().getName().contains("FolderInfo")) {
+							}
 							
-							return;
+						} else {
+						
+							if (view.getTag().getClass().getName().contains("ShortcutInfo")) {
+								
+								int itemType = getIntField(tag, "itemType");
+								if (itemType == ITEM_TYPE_ALLAPPS
+									|| itemType == ITEM_TYPE_FOLDER) {
+									return;
+								}	
+							} else if (view.getTag().getClass().getName().contains("FolderInfo")) {
+								
+								return;
+							}
 						}
 						
 						if (isScheduledOrRunning) {
 							isScheduledOrRunning = false;
 							
-							log("isScheduledOrRunning");
+							if (DEBUG) log("Doubletap: isScheduledOrRunning");
 							if (delayedTask.getDelay(TimeUnit.MILLISECONDS) > 0) {
-								log("niet");
+								if (DEBUG) log("Doubletap: ignore tap");
 								param.setResult(null);
 							}
 						} else {
-							log("else");
+							if (DEBUG)  log("!isScheduledOrRunning");
+							
 							if (executor.getQueue().size() == 0) {
-								log("schedule");
+								if (DEBUG) log("Doubletap: Schedule double tap action");
+								
 								lastTouchTime = currTouchTime;
 								lastTouchView = view;
 								

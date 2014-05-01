@@ -1,18 +1,28 @@
 package de.theknut.xposedgelsettings.ui;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.Preference;
@@ -27,6 +37,7 @@ import android.widget.Toast;
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 
+@SuppressLint("WorldReadableFiles")
 public class FragmentSettings extends FragmentBase {
 	
     @Override
@@ -151,6 +162,7 @@ public class FragmentSettings extends FragmentBase {
 			@SuppressWarnings("deprecation")
 			@Override
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				
 				CommonUI.needFullReboot = true;
 				Toast.makeText(mContext, R.string.toast_full_reboot, Toast.LENGTH_LONG).show();
 				
@@ -171,6 +183,135 @@ public class FragmentSettings extends FragmentBase {
 				Changelog cl = new Changelog(mContext);
 				cl.getFullLogDialog().show();
 				return true;
+			}
+		});
+        
+        final MyCheckboxPreference debugPreference = (MyCheckboxPreference) this.findPreference("debug");
+        debugPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				new AlertDialog.Builder(CommonUI.CONTEXT)
+				.setCancelable(false)
+			    .setTitle(R.string.alert_debug_logging_activated_title)
+			    .setMessage(R.string.alert_debug_logging_activated_summary)
+			    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+			        public void onClick(DialogInterface dialog, int which) { 
+			        	CommonUI.restartLauncher(false);
+			        }
+		        }).show();
+				
+				return true;
+			}
+		});
+        
+        this.findPreference("sendbugreport").setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			
+			@SuppressWarnings("deprecation")
+			@SuppressLint("SdCardPath")
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				
+				boolean debugLoggingEnabled = mContext.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).getBoolean("debug", false);
+				
+				if (!debugLoggingEnabled) {
+					new AlertDialog.Builder(CommonUI.CONTEXT)
+					.setCancelable(false)
+				    .setTitle(R.string.alert_debug_logging_not_activated_title)
+				    .setMessage(R.string.alert_debug_logging_not_activated_summary)
+				    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+				        public void onClick(DialogInterface dialog, int which) { 
+				        	// do nothing
+				        }
+			        }).show();
+					
+					return false;
+				}
+				
+				String pathDebugLog = null;
+				String pathXGELSPrefs = mContext.getApplicationInfo().dataDir + "/shared_prefs/de.theknut.xposedgelsettings_preferences.xml";
+				
+				try {
+					Context xposedInstallerContext = mContext.createPackageContext("de.robv.android.xposed.installer", Context.CONTEXT_IGNORE_SECURITY);
+					pathDebugLog = xposedInstallerContext.getApplicationInfo().dataDir + "/log/debug.log";
+				} catch (Exception e) {
+					e.printStackTrace();
+					pathDebugLog = "/data/data/de.robv.android.xposed.installer/log/debug.log";
+				}
+				
+				String logfilePath = "/mnt/sdcard/XposedGELSettings/logs/logcat.log";
+				File logfile = new File(logfilePath);
+				
+				if (logfile.exists()) {
+					logfile.delete();
+				}
+				
+				logfile.getParentFile().mkdirs();
+				
+				try {
+					logfile.createNewFile();
+					Process process = Runtime.getRuntime().exec("logcat -v time -d");
+					BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+					StringBuilder log = new StringBuilder();
+					String line;
+					
+					while ((line = bufferedReader.readLine()) != null) {
+						log.append(line).append('\n');
+					}
+					
+					FileWriter out = new FileWriter(logfile);
+		            out.write(log.toString());
+		            out.close();
+				} catch (IOException e) {}
+				
+				if (new File(pathDebugLog).exists() && new File(pathXGELSPrefs).exists()) {	
+					
+					ArrayList<Uri> uris = new ArrayList<Uri>();
+					uris.add(Uri.parse("file://" + pathDebugLog));
+					uris.add(Uri.parse("file://" + pathXGELSPrefs));
+					
+					if (logfile.exists()) {
+						uris.add(Uri.parse("file://" + logfilePath));
+					}
+					
+					char ls = '\n';
+					StringBuilder deviceInfo = new StringBuilder();
+					deviceInfo.append("Manufacturer: " + Build.MANUFACTURER).append(ls);
+					deviceInfo.append("Device: " + Build.DEVICE).append(ls);
+					deviceInfo.append("Model: " + Build.MODEL).append(ls);
+					deviceInfo.append("OS: " + Build.DISPLAY + " (" + Build.VERSION.RELEASE + ")").append(ls);
+					
+				    String version = null;
+				    try {
+				    	PackageInfo packageInfo = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
+				    	version = "XGELS: " + packageInfo.versionName + " (" + packageInfo.versionCode + ")";
+				    	deviceInfo.append(version).append(ls);
+				    	
+				    	packageInfo = mContext.getPackageManager().getPackageInfo("de.robv.android.xposed.installer", 0);
+				    	version = "Xposed: " + packageInfo.versionName + " (" + packageInfo.versionCode + ")";
+				    	deviceInfo.append(version).append(ls);
+				    } catch (NameNotFoundException e) {
+				        // shouldn't be here but lets prevent this from crashing...
+				    }
+					
+					Intent intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
+					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					String[] recipients = {"theknutcoding@gmail.com"};
+					intent.putExtra(Intent.EXTRA_EMAIL, recipients);
+					intent.putExtra(Intent.EXTRA_SUBJECT, "XGELS Debug log");
+					intent.putExtra(Intent.EXTRA_TEXT, "Bug report description: <short description>" + '\n' + '\n' + "Steps to reproduce: <repro steps>" + '\n' + '\n' + deviceInfo.toString());
+					intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+					intent.setType("text/html");
+					startActivity(Intent.createChooser(intent, "Send mail"));
+					
+					debugPreference.setChecked(false);
+					CommonUI.restartLauncher(false);
+					
+					return true;
+				}
+				
+				Toast.makeText(mContext, getString(R.string.toast_no_log_found), Toast.LENGTH_LONG).show();
+				return false;				
 			}
 		});
         

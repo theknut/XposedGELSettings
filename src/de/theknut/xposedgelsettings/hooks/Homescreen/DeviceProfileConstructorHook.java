@@ -1,5 +1,6 @@
 package de.theknut.xposedgelsettings.hooks.homescreen;
 
+import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setIntField;
 
 import android.content.Context;
@@ -83,8 +84,12 @@ public final class DeviceProfileConstructorHook extends XC_MethodHook {
 	
 	@Override
 	protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+		
 		if (PreferencesHelper.noAllAppsButton) {
 			setIntField(param.thisObject, "hotseatAllAppsRank", 10);
 		}
+		
+		Common.TEST = (Integer) getObjectField(param.thisObject, "folderCellWidthPx");
+		Common.TEST2 = (Integer) getObjectField(param.thisObject, "folderCellHeightPx");
 	}
 }

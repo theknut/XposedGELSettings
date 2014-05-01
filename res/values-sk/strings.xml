@@ -117,6 +117,7 @@
         <item>Domovská obrazovka</item>
         <item>Ponuka aplikácií</item>
         <item>Gestá</item>
+        <item>Notification Badges</item>
         <item>Vylepšenia rozhrania</item>
         <item>Import/Export</item>
         <item>Nastavenia</item>
@@ -201,6 +202,7 @@
         <item>Rýchle nastavenia</item>
         <item>Ponuka aplikácií</item>
         <item>Nedávne aplikácie</item>
+        <item>Show recents</item>
         <item>Nastavenia Androidu</item>
         <item>Prejsť do spánku</item>
         <item>Prepnúť dok</item>

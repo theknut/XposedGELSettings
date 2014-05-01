@@ -22,19 +22,6 @@ public class FragmentHomescreen extends FragmentBase {
     	View rootView = inflater.inflate(R.layout.options_fragment, container, false);
         addPreferencesFromResource(R.xml.homescreen_fragment);
         
-        this.findPreference("hideiconhomescreen").setOnPreferenceChangeListener(onChangeListenerLauncherReboot);
-        this.findPreference("changegridsizehome").setOnPreferenceChangeListener(onChangeListenerLauncherReboot);
-        this.findPreference("iconsettingsswitchhome").setOnPreferenceChangeListener(onChangeListenerLauncherReboot);
-        this.findPreference("homescreeniconlabelshadow").setOnPreferenceChangeListener(onChangeListenerLauncherReboot);
-        this.findPreference("noallappsbutton").setOnPreferenceChangeListener(onChangeListenerLauncherReboot);
-        this.findPreference("appdocksettingsswitch").setOnPreferenceChangeListener(onChangeListenerLauncherReboot);
-        this.findPreference("autohideappdock").setOnPreferenceChangeListener(onChangeListenerLauncherReboot);
-        this.findPreference("homescreenfoldernametextcolor").setOnPreferenceChangeListener(onChangeListenerLauncherReboot);
-        this.findPreference("homescreenfolderapptextcolor").setOnPreferenceChangeListener(onChangeListenerLauncherReboot);
-        this.findPreference("homescreenfolderpreviewcolor").setOnPreferenceChangeListener(onChangeListenerLauncherReboot);
-        this.findPreference("homescreenfoldercolor").setOnPreferenceChangeListener(onChangeListenerLauncherReboot);
-        this.findPreference("homescreenfolderswitch").setOnPreferenceChangeListener(onChangeListenerLauncherReboot);
-        
         this.findPreference("hide_appdock").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 
             @Override

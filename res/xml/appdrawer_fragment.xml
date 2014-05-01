@@ -29,6 +29,10 @@
             android:key="closeappdrawerafterappstarted"
             android:title="@string/pref_switch_close_app_drawer_after_app_started_title"
             android:summary="@string/pref_switch_close_app_drawer_after_app_started_summary" />
+        <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+            android:key="appdrawerrememberlastposition"
+            android:title="@string/pref_switch_appdrawer_remember_last_position_title"
+            android:summary="@string/pref_switch_appdrawer_remember_last_position_summary" />
         <net.margaritov.preference.colorpicker.ColorPickerPreference 
 			android:key="appdrawerbackgroundcolor"
 			android:title="@string/pref_app_drawer_background_color_title"

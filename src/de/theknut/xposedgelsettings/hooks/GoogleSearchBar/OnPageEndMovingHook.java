@@ -3,6 +3,7 @@ package de.theknut.xposedgelsettings.hooks.googlesearchbar;
 import static de.robv.android.xposed.XposedHelpers.getBooleanField;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
 import de.robv.android.xposed.XC_MethodHook;
+
 import de.theknut.xposedgelsettings.hooks.Common;
 
 public final class OnPageEndMovingHook extends XC_MethodHook {
@@ -21,8 +22,10 @@ public final class OnPageEndMovingHook extends XC_MethodHook {
 		if (getBooleanField(Common.GEL_INSTANCE, "mNowEnabled") && getBooleanField(Common.WORKSPACE_INSTANCE, "mCustomContentShowing")
 			&& getIntField(Common.WORKSPACE_INSTANCE, "mCurrentPage") == 0) {
 			
-			GoogleSearchBarHooks.showSearchbar();					
+			GoogleSearchBarHooks.showSearchbar();
+			
 		} else if (!Common.IS_DRAGGING) {
+			
 			GoogleSearchBarHooks.hideSearchbar();
 		}
 	}	

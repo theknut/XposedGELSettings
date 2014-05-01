@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+        android:key="enablebadges"
+        android:title="@string/pref_notificationbadge_enable_title" />
+    <de.theknut.xposedgelsettings.ui.MyListPreference
+		android:key="notificationbadgepresets"
+		android:title="@string/pref_notificationbadge_presets_title"
+		android:dependency="enablebadges"
+		android:defaultValue="1"
+		android:entries="@array/notificationbadge_presets_entries"
+		android:entryValues="@array/notificationbadge_presets_values"/>
+    <net.margaritov.preference.colorpicker.ColorPickerPreference 
+		android:key="notificationbadgebackgroundcolor"
+		android:title="@string/pref_notificationbadge_backgroundcolor_title"
+		android:dependency="enablebadges"
+		android:defaultValue="0xFFD44937"
+		alphaSlider="true" />
+    <net.margaritov.preference.colorpicker.ColorPickerPreference 
+		android:key="notificationbadgetextcolor"
+		android:title="@string/pref_notificationbadge_textcolor_title"
+		android:dependency="enablebadges"
+		android:defaultValue="0xFFFFFFFF"
+		alphaSlider="true" />
+    <de.theknut.xposedgelsettings.ui.MyListPreference
+		android:key="notificationbadgetextsize"
+		android:title="@string/pref_notificationbadge_textsize_title"
+		android:dependency="enablebadges"
+		android:entries="@array/notificationbadge_textsize_values"
+		android:entryValues="@array/notificationbadge_textsize_values"/>
+    <de.theknut.xposedgelsettings.ui.MyListPreference
+		android:key="notificationbadgeframesize"
+		android:title="@string/pref_notificationbadge_framesize_title"
+		android:dependency="enablebadges"
+		android:entries="@array/notificationbadge_frame_values"
+		android:entryValues="@array/notificationbadge_frame_values"/>
+    <net.margaritov.preference.colorpicker.ColorPickerPreference 
+		android:key="notificationbadgeframecolor"
+		android:title="@string/pref_notificationbadge_framecolor_title"
+		android:dependency="enablebadges"
+		android:defaultValue="0xFFFFFFFF"
+		alphaSlider="true" />    
+    <de.theknut.xposedgelsettings.ui.MyListPreference
+		android:key="notificationbadgecornerradius"
+		android:title="@string/pref_notificationbadge_corner_title"
+		android:dependency="enablebadges"
+		android:entries="@array/notificationbadge_corner_values"
+		android:entryValues="@array/notificationbadge_corner_values"/>
+    <de.theknut.xposedgelsettings.ui.MyListPreference
+		android:key="notificationbadgeleftrightpadding"
+		android:title="@string/pref_notificationbadge_leftright_padding_title"
+		android:dependency="enablebadges"
+		android:entries="@array/notificationbadge_leftright_padding_values"
+		android:entryValues="@array/notificationbadge_leftright_padding_values"/>
+    <de.theknut.xposedgelsettings.ui.MyListPreference
+		android:key="notificationbadgetopbottompadding"
+		android:title="@string/pref_notificationbadge_topbottom_padding_title"
+		android:dependency="enablebadges"
+		android:entries="@array/notificationbadge_topbottom_padding_values"
+		android:entryValues="@array/notificationbadge_topbottom_padding_values"/>
+</PreferenceScreen>

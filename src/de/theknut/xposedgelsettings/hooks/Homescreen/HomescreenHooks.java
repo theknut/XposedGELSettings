@@ -8,11 +8,14 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import de.theknut.xposedgelsettings.hooks.appdrawer.AppsCustomizeLayoutConstructorHook;
+import de.theknut.xposedgelsettings.hooks.appdrawer.OnTabChangedHook;
 import de.theknut.xposedgelsettings.hooks.general.MoveToDefaultScreenHook;
 import de.theknut.xposedgelsettings.hooks.systemui.SystemUIHooks;
 
-public class HomescreenHooks {
+public class HomescreenHooks extends HooksBaseClass {
 
 	public static void initAllHooks(LoadPackageParam lpparam) {
 		
@@ -56,13 +59,22 @@ public class HomescreenHooks {
 		if (PreferencesHelper.appdockSettingsSwitch || PreferencesHelper.changeGridSizeHome) {
 			
 			// hide the app dock
-			final Class<?> dp = findClass(Common.DEVICE_PROFILE, lpparam.classLoader);
-			XposedBridge.hookAllMethods(dp, "getWorkspacePadding", new GetWorkspacePaddingHook());
+			XposedBridge.hookAllMethods(DeviceProfileClass, "getWorkspacePadding", new GetWorkspacePaddingHook());
 			
 			if (PreferencesHelper.appdockSettingsSwitch) {
 				final Class<?> HotseatClass = findClass(Common.LAUNCHER3 + "Hotseat", lpparam.classLoader);
 				XposedBridge.hookAllConstructors(HotseatClass, new HotseatConstructorHook());
 			}
+		}
+		
+		final Class<?> LauncherClass = findClass(Common.LAUNCHER, lpparam.classLoader);
+		if (Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE)) {
+			// move to default homescreen after workspace has finished loading
+			XposedBridge.hookAllMethods(LauncherClass, "onFinishBindingItems", new FinishBindingItemsHook());
+		}
+		else {
+			// move to default homescreen after workspace has finished loading
+			XposedBridge.hookAllMethods(LauncherClass, "finishBindingItems", new FinishBindingItemsHook());
 		}		
 		
 		SystemUIHooks.initAllHooks(lpparam);

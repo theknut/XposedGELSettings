@@ -8,6 +8,16 @@
     <de.theknut.xposedgelsettings.ui.MyPreferenceScreen 
       android:key="showchangelog"
       android:title="@string/changelog_full_title" />
+    <de.theknut.xposedgelsettings.ui.MyCheckboxPreference 
+      android:key="autokilllauncher"
+      android:title="@string/pref_autokill_launcher_title"
+      android:summary="@string/pref_autokill_launcher_summary" />
+    <de.theknut.xposedgelsettings.ui.MyCheckboxPreference 
+      android:key="debug"
+      android:title="@string/pref_debug" />
+    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen 
+      android:key="sendbugreport"
+      android:title="@string/pref_send_bugreport" />
     <de.theknut.xposedgelsettings.ui.MyCheckboxPreference
         android:key="autoblurimage"
         android:title="@string/pref_auto_blur_wallpaper_title"

@@ -53,8 +53,6 @@
   <string name="pref_selectappstohide_summary">Выберите приложения для скрытия</string>
   <string name="pref_cat_title_restart_launcher">Перезапустить лаунчер</string>
   <string name="pref_restart_launcher_summary">Нажмите здесь для перезапуска лаунчера и применения ваших настроек.</string>
-  <string name="pref_donate_title">Нравится этот модуль? - Пожертвуйте!</string>
-  <string name="pref_donate_summary">"Если вам нравится этот модуль, то не забудьте купить мне пива! Время было потрачено! Как… без пива. Нажмите здесь! "</string>
   <string name="pref_support_thread_title">Нужна помощь?</string>
   <string name="pref_support_thread_summary">Пожалуйста, уделить немного времени для поддержки. Если Вам нужна помощь или хотите что-то мне сообщить, то пожалуйста, нажмите здесь, чтобы открыть форум-обсуждение на XDA.</string>
   <string name="pref_cat_eximport_settings">Импорт/Экспорт настроек</string>
@@ -134,15 +132,12 @@
   <string name="pref_change_dynamic_backbutton_title">Динамическая кнопка Назад</string>
   <string name="pref_change_dynamic_backbutton_summary">Изменяет иконку Назад на кнопку Выключения экрана на главном экране</string>
   <string name="toast_full_reboot">Для применения эфекта требуется перезагрузка</string>
-  <string name="toast_donate_only">Эта функция требует Donate!</string>
   <string name="toast_getprices_fail">Что-то пошло не так при получении списка цен. Пожалуйста, проверьте logcat!</string>
   <string name="toast_donation_result_fail">Какая-то ошибка. Вы можете убить XGELS и запустить заново. Пожалуйста, проверьте logcat!</string>
-  <string name="pref_donate_button">Пожертвуйте мне!</string>
-  <string name="pref_donated_button">Спасибо за пожертвование!</string>
   <string name="toast_donate_thanks">Да, Вы сделали потрясающе! Похлопайте себя по плечу!</string>
   <string name="pref_xgel_group_summary">Пожалуйста, нажмите здесь, чтобы подать заявку в XGELS Donators Group! Включите ваш адрес электронной почты и я смогу добавить вас в частную группу.</string>
   <string name="pref_requires_donation_title">Не доступно</string>
-  <string name="pref_requires_donation_summary">Следующие функции доступны только в пожертвованой версии.</string>
+  <string name="pref_requires_donation_summary">Следующие функции доступны только в премиум версии.</string>
   <string name="alert_reboot_needed_title">Требуется перезагрузка!</string>
   <string name="alert_reboot_needed_summary">Вы сделали изменения, которые требуют, по крайней мере полную перезагрузку (требуется root). Пожалуйста, выберите ваш метод!</string>
   <string name="progress_requesting_root_title">Пожалуйста, подождите...</string>
@@ -155,7 +150,7 @@
   <string name="pref_workspacerect_title">Отступы слева/справа на домашнем экране</string>
   <string name="pref_workspacerect_summary">Выберите величину отступов слева/справа на рабочем столе</string>
   <string name="pref_workspacerect_dialog">Выберите коэффициент</string>
-  <string name="toast_openinstaller_failed">"Не могу открыть Xposed Installer. Пожалуйста, запустите его вручную!"</string>
+  <string name="toast_openinstaller_failed">Не могу открыть Xposed Installer. Пожалуйста, запустите его вручную!</string>
   <string name="pref_cat_homescreen_folder_title">Папки</string>
   <string name="pref_cat_homescreen_icon_title">Значки</string>
   <string name="pref_cat_homescreen_appdock_title">Док панель</string>
@@ -182,28 +177,77 @@
   <string name="pref_gesture_up_middle_title">Свайп вверх посредине</string>
   <string name="pref_gesture_up_right_title">Свайп вверх справа</string>
   <string name="alert_hidedock_summary">Пожалуйста, будьте уверены, что вы установили переключатель отображения/скрытия док-панели на жесты или активировали динамичную кнопку Домой в Твиках SustemUI. В противном случае вы на сможете запустить приложения!</string>
-  
+  <string name="pref_donate_title">Нравится этот модуль? - Поддержите!</string>
+  <string name="pref_donate_summary">"Если вам нравится этот модуль, то не забудьте купить мне пива! Время было потрачено! Как… без пива. Нажмите здесь! "</string>
+  <string name="alert_hidewidgets_title">Заметка</string>
+  <string name="alert_hidewidgets_summary">"Вы можете скрыть только виджеты. Ярлыки на данный момент не поддерживаются"</string>
+  <string name="pref_limited_title">Ограничено</string>
+  <string name="pref_debug">Включить отладку</string>
+  <string name="pref_send_bugreport">Отправить bug report</string>
+  <string name="toast_no_log_found">"Невозможно найти debug.log от Xposed Installer"</string>
+  <string name="alert_debug_logging_activated_title">Отладка активирована!</string>
+  <string name="alert_debug_logging_activated_summary">Сейчас отладка активирована. Пожалуйста, повторите ошибку и отправьте debug log.</string>
+  <string name="alert_debug_logging_not_activated_title">Отладка не активирована!</string>
+  <string name="alert_debug_logging_not_activated_summary">Отладка не активирована. Убедитесь, что вы включили отладку и повторите ошибку перед отправкой logfile.</string>
+  <string name="alert_autokill_title">Заметка</string>
+  <string name="alert_autokill_summary">XGELS автоматически закроет GNL/Trebuchet как только будут сделаны изменения. Когда вы вернётесь на главный экран GNL/Trebuchet будет запущен с новыми настройками.</string>
+  <string name="alert_autokill_ok">Сделать это!</string>
+  <string name="alert_autokill_cancel">"Сделаю сам!"</string>
+  <string name="alert_autokill_checkbox">"Больше не показывать!"</string>
+  <string name="pref_autokill_launcher_title">Закрыть Лаунчер</string>
+  <string name="pref_autokill_launcher_summary">Автоматически закрывать GNL/Trebuchet как только будут сделаны изменения. Когда вы вернётесь на главный экран GNL/Trebuchet будет запущен с новыми настройками.</string>
+  <string name="pref_notificationbadge_enable_title">Включить оповещения</string>
+  <string name="pref_notificationbadge_backgroundcolor_title">Фоновый цвет</string>
+  <string name="pref_notificationbadge_textcolor_title">Цвет текста</string>
+  <string name="pref_notificationbadge_textsize_title">Размер текста</string>
+  <string name="pref_notificationbadge_framecolor_title">Цвет рамки</string>
+  <string name="pref_notificationbadge_framesize_title">Размер рамки</string>
+  <string name="pref_notificationbadge_corner_title">Радиус углов</string>
+  <string name="pref_notificationbadge_presets_title">Предустановки</string>
+  <string name="pref_notificationbadge_leftright_padding_title">Размер по горизонтали</string>
+  <string name="pref_notificationbadge_topbottom_padding_title">Размер по вертикали</string>
+  <string name="pref_switch_gesture_double_tap_only_on_wallpaper_title">Только на обоях</string>
+  <string name="pref_switch_gesture_double_tap_only_on_wallpaper_summary">Отметьте эту опцию для активации Двойного тапа только на обоях. Это ликвидирует задержку разпознавания двойного тапа на значках.</string>
+  <string name="pref_switch_appdrawer_remember_last_position_title">Запомнить позицию</string>
+  <string name="pref_switch_appdrawer_remember_last_position_summary">Открывать меню приложений в месте закрытия</string>
+  <string name="alert_xgels_updated_title">XGELS обновлен!</string>
+  <string name="alert_xgels_updated_summary">Рекомендуется перезагрузка для активации обновления. Хотите перезагрузиться сейчас?</string>
+  <string name="alert_xgels_updated_cancel">Позже</string>
+  <string name="alert_launcher_not_installed_title">Не найден поддерживаемый лаунчер!</string>
+  <string name="alert_launcher_not_installed_summary">"It seems like you neither have Google Now Launcher nor Trebuchet installed. This module is designed for those two launchers and won't work if none of them is installed. Please make sure to install GNL or Trebuchet before using this app!"</string>
+  <string name="alert_launcher_not_installed_get_gnl">Get GNL</string>
+  <string name="toast_donate_only">Эта функция требует XGELS Premium!</string>
+  <string name="pref_donate_button">Купите Premium и поддержите меня!</string>
+  <string name="pref_donated_button">Спасибо за покупку!</string>
+  <string name="pref_limited_summary">Некоторые функции доступны только в XGELS Premium.</string>
   <string-array name="fragmenttitles_array">
-        <item>Привет!</item>
-        <item>Основные</item>
-        <item>Google Поиск</item>
-        <item>Домашний экран</item>
-        <item>Меню приложений</item>
-        <item>Жесты</item>
-        <item>Твики System UI</item>
-        <item>Им-/Экспорт</item>
-        <item>Настройки</item>
-        <item>Donate/Поддержка</item>
-    </string-array>
-    <string-array name="gesture_actions_entries">
-        <item>Ничего</item>
-        <item>Панель уведомлений</item>
-        <item>Быстрые настройки</item>
-        <item>Меню прилодений</item>
-        <item>Последнее приложение</item>
-        <item>Настройки Android</item>
-        <item>Выключить экран</item>
-        <item>Док панель</item>
-        <item>Открыть приложение</item>
-    </string-array>
+    <item>Привет!</item>
+    <item>Основные</item>
+    <item>Google Поиск</item>
+    <item>Домашний экран</item>
+    <item>Меню приложений</item>
+    <item>Жесты</item>
+    <item>Missed It!</item>
+    <item>Твики System UI</item>
+    <item>Им-/Экспорт</item>
+    <item>Настройки</item>
+    <item>Premium/Поддержка</item>
+  </string-array>
+  <string-array name="gesture_actions_entries">
+    <item>Ничего</item>
+    <item>Панель уведомлений</item>
+    <item>Быстрые настройки</item>
+    <item>Меню приложений</item>
+    <item>Последнее приложение</item>
+    <item>Show recents</item>
+    <item>Настройки Android</item>
+    <item>Выключить экран</item>
+    <item>Док панель</item>
+    <item>Открыть приложение</item>
+  </string-array>
+  <string-array name="notificationbadge_presets_entries">
+        <item>Вручную</item>
+        <item>G+ стиль</item>
+        <item>G+ стиль (Полу-Прозрачный)</item>
+  </string-array>
 </resources>

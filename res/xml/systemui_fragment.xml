@@ -46,5 +46,19 @@
 		android:title="@string/pref_animate_dynamic_backbutton_title"
 		android:summary="@string/pref_animate_dynamic_backbutton_summary"
 		android:dependency="changeicondynamicbackbutton" />
+<!--       <de.theknut.xposedgelsettings.ui.CustomSwitchPreference -->
+<!-- 		android:key="dynamicrecentsbutton" -->
+<!-- 		android:title="@string/pref_dynamic_recents_title" -->
+<!-- 		android:summary="@string/pref_dynamic_recents_summary" /> -->
+<!--       <de.theknut.xposedgelsettings.ui.MyCheckboxPreference -->
+<!--         android:key="changeicondynamicrecentsbutton" -->
+<!-- 		android:title="@string/pref_change_dynamic_recentsbutton_title" -->
+<!-- 		android:summary="@string/pref_change_dynamic_recentsbutton_summary" -->
+<!-- 		android:dependency="dynamichomebutton" /> -->
+<!--       <de.theknut.xposedgelsettings.ui.MyCheckboxPreference -->
+<!--         android:key="animatedynamicrecentsbutton" -->
+<!-- 		android:title="@string/pref_animate_dynamic_recentsbutton_title" -->
+<!-- 		android:summary="@string/pref_animate_dynamic_recentsbutton_summary" -->
+<!-- 		android:dependency="changeicondynamichomebutton" /> -->
     </de.theknut.xposedgelsettings.ui.MyPreferenceCategory>
 </PreferenceScreen>

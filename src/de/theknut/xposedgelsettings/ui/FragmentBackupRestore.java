@@ -41,9 +41,9 @@ public class FragmentBackupRestore extends FragmentBase {
             @SuppressLint("WorldReadableFiles")
 			public boolean onPreferenceClick(Preference preference) {
             	String path = getExternalSDCardDirectory();            	
-            	String sd_trebuchet = path + "/XposedGELSettings/Trebuchet/";
+            	String sd_trebuchet = path + "XposedGELSettings/Trebuchet/";
             	String data_trebuchet = "/data/data/" + Common.TREBUCHET_PACKAGE + "/";
-            	String sd_gel = path + "/XposedGELSettings/GEL/";
+            	String sd_gel = path + "XposedGELSettings/GEL/";
             	String data_gel = "/data/data/" + Common.GEL_PACKAGE + "/";
             	String sdcard_gel_launcherDB = sd_gel + "launcher.db";
             	String sdcard_gel_launcherDBJournal = sd_gel + "launcher.db-journal";
@@ -193,6 +193,8 @@ public class FragmentBackupRestore extends FragmentBase {
             	String data_launcherDB = "/data/data/" + packageName + "/databases/launcher.db";
             	ArrayList<String> commands = new ArrayList<String>();
             	commands.add("su");
+            	commands.add("mkdir -p " + getExternalSDCardDirectory() + "/XposedGELSettings/GEL");
+            	commands.add("mkdir -p " + getExternalSDCardDirectory() + "/XposedGELSettings/Trebuchet");
             	commands.add(command1);
             	
             	if (setPermissions) {
@@ -206,7 +208,7 @@ public class FragmentBackupRestore extends FragmentBase {
             
             public String getExternalSDCardDirectory()
             {            	
-            	return "mnt/sdcard/";
+            	return "/mnt/sdcard/";
             }
         };
         
