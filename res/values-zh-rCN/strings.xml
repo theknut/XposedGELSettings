@@ -115,9 +115,9 @@
     <string name="pref_cat_systemui_navbar_title">导航栏</string>
     <string name="pref_cat_systemui_statusbar_title">状态栏</string>
     <string name="pref_dynamic_backbutton_title">返回按钮</string>
-    <string name="pref_dynamic_backbutton_summary">在桌面上切换「睡眠」</string>
+    <string name="pref_dynamic_backbutton_summary">在桌面上将「返回」切换为「睡眠」</string>
     <string name="pref_dynamic_homebutton_title">主屏幕按钮</string>
-    <string name="pref_dynamic_homebutton_summary">在桌面上切换「打开应用抽屉」</string>
+    <string name="pref_dynamic_homebutton_summary">在桌面上将「主屏幕」切换为「应用抽屉」</string>
     <string name="pref_dynamic_hideclock_title">隐藏时钟</string>
     <string name="pref_dynamic_hideclock_summary">在桌面隐藏时钟</string> 
     <string name="toast_restore_success">成功还原桌面布局</string>
@@ -134,11 +134,11 @@
     <string name="pref_animate_dynamic_homebutton_title">切换效果</string>
     <string name="pref_animate_dynamic_homebutton_summary">变更时快速淡入动画</string>
     <string name="pref_change_dynamic_homebutton_title">动态主屏幕按钮图标</string>
-    <string name="pref_change_dynamic_homebutton_summary">在桌面上将主屏幕图标作为应用抽屉图标</string>
+    <string name="pref_change_dynamic_homebutton_summary">在桌面上将「主屏幕」按钮更改为「应用抽屉」按钮</string>
     <string name="pref_animate_dynamic_backbutton_title">切换图标动画</string>
     <string name="pref_animate_dynamic_backbutton_summary">变更时快速淡入动画</string>
     <string name="pref_change_dynamic_backbutton_title">动态返回按钮图标</string>
-    <string name="pref_change_dynamic_backbutton_summary">在桌面上将返回图标作为锁屏图标</string>
+    <string name="pref_change_dynamic_backbutton_summary">在桌面上将「返回」按钮替换为「睡眠」按钮</string>
     <string name="toast_full_reboot">必须重启以生效！</string>
     <string name="pref_switch_gesture_swipe_down_close_app_drawer_title">应用程序抽屉</string>
     <string name="pref_switch_gesture_swipe_down_close_app_drawer_summary">下滑以关闭应用抽屉</string>
