@@ -1,109 +1,279 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Xposed GEL 设置</string>
+    <string name="app_description">隐藏谷歌搜索栏、在启动器在隐藏应用程序、变更主屏幕和应用程序抽屉的网格和图标的大小、变更主屏幕托盘图标的数量、删除图标的文字标签以及更多惊喜。</string>
     <string name="pref_hide_google_search_bar_title">隐藏</string>
     <string name="pref_autohide_google_search_bar_title">自动隐藏</string>
-    <string name="pref_autohide_google_search_bar_summary">自动显示Google Now页面</string>
+    <string name="pref_autohide_google_search_bar_summary">自动显示谷歌即时页面</string>
     <string name="pref_hide_icon_label_on_homescreen_title">隐藏图标标签</string>
     <string name="pref_hide_icon_label_on_app_drawer_title">隐藏图标标签</string>
     <string name="toast_reboot">请重启启动器以生效！</string>
-    <string name="toast_reboot_failed_nothing_msg">什么都没有</string>
-    <string name="toast_reboot_failed">请手动重启你的设备！</string>
+    <string name="toast_reboot_failed_nothing_msg">无</string>
+    <string name="toast_reboot_failed">请手动重启您的设备！</string>
     <string name="toast_export">导出成功！</string>
     <string name="toast_import">导入成功！</string>
-    <string name="toast_reset">设置重置成功！</string>
-    <string name="toast_export_failed">好吧&#8230; 没能生效 :-S</string>
-    <string name="toast_import_failed">好吧&#8230; 没能生效 :-S</string>
-    <string name="toast_reset_failed">好吧&#8230; 没能生效 :-S</string>
+    <string name="toast_reset">重置成功！</string>
+    <string name="toast_export_failed">呃，导出失败！:-S</string>
+    <string name="toast_import_failed">呃，导入失败！:-S</string>
+    <string name="toast_reset_failed">呃，重置失败！:-S</string>
     <string name="pref_cat_title_icon_labels">图标标签的可见度</string>
-    <string name="pref_cat_title_searchbar">Google搜索条</string>
+    <string name="pref_cat_title_searchbar">谷歌搜索条</string>
     <string name="pref_cat_title_general">通用</string>
-    <string name="pref_cat_title_hide_apps">隐藏引用程序</string>
+    <string name="pref_cat_title_hide_apps">隐藏应用程序</string>
     <string name="pref_grid_size_explain_title">注意！</string>
-    <string name="pref_grid_size_explain_summary">请注意：改变网格的大小可能会打乱你的图标顺序。如果你调低网格的大小，一些图标可能会丢失，而且在增大后会重新显示. 此外如果网格的数量设置太多，图标将会显示不完整。不要将其设置的太多</string>
+    <string name="pref_grid_size_explain_summary">请注意：改变网格的大小可能会打乱您的图标顺序。如果您调低网格的大小，一些图标可能会丢失，而且在增大后会重新显示。此外如果网格的数量设置过密，图标将无法完整显示。请不要将其设置过密。</string>
     <string name="pref_switch_enable_grid_size_title">启用</string>
-    <string name="pref_switch_enable_grid_size_summary">启动网格大小的改变</string>
-    <string name="pref_resize_all_widgets_title">改变挂件的大小</string>
-    <string name="pref_resize_all_widgets_summary">允许改变所有的挂件的大小</string>
+    <string name="pref_switch_enable_grid_size_summary">启动变更网格大小</string>
+    <string name="pref_resize_all_widgets_title">变更小部件的大小</string>
+    <string name="pref_resize_all_widgets_summary">允许变更所有小部件的大小</string>
     <string name="pref_xcount_title">桌面图标列数</string>
-    <string name="pref_xcount_summary">改变桌面上图标的列数</string>
+    <string name="pref_xcount_summary">变更桌面图标的列数</string>
     <string name="pref_ycount_title">桌面图标行数</string>
-    <string name="pref_ycount_summary">改变桌面上图标的行数</string>
+    <string name="pref_ycount_summary">变更桌面图标的行数</string>
     <string name="pref_xcountallapps_title">应用程序抽屉的列数</string>
-    <string name="pref_xcountallapps_summary">改变程序的列数</string>
+    <string name="pref_xcountallapps_summary">变更应用程序抽屉的列数</string>
     <string name="pref_ycountallapps_title">应用程序抽屉的行数</string>
-    <string name="pref_ycountallapps_summary">改变程序的行数</string>
+    <string name="pref_ycountallapps_summary">变更应用程序抽屉的行数</string>
     <string name="pref_cat_title_homescreen">桌面</string>
     <string name="pref_title_longpress_app_drawer_button">所有应用按钮</string>
-    <string name="pref_summary_longpress_app_drawer_button">长按打开XGELS</string>
+    <string name="pref_summary_longpress_app_drawer_button">长按打开本应用</string>
     <string name="pref_cat_title_appicons">图标设置</string>
     <string name="pref_switch_appicons_title">启用</string>
-    <string name="pref_switch_appicons_explain_summary">应用改变到图标</string>
+    <string name="pref_switch_appicons_explain_summary">启用变更图标</string>
     <string name="pref_iconsize_title">图标大小</string>
     <string name="pref_iconsize_summary">选择百分比</string>
     <string name="pref_icontextsize_title">图标标签大小</string>
     <string name="pref_icontextsize_summary">选择百分比</string>
-    <string name="pref_icontextcolor_homescreen_title">主页中的程序标签颜色</string>
-    <string name="pref_icontextcolor_appdrawer_title">抽屉中的程序标签颜色</string>
+    <string name="pref_icontextcolor_homescreen_title">桌面上应用标签文字颜色</string>
+    <string name="pref_icontextcolor_appdrawer_title">抽屉中应用标签文字颜色</string>
     <string name="pref_appdockiconsize_title">托盘图标大小</string>
     <string name="pref_appdockiconsize_summary">选择百分比</string>
     <string name="pref_cat_title_app_drawer">应用程序抽屉</string>
     <string name="pref_appdock_count_title">托盘图标个数</string>
-    <string name="pref_appdock_count_summary">改变托盘图标个数（其中不包括应用程序抽屉按钮）</string>
-    <string name="pref_selectappstohide_summary">选择需要隐藏的程序</string>
+    <string name="pref_appdock_count_summary">变更托盘图标个数</string>
+    <string name="pref_selectappstohide_summary">选择想要隐藏的应用</string>
     <string name="pref_cat_title_restart_launcher">重启启动器</string>
-    <string name="pref_restart_launcher_summary">点击这里去重启启动器</string>
-    <string name="pref_donate_title">喜欢这个模块？－捐赠！</string>
-    <string name="pref_donate_summary">XGELS是免费的。然而，如果你喜欢的我工作并且想要酬谢我所花的时间，捐赠我。按这个按钮！</string>
+    <string name="pref_restart_launcher_summary">点击以重启启动器</string>
     <string name="pref_support_thread_title">需要帮助？</string>
-    <string name="pref_support_thread_summary">如果你需要帮助或者想要反馈请点击这里打开跟贴</string>
-    <string name="pref_cat_eximport_settings">导入/导出 设置</string>
+    <string name="pref_support_thread_summary">如果您需要帮助或者想要反馈请点击打开反馈贴</string>
+    <string name="pref_cat_eximport_settings">导入/导出设置</string>
     <string name="pref_settings_import_title">导入</string>
-    <string name="pref_settings_import_summary"> 从下面的位置导入你的设置\n/sdcard/XposedGELSettings</string>
+    <string name="pref_settings_import_summary">从以下位置导入您的设置\n/sdcard/XposedGELSettings</string>
     <string name="pref_settings_export_title">导出</string>
-    <string name="pref_settings_export_summary">导出你的设置到\n/sdcard/XposedGELSettings</string>
+    <string name="pref_settings_export_summary">导出您的设置到\n/sdcard/XposedGELSettings</string>
     <string name="pref_settings_reset_title">重置</string>
-    <string name="pref_settings_reset_summary">重置你的设置</string>
+    <string name="pref_settings_reset_summary">重置您的设置</string>
     <string name="pref_pageindicator_title">页面指示器</string>
-    <string name="pref_pageindicator_summary">在桌面和抽屉中隐藏页面指示器</string>
+    <string name="pref_pageindicator_summary">在桌面与抽屉中隐藏页面指示器</string>
     <string name="pref_default_homescreen_title">默认桌面</string>
-    <string name="pref_default_homescreen_summary">选择一个默认桌面</string>
-    <string name="pref_selectappstorename_summary">选择需要更改显示名的程序</string>
+    <string name="pref_default_homescreen_summary">选择默认桌面</string>
     <string name="pref_enable_rotation_title">旋转</string>
-    <string name="pref_enable_rotation_summary">启用旋转\n(需要完全重启)</string>
+    <string name="pref_enable_rotation_summary">启用旋转\n（需要重启）</string>
     <string name="pref_icon_label_color">文字颜色</string>
     <string name="pref_switch_icon_shadow_title">文字阴影</string>
     <string name="pref_app_drawer_background_color_title">背景颜色</string>
-    <string name="pref_app_drawer_background_color_summary">提示：让它完全透明！</string>
+    <string name="pref_app_drawer_background_color_summary">提示：使其完全透明！</string>
     <string name="colorpicker_apply">应用</string>
-    <string name="colorpicker_hex_hint">自定义16进制颜色</string>
-    <string name="restart_launcher_icon_title">重启动</string>
+    <string name="colorpicker_hex_hint">自定义十六进制颜色</string>
+    <string name="restart_launcher_icon_title">重启</string>
     <string name="pref_disable_wallpaper_scroll_title">壁纸滚动</string>
     <string name="pref_disable_wallpaper_scroll_summary">关闭壁纸同步滚动</string>
     <!-- V1.3 -->
-    <string name="toast_desktop_locked">XGELS：桌面已经锁定！</string>
-    <string name="toast_fail">好吧&#8230; 没能生效 :-S\n请察看logcat！</string>
+    <string name="toast_desktop_locked">XGELS：桌面已锁定！</string>
+    <string name="toast_fail">呃，未能生效 :-S\n请查看 logcat！</string>
     <string name="pref_switch_hideappdock_title">隐藏托盘</string>
-    <string name="pref_switch_hideappdock_summary">向上滑动将再次显示</string>
+    <string name="pref_switch_hideappdock_summary">隐藏该托盘</string>
     <string name="pref_lock_desktop_title">锁定桌面</string>
-    <string name="pref_lock_desktop_summary">锁定桌面以禁止图标的拖动</string>
+    <string name="pref_lock_desktop_summary">锁定桌面以禁止拖动图标</string>
     <string name="pref_continuous_scroll_title">无限滚动</string>
-    <string name="pref_continuous_scroll_summary">无限滚动\n(实验)</string>
+    <string name="pref_continuous_scroll_summary">在首页连续滚动\n（实验性）</string>
     <string name="pref_continuous_scroll_with_app_drawer_title">包括应用程序抽屉</string>
-    <string name="pref_continuous_scroll_with_app_drawer_summary">无限滚动也包含应用程序抽屉</string>
-    <string name="pref_switch_close_app_drawer_after_app_started_title">关闭应用程序抽屉</string>
-    <string name="pref_switch_close_app_drawer_after_app_started_summary">应用程序启动后关闭抽屉</string>
+    <string name="pref_continuous_scroll_with_app_drawer_summary">在应用程序抽屉也启用无限滚动</string>
+    <string name="pref_switch_close_app_drawer_after_app_started_title">自动关闭应用抽屉</string>
+    <string name="pref_switch_close_app_drawer_after_app_started_summary">在启动某个应用后自动关闭应用抽屉选择列表</string>
     <string name="pref_appdock_background_color_title">托盘背景颜色</string>
-    <string name="pref_appdock_background_color_summary">选择托盘区域的背景颜色</string>
+    <string name="pref_appdock_background_color_summary">选择应用托盘的背景颜色</string>
     <string name="pref_cat_gestures">手势</string>
-    <string name="pref_switch_gesture_swipe_down_left_title">左侧下滑</string>
-    <string name="pref_switch_gesture_swipe_down_left_summary">打开通知面板</string>
-    <string name="pref_switch_gesture_swipe_down_right_title">右侧下滑</string>
-    <string name="pref_switch_gesture_swipe_down_right_summary">打开设置面板</string>
-    <string name="pref_switch_gesture_swipe_up_appdock_title">托盘</string>
-    <string name="pref_switch_gesture_swipe_up_appdock_summary">显示 - 上滑 / 隐藏 - 下滑</string>
-    <string name="pref_switch_gesture_swipe_up_app_drawer_title">应用程序抽屉</string>
-    <string name="pref_switch_gesture_swipe_up_app_drawer_summary">上滑打开应用程序抽屉</string>
-    <string name="pref_gestures_note_title">提示</string>
-    <string name="pref_gestures_note_summary">手势需要在启动后的1～2分钟时间来初始化</string>
+    <string name="pref_switch_gesture_swipe_down_left_title">在左侧下滑</string>
+    <string name="pref_switch_gesture_swipe_down_left_summary">展开通知</string>
+    <string name="pref_switch_gesture_swipe_down_right_title">在右侧下滑</string>
+    <string name="pref_switch_gesture_swipe_down_right_summary">展开快速设置</string>
+    <string name="pref_switch_gesture_swipe_up_appdock_title">应用托盘</string>
+    <string name="pref_switch_gesture_swipe_up_appdock_summary">下滑隐藏/上滑显示</string>
+    <string name="pref_switch_gesture_swipe_up_app_drawer_title">应用抽屉</string>
+    <string name="pref_switch_gesture_swipe_up_app_drawer_summary">上滑打开应用抽屉</string>
+    <string name="pref_gestures_note_title">注意</string>
+    <string name="pref_gestures_note_summary">在系统启动后需要一至两分钟以初始化手势</string>
+    
+    <!-- V1.4 -->
+    <string name="pref_switch_no_all_apps_button_title">应用程序抽屉按钮</string>
+    <string name="pref_switch_no_all_apps_button_summary">隐藏应用程序抽屉按钮。如果您关闭本选项，请从应用抽屉中移除图标！</string>    
+    <string name="drawer_open">打开导航抽屉</string>
+    <string name="drawer_close">关闭导航抽屉</string>
+    <string name="pref_systemui_explain_title">注意</string>
+    <string name="pref_systemui_explain_summary">以下这些选项可能会随您的设备以及使用的系统不同而无法正常运作。此外，需要重启才能生效。</string>
+    <string name="pref_cat_systemui_navbar_title">导航栏</string>
+    <string name="pref_cat_systemui_statusbar_title">状态栏</string>
+    <string name="pref_dynamic_backbutton_title">返回按钮</string>
+    <string name="pref_dynamic_backbutton_summary">在桌面上将「返回」切换为「睡眠」</string>
+    <string name="pref_dynamic_homebutton_title">主屏幕按钮</string>
+    <string name="pref_dynamic_homebutton_summary">在桌面上将「主屏幕」切换为「应用抽屉」</string>
+    <string name="pref_dynamic_hideclock_title">隐藏时钟</string>
+    <string name="pref_dynamic_hideclock_summary">在桌面隐藏时钟</string> 
+    <string name="toast_restore_success">成功还原桌面布局</string>
+    <string name="toast_restore_failed">呃，还原失败！:-S</string>
+    <string name="toast_backup_success">桌面布局备份成功</string>
+    <string name="toast_backup_failed">呃，备份失败！:-S</string>
+    <string name="pref_cat_backuprestore_homescreen_title">启动器桌面布局</string>
+    <string name="pref_backuprestore_note_title">注意</string>
+    <string name="pref_backuprestore_note_summary">仅备份/恢复您的图标及文件夹。小部件及位置将会丢失，需要您重新放置！此功能需要根权限。</string>
+    <string name="pref_backup_homescreen_title">备份</string>
+    <string name="pref_backup_homescreen_summary">备份您的桌面布局到\n/sdcard/XposedGELSettings</string>
+    <string name="pref_restore_homescreen_title">还原</string>
+    <string name="pref_restore_homescreen_summary">从以下位置还原您的桌面布局\n/sdcard/XposedGELSettings</string>
+    <string name="pref_animate_dynamic_homebutton_title">切换效果</string>
+    <string name="pref_animate_dynamic_homebutton_summary">变更时快速淡入动画</string>
+    <string name="pref_change_dynamic_homebutton_title">动态主屏幕按钮图标</string>
+    <string name="pref_change_dynamic_homebutton_summary">在桌面上将「主屏幕」按钮更改为「应用抽屉」按钮</string>
+    <string name="pref_animate_dynamic_backbutton_title">切换图标动画</string>
+    <string name="pref_animate_dynamic_backbutton_summary">变更时快速淡入动画</string>
+    <string name="pref_change_dynamic_backbutton_title">动态返回按钮图标</string>
+    <string name="pref_change_dynamic_backbutton_summary">在桌面上将「返回」按钮替换为「睡眠」按钮</string>
+    <string name="toast_full_reboot">必须重启以生效！</string>
+    <string name="pref_switch_gesture_swipe_down_close_app_drawer_title">应用程序抽屉</string>
+    <string name="pref_switch_gesture_swipe_down_close_app_drawer_summary">下滑以关闭应用抽屉</string>
+    <string name="toast_getprices_fail">接收价格列表时出错，请检查日志（logcat）！</string>
+    <string name="toast_donation_result_fail">出错！你需要结束 XGELS 进程并重新启动。请检查日志（logcat）！</string>
+    <string name="toast_donate_thanks">非常感谢！</string>
+    <string name="pref_xgel_group_summary">点击这加入 XGELS 捐赠组群！请包含您的 Google+ 电子邮箱以便于我将您加入私人群组。</string>
+    <string name="pref_requires_donation_title">不可以</string>
+    <string name="pref_requires_donation_summary">以下功能仅适用于捐赠版本。</string>
+    <string name="alert_reboot_needed_title">需要重启！</string>
+    <string name="alert_reboot_needed_summary">您操作了一项需要重启的变更！请选择您的模式。</string>
+    <string name="progress_requesting_root_title">请稍后</string>
+    <string name="progress_requesting_root_summary">要求根权限</string>
+    <string name="pref_auto_blur_wallpaper_title">动态背景</string>
+    <string name="pref_auto_blur_wallpaper_summary">在您变更设备壁纸后，模糊该壁纸并将其设定为 XGELS 背景。如果您定时更改壁纸，这可能会消耗一部分电量。</string>
+    <string name="pref_dynamic_backbuttononeveryscreen_title">在任何桌面任何页面都显示睡眠按钮</string>
+    <string name="pref_dynamic_backbuttononeveryscreen_summary">在所有桌面页上都显示睡眠按钮。若此选项框未选中，仅在桌面首屏上显示。</string>
+    
+    <!-- V1.5 -->
+    <string name="pref_selectwidgetstohide_summary">选择小部件以隐藏</string>
+    <string name="pref_workspacerect_title">桌面左右边距</string>
+    <string name="pref_workspacerect_summary">选择桌面两侧边距</string>
+    <string name="pref_workspacerect_dialog">选择边距</string>
+    <string name="toast_openinstaller_failed">无法打开 Xposed 安装器。请手动启动！</string>
+    <string name="pref_cat_homescreen_folder_title">文件夹</string>
+    <string name="pref_cat_homescreen_icon_title">图标</string>
+    <string name="pref_cat_homescreen_appdock_title">应用托盘</string>
+    <string name="pref_switch_appdocksettings_title">启用</string>
+    <string name="pref_switch_appdocksettings_explain_summary">启用变更应用托盘</string>
+    <string name="pref_switch_autohideappdock_title">自动隐藏</string>
+    <string name="pref_switch_autohideappdock_summary">自动隐藏应用托盘</string>
+    <string name="pref_switch_folder_title">启用</string>
+    <string name="pref_switch_folder_summary">启用更改文件夹</string>
+    <string name="pref_folder_background_color">背景色</string>
+    <string name="pref_folder_applabel_color">图标文字颜色</string>
+    <string name="pref_folder_namelabel_color">文件夹名文字颜色</string>
+    <string name="pref_folder_preview_color">文件夹预览颜色</string>
+    
+    <string-array name="gesture_actions_entries_limited">
+        <item>无</item>
+        <item>应用抽屉</item>
+        <item>切换托盘</item>
+    </string-array>
+    
+    <string name="pref_choose_gesture_action_title">选择手势动作</string>
+    <string name="pref_switch_gesture_appdrawer_title">应用抽屉</string>
+    <string name="pref_switch_gesture_appdrawer_summary">下滑关闭应用抽屉/上滑在应用抽屉与小部件之间切换</string>
+    <string name="pref_switch_gesture_double_tap_title">双击</string>
+    <string name="pref_switch_gesture_double_tap_summary">除了文件夹与小部件</string>
+    <string name="pref_cat_gesture_down_title">下滑手势</string>
+    <string name="pref_cat_gesture_up_title">上滑手势</string>
+    <string name="pref_gesture_down_left_title">左侧下滑</string>
+    <string name="pref_gesture_down_middle_title">中间下滑</string>
+    <string name="pref_gesture_down_right_title">右侧下滑</string>
+    <string name="pref_gesture_up_left_title">左侧上滑</string>
+    <string name="pref_gesture_up_middle_title">中间上滑</string>
+    <string name="pref_gesture_up_right_title">右侧上滑</string>
+    <string name="alert_hidedock_summary">请务必设置一个隐藏/显示切换手势或激活动态主屏幕键。否则，您将无法打来应用抽屉。</string>
+    <string name="alert_hidewidgets_title">注意</string>
+    <string name="alert_hidewidgets_summary">您只能在此列表中选择小部件。快捷方式现在无法隐藏。</string>
+    <string name="pref_limited_title">限制</string>
+    
+    <!-- V1.6 -->
+    <string name="pref_debug">启用调试日志记录</string>
+    <string name="pref_send_bugreport">发送错误报告</string>
+    <string name="toast_no_log_found">找不到 Xposed 安装器的 debug.log</string>
+    <string name="alert_debug_logging_activated_title">调试日志记录已启用！</string>
+    <string name="alert_debug_logging_activated_summary">调试日志记录现在已启用。请重现错误并发送调试日志。</string>
+    <string name="alert_debug_logging_not_activated_title">调试日志记录未启用！</string>
+    <string name="alert_debug_logging_not_activated_summary">调试日志记录未启用。在重现错误并保存调试日志前请确保已启用调试日志记录。</string>
+    
+    <string name="alert_autokill_title">注意</string>
+    <string name="alert_autokill_summary">XGELS 在作出变更后尽快地自动结束即时桌面/Trebuchet 进程以便于在返回即时桌面/Trebuchet 时已应用新配置。</string>
+    <string name="alert_autokill_ok">我明白了！</string>
+    <string name="alert_autokill_cancel">我会自己完成！</string>
+    <string name="alert_autokill_checkbox">不要再次显示</string>
+    <string name="pref_autokill_launcher_title">结束启动器</string>
+    <string name="pref_autokill_launcher_summary">在变更谷歌即时桌面/Trebuchet 的设置后，自动结束进程。在返回启动器时，已应用新设置。</string>
+    
+    <string name="pref_notificationbadge_enable_title">启用标记</string>
+    <string name="pref_notificationbadge_backgroundcolor_title">背景颜色</string>
+    <string name="pref_notificationbadge_textcolor_title">文字颜色</string>
+    <string name="pref_notificationbadge_textsize_title">文字大小</string>
+    <string name="pref_notificationbadge_framecolor_title">边框颜色</string>
+    <string name="pref_notificationbadge_framesize_title">边框大小</string>
+    <string name="pref_notificationbadge_corner_title">圆角半径</string>
+    <string name="pref_notificationbadge_presets_title">预设</string>
+    <string name="pref_notificationbadge_leftright_padding_title">左/右填充</string>
+    <string name="pref_notificationbadge_topbottom_padding_title">上/下填充</string>
+    
+    <string name="pref_switch_gesture_double_tap_only_on_wallpaper_title">仅用于壁纸</string>
+    <string name="pref_switch_gesture_double_tap_only_on_wallpaper_summary">勾选本选项后，仅允许双击壁纸。这将在消除双击图标时辨别双击手势的延迟。</string>
+    
+    <string name="pref_switch_appdrawer_remember_last_position_title">记忆位置</string>
+    <string name="pref_switch_appdrawer_remember_last_position_summary">打开应用抽屉时显示上次离开的位置</string>
+    
+    <string name="alert_xgels_updated_title">XGELS 已更新！</string>
+    <string name="alert_xgels_updated_summary">需要重新启动以应用更新，立即重启？</string>
+    <string name="alert_xgels_updated_cancel">稍后</string>
+    
+    <string name="alert_launcher_not_installed_title">未找到支持的启动器</string>
+    <string name="alert_launcher_not_installed_summary">看起来您尚未安装谷歌即时桌面或 Trebuchet。本模块专为这两个启动器设计，如果您的启动器不是这两个其中之一，则本模块无法正常工作。请在使用本模块前先安装这两个启动器之一。</string>
+    <string name="alert_launcher_not_installed_get_gnl">安装谷歌即时桌面</string>
+    
+    <!-- These strings are already existing, please try to edit them -->
+    <string-array name="fragmenttitles_array">
+        <item>欢迎</item>
+        <item>常规</item>
+        <item>谷歌搜索栏</item>
+        <item>桌面</item>
+        <item>应用抽屉</item>
+        <item>手势</item>
+        <item>通知标记</item> <!-- NEW -->
+        <item>系统界面调整</item>
+        <item>备份/还原</item>
+        <item>设置</item>
+        <item>高级版/支持</item> <!-- NEW -->
+    </string-array>
+    
+    <string-array name="gesture_actions_entries">
+        <item>无</item>
+        <item>通知栏</item>
+        <item>快速设置</item>
+        <item>应用抽屉</item>
+        <item>最近任务</item>
+        <item>显示最新任务</item>  <!-- NEW -->
+        <item>系统设置</item>
+        <item>睡眠</item>
+        <item>切换托盘</item>
+        <item>打开应用</item>
+    </string-array>
+    
+    <string name="toast_donate_only">则需要 XGELS 高级版支持！</string>
+    <string name="pref_donate_button">购买高级版并支持我开发！</string>
+    <string name="pref_donated_button">感谢您的购买！</string>
+    <string name="pref_limited_summary">以下功能仅适用于 XGELS 高级版。</string>
+    
 </resources>
