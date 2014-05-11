@@ -25,12 +25,34 @@
   </head>
   <body>
   
+ $ 1.6.2
+ % Version 1.6.2
+ _ 2014-05-11
+ 
+ ! Added:
+ * Notification badges tutorial
+ 
+ ! Fixed:
+ * bug causing Google Search crash in loop when receiving an SMS
+ * navigation bar buttons not changing after closing app drawer
+ * moving to default homescreen after rotation
+ * left/right margins on tablets
+ * XGELS crash if Google Play is not installed
+ * typos
+ 
+ ! XGELS UI:
+ * open navigation drawer by pressing the back or menu button
+ * added Polish translation (by Szuri21)
+ * updated Chinese translation (by Felix2yu)
+  
+ $ 1.6.1
+ % Version 1.6.1
+ _ 2014-05-08
+ ! Fixed GNL 3.4 incompatibility
+  
  $ 1.6
  % Version 1.6
  _ 2014-04-30
- 
-! XGELS is discontinued. Read <a href="http://bit.ly/1kpB3GF">here</a> why!
-! Nonetheless I decided to push my local build which you can still use with <a href="http://bit.ly/1n025cA">G Now 3.3</a>.
 
 ! Added:
 * Notification badges (require MissedIt!)

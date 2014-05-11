@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
+
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -33,13 +36,13 @@ public class FolderIcon extends Icon {
 		long time = System.currentTimeMillis();
 		
 		this.folder = folder;
-		this.previewBackground = (ImageView) getObjectField(folder, "mPreviewBackground");
-		this.folderName = (String) callMethod(getObjectField(folder, "mFolderName"), "getText");
+		this.previewBackground = (ImageView) getObjectField(folder, Fields.fiPreviewBackground);
+		this.folderName = (String) callMethod(getObjectField(folder, Fields.fiFolderName), "getText");
 		this.childID = ((View) folder).getId();
 		this.children = new ArrayList<Shortcut>();
 		
-		Object mContent = getObjectField(getObjectField(folder, "mFolder"), "mContent");		
-		ViewGroup mShortcutsAndWidgets = (ViewGroup) callMethod(mContent, "getShortcutsAndWidgets");
+		Object mContent = getObjectField(getObjectField(folder, Fields.fiFolder), Fields.fContent);		
+		ViewGroup mShortcutsAndWidgets = (ViewGroup) callMethod(mContent, Methods.clGetShortcutsAndWidgets);
 		
 		for (int i = 0; i < mShortcutsAndWidgets.getChildCount(); i++) {
 			

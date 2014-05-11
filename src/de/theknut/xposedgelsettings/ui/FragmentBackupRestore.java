@@ -8,8 +8,6 @@ import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceScreen;
@@ -58,7 +56,7 @@ public class FragmentBackupRestore extends FragmentBase {
             	
             	if (preference.getKey().contains("restorehomescreen")) {
             		
-					if (isPackageInstalled(Common.GEL_PACKAGE, mContext)) {
+					if (CommonUI.isPackageInstalled(Common.GEL_PACKAGE, mContext)) {
 						File launcherDBJournal = new File(data_gel_launcherDBJournal);
 						
 						if (launcherDBJournal.length() == 0) {
@@ -74,7 +72,7 @@ public class FragmentBackupRestore extends FragmentBase {
 						}
 					}
 					
-					if (isPackageInstalled(Common.TREBUCHET_PACKAGE, mContext)) {
+					if (CommonUI.isPackageInstalled(Common.TREBUCHET_PACKAGE, mContext)) {
 						File launcherDBJournal = new File(data_trebuchet_launcherDBJournal);
 						
 						if (launcherDBJournal.length() == 0) {
@@ -94,7 +92,7 @@ public class FragmentBackupRestore extends FragmentBase {
             	}
             	else if (preference.getKey().contains("backuphomescreen")) {
             		
-					if (isPackageInstalled(Common.GEL_PACKAGE, mContext)) {
+					if (CommonUI.isPackageInstalled(Common.GEL_PACKAGE, mContext)) {
 						File launcherDBJournal = new File(data_gel_launcherDBJournal);
 						
 						if (launcherDBJournal.length() == 0) {
@@ -112,7 +110,7 @@ public class FragmentBackupRestore extends FragmentBase {
 						}
 					}
 					
-					if (isPackageInstalled(Common.TREBUCHET_PACKAGE, mContext)) {
+					if (CommonUI.isPackageInstalled(Common.TREBUCHET_PACKAGE, mContext)) {
 						File launcherDBJournal = new File(data_trebuchet_launcherDBJournal);
 						
 						if (launcherDBJournal.length() == 0) {
@@ -130,16 +128,6 @@ public class FragmentBackupRestore extends FragmentBase {
             	}
             	
             	return true;
-            }
-            
-            private boolean isPackageInstalled(String packagename, Context context) {
-                PackageManager pm = context.getPackageManager();
-                try {
-                    pm.getPackageInfo(packagename, PackageManager.GET_ACTIVITIES);
-                    return true;
-                } catch (NameNotFoundException e) {
-                    return false;
-                }
             }
 
             public boolean restartLauncher() {

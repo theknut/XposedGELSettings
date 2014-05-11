@@ -6,14 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ActivityManager;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Point;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Display;
@@ -22,6 +24,7 @@ import android.view.View.MeasureSpec;
 
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 
 public class NotificationBadgesHelper extends HooksBaseClass {
@@ -192,16 +195,28 @@ public class NotificationBadgesHelper extends HooksBaseClass {
     		
     		if (pm == null) pm = Common.LAUNCHER_CONTEXT.getPackageManager();
 			
-			Intent smsIntent = new Intent(Intent.ACTION_VIEW);
-			smsIntent.setType("vnd.android-dir/mms-sms");
-			ResolveInfo mInfo = pm.resolveActivity(smsIntent, 0);
-			
-			try {
-    			if (!setBadges(getShortcut(mInfo.activityInfo.packageName), cnt)) {
+    		try {
+    		String packageName = PreferencesHelper.notificationSMSApp;
+    		
+				if (packageName.equals("")) {
+					Intent smsIntent = new Intent(Intent.ACTION_VIEW);
+					smsIntent.setType("vnd.android-dir/mms-sms");
+					ResolveInfo mInfo = pm.resolveActivity(smsIntent, 0);
+					packageName = mInfo.activityInfo.packageName;
+					
+					if (packageName.equals("android")) {
+						throw new Exception();
+					}
+	    		}
+				
+    			if (!setBadges(getShortcut(packageName), cnt)) {
     				if (DEBUG) log("SMS_NOTIFICATION - No shortcut found");
         		}
-			} catch (Exception ex) {
-				log("Couldn't resolve default sms app. You may want to add it as an application in MissedIt!");
+    			
+			} catch (Exception ex) {				
+				makeNotification("XGELS can't determine your default SMS app. Please configure it manually in the \"Notification badges\" - \"Advanced\" section. Click here to open XGELS!");
+				
+				log("Couldn't resolve default sms app. Use advanced settings in notification badges menu.");
 				log("Show this to the dev: " + ex);
 			}
     	}
@@ -211,22 +226,56 @@ public class NotificationBadgesHelper extends HooksBaseClass {
     		if (pm == null) pm = Common.LAUNCHER_CONTEXT.getPackageManager();
 	    	
 			try {
-    			ResolveInfo mInfo = pm.resolveActivity(new Intent(Intent.ACTION_DIAL) , 0);
-    			
-    			if (!setBadges(getShortcut(mInfo.activityInfo.packageName), cnt)) {
+				String packageName = PreferencesHelper.notificationDialerApp;
+				
+				if (packageName.equals("")) {
+					ResolveInfo mInfo = pm.resolveActivity(new Intent(Intent.ACTION_DIAL) , 0);
+					packageName = mInfo.activityInfo.packageName;
+					
+					if (packageName.equals("android")) {
+						throw new Exception();
+					}
+				}
+				
+    			if (!setBadges(getShortcut(packageName), cnt)) {
     				if (DEBUG) log("CALL_NOTIFICATION - No shortcut found");
         		}
-    		} catch (Exception ex) {
-				log("Couldn't resolve default caller app. You may want to add it as an application in MissedIt!");
+    			
+    		} catch (Exception ex) {    			
+    			makeNotification("XGELS can't determine your default Dialer app. Please configure it manually in the \"Notification badges\" - \"Advanced\" section. Click here to open XGELS!");
+    			
+				log("Couldn't resolve default caller app. Use advanced settings in notification badges menu.");
 				log("Show this to the dev: " + ex);
 			}
+    	}
+    	
+    	void makeNotification(String msg) {
+    		PackageManager pm = Common.LAUNCHER_CONTEXT.getPackageManager();
+			Intent LaunchIntent = pm.getLaunchIntentForPackage(Common.PACKAGE_NAME);
+			LaunchIntent.putExtra("fragment", "badges");
+			PendingIntent pInstallTab = PendingIntent.getActivity(Common.LAUNCHER_CONTEXT, 0xB00B5, LaunchIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+			
+			NotificationCompat.BigTextStyle notiStyle = new NotificationCompat.BigTextStyle();
+			notiStyle.setBigContentTitle("Oh snap!");
+			notiStyle.bigText(msg);
+			
+			NotificationCompat.Builder builder = new NotificationCompat.Builder(Common.LAUNCHER_CONTEXT)
+				.setContentTitle("Oh snap!")
+				.setContentText(msg)
+				.setTicker("Something went wrong :-\\")
+				.setContentIntent(pInstallTab)
+				.setAutoCancel(true)
+				.setStyle(notiStyle)
+				.setSmallIcon(android.R.drawable.ic_dialog_alert);
+
+			((NotificationManager) Common.LAUNCHER_CONTEXT.getSystemService(Context.NOTIFICATION_SERVICE)).notify(null, 0, builder.build());
     	}
     	
     	List<Shortcut> getShortcut(String componentName) {
     		
     		List<Shortcut> shortcuts;
     		List<Shortcut> ret = new ArrayList<Shortcut>();
-    		boolean isAllAppsVisible = (Boolean) callMethod(Common.LAUNCHER_INSTANCE, "isAllAppsVisible");
+    		boolean isAllAppsVisible = (Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lIsAllAppsVisible);
     		
     		if (isAllAppsVisible) {
     			shortcuts = shortcutsAppDrawer;

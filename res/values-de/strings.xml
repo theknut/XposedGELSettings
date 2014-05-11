@@ -107,22 +107,7 @@
     
     <!-- V1.4 -->
     <string name="pref_switch_no_all_apps_button_title">App-Übersicht Button</string>
-    <string name="pref_switch_no_all_apps_button_summary">Verbirgt den App-Übersicht Button</string>
-    
-    <string-array name="fragmenttitles_array">
-        <item>Willkommen</item>
-        <item>Allgemein</item>
-        <item>Google Suchleiste</item>
-        <item>Homescreen</item>
-        <item>App-Übersicht</item>
-        <item>Gesten</item>
-        <item>Notification Badges</item>
-        <item>System UI Tweaks</item>
-        <item>Sichern/Wiederherstellen</item>
-        <item>Einstellungen</item>
-        <item>Spenden/Support</item>
-    </string-array>
-    
+    <string name="pref_switch_no_all_apps_button_summary">Verbirgt den App-Übersicht Button</string>    
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="pref_systemui_explain_title">Hinweis</string>
@@ -155,13 +140,13 @@
     <string name="pref_change_dynamic_backbutton_title">Dynamisches Zurück-Button Icon</string>
     <string name="pref_change_dynamic_backbutton_summary">Ändert das Icon zu einem Ein-/Ausschalter Icon wenn auf dem Standard-Homescreen</string>
     <string name="toast_full_reboot">Bitte einen Geräteneustart durchführen, um diese Einstellungen wirksam zu machen!</string>
-    <string name="toast_donate_only">Dieses Feature gibt es nur in der Spendenversion!</string>
+    <string name="toast_donate_only">Dieses Feature gibt es nur in der Premiumversion!</string>
     <string name="toast_getprices_fail">Irgendwas ist beim Übertragen der Preisliste schiefgegangen. Bitte Logcat überprüfen!</string>
     <string name="toast_donation_result_fail">Irgendetwas ist schief gegangen. Bitte XGELS neustarten. Logcat überprüfen!</string>
-    <string name="pref_donate_button">Spende und unterstütze mich!</string>
-    <string name="pref_donated_button">Danke für deine Spende!</string>
+    <string name="pref_donate_button">Kaufe Premium, unterstütze mich!</string>
+    <string name="pref_donated_button">Danke für deinen Einkauf!</string>
     <string name="toast_donate_thanks">Yeah, du bist großartig! Klopf dir auf die Schulter!</string>
-    <string name="pref_xgel_group_summary">Bitte hier klicken, um sich für die XGELS Donators Group zu bewerben. Bitte Google Plus E-Mailadresse mit angeben, sodass eine Einladung erfolgen kann.</string>
+    <string name="pref_xgel_group_summary">Bitte hier klicken, um sich für die XGELS Premium Gruppe zu bewerben. Bitte Google Plus E-Mailadresse mit angeben, sodass eine Einladung erfolgen kann.</string>
     <string name="pref_requires_donation_title">Nicht verfügbar</string>
     <string name="pref_requires_donation_summary">Die folgenden Funktionen sind nur in der Spenden-Version verfügbar.</string>
     <string name="alert_reboot_needed_title">Geräteneustart erforderlich!</string>
@@ -191,6 +176,93 @@
     <string name="pref_folder_namelabel_color">Ordnername Textfarbe</string>
     <string name="pref_folder_preview_color">Ordnervorschau-Farbe</string>
     
+    <string name="pref_choose_gesture_action_title">Gestenaktion auswählen</string>
+    <string name="pref_switch_gesture_appdrawer_title">App-Übersicht</string>
+    <string name="pref_switch_gesture_appdrawer_summary">Runterwischen - App-Übersicht schließen\nHochwischen - zwischen App-Übersicht und Widgets wechseln</string>
+    <string name="pref_switch_gesture_double_tap_title">Doppelklick</string>
+    <string name="pref_switch_gesture_double_tap_summary">außer auf Ordnern und Widgets</string>
+    <string name="pref_cat_gesture_down_title">Runterwischen Gesten</string>
+    <string name="pref_cat_gesture_up_title">Hochwischen Gesten</string>
+    <string name="pref_gesture_down_left_title">Links runterwischen</string>
+    <string name="pref_gesture_down_middle_title">Mitte runterwischen</string>
+    <string name="pref_gesture_down_right_title">Rechts runterwischen</string>
+    <string name="pref_gesture_up_left_title">Links hochwischen</string>
+    <string name="pref_gesture_up_middle_title">Mitte hochwischen</string>
+    <string name="pref_gesture_up_right_title">Rechts hochwischen</string>
+    <string name="alert_hidedock_summary">Bitte einen App-Übersicht Geste oder die Home-Button Option in den SystemUI Tweaks aktivieren! Andererseits gibt es keine Möglichkeit mehr die App-Übersicht zu öffnen!</string>
+    <string name="alert_hidewidgets_title">Hinweis</string>
+    <string name="alert_hidewidgets_summary">In dieser Liste können nur Widgets ausgewählt werden. Verknüpfungen können momentan noch nicht verborgen werden.</string>
+    <string name="pref_limited_title">Beschränkt nutzbar</string>
+    <string name="pref_limited_summary">Einige der folgenden Einstellungen sind nur in der Premiumversion verfügbar.</string>
+    
+    <!-- V1.6 -->
+    <string name="pref_debug">Debug logging aktivieren</string>
+    <string name="pref_send_bugreport">Bugreport senden</string>
+    <string name="toast_no_log_found">Konnte debug.log des Xposed Installer nicht finden</string>
+    <string name="alert_debug_logging_activated_title">Debug logging aktiviert!</string>
+    <string name="alert_debug_logging_activated_summary">Debug logging ist jetzt aktiviert. Bitte reproduzieren Sie den Fehler und senden Sie dann den Bugreport.</string>
+    <string name="alert_debug_logging_not_activated_title">Debug logging not activated!</string>
+    <string name="alert_debug_logging_not_activated_summary">Debug logging ist nicht aktiviert. Stellen Sie sicher, dass Sie Debug logging aktivieren und den Fehler reproduzieren, bevor Sie den Bugreport schicken.</string>
+    
+    <string name="alert_autokill_title">Hinweis</string>
+    <string name="alert_autokill_summary">XGELS beendet GNL/Trebuchet automatisch sobald eine Änderung gemacht wurde. Wenn Sie zurück zum Hauptbildschirm gehen, wird GNL/Trebuchet automatisch mit den neuen Einstellungen gestartet.</string>
+    <string name="alert_autokill_ok">Geht klar!</string>
+    <string name="alert_autokill_cancel">Das mache ich selber!</string>
+    <string name="alert_autokill_checkbox">Nicht mehr anzeigen</string>
+    <string name="pref_autokill_launcher_title">Launcher beenden</string>
+    <string name="pref_autokill_launcher_summary">GNL/Trebuchet automatisch beenden, sobald eine Änderung gemacht wurde. Dadurch wird beim Verlassen der App GNL/Trebuchet automatisch mit den neuen Einstellungen gestartet.</string>
+    
+    <string name="pref_notificationbadge_premium_title">Premium Funktion</string>
+    <string name="pref_notificationbadge_premium_summary">Diese Funktion ist nur in XGELS Premium vorhanden. Außerdem wird MissedIt! (kostenpflichtig) benötigt, um die Nachrichtenzähler zu empfangen.</string>
+    <string name="pref_notificationbadge_missedit_missing_title">MissedIt! nicht installiert</string>
+    <string name="pref_notificationbadge_missedit_missing_summary">MissedIt! ist nicht installiert. XGELS fordert von dieser App Nachrichtenzähler an, um die Badges anzuzeigen. Hier klicken um MissedIt! im Play Store zu öffnen/kaufen!</string>
+    <string name="pref_notificationbadge_open_missedit_title">MissedIt! öffnen</string>
+    <string name="pref_notificationbadge_open_missedit_summary">Hier klicken um MissedIt! zu öffnen</string>
+    <string name="pref_notificationbadge_enable_title">Badges aktivieren</string>
+    <string name="pref_notificationbadge_backgroundcolor_title">Hintergrundfarbe</string>
+    <string name="pref_notificationbadge_textcolor_title">Textfarbe</string>
+    <string name="pref_notificationbadge_textsize_title">Textgröße</string>
+    <string name="pref_notificationbadge_framecolor_title">Rahmenfarbe</string>
+    <string name="pref_notificationbadge_framesize_title">Rahmengröße</string>
+    <string name="pref_notificationbadge_corner_title">Eckenradius</string>
+    <string name="pref_notificationbadge_presets_title">Voreinstellungen</string>
+    <string name="pref_notificationbadge_leftright_padding_title">Links/Rechts Abstände</string>
+    <string name="pref_notificationbadge_topbottom_padding_title">Oben/Unten Abstände</string>
+    <string name="pref_notificationbadge_advanced">Erweiterte Einstellungen</string>
+    <string name="pref_notificationbadge_advanced_title">Manuell konfigurieren</string>
+    <string name="pref_notificationbadge_advanced_summary">Falls Sie irgendwelche Probleme mit den Badges für Telefon oder SMS haben, bitte die Einstellungen hier erneut vornehmen. Außerdem können Sie hier klicken, um die nachfolgenden Einstellungen zurückzusetzen.</string>
+    <string name="pref_notificationbadge_advanced_dialer_title">Telefon App</string>
+    <string name="pref_notificationbadge_advanced_sms_title">SMS App</string>
+    
+    <string name="pref_switch_gesture_double_tap_only_on_wallpaper_title">Nur auf Hintergrund</string>
+    <string name="pref_switch_gesture_double_tap_only_on_wallpaper_summary">Diese Option wählen, um Doppelklicken nur auf dem Hintergrundbild zu ermöglichen. Dadurch wird die Verzögerung beim Öffnen einer App verhindert.</string>
+    
+    <string name="pref_switch_appdrawer_remember_last_position_title">Position merken</string>
+    <string name="pref_switch_appdrawer_remember_last_position_summary">App-Übersicht an der Stelle öffnen, an dem sie geschlossen wurde.</string>
+    
+    <string name="alert_xgels_updated_title">XGELS wurde aktualisiert!</string>
+    <string name="alert_xgels_updated_summary">Ein Neustart ist notwendig, um das Update zu aktivieren. Möchten Sie jetzt neustarten?</string>
+    <string name="alert_xgels_updated_cancel">Später</string>
+    
+    <string name="alert_launcher_not_installed_title">Kein unterstützter Launcher gefunden!</string>
+    <string name="alert_launcher_not_installed_summary">Es scheint so, als hätten Sie weder den Google Now Launcher noch Trebuchet installiert. Diese Modul wurde für diese beiden Launcher entwickelt und wird ohne einen von beiden nicht funktionieren. Bitte stellen Sie sicher, dass Sie den Google Now Launcher oder Trebuchet installiert haben, wenn Sie diese App verwenden möchten!</string>
+    <string name="alert_launcher_not_installed_get_gnl">GNL heruntenladen</string>
+    
+    <string-array name="fragmenttitles_array">
+        <item>Willkommen</item>
+        <item>Allgemein</item>
+        <item>Google Suchleiste</item>
+        <item>Homescreen</item>
+        <item>App-Übersicht</item>
+        <item>Gesten</item>
+        <item>Notification Badges (Beta)</item>
+        <item>System UI Tweaks</item>
+        <item>Sichern/Wiederherstellen</item>
+        <item>Einstellungen</item>
+        <item>Premium/Support</item>
+        <item>Reverse Engineering</item> <!-- NEW -->
+    </string-array>
+    
     <string-array name="gesture_actions_entries">
         <item>Keine</item>
         <item>Benachrichtigungszeile</item>
@@ -210,23 +282,8 @@
         <item>Toggle Dock</item>
     </string-array>
     
-    <string name="pref_choose_gesture_action_title">Gestenaktion auswählen</string>
-    <string name="pref_switch_gesture_appdrawer_title">App-Übersicht</string>
-    <string name="pref_switch_gesture_appdrawer_summary">Runterwischen - App-Übersicht schließen\nHochwischen - zwischen App-Übersicht und Widgets wechseln</string>
-    <string name="pref_switch_gesture_double_tap_title">Doppelklick</string>
-    <string name="pref_switch_gesture_double_tap_summary">außer auf Ordnern und Widgets</string>
-    <string name="pref_cat_gesture_down_title">Runterwischen Gesten</string>
-    <string name="pref_cat_gesture_up_title">Hochwischen Gesten</string>
-    <string name="pref_gesture_down_left_title">Links runterwischen</string>
-    <string name="pref_gesture_down_middle_title">Mitte runterwischen</string>
-    <string name="pref_gesture_down_right_title">Rechts runterwischen</string>
-    <string name="pref_gesture_up_left_title">Links hochwischen</string>
-    <string name="pref_gesture_up_middle_title">Mitte hochwischen</string>
-    <string name="pref_gesture_up_right_title">Rechts hochwischen</string>
-    <string name="alert_hidedock_summary">Bitte einen App-Übersicht Geste oder die Home-Button Option in den SystemUI Tweaks aktivieren! Andererseits gibt es keine Möglichkeit mehr die App-Übersicht zu öffnen!</string>
-    <string name="alert_hidewidgets_title">Hinweis</string>
-    <string name="alert_hidewidgets_summary">In dieser Liste können nur Widgets ausgewählt werden. Verknüpfungen können momentan noch nicht verborgen werden.</string>
-    <string name="pref_limited_title">Beschränkt nutzbar</string>
-    <string name="pref_limited_summary">Einige der folgenden Einstellungen sind nur in der Spenden-Version verfügbar.</string>
-    
+    <!-- V1.6.2 -->
+    <string name="pref_notificationbadge_help_title">Brauchen Sie Hilfe?</string>
+    <string name="pref_notificationbadge_help_summary">Klicken Sie hier, um zu lesen, wie man Notification Badges einrichtet!</string>
+   
 </resources>

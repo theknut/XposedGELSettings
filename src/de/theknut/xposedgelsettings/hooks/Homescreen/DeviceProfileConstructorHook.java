@@ -2,6 +2,7 @@ package de.theknut.xposedgelsettings.hooks.homescreen;
 
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setIntField;
+import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
 import android.content.Context;
 
@@ -9,6 +10,7 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 
 public final class DeviceProfileConstructorHook extends XC_MethodHook {
@@ -77,7 +79,7 @@ public final class DeviceProfileConstructorHook extends XC_MethodHook {
 				param.args[NUMHOTSEATICONS] = PreferencesHelper.appDockCount;
 				
 				int hotseatBarHeight = (int) (Math.round((Float)param.args[ICONSIZE]) + 24);
-				setIntField(param.thisObject, "hotseatBarHeightPx", hotseatBarHeight);
+				setIntField(param.thisObject, Fields.dpHotseatBarHeightPx, hotseatBarHeight);
 			}
 		}
 	}
@@ -86,10 +88,7 @@ public final class DeviceProfileConstructorHook extends XC_MethodHook {
 	protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 		
 		if (PreferencesHelper.noAllAppsButton) {
-			setIntField(param.thisObject, "hotseatAllAppsRank", 10);
+			setIntField(param.thisObject, Fields.hotseatAllAppsRank, 10);
 		}
-		
-		Common.TEST = (Integer) getObjectField(param.thisObject, "folderCellWidthPx");
-		Common.TEST2 = (Integer) getObjectField(param.thisObject, "folderCellHeightPx");
 	}
 }

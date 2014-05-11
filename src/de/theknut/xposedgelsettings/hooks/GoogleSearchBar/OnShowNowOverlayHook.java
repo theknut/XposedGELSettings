@@ -1,9 +1,13 @@
 package de.theknut.xposedgelsettings.hooks.googlesearchbar;
 
+import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.getBooleanField;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
 import de.robv.android.xposed.XC_MethodHook;
+
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 
 public class OnShowNowOverlayHook extends XC_MethodHook {
 	
@@ -12,14 +16,11 @@ public class OnShowNowOverlayHook extends XC_MethodHook {
 	@Override
 	protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 		
-		if (	Common.LAUNCHER_INSTANCE == null
-				||	Common.NOW_OVERLAY_INSTANCE == null
-				||	Common.GEL_INSTANCE == null) {
-				return;
-			}
+		if (Common.LAUNCHER_INSTANCE == null) {	return;	}
 		
-		if (getBooleanField(Common.GEL_INSTANCE, "mNowEnabled") && getBooleanField(Common.WORKSPACE_INSTANCE, "mCustomContentShowing")
-			&& getIntField(Common.WORKSPACE_INSTANCE, "mCurrentPage") == 0) {
+		if ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherHasCustomContentToLeft)
+			&& getBooleanField(Common.WORKSPACE_INSTANCE, Fields.workspaceCustomContentShowing)
+			&& getIntField(Common.WORKSPACE_INSTANCE, Fields.workspaceCurrentPage) == 0) {
 			
 			GoogleSearchBarHooks.showSearchbar();
 		}

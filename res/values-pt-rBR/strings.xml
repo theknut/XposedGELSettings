@@ -121,11 +121,12 @@
         <item>Tela Inicial</item>
         <item>Tela Aplicativos</item>
         <item>Gstos</item>
-        <item>Notification Badges</item>
+        <item>Notification Badges (Beta)</item>
         <item>Sistema UI</item>
         <item>Importação/Exportação</item>
         <item>Configurações</item>
         <item>Suporte/Doe!</item>
+        <item>Reverse Engineering</item> <!-- NEW -->
     </string-array>
     
     <string name="drawer_open">Abrir botão Tela Aplicativos</string>

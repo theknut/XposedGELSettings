@@ -7,10 +7,12 @@ import android.content.Intent;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.widget.TextView;
-import de.robv.android.xposed.XC_MethodHook;
-import de.theknut.xposedgelsettings.hooks.Common;
 
-public class AllAppsButtonHook extends XC_MethodHook {
+import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
+
+public class AllAppsButtonHook extends HooksBaseClass {
 	
 	// http://androidxref.com/4.4.2_r1/xref/packages/apps/Launcher3/src/com/android/launcher3/CellLayout.java#604
 	// public boolean addViewToCellLayout(View child, int index, int childId, LayoutParams params, boolean markCells)
@@ -19,7 +21,8 @@ public class AllAppsButtonHook extends XC_MethodHook {
 	protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 		
 		// there is only one button which can't be reordered and thats the app drawer
-		if (param.args[0] instanceof TextView && !getBooleanField(param.args[3], "canReorder")) {
+		if (param.args[0] instanceof TextView && !getBooleanField(param.args[3], Fields.celllayoutlayoutparamsCanReorder)) {
+			if (DEBUG) log(param, "Adding XGELS intent to AllAppsButton");
 			
 			View allAppsButton = (View) param.args[0];
 			final Context context = Common.LAUNCHER_CONTEXT;

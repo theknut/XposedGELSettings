@@ -115,11 +115,13 @@
         <item>Domovská obrazovka</item>
         <item>Ponuka aplikácií</item>
         <item>Gestá</item>
+        <item>Notification Badges (Beta)</item>
         <item>Symboly oznámení</item>
         <item>Vylepšenia rozhrania</item>
         <item>Zálohovať/Obnoviť</item>
         <item>Nastavenia</item>
         <item>Prémium/Podpora</item>
+        <item>Reverse Engineering</item> <!-- NEW -->
     </string-array>
     
     <string name="drawer_open">Otvoriť navigačnú ponuku</string>

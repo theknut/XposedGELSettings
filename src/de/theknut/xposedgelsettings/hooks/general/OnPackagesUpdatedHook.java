@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import android.appwidget.AppWidgetProviderInfo;
-import de.robv.android.xposed.XC_MethodHook;
+import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 
-public class OnPackagesUpdatedHook extends XC_MethodHook {
+public class OnPackagesUpdatedHook extends HooksBaseClass {
 	
 	// http://androidxref.com/4.4.2_r1/xref/packages/apps/Launcher3/src/com/android/launcher3/AppsCustomizePagedView.java#432
 	// public void onPackagesUpdated(ArrayList<Object> widgetsAndShortcuts)
@@ -15,6 +15,7 @@ public class OnPackagesUpdatedHook extends XC_MethodHook {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+		if (DEBUG) log(param, "Hide Widgets");
 		
 		ArrayList<Object> widgets = (ArrayList<Object>) param.args[0];
 		for (Iterator<Object> it = widgets.iterator(); it.hasNext(); ) {

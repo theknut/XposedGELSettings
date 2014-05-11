@@ -3,9 +3,6 @@ package de.theknut.xposedgelsettings.hooks.notificationbadges;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 
 import android.content.Intent;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.view.View;

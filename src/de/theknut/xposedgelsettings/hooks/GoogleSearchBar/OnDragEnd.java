@@ -5,6 +5,7 @@ import static de.robv.android.xposed.XposedHelpers.setBooleanField;
 import android.view.View;
 import de.robv.android.xposed.XC_MethodHook;
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 
 public final class OnDragEnd extends XC_MethodHook {
 	
@@ -14,12 +15,12 @@ public final class OnDragEnd extends XC_MethodHook {
 	@Override
 	protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 		// set the search bar hidden so that the animation wouldn't be shown (fade out)
-		setBooleanField(param.thisObject, "mIsSearchBarHidden", true);
+		setBooleanField(param.thisObject, Fields.sdtbIsSearchBarHidden, true);
 	}
 	
 	@Override
 	protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-		View qsb = (View) getObjectField(param.thisObject, "mQSBSearchBar");
+		View qsb = (View) getObjectField(param.thisObject, Fields.sdtbQsbBar);
 		qsb.setAlpha(1f);
 		
 		// hide the search bar

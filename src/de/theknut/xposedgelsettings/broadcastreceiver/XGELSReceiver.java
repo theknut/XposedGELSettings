@@ -4,10 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.lang.reflect.Method;
 
-import de.theknut.xposedgelsettings.R;
-import de.theknut.xposedgelsettings.hooks.Common;
-import de.theknut.xposedgelsettings.ui.Blur;
-import de.theknut.xposedgelsettings.ui.CommonUI;
 import android.annotation.SuppressLint;
 import android.app.WallpaperManager;
 import android.content.BroadcastReceiver;
@@ -15,8 +11,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.os.Environment;
-import android.widget.Toast;
+
+import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.ui.Blur;
+import de.theknut.xposedgelsettings.ui.CommonUI;
 
 @SuppressLint("WorldReadableFiles")
 public class XGELSReceiver extends BroadcastReceiver {
@@ -31,18 +29,8 @@ public class XGELSReceiver extends BroadcastReceiver {
     @SuppressWarnings("deprecation")
 	@Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals(Common.XGELS_INTENT)) {
-        	
-        	String extra = intent.getStringExtra(Common.XGELS_ACTION);
-        	
-        	if (extra != null) {
-	        	if (extra.equals("NOTIFICATION_BAR")) {
-	        		showNotificationPanel(context);
-				} else if (extra.equals("SETTINGS_BAR")) {
-	        		showSettingsPanel(context);
-	        	}
-        	}
-        } else if (intent.getAction().equals(Intent.ACTION_WALLPAPER_CHANGED)) {
+    	
+    	if (intent.getAction().equals(Intent.ACTION_WALLPAPER_CHANGED)) {
         	boolean autoBlurImage = context.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).getBoolean("autoblurimage", false);
         	
         	if (autoBlurImage) {
@@ -50,56 +38,9 @@ public class XGELSReceiver extends BroadcastReceiver {
         	}
         }
     }
-	
-	public static boolean init(Context context) {
-    	
-    	if (sbservice != null && statusbarManager != null && showNotificationPanel != null && showSettingsPanel != null) {
-    		return true;
-    	}
-    	
-    	try {
-    		sbservice = context.getSystemService("statusbar");				
-    		statusbarManager = Class.forName("android.app.StatusBarManager");
-    		showNotificationPanel = statusbarManager.getMethod(NOTIFICATION_PANEL);
-    		showSettingsPanel = statusbarManager.getMethod(SETTINGS_PANEL);
-    		
-    		if (sbservice != null && statusbarManager != null && showNotificationPanel != null && showSettingsPanel != null) {
-    			Common.IS_INIT = true;
-    			return true;
-    		}
-    		
-    		return false;
-    	} catch (Exception e) {
-			Toast.makeText(context, R.string.toast_fail, Toast.LENGTH_LONG).show();
-			e.printStackTrace();
-			
-			return false;
-		}    	
-    }
     
-    public void showNotificationPanel(Context context) {    	
-		try {
-			if (init(context)) {
-				showNotificationPanel.invoke(sbservice);
-			}
-		} catch (Exception e) {
-			Toast.makeText(context, R.string.toast_fail, Toast.LENGTH_LONG).show();
-			e.printStackTrace();
-		}
-    }
-    
-    public void showSettingsPanel(Context context) {    	
-		try {
-			if (init(context)) {
-				showSettingsPanel.invoke(sbservice);
-			}
-		} catch (Exception e) {
-			Toast.makeText(context, R.string.toast_fail, Toast.LENGTH_LONG).show();
-			e.printStackTrace();
-		}
-    }
-    
-    private class BlurWallpaperAsyncTask extends AsyncTask<Context, Void, Void> {
+    @SuppressLint("SdCardPath")
+	private class BlurWallpaperAsyncTask extends AsyncTask<Context, Void, Void> {
 
 		@Override
 		protected Void doInBackground(final Context... params) {

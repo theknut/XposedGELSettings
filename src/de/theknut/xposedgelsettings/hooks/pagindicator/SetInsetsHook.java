@@ -8,6 +8,7 @@ import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
 
 import de.robv.android.xposed.XC_MethodHook;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 
 public class SetInsetsHook extends XC_MethodHook {
@@ -23,7 +24,7 @@ public class SetInsetsHook extends XC_MethodHook {
 	
 	@Override
 	protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-		Object mContent = (Object) getObjectField(param.thisObject, "mContent");
+		Object mContent = (Object) getObjectField(param.thisObject, Fields.acthContent);
 		Rect insets = (Rect) param.args[0];
 		
 		if (mContent != null) {

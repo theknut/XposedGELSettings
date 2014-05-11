@@ -33,6 +33,7 @@ public class FragmentWelcome extends FragmentBase {
 	AlertDialog IsXposedInstalledAlert, IsModuleActive, IsInstalledFromPlayStore, IsSupportedLauncherInstalled, NeedReboot;
 	List<AlertDialog> alerts;
 	int alertToShow = 0;
+	boolean cancel;
      
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -92,8 +93,8 @@ public class FragmentWelcome extends FragmentBase {
     		Changelog cl = new Changelog(CommonUI.CONTEXT);
     	    if (cl.firstRun()) {
     	    	CommonUI.needFullReboot = true;
-    	        alerts.add(cl.getLogDialog());
-    	        alerts.add(NeedReboot);
+    	        alerts.add(cl.getFullLogDialog());
+    	        getFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentReverseEngineering()).commit();
     	    }
     	    
     	    if (alerts.size() != 0) {
@@ -177,8 +178,11 @@ public class FragmentWelcome extends FragmentBase {
 	    .setMessage("XGELS is not active. Please activate the module in Xposed Installer -> Modules")
 	    .setPositiveButton("Open Xposed Installer", new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) {
+	        	
+	        	Intent LaunchIntent = null;
+	        	
 	        	try {
-		        	Intent LaunchIntent = getActivity().getPackageManager().getLaunchIntentForPackage("de.robv.android.xposed.installer");
+		        	LaunchIntent = mContext.getPackageManager().getLaunchIntentForPackage("de.robv.android.xposed.installer");
 		        	if (LaunchIntent == null) {
 		        		Toast.makeText(mContext, R.string.toast_openinstaller_failed, Toast.LENGTH_LONG).show();
 		        	} else {
@@ -186,10 +190,16 @@ public class FragmentWelcome extends FragmentBase {
 		        		i.setClassName("de.robv.android.xposed.installer", "de.robv.android.xposed.installer.XposedInstallerActivity");
 		        		i.putExtra("opentab", "modules");
 		        		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		        		startActivity(i);
+		        		mContext.startActivity(i);
 		        	}
 	        	} catch (Exception e) {
-	        		Toast.makeText(mContext, "Ehm... that didn't work. Please open Xposed Installer manually and activate the module. Restart your device!", Toast.LENGTH_LONG).show();
+	        		if (LaunchIntent != null) {
+	        			LaunchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	        			mContext.startActivity(LaunchIntent);
+	        		} else {
+	        			e.printStackTrace();
+	        			Toast.makeText(mContext, "Ehm... that didn't work. Please open Xposed Installer manually and activate the module. Restart your device!", Toast.LENGTH_LONG).show();
+	        		}
 	        	}
 	        }
         }
@@ -254,6 +264,7 @@ public class FragmentWelcome extends FragmentBase {
 	        public void onClick(DialogInterface dialog, int which) {
 	        	
 	        	CommonUI.openRootShell(new String[]{"su", "-c", "reboot now"});
+	        	cancel = true;
 	        }
         }
 	     )
@@ -261,7 +272,8 @@ public class FragmentWelcome extends FragmentBase {
 
 		      public void onClick(DialogInterface dialog, int id) {
 		    	  
-		    	  CommonUI.openRootShell(new String[]{ "su", "-c", "killall system_server"});			
+		    	  CommonUI.openRootShell(new String[]{ "su", "-c", "killall system_server"});
+		    	  cancel = true;
 		    }})
 	    .setNegativeButton(R.string.alert_xgels_updated_cancel, new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) { 
@@ -297,9 +309,11 @@ public class FragmentWelcome extends FragmentBase {
     		super.onPreExecute();
     		
     		try {
-    			//if (!getActivity().isFinishing()) {
-    				alerts.get(alertToShow).show();
-    			//}
+    			if (cancel) {
+    				this.cancel(true);
+    			}
+    			
+    			alerts.get(alertToShow).show();
     		} catch (Exception e) {
     			e.printStackTrace();
     			this.cancel(true);
@@ -311,6 +325,10 @@ public class FragmentWelcome extends FragmentBase {
 			
 			while(alerts.get(alertToShow).isShowing()) {
 				try { Thread.sleep(300); } catch (InterruptedException e) { e.printStackTrace(); }
+				
+				if (cancel) {
+    				this.cancel(true);
+    			}
 			}
 			
 			return null;

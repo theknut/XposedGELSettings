@@ -21,6 +21,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout.LayoutParams;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 
 public class GestureHelper extends HooksBaseClass {
@@ -70,7 +71,7 @@ public class GestureHelper extends HooksBaseClass {
 		if (PreferencesHelper.appdockSettingsSwitch && PreferencesHelper.hideAppDock) {
 			
 			isAnimating = false;
-			mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, "mHotseat");
+			mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, Fields.launcherHotseat);
 			mHotseat.setBackgroundColor(Color.parseColor(ColorPickerPreference.convertToARGB(PreferencesHelper.appDockBackgroundColor)));
 			
 			showListener = new AnimatorListener() {
@@ -167,32 +168,26 @@ public class GestureHelper extends HooksBaseClass {
 	}
 	
 	static void handleGesture(String gestureKey, String action) {
+		handleGesture(Common.LAUNCHER_CONTEXT, gestureKey, action);
+	}
+	
+	static void handleGesture(final Context context, String gestureKey, String action) {
 		
 		if (action.equals("NOTIFICATION_BAR")) {
-			
-//			Intent myIntent = new Intent();
-//			myIntent.putExtra(Common.XGELS_ACTION, "NOTIFICATION_BAR");
-//			myIntent.setAction(Common.PACKAGE_NAME + ".Intent");
-//			Common.LAUNCHER_CONTEXT.sendBroadcast(myIntent);
 			
 			Intent myIntent = new Intent();
 			myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_OTHER);
 			myIntent.putExtra(Common.XGELS_ACTION, "SHOW_NOTIFICATION_BAR");						
 			myIntent.setAction(Common.XGELS_INTENT);
-			Common.LAUNCHER_CONTEXT.sendBroadcast(myIntent);
+			context.sendBroadcast(myIntent);
 			
 		} else if (action.equals("QUICKSETTINGS_PANEL")) {
-			
-//			Intent myIntent = new Intent();
-//			myIntent.putExtra(Common.XGELS_ACTION, "SETTINGS_BAR");
-//			myIntent.setAction(Common.PACKAGE_NAME + ".Intent");
-//			Common.LAUNCHER_CONTEXT.sendBroadcast(myIntent);
 			
 			Intent myIntent = new Intent();
 			myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_OTHER);
 			myIntent.putExtra(Common.XGELS_ACTION, "SHOW_SETTINGS_PANEL");						
 			myIntent.setAction(Common.XGELS_INTENT);
-			Common.LAUNCHER_CONTEXT.sendBroadcast(myIntent);
+			context.sendBroadcast(myIntent);
 			
 		} else if (action.equals("OPEN_APPDRAWER")) {
 			
@@ -200,7 +195,7 @@ public class GestureHelper extends HooksBaseClass {
 			     @Override
 			     public void run() {
 			    	 
-			    	 callMethod(Common.LAUNCHER_INSTANCE, "showAllApps", true, Common.CONTENT_TYPE, !PreferencesHelper.appdrawerRememberLastPosition);
+			    	 callMethod(Common.LAUNCHER_INSTANCE, "onClickAllAppsButton", new View(context));//, !PreferencesHelper.appdrawerRememberLastPosition);
 			     }
 		    });
 			
@@ -210,7 +205,7 @@ public class GestureHelper extends HooksBaseClass {
 			myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_OTHER);
 			myIntent.putExtra(Common.XGELS_ACTION, "GESTURE_LAST_APP");						
 			myIntent.setAction(Common.XGELS_INTENT);
-			Common.LAUNCHER_CONTEXT.sendBroadcast(myIntent);
+			context.sendBroadcast(myIntent);
 			
 		} else if (action.equals("SHOW_RECENTS")) {
 			
@@ -218,13 +213,13 @@ public class GestureHelper extends HooksBaseClass {
 			myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_OTHER);
 			myIntent.putExtra(Common.XGELS_ACTION, "SHOW_RECENTS");						
 			myIntent.setAction(Common.XGELS_INTENT);
-			Common.LAUNCHER_CONTEXT.sendBroadcast(myIntent);
+			context.sendBroadcast(myIntent);
 			
 		} else if (action.equals("OPEN_SETTINGS")) {
 			
 			Intent LaunchIntent = new Intent(android.provider.Settings.ACTION_SETTINGS);
 			LaunchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			Common.LAUNCHER_CONTEXT.startActivity(LaunchIntent);
+			callMethod(Common.LAUNCHER_INSTANCE, "startActivity", LaunchIntent);
 			
 		} else if (action.equals("SCREEN_OFF")) {
 			
@@ -232,7 +227,7 @@ public class GestureHelper extends HooksBaseClass {
 			myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_OTHER);
 			myIntent.putExtra(Common.XGELS_ACTION, "GO_TO_SLEEP");						
 			myIntent.setAction(Common.XGELS_INTENT);
-			Common.LAUNCHER_CONTEXT.sendBroadcast(myIntent);
+			context.sendBroadcast(myIntent);
 			
 		} else if (action.equals("TOGGLE_DOCK")) {
 			
@@ -250,9 +245,9 @@ public class GestureHelper extends HooksBaseClass {
 			String pkg = PreferencesHelper.prefs.getString(gestureKey + "_launch", "");
 			
 			if (!pkg.equals("")) {
-				Intent LaunchIntent = Common.LAUNCHER_CONTEXT.getPackageManager().getLaunchIntentForPackage(pkg);
+				Intent LaunchIntent = context.getPackageManager().getLaunchIntentForPackage(pkg);
 				LaunchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				Common.LAUNCHER_CONTEXT.startActivity(LaunchIntent);
+				callMethod(Common.LAUNCHER_INSTANCE, "startActivity", LaunchIntent);
 			}
 		}
 	}
@@ -328,7 +323,7 @@ public class GestureHelper extends HooksBaseClass {
 	}
 	
 	static void showAppdock(int duration) {
-		mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, "mHotseat");
+		mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, Fields.launcherHotseat);
 		
 		if (Common.LAUNCHER_INSTANCE == null || mHotseat == null || mHotseat.getAlpha() != 0.0f) {
 			if (DEBUG) log("Don't show App Dock");
@@ -362,7 +357,7 @@ public class GestureHelper extends HooksBaseClass {
 		
 		if (duration == FORCEHIDE) {
 			
-			mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, "mHotseat");
+			mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, Fields.launcherHotseat);
 			
 			LayoutParams lp = (LayoutParams) mHotseat.getLayoutParams();
 			lp.width = 0;
@@ -382,7 +377,7 @@ public class GestureHelper extends HooksBaseClass {
 		
 		if (duration != 0) {
 			
-			mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, "mHotseat");
+			mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, Fields.launcherHotseat);
 			hideAnimation = mHotseat.animate();
 			hideAnimation.setListener(hideListener);
 			

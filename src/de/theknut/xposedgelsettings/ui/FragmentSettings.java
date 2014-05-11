@@ -74,6 +74,7 @@ public class FragmentSettings extends FragmentBase {
             		
             		if (success) {
             			Toast.makeText(mContext, getString(R.string.toast_import), Toast.LENGTH_LONG).show();
+            			CommonUI.restartLauncher(false);
             			restartActivity();
             		}
             		else {
@@ -187,19 +188,22 @@ public class FragmentSettings extends FragmentBase {
 		});
         
         final MyCheckboxPreference debugPreference = (MyCheckboxPreference) this.findPreference("debug");
-        debugPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+        debugPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			
 			@Override
-			public boolean onPreferenceClick(Preference preference) {
-				new AlertDialog.Builder(CommonUI.CONTEXT)
-				.setCancelable(false)
-			    .setTitle(R.string.alert_debug_logging_activated_title)
-			    .setMessage(R.string.alert_debug_logging_activated_summary)
-			    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-			        public void onClick(DialogInterface dialog, int which) { 
-			        	CommonUI.restartLauncher(false);
-			        }
-		        }).show();
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				
+				if ((Boolean) newValue) {
+					new AlertDialog.Builder(CommonUI.CONTEXT)
+					.setCancelable(false)
+				    .setTitle(R.string.alert_debug_logging_activated_title)
+				    .setMessage(R.string.alert_debug_logging_activated_summary)
+				    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+				        public void onClick(DialogInterface dialog, int which) { 
+				        	CommonUI.restartLauncher(false);
+				        }
+			        }).show();
+				}
 				
 				return true;
 			}
@@ -237,6 +241,10 @@ public class FragmentSettings extends FragmentBase {
 				} catch (Exception e) {
 					e.printStackTrace();
 					pathDebugLog = "/data/data/de.robv.android.xposed.installer/log/debug.log";
+				}
+				
+				if (!new File(pathDebugLog).exists()) {
+					pathDebugLog.replace("debug.log", "error.log");
 				}
 				
 				String logfilePath = "/mnt/sdcard/XposedGELSettings/logs/logcat.log";
@@ -289,6 +297,10 @@ public class FragmentSettings extends FragmentBase {
 				    	
 				    	packageInfo = mContext.getPackageManager().getPackageInfo("de.robv.android.xposed.installer", 0);
 				    	version = "Xposed: " + packageInfo.versionName + " (" + packageInfo.versionCode + ")";
+				    	deviceInfo.append(version).append(ls);
+				    	
+				    	packageInfo = mContext.getPackageManager().getPackageInfo(Common.GEL_PACKAGE, 0);
+				    	version = "GNL: " + packageInfo.versionName + " (" + packageInfo.versionCode + ")";
 				    	deviceInfo.append(version).append(ls);
 				    } catch (NameNotFoundException e) {
 				        // shouldn't be here but lets prevent this from crashing...

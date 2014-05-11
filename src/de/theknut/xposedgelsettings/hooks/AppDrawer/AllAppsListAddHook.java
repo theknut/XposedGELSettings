@@ -6,6 +6,7 @@ import android.content.ComponentName;
 
 import de.robv.android.xposed.XC_MethodHook;
 
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 
 public final class AllAppsListAddHook extends XC_MethodHook {
@@ -15,8 +16,8 @@ public final class AllAppsListAddHook extends XC_MethodHook {
 	
 	@Override
 	protected void beforeHookedMethod(MethodHookParam param) throws Throwable {		
-		String title = (String) getObjectField(param.args[0], "title");
-		ComponentName componentName = (ComponentName) getObjectField(param.args[0], "componentName");
+		String title = (String) getObjectField(param.args[0], Fields.itemInfoTitle);
+		ComponentName componentName = (ComponentName) getObjectField(param.args[0], Fields.aiComponentName);
 		
 		if (PreferencesHelper.hiddenApps.contains(componentName.getPackageName() + "#" + title)) {
 			// don't add it to the allAppsList if it is in our list

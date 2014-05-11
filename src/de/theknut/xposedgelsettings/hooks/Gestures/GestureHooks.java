@@ -1,7 +1,7 @@
 package de.theknut.xposedgelsettings.hooks.gestures;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
-import static de.robv.android.xposed.XposedHelpers.findClass;
+import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.getBooleanField;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
@@ -25,6 +25,9 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 
 public class GestureHooks extends GestureHelper {
@@ -40,20 +43,16 @@ public class GestureHooks extends GestureHelper {
 	
 	public static void initAllHooks(LoadPackageParam lpparam) {
 		
-		final Class<?> WorkspaceClass = findClass(Common.WORKSPACE, lpparam.classLoader);
-		
 		if (PreferencesHelper.appdockSettingsSwitch && autoHideAppDock) {
-			final Class<?> LauncherClass = findClass(Common.LAUNCHER, lpparam.classLoader);
-			final Class<?> FolderClass = findClass(Common.FOLDER, lpparam.classLoader);
 			
-			XposedBridge.hookAllMethods(LauncherClass, "showHotseat", new XC_MethodHook() {
+			XposedBridge.hookAllMethods(Classes.Launcher, "showHotseat", new XC_MethodHook() {
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 					param.setResult(null);
 				}
 			});
 			
-			XposedBridge.hookAllMethods(LauncherClass, "onTransitionPrepare", new XC_MethodHook() {
+			XposedBridge.hookAllMethods(Classes.Launcher, "onTransitionPrepare", new XC_MethodHook() {
 				
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
@@ -62,27 +61,33 @@ public class GestureHooks extends GestureHelper {
 				}
 			});
 			
-			XposedBridge.hookAllMethods(LauncherClass, "onResume", new XC_MethodHook() {
+			XposedBridge.hookAllMethods(Classes.Launcher, "onResume", new XC_MethodHook() {
 				
 				@Override
 				protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-					if (DEBUG) log("GestureHooks: onPause");
+					if (DEBUG) log("GestureHooks: onResume");
 					
 						hideAppdock(FORCEHIDE);
 				}
 			});
 			
-			XposedBridge.hookAllMethods(LauncherClass, "hideAppsCustomizeHelper", new XC_MethodHook() {
+			XC_MethodHook hideAppsCustomizeHelper = new XC_MethodHook() {
 				
 				@Override
 				protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-					if (DEBUG) log("GestureHooks: onPause");
+					if (DEBUG) log("GestureHooks: hideAppsCustomizeHelper");
 					
 						hideAppdock(FORCEHIDE);
 				}
-			});
+			};
 			
-			XposedBridge.hookAllMethods(WorkspaceClass, "onWindowVisibilityChanged", new XC_MethodHook() {
+			if (Common.PACKAGE_OBFUSCATED) {
+				findAndHookMethod(Classes.Launcher, Methods.hideAppsCustomizeHelper, Classes.WorkspaceState, boolean.class, Runnable.class, hideAppsCustomizeHelper);
+			} else {
+				XposedBridge.hookAllMethods(Classes.Launcher, Methods.hideAppsCustomizeHelper, hideAppsCustomizeHelper);
+			}
+		
+			XposedBridge.hookAllMethods(Classes.Workspace, "onWindowVisibilityChanged", new XC_MethodHook() {
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 					if (DEBUG) log("GestureHooks: onWindowVisibilityChanged");
@@ -105,7 +110,7 @@ public class GestureHooks extends GestureHelper {
 				}
 			});
 			
-			XposedBridge.hookAllMethods(WorkspaceClass, "onRequestFocusInDescendants", new XC_MethodHook() {
+			XposedBridge.hookAllMethods(Classes.Workspace, "onRequestFocusInDescendants", new XC_MethodHook() {
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 					if (DEBUG) log("GestureHooks: onRequestFocusInDescendants");
@@ -130,7 +135,7 @@ public class GestureHooks extends GestureHelper {
 		}
 		
 		if (true) {
-			XposedBridge.hookAllMethods(WorkspaceClass, "onInterceptTouchEvent", new XC_MethodHook() {
+			XposedBridge.hookAllMethods(Classes.Workspace, "onInterceptTouchEvent", new XC_MethodHook() {
 				
 				boolean gnow = true;
 				float downY = 0, downX = 0;
@@ -139,10 +144,10 @@ public class GestureHooks extends GestureHelper {
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 					if (wm == null) {
 						init();
-						gnow = (Boolean) callMethod(Common.LAUNCHER_INSTANCE, "hasCustomContentToLeft");
+						gnow = (Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherHasCustomContentToLeft);
 					}
 					
-					final int currentPage = getIntField(Common.WORKSPACE_INSTANCE, "mCurrentPage");					
+					final int currentPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.workspaceCurrentPage);					
 					if (currentPage == 0 && gnow) return;					
 					
 					MotionEvent ev = (MotionEvent) param.args[0];
@@ -179,7 +184,7 @@ public class GestureHooks extends GestureHelper {
 							downY = ev.getRawY();
 							downX = ev.getRawX();
 							
-							mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, "mHotseat");
+							mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, Fields.launcherHotseat);
 							
 							if (PreferencesHelper.appdockSettingsSwitch && PreferencesHelper.hideAppDock) {
 								LayoutParams lp = (LayoutParams) mHotseat.getLayoutParams();
@@ -294,8 +299,8 @@ public class GestureHooks extends GestureHelper {
 							
 							isDown = false;
 							if ((ev.getRawY() - downY) > (height / 6)) {
-								
-								callMethod(getObjectField(param.thisObject, "mLauncher"), "showWorkspace", true);
+								// getObjectField(param.thisObject, "mLauncher")
+								callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherShowWorkspace, true, null);
 								
 							} else if ((ev.getRawY() - downY) < -(height / 6)) {
 								
@@ -304,24 +309,21 @@ public class GestureHooks extends GestureHelper {
 									return;
 								}
 								
-								Object tabhost = getObjectField(Common.LAUNCHER_INSTANCE, "mAppsCustomizeTabHost");
+								Object tabhost = getObjectField(Common.LAUNCHER_INSTANCE, Fields.launcherAppsCustomizeTabHost);
 								
-								if (!getBooleanField(tabhost, "mInTransition")) {
-								
+								if (!getBooleanField(tabhost, Fields.acthInTransition)) {
+									Object ContentType = null;									
+									
 									String tabtag = (String) callMethod(tabhost, "getCurrentTabTag");
+									callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherShowWorkspace, false, null);
+									
 									if (tabtag.equals("APPS")) {
-										
-										callMethod(getObjectField(param.thisObject, "mLauncher"), "showWorkspace", false);
-										Object ContentType = callMethod(tabhost, "getContentTypeForTabTag", "WIDGETS");
-										callMethod(Common.LAUNCHER_INSTANCE, "showAllApps", true, ContentType, !PreferencesHelper.appdrawerRememberLastPosition);
-										
+										ContentType = callMethod(tabhost, Methods.acthGetContentTypeForTabTag, "WIDGETS");										
 									} else if (tabtag.equals("WIDGETS")) {
-										
-										callMethod(getObjectField(param.thisObject, "mLauncher"), "showWorkspace", false);
-										Object ContentType = callMethod(tabhost, "getContentTypeForTabTag", "APPS");
-										callMethod(Common.LAUNCHER_INSTANCE, "showAllApps", true, ContentType, !PreferencesHelper.appdrawerRememberLastPosition);
-										
-									}
+										ContentType = callMethod(tabhost, Methods.acthGetContentTypeForTabTag, "APPS");
+									}								
+									
+									callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherShowAllApps, true, ContentType, !PreferencesHelper.appdrawerRememberLastPosition);
 								}
 							}
 							
@@ -334,24 +336,21 @@ public class GestureHooks extends GestureHelper {
 			
 			if (Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE)) {
 				
-				final Class<?> PagedViewWithDraggableItemsClass = findClass(Common.PAGED_VIEW_WITH_DRAGGABLE_ITEMS, lpparam.classLoader);
-				XposedBridge.hookAllMethods(PagedViewWithDraggableItemsClass, "onTouchEvent", gestureHook);
-				XposedBridge.hookAllMethods(PagedViewWithDraggableItemsClass, "onInterceptTouchEvent", gestureHook);
+				XposedBridge.hookAllMethods(Classes.PagedViewWithDraggableItems, "onTouchEvent", gestureHook);
+				XposedBridge.hookAllMethods(Classes.PagedViewWithDraggableItems, "onInterceptTouchEvent", gestureHook);
 				
 			}
 			else if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE)) {
 				
-				final Class<?> PagedViewWithDraggableItemsClass = findClass(Common.PAGED_VIEW_WITH_DRAGGABLE_ITEMS, lpparam.classLoader);
-				XposedBridge.hookAllMethods(PagedViewWithDraggableItemsClass, "onTouchEvent", gestureHook);
-				XposedBridge.hookAllMethods(PagedViewWithDraggableItemsClass, "onInterceptTouchEvent", gestureHook);
+				XposedBridge.hookAllMethods(Classes.PagedViewWithDraggableItems, "onTouchEvent", gestureHook);
+				XposedBridge.hookAllMethods(Classes.PagedViewWithDraggableItems, "onInterceptTouchEvent", gestureHook);
 				
 			}
 		}
 		
 		if (!PreferencesHelper.gesture_double_tap.equals("NONE")) {
-			
-			final Class<?> LauncherClass = findClass(Common.LAUNCHER, lpparam.classLoader);			
-			XposedBridge.hookAllMethods(LauncherClass, "onClick", new XC_MethodHook() {
+					
+			XposedBridge.hookAllMethods(Classes.Launcher, "onClick", new XC_MethodHook() {
 				
 				// http://androidxref.com/4.4.2_r1/xref/packages/apps/Launcher3/src/com/android/launcher3/LauncherSettings.java
 				// https://github.com/CyanogenMod/android_packages_apps_Trebuchet/blob/cm-11.0/src/com/android/launcher3/LauncherSettings.java
@@ -380,7 +379,7 @@ public class GestureHooks extends GestureHelper {
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 					currTouchTime = System.currentTimeMillis();
 					
-					if (getObjectField(Common.WORKSPACE_INSTANCE, "mState").toString().equals("NORMAL")) {
+					if (getObjectField(Common.WORKSPACE_INSTANCE, Fields.workspaceState).toString().equals("NORMAL")) {
 						
 						View view = (View) param.args[0];
 						Object tag = view.getTag();
@@ -388,21 +387,21 @@ public class GestureHooks extends GestureHelper {
 						
 						if (PreferencesHelper.gesture_double_tap_only_on_wallpaper) {
 							
-							if (!view.getTag().getClass().getName().contains("CellInfo")) {
+							if (!view.getTag().getClass().getName().contains(Fields.cellInfoClass)) {
 								
 								return;
 							}
 							
 						} else {
 						
-							if (view.getTag().getClass().getName().contains("ShortcutInfo")) {
+							if (view.getTag().getClass().getName().contains(Fields.shortcutInfoClass)) {
 								
-								int itemType = getIntField(tag, "itemType");
+								int itemType = getIntField(tag, Fields.iiItemType);
 								if (itemType == ITEM_TYPE_ALLAPPS
 									|| itemType == ITEM_TYPE_FOLDER) {
 									return;
 								}	
-							} else if (view.getTag().getClass().getName().contains("FolderInfo")) {
+							} else if (view.getTag().getClass().getName().contains(Fields.folderInfoClass)) {
 								
 								return;
 							}

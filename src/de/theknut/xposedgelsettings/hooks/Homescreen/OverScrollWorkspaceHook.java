@@ -2,12 +2,14 @@ package de.theknut.xposedgelsettings.hooks.homescreen;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.getBooleanField;
-import static de.robv.android.xposed.XposedHelpers.getObjectField;
+import android.view.View;
 
 import de.robv.android.xposed.XC_MethodHook;
 
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 
 public class OverScrollWorkspaceHook extends XC_MethodHook {
 	
@@ -19,35 +21,41 @@ public class OverScrollWorkspaceHook extends XC_MethodHook {
 	protected void beforeHookedMethod(MethodHookParam param) throws Throwable
 	{
 		float overscroll = (Float) param.args[0];
-		boolean isPageMoving = getBooleanField(param.thisObject, "mIsPageMoving");
+		boolean isPageMoving = getBooleanField(param.thisObject, Fields.pvIsPageMoving);
+		boolean isSwitchingState = getBooleanField(param.thisObject, Fields.wIsSwitchingState);
 		
-		if(overscroll > 50.0 && isPageMoving) {
+		if (!isPageMoving || isSwitchingState) {
+			return;
+		}
+		
+		if (overscroll > 50.0) {
 			
 			if (PreferencesHelper.continuousScrollWithAppDrawer) {
 				
-				callMethod(getObjectField(param.thisObject, "mLauncher"), "showAllApps", true, Common.CONTENT_TYPE, !PreferencesHelper.appdrawerRememberLastPosition);
+				callMethod(Common.LAUNCHER_INSTANCE, "onClickAllAppsButton", new View(Common.LAUNCHER_CONTEXT));//Methods.launcherShowAllApps, true, Common.CONTENT_TYPE, !PreferencesHelper.appdrawerRememberLastPosition);
 				Common.OVERSCROLLED = true;
 			}
 			else {				
-				if (Common.GEL_INSTANCE != null && getBooleanField(Common.GEL_INSTANCE, "mNowEnabled")) {
-					callMethod(Common.WORKSPACE_INSTANCE, "moveToScreen", 1, true);
+				if ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherHasCustomContentToLeft)) {
+					callMethod(Common.WORKSPACE_INSTANCE, Methods.wSnapToPage, 1);
 				}
 				else {
-					callMethod(Common.WORKSPACE_INSTANCE, "moveToScreen", 0, true);
+					callMethod(Common.WORKSPACE_INSTANCE, Methods.wSnapToPage, 0);
 				}
 			}
 		}
-		else if (overscroll < -50.0 && isPageMoving) {
+		else if (overscroll < -50.0) {
 			if (PreferencesHelper.continuousScrollWithAppDrawer) {
-				callMethod(getObjectField(param.thisObject, "mLauncher"), "showAllApps", true, Common.CONTENT_TYPE, !PreferencesHelper.appdrawerRememberLastPosition);
+				//callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherShowAllApps, true, Common.CONTENT_TYPE, !PreferencesHelper.appdrawerRememberLastPosition);
+				callMethod(Common.LAUNCHER_INSTANCE, "onClickAllAppsButton", new View(Common.LAUNCHER_CONTEXT));
 				
 				int lastPage = (Integer) callMethod(Common.APP_DRAWER_INSTANCE, "getChildCount") - 1;
-				callMethod(Common.APP_DRAWER_INSTANCE, "setCurrentPage", lastPage);
+				callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSetCurrentPage, lastPage);
 				Common.OVERSCROLLED = true;
 			}
 			else {
 				int lastPage = (Integer) callMethod(Common.WORKSPACE_INSTANCE, "getChildCount") - 1;
-				callMethod(Common.WORKSPACE_INSTANCE, "moveToScreen", lastPage, true);
+				callMethod(Common.WORKSPACE_INSTANCE, Methods.wSnapToPage, lastPage);
 			}
 		}
 	}

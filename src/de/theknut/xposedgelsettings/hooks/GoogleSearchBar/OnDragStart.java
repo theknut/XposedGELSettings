@@ -2,9 +2,12 @@ package de.theknut.xposedgelsettings.hooks.googlesearchbar;
 
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setBooleanField;
+
 import android.view.View;
+
 import de.robv.android.xposed.XC_MethodHook;
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 
 public final class OnDragStart extends XC_MethodHook {
 	
@@ -15,11 +18,11 @@ public final class OnDragStart extends XC_MethodHook {
 	protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 		
 		// make the search bar invisible
-		View qsb = (View) getObjectField(param.thisObject, "mQSBSearchBar");
+		View qsb = (View) getObjectField(param.thisObject, Fields.sdtbQsbBar);
 		qsb.setAlpha(0f);
 		
 		// set the search bar to hidden
-		setBooleanField(param.thisObject, "mIsSearchBarHidden", true);
+		setBooleanField(param.thisObject, Fields.sdtbIsSearchBarHidden, true);
 	}
 	
 	@Override

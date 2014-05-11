@@ -5,6 +5,7 @@ import static de.robv.android.xposed.XposedHelpers.setObjectField;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import de.robv.android.xposed.XC_MethodHook;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 
 public class OnAttachedToWindowHook extends XC_MethodHook {
 	
@@ -14,7 +15,7 @@ public class OnAttachedToWindowHook extends XC_MethodHook {
 	@Override
 	protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 		
-		ViewGroup pageIndicator = ((ViewGroup)getObjectField(param.thisObject, "mPageIndicator"));
+		ViewGroup pageIndicator = ((ViewGroup)getObjectField(param.thisObject, Fields.pvPageIndicator));
 		
 		if (pageIndicator != null) {
 			LayoutParams lp = pageIndicator.getLayoutParams();
@@ -22,7 +23,7 @@ public class OnAttachedToWindowHook extends XC_MethodHook {
 			lp.width = 0;
 			pageIndicator.setLayoutParams(lp);
 			
-			setObjectField(param.thisObject, "mPageIndicator", pageIndicator);
+			setObjectField(param.thisObject, Fields.pvPageIndicator, pageIndicator);
 		}
 	}
 }

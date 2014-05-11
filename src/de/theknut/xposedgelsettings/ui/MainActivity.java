@@ -30,10 +30,12 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnKeyListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -73,6 +75,29 @@ public class MainActivity extends InAppPurchase {
         // set up the drawer's list view with items and click listener
         mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mFragmentTitles));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+        mDrawerLayout.setOnKeyListener(new OnKeyListener() {
+			
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				
+				if (event.getRepeatCount() != 0) return false;
+				
+				if (!mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
+					
+					if ((keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_MENU)) {
+						mDrawerLayout.openDrawer(Gravity.LEFT);
+						return true;					
+					}
+				} else {
+					if (keyCode == KeyEvent.KEYCODE_BACK) {
+						MainActivity.this.finish();
+						return true;
+					}
+				}
+				
+				return false;
+			}
+		});
 
         // enable ActionBar app icon to behave as action to toggle nav drawer
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -101,9 +126,17 @@ public class MainActivity extends InAppPurchase {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         
         CommonUI.AUTO_BLUR_IMAGE = CommonUI.CONTEXT.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).getBoolean("autoblurimage", false);
-
+        
         if (savedInstanceState == null) {
-            selectItem(0);
+        	
+        	Intent i = getIntent();
+        	if (i != null && i.hasExtra("fragment")) {
+        		if (i.getStringExtra("fragment").equals("badges")) {
+        			selectItem(6);
+        		}
+        	} else {
+        		selectItem(0);
+        	}
         }
     }
     
@@ -200,7 +233,10 @@ public class MainActivity extends InAppPurchase {
 	        	break;
 	        // !!!! don't forget to change onActivityResult, too !!!!
 	        case 10:
-	        	mCurrFragment = new FragmentDonate();
+	        	mCurrFragment = new FragmentPremium();
+	        	break;
+	        case 11:
+	        	mCurrFragment = new FragmentReverseEngineering();
 	        	break;
         }
         

@@ -1,18 +1,15 @@
 package de.theknut.xposedgelsettings.hooks;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
-import android.R;
-import android.content.res.XModuleResources;
-import de.robv.android.xposed.IXposedHookInitPackageResources;
 import de.robv.android.xposed.IXposedHookLoadPackage;
-import de.robv.android.xposed.IXposedHookZygoteInit;
-import de.robv.android.xposed.IXposedHookZygoteInit.StartupParam;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
-import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.appdrawer.AppDrawerHooks;
 import de.theknut.xposedgelsettings.hooks.general.GeneralHooks;
 import de.theknut.xposedgelsettings.hooks.gestures.GestureHooks;
@@ -23,8 +20,6 @@ import de.theknut.xposedgelsettings.hooks.pagindicator.PageIndicatorHooks;
 import de.theknut.xposedgelsettings.hooks.systemui.SystemUIReceiver;
 
 public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage {
-	
-	private static String MODULE_PATH = null;
 	
 	@Override
 	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
@@ -59,11 +54,15 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
 		if (PreferencesHelper.Debug) XposedBridge.log("GELSettings.handleLoadPackage: hooked package -> " + lpparam.packageName);
 		
 		if (Common.HOOKED_PACKAGE.contains("com.android.launcher2")) {
-			Common.initClassNames("launcher2");
+			ObfuscationHelper.initClassNames("launcher2");
 		}
 		else {
-			Common.initClassNames("launcher3");
+			ObfuscationHelper.initClassNames("launcher3");
 		}
+		
+		Classes.hookAllClasses(lpparam);
+		Methods.initMethodNames();
+		Fields.initFieldNames();
 		
 		// all hooks to modify...
 		GeneralHooks.initAllHooks(lpparam);
@@ -74,13 +73,4 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
 		GestureHooks.initAllHooks(lpparam);
 		NotificationBadgesHooks.initAllHooks(lpparam);
 	}
-//	
-//	@Override
-//    public void handleInitPackageResources(InitPackageResourcesParam resparam) throws Throwable {
-//        if (!resparam.packageName.equals("com.android.systemui"))
-//            return;
-//
-//        XModuleResources modRes = XModuleResources.createInstance(MODULE_PATH, resparam.res);
-//        resparam.res.setReplacement("com.android.launcher3", "layout", "folder_icon", modRes.fwd(R.id.f));
-//    }
 }

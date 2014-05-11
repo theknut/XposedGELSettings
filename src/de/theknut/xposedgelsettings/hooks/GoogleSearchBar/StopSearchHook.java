@@ -4,6 +4,7 @@ import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
 import de.robv.android.xposed.XC_MethodHook;
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 
 public class StopSearchHook extends XC_MethodHook {
 	
@@ -15,7 +16,7 @@ public class StopSearchHook extends XC_MethodHook {
 		
 		boolean hasGNowEnabled = (Boolean) callMethod(Common.LAUNCHER_INSTANCE, "hasCustomContentToLeft");
 		
-		if ((hasGNowEnabled && getIntField(Common.WORKSPACE_INSTANCE, "mCurrentPage") != 0)
+		if ((hasGNowEnabled && getIntField(Common.WORKSPACE_INSTANCE, Fields.workspaceCurrentPage) != 0)
 			|| !hasGNowEnabled) {
 			
 			// hide the search bar on stop search

@@ -14,11 +14,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
+import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 
-public final class AddViewToCellLayoutHook extends XC_MethodHook {
+public final class AddViewToCellLayoutHook extends HooksBaseClass {
 	
 	// public boolean addViewToCellLayout(View child, int index, int childId, LayoutParams params, boolean markCells)
 	// http://androidxref.com/4.4.2_r1/xref/packages/apps/Launcher3/src/com/android/launcher3/CellLayout.java#604
@@ -32,50 +34,64 @@ public final class AddViewToCellLayoutHook extends XC_MethodHook {
 	@Override
 	protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 		
-		if (param.args[0].getClass().getName().contains("BubbleTextView")) {
+		if (param.args[0].getClass().getName().contains(Fields.bubbleTextView)) {
 			
 			// apps in folders don't have a shadow so we can filter that for future customization
-			if (!getBooleanField(param.args[0], "mShadowsEnabled")) {
+			if (!getBooleanField(param.args[0], Fields.btvShadowsEnabled)) {
 				if (PreferencesHelper.homescreenFolderSwitch) {
 					callMethod(param.args[0], "setTextColor", newFolderAppLabelColor);
 				}
 			} else {
 				if (PreferencesHelper.iconSettingsSwitchHome) {
-					callMethod(param.args[0], "setShadowsEnabled", PreferencesHelper.homescreenIconLabelShadow);
+					if (Common.PACKAGE_OBFUSCATED) {
+						if (!PreferencesHelper.homescreenIconLabelShadow) {
+							callMethod(param.args[0], Methods.btvSetShadowsEnabled, PreferencesHelper.homescreenIconLabelShadow);
+						}
+					} else {
+						callMethod(param.args[0], Methods.btvSetShadowsEnabled, PreferencesHelper.homescreenIconLabelShadow);
+					}
+					
 					callMethod(param.args[0], "setTextColor", newAppLabelColor);
 				}
 			}
 			
 			if (PreferencesHelper.iconSettingsSwitchHome && PreferencesHelper.hideIconLabelHome) {
-				callMethod(param.args[0], "setShadowsEnabled", false);
+				callMethod(param.args[0], Methods.btvSetShadowsEnabled, false);
 				callMethod(param.args[0], "setTextColor", Color.argb(0, 0, 0, 0));
 			}
 			
-		} else if (param.args[0].getClass().getName().contains("FolderIcon")) {
-			Object folderName = getObjectField(param.args[0], "mFolderName");
+		} else if (param.args[0].getClass().getName().contains(Fields.fiFolderIcon)) {
+			Object folderName = getObjectField(param.args[0], Fields.fiFolderName);
 			
 			if (PreferencesHelper.iconSettingsSwitchHome) {
-				callMethod(folderName, "setShadowsEnabled", PreferencesHelper.homescreenIconLabelShadow);
+				if (Common.PACKAGE_OBFUSCATED) {
+					if (!PreferencesHelper.homescreenIconLabelShadow) {
+						callMethod(folderName, Methods.btvSetShadowsEnabled, PreferencesHelper.homescreenIconLabelShadow);
+					}
+				} else {
+					callMethod(folderName, Methods.btvSetShadowsEnabled, PreferencesHelper.homescreenIconLabelShadow);
+				}
+				
 				callMethod(folderName, "setTextColor", newAppLabelColor);
 				
 				if (PreferencesHelper.hideIconLabelHome) {
-					callMethod(folderName, "setShadowsEnabled", false);
+					callMethod(folderName, Methods.btvSetShadowsEnabled, false);
 					callMethod(folderName, "setTextColor", Color.TRANSPARENT);
 				}
 			}
 			
 			if (PreferencesHelper.homescreenFolderSwitch) {
-				Object mFolder = getObjectField(param.args[0], "mFolder");
+				Object mFolder = getObjectField(param.args[0], Fields.fiFolder);
 				
 				LinearLayout ll = (LinearLayout) mFolder;
 				Drawable d = ll.getBackground();
 				d.setColorFilter(newFolderBackgroundColor, Mode.MULTIPLY);
 				ll.setBackground(d);
-				
-				EditText mFolderName = (EditText) getObjectField(mFolder, "mFolderName");
+
+				EditText mFolderName = (EditText) getObjectField(mFolder, Fields.fiFolderEditText);
 				mFolderName.setTextColor(newFolderNameColor);
 				
-				ImageView prevBackground = (ImageView) getObjectField(param.args[0], "mPreviewBackground");
+				ImageView prevBackground = (ImageView) getObjectField(param.args[0], Fields.fiPreviewBackground);
 				prevBackground.setVisibility(View.VISIBLE);
 				Drawable i = prevBackground.getDrawable();
 				i.setColorFilter(newFolderPreviewBackgroundColor, Mode.MULTIPLY);

@@ -116,7 +116,7 @@
   <string name="toast_backup_failed">Так… это не работает :-S</string>
   <string name="pref_cat_backuprestore_homescreen_title">Настройки рабочего стола</string>
   <string name="pref_backuprestore_note_title">Заметка</string>
-  <string name="pref_backuprestore_note_summary">Это только резервирует ваши ярлыки и папки... Виджеты резервированию не поддаются..</string>
+  <string name="pref_backuprestore_note_summary">Это только резервирует ваши ярлыки и папки... Виджеты резервированию не поддаются...</string>
   <string name="pref_backup_homescreen_title">Бэкап</string>
   <string name="pref_backup_homescreen_summary">"Резервирование ярлыков и папок в 
 /sdcard/XposedGELSettings"</string>
@@ -163,6 +163,7 @@
   <string name="pref_folder_background_color">Фоновый цвет</string>
   <string name="pref_folder_applabel_color">Цвет подписи значков</string>
   <string name="pref_folder_namelabel_color">Цвет названия папки</string>
+  <string name="pref_folder_preview_color">Цвет предпросмотра папки</string>
   <string name="pref_choose_gesture_action_title">Выберите действие жеста</string>
   <string name="pref_switch_gesture_appdrawer_summary">"Свайп вниз -  закрыть меню приложений
 Свайп вверх - переключиться между приложениями и виджетами"</string>
@@ -227,11 +228,12 @@
     <item>Домашний экран</item>
     <item>Меню приложений</item>
     <item>Жесты</item>
-    <item>Missed It!</item>
+    <item>Notification Badges (Beta)</item>
     <item>Твики System UI</item>
     <item>Им-/Экспорт</item>
     <item>Настройки</item>
     <item>Premium/Поддержка</item>
+    <item>Reverse Engineering</item> <!-- NEW -->
   </string-array>
   <string-array name="gesture_actions_entries">
     <item>Ничего</item>

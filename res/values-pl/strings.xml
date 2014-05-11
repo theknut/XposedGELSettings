@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Xposed GEL Settings</string>
+    <string name="pref_hide_google_search_bar_title">Ukryj</string>
+    <string name="pref_autohide_google_search_bar_title">Ukryj automatycznie</string>
+    <string name="pref_autohide_google_search_bar_summary">Pokaż tylko na stronie Google Now</string>
+    <string name="pref_hide_icon_label_on_homescreen_title">Ukryj etykiety ikon</string>
+    <string name="pref_hide_icon_label_on_app_drawer_title">Ukryj etykiety ikon</string>
+    <string name="toast_reboot">Zrestartuj launcher aby zobaczyć zmiany</string>
+    <string name="toast_reboot_failed_nothing_msg">Nic</string>
+    <string name="toast_reboot_failed">Zrestartuj swoje urządzenie</string>
+    <string name="toast_export">Eksport</string>
+    <string name="toast_import">Import</string>
+    <string name="toast_reset">Ustawienia zresetowane</string>
+    <string name="toast_export_failed">Eksport nieudany</string>
+    <string name="toast_import_failed">Import nieudany</string>
+    <string name="toast_reset_failed">Reset nieudany</string>
+    <string name="pref_cat_title_icon_labels">Etykiety ikon</string>
+    <string name="pref_cat_title_searchbar">Pasek wyszukiwania Google</string>
+    <string name="pref_cat_title_general">Główne</string>
+    <string name="pref_cat_title_hide_apps">Ukryj aplikację</string>
+    <string name="pref_grid_size_explain_title">Uwaga</string>
+    <string name="pref_grid_size_explain_summary">Uważaj, zmieniając rozmiary ikon, możesz zaburzyć ich układ</string>
+    <string name="pref_switch_enable_grid_size_title">Włącz</string>
+    <string name="pref_switch_enable_grid_size_summary">Zmień rozmiar siatki</string>
+    <string name="pref_resize_all_widgets_title">Zmiana rozmiaru widżetu</string>
+    <string name="pref_resize_all_widgets_summary">Zezwól na zmianę rozmiaru wszystkich widżetów</string>
+    <string name="pref_xcount_title">Kolumny pulpitu</string>
+    <string name="pref_xcount_summary">Modyfikuj liczbę kolumn pulpitu</string>
+    <string name="pref_ycount_title">Wiersze pulpitu</string>
+    <string name="pref_ycount_summary">Modyfikuj liczbę wierszy pulpitu</string>
+    <string name="pref_xcountallapps_title">Kolumny szuflady aplikacji</string>
+    <string name="pref_xcountallapps_summary"> Modyfikuj liczbę kolumn w szufladzie aplikacji</string>
+    <string name="pref_ycountallapps_title">Wiersze szuflady aplikacji</string>
+    <string name="pref_ycountallapps_summary">Modyfikuj liczbę wierszy w szufladzie aplikacji</string>
+    <string name="pref_cat_title_homescreen">Pulpit</string>
+    <string name="pref_title_longpress_app_drawer_button">Ikona szuflady aplikacji</string>
+    <string name="pref_summary_longpress_app_drawer_button">Uruchom XGELS przytrzymując dłużej</string>
+    <string name="pref_cat_title_appicons">Ustawienia ikon</string>
+    <string name="pref_switch_appicons_title">Włącz</string>
+    <string name="pref_switch_appicons_explain_summary">Zezwól na zmiany ikon</string>
+    <string name="pref_iconsize_title">Wielkość ikon</string>
+    <string name="pref_iconsize_summary">Wybierz wartość procentową</string>
+    <string name="pref_icontextsize_title">Wielkość tekstu ikon</string>
+    <string name="pref_icontextsize_summary">Wybierz wartość procentową</string>
+    <string name="pref_icontextcolor_homescreen_title">Kolor tekstu pulpitu</string>
+    <string name="pref_icontextcolor_appdrawer_title">Kolor tekstu szuflady aplikacji</string>
+    <string name="pref_appdockiconsize_title">Wielkość ikon w docku</string>
+    <string name="pref_appdockiconsize_summary">Wybierz wartość procentową</string>
+    <string name="pref_cat_title_app_drawer">Szuflada aplikacji</string>
+    <string name="pref_appdock_count_title">Liczba ikon</string>
+    <string name="pref_appdock_count_summary">Zmień liczbę ikon w docku</string>
+    <string name="pref_selectappstohide_summary">Wybierz aplikacje do ukrycia</string>
+    <string name="pref_cat_title_restart_launcher">Zrestartuj Google Now</string>
+    <string name="pref_restart_launcher_summary">Kliknij aby zrestartować launcher i użyć nowych ustawień</string>
+    <string name="pref_donate_title">Podoba Ci się ten moduł? W takim razie wesprzyj mnie!</string>
+    <string name="pref_donate_summary">XGELS jest darmowy i taki pozostanie na zawsze, ale jeśli naprawdę Ci się podoba wesprzyj mnie. Dzięki!</string>
+    <string name="pref_support_thread_title">Potrzebujesz pomocy?</string>
+    <string name="pref_support_thread_summary">Kliknij aby otworzyć wątek pomocy</string>
+    <string name="pref_cat_eximport_settings">Import/eksport ustawień</string>
+    <string name="pref_settings_import_title">Import</string>
+    <string name="pref_settings_import_summary">Importuj swoje ustawienia z\n/sdcard/XposedGELSettings</string>
+    <string name="pref_settings_export_title">Eksport</string>
+    <string name="pref_settings_export_summary">Eksportuj swoje ustawienia do\n/sdcard/XposedGELSettings</string>
+    <string name="pref_settings_reset_title">Resetuj</string>
+    <string name="pref_settings_reset_summary">Resetuj ustawienia</string>
+    <string name="pref_pageindicator_title">Wskaźnik stron</string>
+    <string name="pref_pageindicator_summary">Ukryj wskaźnik stron</string>
+    <string name="pref_default_homescreen_title">Domyślny pulpit</string>
+    <string name="pref_default_homescreen_summary">Wybierz domyślny pulpit</string>
+    <string name="pref_enable_rotation_title">Rotacja</string>
+    <string name="pref_enable_rotation_summary">Zezwól na rotację\n(Konieczne ponowne uruchomienie urządzenia)</string>
+    <string name="pref_icon_label_color">Kolor tekstu</string>
+    <string name="pref_switch_icon_shadow_title">Cienie tekstu</string>
+    <string name="pref_app_drawer_background_color_title">Kolor tła</string>
+    <string name="pref_app_drawer_background_color_summary">Tip: ustaw całkowicie przezroczyste tło!</string>
+    <string name="colorpicker_apply">Użyj</string>
+    <string name="colorpicker_hex_hint">Własny kolor</string>
+    <string name="restart_launcher_icon_title">Zrestartuj launcher</string>
+    <string name="pref_disable_wallpaper_scroll_title">Przewijanie tapety</string>
+    <string name="pref_disable_wallpaper_scroll_summary">Wyłącz przewijanie tapety</string>
+    <!-- V1.3 -->
+    <string name="toast_desktop_locked">Blokada pulpitu</string>
+    <string name="toast_fail">Błąd\nSprawdź log!</string>
+    <string name="pref_switch_hideappdock_title">Ukryj aplikacje w docku</string>
+    <string name="pref_switch_hideappdock_summary">Przesuń w górę by zobaczyć</string>
+    <string name="pref_lock_desktop_title">Zablokuj pulpit</string>
+    <string name="pref_lock_desktop_summary">Zapobiegnij przypadkowym zmianom blokując pulpit</string>
+    <string name="pref_continuous_scroll_title">Nieskończone przewijanie</string>
+    <string name="pref_continuous_scroll_summary">Powróć do pierwszej strony po dotarciu na koniec</string>
+    <string name="pref_continuous_scroll_with_app_drawer_title">Zastosuj także dla szuflady aplikacji</string>
+    <string name="pref_continuous_scroll_with_app_drawer_summary">Zezwól na nieskończone przewijanie szuflady aplikacji</string>
+    <string name="pref_switch_close_app_drawer_after_app_started_title">Zamknij szufladę aplikacji</string>
+    <string name="pref_switch_close_app_drawer_after_app_started_summary">Zmaknij szufladę aplikacji po uruchomieniu jakiejkolwiek aplikacji</string>
+    <string name="pref_appdock_background_color_title">Kolor tła</string>
+    <string name="pref_appdock_background_color_summary">Wybierz kolor tła dla docka</string>
+    <string name="pref_cat_gestures">Gesty</string>
+    <string name="pref_switch_gesture_swipe_down_left_title">Przesuń w dół z lewej</string>
+    <string name="pref_switch_gesture_swipe_down_left_summary">Otwórz panel powiadomień</string>
+    <string name="pref_switch_gesture_swipe_down_right_title">Przesuń w dół z prawej</string>
+    <string name="pref_switch_gesture_swipe_down_right_summary">Otwórz penel szybkich ustawień</string>
+    <string name="pref_switch_gesture_swipe_up_appdock_title">App dock</string>
+    <string name="pref_switch_gesture_swipe_up_appdock_summary">Pokaż - przesuń w górę / Ukryj - przesuń w dół\'</string>
+    <string name="pref_switch_gesture_swipe_up_app_drawer_title">Szuflada aplikacji</string>
+    <string name="pref_switch_gesture_swipe_up_app_drawer_summary">Otwórz szufladę aplikacji przesuwając w górę</string>
+    <string name="pref_gestures_note_title">Uwaga</string>
+    <string name="pref_gestures_note_summary">Gesty potrzebują trochę czasu aby się uruchomić</string>
+    <!-- V1.4 -->
+    <string name="pref_switch_no_all_apps_button_title">Ikona szuflady aplikacji</string>
+    <string name="pref_switch_no_all_apps_button_summary">Ukryj ikonę szuflady aplikacji. Pamiętaj by usunąć ikony przed wyłączeniem tej opcji!</string>    
+    <string name="drawer_open">Otwórz navigation drawer</string>
+    <string name="drawer_close">Zamknij navigation drawer</string>
+    <string name="pref_systemui_explain_title">Uwaga</string>
+    <string name="pref_systemui_explain_summary">Wszystkie te ustawienia potrzebują ponownego uruchomienia urządzenia, aby mogły zostać włączone, dodatkowo mogą one nie działać z Twoim ROMem.</string>
+    <string name="pref_cat_systemui_navbar_title">Belka nawigacyjna</string>
+    <string name="pref_cat_systemui_statusbar_title">Belka statusu</string>
+    <string name="pref_dynamic_backbutton_title">Przycisk wstecz</string>
+    <string name="pref_dynamic_backbutton_summary">Aktywuj przycisk uśpienia na pulpicie</string>
+    <string name="pref_dynamic_homebutton_title">Przycisk home</string>
+    <string name="pref_dynamic_homebutton_summary">Aktywuj przycisk szuflady aplikacji na pulpicie</string>
+    <string name="pref_dynamic_hideclock_title">Ukryj zegar</string>
+    <string name="pref_dynamic_hideclock_summary">Ukryj zegar na pulpicie</string> 
+    <string name="toast_restore_success">Przywrócenie ustawień pulpitu udane</string>
+    <string name="toast_restore_failed">Beh&#8230; nie działa\' :-S</string>
+    <string name="toast_backup_success">Backup ustawień pulpitu idany</string>
+    <string name="toast_backup_failed">Beh&#8230; nie działa\' :-S</string>
+    <string name="pref_cat_backuprestore_homescreen_title">Layout pultpitu</string>
+    <string name="pref_backuprestore_note_title">Uwaga</string>
+    <string name="pref_backuprestore_note_summary">Backup dotyczy tylko ikon i folderów. Ustawienia widżetów zostaną utracone! (Wymagany root)</string>
+    <string name="pref_backup_homescreen_title">Backup</string>
+    <string name="pref_backup_homescreen_summary">Backup wyglądu (ikony i foldery) do \n/sdcard/XposedGELSettings</string>
+    <string name="pref_restore_homescreen_title">Przywracanie</string>
+    <string name="pref_restore_homescreen_summary">Przywracanie wyglądu (ikony i foldery) z\n/sdcard/XposedGELSettings</string>
+    <string name="pref_animate_dynamic_homebutton_title">Animuj zmiany ikon</string>
+    <string name="pref_animate_dynamic_homebutton_summary">Szybka animacja zmiany</string>
+    <string name="pref_change_dynamic_homebutton_title">Dynamiczny przycisk home</string>
+    <string name="pref_change_dynamic_homebutton_summary">Zmień ikonę home na pulpicie domyślnym</string>
+    <string name="pref_animate_dynamic_backbutton_title">Animuj zmiany ikon</string>
+    <string name="pref_animate_dynamic_backbutton_summary">Szybka animacja zmiany</string>
+    <string name="pref_change_dynamic_backbutton_title">Dynamiczny przycisk wstecz</string>
+    <string name="pref_change_dynamic_backbutton_summary">Zmień ikonę wstecz na pulpicie domyślnym</string>
+    <string name="toast_full_reboot">Aby zatwierdzić te zmiany uruchom ponownie swoje urządzenie!</string>
+    <string name="pref_switch_gesture_swipe_down_close_app_drawer_title">App drawer</string>
+    <string name="pref_switch_gesture_swipe_down_close_app_drawer_summary">Przesuń w dół aby zamknąć szufladę aplikacji</string>
+    <string name="toast_getprices_fail">Wystąpił błąd w ładowaniu cen. Proszę sprawdzić log!</string>
+    <string name="toast_donation_result_fail">Wystąpił błąd. Powinieneś zrestartować XGEL. Proszę sprawdzić log!</string>
+    <string name="toast_donate_thanks">Jesteś fantastyczny! Przybij piątkę ;)!</string>
+    <string name="pref_xgel_group_summary">Kliknij aby dołaczyć do darczyńców XGEL! Dodaj e-mail powiązany z google plus tak, abym mógł dodać Cię do grupy prywatnej.</string>
+    <string name="pref_requires_donation_title">Nie dostępne</string>
+    <string name="pref_requires_donation_summary">Te ustawienia są dostępne tylko jeśli mnie wsparłeś.</string>
+    <string name="alert_reboot_needed_title">Niezbędnie ponowne uruchomienie!</string>
+    <string name="alert_reboot_needed_summary">Dokonałeś zmian, które wymagają restartu, wybierz jakiego typu!</string>
+    <string name="progress_requesting_root_title">Czekaj&#8230;</string>
+    <string name="progress_requesting_root_summary">Potrzebuję uprawnień roota&#8230;</string>
+    <string name="pref_auto_blur_wallpaper_title">Dynamiczne tło</string>
+    <string name="pref_auto_blur_wallpaper_summary">Rozmaż tapetę za każdym razem kiedy się zminia i używaj jej jako tła XGEL. Może to powodować szybsze zużycie baterii jeśli korzystasz z aplikacji do interwałowych zmian tapety.</string>
+    <string name="pref_dynamic_backbuttononeveryscreen_title">Uśpij na każdym ekranie</string>
+    <string name="pref_dynamic_backbuttononeveryscreen_summary">Usypia urządzenie na każdym ekranie. Jeśli wyłączone, usypia urządzenie tylko na domyślnym ekranie.</string>
+    <!-- V1.5 -->
+    <string name="pref_selectwidgetstohide_summary">Wybierz widżety do ukrycia</string>
+    <string name="pref_workspacerect_title">Marginesy pulpitu</string>
+    <string name="pref_workspacerect_summary">Wybierz wymiary marginesów lewego i prawego na pulpicie</string>
+    <string name="pref_workspacerect_dialog">Wybierz rozmiar</string>
+    <string name="toast_openinstaller_failed">Nie udało mi się uruchomić Xposed, otwórz go samodzielnie!</string>
+    <string name="pref_cat_homescreen_folder_title">Foldery</string>
+    <string name="pref_cat_homescreen_icon_title">Ikony</string>
+    <string name="pref_cat_homescreen_appdock_title">Dock</string>
+    <string name="pref_switch_appdocksettings_title">Włącz</string>
+    <string name="pref_switch_appdocksettings_explain_summary">Zezwól na zmiany w docku</string>
+    <string name="pref_switch_autohideappdock_title">Ukryj automatycznie</string>
+    <string name="pref_switch_autohideappdock_summary">Ukryj automatycznie dock</string>
+    <string name="pref_switch_folder_title">Włącz</string>
+    <string name="pref_switch_folder_summary">Zezwól na zmiany w folderach</string>
+    <string name="pref_folder_background_color">Kolor tła</string>
+    <string name="pref_folder_applabel_color">Kolor tekstu ikon</string>
+    <string name="pref_folder_namelabel_color">Kolor tekstu folderów</string>
+    <string name="pref_folder_preview_color">Kolor tła zamkniętego folderu</string>
+    
+    <string-array name="gesture_actions_entries_limited">
+        <item>Brak</item>
+        <item>Szuflada aplikacji</item>
+        <item>Pokaż dock</item>
+    </string-array>
+    
+    <string name="pref_choose_gesture_action_title">Wybierz gest</string>
+    <string name="pref_switch_gesture_appdrawer_title">Szuflada aplikacji</string>
+    <string name="pref_switch_gesture_appdrawer_summary">Przesuń w dół - zamknij szufladę aplikacji\nPrzesuń w górę - przejdź do widżetów</string>
+    <string name="pref_switch_gesture_double_tap_title">Podwójne stuknięcie</string>
+    <string name="pref_switch_gesture_double_tap_summary">Z wyjątkiem folderów i widżetów</string>
+    <string name="pref_cat_gesture_down_title">Przesuń w dół\'</string>
+    <string name="pref_cat_gesture_up_title">Przesuń w górę\'</string>
+    <string name="pref_gesture_down_left_title">Przesuń w dół z lewej</string>
+    <string name="pref_gesture_down_middle_title">Przesuń w dół po środku</string>
+    <string name="pref_gesture_down_right_title">Przesuń w dół z prawej</string>
+    <string name="pref_gesture_up_left_title">PRzesuń w górę z lewej</string>
+    <string name="pref_gesture_up_middle_title">Przesuń w górę po środku</string>
+    <string name="pref_gesture_up_right_title">Przesuń w górę z prawej</string>
+    <string name="alert_hidedock_summary">Upewnij się, że aktywowałes inną metodę dostepu do szuflady aplikacji, inaczej nie będziesz miał do niej dostępu!</string>
+    <string name="alert_hidewidgets_title">Uwaga</string>
+    <string name="alert_hidewidgets_summary">Możesz ukryć tylko widżety z listy. Nie jest możliwe ukrycie skrótów na tą chwilę.</string>
+    <string name="pref_limited_title">Ograniczenia</string>
+    <!-- V1.6 -->
+    <string name="pref_debug">Włącz raportowanie(dla debugowania)</string>
+    <string name="pref_send_bugreport">Wyślij log</string>
+    <string name="toast_no_log_found">Nie mogłem odnaleźć loga Xposed Installer</string>
+    <string name="alert_debug_logging_activated_title">Logi aktywowane!</string>
+    <string name="alert_debug_logging_activated_summary">Log dla debugowania jest aktywowany. Możesz odtworzyć błąd i mi go wysłać.</string>
+    <string name="alert_debug_logging_not_activated_title">Logi wyłączone!</string>
+    <string name="alert_debug_logging_not_activated_summary">Log dla debugowania jest wyłączony. Upewnij się, że uruchomiłeś ponownie logi, przed odtworzeniem błędu i wysłaniem mi go.</string>
+    <string name="alert_autokill_title">Uwaga</string>
+    <string name="alert_autokill_summary">XGELS zrestartuje automatycznie GNL/Trebuchet, gdy zostaną wprowadzone zmiany. Gdy powrócisz na pulpit zmiany będą już dostępne.</string>
+    <string name="alert_autokill_ok">Zrozumiałem!</string>
+    <string name="alert_autokill_cancel">Ja to zrobię!</string>
+    <string name="alert_autokill_checkbox">Nie pokazuj więcej</string>
+    <string name="pref_autokill_launcher_title">Zrestartuj launcher</string>
+    <string name="pref_autokill_launcher_summary">Automatyczne restartowanie GNL/Trebuchet, gdy zostaną wprowadzone zmiany. Gdy powrócisz na pulpit zmiany będą już dostępne.</string>
+    <string name="pref_notificationbadge_enable_title">Uruchom znaczniki</string>
+    <string name="pref_notificationbadge_backgroundcolor_title">Kolor tła</string>
+    <string name="pref_notificationbadge_textcolor_title">Kolor tekstu</string>
+    <string name="pref_notificationbadge_textsize_title">Rozmiar tekstu</string>
+    <string name="pref_notificationbadge_framecolor_title">Kolor ramki</string>
+    <string name="pref_notificationbadge_framesize_title">Rozmiar ramki</string>
+    <string name="pref_notificationbadge_corner_title">Wygładzenie krawędzi</string>
+    <string name="pref_notificationbadge_presets_title">Konfiguracja</string>
+    <string name="pref_notificationbadge_leftright_padding_title">Wielkość horyzontalna</string>
+    <string name="pref_notificationbadge_topbottom_padding_title">Wielkośc wertykalna</string>
+    <string name="pref_switch_gesture_double_tap_only_on_wallpaper_title">Tylko na tapecie</string>
+    <string name="pref_switch_gesture_double_tap_only_on_wallpaper_summary">Zaznacz, aby pozwolić na podwójne stuknięcie tylko na tapecie. W ten sposób wyeliminujesz opóźnienia w otwieraniu aplikacji.</string>
+    <string name="pref_switch_appdrawer_remember_last_position_title">Pamiętaj pozycję</string>
+    <string name="pref_switch_appdrawer_remember_last_position_summary">Pamiętaj pozycję szuflady aplikacji po jej zamknięciu</string>
+    <string name="alert_xgels_updated_title">XGELS został zaktualizowany!</string>
+    <string name="alert_xgels_updated_summary">Wymagany jest restart, aby XGEL mógł aktywować nowe funkcje. Chcesz to zrobić teraz?</string>
+    <string name="alert_xgels_updated_cancel">Później</string>
+    <string name="alert_launcher_not_installed_title">Obsługiwany launcher nie został znaleziony!</string>
+    <string name="alert_launcher_not_installed_summary">Musisz koniecznie zainstalować GNL lub Trebuchet, gdyż XGEL obsługuje tylko te launchery!</string>
+    <string name="alert_launcher_not_installed_get_gnl">Zainstaluj GNL</string>
+    
+    <string-array name="fragmenttitles_array">
+        <item>Witaj</item>
+        <item>Ogólne</item>
+        <item>Pasek Google Search</item>
+        <item>Pulpit</item>
+        <item>Szuflada aplikacji</item>
+        <item>Gesty</item>
+        <item>Znaczniki powiadomień</item>
+        <item>Modyfikacje System UI</item>
+        <item>Backup/Przywracanie</item>
+        <item>Ustawienia</item>
+        <item>Premium/Support</item>
+    </string-array>
+    
+    <string-array name="gesture_actions_entries">
+        <item>Brak</item>
+        <item>Belka powiadomień</item>
+        <item>Szybkie ustawienia</item>
+        <item>Szyflada aplikacji</item>
+        <item>Pokaż aplikacje w tle</item>
+        <item>Pokaż ostatnią aplikację</item>
+        <item>Ustawienia Android</item>
+        <item>Uśpij</item>
+        <item>Pokaż dock</item>
+        <item>Otwóz aplikację</item>
+    </string-array>
+    
+    <string name="toast_donate_only">Ta funkcja wymaga XGELS Premium!</string>
+    <string name="pref_donate_button">Podaruj i wesprzyj mnie!</string>
+    <string name="pref_donated_button">Dziękuję za zakup!</string>
+    <string name="pref_limited_summary">Niektóre z tych funkcjonalności są dostępne tylko z XGEL Premium.</string>
+    
+</resources>

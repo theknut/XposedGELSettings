@@ -6,6 +6,7 @@ import static de.robv.android.xposed.XposedHelpers.setIntField;
 import de.robv.android.xposed.XC_MethodHook;
 
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 
 public class MoveToDefaultScreenHook extends XC_MethodHook {
@@ -27,7 +28,7 @@ public class MoveToDefaultScreenHook extends XC_MethodHook {
 			param.setResult(null);
 		}
 		else {
-			setIntField(param.thisObject, "mDefaultPage", newDefaultPageNumber);
+			setIntField(param.thisObject, Fields.workspaceDefaultPage, newDefaultPageNumber);
 		}
 	}
 }

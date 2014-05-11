@@ -124,7 +124,8 @@ public class SystemUIReceiver extends HooksBaseClass {
                 		}
                 	}
                 	
-                    @Override
+                    @SuppressLint("SdCardPath")
+					@Override
                     public void onReceive(Context context, Intent intent) {
                     	try {
 	                        if (intent.getAction().equals(Common.XGELS_INTENT) && intent.hasExtra(Common.XGELS_ACTION)) {
@@ -273,7 +274,7 @@ public class SystemUIReceiver extends HooksBaseClass {
 	                            		
 	                        			log("Start saving logcat");
 	                        			
-	                        			String logfilePath = "/mnt/sdcard/XposedGELSettings/logs/logcat.log";
+	                        			String logfilePath = "/mnt/sdcard/XposedGELSettings/logs/logcat_systemui.log";
 	                    				File logfile = new File(logfilePath);
 	                    				
 	                    				if (logfile.exists()) {

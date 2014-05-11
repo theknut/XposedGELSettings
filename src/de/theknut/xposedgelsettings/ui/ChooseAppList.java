@@ -27,7 +27,7 @@ import de.theknut.xposedgelsettings.hooks.Common;
 @SuppressLint("WorldReadableFiles")
 public class ChooseAppList extends ListActivity {
 	
-	String gestureKey;
+	String prefKey;
 	Intent intent;
 	
 	@SuppressLint("NewApi")
@@ -41,7 +41,7 @@ public class ChooseAppList extends ListActivity {
 		
 		// retrieve the preference key so that we can save a app linked with the gesture
 		intent = getIntent();
-		gestureKey = intent.getStringExtra("gesture");
+		prefKey = intent.getStringExtra("prefKey");
 		
 		PackageManager pm = getPackageManager();
 		
@@ -102,9 +102,9 @@ public class ChooseAppList extends ListActivity {
 						
 						SharedPreferences prefs = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
 						SharedPreferences.Editor editor = prefs.edit();
-						editor.remove(gestureKey + "_launch");
+						editor.remove(prefKey + "_launch");
 						editor.apply();
-						editor.putString(gestureKey + "_launch", (String) v.getTag());
+						editor.putString(prefKey + "_launch", (String) v.getTag());
 						editor.apply();
 						
 						setResult(RESULT_OK, intent);

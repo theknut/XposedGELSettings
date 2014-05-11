@@ -1,96 +1,109 @@
 package de.theknut.xposedgelsettings.hooks.appdrawer;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
-import static de.robv.android.xposed.XposedHelpers.findClass;
+import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
+import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
-import static de.robv.android.xposed.XposedHelpers.setIntField;
-import android.content.Intent;
-import android.content.res.Configuration;
-import android.view.ViewGroup;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
-import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
+
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
+import android.view.View;
 
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 
 public class AppDrawerHooks extends HooksBaseClass {
 	
 	public static void initAllHooks(LoadPackageParam lpparam) {
+		
+		// save an instance of the app drawer object
+		XposedBridge.hookAllConstructors(Classes.AppsCustomizePagedView, new AppsCustomizePagedViewConstructorHook());
 			
 		if (PreferencesHelper.iconSettingsSwitchApps) {
 			// changing the appearence of the icons in the app drawer
-			final Class<?> PagedViewIcon = findClass(Common.PAGED_VIEW_ICON, lpparam.classLoader);
-			XposedBridge.hookAllMethods(PagedViewIcon, "applyFromApplicationInfo", new ApplyFromApplicationInfoHook());
+			
+			XposedBridge.hookAllMethods(Classes.PagedViewIcon, Methods.applyFromApplicationInfo, new ApplyFromApplicationInfoHook());
 			
 //			if (!PreferencesHelper.appdrawerIconLabelShadow) {
 //				XposedBridge.hookAllMethods(PagedViewIcon, "draw", new DrawHook());
 //			}
 		}
 		
-		if (PreferencesHelper.changeGridSizeApps) {
-			final Class<?> DeviceProfileClass = findClass(Common.DEVICE_PROFILE, lpparam.classLoader);
-			
+		if (PreferencesHelper.changeGridSizeApps) {			
 			// modify app drawer grid
-			XposedBridge.hookAllMethods(DeviceProfileClass, "updateFromConfiguration", new UpdateFromConfigurationHook());
+			if (Common.PACKAGE_OBFUSCATED) {
+				findAndHookMethod(Classes.DeviceProfile, Methods.dpUpdateFromConfiguration, float.class, Integer.TYPE, Resources.class, DisplayMetrics.class, new UpdateFromConfigurationHook());
+			} else {
+				XposedBridge.hookAllMethods(Classes.DeviceProfile, Methods.dpUpdateFromConfiguration, new UpdateFromConfigurationHook());
+			}
 		}
 		
 		if (Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE)) {
 			// set the background color of the app drawer
-			final Class<?> AppsCustomizeLayoutClass = findClass(Common.APPS_CUSTOMIZE_LAYOUT, lpparam.classLoader);
-			XposedBridge.hookAllConstructors(AppsCustomizeLayoutClass, new AppsCustomizeLayoutConstructorHook());
+			XposedBridge.hookAllConstructors(Classes.AppsCustomizeLayout, new AppsCustomizeLayoutConstructorHook());
 		}
 		else {
 			// set the background color of the app drawer
-			final Class<?> AppsCustomizeTabHostClass = findClass(Common.APPS_CUSTOMIZE_TAB_HOST, lpparam.classLoader);
-			XposedBridge.hookAllMethods(AppsCustomizeTabHostClass, "onTabChangedEnd", new OnTabChangedHook());
+			if (Common.PACKAGE_OBFUSCATED) {
+				findAndHookMethod(Classes.AppsCustomizeTabHost, Methods.acthOnTabChanged, Classes.AppsCustomizeContentType, new OnTabChangedHook());
+			} else {
+				findAndHookMethod(Classes.AppsCustomizeTabHost, Methods.acthOnTabChanged, String.class, new OnTabChangedHook());
+			}
 		}
-		
-		final Class<?> AppsCustomizePagedViewClass = findClass(Common.APPS_CUSTOMIZE_PAGED_VIEW, lpparam.classLoader);
 		
 		if (PreferencesHelper.continuousScroll) {
 			// open app drawer on overscroll of last page
-			XposedBridge.hookAllConstructors(AppsCustomizePagedViewClass, new AppsCustomizePagedViewConstructorHook());
-			XposedBridge.hookAllMethods(AppsCustomizePagedViewClass, "overScroll", new OverScrollAppDrawerHook());
+			findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvOverScroll, float.class, new OverScrollAppDrawerHook());
 		}
 		
 		if (PreferencesHelper.closeAppdrawerAfterAppStarted) {
-			XposedBridge.hookAllMethods(AppsCustomizePagedViewClass, "onClick", new OnClickHook());
+			findAndHookMethod(Classes.AppsCustomizePagedView, "onClick", View.class, new OnClickHook());
 		}
 		
 		if (PreferencesHelper.appdrawerRememberLastPosition) {
 			
-			final Class<?> LauncherClass = findClass(Common.LAUNCHER, lpparam.classLoader);
-			XposedBridge.hookAllMethods(LauncherClass, "hideAppsCustomizeHelper", new XC_MethodHook() {
+			findAndHookMethod(Classes.Workspace, Methods.wOnLauncherTransitionEnd, Classes.Launcher, boolean.class, boolean.class, new XC_MethodHook() {
 				
-				@Override
-				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-					Common.APPDRAWER_LAST_POSITION = (Integer) callMethod(Common.APP_DRAWER_INSTANCE, "getCurrentPage");
-					if (DEBUG) log(param, "AppDrawerHooks: get current position - " + Common.APPDRAWER_LAST_POSITION);
-				}
-			});
-			
-			XposedBridge.hookAllMethods(LauncherClass, "showAllApps", new XC_MethodHook() {
+				int TOWORKSPACE = 2;
 				
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 					
-					int lastPage = (Integer) callMethod(Common.APP_DRAWER_INSTANCE, "getChildCount") - 1;
+					if ((Boolean) param.args[TOWORKSPACE]) {
+						Object acpv = getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizePagedView);
+						Common.APPDRAWER_LAST_POSITION = getIntField(acpv, Fields.acpvCurrentPage);
+						if (DEBUG) log(param, "AppDrawerHooks: get current position - " + Common.APPDRAWER_LAST_POSITION);
+					}
+				}
+			});
+			
+			findAndHookMethod(Classes.Workspace, Methods.wOnTransitionPrepare, new XC_MethodHook() {
+				
+				@Override
+				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+					//if ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lIsAllAppsVisible)) return;
+					Object acpv = getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizePagedView);
+					
+					int lastPage = (Integer) callMethod(acpv, "getChildCount") - 1;
 					if (Common.APPDRAWER_LAST_POSITION > lastPage) {
 						Common.APPDRAWER_LAST_POSITION = lastPage;
 					}
 					
 					if (DEBUG) log(param, "AppDrawerHooks: set to last position " + Common.APPDRAWER_LAST_POSITION);
-					callMethod(Common.APP_DRAWER_INSTANCE, "setCurrentPage", Common.APPDRAWER_LAST_POSITION);
+					callMethod(acpv, Methods.acpvSetCurrentPage, Common.APPDRAWER_LAST_POSITION);
 				}
 			});
 		}
 		
-		final Class<?> AllAppsListClass = findClass(Common.ALL_APPS_LIST, lpparam.classLoader);
 		// hiding apps from the app drawer
-		XposedBridge.hookAllMethods(AllAppsListClass, "add", new AllAppsListAddHook());
+		findAndHookMethod(Classes.AllAppsList, Methods.aalAdd, Classes.AppInfo, new AllAppsListAddHook());
 		
 //		final Class<?> CellLayoutClass = findClass(Common.CELL_LAYOUT, lpparam.classLoader);
 //		XposedBridge.hookAllMethods(CellLayoutClass, "onLayout", new XC_MethodHook() {

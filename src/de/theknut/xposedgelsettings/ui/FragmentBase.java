@@ -63,7 +63,7 @@ public class FragmentBase extends PreferenceFragment {
     
     OnSharedPreferenceChangeListener onChangeListenerKillLauncher = new OnSharedPreferenceChangeListener() {
     	
-    	List<String> keys = Arrays.asList("PREFS_VERSION_KEY", "dontshowkilldialog", "autokilllauncher", "dontshowgoogleplaydialog", "debug");
+    	List<String> keys = Arrays.asList("PREFS_VERSION_KEY", "dontshowkilldialog", "autokilllauncher", "dontshowgoogleplaydialog", "debug", "premiumlistpref");
     	
 		@Override
 		public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {

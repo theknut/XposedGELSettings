@@ -5,14 +5,9 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.preference.PreferenceScreen;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import de.theknut.xposedgelsettings.R;
-import de.theknut.xposedgelsettings.hooks.Common;
 
 @SuppressLint("WorldReadableFiles")
 public class FragmentGestures extends FragmentBase {
@@ -65,7 +59,7 @@ public class FragmentGestures extends FragmentBase {
                     if (((String) newValue).equals("APP")) {
                     	
 	                    Intent intent = new Intent(mContext, ChooseAppList.class);
-	                    intent.putExtra("gesture", preference.getKey());
+	                    intent.putExtra("prefKey", preference.getKey());
 	                    startActivityForResult(intent, 0);
 	                    
                     } else if (((String)newValue).equals("TOGGLE_DOCK")
@@ -74,12 +68,6 @@ public class FragmentGestures extends FragmentBase {
                     	Toast.makeText(mContext, "Double tap to toggle dock is currently not supported :(", Toast.LENGTH_LONG).show();
                     	return false;
                     	
-                    } else {
-                    	
-                    	if (!toastShown) {                 
-                        	Toast.makeText(mContext, R.string.toast_reboot, Toast.LENGTH_LONG).show();
-                        	toastShown = true;
-                        }
                     }
                     
                     pref.setSummary(pref.getEntries()[pref.findIndexOfValue((String) newValue)]);
@@ -89,13 +77,11 @@ public class FragmentGestures extends FragmentBase {
             });
         	
         	if (pref.getValue().equals("APP")) {
-        		pref.setSummary(pref.getEntry() + " - " + getAppName(pref.getKey()));
+        		pref.setSummary(pref.getEntry() + " - " + CommonUI.getAppName(pref.getKey()));
         	} else {
         		pref.setSummary(pref.getEntry());
         	}
         }
-        
-        PreferenceScreen preferenceScreen = getPreferenceScreen();
         
         if (!InAppPurchase.isDonate) {  
         	
@@ -130,7 +116,7 @@ public class FragmentGestures extends FragmentBase {
 			});
         }
         else {
-        	preferenceScreen.removePreference(this.findPreference("needsDonate"));
+        	getPreferenceScreen().removePreference(this.findPreference("needsDonate"));
         }
         
         rootView = CommonUI.setBackground(rootView, R.id.prefbackground);
@@ -143,11 +129,11 @@ public class FragmentGestures extends FragmentBase {
     	
     	if (data == null) return;
     	
-    	String gestureKey = data.getStringExtra("gesture");
+    	String gestureKey = data.getStringExtra("prefKey");
     	
     	if (!gestureKey.equals("")) {
 	    	MyListPreference pref = (MyListPreference) this.findPreference(gestureKey);
-			String newSummary = pref.getSummary() + " - " + getAppName(gestureKey);
+			String newSummary = pref.getSummary() + " - " + CommonUI.getAppName(gestureKey);
 			pref.setSummary(newSummary);
 			
 			if (requestCode == Activity.RESULT_OK) {
@@ -157,20 +143,5 @@ public class FragmentGestures extends FragmentBase {
 	            }
 			}
     	}
-    }
-    
-    @SuppressWarnings("deprecation")
-	private String getAppName(String gestureKey) {
-    	final PackageManager pm = mContext.getPackageManager();
-    	String app = mContext.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).getString(gestureKey + "_launch", "");
-    	
-    	ApplicationInfo ai;
-    	try {
-    	    ai = pm.getApplicationInfo(app, 0);
-    	} catch (final NameNotFoundException e) {
-    	    ai = null;
-    	}
-    	
-    	return (String) (ai != null ? pm.getApplicationLabel(ai) : "(unknown)");
-    }
+    }    
 }

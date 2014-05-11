@@ -78,6 +78,9 @@ public class PreferencesHelper {
 	public static Set<String> hiddenApps = prefs.getStringSet("hiddenapps", new HashSet<String>());
 	public static Set<String> hiddenWidgets = prefs.getStringSet("hiddenwidgets", new HashSet<String>());
 	
+	public static String notificationDialerApp = prefs.getString("notificationbadge_dialer_launch", "");
+	public static String notificationSMSApp = prefs.getString("notificationbadge_sms_launch", "");
+	public static boolean enableBadges = prefs.getBoolean("enablenotificationbadges", false);
 	public static int notificationBadgeFrameSize = Integer.parseInt(prefs.getString("notificationbadgeframesize", "0"));
 	public static int notificationBadgeTextSize = Integer.parseInt(prefs.getString("notificationbadgetextsize", "10"));
 	public static int notificationBadgeCornerRadius = Integer.parseInt(prefs.getString("notificationbadgecornerradius", "5"));
@@ -86,6 +89,4 @@ public class PreferencesHelper {
 	public static int notificationBadgeBackgroundColor = prefs.getInt("notificationbadgebackgroundcolor", Color.argb(0xA0, 0xD4, 0x49, 0x37));
 	public static int notificationBadgeTextColor = prefs.getInt("notificationbadgetextcolor", Color.argb(0xFF, 0xFF, 0xFF, 0xFF));
 	public static int notificationBadgeFrameColor = prefs.getInt("notificationbadgeframecolor", Color.argb(0xFF, 0xFF, 0xFF, 0xFF));
-	
-	public static boolean enableBadges = prefs.getBoolean("enablebadges", false);
 }

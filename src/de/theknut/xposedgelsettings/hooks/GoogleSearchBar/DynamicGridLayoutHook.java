@@ -3,7 +3,10 @@ package de.theknut.xposedgelsettings.hooks.googlesearchbar;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.setObjectField;
 import de.robv.android.xposed.XC_MethodHook;
+
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 
 public final class DynamicGridLayoutHook extends XC_MethodHook {
 	
@@ -12,21 +15,21 @@ public final class DynamicGridLayoutHook extends XC_MethodHook {
 	
 	@Override
 	protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-		// save the instance
-		Common.DEVICE_PROFILE_INSTANCE = param.thisObject;
 		
-		// claim back the search bar space
-		setObjectField(Common.DEVICE_PROFILE_INSTANCE, "searchBarSpaceHeightPx", 0);
+		Common.DEVICE_PROFILE_INSTANCE = param.thisObject;	
 	}
 	
 	@Override
 	protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+		int height = getIntField(Common.DEVICE_PROFILE_INSTANCE, Fields.dpSearchBarSpaceHeightPx);
 		
-		// hide search bar
+		if (height != 0) {
+			Common.SEARCH_BAR_SPACE_HEIGHT = getIntField(Common.DEVICE_PROFILE_INSTANCE, Fields.dpSearchBarSpaceHeightPx);
+			Common.SEARCH_BAR_SPACE_WIDTH = getIntField(Common.DEVICE_PROFILE_INSTANCE, Fields.deviceProfileSearchBarSpaceWidthPx);
+		}
+		
+		// claim back the search bar space
+		setObjectField(Common.DEVICE_PROFILE_INSTANCE, Fields.dpSearchBarSpaceHeightPx, 0);
 		GoogleSearchBarHooks.hideSearchbar();
-		
-		// save height and with of the search bar
-		Common.SEARCH_BAR_SPACE_HEIGHT = getIntField(Common.DEVICE_PROFILE_INSTANCE, "searchBarHeightPx") + 12; // + 2x padding
-		Common.SEARCH_BAR_SPACE_WIDTH = getIntField(Common.DEVICE_PROFILE_INSTANCE, "searchBarSpaceWidthPx");		
 	}
 }

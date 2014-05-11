@@ -76,6 +76,8 @@
         <item>12</item>
         <item>14</item>
         <item>16</item>
+        <item>18</item>
+        <item>20</item>
     </string-array>
     <string-array name="notificationbadge_frame_values">
         <item>0</item>
@@ -93,6 +95,8 @@
         <item>20</item>
         <item>25</item>
         <item>30</item>
+        <item>35</item>
+        <item>40</item>
     </string-array>
     <string-array name="notificationbadge_leftright_padding_values">
         <item>1</item>
@@ -113,16 +117,29 @@
         <item>4</item>
         <item>5</item>
         <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
     </string-array>
     <string-array name="notificationbadge_presets_values">
         <item>0</item>
         <item>1</item>
         <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
     </string-array>
     <string-array name="notificationbadge_presets_entries">
         <item>Custom</item>
         <item>G+ Style</item>
         <item>G+ Style (Semi-Transparent)</item>
+        <item>Magnum Steel</item>
+        <item>Vinyl</item>
+        <item>Black and White</item>
+        <item>Round clean</item>
+        <item>Round glass</item>
     </string-array>
     <string-array name="gesture_actions_values">
         <item>NONE</item>
@@ -141,14 +158,28 @@
         <item>OPEN_APPDRAWER</item>
         <item>TOGGLE_DOCK</item>
     </string-array>
+    <string-array name="premiumArray">
+        <item>a Paulaner beer</item>
+        <item>two German Bratwursts</item>
+        <item>a Schnitzel with fries</item>
+    </string-array>
+    <string-array name="premiumValues">
+        <item>beerdonation</item>
+        <item>bratwurstdonation</item>
+        <item>schnitzeldonation</item>
+    </string-array>
     <string-array name="donationArray">
+        <item>a Pretzel</item>
+        <item>a Pretzel with butter</item>
         <item>a Paulaner beer</item>
         <item>two German Bratwursts</item>
         <item>a Schnitzel with fries</item>
     </string-array>
     <string-array name="donationValues">
-        <item>beerdonation</item>
-        <item>bratwurstdonation</item>
-        <item>schnitzeldonation</item>
+        <item>donationpretzel</item>
+        <item>donationpretzelbutter</item>
+        <item>donationbeer</item>
+        <item>donationbratwurst</item>
+        <item>donationschnitzel</item>
     </string-array>
 </resources>

@@ -3,6 +3,7 @@ package de.theknut.xposedgelsettings.ui;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -24,6 +25,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
@@ -37,6 +39,7 @@ import android.view.WindowManager;
 import android.view.View.MeasureSpec;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
@@ -69,8 +72,8 @@ public class FragmentNotificationBadges extends FragmentBase {
 		
 		@Override
 		public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-			
-			if (key.equals(presetsPreference.getKey())) return;
+			List<String> keys = Arrays.asList(presetsPreference.getKey(), "notificationbadge_dialer_launch", "notificationbadge_dialer");
+			if (keys.contains(key)) return;
 			
 			addIcon();
 			
@@ -108,6 +111,26 @@ public class FragmentNotificationBadges extends FragmentBase {
 						pref.setSummary(pref.getEntries()[pref.findIndexOfValue((String) newValue)]);
 						applyPreset(Color.parseColor("#A5D44937"), Color.WHITE, "10", "0", Color.TRANSPARENT, "5", "5", "2");
 						break;
+					case 3:
+						pref.setSummary(pref.getEntries()[pref.findIndexOfValue((String) newValue)]);
+						applyPreset(Color.parseColor("#404040"), Color.WHITE, "10", "1", Color.parseColor("#8b8b8b"), "30", "5", "2");
+						break;
+					case 4:
+						pref.setSummary(pref.getEntries()[pref.findIndexOfValue((String) newValue)]);
+						applyPreset(Color.parseColor("#404040"), Color.WHITE, "10", "1", Color.parseColor("#a8660c"), "30", "5", "2");
+						break;
+					case 5:
+						pref.setSummary(pref.getEntries()[pref.findIndexOfValue((String) newValue)]);
+						applyPreset(Color.BLACK, Color.WHITE, "10", "2", Color.WHITE, "30", "5", "2");
+						break;
+					case 6:
+						pref.setSummary(pref.getEntries()[pref.findIndexOfValue((String) newValue)]);
+						applyPreset(Color.parseColor("#FFD44937"), Color.WHITE, "10", "1", Color.WHITE, "25", "5", "2");
+						break;
+					case 7:
+						pref.setSummary(pref.getEntries()[pref.findIndexOfValue((String) newValue)]);
+						applyPreset(-1738448543, Color.WHITE, "10", "1", Color.WHITE, "25", "5", "2");
+						break;
 					default:
 						break;
 				}
@@ -133,16 +156,118 @@ public class FragmentNotificationBadges extends FragmentBase {
 			}
 		};
         
-		List<MyListPreference> prefs = new ArrayList<MyListPreference>();
-        prefs.add((MyListPreference) this.findPreference("notificationbadgetextsize"));
-        prefs.add((MyListPreference) this.findPreference("notificationbadgeframesize"));
-        prefs.add((MyListPreference) this.findPreference("notificationbadgecornerradius"));
-        prefs.add((MyListPreference) this.findPreference("notificationbadgeleftrightpadding"));
-        prefs.add((MyListPreference) this.findPreference("notificationbadgetopbottompadding"));
+		List<MyListPreference> listPrefs = new ArrayList<MyListPreference>();
+		listPrefs.add((MyListPreference) this.findPreference("notificationbadgetextsize"));
+		listPrefs.add((MyListPreference) this.findPreference("notificationbadgeframesize"));
+		listPrefs.add((MyListPreference) this.findPreference("notificationbadgecornerradius"));
+		listPrefs.add((MyListPreference) this.findPreference("notificationbadgeleftrightpadding"));
+		listPrefs.add((MyListPreference) this.findPreference("notificationbadgetopbottompadding"));
+		
+        List<ColorPickerPreference> colorPrefs = new ArrayList<ColorPickerPreference>();
+        colorPrefs.add((ColorPickerPreference) this.findPreference("notificationbadgebackgroundcolor"));
+        colorPrefs.add((ColorPickerPreference) this.findPreference("notificationbadgetextcolor"));
+        colorPrefs.add((ColorPickerPreference) this.findPreference("notificationbadgeframecolor"));
         
-        for (MyListPreference pref : prefs) {
-        	pref.setOnPreferenceChangeListener(changeSummary);
-        	pref.setSummary(pref.getValue());
+        final MyPreferenceScreen dialerPref = (MyPreferenceScreen) this.findPreference("notificationbadge_dialer");
+        final MyPreferenceScreen smsPref = (MyPreferenceScreen) this.findPreference("notificationbadge_sms");
+        MyPreferenceScreen misseditPref = (MyPreferenceScreen) this.findPreference("missedit");
+        MyPreferenceScreen advancedMessagePref = (MyPreferenceScreen) this.findPreference("advanced_message");
+        CustomSwitchPreference enablePref = (CustomSwitchPreference) this.findPreference("enablenotificationbadges");
+        
+        if (!InAppPurchase.isDonate) {
+        	List<Preference> prefs = new ArrayList<Preference>();
+        	prefs.addAll(colorPrefs);
+        	prefs.addAll(listPrefs);
+        	
+        	for (Preference pref : prefs) {
+            	pref.setEnabled(false);
+            }
+        	
+        	dialerPref.setEnabled(false);
+        	smsPref.setEnabled(false);
+        	advancedMessagePref.setEnabled(false);
+        	enablePref.setEnabled(false);
+        	this.findPreference("notificationbadgepresets").setEnabled(false);
+    	} else {
+    		getPreferenceScreen().removePreference(this.findPreference("needsDonate"));
+    		
+	        for (MyListPreference pref : listPrefs) {
+	        	pref.setOnPreferenceChangeListener(changeSummary);
+	        	pref.setSummary(pref.getValue());
+	        }
+	        
+	        OnPreferenceClickListener opcl = new OnPreferenceClickListener() {
+				
+				@Override
+				public boolean onPreferenceClick(Preference preference) {
+					
+					CommonUI.restartLauncher(false);
+					
+					Intent intent = new Intent(mContext, ChooseAppList.class);
+                    intent.putExtra("prefKey", preference.getKey());
+                    startActivityForResult(intent, 0);
+					return false;
+				}
+			};
+			
+	        dialerPref.setOnPreferenceClickListener(opcl);
+	        smsPref.setOnPreferenceClickListener(opcl);	        
+	        dialerPref.setSummary(CommonUI.getAppName(dialerPref.getKey()));
+	        smsPref.setSummary(CommonUI.getAppName(smsPref.getKey()));
+	        
+	        advancedMessagePref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+				
+				@SuppressWarnings("deprecation")
+				@Override
+				public boolean onPreferenceClick(Preference preference) {
+					SharedPreferences prefs = mContext.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
+					Editor editor = prefs.edit();
+					editor.remove(dialerPref.getKey() + "_launch").apply();
+					editor.putString(dialerPref.getKey() + "_launch", "").apply();
+					editor.remove(smsPref.getKey() + "_launch").apply();
+					editor.putString(smsPref.getKey() + "_launch", "").apply();
+					
+					return true;
+				}
+			});
+        }
+        
+        final String misseditPackageName = "net.igecelabs.android.MissedIt";
+        if (CommonUI.isPackageInstalled(misseditPackageName, mContext)) {
+        	
+        	misseditPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+				
+				@Override
+				public boolean onPreferenceClick(Preference preference) {
+					try {
+			        	Intent LaunchIntent = getActivity().getPackageManager().getLaunchIntentForPackage(misseditPackageName);
+		        		startActivity(LaunchIntent);
+		        	} catch (Exception e) {
+		        		Toast.makeText(mContext, "Ehm... that didn't work. Please open MissedIt manually :-|", Toast.LENGTH_LONG).show();
+		        	}
+					
+					return true;
+				}
+			});	
+        	
+        	misseditPref.setSummary(R.string.pref_notificationbadge_open_missedit_title);
+        	misseditPref.setSummary(R.string.pref_notificationbadge_open_missedit_summary);
+        } else {
+        	misseditPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+				
+				@Override
+				public boolean onPreferenceClick(Preference preference) {
+					try {
+		        	    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + misseditPackageName)));
+		        	} catch (android.content.ActivityNotFoundException anfe) {
+		        	    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + misseditPackageName)));
+		        	}
+					return true;
+				}
+			});	
+        	
+        	misseditPref.setSummary(R.string.pref_notificationbadge_missedit_missing_title);
+        	misseditPref.setSummary(R.string.pref_notificationbadge_missedit_missing_summary);
         }
         
         rootView = CommonUI.setBackground(rootView, R.id.prefbackground);        
@@ -164,6 +289,19 @@ public class FragmentNotificationBadges extends FragmentBase {
     	getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(updateBadge);
     	
     	super.onPause();
+    }
+    
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	
+    	if (data == null) return;
+    	
+    	String gestureKey = data.getStringExtra("prefKey");
+    	
+    	if (!gestureKey.equals("")) {
+	    	MyPreferenceScreen pref = (MyPreferenceScreen) this.findPreference(gestureKey);
+			pref.setSummary(CommonUI.getAppName(gestureKey));
+    	}
     }
     
     @SuppressLint("SdCardPath")

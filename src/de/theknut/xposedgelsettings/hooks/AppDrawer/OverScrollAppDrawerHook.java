@@ -1,12 +1,11 @@
 package de.theknut.xposedgelsettings.hooks.appdrawer;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
-import static de.robv.android.xposed.XposedHelpers.getBooleanField;
-import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import de.robv.android.xposed.XC_MethodHook;
 
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.googlesearchbar.GoogleSearchBarHooks;
 
 public class OverScrollAppDrawerHook extends XC_MethodHook {
@@ -24,15 +23,15 @@ public class OverScrollAppDrawerHook extends XC_MethodHook {
 				if (Common.OVERSCROLLED) {
 					Common.OVERSCROLLED = false;
 					
-					if (Common.GEL_INSTANCE != null && getBooleanField(Common.GEL_INSTANCE, "mNowEnabled")) {
-						callMethod(Common.WORKSPACE_INSTANCE, "setCurrentPage", 1);
+					if ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherHasCustomContentToLeft)) {
+						callMethod(Common.WORKSPACE_INSTANCE, Methods.wSetCurrentPage, 1);
 					}
 					else {
-						callMethod(Common.WORKSPACE_INSTANCE, "setCurrentPage", 0);
+						callMethod(Common.WORKSPACE_INSTANCE, Methods.wSetCurrentPage, 0);
 					}
 				}
 				else {					
-					callMethod(getObjectField(param.thisObject, "mLauncher"), "showWorkspace", true);
+					callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherShowWorkspace, true, null);
 				}
 			}
 
@@ -40,7 +39,7 @@ public class OverScrollAppDrawerHook extends XC_MethodHook {
 				GoogleSearchBarHooks.hideSearchbar();
 			}
 			
-			callMethod(getObjectField(param.thisObject, "mLauncher"), "showWorkspace", true);
+			callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherShowWorkspace, true, null);
 		}
 		else if (overscroll < -50.0) {
 			
@@ -49,7 +48,7 @@ public class OverScrollAppDrawerHook extends XC_MethodHook {
 					Common.OVERSCROLLED = false;
 					
 					int lastPage = (Integer) callMethod(Common.WORKSPACE_INSTANCE, "getChildCount") - 1;
-					callMethod(Common.WORKSPACE_INSTANCE, "setCurrentPage", lastPage);
+					callMethod(Common.WORKSPACE_INSTANCE, Methods.wSetCurrentPage, lastPage);
 				}
 			}
 			
@@ -57,7 +56,7 @@ public class OverScrollAppDrawerHook extends XC_MethodHook {
 				GoogleSearchBarHooks.hideSearchbar();
 			}
 			
-			callMethod(getObjectField(param.thisObject, "mLauncher"), "showWorkspace", true);			
+			callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherShowWorkspace, true, null);			
 		}
 	}
 }

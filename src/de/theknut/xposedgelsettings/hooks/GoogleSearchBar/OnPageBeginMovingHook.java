@@ -1,8 +1,10 @@
 package de.theknut.xposedgelsettings.hooks.googlesearchbar;
 
-import static de.robv.android.xposed.XposedHelpers.getBooleanField;
+import static de.robv.android.xposed.XposedHelpers.callMethod;
 import de.robv.android.xposed.XC_MethodHook;
+
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 
 public final class OnPageBeginMovingHook extends XC_MethodHook {
 	
@@ -11,13 +13,9 @@ public final class OnPageBeginMovingHook extends XC_MethodHook {
 	
 	@Override
 	protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-		if (	Common.LAUNCHER_INSTANCE == null
-				||	Common.NOW_OVERLAY_INSTANCE == null
-				||	Common.GEL_INSTANCE == null) {
-				return;
-		}
+		if (Common.LAUNCHER_INSTANCE == null) return;
 		
-		if (getBooleanField(Common.GEL_INSTANCE, "mNowEnabled") && !Common.IS_DRAGGING) {
+		if ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherHasCustomContentToLeft) && !Common.IS_DRAGGING) {
 			GoogleSearchBarHooks.hideSearchbar();					
 		}
 	}
