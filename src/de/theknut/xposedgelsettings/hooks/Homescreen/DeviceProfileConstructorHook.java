@@ -1,8 +1,6 @@
 package de.theknut.xposedgelsettings.hooks.homescreen;
 
-import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setIntField;
-import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
 import android.content.Context;
 

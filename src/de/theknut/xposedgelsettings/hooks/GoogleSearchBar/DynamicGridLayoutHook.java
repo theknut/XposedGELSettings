@@ -5,7 +5,6 @@ import static de.robv.android.xposed.XposedHelpers.setObjectField;
 import de.robv.android.xposed.XC_MethodHook;
 
 import de.theknut.xposedgelsettings.hooks.Common;
-import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 
 public final class DynamicGridLayoutHook extends XC_MethodHook {
