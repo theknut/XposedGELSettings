@@ -2,6 +2,7 @@ package de.theknut.xposedgelsettings.hooks.homescreen;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
+
 import android.view.View;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
@@ -25,9 +26,6 @@ public class HomescreenHooks extends HooksBaseClass {
 		
 		// change the default homescreen
 		findAndHookMethod(Classes.Workspace, Methods.workspaceMoveToDefaultScreen, boolean.class, new MoveToDefaultScreenHook());
-		
-		// don't animate background to semitransparent
-		// XposedBridge.hookAllMethods(Classes.Workspace, "animateBackgroundGradient", new AnimateBackgroundGradientHook());
 			
 		// modify homescreen grid
 		XposedBridge.hookAllConstructors(Classes.DeviceProfile, new DeviceProfileConstructorHook());
@@ -68,7 +66,7 @@ public class HomescreenHooks extends HooksBaseClass {
 		else {
 			// move to default homescreen after workspace has finished loading
 			findAndHookMethod(Classes.Launcher, Methods.lFinishBindingItems, boolean.class, new FinishBindingItemsHook());
-		}		
+		}
 		
 		SystemUIHooks.initAllHooks(lpparam);
 	}

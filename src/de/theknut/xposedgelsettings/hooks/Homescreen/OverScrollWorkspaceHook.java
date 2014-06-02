@@ -31,9 +31,8 @@ public class OverScrollWorkspaceHook extends XC_MethodHook {
 		if (overscroll > 50.0) {
 			
 			if (PreferencesHelper.continuousScrollWithAppDrawer) {
-				
-				callMethod(Common.LAUNCHER_INSTANCE, "onClickAllAppsButton", new View(Common.LAUNCHER_CONTEXT));//Methods.launcherShowAllApps, true, Common.CONTENT_TYPE, !PreferencesHelper.appdrawerRememberLastPosition);
 				Common.OVERSCROLLED = true;
+				callMethod(Common.LAUNCHER_INSTANCE, "onClickAllAppsButton", new View(Common.LAUNCHER_CONTEXT));//Methods.launcherShowAllApps, true, Common.CONTENT_TYPE, !PreferencesHelper.appdrawerRememberLastPosition);
 			}
 			else {				
 				if ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherHasCustomContentToLeft)) {
@@ -48,10 +47,11 @@ public class OverScrollWorkspaceHook extends XC_MethodHook {
 			if (PreferencesHelper.continuousScrollWithAppDrawer) {
 				//callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherShowAllApps, true, Common.CONTENT_TYPE, !PreferencesHelper.appdrawerRememberLastPosition);
 				callMethod(Common.LAUNCHER_INSTANCE, "onClickAllAppsButton", new View(Common.LAUNCHER_CONTEXT));
+				Common.OVERSCROLLED = true;
 				
 				int lastPage = (Integer) callMethod(Common.APP_DRAWER_INSTANCE, "getChildCount") - 1;
 				callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSetCurrentPage, lastPage);
-				Common.OVERSCROLLED = true;
+				
 			}
 			else {
 				int lastPage = (Integer) callMethod(Common.WORKSPACE_INSTANCE, "getChildCount") - 1;

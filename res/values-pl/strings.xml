@@ -235,20 +235,6 @@
     <string name="alert_launcher_not_installed_summary">Musisz koniecznie zainstalować GNL lub Trebuchet, gdyż XGEL obsługuje tylko te launchery!</string>
     <string name="alert_launcher_not_installed_get_gnl">Zainstaluj GNL</string>
     
-    <string-array name="fragmenttitles_array">
-        <item>Witaj</item>
-        <item>Ogólne</item>
-        <item>Pasek Google Search</item>
-        <item>Pulpit</item>
-        <item>Szuflada aplikacji</item>
-        <item>Gesty</item>
-        <item>Znaczniki powiadomień</item>
-        <item>Modyfikacje System UI</item>
-        <item>Backup/Przywracanie</item>
-        <item>Ustawienia</item>
-        <item>Premium/Support</item>
-    </string-array>
-    
     <string-array name="gesture_actions_entries">
         <item>Brak</item>
         <item>Belka powiadomień</item>
@@ -267,4 +253,19 @@
     <string name="pref_donated_button">Dziękuję za zakup!</string>
     <string name="pref_limited_summary">Niektóre z tych funkcjonalności są dostępne tylko z XGEL Premium.</string>
     
+    <!-- V1.7 -->
+    <string-array name="fragmenttitles_array">
+        <item>Witaj</item>
+        <item>Ogólne</item>
+        <item>Pasek Google Search</item>
+        <item>Pulpit</item>
+        <item>Szuflada aplikacji</item>
+        <item>Gesty</item>
+        <item>Znaczniki powiadomień</item>
+        <item>Icon</item> <!-- NEW -->
+        <item>Modyfikacje System UI</item>
+        <item>Backup/Przywracanie</item>
+        <item>Ustawienia</item>
+        <item>Premium/Support</item>
+    </string-array>
 </resources>

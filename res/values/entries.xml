@@ -23,10 +23,45 @@
         <item>12</item>
     </string-array>
     <string-array name="appdock_entries">
+        <item>4</item>
         <item>5</item>
+        <item>6</item>
         <item>7</item>
+        <item>8</item>
         <item>9</item>
+        <item>10</item>
         <item>11</item>
+        <item>12</item>
+    </string-array>
+    <string-array name="allappsbuttonposition_entries">
+        <item>Default</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+    <string-array name="allappsbuttonposition_values">
+        <item>-1</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
     </string-array>
     <string-array name="iconsize_entries">
         <item>120</item>
@@ -58,6 +93,8 @@
         <item>10</item>
     </string-array>
     <string-array name="workspacerect">
+        <item>-2</item>
+        <item>-1</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -130,6 +167,20 @@
         <item>5</item>
         <item>6</item>
         <item>7</item>
+    </string-array>
+    <string-array name="general_scroll_devider_entries">
+        <item>Default</item>
+        <item>Medium</item>
+        <item>Fast</item>
+        <item>Vmax</item>
+        <item>No animation</item>
+    </string-array>
+    <string-array name="general_scroll_devider_values">
+        <item>10</item>
+        <item>15</item>
+        <item>22</item>
+        <item>40</item>
+        <item>-1</item>
     </string-array>
     <string-array name="notificationbadge_presets_entries">
         <item>Custom</item>

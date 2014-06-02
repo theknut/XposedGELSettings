@@ -8,4 +8,9 @@
 	    android:title="@string/pref_autohide_google_search_bar_title"
 	    android:dependency="hidesearchbar"
 	    android:summary="@string/pref_autohide_google_search_bar_summary" />
+    <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+	    android:key="searchbarondefaulthomescreen"
+	    android:dependency="hidesearchbar"
+	    android:title="@string/pref_show_google_search_bar_homescreen_title"
+	    android:summary="@string/pref_show_google_search_bar_homescreen_summary" />
 </PreferenceScreen>

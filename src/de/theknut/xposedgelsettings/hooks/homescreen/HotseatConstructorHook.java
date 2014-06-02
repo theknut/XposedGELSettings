@@ -3,6 +3,7 @@ package de.theknut.xposedgelsettings.hooks.homescreen;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import net.margaritov.preference.colorpicker.ColorPickerPreference;
 import android.graphics.Color;
+import android.widget.FrameLayout;
 import de.robv.android.xposed.XC_MethodHook;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 
@@ -15,6 +16,8 @@ public class HotseatConstructorHook extends XC_MethodHook {
 	
 	@Override
 	protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-		callMethod(param.thisObject, "setBackgroundColor", newColor);
+	    
+	    callMethod(param.thisObject, "setBackgroundColor", newColor);
+        ((FrameLayout) param.thisObject).setPadding(0, 0, 0, 0);
 	}
 }

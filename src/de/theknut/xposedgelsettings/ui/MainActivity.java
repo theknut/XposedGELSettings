@@ -92,6 +92,9 @@ public class MainActivity extends InAppPurchase {
 					if (keyCode == KeyEvent.KEYCODE_BACK) {
 						MainActivity.this.finish();
 						return true;
+					} else if (keyCode == KeyEvent.KEYCODE_MENU) {
+					    mDrawerLayout.closeDrawer(Gravity.LEFT);
+					    return true;
 					}
 				}
 				
@@ -138,6 +141,34 @@ public class MainActivity extends InAppPurchase {
         		selectItem(0);
         	}
         }
+        
+//        (new OnTouchListener() {
+//            
+//            float downX;
+//            
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                
+//                switch (event.getAction() & MotionEvent.ACTION_MASK) {
+//                case MotionEvent.ACTION_DOWN:
+//                    downX = event.getRawX();
+//                    
+//                    break;
+//                case MotionEvent.ACTION_MOVE:
+//                    
+//                    if ((event.getRawX() - downX) > 100.0f) {
+//                        MainActivity.openDrawer();
+//                        return true;
+//                    } 
+//                    
+//                    break;
+//                default:
+//                    break;
+//                }
+//                
+//                return false;
+//            }
+//        });
     }
     
     @Override
@@ -155,7 +186,7 @@ public class MainActivity extends InAppPurchase {
 	    
         return super.onCreateOptionsMenu(menu);
     }
-
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
          // The action bar home/up action should open or close the drawer.
@@ -176,6 +207,29 @@ public class MainActivity extends InAppPurchase {
 	    return true;
     }
     
+//    @Override
+//    public void onInterceptTouchEvent(MotionEvent event) {
+//        
+//        switch (event.getAction() & MotionEvent.ACTION_MASK) {
+//            case MotionEvent.ACTION_DOWN:
+//                downX = event.getRawX();
+//                
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//                
+//                if ((event.getRawX() - downX) > 100.0f) {
+//                    mDrawerLayout.openDrawer(Gravity.LEFT);
+//                } 
+//                
+//                break;
+//            default:
+//                break;
+//        }
+//    }
+//            
+//        return super.onTouchEvent(event);
+//    }
+    
     /* The click listner for ListView in the navigation drawer */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
@@ -186,12 +240,12 @@ public class MainActivity extends InAppPurchase {
     
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-    	boolean beforeIsDonate = isDonate;
+    	boolean beforeIsDonate = isPremium;
     	
     	super.onActivityResult(requestCode, resultCode, data);
     	
-    	if (isDonate && !beforeIsDonate) {
-    		selectItem(10);
+    	if (isPremium && !beforeIsDonate) {
+    		selectItem(11);
     	}
     }
 
@@ -223,19 +277,22 @@ public class MainActivity extends InAppPurchase {
 	        	mCurrFragment = new FragmentNotificationBadges();
 	        	break;
 	        case 7:
+                mCurrFragment = new FragmentIcon();
+                break;
+	        case 8:
 	        	mCurrFragment = new FragmentSystemUI();
 	        	break;
-	        case 8:
+	        case 9:
 	        	mCurrFragment = new FragmentBackupRestore();
 	        	break;
-	        case 9:
+	        case 10:
 	        	mCurrFragment = new FragmentSettings();
 	        	break;
 	        // !!!! don't forget to change onActivityResult, too !!!!
-	        case 10:
+	        case 11:
 	        	mCurrFragment = new FragmentPremium();
 	        	break;
-	        case 11:
+	        case 12:
 	        	mCurrFragment = new FragmentReverseEngineering();
 	        	break;
         }
@@ -262,6 +319,10 @@ public class MainActivity extends InAppPurchase {
         	  ((DrawerLayout) mActivity.findViewById(R.id.drawer_layout)).closeDrawer(Gravity.LEFT);
           }
         }, 350);
+    }
+    
+    public static void openDrawer() {
+        ((DrawerLayout) mActivity.findViewById(R.id.drawer_layout)).openDrawer(Gravity.LEFT);
     }
 
     /**

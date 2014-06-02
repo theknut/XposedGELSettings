@@ -3,10 +3,7 @@ package de.theknut.xposedgelsettings.hooks.googlesearchbar;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
@@ -25,14 +22,9 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
 	public static void initAllHooks(LoadPackageParam lpparam) {
 		
 		if (PreferencesHelper.hideSearchBar) {
-			
-			// hide Google Search Bar
-			if (Common.PACKAGE_OBFUSCATED) {
-				findAndHookMethod(Classes.DeviceProfile, Methods.dynamicgridLayout, float.class, Integer.TYPE, Resources.class, DisplayMetrics.class, new DynamicGridLayoutHook());
-				findAndHookMethod(Classes.Launcher, "onCreate", Bundle.class, new LauncherOnCreateHook());
-			} else {				
-				XposedBridge.hookAllMethods(Classes.DeviceProfile, Methods.dynamicgridLayout, new DynamicGridLayoutHook());
-			}
+		    // hide Google Search Bar
+		    findAndHookMethod(Classes.DeviceProfile, Methods.dpGetWorkspacePadding, Integer.TYPE, new GetWorkspacePaddingHook());
+		    findAndHookMethod(Classes.Launcher, "onCreate", Bundle.class, new LauncherOnCreateHook());
 			
 			// only do the following changes if we have the actual GEL launcher with GNow
 			if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE)) {				
@@ -45,15 +37,11 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
 					XposedBridge.hookAllMethods(Classes.PagedView, Methods.pagedviewPageEndMoving, new OnPageEndMovingHook());
 					
 					// show Google Search Bar on GEL sidekick - needed if GNow isn't accessed from the homescreen
-					findAndHookMethod(Classes.NowOverlay, Methods.noOnShow , boolean.class, boolean.class, new OnShowNowOverlayHook());
+					findAndHookMethod(Classes.NowOverlay, Methods.noOnShow, boolean.class, boolean.class, new OnShowNowOverlayHook());
 				}
 				
 				// show when doing a Google search			
-				findAndHookMethod(Classes.SearchOverlayImpl, Methods.soiSetSearchStarted, boolean.class, new StartTextSearchHook());//"startTextSearch", new StartTextSearchHook());				
-				//XposedBridge.hookAllMethods(Classes.SearchOverlayImpl, "stopSearch", new StopSearchHook());
-				
-				// show search plate on hotword detection
-				//XposedBridge.hookAllMethods(Classes.SearchPlate, "enableAndShowSoundLevels", new EnableAndShowSoundLevelsHook());
+				findAndHookMethod(Classes.SearchOverlayImpl, Methods.soiSetSearchStarted, boolean.class, new StartTextSearchHook());
 			}
 			
 			// show DropDeleteTarget on dragging items
@@ -70,39 +58,37 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
 	
 	// method to hide the Google search bar
 	public static void hideSearchbar() {
-		setLayoutParams(0, 0, 0, 0);
+		setLayoutParams(false);
 	}
 	
 	// method to show the Google search bar
 	public static void showSearchbar() {
-		setLayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, Common.SEARCH_BAR_SPACE_WIDTH, Common.SEARCH_BAR_SPACE_HEIGHT);
+		setLayoutParams(true);
 	}
 	
 	// method to show or hide the Google search bar
-	public static void setLayoutParams(int width, int height, int searchBarSpaceWidthPx, int searchBarSpaceHeightPx) {
+	public static void setLayoutParams(boolean show) {
 		
 		if (Common.LAUNCHER_INSTANCE == null) {
-			XposedBridge.log("Couldn't do anything because the launcher instance is null");
+			log("Couldn't do anything because the launcher instance is null");
 			return;
 		}
 		
-		Object launcher = Common.LAUNCHER_INSTANCE;
-		
 		// Layout the search bar space
-		View searchBar = (View) callMethod(launcher, Methods.launcherGetSearchbar);
+		View searchBar = (View) callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherGetSearchbar);
 		FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) searchBar.getLayoutParams();
 		
-	    // horizontal search bar
-		lp.gravity = Gravity.TOP | Gravity.CENTER_HORIZONTAL;
-		lp.width = searchBarSpaceWidthPx;
-		lp.height = searchBarSpaceHeightPx;
+		if (Common.SEARCH_BAR_SPACE_HEIGHT == -1 && lp.height != 0) {
+			Common.SEARCH_BAR_SPACE_HEIGHT = lp.height;
+		}
+		
+		lp.height = show ? Common.SEARCH_BAR_SPACE_HEIGHT : 0;
 		
 		// Layout the search bar
-		View qsbBar = (View) callMethod(launcher, Methods.launcherGetQsbBar);
+		View qsbBar = (View) callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherGetQsbBar);
 		LayoutParams vglp = qsbBar.getLayoutParams();
-		vglp.width = width;
-		vglp.height = height;
-		
+		vglp.width = show ? LayoutParams.MATCH_PARENT : 0;
+		vglp.height = show ? LayoutParams.MATCH_PARENT : 0;
 		qsbBar.setLayoutParams(vglp);
 	}
 }

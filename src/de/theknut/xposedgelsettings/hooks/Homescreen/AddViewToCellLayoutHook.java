@@ -38,8 +38,12 @@ public final class AddViewToCellLayoutHook extends HooksBaseClass {
 			
 			// apps in folders don't have a shadow so we can filter that for future customization
 			if (!getBooleanField(param.args[0], Fields.btvShadowsEnabled)) {
-				if (PreferencesHelper.homescreenFolderSwitch) {
-					callMethod(param.args[0], "setTextColor", newFolderAppLabelColor);
+			    if (PreferencesHelper.homescreenFolderSwitch) {
+			        if (PreferencesHelper.homescreenFolderNoLabel) {
+			            callMethod(param.args[0], "setTextColor", Color.TRANSPARENT);
+			        } else {
+			            callMethod(param.args[0], "setTextColor", newFolderAppLabelColor);
+			        }
 				}
 			} else {
 				if (PreferencesHelper.iconSettingsSwitchHome) {
@@ -51,13 +55,13 @@ public final class AddViewToCellLayoutHook extends HooksBaseClass {
 						callMethod(param.args[0], Methods.btvSetShadowsEnabled, PreferencesHelper.homescreenIconLabelShadow);
 					}
 					
-					callMethod(param.args[0], "setTextColor", newAppLabelColor);
+					if (PreferencesHelper.hideIconLabelHome) {
+		                callMethod(param.args[0], Methods.btvSetShadowsEnabled, false);
+		                callMethod(param.args[0], "setTextColor", Color.TRANSPARENT);
+		            } else {
+		                callMethod(param.args[0], "setTextColor", newAppLabelColor);
+		            }
 				}
-			}
-			
-			if (PreferencesHelper.iconSettingsSwitchHome && PreferencesHelper.hideIconLabelHome) {
-				callMethod(param.args[0], Methods.btvSetShadowsEnabled, false);
-				callMethod(param.args[0], "setTextColor", Color.argb(0, 0, 0, 0));
 			}
 			
 		} else if (param.args[0].getClass().getName().contains(Fields.fiFolderIcon)) {

@@ -75,8 +75,8 @@ public class AppDrawerHooks extends HooksBaseClass {
 				
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-					
 					if ((Boolean) param.args[TOWORKSPACE]) {
+					    Common.OVERSCROLLED = false;
 						Object acpv = getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizePagedView);
 						Common.APPDRAWER_LAST_POSITION = getIntField(acpv, Fields.acpvCurrentPage);
 						if (DEBUG) log(param, "AppDrawerHooks: get current position - " + Common.APPDRAWER_LAST_POSITION);
@@ -88,7 +88,8 @@ public class AppDrawerHooks extends HooksBaseClass {
 				
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-					//if ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lIsAllAppsVisible)) return;
+					if (Common.OVERSCROLLED) return;
+					
 					Object acpv = getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizePagedView);
 					
 					int lastPage = (Integer) callMethod(acpv, "getChildCount") - 1;

@@ -1,6 +1,7 @@
 package de.theknut.xposedgelsettings.hooks.notificationbadges;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -30,7 +31,7 @@ public class Shortcut extends Icon {
 		Object tag = ((View) shortcut).getTag();
 		
 		try {			
-			Intent i = (Intent) callMethod(tag, "getIntent");
+			Intent i = (Intent) callMethod(tag, Methods.siGetIntent);
 			this.pgkName = i.getComponent().getPackageName();
 		} catch (Exception ex) {
 			log("Shortcut.Cstr: There was a problem getting the intent for the shortcut - " + tag);

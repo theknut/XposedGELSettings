@@ -83,7 +83,7 @@ public class FragmentGestures extends FragmentBase {
         	}
         }
         
-        if (!InAppPurchase.isDonate) {  
+        if (!InAppPurchase.isPremium) {  
         	
         	gesture_double_tap.setEnabled(false);      
             gesture_one_down_middle.setEnabled(false);

@@ -74,7 +74,7 @@ public final class DeviceProfileConstructorHook extends XC_MethodHook {
 					XposedBridge.log("Didn't change hotseat icon size! Value was " + newHotseatIconSize);
 				}
 				
-				param.args[NUMHOTSEATICONS] = PreferencesHelper.appDockCount;
+				//param.args[NUMHOTSEATICONS] = PreferencesHelper.appDockCount;
 				
 				int hotseatBarHeight = (int) (Math.round((Float)param.args[ICONSIZE]) + 24);
 				setIntField(param.thisObject, Fields.dpHotseatBarHeightPx, hotseatBarHeight);
@@ -86,7 +86,13 @@ public final class DeviceProfileConstructorHook extends XC_MethodHook {
 	protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 		
 		if (PreferencesHelper.noAllAppsButton) {
-			setIntField(param.thisObject, Fields.hotseatAllAppsRank, 10);
+			setIntField(param.thisObject, Fields.hotseatAllAppsRank, 50);
+		} else {
+		    if (PreferencesHelper.homescreenAllAppsPosition != -1) {
+		        setIntField(param.thisObject, Fields.hotseatAllAppsRank, PreferencesHelper.homescreenAllAppsPosition - 1);
+		    }
 		}
+		
+		setIntField(param.thisObject, Fields.dpNumHotseatIcons, PreferencesHelper.appDockCount);
 	}
 }

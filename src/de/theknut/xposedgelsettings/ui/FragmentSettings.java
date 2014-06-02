@@ -237,14 +237,14 @@ public class FragmentSettings extends FragmentBase {
 				
 				try {
 					Context xposedInstallerContext = mContext.createPackageContext("de.robv.android.xposed.installer", Context.CONTEXT_IGNORE_SECURITY);
-					pathDebugLog = xposedInstallerContext.getApplicationInfo().dataDir + "/log/debug.log";
+					pathDebugLog = xposedInstallerContext.getApplicationInfo().dataDir + "/log/error.log";
 				} catch (Exception e) {
 					e.printStackTrace();
-					pathDebugLog = "/data/data/de.robv.android.xposed.installer/log/debug.log";
+					pathDebugLog = "/data/data/de.robv.android.xposed.installer/log/error.log";
 				}
 				
 				if (!new File(pathDebugLog).exists()) {
-					pathDebugLog.replace("debug.log", "error.log");
+					pathDebugLog.replace("error.log", "debug.log");
 				}
 				
 				String logfilePath = "/mnt/sdcard/XposedGELSettings/logs/logcat.log";
@@ -329,7 +329,7 @@ public class FragmentSettings extends FragmentBase {
         
         PreferenceScreen preferenceScreen = getPreferenceScreen();
         
-        if (!InAppPurchase.isDonate) {
+        if (!InAppPurchase.isPremium) {
         	this.findPreference("autoblurimage").setEnabled(false);
         	this.findPreference("importsettings").setEnabled(false);
             this.findPreference("exportsettings").setEnabled(false);

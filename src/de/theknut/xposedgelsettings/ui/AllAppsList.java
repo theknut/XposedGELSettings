@@ -1,6 +1,5 @@
 package de.theknut.xposedgelsettings.ui;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -8,7 +7,6 @@ import java.util.Set;
 import android.annotation.SuppressLint;
 import android.app.ListActivity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -39,18 +37,8 @@ public class AllAppsList extends ListActivity {
 		getListView().setCacheColorHint(CommonUI.UIColor);
 		getListView().setBackgroundColor(CommonUI.UIColor);
 		getActionBar().setBackgroundDrawable(new ColorDrawable(CommonUI.UIColor));
-		
-		PackageManager pm = getPackageManager();
-		
-		// load all apps which are listed in the app drawer
-    	final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
-        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        final List<ResolveInfo> apps = pm.queryIntentActivities(mainIntent, 0);
         
-        // sort them
-        Collections.sort(apps, new ResolveInfo.DisplayNameComparator(pm));
-        
-		AppArrayAdapter adapter = new AppArrayAdapter(this, getPackageManager(), apps);
+		AppArrayAdapter adapter = new AppArrayAdapter(this, getPackageManager(), CommonUI.getAllApps());
 	    setListAdapter(adapter);
 	}
 	

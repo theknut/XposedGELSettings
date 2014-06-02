@@ -27,10 +27,12 @@ import android.os.SystemClock;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers.ClassNotFoundError;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
+
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
@@ -300,7 +302,7 @@ public class SystemUIReceiver extends HooksBaseClass {
 	                    				} catch (IOException e) {}
 	                    				
 	                    				log("Finished saving logcat");
-	                            	}
+	                        		}
 	                        	}
 	                        }
                     	} catch (NoSuchMethodError nsme) {

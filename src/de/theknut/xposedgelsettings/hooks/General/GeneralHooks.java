@@ -6,6 +6,7 @@ import static de.robv.android.xposed.XposedHelpers.findClass;
 
 import java.util.ArrayList;
 
+import android.animation.TimeInterpolator;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -25,6 +26,7 @@ public class GeneralHooks extends HooksBaseClass {
 	public static void initAllHooks(LoadPackageParam lpparam) {
 		
 		findAndHookMethod(Classes.Launcher, Methods.launcherOnCreate, Bundle.class, new XC_MethodHook() {
+		    
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 				
@@ -32,7 +34,7 @@ public class GeneralHooks extends HooksBaseClass {
 				Common.LAUNCHER_INSTANCE = param.thisObject;
 				Common.LAUNCHER_CONTEXT = (Context) callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherGetApplicationContext);
 			}
-		});
+		});		
 		
 		if (PreferencesHelper.enableRotation) {
 			// enable rotation
@@ -80,6 +82,63 @@ public class GeneralHooks extends HooksBaseClass {
 				XposedBridge.hookAllMethods(Classes.AppsCustomizePagedView, Methods.acpvBeginDraggingApplication, new BeginDragHook());
 			}
 		}
+		
+//		findAndHookMethod(Classes.CellLayout, Methods.clMarkCellsForView, Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, boolean[][].class, boolean.class, new XC_MethodHook() {
+//            
+//            final int HSPAN = 2;
+//            final int VSPAN = 3;
+//            final int OCCUPIED = 5;
+//            
+//            @Override
+//            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+//                if ((Integer) param.args[HSPAN] > 1 || (Integer) param.args[VSPAN] > 1) param.args[OCCUPIED] = false;
+//            }
+//        });
+//        
+//        findAndHookMethod(Classes.Workspace, Methods.wStartDrag, Classes.CellInfo, new XC_MethodHook() {
+//            
+//            @Override
+//            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+//                Object cellInfo = getObjectField(param.thisObject, Fields.wDragInfo);
+//                if (cellInfo == null) return;
+//                
+//                Object cell = getObjectField(cellInfo, Fields.ciCell);
+//                
+//                if (cell.getClass().getName().equals(Fields.lAppWidgetHostView)) {
+//                    ((View) cell).bringToFront();
+//                }
+//            }
+//        });
+//        
+//        findAndHookMethod(Classes.LoaderTask, Methods.lmCheckItemPlacement, HashMap.class, Classes.ItemInfo, AtomicBoolean.class, new XC_MethodHook() {
+//            
+//            final int ITEMINFO = 1;
+//            
+//            @Override
+//            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+//                if (param.args[ITEMINFO].getClass().getName().equals(Fields.LauncherAppWidgetInfo)) param.setResult(true);
+//            }
+//        });
+        
+        if (PreferencesHelper.scrolldevider != 10) {
+            XC_MethodHook snapToPageHook = new XC_MethodHook() {
+                
+                final int SPEED = 2;
+                
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    param.args[SPEED] = (int) Math.round((Integer) param.args[SPEED] / ((PreferencesHelper.scrolldevider == -1)
+                            ? (Integer) param.args[SPEED]
+                            : (PreferencesHelper.scrolldevider / 10)));
+                }
+            };
+            
+            if (Common.PACKAGE_OBFUSCATED) {
+                findAndHookMethod(Classes.PagedView, Methods.pvSnapToPage, Integer.TYPE, Integer.TYPE, Integer.TYPE, boolean.class, TimeInterpolator.class, snapToPageHook);
+            } else {
+                findAndHookMethod(Classes.PagedView, Methods.pvSnapToPage, Integer.TYPE, Integer.TYPE, Integer.TYPE, snapToPageHook);
+            }
+        }
 		
 //		final Class<?> PagedViewClass = findClass(Common.PAGED_VIEW, lpparam.classLoader);
 //		XposedBridge.hookAllMethods(PagedViewClass, "snapToPage", new XC_MethodHook(XC_MethodHook.PRIORITY_HIGHEST) {

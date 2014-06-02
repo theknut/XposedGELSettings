@@ -9,6 +9,7 @@ public class PreferencesHelper {
 	public static XSharedPreferences prefs = new XSharedPreferences(Common.PACKAGE_NAME);
 	public static boolean Debug = prefs.getBoolean("debug", false);
 	public static boolean hideSearchBar = prefs.getBoolean("hidesearchbar", false);
+	public static boolean searchBarOnDefaultHomescreen = prefs.getBoolean("searchbarondefaulthomescreen", false);
 	public static boolean autoHideSearchBar = prefs.getBoolean("autohidehidesearchbar", false);
 	public static boolean hideIconLabelHome = prefs.getBoolean("hideiconhomescreen", false);
 	public static boolean hideIconLabelApps = prefs.getBoolean("hideiconappdrawer", false);
@@ -45,6 +46,7 @@ public class PreferencesHelper {
 	public static boolean dynamicBackButtonOnEveryScreen = prefs.getBoolean("dynamicbackbuttononeveryscreen", false);
 	
 	public static boolean homescreenFolderSwitch = prefs.getBoolean("homescreenfolderswitch", false);
+	public static boolean homescreenFolderNoLabel = prefs.getBoolean("homescreenfoldernolabel", false);
 	public static boolean gesture_appdrawer = prefs.getBoolean("gesture_appdrawer", false);
 	public static boolean appdrawerRememberLastPosition = prefs.getBoolean("appdrawerrememberlastposition", false);
 	public static int xCountHomescreen = Integer.parseInt(prefs.getString("xcounthomescreen", "4"));
@@ -65,6 +67,8 @@ public class PreferencesHelper {
 	public static int homescreenFolderPreviewColor = prefs.getInt("homescreenfolderpreviewcolor", Color.argb(0xFF, 0xFF, 0xFF, 0xFF));
 	public static int defaultHomescreen = Integer.parseInt(prefs.getString("defaulthomescreen", "-1"));
 	public static int workspaceRect = Integer.parseInt(prefs.getString("workspacerect", "1"));
+	public static int homescreenAllAppsPosition = Integer.parseInt(prefs.getString("positionallappsbutton", "-1"));
+	public static double scrolldevider = Integer.parseInt(prefs.getString("scrolldevider", "10"));
 	
 	public static String gesture_one_up_left = prefs.getString("gesture_one_up_left", "NONE");
 	public static String gesture_one_up_middle = prefs.getString("gesture_one_up_middle", "NONE");
@@ -77,6 +81,9 @@ public class PreferencesHelper {
 	
 	public static Set<String> hiddenApps = prefs.getStringSet("hiddenapps", new HashSet<String>());
 	public static Set<String> hiddenWidgets = prefs.getStringSet("hiddenwidgets", new HashSet<String>());
+	
+	public static String iconpack = prefs.getString("iconpack", Common.ICONPACK_DEFAULT);
+	public static boolean iconPackAutoApply = prefs.getBoolean("autoupdateapplyiconpack", false);
 	
 	public static String notificationDialerApp = prefs.getString("notificationbadge_dialer_launch", "");
 	public static String notificationSMSApp = prefs.getString("notificationbadge_sms_launch", "");

@@ -229,11 +229,12 @@
     <item>Меню приложений</item>
     <item>Жесты</item>
     <item>Notification Badges (Beta)</item>
+    <item>Иконки</item>
     <item>Твики System UI</item>
     <item>Им-/Экспорт</item>
     <item>Настройки</item>
     <item>Premium/Поддержка</item>
-    <item>Reverse Engineering</item> <!-- NEW -->
+    <item>Reverse Engineering</item>
   </string-array>
   <string-array name="gesture_actions_entries">
     <item>Ничего</item>

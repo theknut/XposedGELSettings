@@ -5,143 +5,164 @@ import de.robv.android.xposed.XposedHelpers.ClassNotFoundError;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public class ObfuscationHelper extends HooksBaseClass {
-	
-	// class names to hook to	
-	public static String ALL_APPS_LIST,
-	ITEM_INFO,
-	APP_INFO,
-	CELL_LAYOUT,
-	SEARCH_DROP_TARGET_BAR,
-	DYNAMIC_GRID,
-	LAUNCHER,
-	PAGED_VIEW,
-	PAGED_VIEW_CELL_LAYOUT,
-	PAGED_VIEW_WITH_DRAGGABLE_ITEMS,
-	APPS_CUSTOMIZE_PAGED_VIEW,
-	APPS_CUSTOMIZE_LAYOUT,
-	APPS_CUSTOMIZE_CELL_LAYOUT,
-	PAGED_VIEW_ICON,
-	DEVICE_PROFILE,
-	WORKSPACE,
-	WALLPAPEROFFSETINTERPOLATOR,
-	CELL_LAYOUT_LAYOUT_PARAMS,
-	APPS_CUSTOMIZE_TAB_HOST,
-	APPS_CUSTOMIZE_CONTENT_TYPE,
-	WALLPAPER_CROP_ACTIVITY,
-	FOLDER,
-	FOLDER_ICON,
-	HOTSEAT,
-	DRAG_SOURCE,
-	SHORTCUT_INFO,
 
-	GEL,
-	NOW_OVERLAY,
-	SEARCH_OVERLAY_IMPL,
-	SEARCH_PLATE;
-		
-	// prefix o stands for obfuscated
-	public static String oALL_APPS_LIST,
-	oITEM_INFO,
-	oAPP_INFO,
-	oCELL_LAYOUT,
-	oSEARCH_DROP_TARGET_BAR,
-	oLAUNCHER,
-	oPAGED_VIEW,
-	oPAGED_VIEW_CELL_LAYOUT,
-	oPAGED_VIEW_WITH_DRAGGABLE_ITEMS,
-	oAPPS_CUSTOMIZE_PAGED_VIEW,
-	oAPPS_CUSTOMIZE_LAYOUT,
-	oAPPS_CUSTOMIZE_CELL_LAYOUT,
-	oPAGED_VIEW_ICON,
-	oDEVICE_PROFILE,
-	oWORKSPACE,
-	oWALLPAPEROFFSETINTERPOLATOR,
-	oAPPS_CUSTOMIZE_TAB_HOST,
-	oAPPS_CUSTOMIZE_CONTENT_TYPE,
-	oWALLPAPER_CROP_ACTIVITY,
-	oFOLDER,
-	oFOLDER_ICON,
-	oCELL_LAYOUT_LAYOUT_PARAMS,
-	oCELL_LAYOUT_CELL_INFO,
-	oWORKSPACE_STATE,
-	oHOTSEAT,
-	oDRAG_SOURCE,
-	oSHORTCUT_INFO,
+	public static class ClassNames {
 
-	oGEL,
-	oNOW_OVERLAY,
-	oSEARCH_OVERLAY_IMPL,
-	oSEARCH_PLATE;
-	
-	public static void initClassNames(String launcherName) {
+		// class names to hook to
+		public static String ALL_APPS_LIST,
+		LAUNCHER,
+		WORKSPACE,
+		WORKSPACE_STATE,
+		DEVICE_PROFILE,
+		CELL_LAYOUT,
+		CELL_LAYOUT_CELL_INFO,
+		CELL_LAYOUT_LAYOUT_PARAMS,
+		PAGED_VIEW,
+		PAGED_VIEW_ICON,
+		PAGED_VIEW_CELL_LAYOUT,
+		PAGED_VIEW_WITH_DRAGGABLE_ITEMS,
+		APPS_CUSTOMIZE_CONTENT_TYPE,
+		APPS_CUSTOMIZE_CELL_LAYOUT,
+		APPS_CUSTOMIZE_LAYOUT,
+		APPS_CUSTOMIZE_PAGED_VIEW,
+		APPS_CUSTOMIZE_TAB_HOST,
+		WALLPAPEROFFSETINTERPOLATOR,
+		WALLPAPER_CROP_ACTIVITY,
+		FOLDER,
+		FOLDER_ICON,
+		HOTSEAT,
+		DRAG_SOURCE,
+		ITEM_INFO,
+		APP_INFO,
+		SHORTCUT_INFO,
+		SEARCH_DROP_TARGET_BAR,
+		ICON_CACHE,
+		UTILITIES,
+		CASH_ENTRY,
+		CELL_INFO,
+		LOADER_TASK,
+		GEL,
+		NOW_OVERLAY,
+		SEARCH_OVERLAY_IMPL,
+		SEARCH_PLATE;
 		
-		String launcherPackage = "com.android." + launcherName + ".";
-		ALL_APPS_LIST = launcherPackage + "AllAppsList";
-		ITEM_INFO = launcherPackage + "ItemInfo";
-		APP_INFO = launcherPackage + "AppInfo";
-		CELL_LAYOUT = launcherPackage + "CellLayout";
-		CELL_LAYOUT_LAYOUT_PARAMS = launcherPackage + "CellLayout$LayoutParams";
-		SEARCH_DROP_TARGET_BAR = launcherPackage + "SearchDropTargetBar";
-		LAUNCHER = launcherPackage + "Launcher";
-		PAGED_VIEW = launcherPackage + "PagedView";
-		PAGED_VIEW_CELL_LAYOUT = launcherPackage + "PagedViewCellLayout";
-		PAGED_VIEW_WITH_DRAGGABLE_ITEMS = launcherPackage + "PagedViewWithDraggableItems";
-		APPS_CUSTOMIZE_PAGED_VIEW = launcherPackage + "AppsCustomizePagedView";
-		APPS_CUSTOMIZE_LAYOUT = launcherPackage + "AppsCustomizeLayout";
-		APPS_CUSTOMIZE_CELL_LAYOUT = launcherPackage + "AppsCustomizeCellLayout";
-		PAGED_VIEW_ICON = launcherPackage + "PagedViewIcon";
-		DEVICE_PROFILE = launcherPackage + "DeviceProfile";
-		WORKSPACE = launcherPackage + "Workspace";
-		WALLPAPEROFFSETINTERPOLATOR = WORKSPACE + "$WallpaperOffsetInterpolator";
-		APPS_CUSTOMIZE_TAB_HOST = launcherPackage + "AppsCustomizeTabHost";
-		APPS_CUSTOMIZE_CONTENT_TYPE = APPS_CUSTOMIZE_PAGED_VIEW + "$ContentType";
-		WALLPAPER_CROP_ACTIVITY = launcherPackage + "WallpaperCropActivity";
-		FOLDER = launcherPackage + "Folder";
-		FOLDER_ICON = launcherPackage + "FolderIcon";
-		HOTSEAT = launcherPackage + "Hotseat";
-		DRAG_SOURCE = launcherPackage + "DragSource";
-		SHORTCUT_INFO = launcherPackage + "ShortcutInfo";
+		public static String oALL_APPS_LIST,
+		oLAUNCHER,
+		oWORKSPACE,
+		oWORKSPACE_STATE,
+		oDEVICE_PROFILE,
+		oCELL_LAYOUT,
+		oCELL_LAYOUT_CELL_INFO,
+		oCELL_LAYOUT_LAYOUT_PARAMS,
+		oPAGED_VIEW,
+		oPAGED_VIEW_ICON,
+		oPAGED_VIEW_CELL_LAYOUT,
+		oPAGED_VIEW_WITH_DRAGGABLE_ITEMS,
+		oAPPS_CUSTOMIZE_CONTENT_TYPE,
+		oAPPS_CUSTOMIZE_CELL_LAYOUT,
+		oAPPS_CUSTOMIZE_LAYOUT,
+		oAPPS_CUSTOMIZE_PAGED_VIEW,
+		oAPPS_CUSTOMIZE_TAB_HOST,
+		oWALLPAPEROFFSETINTERPOLATOR,
+		oWALLPAPER_CROP_ACTIVITY,
+		oFOLDER,
+		oFOLDER_ICON,
+		oHOTSEAT,
+		oDRAG_SOURCE,
+		oITEM_INFO,
+		oAPP_INFO,
+		oSHORTCUT_INFO,
+		oICON_CACHE,
+		oUTILITIES,
+		oCASH_ENTRY,
+		oCELL_INFO,
+		oLOADER_TASK,
+		oSEARCH_DROP_TARGET_BAR,
+		oGEL,
+		oNOW_OVERLAY,
+		oSEARCH_OVERLAY_IMPL,
+		oSEARCH_PLATE;
 		
-		GEL = "com.google.android.launcher.GEL";
-		NOW_OVERLAY = "com.google.android.sidekick.shared.client.NowOverlay";
-		SEARCH_OVERLAY_IMPL = "com.google.android.search.gel.SearchOverlayImpl";
-		SEARCH_PLATE = "com.google.android.search.shared.ui.SearchPlate";
-		
-		oALL_APPS_LIST = "kp";
-		oITEM_INFO = "pr";
-		oAPP_INFO = "kr";
-		oCELL_LAYOUT = launcherPackage + "CellLayout";
-		oSEARCH_DROP_TARGET_BAR = launcherPackage + "SearchDropTargetBar";
-		oDEVICE_PROFILE = "mz";
-		oLAUNCHER = launcherPackage + "Launcher";
-		oPAGED_VIEW = launcherPackage + "PagedView";
-		oPAGED_VIEW_CELL_LAYOUT = "vd";
-		oPAGED_VIEW_WITH_DRAGGABLE_ITEMS = "vl";
-		oAPPS_CUSTOMIZE_PAGED_VIEW = launcherPackage + "AppsCustomizePagedView";
-		oAPPS_CUSTOMIZE_CELL_LAYOUT = "kw";
-		oPAGED_VIEW_ICON = launcherPackage + "PagedViewIcon";
-		oWORKSPACE = launcherPackage + "Workspace";
-		oWALLPAPEROFFSETINTERPOLATOR = "zd";
-		oAPPS_CUSTOMIZE_TAB_HOST = launcherPackage + "AppsCustomizeTabHost";
-		oAPPS_CUSTOMIZE_CONTENT_TYPE = "lf";
-		oWALLPAPER_CROP_ACTIVITY = launcherPackage + "WallpaperCropActivity";
-		oFOLDER = launcherPackage + "Folder";
-		oFOLDER_ICON = launcherPackage + "FolderIcon";
-		oCELL_LAYOUT_LAYOUT_PARAMS = launcherPackage + "CellLayout$LayoutParams";
-		oCELL_LAYOUT_CELL_INFO = "lz";
-		oWORKSPACE_STATE = "zc";
-		oHOTSEAT = launcherPackage + "Hotseat";
-		oDRAG_SOURCE = "nn";
-		oSHORTCUT_INFO = "vz";
-		
-		oGEL = "com.google.android.launcher.GEL";
-		oNOW_OVERLAY = "dzk";
-		oSEARCH_OVERLAY_IMPL = "ccu";
-		oSEARCH_PLATE = "com.google.android.search.searchplate.SearchPlate";
+		public static void initNames(String launcherName) {
+
+			String launcherPackage = "com.android." + launcherName + ".";
+			ALL_APPS_LIST = launcherPackage + "AllAppsList";
+			ITEM_INFO = launcherPackage + "ItemInfo";
+			APP_INFO = launcherPackage + "AppInfo";
+			CELL_LAYOUT = launcherPackage + "CellLayout";
+			CELL_LAYOUT_LAYOUT_PARAMS = launcherPackage + "CellLayout$LayoutParams";
+			SEARCH_DROP_TARGET_BAR = launcherPackage + "SearchDropTargetBar";
+			LAUNCHER = launcherPackage + "Launcher";
+			PAGED_VIEW = launcherPackage + "PagedView";
+			PAGED_VIEW_CELL_LAYOUT = launcherPackage + "PagedViewCellLayout";
+			PAGED_VIEW_WITH_DRAGGABLE_ITEMS = launcherPackage + "PagedViewWithDraggableItems";
+			APPS_CUSTOMIZE_PAGED_VIEW = launcherPackage + "AppsCustomizePagedView";
+			APPS_CUSTOMIZE_LAYOUT = launcherPackage + "AppsCustomizeLayout";
+			APPS_CUSTOMIZE_CELL_LAYOUT = launcherPackage + "AppsCustomizeCellLayout";
+			PAGED_VIEW_ICON = launcherPackage + "PagedViewIcon";
+			DEVICE_PROFILE = launcherPackage + "DeviceProfile";
+			WORKSPACE = launcherPackage + "Workspace";
+			WALLPAPEROFFSETINTERPOLATOR = WORKSPACE + "$WallpaperOffsetInterpolator";
+			APPS_CUSTOMIZE_TAB_HOST = launcherPackage + "AppsCustomizeTabHost";
+			APPS_CUSTOMIZE_CONTENT_TYPE = APPS_CUSTOMIZE_PAGED_VIEW + "$ContentType";
+			WALLPAPER_CROP_ACTIVITY = launcherPackage + "WallpaperCropActivity";
+			FOLDER = launcherPackage + "Folder";
+			FOLDER_ICON = launcherPackage + "FolderIcon";
+			HOTSEAT = launcherPackage + "Hotseat";
+			DRAG_SOURCE = launcherPackage + "DragSource";
+			SHORTCUT_INFO = launcherPackage + "ShortcutInfo";
+			ICON_CACHE = launcherPackage + "IconCache";
+			UTILITIES = launcherPackage + "Utilities";
+			CASH_ENTRY = launcherPackage + "IconCache$CacheEntry";
+			CELL_INFO = launcherPackage + "CellLayout$CellInfo";
+			LOADER_TASK = launcherPackage + "LauncherModel$LoaderTask";
+
+			GEL = "com.google.android.launcher.GEL";
+			NOW_OVERLAY = "com.google.android.sidekick.shared.client.NowOverlay";
+			SEARCH_OVERLAY_IMPL = "com.google.android.search.gel.SearchOverlayImpl";
+			//SEARCH_PLATE = "com.google.android.search.shared.ui.SearchPlate";
+
+			oALL_APPS_LIST = "kp";
+			oITEM_INFO = "pr";
+			oAPP_INFO = "kr";
+			oCELL_LAYOUT = launcherPackage + "CellLayout";
+			oSEARCH_DROP_TARGET_BAR = launcherPackage + "SearchDropTargetBar";
+			oDEVICE_PROFILE = "mz";
+			oLAUNCHER = launcherPackage + "Launcher";
+			oPAGED_VIEW = launcherPackage + "PagedView";
+			oPAGED_VIEW_CELL_LAYOUT = "vd";
+			oPAGED_VIEW_WITH_DRAGGABLE_ITEMS = "vl";
+			oAPPS_CUSTOMIZE_PAGED_VIEW = launcherPackage + "AppsCustomizePagedView";
+			oAPPS_CUSTOMIZE_CELL_LAYOUT = "kw";
+			oPAGED_VIEW_ICON = launcherPackage + "PagedViewIcon";
+			oWORKSPACE = launcherPackage + "Workspace";
+			oWALLPAPEROFFSETINTERPOLATOR = "zd";
+			oAPPS_CUSTOMIZE_TAB_HOST = launcherPackage + "AppsCustomizeTabHost";
+			oAPPS_CUSTOMIZE_CONTENT_TYPE = "lf";
+			oWALLPAPER_CROP_ACTIVITY = launcherPackage + "WallpaperCropActivity";
+			oFOLDER = launcherPackage + "Folder";
+			oFOLDER_ICON = launcherPackage + "FolderIcon";
+			oCELL_LAYOUT_LAYOUT_PARAMS = launcherPackage + "CellLayout$LayoutParams";
+			oCELL_LAYOUT_CELL_INFO = "lz";
+			oWORKSPACE_STATE = "zc";
+			oHOTSEAT = launcherPackage + "Hotseat";
+			oDRAG_SOURCE = "nn";
+			oSHORTCUT_INFO = "vz";
+			oICON_CACHE = "pk";
+			oUTILITIES = "wi";
+			oCASH_ENTRY = "pl";
+			oCELL_INFO = "nv";
+			oLOADER_TASK = "tb";
+
+			oGEL = "com.google.android.launcher.GEL";
+			oNOW_OVERLAY = "dzk";
+			oSEARCH_OVERLAY_IMPL = "ccu";
+			//oSEARCH_PLATE = "com.google.android.search.searchplate.SearchPlate";
+		}
 	}
 	
 	public static class Classes {
-		
+
 		static public Class<?> Launcher,
 		Workspace,
 		AppInfo,
@@ -160,7 +181,7 @@ public class ObfuscationHelper extends HooksBaseClass {
 		GELClass,
 		NowOverlay,
 		SearchOverlayImpl,
-		SearchPlate,
+		//SearchPlate,
 		SearchDropTargetBar,
 		DragSource,
 		CellLayoutLayoutParams,
@@ -168,83 +189,101 @@ public class ObfuscationHelper extends HooksBaseClass {
 		WorkspaceState,
 		Hotseat,
 		AppsCustomizeContentType,
-		ShortcutInfo;
-		
+		ShortcutInfo,
+		IconCache,
+		Utilities,
+		CacheEntry,
+		CellInfo,
+		ItemInfo,
+		LoaderTask;
+
 		public static void hookAllClasses(LoadPackageParam lpparam) {
 			try {
-				Launcher = findClass(LAUNCHER, lpparam.classLoader);
-				Workspace = findClass(WORKSPACE, lpparam.classLoader);
-				AppsCustomizePagedView = findClass(APPS_CUSTOMIZE_PAGED_VIEW, lpparam.classLoader);
-				CellLayout = findClass(CELL_LAYOUT, lpparam.classLoader);
-				CellLayoutLayoutParams = findClass(CELL_LAYOUT_LAYOUT_PARAMS, lpparam.classLoader);
-				WallpaperOffsetInterpolator = findClass(WALLPAPEROFFSETINTERPOLATOR, lpparam.classLoader);
-				PagedViewIcon = findClass(PAGED_VIEW_ICON, lpparam.classLoader);
-				DeviceProfile = findClass(DEVICE_PROFILE, lpparam.classLoader);
-				AppInfo = findClass(APP_INFO, lpparam.classLoader);
-				
+				Launcher = findClass(ClassNames.LAUNCHER, lpparam.classLoader);
+				Workspace = findClass(ClassNames.WORKSPACE, lpparam.classLoader);
+				AppsCustomizePagedView = findClass(ClassNames.APPS_CUSTOMIZE_PAGED_VIEW, lpparam.classLoader);
+				CellLayout = findClass(ClassNames.CELL_LAYOUT, lpparam.classLoader);
+				CellLayoutLayoutParams = findClass(ClassNames.CELL_LAYOUT_LAYOUT_PARAMS, lpparam.classLoader);
+				WallpaperOffsetInterpolator = findClass(ClassNames.WALLPAPEROFFSETINTERPOLATOR, lpparam.classLoader);
+				PagedViewIcon = findClass(ClassNames.PAGED_VIEW_ICON, lpparam.classLoader);
+				DeviceProfile = findClass(ClassNames.DEVICE_PROFILE, lpparam.classLoader);
+				AppInfo = findClass(ClassNames.APP_INFO, lpparam.classLoader);
+
 				if (Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE)) {
-					AppsCustomizeLayout = findClass(APPS_CUSTOMIZE_LAYOUT, lpparam.classLoader);
+					AppsCustomizeLayout = findClass(ClassNames.APPS_CUSTOMIZE_LAYOUT, lpparam.classLoader);
 				} else {
-					AppsCustomizeTabHost = findClass(APPS_CUSTOMIZE_TAB_HOST, lpparam.classLoader);
+					AppsCustomizeTabHost = findClass(ClassNames.APPS_CUSTOMIZE_TAB_HOST, lpparam.classLoader);
 				}
-				
-				AppsCustomizeContentType = findClass(APPS_CUSTOMIZE_CONTENT_TYPE, lpparam.classLoader);
-				AllAppsList = findClass(ALL_APPS_LIST, lpparam.classLoader);
-				Folder = findClass(FOLDER, lpparam.classLoader);
-				PagedViewWithDraggableItems = findClass(PAGED_VIEW_WITH_DRAGGABLE_ITEMS, lpparam.classLoader);
-				PagedView = findClass(PAGED_VIEW, lpparam.classLoader);
-				FolderIcon = findClass(FOLDER_ICON, lpparam.classLoader);
-				Hotseat = findClass(HOTSEAT, lpparam.classLoader);
-				DragSource = findClass(DRAG_SOURCE, lpparam.classLoader);
-				ShortcutInfo = findClass(SHORTCUT_INFO, lpparam.classLoader);
-				SearchDropTargetBar = findClass(SEARCH_DROP_TARGET_BAR, lpparam.classLoader);
-				
+
+				AppsCustomizeContentType = findClass(ClassNames.APPS_CUSTOMIZE_CONTENT_TYPE, lpparam.classLoader);
+				AllAppsList = findClass(ClassNames.ALL_APPS_LIST, lpparam.classLoader);
+				Folder = findClass(ClassNames.FOLDER, lpparam.classLoader);
+				PagedViewWithDraggableItems = findClass(ClassNames.PAGED_VIEW_WITH_DRAGGABLE_ITEMS, lpparam.classLoader);
+				PagedView = findClass(ClassNames.PAGED_VIEW, lpparam.classLoader);
+				FolderIcon = findClass(ClassNames.FOLDER_ICON, lpparam.classLoader);
+				Hotseat = findClass(ClassNames.HOTSEAT, lpparam.classLoader);
+				DragSource = findClass(ClassNames.DRAG_SOURCE, lpparam.classLoader);
+				ShortcutInfo = findClass(ClassNames.SHORTCUT_INFO, lpparam.classLoader);
+				SearchDropTargetBar = findClass(ClassNames.SEARCH_DROP_TARGET_BAR, lpparam.classLoader);
+				IconCache = findClass(ClassNames.ICON_CACHE, lpparam.classLoader);
+				Utilities = findClass(ClassNames.UTILITIES, lpparam.classLoader);
+				CacheEntry = findClass(ClassNames.CASH_ENTRY, lpparam.classLoader);
+				CellInfo = findClass(ClassNames.CELL_INFO, lpparam.classLoader);
+				ItemInfo = findClass(ClassNames.ITEM_INFO, lpparam.classLoader);
+				LoaderTask = findClass(ClassNames.LOADER_TASK, lpparam.classLoader);
+
 				if (lpparam.packageName.equals(Common.GEL_PACKAGE)) {
-					GELClass = findClass(GEL, lpparam.classLoader);
-					NowOverlay = findClass(NOW_OVERLAY, lpparam.classLoader);
-					SearchOverlayImpl = findClass(SEARCH_OVERLAY_IMPL, lpparam.classLoader);
-					SearchPlate = findClass(SEARCH_PLATE, lpparam.classLoader);					
+					GELClass = findClass(ClassNames.GEL, lpparam.classLoader);
+					NowOverlay = findClass(ClassNames.NOW_OVERLAY, lpparam.classLoader);
+					SearchOverlayImpl = findClass(ClassNames.SEARCH_OVERLAY_IMPL, lpparam.classLoader);
+					//SearchPlate = findClass(SEARCH_PLATE, lpparam.classLoader);					
 				}
-								
+
 				if (PreferencesHelper.Debug) log("Hooking non-obfuscated GNL");
 			} catch (ClassNotFoundError cnfe) {
 				if (PreferencesHelper.Debug) {
 					log("Upsi! " + cnfe);
 					log("Couldn't hook classes, trying obfuscated classes now");
 				}
-				
+
 				try {
 					if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE))	{
-						Launcher = findClass(oLAUNCHER, lpparam.classLoader);
-						Workspace = findClass(oWORKSPACE, lpparam.classLoader);
-						AppsCustomizePagedView = findClass(oAPPS_CUSTOMIZE_PAGED_VIEW, lpparam.classLoader);
-						CellLayout = findClass(oCELL_LAYOUT, lpparam.classLoader);
-						WallpaperOffsetInterpolator = findClass(oWALLPAPEROFFSETINTERPOLATOR, lpparam.classLoader);
-						PagedViewIcon = findClass(oPAGED_VIEW_ICON, lpparam.classLoader);
-						DeviceProfile = findClass(oDEVICE_PROFILE, lpparam.classLoader);
-						AppsCustomizeTabHost = findClass(oAPPS_CUSTOMIZE_TAB_HOST, lpparam.classLoader);
-						AppsCustomizeContentType = findClass(oAPPS_CUSTOMIZE_CONTENT_TYPE, lpparam.classLoader);
-						AllAppsList = findClass(oALL_APPS_LIST, lpparam.classLoader);
-						Folder = findClass(oFOLDER, lpparam.classLoader);
-						PagedViewWithDraggableItems = findClass(oPAGED_VIEW_WITH_DRAGGABLE_ITEMS, lpparam.classLoader);
-						PagedView = findClass(oPAGED_VIEW, lpparam.classLoader);
-						FolderIcon = findClass(oFOLDER_ICON, lpparam.classLoader);
-						CellLayoutLayoutParams = findClass(oCELL_LAYOUT_LAYOUT_PARAMS, lpparam.classLoader);
-						CellLayoutCellInfo = findClass(oCELL_LAYOUT_CELL_INFO, lpparam.classLoader);
-						WorkspaceState = findClass(oWORKSPACE_STATE, lpparam.classLoader);
-						Hotseat = findClass(oHOTSEAT, lpparam.classLoader);
-						AppInfo = findClass(oAPP_INFO, lpparam.classLoader);
-						ShortcutInfo = findClass(oSHORTCUT_INFO, lpparam.classLoader);
-						DragSource = findClass(oDRAG_SOURCE, lpparam.classLoader);
-						SearchDropTargetBar = findClass(oSEARCH_DROP_TARGET_BAR, lpparam.classLoader);
+						Launcher = findClass(ClassNames.oLAUNCHER, lpparam.classLoader);
+						Workspace = findClass(ClassNames.oWORKSPACE, lpparam.classLoader);
+						AppsCustomizePagedView = findClass(ClassNames.oAPPS_CUSTOMIZE_PAGED_VIEW, lpparam.classLoader);
+						CellLayout = findClass(ClassNames.oCELL_LAYOUT, lpparam.classLoader);
+						WallpaperOffsetInterpolator = findClass(ClassNames.oWALLPAPEROFFSETINTERPOLATOR, lpparam.classLoader);
+						PagedViewIcon = findClass(ClassNames.oPAGED_VIEW_ICON, lpparam.classLoader);
+						DeviceProfile = findClass(ClassNames.oDEVICE_PROFILE, lpparam.classLoader);
+						AppsCustomizeTabHost = findClass(ClassNames.oAPPS_CUSTOMIZE_TAB_HOST, lpparam.classLoader);
+						AppsCustomizeContentType = findClass(ClassNames.oAPPS_CUSTOMIZE_CONTENT_TYPE, lpparam.classLoader);
+						AllAppsList = findClass(ClassNames.oALL_APPS_LIST, lpparam.classLoader);
+						Folder = findClass(ClassNames.oFOLDER, lpparam.classLoader);
+						PagedViewWithDraggableItems = findClass(ClassNames.oPAGED_VIEW_WITH_DRAGGABLE_ITEMS, lpparam.classLoader);
+						PagedView = findClass(ClassNames.oPAGED_VIEW, lpparam.classLoader);
+						FolderIcon = findClass(ClassNames.oFOLDER_ICON, lpparam.classLoader);
+						CellLayoutLayoutParams = findClass(ClassNames.oCELL_LAYOUT_LAYOUT_PARAMS, lpparam.classLoader);
+						CellLayoutCellInfo = findClass(ClassNames.oCELL_LAYOUT_CELL_INFO, lpparam.classLoader);
+						WorkspaceState = findClass(ClassNames.oWORKSPACE_STATE, lpparam.classLoader);
+						Hotseat = findClass(ClassNames.oHOTSEAT, lpparam.classLoader);
+						AppInfo = findClass(ClassNames.oAPP_INFO, lpparam.classLoader);
+						ShortcutInfo = findClass(ClassNames.oSHORTCUT_INFO, lpparam.classLoader);
+						DragSource = findClass(ClassNames.oDRAG_SOURCE, lpparam.classLoader);
+						SearchDropTargetBar = findClass(ClassNames.oSEARCH_DROP_TARGET_BAR, lpparam.classLoader);
+						IconCache = findClass(ClassNames.oICON_CACHE, lpparam.classLoader);
+						Utilities = findClass(ClassNames.oUTILITIES, lpparam.classLoader);
+						CacheEntry = findClass(ClassNames.oCASH_ENTRY, lpparam.classLoader);
+						CellInfo = findClass(ClassNames.oCELL_INFO, lpparam.classLoader);
+						ItemInfo = findClass(ClassNames.oITEM_INFO, lpparam.classLoader);
+						LoaderTask = findClass(ClassNames.oLOADER_TASK, lpparam.classLoader);
 						Common.PACKAGE_OBFUSCATED = true;
 
-						GELClass = findClass(oGEL, lpparam.classLoader);
-						NowOverlay = findClass(oNOW_OVERLAY, lpparam.classLoader);
-						SearchOverlayImpl = findClass(oSEARCH_OVERLAY_IMPL, lpparam.classLoader);
-						SearchPlate = findClass(oSEARCH_PLATE, lpparam.classLoader);
+						GELClass = findClass(ClassNames.oGEL, lpparam.classLoader);
+						NowOverlay = findClass(ClassNames.oNOW_OVERLAY, lpparam.classLoader);
+						SearchOverlayImpl = findClass(ClassNames.oSEARCH_OVERLAY_IMPL, lpparam.classLoader);
+						//SearchPlate = findClass(oSEARCH_PLATE, lpparam.classLoader);
 					}					
-					
+
 					if (PreferencesHelper.Debug) log("Hooking obfuscated GNL");
 				} catch (ClassNotFoundError cnfe2) {
 					log("OH SNAP! It looks like GNL got updated and is no longer compatible. Please sit tight, I'm probably already working on it!");					
@@ -252,10 +291,11 @@ public class ObfuscationHelper extends HooksBaseClass {
 			}
 		}
 	}
-	
+
 	public static class Fields {
-		
+
 		public static String hotseatAllAppsRank,
+		dpNumHotseatIcons,
 		itemInfoTitle,
 		celllayoutlayoutparamsCanReorder,
 		deviceProfileSearchBarSpaceWidthPx,
@@ -294,6 +334,7 @@ public class ObfuscationHelper extends HooksBaseClass {
 		iiItemType,
 		dpSearchBarHeightPx,
 		dpSearchBarSpaceHeightPx,
+		dpSearchBarSpaceWidthPx,
 		aiComponentName,
 		acpvCurrentPage,
 		acpvAllAppsNumCols,
@@ -305,12 +346,21 @@ public class ObfuscationHelper extends HooksBaseClass {
 		dpDesiredWorkspaceLeftRightMarginPx,
 		fContent,
 		lAppsCustomizePagedView,
-		iiID;
-		
+		iiTitle,
+		iiID,
+		uSCanvas,
+		icIcon,
+		icIconDensity,
+		ciCell,
+		lAppWidgetHostView,
+		wDragInfo,
+		LauncherAppWidgetInfo;
+
 		public static void initFieldNames() {
-			
+
 			if (Common.PACKAGE_OBFUSCATED) {
 				hotseatAllAppsRank = "zp";
+				dpNumHotseatIcons = "yz";
 				itemInfoTitle = "title";
 				celllayoutlayoutparamsCanReorder = "wf";
 				deviceProfileSearchBarSpaceWidthPx = "zs";
@@ -349,6 +399,7 @@ public class ObfuscationHelper extends HooksBaseClass {
 				iiItemType = "En";
 				dpSearchBarHeightPx = "zv";
 				dpSearchBarSpaceHeightPx = "zu";
+				dpSearchBarSpaceWidthPx = "zs";
 				aiComponentName = "rJ";
 				acpvAllAppsNumCols = "zr";
 				acpvAllAppsNumRows = "zq";
@@ -360,8 +411,17 @@ public class ObfuscationHelper extends HooksBaseClass {
 				fContent = "BH";
 				lAppsCustomizePagedView = "ES";
 				iiID = "id";
+				iiTitle = "title";
+				uSCanvas = "NL";
+				icIcon = "DZ";
+				icIconDensity = "DY";
+				ciCell = "vL";
+				lAppWidgetHostView = "ru";
+				wDragInfo = "PP";
+				LauncherAppWidgetInfo = "rv";
 			} else {
 				hotseatAllAppsRank = "hotseatAllAppsRank";
+				dpNumHotseatIcons = "numHotseatIcons";
 				itemInfoTitle = "title";
 				celllayoutlayoutparamsCanReorder = "canReorder";
 				deviceProfileSearchBarSpaceWidthPx = "searchBarSpaceWidthPx";
@@ -411,12 +471,21 @@ public class ObfuscationHelper extends HooksBaseClass {
 				fContent = "mContent";
 				lAppsCustomizePagedView = "mAppsCustomizeContent";
 				iiID = "id";
+				iiTitle = "title";
+				dpSearchBarSpaceWidthPx = "searchBarSpaceWidthPx";
+				uSCanvas = "sCanvas";
+				icIcon = "icon";
+				icIconDensity = "mIconDpi";
+				ciCell = "cell";
+				lAppWidgetHostView = "LauncherAppWidgetHostView";
+				wDragInfo = "mDragInfo";
+				LauncherAppWidgetInfo = "LauncherAppWidgetInfo";
 			}
 		}
 	}
-	
+
 	public static class Methods {
-		
+
 		public static String applyFromApplicationInfo,
 		itemInfoTitle,
 		launcherOnCreate,
@@ -429,7 +498,6 @@ public class ObfuscationHelper extends HooksBaseClass {
 		workspaceBeginDragShared,
 		acpvBeginDraggingApplication,
 		acpvOnPackagesUpdated,
-		launcherAppWidgetHostView,
 		dynamicgridLayout,
 		launcherGetSearchbar,
 		launcherGetQsbBar,
@@ -475,10 +543,17 @@ public class ObfuscationHelper extends HooksBaseClass {
 		clGetShortcutsAndWidgets,
 		acthGetContentTypeForTabTag,
 		lStartActivitySafely,
-		wOnTransitionPrepare;
-		
+		wOnTransitionPrepare,
+		siGetIntent,
+		icGetFullResIcon,
+		uCreateIconBitmap,
+		icCacheLocked,
+		clMarkCellsForView,
+		wStartDrag,
+		lmCheckItemPlacement;
+
 		public static void initMethodNames() {
-			
+
 			if (Common.PACKAGE_OBFUSCATED) {
 				applyFromApplicationInfo = "a";
 				itemInfoTitle = "title";
@@ -491,7 +566,6 @@ public class ObfuscationHelper extends HooksBaseClass {
 				workspaceBeginDraggingApplication = "P";
 				workspaceBeginDragShared = "a";
 				acpvOnPackagesUpdated = "a";
-				launcherAppWidgetHostView = "ru";
 				dynamicgridLayout = "a";
 				launcherGetSearchbar = "fZ";
 				launcherGetQsbBar = "gw";
@@ -536,6 +610,13 @@ public class ObfuscationHelper extends HooksBaseClass {
 				acthGetContentTypeForTabTag = "j";
 				lStartActivitySafely = "b";
 				wOnTransitionPrepare = "jR";
+				siGetIntent = "getIntent";
+				icGetFullResIcon = "a";
+				uCreateIconBitmap = "a";
+				icCacheLocked = "b";
+				clMarkCellsForView = "a";
+				wStartDrag = "b";
+				lmCheckItemPlacement = "a";
 			} else {
 				applyFromApplicationInfo = "applyFromApplicationInfo";
 				itemInfoTitle = "title";
@@ -547,7 +628,6 @@ public class ObfuscationHelper extends HooksBaseClass {
 				workspaceStartDrag = "startDrag";
 				acpvBeginDraggingApplication = "beginDraggingApplication";
 				acpvOnPackagesUpdated = "onPackagesUpdated";
-				launcherAppWidgetHostView = "LauncherAppWidgetHostView";
 				dynamicgridLayout = "layout";
 				launcherGetSearchbar = "getSearchBar";
 				launcherGetQsbBar = "getQsbBar";
@@ -592,6 +672,13 @@ public class ObfuscationHelper extends HooksBaseClass {
 				acthGetContentTypeForTabTag = "getContentTypeForTabTag";
 				lStartActivitySafely = "startActivitySafely";
 				wOnTransitionPrepare = "onTransitionPrepare";
+				siGetIntent = "getIntent";
+				icGetFullResIcon = "getFullResIcon";
+				uCreateIconBitmap = "createIconBitmap";
+				icCacheLocked = "cacheLocked";
+				clMarkCellsForView = "markCellsForView";
+				wStartDrag = "startDrag";
+				lmCheckItemPlacement = "checkItemPlacement";
 			};
 		}
 	}

@@ -106,24 +106,7 @@
     <string name="pref_gestures_note_summary">Gesturá pre inicializáciu potrebujú jednu alebo dve minúty po spustení zariadenia</string>
     <!-- V1.4 -->
     <string name="pref_switch_no_all_apps_button_title">Tlačidlo ponuky aplikácií</string>
-    <string name="pref_switch_no_all_apps_button_summary">Skryť tlačidlo ponuky aplikácií. Prosím, odstráňte ikonu z ponuky aplikácií, ak túto možnosť zakážete!</string>
-    
-    <string-array name="fragmenttitles_array">
-        <item>Vitajte</item>
-        <item>Všeobecné</item>
-        <item>Vyhľadávací riadok</item>
-        <item>Domovská obrazovka</item>
-        <item>Ponuka aplikácií</item>
-        <item>Gestá</item>
-        <item>Notification Badges (Beta)</item>
-        <item>Symboly oznámení</item>
-        <item>Vylepšenia rozhrania</item>
-        <item>Zálohovať/Obnoviť</item>
-        <item>Nastavenia</item>
-        <item>Prémium/Podpora</item>
-        <item>Reverse Engineering</item> <!-- NEW -->
-    </string-array>
-    
+    <string name="pref_switch_no_all_apps_button_summary">Skryť tlačidlo ponuky aplikácií. Prosím, odstráňte ikonu z ponuky aplikácií, ak túto možnosť zakážete!</string>    
     <string name="drawer_open">Otvoriť navigačnú ponuku</string>
     <string name="drawer_close">Zatvoriť navigačnú ponuku</string>
     <string name="pref_systemui_explain_title">Poznámka</string>
@@ -279,5 +262,23 @@
     <string name="pref_donate_button">Zakúpiť Prémium a podporiť vývojára!</string>
     <string name="pref_donated_button">Ďakujeme vám za váš nákup!</string>
     <string name="pref_limited_summary">Niektoré z nasledujúcich funkcií sú dostupné len v XGELS Prémium.</string>
+    
+    <!-- V1.7 -->
+    <string-array name="fragmenttitles_array">
+        <item>Vitajte</item>
+        <item>Všeobecné</item>
+        <item>Vyhľadávací riadok</item>
+        <item>Domovská obrazovka</item>
+        <item>Ponuka aplikácií</item>
+        <item>Gestá</item>
+        <item>Notification Badges (Beta)</item>
+        <item>Icon</item> <!-- NEW -->
+        <item>Symboly oznámení</item>
+        <item>Vylepšenia rozhrania</item>
+        <item>Zálohovať/Obnoviť</item>
+        <item>Nastavenia</item>
+        <item>Prémium/Podpora</item>
+        <item>Reverse Engineering</item>
+    </string-array>
     
 </resources>

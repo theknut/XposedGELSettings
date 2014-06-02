@@ -174,7 +174,7 @@ public class FragmentNotificationBadges extends FragmentBase {
         MyPreferenceScreen advancedMessagePref = (MyPreferenceScreen) this.findPreference("advanced_message");
         CustomSwitchPreference enablePref = (CustomSwitchPreference) this.findPreference("enablenotificationbadges");
         
-        if (!InAppPurchase.isDonate) {
+        if (!InAppPurchase.isPremium) {
         	List<Preference> prefs = new ArrayList<Preference>();
         	prefs.addAll(colorPrefs);
         	prefs.addAll(listPrefs);

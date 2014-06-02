@@ -20,6 +20,12 @@
 		android:key="lockhomescreen"
 		android:title="@string/pref_lock_desktop_title"
 		android:summary="@string/pref_lock_desktop_summary" />
+	<de.theknut.xposedgelsettings.ui.MyListPreference
+		android:key="scrolldevider"
+		android:title="@string/pref_general_scroll_devider_title"
+		android:summary="@string/pref_general_scroll_devider_summary"
+		android:entries="@array/general_scroll_devider_entries"
+		android:entryValues="@array/general_scroll_devider_values"/>
 	<de.theknut.xposedgelsettings.ui.CustomSwitchPreference
 		android:key="continuousscroll"
 		android:title="@string/pref_continuous_scroll_title"

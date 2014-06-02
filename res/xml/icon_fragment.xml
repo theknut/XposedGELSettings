@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+       	android:key="needsDonate"
+	    android:title="@string/pref_icon_premium_title"
+	    android:summary="@string/pref_icon_premium_summary"
+	    android:selectable="false" />
+    <de.theknut.xposedgelsettings.ui.MyListPreference
+		android:key="iconpack"
+		android:defaultValue="DEFAULT"
+		android:title="@string/pref_icon_chooseiconpack_title"
+		android:dialogTitle="@string/pref_icon_chooseiconpack_dialog_title" />
+    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+        android:key="support"
+	    android:title="@string/pref_icon_support_title"
+	    android:summary="@string/pref_icon_support_summary" />
+    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+	    android:title="Per app icon change"
+	    android:enabled="false"
+	    android:summary="Coming soon!"
+	    android:selectable="false" />
+    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+	    android:title="All apps button icon"
+	    android:enabled="false"
+	    android:summary="Coming soon!"
+	    android:selectable="false" />
+    <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+		android:key="autoupdateapplyiconpack"
+		android:title="@string/pref_icon_auto_apply_title"
+		android:summary="@string/pref_icon_auto_apply_summary" />
+</PreferenceScreen>

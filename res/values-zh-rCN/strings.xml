@@ -243,22 +243,6 @@
     <string name="alert_launcher_not_installed_summary">看起来您尚未安装谷歌即时桌面或 Trebuchet。本模块专为这两个启动器设计，如果您的启动器不是这两个其中之一，则本模块无法正常工作。请在使用本模块前先安装这两个启动器之一。</string>
     <string name="alert_launcher_not_installed_get_gnl">安装谷歌即时桌面</string>
     
-    <!-- These strings are already existing, please try to edit them -->
-    <string-array name="fragmenttitles_array">
-        <item>欢迎</item>
-        <item>常规</item>
-        <item>谷歌搜索栏</item>
-        <item>桌面</item>
-        <item>应用抽屉</item>
-        <item>手势</item>
-        <item>通知标记</item> <!-- NEW -->
-        <item>系统界面调整</item>
-        <item>备份/还原</item>
-        <item>设置</item>
-        <item>高级版/支持</item> <!-- NEW -->
-        <item>Reverse Engineering</item> <!-- NEW -->
-    </string-array>
-    
     <string-array name="gesture_actions_entries">
         <item>无</item>
         <item>通知栏</item>
@@ -277,4 +261,20 @@
     <string name="pref_donated_button">感谢您的购买！</string>
     <string name="pref_limited_summary">以下功能仅适用于 XGELS 高级版。</string>
     
+    <!-- V1.7 -->
+    <string-array name="fragmenttitles_array">
+        <item>欢迎</item>
+        <item>常规</item>
+        <item>谷歌搜索栏</item>
+        <item>桌面</item>
+        <item>应用抽屉</item>
+        <item>手势</item>
+        <item>通知标记</item>
+        <item>Icon</item> <!-- NEW -->
+        <item>系统界面调整</item>
+        <item>备份/还原</item>
+        <item>设置</item>
+        <item>高级版/支持</item>
+        <item>Reverse Engineering</item>
+    </string-array>
 </resources>

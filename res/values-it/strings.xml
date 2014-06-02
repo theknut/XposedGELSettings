@@ -235,21 +235,6 @@
     <string name="alert_launcher_not_installed_summary">Devi necessariamente installare GNL o trebuchet dato che XGEL supporta solamente questi launcher!</string>
     <string name="alert_launcher_not_installed_get_gnl">Installa GNL</string>
     
-    <string-array name="fragmenttitles_array">
-        <item>Benvenuto</item>
-        <item>Generali</item>
-        <item>Barra Google Search</item>
-        <item>Home</item>
-        <item>App drawer</item>
-        <item>Gesti</item>
-        <item>Badge di notifica (Beta)</item>
-        <item>Modifiche alla System UI</item>
-        <item>Backup/Ripristino</item>
-        <item>Preferenze</item>
-        <item>Premium/Supporto</item>
-        <item>Reverse Engineering</item> <!-- NEW -->
-    </string-array>
-    
     <string-array name="gesture_actions_entries">
         <item>Nessuno</item>
         <item>Barra di notifica</item>
@@ -267,5 +252,22 @@
     <string name="pref_donate_button">Dona e supportami!</string>
     <string name="pref_donated_button">Grazie per l\'acquisto!</string>
     <string name="pref_limited_summary">Alcune di queste funzioni sono disponibili solo con XGEL Premium.</string>
+    
+    <!-- V1.7 -->
+    <string-array name="fragmenttitles_array">
+        <item>Benvenuto</item>
+        <item>Generali</item>
+        <item>Barra Google Search</item>
+        <item>Home</item>
+        <item>App drawer</item>
+        <item>Gesti</item>
+        <item>Badge di notifica (Beta)</item>
+        <item>Icon</item> <!-- NEW -->
+        <item>Modifiche alla System UI</item>
+        <item>Backup/Ripristino</item>
+        <item>Preferenze</item>
+        <item>Premium/Supporto</item>
+        <item>Reverse Engineering</item> <!-- NEW -->
+    </string-array>
     
 </resources>

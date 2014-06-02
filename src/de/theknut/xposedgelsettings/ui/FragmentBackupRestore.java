@@ -205,7 +205,7 @@ public class FragmentBackupRestore extends FragmentBase {
         
         PreferenceScreen preferenceScreen = getPreferenceScreen();
         
-        if (!InAppPurchase.isDonate) {        	
+        if (!InAppPurchase.isPremium) {        	
         	for (int i = 0; i < preferenceScreen.getPreferenceCount(); i++) {
         		Preference pref = preferenceScreen.getPreference(i);
         		

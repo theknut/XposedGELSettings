@@ -42,6 +42,12 @@
 		android:key="noallappsbutton"
 		android:title="@string/pref_switch_no_all_apps_button_title"
 		android:summary="@string/pref_switch_no_all_apps_button_summary" />
+      <de.theknut.xposedgelsettings.ui.MyListPreference
+		android:key="positionallappsbutton"
+		android:title="@string/pref_switch_position_all_apps_button_title"
+		android:summary="@string/pref_switch_position_all_apps_button_summary"
+		android:entries="@array/allappsbuttonposition_entries"
+		android:entryValues="@array/allappsbuttonposition_values"/>
       <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
 		android:key="appdocksettingsswitch"
 		android:title="@string/pref_switch_appdocksettings_title"
@@ -119,6 +125,10 @@
 		android:key="homescreenfolderswitch"
 		android:title="@string/pref_switch_folder_title"
 		android:summary="@string/pref_switch_folder_summary" />
+     <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+		android:key="homescreenfoldernolabel"
+		android:title="@string/pref_switch_folder_hide_label"
+		android:dependency="homescreenfolderswitch" />
       <net.margaritov.preference.colorpicker.ColorPickerPreference 
 		android:key="homescreenfoldercolor"
 		android:title="@string/pref_folder_background_color"

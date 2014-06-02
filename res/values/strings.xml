@@ -254,22 +254,6 @@
     <string name="alert_launcher_not_installed_summary">It seems like you neither have Google Now Launcher nor Trebuchet installed. This module is designed for those two launchers and won\'t work if none of them is installed. Please make sure to install GNL or Trebuchet before using this app!</string>
     <string name="alert_launcher_not_installed_get_gnl">Get GNL</string>
     
-    <!-- These strings are already existing, please try to edit them -->
-    <string-array name="fragmenttitles_array">
-        <item>Welcome</item>
-        <item>General</item>
-        <item>Google Search Bar</item>
-        <item>Homescreen</item>
-        <item>App Drawer</item>
-        <item>Gestures</item>
-        <item>Notification Badges (Beta)</item> <!-- NEW -->
-        <item>System UI Tweaks</item>
-        <item>Backup/Restore</item>
-        <item>Settings</item>
-        <item>Premium/Support</item> <!-- NEW -->
-        <item>Reverse Engineering</item> <!-- NEW -->
-    </string-array>
-    
     <string-array name="gesture_actions_entries">
         <item>None</item>
         <item>Notification bar</item>
@@ -299,11 +283,52 @@
     <string name="pref_reverseengineering_bugs_summary">Due to the reverse engineering there might still be a few bugs here and there. Please be a little bit more forgiving, don\'t ruin my Play Store rating with bug reports. Use the \"Send bug report\" function in the settings menu. Thank you!</string>
     <string name="pref_reverseengineering_support_cat">I need your support!</string>
     <string name="pref_reverseengineering_support_title">Donate to me!</string>
-    <string name="pref_reverseengineering_support_summary">It\'s an incredible amount of work for me to maintain XGELS and give good support to you guys. If you feel like donating to me, click here!</string>
+    <string name="pref_reverseengineering_support_summary">It\'s an incredible amount of work for me to maintain XGELS and give good support to you guys. If you feel like donating to me, click here! (!This won\'t unlock Premium!)</string>
     <string name="pref_reverseengineering_rate_title">Rate XGELS!</string>
     <string name="pref_reverseengineering_rate_summary">Show your support and leave me a rating on Google Play. A good reputation will motivate others to try XGELS, too. Click here to rate XGELS on Google Play!</string>
     
     <!-- V1.6.2 -->
     <string name="pref_notificationbadge_help_title">Need help?</string>
     <string name="pref_notificationbadge_help_summary">Click here to read how to configure notification badges!</string>
+    
+    <!-- V1.7 -->
+    <string name="pref_switch_position_all_apps_button_title">App drawer button position</string>
+    <string name="pref_switch_position_all_apps_button_summary">Choose the position of the app drawer</string>
+    <string name="pref_general_scroll_devider_title">Scroll speed</string>
+    <string name="pref_general_scroll_devider_summary">Set a global scroll speed</string>
+    
+    <!-- These strings are already existing, please try to edit them -->
+    <string-array name="fragmenttitles_array">
+        <item>Welcome</item>
+        <item>General</item>
+        <item>Google Search Bar</item>
+        <item>Homescreen</item>
+        <item>App Drawer</item>
+        <item>Gestures</item>
+        <item>Notification Badges (Beta)</item>
+        <item>Icon</item> <!-- NEW -->
+        <item>System UI Tweaks</item>
+        <item>Backup/Restore</item>
+        <item>Settings</item>
+        <item>Premium/Support</item>
+        <item>Reverse Engineering</item>
+    </string-array>
+    
+    <string name="pref_switch_folder_hide_label">Hide icon labels</string>
+    <string name="pref_icon_chooseiconpack_title">Icon pack</string>
+    <string name="pref_icon_chooseiconpack_dialog_title">Choose an icon pack</string>
+    <string name="pref_icon_noiconpack">Default</string>
+    <string name="alert_icon_noiconpackfound_title">No icon pack found!</string>
+    <string name="alert_icon_noiconpackfound_summary">There was no supported icon pack found. Get one?</string>
+    <string name="alert_icon_noiconpackfound_yes">Sure</string>
+    
+    <string name="pref_icon_premium_title">Premium Feature</string>
+    <string name="pref_icon_premium_summary">This feature is only available in XGELS Premium.</string>
+    <string name="pref_icon_support_title">Stats</string>
+    <string name="pref_icon_support_summary">%1$d of %2$d icons supported\n%3$d icons in total</string>
+    <string name="pref_icon_auto_apply_title">Auto apply</string>
+    <string name="pref_icon_auto_apply_summary">Apply new or updated icon packs automatically</string>
+    
+    <string name="pref_show_google_search_bar_homescreen_title">Default homescreen</string>
+    <string name="pref_show_google_search_bar_homescreen_summary">Show the search bar on default homescreen</string>
 </resources>

@@ -48,8 +48,7 @@ public class FragmentWelcome extends FragmentBase {
 				
 				@Override
 				public boolean onTouch(View v, MotionEvent event) {
-					CommonUI.openRootShell(new String[]{ "su", "-c", "killall system_server"});
-					
+				    
 					return true;
 				}
 			});
@@ -186,11 +185,11 @@ public class FragmentWelcome extends FragmentBase {
 		        	if (LaunchIntent == null) {
 		        		Toast.makeText(mContext, R.string.toast_openinstaller_failed, Toast.LENGTH_LONG).show();
 		        	} else {
-		        		Intent i = new Intent();
-		        		i.setClassName("de.robv.android.xposed.installer", "de.robv.android.xposed.installer.XposedInstallerActivity");
-		        		i.putExtra("opentab", "modules");
-		        		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		        		mContext.startActivity(i);
+		        		Intent intent = new Intent("de.robv.android.xposed.installer.OPEN_SECTION");
+		        		intent.setPackage("de.robv.android.xposed.installer");
+		        		intent.putExtra("section", "modules");
+		        		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		        		mContext.startActivity(intent);
 		        	}
 	        	} catch (Exception e) {
 	        		if (LaunchIntent != null) {

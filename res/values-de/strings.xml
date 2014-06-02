@@ -248,21 +248,6 @@
     <string name="alert_launcher_not_installed_summary">Es scheint so, als hätten Sie weder den Google Now Launcher noch Trebuchet installiert. Diese Modul wurde für diese beiden Launcher entwickelt und wird ohne einen von beiden nicht funktionieren. Bitte stellen Sie sicher, dass Sie den Google Now Launcher oder Trebuchet installiert haben, wenn Sie diese App verwenden möchten!</string>
     <string name="alert_launcher_not_installed_get_gnl">GNL heruntenladen</string>
     
-    <string-array name="fragmenttitles_array">
-        <item>Willkommen</item>
-        <item>Allgemein</item>
-        <item>Google Suchleiste</item>
-        <item>Homescreen</item>
-        <item>App-Übersicht</item>
-        <item>Gesten</item>
-        <item>Notification Badges (Beta)</item>
-        <item>System UI Tweaks</item>
-        <item>Sichern/Wiederherstellen</item>
-        <item>Einstellungen</item>
-        <item>Premium/Support</item>
-        <item>Reverse Engineering</item> <!-- NEW -->
-    </string-array>
-    
     <string-array name="gesture_actions_entries">
         <item>Keine</item>
         <item>Benachrichtigungszeile</item>
@@ -285,5 +270,45 @@
     <!-- V1.6.2 -->
     <string name="pref_notificationbadge_help_title">Brauchen Sie Hilfe?</string>
     <string name="pref_notificationbadge_help_summary">Klicken Sie hier, um zu lesen, wie man Notification Badges einrichtet!</string>
+    
+    <!-- V1.7 -->
+    <string name="pref_switch_position_all_apps_button_title">Position des App-Übersicht Buttons</string>
+    <string name="pref_switch_position_all_apps_button_summary">Wähle die Position des App-Übersicht Buttons</string>
+    <string name="pref_general_scroll_devider_title">Scrollgeschwindigkeit</string>
+    <string name="pref_general_scroll_devider_summary">Stelle eine Scrollgeschwindigkeit ein</string>
+    
+    <string-array name="fragmenttitles_array">
+        <item>Willkommen</item>
+        <item>Allgemein</item>
+        <item>Google Suchleiste</item>
+        <item>Homescreen</item>
+        <item>App-Übersicht</item>
+        <item>Gesten</item>
+        <item>Notification Badges (Beta)</item>
+        <item>Icon</item>
+        <item>System UI Tweaks</item>
+        <item>Sichern/Wiederherstellen</item>
+        <item>Einstellungen</item>
+        <item>Premium/Support</item>
+        <item>Reverse Engineering</item>
+    </string-array>
+    
+    <string name="pref_switch_folder_hide_label">Icontext verbergen</string>
+    <string name="pref_icon_chooseiconpack_title">Iconpack</string>
+    <string name="pref_icon_chooseiconpack_dialog_title">Wähle einen Iconpack</string>
+    <string name="pref_icon_noiconpack">Standard</string>
+    <string name="alert_icon_noiconpackfound_title">Kein Iconpack gefunden!</string>
+    <string name="alert_icon_noiconpackfound_summary">Es wurde kein unterstützter Iconpack gefunden. Jetzt einen herunterladen?</string>
+    <string name="alert_icon_noiconpackfound_yes">Klar</string>
+    
+    <string name="pref_icon_premium_title">Premiumfunktion</string>
+    <string name="pref_icon_premium_summary">Diese Funktion ist nur in XGELS Premium verfügbar</string>
+    <string name="pref_icon_support_title">Statistik</string>
+    <string name="pref_icon_support_summary">%1$d von %2$d Icons unterstützt\n%3$d Icons insgesamt</string>
+    <string name="pref_icon_auto_apply_title">Automatisch anwenden</string>
+    <string name="pref_icon_auto_apply_summary">Neue oder aktualisierte Iconpacks automatisch anwenden</string>
+    
+    <string name="pref_show_google_search_bar_homescreen_title">Standard-Homescreen</string>
+    <string name="pref_show_google_search_bar_homescreen_summary">Suchleiste nur auf Standard-Homescreen anzeigen</string>
    
 </resources>

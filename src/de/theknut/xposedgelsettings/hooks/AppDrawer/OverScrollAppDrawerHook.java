@@ -21,7 +21,7 @@ public class OverScrollAppDrawerHook extends XC_MethodHook {
 		if(overscroll > 50.0) {
 			if (PreferencesHelper.continuousScrollWithAppDrawer) {
 				if (Common.OVERSCROLLED) {
-					Common.OVERSCROLLED = false;
+					//Common.OVERSCROLLED = false;
 					
 					if ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherHasCustomContentToLeft)) {
 						callMethod(Common.WORKSPACE_INSTANCE, Methods.wSetCurrentPage, 1);
@@ -45,7 +45,7 @@ public class OverScrollAppDrawerHook extends XC_MethodHook {
 			
 			if (PreferencesHelper.continuousScrollWithAppDrawer) {
 				if (Common.OVERSCROLLED) {
-					Common.OVERSCROLLED = false;
+					//Common.OVERSCROLLED = false;
 					
 					int lastPage = (Integer) callMethod(Common.WORKSPACE_INSTANCE, "getChildCount") - 1;
 					callMethod(Common.WORKSPACE_INSTANCE, Methods.wSetCurrentPage, lastPage);

@@ -25,6 +25,30 @@
   </head>
   <body>
   
+  $ 1.7
+  % Version 1.7
+ _ 2014-06-02
+ 
+ ! Added:
+ * Icon pack support [Premium]
+ * dynamic calendar icon (currently only supported by <a href="http://bit.ly/1o1Cjld">Today Calendar</a>) or in a few icon packs
+ * show search bar on default homescreen
+ * even count of app dock icons
+ * set position of all apps button
+ * customizable scroll speed
+ * hide only icon labels in folders
+ * negative homescreen margins
+ 
+ ! Fixed:
+ * Google search bar hidden but space not available
+ 
+ ! XGELS UI:
+ * blocking Freedom and it's purchases now. Time to get real, guys!
+ * added French translation (by Bokoblin)
+ * updated translations
+ 
+ <a href="http://bit.ly/TYISONFIRE">#TYISONFIRE</a>
+  
  $ 1.6.2
  % Version 1.6.2
  _ 2014-05-11

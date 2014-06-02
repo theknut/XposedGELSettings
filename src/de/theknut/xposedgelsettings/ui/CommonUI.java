@@ -1,6 +1,8 @@
 package de.theknut.xposedgelsettings.ui;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import de.theknut.xposedgelsettings.R;
@@ -14,14 +16,18 @@ import android.app.ProgressDialog;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Environment;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +43,42 @@ public class CommonUI {
 	public static boolean AUTO_BLUR_IMAGE;
 	public static boolean needFullReboot = false;
 	private static Shell.Interactive rootSession;
+    
+    public static List<String> getIconPacks(Context context) {
+	    String[] sIconPackCategories = new String[] {
+	            "com.fede.launcher.THEME_ICONPACK",
+	            "com.anddoes.launcher.THEME",
+	            "com.teslacoilsw.launcher.THEME"
+	    };
+	    String[] sIconPackActions = new String[] {
+	            "org.adw.launcher.THEMES",
+	            "com.gau.go.launcherex.theme"
+	    };
+	    
+	    Intent i = new Intent();
+        List<String> packages = new ArrayList<String>();
+        PackageManager packageManager = context.getPackageManager();
+        for (String action : sIconPackActions) {
+            i.setAction(action);
+            for (ResolveInfo r : packageManager.queryIntentActivities(i, 0)) {
+                
+                if (!packages.contains(r.activityInfo.packageName))
+                packages.add(r.activityInfo.packageName);
+            }
+        }
+        
+        i = new Intent(Intent.ACTION_MAIN);
+        for (String category : sIconPackCategories) {
+            i.addCategory(category);
+            for (ResolveInfo r : packageManager.queryIntentActivities(i, 0)) {
+                if (!packages.contains(r.activityInfo.packageName))
+                    packages.add(r.activityInfo.packageName);
+            }
+            i.removeCategory(category);
+        }
+	    
+        return packages;
+    }
 	
 	public static View setBackground(View rootView, int layout) {
 		
@@ -45,7 +87,35 @@ public class CommonUI {
     	}
     	
     	ImageView background = (ImageView) rootView.findViewById(layout);
-    	background.setImageResource(R.drawable.wall);
+    	background.setImageResource((layout == R.id.welcomebackground) ? R.drawable.wall : R.drawable.wall2);
+    	
+    	rootView.setOnTouchListener(new OnTouchListener() {
+            
+    	    float downX;
+    	    
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                
+                switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                case MotionEvent.ACTION_DOWN:
+                    downX = event.getRawX();
+                    
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    
+                    if ((event.getRawX() - downX) > 100.0f) {
+                        MainActivity.openDrawer();
+                        return true;
+                    } 
+                    
+                    break;
+                default:
+                    break;
+                }
+                
+                return false;
+            }
+        });
     	
     	return rootView;
 	}
@@ -89,6 +159,18 @@ public class CommonUI {
         }
 	}
 	
+	public static List<ResolveInfo> getAllApps() {
+	    // load all apps which are listed in the app drawer
+	    
+	    PackageManager pm = CONTEXT.getPackageManager();        
+        final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        final List<ResolveInfo> apps = pm.queryIntentActivities(mainIntent, 0);
+        Collections.sort(apps, new ResolveInfo.DisplayNameComparator(pm));
+        
+        return apps;
+	}
+	
 	public static void restartLauncherOrDevice() {
     	
     	if (needFullReboot) {
@@ -98,7 +180,7 @@ public class CommonUI {
     	    .setMessage(R.string.alert_reboot_needed_summary)
     	    .setPositiveButton("Full reboot", new DialogInterface.OnClickListener() {
     	        public void onClick(DialogInterface dialog, int which) {
-    	        	if (!InAppPurchase.isDonate) {
+    	        	if (!InAppPurchase.isPremium) {
     	    			Toast.makeText(CONTEXT, CONTEXT.getString(R.string.toast_donate_only), Toast.LENGTH_SHORT).show();
     	    			return;
     	    		}
@@ -110,7 +192,7 @@ public class CommonUI {
     	     .setNeutralButton("Hot reboot", new DialogInterface.OnClickListener() {
 
 			      public void onClick(DialogInterface dialog, int id) {
-			    	if (!InAppPurchase.isDonate) {
+			    	if (!InAppPurchase.isPremium) {
 			  			Toast.makeText(CONTEXT, CONTEXT.getString(R.string.toast_donate_only), Toast.LENGTH_SHORT).show();
 			  			return;
 			  		}
@@ -137,24 +219,23 @@ public class CommonUI {
 	   	 
 	   	 List<RunningAppProcessInfo> processes = am.getRunningAppProcesses();
 	   	 for (RunningAppProcessInfo process : processes) {
-	   		 if (Common.PACKAGE_NAMES.contains(process.processName)) {  
-	   			 
-	   			 am.killBackgroundProcesses(process.processName);
-	   			 
-	   			 List<RunningAppProcessInfo> processesAfterKill = am.getRunningAppProcesses();
-	   			 for (RunningAppProcessInfo processAfterKill : processesAfterKill) {
-		   			 if (processAfterKill.pid == process.pid) {
-			   		 	 // process wasn't killed for some reason
-			   		 	 // kill it with fire
-		   				 neededRoot = true;
-			   		 	 CommonUI.openRootShell(new String[]{"su","kill -9 " + processAfterKill.pid});
-		   			 }
-	   			 }
-	   			 
-	   			 if (!neededRoot) {
-	   				 msg += process.processName + "\n";
-	   			 }
-	   		 }                        			 
+	   	     if (Common.PACKAGE_NAMES.contains(process.processName)) {  
+
+	   	         am.killBackgroundProcesses(process.processName);
+	   	         List<RunningAppProcessInfo> processesAfterKill = am.getRunningAppProcesses();
+	   	         for (RunningAppProcessInfo processAfterKill : processesAfterKill) {
+	   	             if (processAfterKill.pid == process.pid) {
+	   	                 // process wasn't killed for some reason
+	   	                 // kill it with fire
+	   	                 neededRoot = true;
+	   	                 CommonUI.openRootShell(new String[]{"su","kill -9 " + processAfterKill.pid});
+	   	             }
+	   	         }
+
+	   	         if (!neededRoot) {
+	   	             msg += process.processName + "\n";
+	   	         }
+	   	     }                        			 
 	   	 }
 	   	 
 	   	 if (!neededRoot) {

@@ -19,6 +19,9 @@ public final class Common {
 	public static final String XGELS_ACTION_NAVBAR = "NAVIGATION_BAR";
 	public static final String XGELS_ACTION_OTHER = "OTHER";
 	public static final String XGELS_ACTION_APP_REQUEST = "APP_REQUEST";
+	public static final String XGELS_ACTION_APPLY_ICONPACK = XGELS_INTENT + ".APPLY_ICONPACK";
+	public static final String XGELS_ACTION_UPDATE_CALENDAR = XGELS_INTENT + ".UPDATE_CALENDAR";
+	public static final String XGELS_ACTION_SAVE_ICONPACK = XGELS_INTENT + ".SAVE_ICONPACK";
 	
 	// MissedIt intent
 	public static final String MISSEDIT_INTENT = "net.igecelabs.android.MissedIt.";
@@ -29,6 +32,8 @@ public final class Common {
 	public static final String MISSEDIT_SMS_NOTIFICATION = MISSEDIT_INTENT + "SMS_NOTIFICATION";
 	public static final String MISSEDIT_APP_NOTIFICATION = MISSEDIT_INTENT + "APP_NOTIFICATION";
 	public static final String MISSEDIT_GMAIL_NOTIFICATION = MISSEDIT_INTENT + "GMAIL_NOTIFICATION";
+	
+	public static final String ICONPACK_DEFAULT = "DEFAULT";
 	
 	// the name of the settings file
 	public static final String PREFERENCES_NAME = Common.PACKAGE_NAME + "_preferences";
@@ -47,8 +52,8 @@ public final class Common {
 	public static Context LAUNCHER_CONTEXT;
 		
 	// saved messures of the search bar
-	public static int SEARCH_BAR_SPACE_HEIGHT;
-	public static int SEARCH_BAR_SPACE_WIDTH;
+	public static int SEARCH_BAR_SPACE_HEIGHT = -1;
+	public static int SEARCH_BAR_SPACE_WIDTH = -1;
 	public static int HOTSEAT_BAR_HEIGHT;
 	
 	// saved measures for the icon sizes
@@ -71,6 +76,7 @@ public final class Common {
 	public static int APPDRAWER_LAST_POSITION = 0;
 	
 	public static boolean PACKAGE_OBFUSCATED;
+	public static boolean test;
 	
 	// all launchers we support (hopefully :-S)
 	public static final List<String> PACKAGE_NAMES = new ArrayList<String>(Arrays.asList("com.android.launcher2", "com.android.launcher3", Common.GEL_PACKAGE, Common.TREBUCHET_PACKAGE));
