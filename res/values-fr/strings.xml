@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Xposed GEL Settings</string>
-    <string name="app_description">Xposed GEL Settings permet de masquer la barre de recherche Google, masquer des applications dans le Drawer, modifier le nombre d\'icônes apparaissant dans l\'écran d\'acceuil et le drawer (ex. 4*4, 4*5, 5*5,&#8230;), modifier la taille des icônes et de leur nom, modifier le nombre d\'icônes dans le dock, enlever le nom des icônes et bien plus</string>
+    <string name="app_description">Xposed GEL Settings permet de masquer la barre de recherche Google, masquer des applications dans le Drawer, modifier le nombre d\'icônes apparaissant dans l\'écran d\'accueil et le drawer (ex. 4*4, 4*5, 5*5,&#8230;), modifier la taille des icônes et de leur nom, modifier le nombre d\'icônes dans le dock, enlever le nom des icônes et bien plus</string>
     <string name="pref_hide_google_search_bar_title">Masquer</string>
     <string name="pref_autohide_google_search_bar_title">Masquer automatiquement</string>
     <string name="pref_autohide_google_search_bar_summary">Montrer automatiquement sur la page Google Now</string>
@@ -21,20 +21,20 @@
     <string name="pref_cat_title_general">Genéral</string>
     <string name="pref_cat_title_hide_apps">Masquer des applications</string>
     <string name="pref_grid_size_explain_title">Attention!</string>
-    <string name="pref_grid_size_explain_summary">Rappel : Modifier la grille peut modifier l\'ordre des icônes. Si vous la diminuer des icônes peuvent disparaître. Augmenter-la à nouveau pour les faire revenir. De plus, si  la grille est trop grande, une partie des icônes peut être coupée. Ne l\'augmenter pas trop.</string>
+    <string name="pref_grid_size_explain_summary">Rappel : Modifier la grille peut modifier l\'ordre des icônes. Si vous la diminuez des icônes peuvent disparaître. Augmentez-la à nouveau pour les faire revenir. De plus, si la grille est trop grande, une partie des icônes peut être coupée. Ne l\'augmentez pas trop.</string>
     <string name="pref_switch_enable_grid_size_title">Activer</string>
     <string name="pref_switch_enable_grid_size_summary">Active les modifications de la grille</string>
-    <string name="pref_resize_all_widgets_title">Redimentionner les widgets</string>
-    <string name="pref_resize_all_widgets_summary">Faire que tous les widgets soient redimentionnables</string>
+    <string name="pref_resize_all_widgets_title">Redimensionner les widgets</string>
+    <string name="pref_resize_all_widgets_summary">Faire que tous les widgets soient redimensionnables</string>
     <string name="pref_xcount_title">Nombre de colonnes d\'icônes</string>
-    <string name="pref_xcount_summary">Modifier le nombre de colonnes d\'icônes de l\'écran d\'acceuil</string>
+    <string name="pref_xcount_summary">Modifier le nombre de colonnes d\'icônes de l\'écran d\'accueil</string>
     <string name="pref_ycount_title">Nombre de lignes d\'icônes</string>
-    <string name="pref_ycount_summary">Modifier le nombre de lignes d\'icônes de l\'écran d\'acceuil</string>
+    <string name="pref_ycount_summary">Modifier le nombre de lignes d\'icônes de l\'écran d\'accueil</string>
     <string name="pref_xcountallapps_title">Nombre de colonnes d\'icônes</string>
     <string name="pref_xcountallapps_summary">Modifier le nombre de colonnes d\'icônes dans le drawer</string>
     <string name="pref_ycountallapps_title">Nombre de lignes d\'icônes</string>
     <string name="pref_ycountallapps_summary">Modifier le nombre de lignes d\'icônes dans le drawer</string>
-    <string name="pref_cat_title_homescreen">Ecran d\'acceuil</string>
+    <string name="pref_cat_title_homescreen">Ecran d\'accueil</string>
     <string name="pref_title_longpress_app_drawer_button">Bouton du drawer</string>
     <string name="pref_summary_longpress_app_drawer_button">Ouvrir XGELS avec un appui long</string>
     <string name="pref_cat_title_appicons">Icônes</string>
@@ -66,27 +66,27 @@
     <string name="pref_settings_reset_title">Réinitialiser</string>
     <string name="pref_settings_reset_summary">Réinitialiser vos paramètres</string>
     <string name="pref_pageindicator_title">Indicateur de page</string>
-    <string name="pref_pageindicator_summary">Masquer l\'indicateur de page dans l\'écran d\'acceuil et le drawer</string>
-    <string name="pref_default_homescreen_title">Ecran d\'acceuil par défaut</string>
-    <string name="pref_default_homescreen_summary">Sélectionner l\'écran d\'acceuil par défaut</string>
+    <string name="pref_pageindicator_summary">Masquer l\'indicateur de page dans l\'écran d\'accueil et le drawer</string>
+    <string name="pref_default_homescreen_title">Ecran d\'accueil par défaut</string>
+    <string name="pref_default_homescreen_summary">Sélectionner l\'écran d\'accueil par défaut</string>
     <string name="pref_enable_rotation_title">Rotation</string>
     <string name="pref_enable_rotation_summary">Activer la rotation\n(Nécessite un redémarrage complet)</string>
     <string name="pref_icon_label_color">Couleur du nom des icônes</string>
     <string name="pref_switch_icon_shadow_title">Ombre des noms</string>
     <string name="pref_app_drawer_background_color_title">Couleur de l\'arrière plan</string>
-    <string name="pref_app_drawer_background_color_summary">Astuce : Laisser-le complètement transparent!</string>
+    <string name="pref_app_drawer_background_color_summary">Astuce : Laissez-le complètement transparent!</string>
     <string name="colorpicker_apply">Appliquer</string>
     <string name="colorpicker_hex_hint">Custom hex color</string>
     <string name="restart_launcher_icon_title">Redémarrer</string>
     <string name="pref_disable_wallpaper_scroll_title">Défilement du fond d\'écran</string>
     <string name="pref_disable_wallpaper_scroll_summary">Désactiver la synchro du défilement du fond d\'écran</string>
     <!-- V1.3 -->
-    <string name="toast_desktop_locked">XGELS: l\'écran d\'acceuil est bloqué !</string>
-    <string name="toast_fail">Oh !&#8230; ça n\'a pas marché :-S\nRegarder le logcat!</string>
+    <string name="toast_desktop_locked">XGELS: l\'écran d\'accueil est bloqué !</string>
+    <string name="toast_fail">Oh !&#8230; ça n\'a pas marché :-S\nRegardez le logcat!</string>
     <string name="pref_switch_appdock_title">Masquer le dock</string>
     <string name="pref_switch_appdock_summary"></string>
-    <string name="pref_lock_desktop_title">Vérouiller l\'écran d\'acceuil</string>
-    <string name="pref_lock_desktop_summary">Empêche une modification accidentelle en vérouillant l\'écran d\'acceuil</string>
+    <string name="pref_lock_desktop_title">Verrouiller l\'écran d\'accueil</string>
+    <string name="pref_lock_desktop_summary">Empêche une modification accidentelle en verrouillant l\'écran d\'accueil</string>
     <string name="pref_continuous_scroll_title">Défilement infini</string>
     <string name="pref_continuous_scroll_summary">Défilement prolongé vers la première page\n(Expérimental)</string>
     <string name="pref_continuous_scroll_with_app_drawer_title">Inclure le drawer</string>
@@ -113,15 +113,15 @@
     <string name="drawer_open">Ouvrir le navigation drawer</string>
     <string name="drawer_close">Fermer le navigation drawer</string>
     <string name="pref_systemui_explain_title">Note</string>
-    <string name="pref_systemui_explain_summary">Tous ces paramètres peuvent (ou ne peuvent pas marcher)suivant votre appareil et/ou votre ROM. De plus, ils necessitent tous un redémarrage complet pour être activés.</string>
+    <string name="pref_systemui_explain_summary">Tous ces paramètres peuvent (ou ne peuvent pas) marcher suivant votre appareil et/ou votre ROM. De plus, ils nécessitent tous un redémarrage complet pour être activés.</string>
     <string name="pref_cat_systemui_navbar_title">Barre de navigation</string>
     <string name="pref_cat_systemui_statusbar_title">Barre d\'état</string>
     <string name="pref_dynamic_backbutton_title">Bouton Retour</string>
-    <string name="pref_dynamic_backbutton_summary">Met en veille l\'appareil sur l\'écran d\'acceuil par défaut</string>
+    <string name="pref_dynamic_backbutton_summary">Met en veille l\'appareil sur l\'écran d\'accueil par défaut</string>
     <string name="pref_dynamic_homebutton_title">Bouton Home</string>
-    <string name="pref_dynamic_homebutton_summary">Ouvre le drawer sur l\'écran d\'acceuil par défaut</string>
+    <string name="pref_dynamic_homebutton_summary">Ouvre le drawer sur l\'écran d\'accueil par défaut</string>
     <string name="pref_dynamic_hideclock_title">Masquer l\'horloge</string>
-    <string name="pref_dynamic_hideclock_summary">Masque l\'horloge sur l\'écran d\'acceuil par défaut</string> 
+    <string name="pref_dynamic_hideclock_summary">Masque l\'horloge sur l\'écran d\'accueil par défaut</string> 
     <string name="toast_restore_success">Disposition de l\'écran d\'accueil restauré avec succès</string>
     <string name="toast_restore_failed">Oh !&#8230; ça n\'a pas marché:-S</string>
     <string name="toast_backup_success"> sauvegardé avec succès</string>
@@ -136,11 +136,11 @@
     <string name="pref_animate_dynamic_homebutton_title">Animer le changement d\'icônes</string>
     <string name="pref_animate_dynamic_homebutton_summary">Animation en fondu rapide lors du changement avec le bouton Home</string>
     <string name="pref_change_dynamic_homebutton_title">Icône du bouton Home dynamique</string>
-    <string name="pref_change_dynamic_homebutton_summary">Transforme l\'icône Home en l\'icône du drawer sur l\'écran d\'acceuil par défaut</string>
+    <string name="pref_change_dynamic_homebutton_summary">Transforme l\'icône Home en l\'icône du drawer sur l\'écran d\'accueil par défaut</string>
     <string name="pref_animate_dynamic_backbutton_title">Animer le changement d\'icônes</string>
     <string name="pref_animate_dynamic_backbutton_summary">Animation en fondu rapide lors du changement avec le bouton Retour</string>
     <string name="pref_change_dynamic_backbutton_title">Icône du bouton Retour dynamique</string>
-    <string name="pref_change_dynamic_backbutton_summary">Transforme l\'icône Retour en icône éteindre sur l\'écran d\'acceuil par défaut</string>
+    <string name="pref_change_dynamic_backbutton_summary">Transforme l\'icône Retour en icône éteindre sur l\'écran d\'accueil par défaut</string>
     <string name="toast_full_reboot">Faites un redémarrage complet pour activer cette option</string>
     <string name="pref_switch_gesture_swipe_down_close_app_drawer_title">Drawer</string>
     <string name="pref_switch_gesture_swipe_down_close_app_drawer_summary">Faîtes glisser vers le bas pour fermer le drawer</string>
@@ -155,15 +155,15 @@
     <string name="progress_requesting_root_title">Patientez&#8230;</string>
     <string name="progress_requesting_root_summary">Nécessite les privilèges Root&#8230;</string>
     <string name="pref_auto_blur_wallpaper_title">Arrière plan dynamique</string>
-    <string name="pref_auto_blur_wallpaper_summary">Floute le fond d\'écran de l\'appareil à chaque fois qu\'il est changée et l\'utilise comme arrière plan XGELS. Cela peut vider votre batterie si vous utilisez des applications qui changent le fond d\'écran selon certains intervalles.</string>
+    <string name="pref_auto_blur_wallpaper_summary">Floute le fond d\'écran de l\'appareil à chaque fois qu\'il est changé et l\'utilise comme arrière plan XGELS. Cela peut vider votre batterie si vous utilisez des applications qui changent le fond d\'écran selon certains intervalles.</string>
     <string name="pref_dynamic_backbuttononeveryscreen_title">Veille sur tous les écrans</string>
-    <string name="pref_dynamic_backbuttononeveryscreen_summary">Met en veille l\'appareil sur tous les écrans. Si cette option n\'est pas activée l\'écran ne se mettra en veille que sur l\'écran d\'acceuil par défaut.</string>
+    <string name="pref_dynamic_backbuttononeveryscreen_summary">Met en veille l\'appareil sur tous les écrans. Si cette option n\'est pas activée l\'écran ne se mettra en veille que sur l\'écran d\'accueil par défaut.</string>
     
     <!-- V1.5 -->
     <string name="pref_selectwidgetstohide_summary">Sélectionner les widgets à masquer</string>
     <string name="pref_workspacerect_title">Marge gauche/droite</string>
-    <string name="pref_workspacerect_summary">Choisir un multiplicateur de marge pour les côtés de l\'écran d\'acceuil</string>
-    <string name="pref_workspacerect_dialog">Choisissez un multiplicaeur</string>
+    <string name="pref_workspacerect_summary">Choisir un multiplicateur de marge pour les côtés de l\'écran d\'accueil</string>
+    <string name="pref_workspacerect_dialog">Choisissez un multiplicateur</string>
     <string name="toast_openinstaller_failed">Ouverture impossible de Xposed Installer. Démarrez-le manuellement!</string>
     <string name="pref_cat_homescreen_folder_title">Dossiers</string>
     <string name="pref_cat_homescreen_icon_title">Icônes</string>
@@ -198,7 +198,7 @@
     <string name="pref_gesture_up_left_title">Glissement haut-gauche</string>
     <string name="pref_gesture_up_middle_title">Glissement milieu-haut</string>
     <string name="pref_gesture_up_right_title">Glissement haut-droit</string>
-    <string name="alert_hidedock_summary">Vériefiez que vous avez placer un interreupteur afficher/masquer pour chaque geste de menu ou que vous avez activer le bouton Home dynamique dans Système UI. Sinon vous ne pourraient plus jamais ouvrir le drawer!</string>
+    <string name="alert_hidedock_summary">Vérifiez que vous avez placé un interrupteur afficher/masquer pour chaque geste de menu ou que vous avez activé le bouton Home dynamique dans Système UI. Sinon vous ne pourrez plus jamais ouvrir le drawer!</string>
     <string name="alert_hidewidgets_title">Note</string>
     <string name="alert_hidewidgets_summary">Vous pouvez sélectionner des widgets dans cette liste. Les raccourcis ne peuvent pas être cachés pour le moment.</string>
     <string name="pref_limited_title">Limité</string>
@@ -213,17 +213,17 @@
     <string name="alert_debug_logging_not_activated_summary">Le debug logging n\'est pas activé. Activez le debug logging et reproduisez l\'erreur avant d\'envoyer le logfile.</string>
     
     <string name="alert_autokill_title">Note</string>
-    <string name="alert_autokill_summary">XGELS kill automatiquement GNL/Trebuchet dès que vous changez une option. Lorsque vous retournerez sur l\'acceuil, GNL/Trebuchet sera lancé avec les nouvelles options.</string>
+    <string name="alert_autokill_summary">XGELS kill automatiquement GNL/Trebuchet dès que vous changez une option. Lorsque vous retournerez sur l\'accueil, GNL/Trebuchet sera lancé avec les nouvelles options.</string>
     <string name="alert_autokill_ok">Fait!</string>
     <string name="alert_autokill_cancel">Je le ferais moi-même!</string>
     <string name="alert_autokill_checkbox">Ne pas montrer à nouveau</string>
     <string name="pref_autokill_launcher_title">Kill Launcher</string>
-    <string name="pref_autokill_launcher_summary">Kill GNL/Trebuchet automatiquement une fois que les options sont changés.</string>
+    <string name="pref_autokill_launcher_summary">Kill GNL/Trebuchet automatiquement une fois que les options sont changées.</string>
     
     <string name="pref_notificationbadge_premium_title">Fonctionnalités Premium</string>
     <string name="pref_notificationbadge_premium_summary">Cette fonctionnalité est seulement disponible dans XGELS Premium. Les badges de notification requièrent MissedIt! (payant) pour recevoir le compteur de stats.</string>
     <string name="pref_notificationbadge_missedit_missing_title">MissedIt! n\'est pas installé</string>
-   <string name="pref_notificationbadge_missedit_missing_summary">MissedIt! n\'est pas installé. XGELS demande le compteur de statistiques de cette application pour recevoir les chiffres des badge. Appuyez-ici pour ouvrir/acheter MissedIt! depuis le Play Store!</string>
+   <string name="pref_notificationbadge_missedit_missing_summary">MissedIt! n\'est pas installé. XGELS demande le compteur de statistiques de cette application pour recevoir les chiffres des badges. Appuyez-ici pour ouvrir/acheter MissedIt! depuis le Play Store!</string>
     <string name="pref_notificationbadge_open_missedit_title">Ouvrir MissedIt!</string>
     <string name="pref_notificationbadge_open_missedit_summary">Appuyez-ici pour ouvrir MissedIt!</string>
     <string name="pref_notificationbadge_enable_title">Activer les badges</string>
@@ -252,8 +252,8 @@
     <string name="alert_xgels_updated_summary">Un redémarrage est nécessaire pour activer la mise à jour. Voulez-vous redémarrer maintenant ?</string>
     <string name="alert_xgels_updated_cancel">Plus tard</string>
     
-    <string name="alert_launcher_not_installed_title">Lanceur supporté non trouvé!</string>
-    <string name="alert_launcher_not_installed_summary">Il semblerait que ni Google Now Launcher ni Trebuchet sont installés. Ce module fonctionne pour ces deux launchers. Il ne fonctionnera pas si aucun d\'eux n\'est installé.</string>
+    <string name="alert_launcher_not_installed_title">Launcheur supporté non trouvé!</string>
+    <string name="alert_launcher_not_installed_summary">Il semblerait que ni Google Now Launcher ni Trebuchet ne soient installés. Ce module fonctionne pour ces deux launchers. Il ne fonctionnera pas si aucun d\'eux n\'est installé.</string>
     <string name="alert_launcher_not_installed_get_gnl">Obtenez GNL</string>
     
     <string-array name="gesture_actions_entries">
@@ -269,7 +269,7 @@
         <item>Ouvrir une application</item>
     </string-array>
     
-    <string name="toast_donate_only">Cette fonctionnalité necessite XGELS Premium!</string>
+    <string name="toast_donate_only">Cette fonctionnalité nécessite XGELS Premium!</string>
     <string name="pref_donate_button">Achetez Premium et soutenez-moi!</string>
     <string name="pref_donated_button">Merci de votre achat!</string>
     <string name="pref_limited_summary">Quelques unes des fonctionnalités suivantes sont seulement disponible avec XGELS Premium.</string>
@@ -305,7 +305,7 @@
         <item>Bienvenue</item>
         <item>Général</item>
         <item>Barre de recherche Google</item>
-        <item>Ecran d\'acceuil</item>
+        <item>Ecran d\'accueil</item>
         <item>Drawer</item>
         <item>Gestes</item>
         <item>Badges de notifications (Beta)</item>
