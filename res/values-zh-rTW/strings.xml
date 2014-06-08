@@ -55,7 +55,7 @@
     <string name="pref_cat_title_restart_launcher">重啟啟動器</string>
     <string name="pref_restart_launcher_summary">輕觸以重啟啟動器</string>
     <string name="pref_support_thread_title">需要幫助？</string>
-    <string name="pref_support_thread_summary">如果您需要幫助或者想要回饋請輕觸打開回饋貼</string>
+    <string name="pref_support_thread_summary">如果您需要幫助或者想要反映問題請輕觸開啟反映帖</string>
     <string name="pref_cat_eximport_settings">匯入/匯出設定</string>
     <string name="pref_settings_import_title">匯入</string>
     <string name="pref_settings_import_summary">從以下位置匯入您的設定\n/sdcard/XposedGELSettings</string>
@@ -126,7 +126,7 @@
     <string name="toast_backup_failed">呃，備份失敗！:-S</string>
     <string name="pref_cat_backuprestore_homescreen_title">啟動器桌面版面</string>
     <string name="pref_backuprestore_note_title">注意</string>
-    <string name="pref_backuprestore_note_summary">僅備份/恢復您的圖示及資料夾。桌面小工具及位置將會丟失，需要您重新放置！此功能需要根許可權。</string>
+    <string name="pref_backuprestore_note_summary">僅備份/恢復您的圖示及資料夾。桌面小工具及位置將會丟失，需要您重新放置！此功能需要 Root 存取權限。</string>
     <string name="pref_backup_homescreen_title">備份</string>
     <string name="pref_backup_homescreen_summary">備份您的桌面版面到\n/sdcard/XposedGELSettings</string>
     <string name="pref_restore_homescreen_title">還原</string>
@@ -143,7 +143,7 @@
     <string name="pref_switch_gesture_swipe_down_close_app_drawer_title">應用程式清單</string>
     <string name="pref_switch_gesture_swipe_down_close_app_drawer_summary">下滑以關閉應用程式清單</string>
     <string name="toast_getprices_fail">接收價格列表時出錯，請檢查日誌（logcat）！</string>
-    <string name="toast_donation_result_fail">出錯！你需要結束 XGELS 進程並重新開機。請檢查日誌（logcat）！</string>
+    <string name="toast_donation_result_fail">發生錯誤！你需要結束 XGELS 進程並重新開機。請檢查日誌（logcat）！</string>
     <string name="toast_donate_thanks">非常感謝！</string>
     <string name="pref_xgel_group_summary">輕觸這加入 XGELS 捐贈組群！請包含您的 Google+ 電子郵箱以便於我將您加入私人群組。</string>
     <string name="pref_requires_donation_title">不可以</string>
@@ -151,7 +151,7 @@
     <string name="alert_reboot_needed_title">需要重啟！</string>
     <string name="alert_reboot_needed_summary">您操作了一項需要重啟的變更！請選擇您的模式。</string>
     <string name="progress_requesting_root_title">請稍後</string>
-    <string name="progress_requesting_root_summary">要求根許可權</string>
+    <string name="progress_requesting_root_summary">要求 Root 存取權限</string>
     <string name="pref_auto_blur_wallpaper_title">動態背景</string>
     <string name="pref_auto_blur_wallpaper_summary">在您變更裝置桌布後，模糊該桌布並將其設定為 XGELS 背景。如果您定時更改桌布，這可能會消耗一部分電量。</string>
     <string name="pref_dynamic_backbuttononeveryscreen_title">在任何桌面任何頁面都顯示睡眠按鈕</string>
@@ -196,7 +196,7 @@
     <string name="pref_gesture_up_left_title">左側上滑</string>
     <string name="pref_gesture_up_middle_title">中間上滑</string>
     <string name="pref_gesture_up_right_title">右側上滑</string>
-    <string name="alert_hidedock_summary">請務必設定一個隱藏/顯示切換手勢或啟動動態主螢幕鍵。否則，您將無法打來應用程式清單。</string>
+    <string name="alert_hidedock_summary">請務必設定一個隱藏/顯示切換手勢或啟動動態主螢幕鍵。否則，您將無法開啟應用程式清單。</string>
     <string name="alert_hidewidgets_title">注意</string>
     <string name="alert_hidewidgets_summary">您只能在此列表中選擇桌面小工具。快捷方式現在無法隱藏。</string>
     <string name="pref_limited_title">限制</string>
@@ -211,12 +211,12 @@
     <string name="alert_debug_logging_not_activated_summary">除錯日誌記錄未啟用。在重現錯誤並儲存除錯日誌前請確保已啟用除錯日誌記錄。</string>
     
     <string name="alert_autokill_title">注意</string>
-    <string name="alert_autokill_summary">XGELS 在作出變更後儘快地自動結束即時桌面/Trebuchet 進程以便於在返回即時桌面/Trebuchet 時已應用程式新配置。</string>
+    <string name="alert_autokill_summary">XGELS 在作出變更後儘快地自動結束Google Now 桌面/Trebuchet 進程以便於在返回Google Now 桌面/Trebuchet 時已應用程式新配置。</string>
     <string name="alert_autokill_ok">我明白了！</string>
     <string name="alert_autokill_cancel">我會自己完成！</string>
     <string name="alert_autokill_checkbox">不要再次顯示</string>
     <string name="pref_autokill_launcher_title">結束啟動器</string>
-    <string name="pref_autokill_launcher_summary">在變更Google即時桌面/Trebuchet 的設定後，自動結束進程。在返回啟動器時，已應用程式新設定。</string>
+    <string name="pref_autokill_launcher_summary">在變更 Google Now 桌面/Trebuchet 的設定後，自動結束程序。在返回啟動器時，已應用程式新設定。</string>
     
     <string name="pref_notificationbadge_enable_title">啟用標記</string>
     <string name="pref_notificationbadge_backgroundcolor_title">背景顏色</string>
@@ -240,8 +240,8 @@
     <string name="alert_xgels_updated_cancel">稍後</string>
     
     <string name="alert_launcher_not_installed_title">未找到支援的啟動器</string>
-    <string name="alert_launcher_not_installed_summary">看起來您尚未安裝Google即時桌面或 Trebuchet。本模組專為這兩個啟動器設計，如果您的啟動器不是這兩個其中之一，則本模組無法正常工作。請在使用本模組前先安裝這兩個啟動器之一。</string>
-    <string name="alert_launcher_not_installed_get_gnl">安裝Google即時桌面</string>
+    <string name="alert_launcher_not_installed_summary">看起來您尚未安裝 Google Now 桌面或 Trebuchet。本模組專為這兩個啟動器設計，如果您的啟動器不是這兩個其中之一，則本模組無法正常工作。請在使用本模組前先安裝這兩個啟動器之一。</string>
+    <string name="alert_launcher_not_installed_get_gnl">安裝 Google Now 桌面</string>
     
     <string-array name="gesture_actions_entries">
         <item>無</item>
@@ -270,11 +270,11 @@
         <item>應用程式清單</item>
         <item>手勢</item>
         <item>通知標記</item>
-        <item>Icon</item> <!-- NEW -->
+        <item>圖示</item> <!-- NEW -->
         <item>系統介面調整</item>
         <item>備份/還原</item>
         <item>設定</item>
         <item>進階版/支援</item>
-        <item>Reverse Engineering</item>
+        <item>逆向工程</item>
     </string-array>
 </resources>
