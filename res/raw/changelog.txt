@@ -24,7 +24,26 @@
     </style>
   </head>
   <body>
-  
+
+  $ 1.7.1
+  % Version 1.7.1
+ _ 2014-06-02
+
+ ! Added:
+ * automatically hide icon packs from the app drawer
+
+ ! Fixed:
+ * pixelated icons in some icon packs
+ * calendar icon not updating
+ * disappearing icon when desktop is locked
+ * widgets being draggable when desktop is locked
+ * fixed notification badge on folder not disappearing
+ * crashes in Icon menu
+
+ ! XGELS UI:
+ * added Traditional Chinese (Taiwan) by Eric850130
+ * updated translations
+
   $ 1.7
   % Version 1.7
  _ 2014-06-02
