@@ -1,5 +1,6 @@
 package de.theknut.xposedgelsettings.hooks.homescreen;
 
+import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.setIntField;
 
 import android.content.Context;
@@ -94,5 +95,8 @@ public final class DeviceProfileConstructorHook extends XC_MethodHook {
 		}
 		
 		setIntField(param.thisObject, Fields.dpNumHotseatIcons, PreferencesHelper.appDockCount);
+
+        Common.FOLDER_WIDTH = getIntField(param.thisObject, "zj");
+        Common.FOLDER_HEIGHT = getIntField(param.thisObject, "zk");
 	}
 }

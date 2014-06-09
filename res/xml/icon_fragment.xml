@@ -28,4 +28,8 @@
 		android:key="autoupdateapplyiconpack"
 		android:title="@string/pref_icon_auto_apply_title"
 		android:summary="@string/pref_icon_auto_apply_summary" />
+    <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+        android:key="hideiconpacks"
+        android:title="@string/pref_icon_hide_icon_packs_title"
+        android:summary="@string/pref_icon_hide_icon_packs_summary" />
 </PreferenceScreen>

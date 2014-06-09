@@ -84,6 +84,7 @@ public class PreferencesHelper {
 	
 	public static String iconpack = prefs.getString("iconpack", Common.ICONPACK_DEFAULT);
 	public static boolean iconPackAutoApply = prefs.getBoolean("autoupdateapplyiconpack", false);
+    public static boolean iconPackHide = prefs.getBoolean("hideiconpacks", false);
 	
 	public static String notificationDialerApp = prefs.getString("notificationbadge_dialer_launch", "");
 	public static String notificationSMSApp = prefs.getString("notificationbadge_sms_launch", "");

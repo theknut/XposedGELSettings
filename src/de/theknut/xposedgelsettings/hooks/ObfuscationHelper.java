@@ -41,6 +41,7 @@ public class ObfuscationHelper extends HooksBaseClass {
 		CASH_ENTRY,
 		CELL_INFO,
 		LOADER_TASK,
+		FOLDER_INFO,
 		GEL,
 		NOW_OVERLAY,
 		SEARCH_OVERLAY_IMPL,
@@ -77,6 +78,7 @@ public class ObfuscationHelper extends HooksBaseClass {
 		oCASH_ENTRY,
 		oCELL_INFO,
 		oLOADER_TASK,
+		oFOLDER_INFO,
 		oSEARCH_DROP_TARGET_BAR,
 		oGEL,
 		oNOW_OVERLAY,
@@ -116,6 +118,7 @@ public class ObfuscationHelper extends HooksBaseClass {
 			CASH_ENTRY = launcherPackage + "IconCache$CacheEntry";
 			CELL_INFO = launcherPackage + "CellLayout$CellInfo";
 			LOADER_TASK = launcherPackage + "LauncherModel$LoaderTask";
+			FOLDER_INFO = launcherPackage + "FolderInfo";
 
 			GEL = "com.google.android.launcher.GEL";
 			NOW_OVERLAY = "com.google.android.sidekick.shared.client.NowOverlay";
@@ -153,6 +156,7 @@ public class ObfuscationHelper extends HooksBaseClass {
 			oCASH_ENTRY = "pl";
 			oCELL_INFO = "nv";
 			oLOADER_TASK = "tb";
+			oFOLDER_INFO = "oz";
 
 			oGEL = "com.google.android.launcher.GEL";
 			oNOW_OVERLAY = "dzk";
@@ -195,7 +199,8 @@ public class ObfuscationHelper extends HooksBaseClass {
 		CacheEntry,
 		CellInfo,
 		ItemInfo,
-		LoaderTask;
+		LoaderTask,
+		FolderInfo;
 
 		public static void hookAllClasses(LoadPackageParam lpparam) {
 			try {
@@ -231,6 +236,7 @@ public class ObfuscationHelper extends HooksBaseClass {
 				CellInfo = findClass(ClassNames.CELL_INFO, lpparam.classLoader);
 				ItemInfo = findClass(ClassNames.ITEM_INFO, lpparam.classLoader);
 				LoaderTask = findClass(ClassNames.LOADER_TASK, lpparam.classLoader);
+				FolderInfo = findClass(ClassNames.FOLDER_INFO, lpparam.classLoader);
 
 				if (lpparam.packageName.equals(Common.GEL_PACKAGE)) {
 					GELClass = findClass(ClassNames.GEL, lpparam.classLoader);
@@ -276,6 +282,7 @@ public class ObfuscationHelper extends HooksBaseClass {
 						CellInfo = findClass(ClassNames.oCELL_INFO, lpparam.classLoader);
 						ItemInfo = findClass(ClassNames.oITEM_INFO, lpparam.classLoader);
 						LoaderTask = findClass(ClassNames.oLOADER_TASK, lpparam.classLoader);
+						FolderInfo = findClass(ClassNames.oFOLDER_INFO, lpparam.classLoader);
 						Common.PACKAGE_OBFUSCATED = true;
 
 						GELClass = findClass(ClassNames.oGEL, lpparam.classLoader);
@@ -550,7 +557,8 @@ public class ObfuscationHelper extends HooksBaseClass {
 		icCacheLocked,
 		clMarkCellsForView,
 		wStartDrag,
-		lmCheckItemPlacement;
+		lmCheckItemPlacement,
+        acpvBeginDragging;
 
 		public static void initMethodNames() {
 
@@ -617,6 +625,7 @@ public class ObfuscationHelper extends HooksBaseClass {
 				clMarkCellsForView = "a";
 				wStartDrag = "b";
 				lmCheckItemPlacement = "a";
+                acpvBeginDragging = "n";
 			} else {
 				applyFromApplicationInfo = "applyFromApplicationInfo";
 				itemInfoTitle = "title";
@@ -679,6 +688,7 @@ public class ObfuscationHelper extends HooksBaseClass {
 				clMarkCellsForView = "markCellsForView";
 				wStartDrag = "startDrag";
 				lmCheckItemPlacement = "checkItemPlacement";
+                acpvBeginDragging = "beginDragging";
 			};
 		}
 	}

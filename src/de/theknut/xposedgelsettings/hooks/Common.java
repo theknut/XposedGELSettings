@@ -37,8 +37,10 @@ public final class Common {
 	
 	// the name of the settings file
 	public static final String PREFERENCES_NAME = Common.PACKAGE_NAME + "_preferences";
-	
-	// the package we are currently hooked to
+    public static int FOLDER_WIDTH;
+    public static int FOLDER_HEIGHT;
+
+    // the package we are currently hooked to
 	public static String HOOKED_PACKAGE;
 	
 	// Instances

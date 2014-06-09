@@ -331,4 +331,8 @@
     
     <string name="pref_show_google_search_bar_homescreen_title">Default homescreen</string>
     <string name="pref_show_google_search_bar_homescreen_summary">Show the search bar on default homescreen</string>
+
+    <!-- V1.7.1 -->
+    <string name="pref_icon_hide_icon_packs_title">Hide icon packs</string>
+    <string name="pref_icon_hide_icon_packs_summary">Automatically hide icon packs from the app drawer</string>
 </resources>

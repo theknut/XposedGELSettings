@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -15,6 +16,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.ui.CommonUI;
 
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -53,7 +55,7 @@ public class IconPack {
     private List<Drawable> iconBack;
     private Bitmap iconMask, iconUpon;
     private Canvas mCanvas = new Canvas();
-    private Paint mPaint = new Paint();
+    private Paint mPaint = new Paint(Paint.FILTER_BITMAP_FLAG);
     private Paint mMaskPaint = new Paint();
     
     private static int dayOfMonth;
@@ -156,6 +158,10 @@ public class IconPack {
         return IconPack.dayOfMonth;
     }
     
+    public static void updateDayOfMonth() {
+        IconPack.dayOfMonth = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+    }
+    
     public void setDayOfMonth(int dayOfMonth) {
         IconPack.dayOfMonth = dayOfMonth;
     }
@@ -183,6 +189,19 @@ public class IconPack {
         drawable.draw(canvas);
 
         return bitmap;
+    }
+
+    public void onDateChanged() {
+        IconPack.updateDayOfMonth();
+        List<String> packages = CommonUI.getIconPacks(context);
+
+        Iterator<Icon> it = icons.iterator();
+        while (it.hasNext()) {
+            Icon icon = it.next();
+            if (packages.contains(icon.getPackageName())) {
+                it.remove();
+            }
+        }
     }
     
     public Bitmap themeIcon(Bitmap tmpIcon) {
@@ -236,6 +255,10 @@ public class IconPack {
         c.save();
         c.translate(dst.getWidth()*.5f, dst.getHeight()*.5f);
 
+//        mPaint.setAntiAlias(true);
+//        mPaint.setFilterBitmap(true);
+//        mPaint.setDither(true);
+
         c.scale(scale, scale);
         int scaledW = dst.getScaledWidth(c);
         int scaledH = dst.getScaledHeight(c);
@@ -244,17 +267,17 @@ public class IconPack {
         c.drawBitmap(src, l, t, mPaint);
         c.restore();
     }
-
+    
     public Drawable loadIcon(String pkg) {
-        
+
         for (Icon icon : getIcons()) {
             if (icon.equals(pkg)) {
                 return icon.getIcon();
             }
         }
-        
+
         if (isAppFilterLoaded()) {
-        
+
             int id = getResourceIdForDrawable(pkg);
             if (id != 0) {
                 Icon icon = new Icon(pkg, resources.getDrawableForDensity(id, getDPI()));
@@ -262,8 +285,8 @@ public class IconPack {
                 return icon.getIcon();
             }
         }
-        
-        return null;        
+
+        return null;
     }
     
     public int getResourceIdForDrawable(String pkg) {

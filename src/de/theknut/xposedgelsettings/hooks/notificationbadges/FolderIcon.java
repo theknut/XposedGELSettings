@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
+import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
@@ -74,14 +76,10 @@ public class FolderIcon extends Icon {
 		long time = System.currentTimeMillis();
 		totalcnt = cnt;
 		
-		if (totalcnt != 0) {
-			
-			callMethod(this.folder, "invalidate");
-			
-		} else {
+		if (totalcnt == 0) {
 			resetBadges(false);
 		}
-		
+        callMethod(this.folder, "invalidate");
 		if (DEBUG) log(folderName + " - setting badgenr " + totalcnt + " took " + (System.currentTimeMillis() - time) + "ms");
 	}
 	
@@ -89,9 +87,13 @@ public class FolderIcon extends Icon {
 		
 		if (totalcnt != 0) {
 			c.save();
-			
+
+
 			Drawable d = textToDrawable(totalcnt, previewBackground.getDrawable());
-			c.translate(d.getIntrinsicWidth() / 2, d.getIntrinsicHeight() / 2);
+			c.translate(
+                    d.getIntrinsicWidth() + (d.getIntrinsicWidth() - Math.round(d.getIntrinsicWidth() * ((float) PreferencesHelper.iconSize / 100))),
+                    d.getIntrinsicHeight() + (d.getIntrinsicHeight() - Math.round(d.getIntrinsicHeight() * ((float) PreferencesHelper.iconSize / 100)))
+            );
 			d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
 			d.draw(c);
 			

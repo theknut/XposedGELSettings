@@ -18,6 +18,7 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import eu.chainfire.libsuperuser.Shell;
 
 public class AppDrawerHooks extends HooksBaseClass {
 	

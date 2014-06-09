@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 public class Icon {
     
     private String componentName;
+    private String packageName;
     private Drawable icon;
     private boolean wasPreThemed;
     
@@ -22,7 +23,18 @@ public class Icon {
     public String getComponentName() {
         return componentName;
     }
-    
+
+    public String getPackageName() {
+        if (packageName == null) {
+            if (componentName.contains("/")) {
+                this.packageName = componentName.substring(0, componentName.indexOf("/"));
+            } else {
+                this.packageName = componentName;
+            }
+        }
+        return this.packageName;
+    }
+
     public Drawable getIcon() {
         return icon;
     }
@@ -31,21 +43,13 @@ public class Icon {
         this.icon = icon;
     }
     
-    public boolean isLoaded() {
-        return icon != null;
-    }
-    
     public boolean wasPreThemed() {
         return wasPreThemed;
     }
     
     @Override
     public boolean equals(Object o) {
-        return ((String) o).equals(getComponentName())
+        return o.equals(getComponentName())
                || (wasPreThemed() && ((String) o).contains(getComponentName()));
-    }
-    
-    public boolean isThemed(String pkg) {
-        return getComponentName().contains("calendar:") && pkg.contains(getComponentName().replace("calendar:", ""));
     }
 }

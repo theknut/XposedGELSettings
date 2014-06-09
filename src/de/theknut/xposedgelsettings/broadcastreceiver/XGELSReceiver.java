@@ -39,12 +39,8 @@ public class XGELSReceiver extends BroadcastReceiver {
         
         String pkg = intent.getStringExtra("PACKAGENAME");
         if (pkg == null) return;
-        
-        List<String> packages = CommonUI.getIconPacks(context);
 
         if (intent.getAction().equals(Common.XGELS_ACTION_SAVE_ICONPACK)) {
-            if (!packages.contains(pkg)) return;
-            
             prefs.edit().remove("iconpack").commit();
             prefs.edit().putString("iconpack", pkg).commit();
         }

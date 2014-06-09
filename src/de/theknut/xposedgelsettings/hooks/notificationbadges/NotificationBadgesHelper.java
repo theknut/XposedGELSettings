@@ -31,7 +31,6 @@ public class NotificationBadgesHelper extends HooksBaseClass {
 	
 	static PackageManager pm;
 	static ActivityManager activityManager;
-	
 	static List<Shortcut> shortcutsDesktop = new ArrayList<Shortcut>();
 	static List<Shortcut> shortcutsAppDrawer = new ArrayList<Shortcut>();
 	static List<FolderIcon> folders = new ArrayList<FolderIcon>();

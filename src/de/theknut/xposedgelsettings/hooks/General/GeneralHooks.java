@@ -10,11 +10,13 @@ import android.animation.TimeInterpolator;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
+import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
@@ -66,21 +68,21 @@ public class GeneralHooks extends HooksBaseClass {
 		
 		if (PreferencesHelper.lockHomescreen) {
 			// prevent dragging
-			
-			if (Common.PACKAGE_OBFUSCATED) {
-				findAndHookMethod(Classes.Workspace, Methods.workspaceStartDrag, Classes.CellLayoutCellInfo,new StartDragHook());			
-				findAndHookMethod(Classes.Workspace, Methods.workspaceBeginDraggingApplication, View.class, new BeginDragHook());
-				findAndHookMethod(Classes.Workspace, Methods.workspaceBeginDragShared, View.class, findClass("nn", lpparam.classLoader), new XC_MethodHook() {
-					
-					@Override
-					protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-						param.setResult(null);
-					}
-				});
-			} else {
-				XposedBridge.hookAllMethods(Classes.Workspace, Methods.workspaceStartDrag, new StartDragHook());			
-				XposedBridge.hookAllMethods(Classes.AppsCustomizePagedView, Methods.acpvBeginDraggingApplication, new BeginDragHook());
-			}
+
+            XC_MethodHook drag = new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    if (DEBUG) log(param, "Don't allow dragging");
+
+                    Context context = Common.LAUNCHER_CONTEXT.createPackageContext(Common.PACKAGE_NAME, Context.CONTEXT_IGNORE_SECURITY);
+                    Toast.makeText(Common.LAUNCHER_CONTEXT, context.getString(R.string.toast_desktop_locked), Toast.LENGTH_LONG).show();
+                    param.setResult(true);
+                }
+            };
+
+            findAndHookMethod(Classes.Folder, "onLongClick", View.class, drag);
+            findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvBeginDragging, View.class, drag);
+            findAndHookMethod(Classes.Workspace, Methods.workspaceStartDrag, Classes.CellLayoutCellInfo, new StartDragHook());
 		}
 		
 //		findAndHookMethod(Classes.CellLayout, Methods.clMarkCellsForView, Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, boolean[][].class, boolean.class, new XC_MethodHook() {

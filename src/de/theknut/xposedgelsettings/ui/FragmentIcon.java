@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -41,15 +42,6 @@ public class FragmentIcon extends FragmentBase {
     	
     	View rootView = inflater.inflate(R.layout.options_fragment, container, false);
         addPreferencesFromResource(R.xml.icon_fragment);
-        
-//        try {
-//            IconPack ic = new IconPack(mContext, "com.samanthaconner.popout", 480);
-//            ic.loadAppFilter();
-//            ic.loadIcon("com.underwood.calendar/com.android.calendar.AllInOneActivity");
-//        } catch (NameNotFoundException e1) {
-//            // TODO Auto-generated catch block
-//            e1.printStackTrace();
-//        }
         
         packageManager = mContext.getPackageManager();
         List<String> packages = CommonUI.getIconPacks(mContext);
@@ -107,7 +99,7 @@ public class FragmentIcon extends FragmentBase {
             }
 
             List<String> names = new ArrayList<String>(iconPacks.keySet());
-            Collections.sort(names);
+            Collections.sort(names, String.CASE_INSENSITIVE_ORDER);
             iconPacks.put(getString(R.string.pref_icon_noiconpack), Common.ICONPACK_DEFAULT);
             names.add(0, getString(R.string.pref_icon_noiconpack));
             
@@ -161,12 +153,6 @@ public class FragmentIcon extends FragmentBase {
         iconPackList.setSummary(iconPackList.getEntry());
         
         iconPackSupport = (MyPreferenceScreen) findPreference("support");
-        if (packages.size() != 0) {
-            new UpdateStatisticAsyncTask().execute(iconPackList.getEntry().toString());
-        } else {
-            iconPackSupport.setSummary(getString(R.string.pref_icon_noiconpack));
-        }
-        
         iconPackSupport.setOnPreferenceClickListener(new OnPreferenceClickListener() {
             
             @Override
@@ -197,6 +183,7 @@ public class FragmentIcon extends FragmentBase {
             iconPackList.setEnabled(false);
             iconPackSupport.setEnabled(false);
             findPreference("autoupdateapplyiconpack").setEnabled(false);
+            findPreference("hideiconpacks").setEnabled(false);
         } else {
             getPreferenceScreen().removePreference(this.findPreference("needsDonate"));
         }
@@ -205,7 +192,18 @@ public class FragmentIcon extends FragmentBase {
         
         return rootView;
     }
-    
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (iconPackList.getEntryValues().length != 0) {
+            new UpdateStatisticAsyncTask().execute(iconPackList.getEntry().toString());
+        } else {
+            iconPackSupport.setSummary(getString(R.string.pref_icon_noiconpack));
+        }
+    }
+
     private class UpdateStatisticAsyncTask extends AsyncTask<String, Void, Void> {
         
         @Override
@@ -217,9 +215,19 @@ public class FragmentIcon extends FragmentBase {
         
         @Override
         protected Void doInBackground(final String... params) {
-            
+
+            String newSummary;
             notSupportedIconsList = new ArrayList<String>();
-            iconPackSupport.setTitle(params[0]);
+
+
+            Activity activity = getActivity();
+            if (activity != null) {
+                activity.runOnUiThread(new Runnable() {
+                    public void run() {iconPackSupport.setTitle(params[0]);
+                    }
+                });
+            }
+
             try {
                 List<ResolveInfo> apps = CommonUI.getAllApps();
                 if (!iconPackList.getValue().equals(Common.ICONPACK_DEFAULT)) {
@@ -236,29 +244,32 @@ public class FragmentIcon extends FragmentBase {
                             notSupportedIconsList.add(resolveInfo.loadLabel(packageManager).toString());
                         }
                     }
-                    
-                    final String summary = String.format(mContext.getString(R.string.pref_icon_support_summary), cnt, apps.size(), ip.getTotalIconCount());
-                    
-                    getActivity().runOnUiThread(new Runnable() {
+
+                    newSummary = String.format(mContext.getString(R.string.pref_icon_support_summary), cnt, apps.size(), ip.getTotalIconCount());
+                } else {
+                    newSummary = (String) iconPackList.getEntry();
+                }
+
+                final String summary = newSummary;
+                activity = getActivity();
+                if (activity != null) {
+                    activity.runOnUiThread(new Runnable() {
                         public void run() {
                             iconPackSupport.setSummary(summary);
-                        }
-                    });
-                } else {
-                    getActivity().runOnUiThread(new Runnable() {
-                        public void run() {
-                            iconPackSupport.setSummary(iconPackList.getEntry());
                         }
                     });
                 }
             } catch (NameNotFoundException e) {
                 e.printStackTrace();
-                
-                getActivity().runOnUiThread(new Runnable() {
-                    public void run() {
-                        iconPackSupport.setSummary("Error while loading statistics\n");
-                    }
-                });
+
+                activity = getActivity();
+                if (activity != null) {
+                    activity.runOnUiThread(new Runnable() {
+                        public void run() {
+                            iconPackSupport.setSummary("Error while loading statistics\n");
+                        }
+                    });
+                }
             }
             
             return null;
