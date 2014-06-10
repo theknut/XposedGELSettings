@@ -90,6 +90,7 @@ public class IconHooks extends HooksBaseClass {
                 
                 if ((IconPack.getDayOfMonth()) != Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) {
                     iconPack.onDateChanged();
+                    checkCalendarApps();
                     updateIcons();
                 }
             }
@@ -118,7 +119,7 @@ public class IconHooks extends HooksBaseClass {
 		    
 			@Override
 			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-            if (!initIconPack(param)) return;
+                if (!initIconPack(param)) return;
 			}
 		});
 		
@@ -132,8 +133,8 @@ public class IconHooks extends HooksBaseClass {
                 time = System.currentTimeMillis();
                 if (!initIconPack(param)) return;
 		        
-		        ComponentName cmpname = ((ComponentName) param.args[COMPONENTNAME]);
-                String appName = cmpname.flattenToString();
+		        ComponentName cmpName = ((ComponentName) param.args[COMPONENTNAME]);
+                String appName = cmpName.flattenToString();
                 Drawable icon = iconPack.loadIcon(appName);
                 if (icon == null && !iconPack.isAppFilterLoaded()) return;
 
@@ -142,8 +143,7 @@ public class IconHooks extends HooksBaseClass {
                 if (icon == null) {
                     if (!iconPack.shouldThemeMissingIcons()) return;
                     try {
-                        ApplicationInfo ai = pkgMgr.getApplicationInfo(cmpname.getPackageName(), 0);
-                        icon = ai.loadIcon(pkgMgr);
+                        icon = pkgMgr.getActivityIcon(cmpName);
                         Bitmap tmpIcon = (Bitmap) callStaticMethod(Classes.Utilities, Methods.uCreateIconBitmap, icon, iconPack.getContext());
                         Bitmap tmpFinalIcon = iconPack.themeIcon(tmpIcon);
 
@@ -152,20 +152,20 @@ public class IconHooks extends HooksBaseClass {
 
                         Object cacheEntry = newInstance(Classes.CacheEntry);
                         setObjectField(cacheEntry, Fields.ceIcon, tmpFinalIcon);
-                        setObjectField(cacheEntry, Fields.ceTitle, ai.loadLabel(pkgMgr));
+                        setObjectField(cacheEntry, Fields.ceTitle, pkgMgr.getApplicationInfo(cmpName.getPackageName(), 0).loadLabel(pkgMgr));
                         param.setResult(cacheEntry);
                         if (DEBUG) log("CacheLocked: Loaded Themed Icon Replacement for " + appName + " took " + (System.currentTimeMillis() - time) + "ms");
                     } catch (NameNotFoundException nnfe) {
                         if (DEBUG) log("CacheLocked: Couldn't load Icon Replacement for " + appName);
                     }
                 } else {
-                    ApplicationInfo ai = pkgMgr.getApplicationInfo(cmpname.getPackageName(), 0);
+                    ApplicationInfo ai = pkgMgr.getApplicationInfo(cmpName.getPackageName(), 0);
                     Bitmap replacedIcon = (Bitmap) callStaticMethod(Classes.Utilities, Methods.uCreateIconBitmap, icon, iconPack.getContext());
                     Object cacheEntry = newInstance(Classes.CacheEntry);
                     setObjectField(cacheEntry, Fields.ceIcon, replacedIcon);
                     setObjectField(cacheEntry, Fields.ceTitle, ai.loadLabel(pkgMgr));
                     param.setResult(cacheEntry);
-                    if (DEBUG) log("CacheLocked:  Loaded Icon Replacement for " + appName + " took " + (System.currentTimeMillis() - time) + "ms");
+                    if (DEBUG) log("CacheLocked: Loaded Icon Replacement for " + appName + " took " + (System.currentTimeMillis() - time) + "ms");
                 }
             }
         });

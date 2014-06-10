@@ -257,10 +257,6 @@ public class IconPack {
         c.save();
         c.translate(dst.getWidth()*.5f, dst.getHeight()*.5f);
 
-//        mPaint.setAntiAlias(true);
-//        mPaint.setFilterBitmap(true);
-//        mPaint.setDither(true);
-
         c.scale(scale, scale);
         int scaledW = dst.getScaledWidth(c);
         int scaledH = dst.getScaledHeight(c);
