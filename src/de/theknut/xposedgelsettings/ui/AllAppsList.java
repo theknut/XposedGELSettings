@@ -33,6 +33,8 @@ public class AllAppsList extends ListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+        CommonUI.CONTEXT = getApplicationContext();
 		
 		getListView().setCacheColorHint(CommonUI.UIColor);
 		getListView().setBackgroundColor(CommonUI.UIColor);
@@ -104,15 +106,15 @@ public class AllAppsList extends ListActivity {
 					public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 												
 						if (isChecked) {
-							if (!hiddenApps.contains(buttonView.getTag())) {
+							if (!hiddenApps.contains((String) buttonView.getTag())) {
 								// app is not in the list, so lets add it
 								hiddenApps.add((String)buttonView.getTag());
 							}
 						}
 						else {
-							if (hiddenApps.contains(buttonView.getTag())) {
+							if (hiddenApps.contains((String) buttonView.getTag())) {
 								// app is in the list but the checkbox is no longer checked, we can remove it
-								hiddenApps.remove((String)buttonView.getTag());
+								hiddenApps.remove((String) buttonView.getTag());
 							}
 						}
 					}

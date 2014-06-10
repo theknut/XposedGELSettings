@@ -16,10 +16,10 @@ import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import de.theknut.xposedgelsettings.hooks.Common;
-import de.theknut.xposedgelsettings.ui.CommonUI;
 
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.content.res.Resources.NotFoundException;
 
@@ -193,13 +193,15 @@ public class IconPack {
 
     public void onDateChanged() {
         IconPack.updateDayOfMonth();
-        List<String> packages = CommonUI.getIconPacks(context);
+        List<ResolveInfo> calendars = IconHooks.getCalendars();
 
         Iterator<Icon> it = icons.iterator();
         while (it.hasNext()) {
             Icon icon = it.next();
-            if (packages.contains(icon.getPackageName())) {
-                it.remove();
+            for (ResolveInfo calendar : calendars) {
+                if (calendar.activityInfo.packageName.contains(icon.getPackageName())) {
+                    it.remove();
+                }
             }
         }
     }

@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
+import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
@@ -86,9 +87,8 @@ public class IconHooks extends HooksBaseClass {
                 || action.equals(Intent.ACTION_TIMEZONE_CHANGED)) {
                 
                 if ((IconPack.getDayOfMonth()) != Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) {
-                    killLauncher();
-                    //iconPack.onDateChanged();
-                    //updateIcons();
+                    iconPack.onDateChanged();
+                    updateIcons();
                 }
             }
         }
@@ -98,12 +98,7 @@ public class IconHooks extends HooksBaseClass {
 	    
 	    if (PreferencesHelper.iconpack == Common.ICONPACK_DEFAULT) {
 	        
-	        PackageManager packageManager = Common.LAUNCHER_CONTEXT.getPackageManager();
-	        Intent i = new Intent(Intent.ACTION_MAIN);
-	        i.addCategory("android.intent.category.LAUNCHER");
-	        i.addCategory("android.intent.category.APP_CALENDAR");
-	        
-	        for (ResolveInfo r : packageManager.queryIntentActivities(i, PackageManager.GET_META_DATA)) {
+	        for (ResolveInfo r : getCalendars()) {
 	            if (r.activityInfo.metaData != null) {
 	                int arrayID = r.activityInfo.metaData.getInt("com.teslacoilsw.launcher.calendarIconArray");
 	                if (arrayID != 0) {
@@ -121,7 +116,7 @@ public class IconHooks extends HooksBaseClass {
 		    
 			@Override
 			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-			    if (!initIconPack(param)) return;
+            if (!initIconPack(param)) return;
 			}
 		});
 		
@@ -154,6 +149,18 @@ public class IconHooks extends HooksBaseClass {
                     setObjectField(param.getResult(), Fields.icIcon, replacedIcon);
                     if (DEBUG) log("Loaded Icon Replacement for " + appName);
                 }                
+            }
+        });
+
+        findAndHookMethod(Classes.Launcher, "l", ArrayList.class, new XC_MethodHook() {
+
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                ArrayList f = (ArrayList) param.args[0];
+
+                for(Object d : f) {
+                    log("Jo " + d);
+                }
             }
         });
 		
@@ -241,13 +248,8 @@ public class IconHooks extends HooksBaseClass {
 	
 	public static void checkCalendarApps() {
 	    boolean hasThemedCalendarIcon = false;
-	    
-        PackageManager packageManager = iconPack.getContext().getPackageManager();
-        Intent i = new Intent(Intent.ACTION_MAIN);
-        i.addCategory("android.intent.category.LAUNCHER");
-        i.addCategory("android.intent.category.APP_CALENDAR");
-        
-        for (ResolveInfo r : packageManager.queryIntentActivities(i, PackageManager.GET_META_DATA)) {
+
+        for (ResolveInfo r : getCalendars()) {
             if (r.activityInfo.metaData != null) {
                 int arrayID = r.activityInfo.metaData.getInt("com.teslacoilsw.launcher.calendarIconArray");
                 if (arrayID != 0) {
@@ -305,69 +307,27 @@ public class IconHooks extends HooksBaseClass {
     @SuppressWarnings({ "rawtypes", "rawtypes", "unchecked" })
     static void updateIcons() {
         long time = System.currentTimeMillis();
-        
+
+        List<Object> appsToUpdate = new ArrayList<Object>();
+        for (ResolveInfo r : getCalendars()) {
+            appsToUpdate.add(newInstance(
+                    Classes.AppInfo,
+                    iconPack.getContext().getPackageManager(),
+                    r,
+                    getObjectField(Common.LAUNCHER_INSTANCE, "rF"),
+                    new HashMap<Object, CharSequence>())
+            );
+        }
+
+        callMethod(Common.LAUNCHER_INSTANCE, "l", appsToUpdate);
+        if (DEBUG) log("updateIcons took " + (System.currentTimeMillis() - time) + "ms");
+    }
+
+    public static List<ResolveInfo> getCalendars() {
         PackageManager packageManager = iconPack.getContext().getPackageManager();
         Intent calendarIntent = new Intent(Intent.ACTION_MAIN);
         calendarIntent.addCategory("android.intent.category.LAUNCHER");
         calendarIntent.addCategory("android.intent.category.APP_CALENDAR");
-        List<String> calendars = new ArrayList<String>();
-        for (ResolveInfo r : packageManager.queryIntentActivities(calendarIntent, PackageManager.GET_META_DATA)) {
-            log("Calendar " + r.activityInfo.packageName);
-            calendars.add(r.activityInfo.packageName);
-        }
-        
-        log("updateIcons getcalendars hooks took " + (System.currentTimeMillis() - time) + "ms");
-        HashMap<String, Object> icons = new HashMap<String, Object>();
-        ArrayList cellLayouts = (ArrayList) callMethod(Common.WORKSPACE_INSTANCE, "ka"); //getWorkspaceAndHotseatCellLayouts
-        for (Object layoutParent : cellLayouts) {
-            ViewGroup layout = (ViewGroup) callMethod(layoutParent, "dH"); //getShortcutsAndWidgets
-            int childCount = layout.getChildCount();
-            for (int i = 0; i < childCount; ++i) {
-                Object view = layout.getChildAt(i);
-                Object tag = ((View) view).getTag();
-                if (tag == null) continue;                
-                
-                if (tag.getClass() == Classes.ShortcutInfo) {                    
-                    Intent intent = (Intent) callMethod(tag, "getIntent"); // getIntent
-                    if (intent == null) continue;
-                    String pkg = intent.getComponent().getPackageName();
-
-                    if (calendars.contains(pkg)) {
-                        icons.put(pkg, view);
-                    }
-                } else if (tag.getClass() == Classes.FolderInfo) {
-                    ArrayList<Object> listeners = (ArrayList<Object>) getObjectField(tag, "Du");
-                    for (Object listener : listeners) {
-                        if (listener.getClass() != Classes.Folder) continue;
-
-                        ArrayList<View> contents = (ArrayList<View>) callMethod(listener, Methods.fGetItemsInReadingOrder);
-                        for (View item : contents) {
-                            tag = item.getTag();
-                            if (tag.getClass() == Classes.ShortcutInfo) {
-                                Intent intent = (Intent) callMethod(tag, "getIntent"); // getIntent
-                                if (intent == null) continue;
-                                String pkg = intent.getComponent().getPackageName();
-                                if (calendars.contains(pkg)) {
-                                    icons.put(pkg, item);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        
-        if (icons.size() != 0) {
-            for (String key : icons.keySet()) {
-                Drawable icon = iconPack.loadIcon(key);
-                Bitmap tmpIcon = (Bitmap) callStaticMethod(Classes.Utilities, Methods.uCreateIconBitmap, icon, iconPack.getContext());
-                ((TextView)icons.get(key)).setCompoundDrawablesWithIntrinsicBounds(null, icon, null, null);
-                setObjectField(((View)icons.get(key)).getTag(), "Mf", tmpIcon); //mIcon
-                ((View)icons.get(key)).invalidate();
-                log("Set" + key);
-            }
-        }
-        
-        log("updateIcons hooks took " + (System.currentTimeMillis() - time) + "ms");
+        return packageManager.queryIntentActivities(calendarIntent, PackageManager.GET_META_DATA);
     }
 }
