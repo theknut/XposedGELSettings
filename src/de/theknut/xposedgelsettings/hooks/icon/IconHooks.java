@@ -151,18 +151,6 @@ public class IconHooks extends HooksBaseClass {
                 }                
             }
         });
-
-        findAndHookMethod(Classes.Launcher, "l", ArrayList.class, new XC_MethodHook() {
-
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                ArrayList f = (ArrayList) param.args[0];
-
-                for(Object d : f) {
-                    log("Jo " + d);
-                }
-            }
-        });
 		
 		findAndHookMethod(Classes.IconCache, Methods.icGetFullResIcon, Resources.class, Integer.TYPE, new XC_MethodHook() {
             
@@ -314,12 +302,12 @@ public class IconHooks extends HooksBaseClass {
                     Classes.AppInfo,
                     iconPack.getContext().getPackageManager(),
                     r,
-                    getObjectField(Common.LAUNCHER_INSTANCE, "rF"),
+                    getObjectField(Common.LAUNCHER_INSTANCE, Fields.lIconCache),
                     new HashMap<Object, CharSequence>())
             );
         }
 
-        callMethod(Common.LAUNCHER_INSTANCE, "l", appsToUpdate);
+        callMethod(Common.LAUNCHER_INSTANCE, Methods.lBindAppsUpdated, appsToUpdate);
         if (DEBUG) log("updateIcons took " + (System.currentTimeMillis() - time) + "ms");
     }
 

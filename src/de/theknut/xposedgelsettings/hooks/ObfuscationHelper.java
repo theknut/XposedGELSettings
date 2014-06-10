@@ -361,7 +361,8 @@ public class ObfuscationHelper extends HooksBaseClass {
 		ciCell,
 		lAppWidgetHostView,
 		wDragInfo,
-		LauncherAppWidgetInfo;
+		LauncherAppWidgetInfo,
+        lIconCache;
 
 		public static void initFieldNames() {
 
@@ -426,6 +427,7 @@ public class ObfuscationHelper extends HooksBaseClass {
 				lAppWidgetHostView = "ru";
 				wDragInfo = "PP";
 				LauncherAppWidgetInfo = "rv";
+                lIconCache = "rF";
 			} else {
 				hotseatAllAppsRank = "hotseatAllAppsRank";
 				dpNumHotseatIcons = "numHotseatIcons";
@@ -487,6 +489,7 @@ public class ObfuscationHelper extends HooksBaseClass {
 				lAppWidgetHostView = "LauncherAppWidgetHostView";
 				wDragInfo = "mDragInfo";
 				LauncherAppWidgetInfo = "LauncherAppWidgetInfo";
+                lIconCache = "mIconCache";
 			}
 		}
 	}
@@ -558,7 +561,8 @@ public class ObfuscationHelper extends HooksBaseClass {
 		clMarkCellsForView,
 		wStartDrag,
 		lmCheckItemPlacement,
-        acpvBeginDragging;
+        acpvBeginDragging,
+        lBindAppsUpdated;
 
 		public static void initMethodNames() {
 
@@ -626,6 +630,7 @@ public class ObfuscationHelper extends HooksBaseClass {
 				wStartDrag = "b";
 				lmCheckItemPlacement = "a";
                 acpvBeginDragging = "n";
+                lBindAppsUpdated = "l";
 			} else {
 				applyFromApplicationInfo = "applyFromApplicationInfo";
 				itemInfoTitle = "title";
@@ -689,6 +694,7 @@ public class ObfuscationHelper extends HooksBaseClass {
 				wStartDrag = "startDrag";
 				lmCheckItemPlacement = "checkItemPlacement";
                 acpvBeginDragging = "beginDragging";
+                lBindAppsUpdated = "bindAppsUpdated";
 			};
 		}
 	}
