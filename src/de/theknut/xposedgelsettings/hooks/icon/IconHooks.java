@@ -152,7 +152,6 @@ public class IconHooks extends HooksBaseClass {
 
                         Object cacheEntry = newInstance(Classes.CacheEntry);
                         setObjectField(cacheEntry, Fields.ceIcon, tmpFinalIcon);
-
                         setObjectField(cacheEntry, Fields.ceTitle, ai.loadLabel(pkgMgr));
                         param.setResult(cacheEntry);
                         if (DEBUG) log("CacheLocked: Loaded Themed Icon Replacement for " + appName + " took " + (System.currentTimeMillis() - time) + "ms");

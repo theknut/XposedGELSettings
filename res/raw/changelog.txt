@@ -32,8 +32,12 @@
  ! Added:
  * automatically hide icon packs from the app drawer
 
+ ! Improved:
+ * massive performance improvement for icon replacement
+
  ! Fixed:
  * pixelated icons in some icon packs
+ * Google+ vs. Google Photo icon
  * calendar icon not updating
  * disappearing icon when desktop is locked
  * widgets being draggable when desktop is locked
