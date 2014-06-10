@@ -356,7 +356,8 @@ public class ObfuscationHelper extends HooksBaseClass {
 		iiTitle,
 		iiID,
 		uSCanvas,
-		icIcon,
+		ceIcon,
+        ceTitle,
 		icIconDensity,
 		ciCell,
 		lAppWidgetHostView,
@@ -421,7 +422,8 @@ public class ObfuscationHelper extends HooksBaseClass {
 				iiID = "id";
 				iiTitle = "title";
 				uSCanvas = "NL";
-				icIcon = "DZ";
+				ceIcon = "DZ";
+                ceTitle = "title";
 				icIconDensity = "DY";
 				ciCell = "vL";
 				lAppWidgetHostView = "ru";
@@ -483,7 +485,8 @@ public class ObfuscationHelper extends HooksBaseClass {
 				iiTitle = "title";
 				dpSearchBarSpaceWidthPx = "searchBarSpaceWidthPx";
 				uSCanvas = "sCanvas";
-				icIcon = "icon";
+				ceIcon = "icon";
+                ceTitle = "title";
 				icIconDensity = "mIconDpi";
 				ciCell = "cell";
 				lAppWidgetHostView = "LauncherAppWidgetHostView";

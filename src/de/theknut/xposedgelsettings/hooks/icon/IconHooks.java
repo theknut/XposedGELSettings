@@ -2,6 +2,8 @@ package de.theknut.xposedgelsettings.hooks.icon;
 
 import android.app.NotificationManager;
 import android.content.*;
+import android.content.pm.ActivityInfo;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
@@ -122,33 +124,50 @@ public class IconHooks extends HooksBaseClass {
 		
 		findAndHookMethod(Classes.IconCache, Methods.icCacheLocked, ComponentName.class, ResolveInfo.class, HashMap.class, new XC_MethodHook() {
 		    
-		    final int COMPONENTNAME = 0;		    
+		    final int COMPONENTNAME = 0;
+            long time;
 		    
 		    @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-		        if (!initIconPack(param)) return;
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                time = System.currentTimeMillis();
+                if (!initIconPack(param)) return;
 		        
 		        ComponentName cmpname = ((ComponentName) param.args[COMPONENTNAME]);
                 String appName = cmpname.flattenToString();
                 Drawable icon = iconPack.loadIcon(appName);
                 if (icon == null && !iconPack.isAppFilterLoaded()) return;
+
+                PackageManager pkgMgr = Common.LAUNCHER_CONTEXT.getPackageManager();
                 
                 if (icon == null) {
                     if (!iconPack.shouldThemeMissingIcons()) return;
-                    PackageManager pkgMgr = Common.LAUNCHER_CONTEXT.getPackageManager();
-                    icon = pkgMgr.getApplicationInfo(cmpname.getPackageName(), 0).loadIcon(pkgMgr);
-                    Bitmap tmpIcon = (Bitmap) callStaticMethod(Classes.Utilities, Methods.uCreateIconBitmap, icon, iconPack.getContext());
-                    Bitmap tmpFinalIcon = iconPack.themeIcon(tmpIcon);
-                    
-                    Icon newIcon = new Icon(appName, new BitmapDrawable(iconPack.getResources(), tmpFinalIcon));
-                    iconPack.getIcons().add(newIcon);
-                    setObjectField(param.getResult(), Fields.icIcon, tmpFinalIcon);
-                    if (DEBUG) log("Couldn't load Icon Replacement for " + appName);
+                    try {
+                        ApplicationInfo ai = pkgMgr.getApplicationInfo(cmpname.getPackageName(), 0);
+                        icon = ai.loadIcon(pkgMgr);
+                        Bitmap tmpIcon = (Bitmap) callStaticMethod(Classes.Utilities, Methods.uCreateIconBitmap, icon, iconPack.getContext());
+                        Bitmap tmpFinalIcon = iconPack.themeIcon(tmpIcon);
+
+                        Icon newIcon = new Icon(appName, new BitmapDrawable(iconPack.getResources(), tmpFinalIcon));
+                        iconPack.getIcons().add(newIcon);
+
+                        Object cacheEntry = newInstance(Classes.CacheEntry);
+                        setObjectField(cacheEntry, Fields.ceIcon, tmpFinalIcon);
+
+                        setObjectField(cacheEntry, Fields.ceTitle, ai.loadLabel(pkgMgr));
+                        param.setResult(cacheEntry);
+                        if (DEBUG) log("CacheLocked: Loaded Themed Icon Replacement for " + appName + " took " + (System.currentTimeMillis() - time) + "ms");
+                    } catch (NameNotFoundException nnfe) {
+                        if (DEBUG) log("CacheLocked: Couldn't load Icon Replacement for " + appName);
+                    }
                 } else {
+                    ApplicationInfo ai = pkgMgr.getApplicationInfo(cmpname.getPackageName(), 0);
                     Bitmap replacedIcon = (Bitmap) callStaticMethod(Classes.Utilities, Methods.uCreateIconBitmap, icon, iconPack.getContext());
-                    setObjectField(param.getResult(), Fields.icIcon, replacedIcon);
-                    if (DEBUG) log("Loaded Icon Replacement for " + appName);
-                }                
+                    Object cacheEntry = newInstance(Classes.CacheEntry);
+                    setObjectField(cacheEntry, Fields.ceIcon, replacedIcon);
+                    setObjectField(cacheEntry, Fields.ceTitle, ai.loadLabel(pkgMgr));
+                    param.setResult(cacheEntry);
+                    if (DEBUG) log("CacheLocked:  Loaded Icon Replacement for " + appName + " took " + (System.currentTimeMillis() - time) + "ms");
+                }
             }
         });
 		
@@ -156,9 +175,11 @@ public class IconHooks extends HooksBaseClass {
             
 		    final int RESOURCES = 0;
 		    final int ICONRESID = 1;
+            long time;
 		    
 		    @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                time = System.currentTimeMillis();
 		        if (!initIconPack(param)) return;
 		        int resID = (Integer) param.args[ICONRESID];
 		        
@@ -200,13 +221,47 @@ public class IconHooks extends HooksBaseClass {
                         Icon newIcon = new Icon(pkg, icon);
                         iconPack.getIcons().add(newIcon);
                         param.setResult(icon);
-                        if (DEBUG) log("Res: Loaded Icon Replacement for " + pkg);
+                        if (DEBUG) log("Res R: Loaded Themed Icon Replacement for " + pkg + " took " + (System.currentTimeMillis() - time) + "ms");
                     } catch (NameNotFoundException nnfe) {
-                        if (DEBUG) log("Res: Couldn't load Icon Replacement for " + pkg);
+                        if (DEBUG) log("Res R: Couldn't load Icon Replacement for " + pkg);
                     }                    
                 } else {
                     param.setResult(icon);
-                    if (DEBUG) log("Res: Loaded Icon Replacement for " + pkg);
+                    if (DEBUG) log("Res R: Loaded Icon Replacement for " + pkg + " took " + (System.currentTimeMillis() - time) + "ms");
+                }
+            }
+        });
+
+        findAndHookMethod(Classes.IconCache, Methods.icGetFullResIcon, ActivityInfo.class, new XC_MethodHook() {
+
+            long time;
+
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                time = System.currentTimeMillis();
+                ActivityInfo ai = ((ActivityInfo) param.args[0]);
+                ComponentName app = new ComponentName(ai.packageName, ai.name);
+                Drawable icon = iconPack.loadIcon(app.flattenToString());
+                if (icon == null && !iconPack.isAppFilterLoaded()) return;
+
+                if (icon == null) {
+                    try {
+                        PackageManager pkgMgr = Common.LAUNCHER_CONTEXT.getPackageManager();
+                        icon = pkgMgr.getActivityIcon(app);
+                        Bitmap tmpIcon = (Bitmap) callStaticMethod(Classes.Utilities, Methods.uCreateIconBitmap, icon, iconPack.getContext());
+                        Bitmap tmpFinalIcon = iconPack.themeIcon(tmpIcon);
+
+                        icon = new BitmapDrawable(iconPack.getResources(), tmpFinalIcon);
+                        Icon newIcon = new Icon(app.flattenToString(), icon);
+                        iconPack.getIcons().add(newIcon);
+                        param.setResult(icon);
+                        if (DEBUG) log("Res A: Loaded Themed Icon Replacement for " + app.flattenToString() + " took " + (System.currentTimeMillis() - time) + "ms");
+                    } catch (NameNotFoundException nnfe) {
+                        if (DEBUG) log("Res A: Couldn't load Icon Replacement for " + app.flattenToString());
+                    }
+                } else {
+                    param.setResult(icon);
+                    if (DEBUG) log("Res A: Loaded Icon Replacement for " + app.flattenToString() + " took " + (System.currentTimeMillis() - time) + "ms");
                 }
             }
         });
