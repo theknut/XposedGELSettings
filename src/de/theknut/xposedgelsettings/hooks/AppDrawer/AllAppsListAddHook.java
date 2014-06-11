@@ -7,13 +7,14 @@ import android.content.ComponentName;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.robv.android.xposed.XC_MethodHook;
+
 import de.theknut.xposedgelsettings.hooks.Common;
-import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.ui.CommonUI;
 
-public final class AllAppsListAddHook extends HooksBaseClass {
+public final class AllAppsListAddHook extends XC_MethodHook {
 	
 	// http://androidxref.com/4.4.2_r1/xref/packages/apps/Launcher3/src/com/android/launcher3/AllAppsList.java#65
 	// public void add(AppInfo info)

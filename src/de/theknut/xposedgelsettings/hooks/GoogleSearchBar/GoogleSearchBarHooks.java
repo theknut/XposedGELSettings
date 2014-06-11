@@ -25,6 +25,10 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
 		    // hide Google Search Bar
 		    findAndHookMethod(Classes.DeviceProfile, Methods.dpGetWorkspacePadding, Integer.TYPE, new GetWorkspacePaddingHook());
 		    findAndHookMethod(Classes.Launcher, "onCreate", Bundle.class, new LauncherOnCreateHook());
+
+            if (PreferencesHelper.searchBarOnDefaultHomescreen) {
+                findAndHookMethod(Classes.Launcher, "onResume", new LauncherOnResumeHook());
+            }
 			
 			// only do the following changes if we have the actual GEL launcher with GNow
 			if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE)) {				
@@ -39,10 +43,10 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
 					// show Google Search Bar on GEL sidekick - needed if GNow isn't accessed from the homescreen
 					findAndHookMethod(Classes.NowOverlay, Methods.noOnShow, boolean.class, boolean.class, new OnShowNowOverlayHook());
 				}
-				
-				// show when doing a Google search			
-				findAndHookMethod(Classes.SearchOverlayImpl, Methods.soiSetSearchStarted, boolean.class, new StartTextSearchHook());
-			}
+            }
+
+			// show when doing a Google search
+            findAndHookMethod(Classes.SearchOverlayImpl, Methods.soiSetSearchStarted, boolean.class, new SetSearchStarted());
 			
 			// show DropDeleteTarget on dragging items
 			if (Common.PACKAGE_OBFUSCATED) {

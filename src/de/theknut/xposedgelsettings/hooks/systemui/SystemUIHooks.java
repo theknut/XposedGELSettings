@@ -228,10 +228,6 @@ public class SystemUIHooks extends HooksBaseClass {
 			protected void afterHookedMethod(MethodHookParam param) throws Throwable {				
 				if (DEBUG) log("SystemUIHooks: onResume currentPage" + getIntField(Common.WORKSPACE_INSTANCE, Fields.workspaceCurrentPage));
 				
-				if (activityManager == null) {
-					activityManager = (ActivityManager) Common.LAUNCHER_CONTEXT.getSystemService(Context.ACTIVITY_SERVICE);
-				}
-				
 				if (!((Boolean) callMethod(param.thisObject, Methods.lIsAllAppsVisible))
 					&& !(Boolean) callMethod(Common.WORKSPACE_INSTANCE, Methods.wIsOnOrMovingToCustomContent)
 					&& getObjectField(Common.WORKSPACE_INSTANCE, Fields.workspaceState).toString().equals("NORMAL")) {
