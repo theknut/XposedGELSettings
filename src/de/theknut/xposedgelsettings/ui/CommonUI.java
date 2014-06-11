@@ -63,7 +63,7 @@ public class CommonUI {
             for (ResolveInfo r : packageManager.queryIntentActivities(i, 0)) {
                 
                 if (!packages.contains(r.activityInfo.packageName))
-                packages.add(r.activityInfo.packageName);
+                    packages.add(r.activityInfo.packageName);
             }
         }
         

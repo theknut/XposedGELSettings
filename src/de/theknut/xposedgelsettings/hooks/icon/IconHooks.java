@@ -3,7 +3,6 @@ package de.theknut.xposedgelsettings.hooks.icon;
 import android.app.NotificationManager;
 import android.content.*;
 import android.content.pm.ActivityInfo;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
@@ -14,13 +13,11 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
-import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
+
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
@@ -126,46 +123,69 @@ public class IconHooks extends HooksBaseClass {
 		findAndHookMethod(Classes.IconCache, Methods.icCacheLocked, ComponentName.class, ResolveInfo.class, HashMap.class, new XC_MethodHook() {
 		    
 		    final int COMPONENTNAME = 0;
+            final int RESOLVEINFO = 1;
+            final int LABELCACHE = 2;
             long time;
 		    
 		    @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 time = System.currentTimeMillis();
                 if (!initIconPack(param)) return;
-		        
+
+                HashMap<Object, String> labelCache = (HashMap<Object, String>) param.args[LABELCACHE];
 		        ComponentName cmpName = ((ComponentName) param.args[COMPONENTNAME]);
+                ResolveInfo info = ((ResolveInfo) param.args[RESOLVEINFO]);
                 String appName = cmpName.flattenToString();
                 Drawable icon = iconPack.loadIcon(appName);
                 if (icon == null && !iconPack.isAppFilterLoaded()) return;
 
                 PackageManager pkgMgr = Common.LAUNCHER_CONTEXT.getPackageManager();
-                
+
                 if (icon == null) {
                     if (!iconPack.shouldThemeMissingIcons()) return;
-                    try {
-                        icon = pkgMgr.getActivityIcon(cmpName);
-                        Bitmap tmpIcon = (Bitmap) callStaticMethod(Classes.Utilities, Methods.uCreateIconBitmap, icon, iconPack.getContext());
-                        Bitmap tmpFinalIcon = iconPack.themeIcon(tmpIcon);
+                    icon = info.loadIcon(pkgMgr);
+                    Bitmap tmpIcon = (Bitmap) callStaticMethod(Classes.Utilities, Methods.uCreateIconBitmap, icon, iconPack.getContext());
+                    Bitmap tmpFinalIcon = iconPack.themeIcon(tmpIcon);
 
-                        Icon newIcon = new Icon(appName, new BitmapDrawable(iconPack.getResources(), tmpFinalIcon));
-                        iconPack.getIcons().add(newIcon);
+                    Icon newIcon = new Icon(appName, new BitmapDrawable(iconPack.getResources(), tmpFinalIcon));
+                    iconPack.getIcons().add(newIcon);
 
-                        Object cacheEntry = newInstance(Classes.CacheEntry);
-                        setObjectField(cacheEntry, Fields.ceIcon, tmpFinalIcon);
-                        setObjectField(cacheEntry, Fields.ceTitle, pkgMgr.getApplicationInfo(cmpName.getPackageName(), 0).loadLabel(pkgMgr));
-                        param.setResult(cacheEntry);
-                        if (DEBUG) log("CacheLocked: Loaded Themed Icon Replacement for " + appName + " took " + (System.currentTimeMillis() - time) + "ms");
-                    } catch (NameNotFoundException nnfe) {
-                        if (DEBUG) log("CacheLocked: Couldn't load Icon Replacement for " + appName);
-                    }
+                    Object cacheEntry = createCacheEntry(labelCache, info, pkgMgr, tmpFinalIcon);
+                    param.setResult(cacheEntry);
+                    if (DEBUG) log("CacheLocked: Loaded Themed Icon Replacement for " + appName + " took " + (System.currentTimeMillis() - time) + "ms");
                 } else {
-                    ApplicationInfo ai = pkgMgr.getApplicationInfo(cmpName.getPackageName(), 0);
                     Bitmap replacedIcon = (Bitmap) callStaticMethod(Classes.Utilities, Methods.uCreateIconBitmap, icon, iconPack.getContext());
-                    Object cacheEntry = newInstance(Classes.CacheEntry);
-                    setObjectField(cacheEntry, Fields.ceIcon, replacedIcon);
-                    setObjectField(cacheEntry, Fields.ceTitle, ai.loadLabel(pkgMgr));
+                    Object cacheEntry = createCacheEntry(labelCache, info, pkgMgr, replacedIcon);
                     param.setResult(cacheEntry);
                     if (DEBUG) log("CacheLocked: Loaded Icon Replacement for " + appName + " took " + (System.currentTimeMillis() - time) + "ms");
+                }
+            }
+
+            private Object createCacheEntry(HashMap<Object, String> labelCache, ResolveInfo info, PackageManager pkgMgr, Bitmap tmpFinalIcon) {
+                Object cacheEntry = newInstance(Classes.CacheEntry);
+                setObjectField(cacheEntry, Fields.ceIcon, tmpFinalIcon);
+
+                ComponentName key = getComponentNameFromResolveInfo(info);
+                if (labelCache != null && labelCache.containsKey(key)) {
+                    setObjectField(cacheEntry, Fields.ceTitle, labelCache.get(key).toString());
+                } else {
+                    String title = info.loadLabel(pkgMgr).toString();
+                    setObjectField(cacheEntry, Fields.ceTitle, title);
+                    if (labelCache != null) {
+                        labelCache.put(key, title);
+                    }
+                }
+                if (getObjectField(cacheEntry, Fields.ceTitle) == null) {
+                    setObjectField(cacheEntry, Fields.ceTitle, info.activityInfo.name);
+                }
+                return cacheEntry;
+            }
+
+            private ComponentName getComponentNameFromResolveInfo(ResolveInfo info) {
+                if (info.activityInfo != null) {
+                    return new ComponentName(info.activityInfo.packageName, info.activityInfo.name);
+                } else {
+                    return new ComponentName(info.serviceInfo.packageName, info.serviceInfo.name);
                 }
             }
         });
