@@ -1,7 +1,11 @@
 package de.theknut.xposedgelsettings.hooks.icon;
 
 import android.app.NotificationManager;
-import android.content.*;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -14,10 +18,14 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
-
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
@@ -28,12 +36,12 @@ import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.ui.Blur;
 import de.theknut.xposedgelsettings.ui.CommonUI;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-
-import static de.robv.android.xposed.XposedHelpers.*;
+import static de.robv.android.xposed.XposedHelpers.callMethod;
+import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
+import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
+import static de.robv.android.xposed.XposedHelpers.getObjectField;
+import static de.robv.android.xposed.XposedHelpers.newInstance;
+import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
 public class IconHooks extends HooksBaseClass {
     
@@ -119,6 +127,17 @@ public class IconHooks extends HooksBaseClass {
                 if (!initIconPack(param)) return;
 			}
 		});
+
+        findAndHookMethod(Classes.Launcher, "onStart", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                if ((IconPack.getDayOfMonth()) != Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) {
+                    iconPack.onDateChanged();
+                    checkCalendarApps();
+                    updateIcons();
+                }
+            }
+        });
 		
 		findAndHookMethod(Classes.IconCache, Methods.icCacheLocked, ComponentName.class, ResolveInfo.class, HashMap.class, new XC_MethodHook() {
 		    
@@ -297,7 +316,7 @@ public class IconHooks extends HooksBaseClass {
             intentFilter.addDataScheme("package");
             Common.LAUNCHER_CONTEXT.registerReceiver(autoapplyReceiver, intentFilter);
 
-            iconPack = new IconPack(Common.LAUNCHER_CONTEXT, PreferencesHelper.iconpack, getIntField(param.thisObject, Fields.icIconDensity));
+            iconPack = new IconPack(Common.LAUNCHER_CONTEXT, PreferencesHelper.iconpack);
             if (!PreferencesHelper.iconpack.equals(Common.ICONPACK_DEFAULT)) {
                 iconPack.loadAppFilter();
             }
