@@ -1,19 +1,11 @@
 package de.theknut.xposedgelsettings.ui;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import de.theknut.xposedgelsettings.R;
-import de.theknut.xposedgelsettings.hooks.Common;
-import eu.chainfire.libsuperuser.Shell;
-
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.ActivityManager.RunningAppProcessInfo;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,7 +15,10 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,10 +27,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import de.theknut.xposedgelsettings.R;
+import de.theknut.xposedgelsettings.hooks.Common;
+import eu.chainfire.libsuperuser.Shell;
+
 @SuppressLint("WorldReadableFiles")
 public class CommonUI {
-	
-	public static Bitmap bluredBackground = null;
+
+    public static Activity ACTIVITY;
+    public static Bitmap bluredBackground = null;
 	public static Context CONTEXT;
 	
 	public static int UIColor = Color.parseColor("#222222");
@@ -78,6 +83,22 @@ public class CommonUI {
         }
 	    
         return packages;
+    }
+
+    // http://stackoverflow.com/questions/3035692/how-to-convert-a-drawable-to-a-bitmap
+    public static Bitmap drawableToBitmap (Drawable drawable) {
+        if (drawable == null) return null;
+
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable)drawable).getBitmap();
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
     }
 	
 	public static View setBackground(View rootView, int layout) {

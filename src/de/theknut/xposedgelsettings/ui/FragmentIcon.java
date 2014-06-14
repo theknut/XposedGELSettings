@@ -1,10 +1,5 @@
 package de.theknut.xposedgelsettings.ui;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
@@ -24,6 +19,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.icon.IconPack;
@@ -42,7 +42,16 @@ public class FragmentIcon extends FragmentBase {
     	
     	View rootView = inflater.inflate(R.layout.options_fragment, container, false);
         addPreferencesFromResource(R.xml.icon_fragment);
-        
+
+        this.findPreference("selectiveicon").setOnPreferenceClickListener(new OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent i = new Intent(getActivity(), ChooseAppList.class);
+                startActivity(i);
+                return true;
+            }
+        });
+
         packageManager = mContext.getPackageManager();
         List<String> packages = CommonUI.getIconPacks(mContext);
         
@@ -233,7 +242,7 @@ public class FragmentIcon extends FragmentBase {
                 if (!iconPackList.getValue().equals(Common.ICONPACK_DEFAULT)) {
                     ActivityManager activityManager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
                     int dpi = activityManager.getLauncherLargeIconDensity();
-                    IconPack ip = new IconPack(mContext, iconPackList.getValue(), dpi);
+                    IconPack ip = new IconPack(mContext, iconPackList.getValue());
                     ip.loadAppFilter();                
 
                     int cnt = 0;

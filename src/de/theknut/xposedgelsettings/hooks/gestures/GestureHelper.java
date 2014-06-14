@@ -1,12 +1,5 @@
 package de.theknut.xposedgelsettings.hooks.gestures;
 
-import static de.robv.android.xposed.XposedHelpers.callMethod;
-import static de.robv.android.xposed.XposedHelpers.getObjectField;
-
-import java.io.IOException;
-
-import net.margaritov.preference.colorpicker.ColorPickerPreference;
-
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.app.Activity;
@@ -19,10 +12,18 @@ import android.view.View;
 import android.view.ViewPropertyAnimator;
 import android.view.WindowManager;
 import android.widget.FrameLayout.LayoutParams;
+
+import net.margaritov.preference.colorpicker.ColorPickerPreference;
+
+import java.io.IOException;
+
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+
+import static de.robv.android.xposed.XposedHelpers.callMethod;
+import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
 public class GestureHelper extends HooksBaseClass {
 	
