@@ -1,8 +1,5 @@
 package de.theknut.xposedgelsettings.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -21,6 +18,9 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import de.theknut.xposedgelsettings.BuildConfig;
 import de.theknut.xposedgelsettings.R;
@@ -233,9 +233,9 @@ public class FragmentWelcome extends FragmentBase {
 	        	
 	        	final String appPackageName = Common.PACKAGE_NAME;
 	        	try {
-	        	    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+	        	    CommonUI.ACTIVITY.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
 	        	} catch (android.content.ActivityNotFoundException anfe) {
-	        	    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName)));
+                    CommonUI.ACTIVITY.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName)));
 	        	}
 	        }
         });
