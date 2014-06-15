@@ -1,7 +1,5 @@
 package de.theknut.xposedgelsettings.hooks.general;
 
-import static de.robv.android.xposed.XposedHelpers.getBooleanField;
-
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -11,6 +9,8 @@ import android.widget.TextView;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
+
+import static de.robv.android.xposed.XposedHelpers.getBooleanField;
 
 public class AllAppsButtonHook extends HooksBaseClass {
 	

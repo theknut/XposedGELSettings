@@ -1,18 +1,17 @@
 package de.theknut.xposedgelsettings.hooks.appdrawer;
 
-import static de.robv.android.xposed.XposedHelpers.getObjectField;
-
 import android.content.ComponentName;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import de.robv.android.xposed.XC_MethodHook;
-
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.ui.CommonUI;
+
+import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
 public final class AllAppsListAddHook extends XC_MethodHook {
 	

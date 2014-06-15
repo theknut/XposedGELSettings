@@ -1,8 +1,6 @@
 package de.theknut.xposedgelsettings.hooks.homescreen;
 
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
-import de.theknut.xposedgelsettings.hooks.Common;
 
 public class OnWorkspaceShownHook extends XC_MethodHook {
 	

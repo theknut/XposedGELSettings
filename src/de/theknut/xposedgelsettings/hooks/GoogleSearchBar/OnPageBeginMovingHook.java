@@ -1,10 +1,10 @@
 package de.theknut.xposedgelsettings.hooks.googlesearchbar;
 
-import static de.robv.android.xposed.XposedHelpers.callMethod;
 import de.robv.android.xposed.XC_MethodHook;
-
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
+
+import static de.robv.android.xposed.XposedHelpers.callMethod;
 
 public final class OnPageBeginMovingHook extends XC_MethodHook {
 

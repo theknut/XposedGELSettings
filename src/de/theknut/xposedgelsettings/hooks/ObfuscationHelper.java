@@ -1,8 +1,9 @@
 package de.theknut.xposedgelsettings.hooks;
 
-import static de.robv.android.xposed.XposedHelpers.findClass;
 import de.robv.android.xposed.XposedHelpers.ClassNotFoundError;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
+
+import static de.robv.android.xposed.XposedHelpers.findClass;
 
 public class ObfuscationHelper extends HooksBaseClass {
 

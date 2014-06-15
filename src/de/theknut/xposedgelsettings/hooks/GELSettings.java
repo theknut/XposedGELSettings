@@ -1,12 +1,10 @@
 package de.theknut.xposedgelsettings.hooks;
 
-import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
-
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.ClassNames;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
@@ -20,6 +18,8 @@ import de.theknut.xposedgelsettings.hooks.icon.IconHooks;
 import de.theknut.xposedgelsettings.hooks.notificationbadges.NotificationBadgesHooks;
 import de.theknut.xposedgelsettings.hooks.pagindicator.PageIndicatorHooks;
 import de.theknut.xposedgelsettings.hooks.systemui.SystemUIReceiver;
+
+import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
 public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage {
 

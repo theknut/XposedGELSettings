@@ -1,8 +1,5 @@
 package de.theknut.xposedgelsettings.hooks.pagindicator;
 
-import static de.robv.android.xposed.XposedHelpers.callMethod;
-import static de.robv.android.xposed.XposedHelpers.getObjectField;
-
 import android.graphics.Rect;
 import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
@@ -10,6 +7,9 @@ import android.widget.FrameLayout.LayoutParams;
 import de.robv.android.xposed.XC_MethodHook;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+
+import static de.robv.android.xposed.XposedHelpers.callMethod;
+import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
 public class SetInsetsHook extends XC_MethodHook {
 	

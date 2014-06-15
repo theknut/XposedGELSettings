@@ -1,10 +1,5 @@
 package de.theknut.xposedgelsettings.hooks.notificationbadges;
 
-import static de.robv.android.xposed.XposedHelpers.callMethod;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -19,13 +14,18 @@ import android.support.v4.app.NotificationCompat;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Display;
-import android.view.WindowManager;
 import android.view.View.MeasureSpec;
+import android.view.WindowManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+
+import static de.robv.android.xposed.XposedHelpers.callMethod;
 
 public class NotificationBadgesHelper extends HooksBaseClass {
 	

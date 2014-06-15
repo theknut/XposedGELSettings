@@ -143,7 +143,7 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
     }
 
     public Drawable createIcon(Resources resources, Drawable icon, int outerSize, int innerSize, int distance) {
-        Bitmap outer = Bitmap.createBitmap(outerSize, outerSize, Bitmap.Config.ARGB_8888);
+        Bitmap outer = Bitmap.createBitmap(outerSize, outerSize, Bitmap.Config.ARGB_4444);
         Bitmap inner = Bitmap.createScaledBitmap(((BitmapDrawable) icon).getBitmap(), innerSize, innerSize, false);
 
         Bitmap bmOverlay = Bitmap.createBitmap(outer.getWidth(), outer.getHeight(), outer.getConfig());
@@ -206,7 +206,6 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
             View rootView = inflater.inflate(R.layout.expandablelistview, null);
 
             new IconPackLoader(CommonUI.CONTEXT, rootView).execute(getArguments().getString("pkg"));
-
             return rootView;
         }
 
@@ -233,9 +232,6 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
 
             @Override
             public int getGroupCount() {
-                if (categories.size() == 1) {
-                    return categories.get(0) == null ? 0 : 1;
-                }
                 return categories.size();
             }
 
@@ -347,10 +343,12 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
     public static class ImageAdapter extends BaseAdapter {
         private Context mContext;
         private List<IconPreview> icons;
-        private int iconSize, paddingSize;
+        public static int iconSize, paddingSize;
+        private Drawable placeholder;
 
         public ImageAdapter(Context c) {
             mContext = c;
+            placeholder = CommonUI.CONTEXT.getResources().getDrawable(R.drawable.ic_launcher);
 
             DisplayMetrics dm = mContext.getResources().getDisplayMetrics();
             iconSize = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 64, dm));
@@ -380,6 +378,7 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
                 imageView = new ImageView(mContext);
                 imageView.setClickable(true);
                 imageView.setFocusable(true);
+                imageView.setId(position);
                 imageView.setTag(icons.get(position).getDrawableName());
                 imageView.setLayoutParams(new MyGridView.LayoutParams(iconSize, iconSize));
                 imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
@@ -410,6 +409,8 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
                         mActivity.finish();
                     }
                 });
+
+                imageView.setImageDrawable(placeholder);
             } else {
                 imageView = (ImageView) convertView;
             }
@@ -417,7 +418,6 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
             new ImageLoader().execute(imageView, mContext, icons.get(position).getResID());
             return imageView;
         }
-
         public class ImageLoader extends AsyncTask<Object, Void, Void> {
             ImageView image;
             Drawable icon;

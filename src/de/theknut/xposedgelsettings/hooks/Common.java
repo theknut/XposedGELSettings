@@ -1,10 +1,10 @@
 package de.theknut.xposedgelsettings.hooks;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import android.content.Context;
 
 // stuff we need quite often
 public final class Common {

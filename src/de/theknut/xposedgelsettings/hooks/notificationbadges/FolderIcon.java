@@ -1,23 +1,22 @@
 package de.theknut.xposedgelsettings.hooks.notificationbadges;
 
-import static de.robv.android.xposed.XposedHelpers.callMethod;
-import static de.robv.android.xposed.XposedHelpers.getObjectField;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import de.theknut.xposedgelsettings.hooks.Common;
-import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
-import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
-import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
-
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
+import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+
+import static de.robv.android.xposed.XposedHelpers.callMethod;
+import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
 public class FolderIcon extends Icon {
 	

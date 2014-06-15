@@ -506,6 +506,10 @@ public class IconPack {
             }
 
             if (icons.size() != 0) {
+                if (currentCategory == null) {
+                    currentCategory = "all icons";
+                }
+
                 previewIcons.put(currentCategory, icons);
             }
         } catch (Exception e) {

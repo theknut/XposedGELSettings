@@ -64,67 +64,85 @@ public class ChooseAppList extends ListActivity {
         ChooseAppList.this.finish();
     }
 
+    public static class ViewHolder {
+        ImageView imageView;
+        TextView textView;
+        CheckBox checkBox;
+        String cmpName;
+    }
+
     public class AppArrayAdapter extends ArrayAdapter<ResolveInfo> {
         private Context context;
         private List<ResolveInfo> values;
         private PackageManager pm;
+        private LayoutInflater inflater;
+
+        OnClickListener onClickListener = new OnClickListener() {
+
+            @SuppressWarnings("deprecation")
+            @Override
+            public void onClick(View v) {
+
+                SharedPreferences prefs = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.remove(prefKey + "_launch");
+                editor.apply();
+                editor.putString(prefKey + "_launch", ((ViewHolder) v.getTag()).cmpName);
+                editor.apply();
+                setResult(RESULT_OK, intent);
+                ChooseAppList.this.finish();
+            }
+        };
+
+        OnClickListener onClickListenerApp = new OnClickListener() {
+
+            @SuppressWarnings("deprecation")
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(ChooseAppList.this, FragmentSelectiveIcon.class);
+                i.putExtra("app", ((ViewHolder) v.getTag()).cmpName);
+                startActivity(i);
+            }
+        };
 
         public AppArrayAdapter(Context context, PackageManager pm, List<ResolveInfo> values) {
             super(context, R.layout.row, values);
             this.context = context;
             this.values = values;
             this.pm = pm;
+            this.inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View rowView = inflater.inflate(R.layout.row, parent, false);
 
+            ViewHolder holder;
+            View rowView = convertView;
+
+            if (rowView == null) {
+                holder = new ViewHolder();
+                rowView = inflater.inflate(R.layout.row, parent, false);
+                holder.imageView = (ImageView) rowView.findViewById(R.id.icon);
+                holder.textView = (TextView) rowView.findViewById(R.id.name);
+                holder.checkBox = (CheckBox) rowView.findViewById(R.id.checkbox);
+
+                rowView.setTag(holder);
+            }
+
+            holder = (ViewHolder) rowView.getTag();
             ResolveInfo item = values.get(position);
 
-            // setup app icon to row
-            ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-            imageView.setImageDrawable(item.loadIcon(pm));
-
-            CheckBox checkBox = (CheckBox) rowView.findViewById(R.id.checkbox);
-            checkBox.setVisibility(View.GONE);
-
-            // setup app label to row
-            TextView textView = (TextView) rowView.findViewById(R.id.name);
-            textView.setText(item.loadLabel(pm));
+            new ImageLoader(pm, item, holder.imageView).execute();
+            holder.textView.setText(item.loadLabel(pm));
+            holder.checkBox.setVisibility(View.GONE);
 
             if (prefKey != null) {
-                rowView.setTag(item.activityInfo.packageName);
-                rowView.setOnClickListener(new OnClickListener() {
-
-                    @SuppressWarnings("deprecation")
-                    @Override
-                    public void onClick(View v) {
-
-                        SharedPreferences prefs = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.remove(prefKey + "_launch");
-                        editor.apply();
-                        editor.putString(prefKey + "_launch", (String) v.getTag());
-                        editor.apply();
-                        setResult(RESULT_OK, intent);
-                        ChooseAppList.this.finish();
-                    }
-                });
+                holder.cmpName = item.activityInfo.packageName;
+                rowView.setOnClickListener(onClickListener);
             } else {
-                rowView.setTag(new ComponentName(item.activityInfo.packageName, item.activityInfo.name));
-                rowView.setOnClickListener(new OnClickListener() {
-
-                    @SuppressWarnings("deprecation")
-                    @Override
-                    public void onClick(View v) {
-
-                        Intent i = new Intent(ChooseAppList.this, FragmentSelectiveIcon.class);
-                        i.putExtra("app", ((ComponentName) v.getTag()).flattenToString());
-                        startActivity(i);
-                    }
-                });
+                holder.cmpName = new ComponentName(item.activityInfo.packageName, item.activityInfo.name).flattenToString();
+                rowView.setOnClickListener(onClickListenerApp);
             }
 
             // add the row to the listview

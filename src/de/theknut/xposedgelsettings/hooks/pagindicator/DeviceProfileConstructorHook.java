@@ -1,9 +1,9 @@
 package de.theknut.xposedgelsettings.hooks.pagindicator;
 
-import static de.robv.android.xposed.XposedHelpers.setIntField;
 import de.robv.android.xposed.XC_MethodHook;
-
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
+
+import static de.robv.android.xposed.XposedHelpers.setIntField;
 
 public final class DeviceProfileConstructorHook extends XC_MethodHook {
 	
