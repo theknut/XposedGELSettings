@@ -123,6 +123,12 @@ public class FragmentWelcome extends FragmentBase {
             retVal = true;
         }
         catch (PackageManager.NameNotFoundException e) { }
+
+        try {
+            pm.getPackageInfo("com.android.launcher3", PackageManager.GET_ACTIVITIES);
+            retVal = true;
+        }
+        catch (PackageManager.NameNotFoundException e) { }
         
         return retVal;
     }
