@@ -73,6 +73,10 @@ public class AllAppsList extends ListActivity {
         ImageView imageView;
         TextView textView;
         CheckBox checkBox;
+
+        public void loadImageAsync(PackageManager pm, ResolveInfo item, ChooseAppList.ViewHolder holder) {
+            new ImageLoader(pm, item, holder, null).execute();
+        }
     }
 
     public class AppArrayAdapter extends ArrayAdapter<ResolveInfo> {
@@ -112,30 +116,28 @@ public class AllAppsList extends ListActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            ViewHolder holder;
+            ResolveInfo item = values.get(position);
+            ChooseAppList.ViewHolder holder;
             View rowView = convertView;
 
             if (rowView == null) {
-                holder = new ViewHolder();
+                holder = new ChooseAppList.ViewHolder();
                 rowView = inflater.inflate(R.layout.row, parent, false);
                 holder.imageView = (ImageView) rowView.findViewById(R.id.icon);
                 holder.textView = (TextView) rowView.findViewById(R.id.name);
                 holder.checkBox = (CheckBox) rowView.findViewById(R.id.checkbox);
+                holder.imageView.setImageDrawable(item.loadIcon(pm));
 
                 rowView.setTag(holder);
             }
 
-            holder = (ViewHolder) rowView.getTag();
-            ResolveInfo item = values.get(position);
-
-            new ImageLoader(pm, item, holder.imageView).execute();
-
+            holder = (ChooseAppList.ViewHolder) rowView.getTag();
             holder.textView.setText(item.loadLabel(pm));
             holder.checkBox.setTag(item.activityInfo.packageName + "#" + item.loadLabel(pm));
             holder.checkBox.setChecked(hiddenApps.contains(holder.checkBox.getTag()));
             holder.checkBox.setOnCheckedChangeListener(onCheckedChangeListener);
+            holder.loadImageAsync(pm, item, holder, null);
 
-            // add the row to the listview
             return rowView;
         }
     }

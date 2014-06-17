@@ -24,6 +24,7 @@ import java.util.List;
 
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.icon.IconPack;
 
 @SuppressLint("WorldReadableFiles")
 public class ChooseAppList extends ListActivity {
@@ -69,6 +70,10 @@ public class ChooseAppList extends ListActivity {
         TextView textView;
         CheckBox checkBox;
         String cmpName;
+
+        public void loadImageAsync(PackageManager pm, ResolveInfo item, ChooseAppList.ViewHolder holder, IconPack iconPack) {
+            new ImageLoader(pm, item, holder, iconPack).execute();
+        }
     }
 
     public class AppArrayAdapter extends ArrayAdapter<ResolveInfo> {
@@ -76,6 +81,7 @@ public class ChooseAppList extends ListActivity {
         private List<ResolveInfo> values;
         private PackageManager pm;
         private LayoutInflater inflater;
+        private IconPack iconPack;
 
         OnClickListener onClickListener = new OnClickListener() {
 
@@ -112,11 +118,13 @@ public class ChooseAppList extends ListActivity {
             this.values = values;
             this.pm = pm;
             this.inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            this.iconPack = FragmentIcon.iconPack;
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
+            ResolveInfo item = values.get(position);
             ViewHolder holder;
             View rowView = convertView;
 
@@ -127,15 +135,28 @@ public class ChooseAppList extends ListActivity {
                 holder.textView = (TextView) rowView.findViewById(R.id.name);
                 holder.checkBox = (CheckBox) rowView.findViewById(R.id.checkbox);
 
+                if (CommonUI.TextColor == -1) {
+                    CommonUI.TextColor = holder.textView.getCurrentTextColor();
+                }
+
+                if (iconPack == null) {
+                    holder.imageView.setImageDrawable(item.loadIcon(pm));
+                } else {
+                    String cmpName = new ComponentName(item.activityInfo.packageName, item.activityInfo.name).flattenToString();
+                    holder.imageView.setImageDrawable(
+                            iconPack == null ?
+                            item.loadIcon(pm)
+                            : iconPack.loadIcon(cmpName)
+                    );
+                }
+
                 rowView.setTag(holder);
             }
 
             holder = (ViewHolder) rowView.getTag();
-            ResolveInfo item = values.get(position);
-
-            new ImageLoader(pm, item, holder.imageView).execute();
             holder.textView.setText(item.loadLabel(pm));
             holder.checkBox.setVisibility(View.GONE);
+            holder.loadImageAsync(pm, item, holder, iconPack);
 
             if (prefKey != null) {
                 holder.cmpName = item.activityInfo.packageName;
@@ -145,7 +166,6 @@ public class ChooseAppList extends ListActivity {
                 rowView.setOnClickListener(onClickListenerApp);
             }
 
-            // add the row to the listview
             return rowView;
         }
     }

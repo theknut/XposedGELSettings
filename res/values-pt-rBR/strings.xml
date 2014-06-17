@@ -278,7 +278,7 @@ Por favor, veja o log!"</string>
     <string name="pref_icon_premium_title">Recurso Premium</string>
     <string name="pref_icon_premium_summary">Esta funcionalidade só está disponível em XGELS Premium.</string>
     <string name="pref_icon_support_title">Estatísticas</string>
-    <string name="pref_icon_support_summary">%1$d de %2$d ícones suportados\n%3$d ícones no total</string>
+    <string name="pref_icon_support_summary">Dynamic calendar: %1$s\n%2$d de %3$d ícones suportados\n%4$d ícones no total</string>
     <string name="pref_icon_auto_apply_title">Aplicar automáticamente</string>
     <string name="pref_icon_auto_apply_summary">Aplicar ícone novos e/ou atualizados automaticamente</string>
     <string name="pref_overlap_google_search_bar_title">Sobrepor barra de pesquisa</string>

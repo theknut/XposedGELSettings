@@ -94,7 +94,11 @@ public class IconPack {
     public List<Icon> getIcons() {
         return icons;
     }
-    
+
+    public List<IconInfo> getAppFilter() {
+        return appFilter;
+    }
+
     public String getPackageName() {
         return packageName;
     }
@@ -267,6 +271,23 @@ public class IconPack {
                 getIcons().add(icon);
                 return icon.getIcon();
             }
+        }
+
+        return null;
+    }
+
+    public Drawable loadIconFromDrawableName(String componentName, String drawableName) {
+        for (Icon icon : getIcons()) {
+            if (icon.equals(componentName)) {
+                return icon.getIcon();
+            }
+        }
+
+        int id = resources.getIdentifier(drawableName, "drawable", getPackageName());
+        if (id != 0) {
+            Icon icon = new Icon(componentName, resources.getDrawableForDensity(id, getDPI()));
+            getIcons().add(icon);
+            return icon.getIcon();
         }
 
         return null;
@@ -527,7 +548,11 @@ public class IconPack {
                 parser.nextTag();
                 return name;
             }
-            previewIcons.put(currentCategory, icons);
+
+            if (icons.size() != 0) {
+                previewIcons.put(currentCategory, icons);
+            }
+
             name = parser.getAttributeValue(0);
 
             parser.nextTag();

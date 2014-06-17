@@ -16,8 +16,8 @@
 	    android:summary="@string/pref_icon_support_summary" />
     <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
         android:key="selectiveicon"
-	    android:title="Per app icon change"
-	    android:summary="Coming soon!" />
+	    android:title="@string/pref_icon_perappicon_title"
+	    android:summary="@string/pref_icon_perappicon_summary" />
     <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
 	    android:title="All apps button icon"
 	    android:enabled="false"

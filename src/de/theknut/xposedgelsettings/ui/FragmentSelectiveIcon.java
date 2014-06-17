@@ -204,7 +204,6 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
 
             this.inflater = inflater;
             View rootView = inflater.inflate(R.layout.expandablelistview, null);
-
             new IconPackLoader(CommonUI.CONTEXT, rootView).execute(getArguments().getString("pkg"));
             return rootView;
         }
@@ -213,21 +212,39 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
 
             private IconPack iconPack;
             private List<String> categories;
-            private List<List<IconPreview>> children;
+            private List<List<List<IconPreview>>> children;
 
-            private void fillListView() {
+            private void fillListView(int colCount) {
                 HashMap<String, List<IconPreview>> previews = this.iconPack.getIconPreviews();
                 categories = new ArrayList<String>(previews.keySet());
-                children = new ArrayList<List<IconPreview>>();
+                children = new ArrayList<List<List<IconPreview>>>();
 
                 for (String category : categories) {
-                    children.add(previews.get(category));
+                    List<List<IconPreview>> iconPreviews = new ArrayList<List<IconPreview>>();
+                    List<IconPreview> categoryIcons = previews.get(category);
+
+                    int length = (categoryIcons.size() > 20) ? (20 - 20%colCount) : categoryIcons.size();
+                    for (int i = 0; i < categoryIcons.size(); ) {
+                        iconPreviews.add(getSubList(categoryIcons, i, length));
+                        i += length;
+                        length = (categoryIcons.size() - i > 20) ? (20 - 20%colCount) : categoryIcons.size() - i;
+                    }
+
+                    children.add(iconPreviews);
                 }
             }
 
-            public void setIconPack(IconPack iconPack) {
+            private List<IconPreview> getSubList(List<IconPreview> categoryIcons, int start, int length) {
+                List<IconPreview> subList = new ArrayList<IconPreview>();
+                for (int i = start; i < start + length; i++) {
+                    subList.add(categoryIcons.get(i));
+                }
+                return subList;
+            }
+
+            public void setIconPack(IconPack iconPack, int columnCount) {
                 this.iconPack = iconPack;
-                fillListView();
+                fillListView(columnCount);
             }
 
             @Override
@@ -237,7 +254,7 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
 
             @Override
             public int getChildrenCount(int i) {
-                return 1;
+                return children.get(i).size();
             }
 
             @Override
@@ -247,7 +264,7 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
 
             @Override
             public Object getChild(int i, int i1) {
-                return children.get(i).get(i1).getDrawableName();
+                return children.get(i).get(i1);
             }
 
             @Override
@@ -285,14 +302,14 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
                 MyGridView grid;
                 if (convertView == null) {
                     convertView = inflater.inflate(R.layout.child_row, null);
-
                 }
 
                 grid = (MyGridView) convertView.findViewById(R.id.gridview);
-                grid.setFocusable(true);grid.setClickable(true);
+                grid.setFocusable(true);
+                grid.setClickable(true);
 
                 ImageAdapter imageAdapter = new ImageAdapter(iconPack.getContext());
-                imageAdapter.fillIcons(children.get(groupPosition));
+                imageAdapter.fillIcons(children.get(groupPosition).get(childPosition));
                 grid.setAdapter(imageAdapter);
 
                 return grid;
@@ -320,12 +337,16 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
                 elv = (ExpandableListView) rootView.findViewById(R.id.list);
 
                 try {
-                    IconPack iconPack;
-                    iconPack = new IconPack(mContext, ((String) params[0]));
+                    IconPack iconPack = new IconPack(mContext, ((String) params[0]));
                     iconPack.loadIconCategories(mContext);
                     ela = new ExpandableListAdapter();
-                    ela.setIconPack(iconPack);
+                    Resources resources = mContext.getResources();
+                    DisplayMetrics displayMetrics = resources.getDisplayMetrics();
+                    int requestedColumnWidth = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, displayMetrics));
+                    int requestedHorizontalSpacing = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, displayMetrics));
+                    int mNumColumns = (elv.getWidth() + requestedHorizontalSpacing) / (requestedColumnWidth + requestedHorizontalSpacing);
 
+                    ela.setIconPack(iconPack, mNumColumns);
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -344,11 +365,9 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
         private Context mContext;
         private List<IconPreview> icons;
         public static int iconSize, paddingSize;
-        private Drawable placeholder;
 
         public ImageAdapter(Context c) {
             mContext = c;
-            placeholder = CommonUI.CONTEXT.getResources().getDrawable(R.drawable.ic_launcher);
 
             DisplayMetrics dm = mContext.getResources().getDisplayMetrics();
             iconSize = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 64, dm));
@@ -374,50 +393,47 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
         public View getView(int position, View convertView, ViewGroup parent) {
 
             final ImageView imageView;
-            if (convertView == null) {
-                imageView = new ImageView(mContext);
-                imageView.setClickable(true);
-                imageView.setFocusable(true);
-                imageView.setId(position);
-                imageView.setTag(icons.get(position).getDrawableName());
-                imageView.setLayoutParams(new MyGridView.LayoutParams(iconSize, iconSize));
-                imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-                imageView.setPadding(paddingSize, paddingSize, paddingSize, paddingSize);
-                imageView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String key = "selectedicons";
-                        SharedPreferences prefs = CommonUI.CONTEXT.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
-                        HashSet<String> selectedIcons = (HashSet<String>) prefs.getStringSet(key, new HashSet<String>());
 
-                        Iterator it = selectedIcons.iterator();
-                        while (it.hasNext()) {
-                            String[] item = it.next().toString().split("\\|");
-                            if (item[0].equals(appComponentName)) {
-                                it.remove();
-                            }
+            imageView = new ImageView(mContext);
+            imageView.setClickable(true);
+            imageView.setFocusable(true);
+            imageView.setId(position);
+            imageView.setImageResource(android.R.drawable.sym_def_app_icon);
+            imageView.setTag(icons.get(position).getDrawableName());
+            imageView.setLayoutParams(new MyGridView.LayoutParams(iconSize - paddingSize, iconSize - paddingSize));
+            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            imageView.setPadding(paddingSize, paddingSize, paddingSize, paddingSize);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String key = "selectedicons";
+                    SharedPreferences prefs = CommonUI.CONTEXT.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
+                    HashSet<String> selectedIcons = (HashSet<String>) prefs.getStringSet(key, new HashSet<String>());
+
+                    Iterator it = selectedIcons.iterator();
+                    while (it.hasNext()) {
+                        String[] item = it.next().toString().split("\\|");
+                        if (item[0].equals(appComponentName)) {
+                            it.remove();
                         }
-
-                        selectedIcons.add(appComponentName + "|" + currentIconPack + "|" + v.getTag());
-
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.remove(key);
-                        editor.apply();
-                        editor.putStringSet(key, selectedIcons);
-                        editor.apply();
-
-                        mActivity.finish();
                     }
-                });
 
-                imageView.setImageDrawable(placeholder);
-            } else {
-                imageView = (ImageView) convertView;
-            }
+                    selectedIcons.add(appComponentName + "|" + currentIconPack + "|" + v.getTag());
+
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.remove(key);
+                    editor.apply();
+                    editor.putStringSet(key, selectedIcons);
+                    editor.apply();
+
+                    mActivity.finish();
+                }
+            });
 
             new ImageLoader().execute(imageView, mContext, icons.get(position).getResID());
             return imageView;
         }
+
         public class ImageLoader extends AsyncTask<Object, Void, Void> {
             ImageView image;
             Drawable icon;

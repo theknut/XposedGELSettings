@@ -325,7 +325,7 @@
     <string name="pref_icon_premium_title">Premium Feature</string>
     <string name="pref_icon_premium_summary">This feature is only available in XGELS Premium.</string>
     <string name="pref_icon_support_title">Stats</string>
-    <string name="pref_icon_support_summary">%1$d of %2$d icons supported\n%3$d icons in total</string>
+    <string name="pref_icon_support_summary">Dynamic calendar: %1$s\n%2$d of %3$d icons supported\n%4$d icons in total</string>
     <string name="pref_icon_auto_apply_title">Auto apply</string>
     <string name="pref_icon_auto_apply_summary">Apply new or updated icon packs automatically</string>
     
@@ -335,4 +335,7 @@
     <!-- V1.7.1 -->
     <string name="pref_icon_hide_icon_packs_title">Hide icon packs</string>
     <string name="pref_icon_hide_icon_packs_summary">Automatically hide icon packs from the app drawer</string>
+    <string name="pref_icon_perappicon_title">Per app icon change</string>
+    <string name="pref_icon_perappicon_summary">Select icons on a per app basis</string>
+
 </resources>

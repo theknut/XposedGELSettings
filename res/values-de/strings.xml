@@ -304,7 +304,7 @@
     <string name="pref_icon_premium_title">Premiumfunktion</string>
     <string name="pref_icon_premium_summary">Diese Funktion ist nur in XGELS Premium verfügbar</string>
     <string name="pref_icon_support_title">Statistik</string>
-    <string name="pref_icon_support_summary">%1$d von %2$d Icons unterstützt\n%3$d Icons insgesamt</string>
+    <string name="pref_icon_support_summary">Dynamischer Kalendar: %1$s\n%2$d von %3$d Icons unterstützt\n%4$d Icons insgesamt</string>
     <string name="pref_icon_auto_apply_title">Automatisch anwenden</string>
     <string name="pref_icon_auto_apply_summary">Neue oder aktualisierte Iconpacks automatisch anwenden</string>
     

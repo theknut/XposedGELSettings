@@ -44,6 +44,7 @@ public class CommonUI {
 	public static Context CONTEXT;
 	
 	public static int UIColor = Color.parseColor("#222222");
+    public static int TextColor = -1;
 	
 	public static boolean AUTO_BLUR_IMAGE;
 	public static boolean needFullReboot = false;

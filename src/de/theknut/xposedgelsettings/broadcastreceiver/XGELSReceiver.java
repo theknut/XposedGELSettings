@@ -11,7 +11,6 @@ import android.os.AsyncTask;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.List;
 
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.ui.Blur;
@@ -19,8 +18,6 @@ import de.theknut.xposedgelsettings.ui.CommonUI;
 
 @SuppressLint("WorldReadableFiles")
 public class XGELSReceiver extends BroadcastReceiver {
-
-    static List<String> initIconPacks;
 
     @SuppressWarnings("deprecation")
     @Override
