@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,6 +46,7 @@ public class FragmentIcon extends FragmentBase {
     List<String> notSupportedIconsList;
     static public IconPack iconPack;
     GridView grid;
+    ProgressBar progressBar;
     boolean dirty;
     
     @Override
@@ -161,6 +163,9 @@ public class FragmentIcon extends FragmentBase {
                         return true;
                     }
 
+                    progressBar.setVisibility(View.VISIBLE);
+                    progressBar.setIndeterminate(true);
+
                     try {
                         iconPack = new IconPack(mContext, ((String) newValue));
                         iconPack.loadAppFilter();
@@ -171,7 +176,6 @@ public class FragmentIcon extends FragmentBase {
                     }
                     
                     new UpdateStatisticAsyncTask().execute(iconPackName);
-
                     return true;
                 }
             });
@@ -180,6 +184,7 @@ public class FragmentIcon extends FragmentBase {
                 iconPackList.setValueIndex(0);
             }
 
+            progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
             grid = (GridView) rootView.findViewById(R.id.iconpreview);
 
             try {
@@ -363,17 +368,20 @@ public class FragmentIcon extends FragmentBase {
             final ImageView imageView;
 
             imageView = new ImageView(mContext);
+            imageView.setId(position);
             imageView.setLayoutParams(new GridView.LayoutParams(iconSize - paddingSize, iconSize - paddingSize));
             imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             imageView.setPadding(paddingSize, paddingSize, paddingSize, paddingSize);
 
             new ImageLoader().execute(imageView, mIconPack, apps.get(position));
+
             return imageView;
         }
 
         public class ImageLoader extends AsyncTask<Object, Void, Void> {
             ImageView image;
             Drawable icon;
+
 
             @Override
             protected Void doInBackground(Object... params) {
@@ -402,6 +410,11 @@ public class FragmentIcon extends FragmentBase {
 
             @Override
             protected void onPostExecute(Void aVoid) {
+                if (image.getId() == grid.getNumColumns()) {
+                    progressBar.setVisibility(View.GONE);
+                    progressBar.setIndeterminate(false);
+                }
+
                 image.setImageDrawable(icon);
             }
         }

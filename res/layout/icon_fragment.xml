@@ -31,6 +31,16 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop" />
 
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:indeterminate="true"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/view" />
+
     <GridView
         android:id="@+id/iconpreview"
         android:clickable="true"
@@ -50,7 +60,8 @@
         android:layout_above="@android:id/list"
         android:layout_width="fill_parent"
         android:layout_height="1dip"
-        android:background="#FFFFFF" />
+        android:background="#FFFFFF"
+        android:id="@+id/view" />
     
     <ListView
         android:id="@android:id/list"
@@ -60,4 +71,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 		android:dividerHeight="1dp" />
+
 </RelativeLayout>
