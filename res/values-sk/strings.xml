@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Xposed GEL Settings</string>
     <string name="app_description">Skryť vyhľadávací riadok Google, skryť aplikácie z spúšťača, zmeniť veľkosť mriežky domovskej obrazovky a ponuky aplikácií, zmeniť veľkosť ikon, zmeniť veľkosť textu, zmeniť počet aplikácií doku, odstrániť menovky ikony a ďalšie</string>
     <string name="pref_hide_google_search_bar_title">Skryť</string>
-    <string name="pref_autohide_google_search_bar_title">Automaticky skrývať</string>
+    <string name="pref_autohide_google_search_bar_title">Automaticky skryť</string>
     <string name="pref_autohide_google_search_bar_summary">Automaticky zobraziť na stránke Asistenta Google</string>
     <string name="pref_hide_icon_label_on_homescreen_title">Skryť menovky ikon</string>
     <string name="pref_hide_icon_label_on_app_drawer_title">Skryť menovky ikon</string>
@@ -36,7 +35,7 @@
     <string name="pref_ycountallapps_summary">Zmeniť počet riadkov aplikácií</string>
     <string name="pref_cat_title_homescreen">Domovská obrazovka</string>
     <string name="pref_title_longpress_app_drawer_button">Tlačidlo všetkých aplikácií</string>
-    <string name="pref_summary_longpress_app_drawer_button">Otvoriť XGELN po dlhom stlačení</string>
+    <string name="pref_summary_longpress_app_drawer_button">Otvoriť XGELS po dlhom stlačení</string>
     <string name="pref_cat_title_appicons">Nastavenia ikon</string>
     <string name="pref_switch_appicons_title">Povoliť</string>
     <string name="pref_switch_appicons_explain_summary">Povoliť zmeny na ikonách</string>
@@ -79,7 +78,7 @@
     <string name="pref_disable_wallpaper_scroll_title">Posun tapety</string>
     <string name="pref_disable_wallpaper_scroll_summary">Zakázať synchronizovaný posun tapety</string>
     <!-- V1.3 -->
-    <string name="toast_desktop_locked">XGELN: Plocha je zamknutá!</string>
+    <string name="toast_desktop_locked">XGELS: Plocha je zamknutá!</string>
     <string name="toast_fail">Ok&#8230; toto nefunguje :-S\nProsím, skontrolujte logcat</string>
     <string name="pref_switch_appdock_title">Skryť dok</string>
     <string name="pref_switch_appdock_summary">Skryť dok aplikácií</string>
@@ -106,7 +105,7 @@
     <string name="pref_gestures_note_summary">Gesturá pre inicializáciu potrebujú jednu alebo dve minúty po spustení zariadenia</string>
     <!-- V1.4 -->
     <string name="pref_switch_no_all_apps_button_title">Tlačidlo ponuky aplikácií</string>
-    <string name="pref_switch_no_all_apps_button_summary">Skryť tlačidlo ponuky aplikácií. Prosím, odstráňte ikonu z ponuky aplikácií, ak túto možnosť zakážete!</string>    
+    <string name="pref_switch_no_all_apps_button_summary">Skryť tlačidlo ponuky aplikácií. Prosím, odstráňte ikonu z ponuky aplikácií, ak túto možnosť zakážete!</string>
     <string name="drawer_open">Otvoriť navigačnú ponuku</string>
     <string name="drawer_close">Zatvoriť navigačnú ponuku</string>
     <string name="pref_systemui_explain_title">Poznámka</string>
@@ -114,7 +113,7 @@
     <string name="pref_cat_systemui_navbar_title">Navigačná lišta</string>
     <string name="pref_cat_systemui_statusbar_title">Stavový riadok</string>
     <string name="pref_dynamic_backbutton_title">Tlačidlo Späť</string>
-    <string name="pref_dynamic_backbutton_summary">Prepnúť na \">Prejsť do spánku\" na predvolenej domovskej obrazovke</string>
+    <string name="pref_dynamic_backbutton_summary">Prepnúť na \"Prejsť do spánku\" na predvolenej domovskej obrazovke</string>
     <string name="pref_dynamic_homebutton_title">Tlačidlo Domov</string>
     <string name="pref_dynamic_homebutton_summary">Prepnúť na \"Otvoriť ponuku aplikácií\" na predvolenej domovskej obrazovke</string>
     <string name="pref_dynamic_hideclock_title">Skryť hodiny</string>
@@ -130,7 +129,7 @@
     <string name="pref_backup_homescreen_summary">Zálohovať vaše rozloženie domovskej obrazovky (len ikony a priečinky) do\n/sdcard/XposedGELSettings</string>
     <string name="pref_restore_homescreen_title">Obnoviť</string>
     <string name="pref_restore_homescreen_summary">Obnoviť vaše rozloženie domovskej obrazovky (len ikony a priečinky) z\n/sdcard/XposedGELSettings</string>
-    <string name="pref_animate_dynamic_homebutton_title">>Animovať prepínanie ikon</string>
+    <string name="pref_animate_dynamic_homebutton_title">Animovať prepínanie ikon</string>
     <string name="pref_animate_dynamic_homebutton_summary">Rýchle stmavnutie v animácií pri zmene</string>
     <string name="pref_change_dynamic_homebutton_title">Dynamická ikona tlačidla Domov</string>
     <string name="pref_change_dynamic_homebutton_summary">Zmeniť ikonu tlačidla Domov na ikonu ponuky aplikácií na predvolenej obrazovke</string>
@@ -142,19 +141,19 @@
     <string name="pref_switch_gesture_swipe_down_close_app_drawer_title">Ponuka aplikácií</string>
     <string name="pref_switch_gesture_swipe_down_close_app_drawer_summary">Potiahnutím nadol zatvoriť ponuku aplikácií</string>
     <string name="toast_getprices_fail">Niečo sa pokazilo pri získavaní zoznamu cien. Prosím, skontrolujte logcat!</string>
-    <string name="toast_donation_result_fail">Niečo sa pokazilo. Možno chcete ukončiť XGELN a znovu ju spustiť. Prosím, skontrolujte logcat!</string>
+    <string name="toast_donation_result_fail">Niečo sa pokazilo. Možno chcete ukončiť XGELS a znovu ju spustiť. Prosím, skontrolujte logcat!</string>
     <string name="toast_donate_thanks">Áno, ste úžasný! Ďakujeme vám!</string>
-    <string name="pref_xgel_group_summary">Prosím, kliknite sem pre požiadanie o vstup do skupiny XGELN darcov! Zahrňte vašu Gmail adresu, aby sme vás mohli pridať do súkromnej skupiny.</string>
+    <string name="pref_xgel_group_summary">Prosím, kliknite sem pre požiadanie o vstup do skupiny XGELS Prémium! Zahrňte vašu Gmail adresu, aby sme vás mohli pridať do súkromnej skupiny.</string>
     <string name="pref_requires_donation_title">Nie je k dispozícii</string>
-    <string name="pref_requires_donation_summary">Nasledujúce funkcie sú dostupné len v darcovskej verzii.</string>
+    <string name="pref_requires_donation_summary">Nasledujúce funkcie sú dostupné len v Prémium verzii.</string>
     <string name="alert_reboot_needed_title">Vyžadovaný úplný reštart!</string>
-    <string name="alert_reboot_needed_summary">Vykonali ste zmeny, ktoré vyžadujú úplný reštart (vyžaduje sa root). Prosím, vyberte spôsob!</string>
+    <string name="alert_reboot_needed_summary">Vykonali ste zmeny, ktoré vyžadujú úSkrývaťplný reštart (vyžaduje sa root). Prosím, vyberte spôsob!</string>
     <string name="progress_requesting_root_title">Prosím, počkajte&#8230;</string>
     <string name="progress_requesting_root_summary">Vyžaduje sa root prístup&#8230;</string>
     <string name="pref_auto_blur_wallpaper_title">Dynamické pozadie</string>
-    <string name="pref_auto_blur_wallpaper_summary">Rozmazať pozadie zariadenie zakaždým, keď sa zmení a použiť ho ako pozadie XGELN. Toto môže rýchlo vybíjať batériu, ak používate aplikácie, ktoré menia tapetu v určitých intervaloch.</string>
+    <string name="pref_auto_blur_wallpaper_summary">Rozmazať pozadie zariadenie zakaždým, keď sa zmení a použiť ho ako pozadie XGELS. Toto môže rýchlo vybíjať batériu, ak používate aplikácie, ktoré menia tapetu v určitých intervaloch.</string>
     <string name="pref_dynamic_backbuttononeveryscreen_title">Prejsť do spánku na každej obrazovke</string>
-    <string name="pref_dynamic_backbuttononeveryscreen_summary">>Prejsť do spánku na každej domovskej obrazovke. Ak táto možnosť nie je povolená, uspanie prebehne len na predvolenej domovskej obrazovke.</string>
+    <string name="pref_dynamic_backbuttononeveryscreen_summary">Prejsť do spánku na každej domovskej obrazovke. Ak táto možnosť nie je povolená, uspanie prebehne len na predvolenej domovskej obrazovke.</string>
     
      <!-- V1.5 -->
     <string name="pref_selectwidgetstohide_summary">Vybrať miniaplikácie na skrytie</string>
@@ -167,8 +166,8 @@
     <string name="pref_cat_homescreen_appdock_title">Dok aplikácií</string>
     <string name="pref_switch_appdocksettings_title">Povoliť</string>
     <string name="pref_switch_appdocksettings_explain_summary">Povoliť zmeny na doku aplikácií</string>
-    <string name="pref_switch_autohideappdock_title">Automaticky skrývať</string>
-    <string name="pref_switch_autohideappdock_summary">Automaticky skrývať dok aplikácií</string>
+    <string name="pref_switch_autohideappdock_title">Automaticky skryť</string>
+    <string name="pref_switch_autohideappdock_summary">Automaticky skryť dok aplikácií</string>
     <string name="pref_switch_folder_title">Povoliť</string>
     <string name="pref_switch_folder_summary">Povoliť zmeny na priečinkoch</string>
     <string name="pref_folder_background_color">Farba pozadia</string>
@@ -212,11 +211,17 @@
     <string name="alert_hidewidgets_title">Poznámka</string>
     <string name="alert_hidewidgets_summary">Môžete vybrať len miniaplikácie v tomto zozname. Odkazy momentálne skryté byť nemôžu.</string>
     <string name="pref_limited_title">Limitované</string>
+    <string name="pref_limited_summary">Niektoré z týchto funkcií sú k dispozícii len v darcovskej verzii.</string>
     <!-- V1.6 -->
     <string-array name="notificationbadge_presets_entries">
         <item>Vlastné</item>
         <item>G+ štýl</item>
         <item>G+ štýl (polopriehľadné)</item>
+        <item>Oceľ</item>
+        <item>Vinyl</item>
+        <item>Biele a čierne</item>
+        <item>Čistý kruh</item>
+        <item>Sklenený kruh</item>
     </string-array>
     <string name="pref_debug">Povoliť záznamy na ladenie</string>
     <string name="pref_send_bugreport">Poslať hlásenie o chybe</string>
@@ -233,7 +238,13 @@
     <string name="alert_autokill_checkbox">Už nezobrazovať</string>
     <string name="pref_autokill_launcher_title">Ukončiť spúšťač</string>
     <string name="pref_autokill_launcher_summary">Ukončiť GNL/Trebuchet automaticky po zmene nastavenia. Po návrate na domovskú obrazovku bude spúšťač GNL/Trebuchet spustený s novými nastaveniami.</string>
-    
+
+    <string name="pref_notificationbadge_premium_title">Prémiová funkcia</string>
+    <string name="pref_notificationbadge_premium_summary">Táto funkcia je dostupná len v XGELS Prémium. Vezmite na vedomie, že symboly oznámení vyžadujú MissedIt! (platenú verziu) pre získanie štatistík počítadiel.</string>
+    <string name="pref_notificationbadge_missedit_missing_title">Aplikácia MissedIt! nie je nainštalovaná</string>
+    <string name="pref_notificationbadge_missedit_missing_summary">Aplikácia MissedIt! nie je nainštalovaná. XGELS vyžaduje štatistiky počítadiel z tejto aplikácie pre získanie symbolov počtov. Kliknite sem pre otvorenie/zakúpenie MissedIt! z Obchodu Play!</string>
+    <string name="pref_notificationbadge_open_missedit_title">Otvoriť MissedIt!</string>
+    <string name="pref_notificationbadge_open_missedit_summary">Kliknite sem pre otvorenie MissedIt!</string>
     <string name="pref_notificationbadge_enable_title">Povoliť symboly</string>
     <string name="pref_notificationbadge_backgroundcolor_title">Farba pozadia</string>
     <string name="pref_notificationbadge_textcolor_title">Farba textu</string>
@@ -244,6 +255,11 @@
     <string name="pref_notificationbadge_presets_title">Predvoľby</string>
     <string name="pref_notificationbadge_leftright_padding_title">Výplň na ľavo a na pravo</string>
     <string name="pref_notificationbadge_topbottom_padding_title">Výplň na vrchu a na spodku</string>
+    <string name="pref_notificationbadge_advanced">Pokročilé nastavenia</string>
+    <string name="pref_notificationbadge_advanced_title">Nastaviť ručne</string>
+    <string name="pref_notificationbadge_advanced_summary">Ak máte problémy so symbolmi oznámení pre Telefón a SMS, prosím nastavte ich znova tu. Taktiež kliknite sem pre obnovenie nastavení nižšie.</string>
+    <string name="pref_notificationbadge_advanced_dialer_title">Aplikácia pre Telefón</string>
+    <string name="pref_notificationbadge_advanced_sms_title">Aplikácia pre SMS</string>
     
     <string name="pref_switch_gesture_double_tap_only_on_wallpaper_title">Len na tapete</string>
     <string name="pref_switch_gesture_double_tap_only_on_wallpaper_summary">Povoliť dvojité kliknutie len na tapete. Zníži sa oneskorenie kvôli rozpoznávaniu gesta dvojitého kliknutia na ikony.</string>
@@ -263,7 +279,31 @@
     <string name="pref_donated_button">Ďakujeme vám za váš nákup!</string>
     <string name="pref_limited_summary">Niektoré z nasledujúcich funkcií sú dostupné len v XGELS Prémium.</string>
     
+    <string name="pref_reverseengineering_cat_title">Reverzné inžinierstvo</string>
+    <string name="pref_reverseengineering_explain_title">Oh, ahojte tu!</string>
+    <string name="pref_reverseengineering_explain_summary">Ako ste si možno všimli, nedávna aktualizácia GNL znefunkčnila XGELS. To je vzhľadom k úplnej obfuskácií GNL. Aby aplikácia XGELS znovu fungovala, musel som za pomoci reverzného inžinierstva prerobiť každú funkciu XGELS a prejsť celým kódom GNL znovu. Naštastie som bol schopný obnoviť 99% funkcií!</string>
+    <string name="pref_reverseengineering_conclusion_title">Čo to znamená?</string>
+    <string name="pref_reverseengineering_conclusion_summary">Predpokladá sa, že Google obfuskuje GNL s každou hlavnou verziou (3.X), čo znamená, že dôjde s najväčšou pravdepodobnosťou k znefunkčneniu XGELS. Tentoraz som však na to pripravený a som si istý, že môžem obnoviť všetky funkcie v priebehu niekoľkých hodín!</string>
+    <string name="pref_reverseengineering_what_to_do_title">Čo môžete spraviť?</string>
+    <string name="pref_reverseengineering_what_to_do_summary">Ak nechcete, aby budúca aktualizácia GNL/Vyhľadávania Google spôsobila znefunkčnenie XGELS, prejdite do Obchodu Play a zakážte automatické aktualizovanie. Pri GNL/Vyhľadávaniu Google dochádza k postupnému uvoľnovaniu aktualizácií, čo znamenám že v niektorých prípadoch sa XGELS aktualizuje ešte predtým, než dostanete oficiálnu aktualizáciu GNL/Vyhľadávania Google. Kliknite sem pre otvorenie Obchodu Play a zakázanie automatického aktualizovania práve teraz!</string>
+    <string name="pref_reverseengineering_bugs_title">Chyby</string>
+    <string name="pref_reverseengineering_bugs_summary">Vzhľadom k potrebe reverzného inžinierstva, je možné, že sa vyskytnú nejaké chyby. Prosím, buďte trochu zhovievavejší a neudeľujte nízke hodnotenie pre túto aplikácia v Obchode Play. Použite funkciu \"Poslať hlásenie o chybe\" v Nastaveniach. Ďakujeme vám!</string>
+    <string name="pref_reverseengineering_support_cat">Potrebujeme vašu podporu!</string>
+    <string name="pref_reverseengineering_support_title">Prispieť!</string>
+    <string name="pref_reverseengineering_support_summary">Neuveriteľné možnostvo mojem práce je potrebné pre vývoj XGELS. Ak sa vám táto aplikácia páči, prosím, kliknite sem pre prispenie!</string>
+    <string name="pref_reverseengineering_rate_title">Ohodnotiť XGELS!</string>
+    <string name="pref_reverseengineering_rate_summary">Ukážte vašu podporu a ohodnoťte aplikáciu v Obchode Play. Dobré hodnotenie bude motivovať ostatných, aby sa skúsili XGELS. Kliknite sem pre ohodnotenie XGELS v Obchode Play!</string>
+    
+    <!-- V1.6.2 -->
+    <string name="pref_notificationbadge_help_title">Potrebujete pomoc?</string>
+    <string name="pref_notificationbadge_help_summary">Kliknite sem, ak chcete zistiť, ako nastaviť symboly oznámení!</string>
+    
     <!-- V1.7 -->
+    <string name="pref_switch_position_all_apps_button_title">Pozícia tlačidla ponuky aplikácií</string>
+    <string name="pref_switch_position_all_apps_button_summary">Vybrať pozíciu ponuky aplikácií</string>
+    <string name="pref_general_scroll_devider_title">Rýchlosť posunu</string>
+    <string name="pref_general_scroll_devider_summary">Nastaviť globálnu rýchlosť posunu</string>
+
     <string-array name="fragmenttitles_array">
         <item>Vitajte</item>
         <item>Všeobecné</item>
@@ -271,14 +311,34 @@
         <item>Domovská obrazovka</item>
         <item>Ponuka aplikácií</item>
         <item>Gestá</item>
-        <item>Notification Badges (Beta)</item>
-        <item>Icon</item> <!-- NEW -->
-        <item>Symboly oznámení</item>
+        <item>Symboly oznámení (Beta)</item>
+        <item>Ikony</item>
         <item>Vylepšenia rozhrania</item>
         <item>Zálohovať/Obnoviť</item>
         <item>Nastavenia</item>
         <item>Prémium/Podpora</item>
-        <item>Reverse Engineering</item>
+        <item>Reverzné inžinierstvo</item>
     </string-array>
     
+    <string name="pref_switch_folder_hide_label">Skryť menovky ikon</string>
+    <string name="pref_icon_chooseiconpack_title">Balík ikon</string>
+    <string name="pref_icon_chooseiconpack_dialog_title">Vyberte balík ikon</string>
+    <string name="pref_icon_noiconpack">Predvolený</string>
+    <string name="alert_icon_noiconpackfound_title">Nenájdený žiadny balík ikon!</string>
+    <string name="alert_icon_noiconpackfound_summary">Nanašiel sa žiadny podporovaný balík ikon. Získať nejaký balík ikon?</string>
+    <string name="alert_icon_noiconpackfound_yes">Áno</string>
+    
+    <string name="pref_icon_premium_title">Prémiová funkcia</string>
+    <string name="pref_icon_premium_summary">Táto funkcia je dostupná len v XGELS Prémium.</string>
+    <string name="pref_icon_support_title">Štatistiky</string>
+    <string name="pref_icon_support_summary">Podporované ikony: %1$d z %2$d\nIkon celkovo: %3$d</string>
+    <string name="pref_icon_auto_apply_title">Automaticky použiť</string>
+    <string name="pref_icon_auto_apply_summary">Automaticky použiť nové alebo aktualizované balíky ikon</string>
+    
+    <string name="pref_show_google_search_bar_homescreen_title">Predvolená domovská obrazovka</string>
+    <string name="pref_show_google_search_bar_homescreen_summary">Zobraziť vyhľadávací riadok na predvolenej domovskej obrazovke</string>
+    
+    <!-- V1.7.1 -->
+    <string name="pref_icon_hide_icon_packs_title">Skryť balíky</string>
+    <string name="pref_icon_hide_icon_packs_summary">Automaticky skryť balíky ikon z ponuky aplikácií</string>
 </resources>
