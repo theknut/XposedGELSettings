@@ -163,7 +163,7 @@ public class FragmentWelcome extends FragmentBase {
 	    .setMessage("The Xposed Framework is not installed. This app will not work without the framework!")
 	    .setPositiveButton("Go to Xposed Framework", new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) { 
-	        	Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://forum.xda-developers.com/showthread.php?t=1574401"));
+	        	Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://forum.xda-developers.com/xposed/xposed-installer-versions-changelog-t2714053"));
 	        	startActivity(browserIntent);
 	        	shown = false;
 	        	getActivity().finish();

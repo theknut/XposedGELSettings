@@ -13,10 +13,13 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
+import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -39,6 +42,8 @@ import de.theknut.xposedgelsettings.ui.CommonUI;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
+import static de.robv.android.xposed.XposedHelpers.getBooleanField;
+import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.newInstance;
 import static de.robv.android.xposed.XposedHelpers.setObjectField;
@@ -47,6 +52,7 @@ public class IconHooks extends HooksBaseClass {
     
     static IconPack iconPack;
     static boolean hasCalendarIcon;
+    static boolean isUpdatingIcons;
     
     static BroadcastReceiver autoapplyReceiver = new BroadcastReceiver() {
         
@@ -89,14 +95,17 @@ public class IconHooks extends HooksBaseClass {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
+            log(action + " "+  IconPack.getDayOfMonth() + " "+  Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
             if (action.equals(Intent.ACTION_DATE_CHANGED)
                 || action.equals(Intent.ACTION_TIME_CHANGED)
                 || action.equals(Intent.ACTION_TIMEZONE_CHANGED)) {
                 
-                if ((IconPack.getDayOfMonth()) != Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) {
+                if (IconPack.getDayOfMonth() != Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) {
+                    isUpdatingIcons = true;
                     iconPack.onDateChanged();
                     checkCalendarApps();
                     updateIcons();
+                    isUpdatingIcons = false;
                 }
             }
         }
@@ -243,14 +252,17 @@ public class IconHooks extends HooksBaseClass {
                 Resources res = (Resources) param.args[RESOURCES];
                 String pkg = res.getResourcePackageName(resID);
                 if (pkg.equals("android")) return;
-                
-                Drawable icon = iconPack.loadIcon(pkg);
+
+                PackageManager pkgMgr = iconPack.getContext().getPackageManager();
+                log(" " + pkgMgr + " " + pkg );
+                ComponentName cmpName = pkgMgr.getLaunchIntentForPackage(pkg).getComponent();
+
+                Drawable icon = iconPack.loadIcon(cmpName.flattenToString());
                 if (icon == null && !iconPack.isAppFilterLoaded()) return;
 
                 if (icon == null) {
                     if (!iconPack.shouldThemeMissingIcons()) return;
                     try {
-                        PackageManager pkgMgr = Common.LAUNCHER_CONTEXT.getPackageManager();
                         icon = pkgMgr.getApplicationInfo(pkg, 0).loadIcon(pkgMgr);
                         Bitmap tmpIcon = (Bitmap) callStaticMethod(Classes.Utilities, Methods.uCreateIconBitmap, icon, iconPack.getContext());
                         Bitmap tmpFinalIcon = iconPack.themeIcon(tmpIcon);
@@ -259,14 +271,30 @@ public class IconHooks extends HooksBaseClass {
                         Icon newIcon = new Icon(pkg, icon);
                         iconPack.getIcons().add(newIcon);
                         param.setResult(icon);
-                        if (DEBUG) log("Res R: Loaded Themed Icon Replacement for " + pkg + " took " + (System.currentTimeMillis() - time) + "ms");
+                        if (DEBUG) log("Res R: Loaded Themed Icon Replacement for " + cmpName.flattenToString() + " took " + (System.currentTimeMillis() - time) + "ms");
                     } catch (NameNotFoundException nnfe) {
-                        if (DEBUG) log("Res R: Couldn't load Icon Replacement for " + pkg);
+                        if (DEBUG) log("Res R: Couldn't load Icon Replacement for " + cmpName.flattenToString());
                     }                    
                 } else {
                     param.setResult(icon);
-                    if (DEBUG) log("Res R: Loaded Icon Replacement for " + pkg + " took " + (System.currentTimeMillis() - time) + "ms");
+                    if (DEBUG) log("Res R: Loaded Icon Replacement for " + cmpName.flattenToString() + " took " + (System.currentTimeMillis() - time) + "ms");
                 }
+            }
+        });
+
+        findAndHookMethod(Classes.LauncherModel, Methods.lmIsShortcutInfoUpdateable, Classes.ItemInfo, new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+
+                for (ResolveInfo r : getCalendars()) {
+                    if (r.activityInfo.packageName.equals(((Intent) callMethod(param.args[0], "getIntent")).getComponent().getPackageName())) {
+                        if (DEBUG) log(param, "Returning true for " + r.activityInfo.packageName + " instead of " + param.getResult());
+                        param.setResult(true);
+                        return;
+                    }
+                }
+
+                if (DEBUG) log(param, "Returned " + param.getResult() + " for " + ((Intent) callMethod(param.args[0], "getIntent")).getComponent().getPackageName());
             }
         });
 
@@ -303,6 +331,38 @@ public class IconHooks extends HooksBaseClass {
                 }
             }
         });
+
+        if (!PreferencesHelper.noAllAppsButton) {
+
+            for (String selectedIcon : PreferencesHelper.selectedIcons) {
+                if (selectedIcon.split("\\|")[0].equals("all_apps_button_icon")) {
+
+                    findAndHookMethod(Classes.CellLayout, Methods.celllayoutAddViewToCellLayout, View.class, Integer.TYPE, Integer.TYPE, Classes.CellLayoutLayoutParams, boolean.class, new XC_MethodHook() {
+
+                        final int ITEM_TYPE_ALLAPPS = 5; // Trebuchet
+
+                        @Override
+                        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                            Object tag = ((View) param.args[0]).getTag();
+                            if (param.args[0] instanceof TextView
+                                && (!getBooleanField(param.args[3], Fields.celllayoutlayoutparamsCanReorder) || (tag != null && getIntField(tag, Fields.iiItemType) == ITEM_TYPE_ALLAPPS))) {
+                                if (DEBUG) log(param, "theme all apps button");
+
+                                Drawable icon = iconPack.loadIcon("all_apps_button_icon");
+                                if (icon != null) {
+                                    TextView allAppsButton = (TextView) param.args[0];
+                                    Rect bounds = allAppsButton.getCompoundDrawables()[1].copyBounds();
+                                    icon.setBounds(bounds);
+                                    allAppsButton.setCompoundDrawables(null, icon, null, null);
+                                } else {
+                                    if (DEBUG) log(param, "Couldn't load icon for all apps button");
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        }
 	}
 	
 	public static boolean initIconPack(MethodHookParam param) throws NameNotFoundException {
@@ -321,6 +381,7 @@ public class IconHooks extends HooksBaseClass {
                 iconPack.loadAppFilter();
             }
 
+            iconPack.loadSelectedIcons(PreferencesHelper.selectedIcons);
             checkCalendarApps();
 	    }
         
@@ -405,7 +466,9 @@ public class IconHooks extends HooksBaseClass {
     }
 
     public static List<ResolveInfo> getCalendars() {
-        PackageManager packageManager = iconPack.getContext().getPackageManager();
+        if (Common.LAUNCHER_CONTEXT == null) return new ArrayList<ResolveInfo>();
+
+        PackageManager packageManager = Common.LAUNCHER_CONTEXT.getPackageManager();
         Intent calendarIntent = new Intent(Intent.ACTION_MAIN);
         calendarIntent.addCategory("android.intent.category.LAUNCHER");
         calendarIntent.addCategory("android.intent.category.APP_CALENDAR");

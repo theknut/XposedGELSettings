@@ -25,11 +25,13 @@
   </head>
   <body>
 
-  $ 1.7.1
-  % Version 1.7.1
- _ 2014-06-02
+  $ 1.8
+  % Version 1.8
+ _ 2014-01-07
 
  ! Added:
+ * per app icon change (Premium)
+ * changeable app drawer button
  * automatically hide icon packs from the app drawer
 
  ! Improved:
@@ -45,6 +47,7 @@
  * crashes in Icon menu
 
  ! XGELS UI:
+ * option to disable the background image
  * added Traditional Chinese (Taiwan) by Eric850130
  * updated translations
 

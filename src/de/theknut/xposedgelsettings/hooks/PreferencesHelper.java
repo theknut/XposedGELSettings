@@ -81,7 +81,7 @@ public class PreferencesHelper {
 	public static String gesture_double_tap = prefs.getString("gesture_double_tap", "NONE");
 	public static boolean gesture_double_tap_only_on_wallpaper = prefs.getBoolean("gesture_double_tap_only_on_wallpaper", false);
 
-    public static Set<String> selectedIcons = prefs.getStringSet("selectedIcons", new HashSet<String>());
+    public static Set<String> selectedIcons = prefs.getStringSet("selectedicons", new HashSet<String>());
 	public static Set<String> hiddenApps = prefs.getStringSet("hiddenapps", new HashSet<String>());
 	public static Set<String> hiddenWidgets = prefs.getStringSet("hiddenwidgets", new HashSet<String>());
 	

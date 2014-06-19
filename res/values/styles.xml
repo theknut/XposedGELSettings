@@ -26,8 +26,5 @@
 	    <item name="android:shadowDy">1</item>
 	    <item name="android:shadowRadius">2</item>
   	</style>
-  	
-	<style name="Theme.Splash" parent="android:Theme">
-	  	<item name="android:windowNoTitle">true</item>
-	</style>
+
 </resources>

@@ -39,6 +39,7 @@ import eu.chainfire.libsuperuser.Shell;
 @SuppressLint("WorldReadableFiles")
 public class CommonUI {
 
+    public static boolean LOADING_ICONPACK;
     public static Activity ACTIVITY;
     public static Bitmap bluredBackground = null;
 	public static Context CONTEXT;
@@ -49,7 +50,8 @@ public class CommonUI {
 	public static boolean AUTO_BLUR_IMAGE;
 	public static boolean needFullReboot = false;
 	private static Shell.Interactive rootSession;
-    
+    public static boolean NO_BACKGROUND_IMAGE;
+
     public static List<String> getIconPacks(Context context) {
 	    String[] sIconPackCategories = new String[] {
 	            "com.fede.launcher.THEME_ICONPACK",
@@ -103,11 +105,14 @@ public class CommonUI {
     }
 	
 	public static View setBackground(View rootView, int layout) {
-		
+        if (CommonUI.NO_BACKGROUND_IMAGE && (layout != R.id.welcomebackground)) {
+            return rootView;
+        }
+        
     	if (CommonUI.AUTO_BLUR_IMAGE && CommonUI.setBluredBackground(CONTEXT, rootView, layout)) {
     		return rootView;
     	}
-    	
+
     	ImageView background = (ImageView) rootView.findViewById(layout);
     	background.setImageResource((layout == R.id.welcomebackground) ? R.drawable.wall : R.drawable.wall2);
     	

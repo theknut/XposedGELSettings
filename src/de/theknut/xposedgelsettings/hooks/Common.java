@@ -19,8 +19,6 @@ public final class Common {
 	public static final String XGELS_ACTION_NAVBAR = "NAVIGATION_BAR";
 	public static final String XGELS_ACTION_OTHER = "OTHER";
 	public static final String XGELS_ACTION_APP_REQUEST = "APP_REQUEST";
-	public static final String XGELS_ACTION_APPLY_ICONPACK = XGELS_INTENT + ".APPLY_ICONPACK";
-	public static final String XGELS_ACTION_UPDATE_CALENDAR = XGELS_INTENT + ".UPDATE_CALENDAR";
 	public static final String XGELS_ACTION_SAVE_ICONPACK = XGELS_INTENT + ".SAVE_ICONPACK";
 	
 	// MissedIt intent
@@ -37,8 +35,6 @@ public final class Common {
 	
 	// the name of the settings file
 	public static final String PREFERENCES_NAME = Common.PACKAGE_NAME + "_preferences";
-    public static int FOLDER_WIDTH;
-    public static int FOLDER_HEIGHT;
 
     // the package we are currently hooked to
 	public static String HOOKED_PACKAGE;
@@ -46,7 +42,6 @@ public final class Common {
 	// Instances
 	public static Object LAUNCHER_INSTANCE;
 	public static Object DEVICE_PROFILE_INSTANCE;
-	public static Object PAGED_VIEW_INSTANCE;
 	public static Object CONTENT_TYPE;
 	public static Object WORKSPACE_INSTANCE;
 	public static Object APP_DRAWER_INSTANCE;
@@ -65,25 +60,16 @@ public final class Common {
 	public static String GEL_PACKAGE = "com.google.android.googlequicksearchbox";
 	public static String TREBUCHET_PACKAGE = "com.cyanogenmod.trebuchet";
 	
-	public static String LAUNCHER3 = "com.android.launcher3.";
-	
-	public static boolean APPDOCK_HIDDEN = true;	
-	public static boolean IS_INIT = false;
-	public static boolean HOOKS_AFTER_WORKSPACE_LOADED_INITIALIZED = false;
+	public static boolean APPDOCK_HIDDEN = true;
 	public static boolean OVERSCROLLED = false;
-	public static boolean LAUNCHER_PAUSED = false;
-	public static boolean SCREEN_OFF = false;
 	public static boolean IS_DRAGGING = false;
 	public static boolean MOVED_TO_DEFAULTHOMESCREEN = false;
 	public static int APPDRAWER_LAST_POSITION = 0;
-	
+
+    public static boolean UPDATING_ICONS;
 	public static boolean PACKAGE_OBFUSCATED;
-	public static boolean test;
 	
 	// all launchers we support (hopefully :-S)
 	public static final List<String> PACKAGE_NAMES = new ArrayList<String>(Arrays.asList("com.android.launcher2", "com.android.launcher3", Common.GEL_PACKAGE, Common.TREBUCHET_PACKAGE));
-	
-	public static void initClassNames(String launcherName) {
-		
-	}
+
 }

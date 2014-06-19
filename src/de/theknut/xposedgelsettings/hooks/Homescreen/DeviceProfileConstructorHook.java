@@ -8,7 +8,6 @@ import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 
-import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.setIntField;
 
 public final class DeviceProfileConstructorHook extends XC_MethodHook {
@@ -94,8 +93,5 @@ public final class DeviceProfileConstructorHook extends XC_MethodHook {
 		}
 		
 		setIntField(param.thisObject, Fields.dpNumHotseatIcons, PreferencesHelper.appDockCount);
-
-        Common.FOLDER_WIDTH = getIntField(param.thisObject, "zj");
-        Common.FOLDER_HEIGHT = getIntField(param.thisObject, "zk");
 	}
 }

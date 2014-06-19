@@ -337,5 +337,7 @@
     <string name="pref_icon_hide_icon_packs_summary">Automatically hide icon packs from the app drawer</string>
     <string name="pref_icon_perappicon_title">Per app icon change</string>
     <string name="pref_icon_perappicon_summary">Select icons on a per app basis</string>
-
+    <string name="pref_icon_allappsbutton_title">App drawer button</string>
+    <string name="pref_icon_allappsbutton_summary">Change the icon of the app drawer button</string>
+    <string name="pref_xgels_no_background_image_title">No background image</string>
 </resources>

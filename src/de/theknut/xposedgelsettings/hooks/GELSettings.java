@@ -25,7 +25,7 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
 
 	@Override
 	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
-
+        XposedBridge.log(lpparam.packageName);
 		// only hook to supported launchers		
 		if (lpparam.packageName.equals(Common.PACKAGE_NAME)) {
 
@@ -42,12 +42,9 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
 			return;
 		}
 
-		if (!lpparam.isFirstApplication) {
-			return;
-		}
-
 		// saving the name of the hooked package
-		Common.HOOKED_PACKAGE = lpparam.packageName;		
+		Common.HOOKED_PACKAGE = lpparam.packageName;
+
 		if (PreferencesHelper.Debug) XposedBridge.log("GELSettings.handleLoadPackage: hooked package -> " + lpparam.packageName);
 		
 		if (Common.HOOKED_PACKAGE.contains("com.android.launcher2")) {
@@ -60,14 +57,14 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
 		Methods.initMethodNames();
 		Fields.initFieldNames();
 
-		// all hooks to modify...
+		// init all hooks...
 		GeneralHooks.initAllHooks(lpparam);
 		GoogleSearchBarHooks.initAllHooks(lpparam);
 		PageIndicatorHooks.initAllHooks(lpparam);
 		HomescreenHooks.initAllHooks(lpparam);
 		AppDrawerHooks.initAllHooks(lpparam);
 		GestureHooks.initAllHooks(lpparam);
-		IconHooks.initAllHooks(lpparam);
 		NotificationBadgesHooks.initAllHooks(lpparam);
+        IconHooks.initAllHooks(lpparam);
 	}
 }

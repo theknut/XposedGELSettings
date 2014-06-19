@@ -22,6 +22,9 @@
         android:key="autoblurimage"
         android:title="@string/pref_auto_blur_wallpaper_title"
     	android:summary="@string/pref_auto_blur_wallpaper_summary" />
+    <de.theknut.xposedgelsettings.ui.MyCheckboxPreference
+        android:key="nobackgroundimage"
+        android:title="@string/pref_xgels_no_background_image_title" />
     <de.theknut.xposedgelsettings.ui.MyPreferenceCategory
         android:title="@string/pref_cat_eximport_settings">
 	    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen

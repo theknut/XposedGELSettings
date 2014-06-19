@@ -21,6 +21,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -45,6 +46,7 @@ import de.theknut.xposedgelsettings.hooks.Common;
 
 @SuppressLint("WorldReadableFiles")
 public class MainActivity extends InAppPurchase {
+
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -59,9 +61,11 @@ public class MainActivity extends InAppPurchase {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
-        CommonUI.CONTEXT = (Context) this;
-        
+
+        mContext = CommonUI.CONTEXT = mActivity = CommonUI.ACTIVITY = this;
+
+        FragmentIcon.loadIconPack(false);
+
         mTitle = mDrawerTitle = getTitle();
         mFragmentTitles = getResources().getStringArray(R.array.fragmenttitles_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -127,8 +131,10 @@ public class MainActivity extends InAppPurchase {
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-        
-        CommonUI.AUTO_BLUR_IMAGE = CommonUI.CONTEXT.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).getBoolean("autoblurimage", false);
+
+        SharedPreferences prefs = CommonUI.CONTEXT.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
+        CommonUI.NO_BACKGROUND_IMAGE = prefs.getBoolean("nobackgroundimage", false);
+        CommonUI.AUTO_BLUR_IMAGE = prefs.getBoolean("autoblurimage", false);
         
         if (savedInstanceState == null) {
         	
@@ -141,34 +147,6 @@ public class MainActivity extends InAppPurchase {
         		selectItem(0);
         	}
         }
-        
-//        (new OnTouchListener() {
-//            
-//            float downX;
-//            
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                
-//                switch (event.getAction() & MotionEvent.ACTION_MASK) {
-//                case MotionEvent.ACTION_DOWN:
-//                    downX = event.getRawX();
-//                    
-//                    break;
-//                case MotionEvent.ACTION_MOVE:
-//                    
-//                    if ((event.getRawX() - downX) > 100.0f) {
-//                        MainActivity.openDrawer();
-//                        return true;
-//                    } 
-//                    
-//                    break;
-//                default:
-//                    break;
-//                }
-//                
-//                return false;
-//            }
-//        });
     }
     
     @Override

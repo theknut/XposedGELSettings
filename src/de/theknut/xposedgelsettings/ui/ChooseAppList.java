@@ -16,10 +16,12 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 import de.theknut.xposedgelsettings.R;
@@ -29,6 +31,8 @@ import de.theknut.xposedgelsettings.hooks.icon.IconPack;
 @SuppressLint("WorldReadableFiles")
 public class ChooseAppList extends ListActivity {
 
+    AppArrayAdapter adapter;
+    SharedPreferences prefs;
     String prefKey;
     Intent intent;
 
@@ -37,25 +41,17 @@ public class ChooseAppList extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        prefs = CommonUI.CONTEXT.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
+
         getListView().setCacheColorHint(CommonUI.UIColor);
         getListView().setBackgroundColor(CommonUI.UIColor);
         getActionBar().setBackgroundDrawable(new ColorDrawable(CommonUI.UIColor));
 
-        // retrieve the preference key so that we can save a app linked with the gesture
+        // retrieve the preference key so that we can save an app linked with the gesture
         intent = getIntent();
         prefKey = intent.getStringExtra("prefKey");
 
-        PackageManager pm = getPackageManager();
-
-        // load all apps which are listed in the app drawer
-        final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
-        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        final List<ResolveInfo> apps = pm.queryIntentActivities(mainIntent, 0);
-
-        // sort them
-        Collections.sort(apps, new ResolveInfo.DisplayNameComparator(pm));
-
-        AppArrayAdapter adapter = new AppArrayAdapter(this, getPackageManager(), apps);
+        adapter = new AppArrayAdapter(this, getPackageManager(), CommonUI.getAllApps());
         setListAdapter(adapter);
     }
 
@@ -65,10 +61,40 @@ public class ChooseAppList extends ListActivity {
         ChooseAppList.this.finish();
     }
 
+    SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            if (sharedPreferences.getBoolean("autokilllauncher", false)) {
+                CommonUI.restartLauncher(false);
+            }
+        }
+    };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
+    }
+
+    @Override
+    public void onPause() {
+        getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).unregisterOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
+        super.onPause();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
+    }
+
     public static class ViewHolder {
         ImageView imageView;
         TextView textView;
         CheckBox checkBox;
+        ImageButton delete;
         String cmpName;
 
         public void loadImageAsync(PackageManager pm, ResolveInfo item, ChooseAppList.ViewHolder holder, IconPack iconPack) {
@@ -108,7 +134,7 @@ public class ChooseAppList extends ListActivity {
 
                 Intent i = new Intent(ChooseAppList.this, FragmentSelectiveIcon.class);
                 i.putExtra("app", ((ViewHolder) v.getTag()).cmpName);
-                startActivity(i);
+                startActivityForResult(i, 0);
             }
         };
 
@@ -122,7 +148,7 @@ public class ChooseAppList extends ListActivity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(int position, final View convertView, ViewGroup parent) {
 
             ResolveInfo item = values.get(position);
             ViewHolder holder;
@@ -134,6 +160,7 @@ public class ChooseAppList extends ListActivity {
                 holder.imageView = (ImageView) rowView.findViewById(R.id.icon);
                 holder.textView = (TextView) rowView.findViewById(R.id.name);
                 holder.checkBox = (CheckBox) rowView.findViewById(R.id.checkbox);
+                holder.delete = (ImageButton) rowView.findViewById(R.id.deletebutton);
 
                 if (CommonUI.TextColor == -1) {
                     CommonUI.TextColor = holder.textView.getCurrentTextColor();
@@ -156,13 +183,50 @@ public class ChooseAppList extends ListActivity {
             holder = (ViewHolder) rowView.getTag();
             holder.textView.setText(item.loadLabel(pm));
             holder.checkBox.setVisibility(View.GONE);
+
+            holder.delete.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SharedPreferences.Editor editor = prefs.edit();
+                    String key = "selectedicons";
+                    String appComponentName = (String) v.getTag();
+                    HashSet<String> selectedIcons = (HashSet<String>) prefs.getStringSet(key, new HashSet<String>());
+
+                    Iterator it = selectedIcons.iterator();
+                    while (it.hasNext()) {
+                        String[] item = it.next().toString().split("\\|");
+                        if (item[0].equals(appComponentName)) {
+                            it.remove();
+                        }
+                    }
+
+                    editor.remove(key);
+                    editor.apply();
+                    editor.putStringSet(key, selectedIcons);
+                    editor.apply();
+
+                    notifyDataSetChanged();
+                }
+            });
             holder.loadImageAsync(pm, item, holder, iconPack);
 
             if (prefKey != null) {
                 holder.cmpName = item.activityInfo.packageName;
                 rowView.setOnClickListener(onClickListener);
             } else {
-                holder.cmpName = new ComponentName(item.activityInfo.packageName, item.activityInfo.name).flattenToString();
+                String cmpName = new ComponentName(item.activityInfo.packageName, item.activityInfo.name).flattenToString();
+                holder.cmpName = cmpName;
+                holder.delete.setTag(cmpName);
+
+                boolean visible = false;
+                HashSet<String> selectedIcons = (HashSet<String>) prefs.getStringSet("selectedicons", new HashSet<String>());
+                for (String selectedIcon : selectedIcons) {
+                    if (selectedIcon.split("\\|")[0].equals(cmpName)) {
+                        visible = true;
+                    }
+                }
+
+                holder.delete.setVisibility(visible ? View.VISIBLE : View.GONE);
                 rowView.setOnClickListener(onClickListenerApp);
             }
 

@@ -28,7 +28,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+import java.util.Set;
 
+import de.robv.android.xposed.XposedBridge;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.ui.CommonUI;
 
@@ -37,11 +39,16 @@ public class IconPack {
     static final String ICONBACK = "iconback";
     static final String ICONMASK = "iconmask";
     static final String ICONUPON = "iconupon";
+
+    static final int COMPONENTNAME = 0;
+    static final int ICONPACKNAME = 1;
+    static final int DRAWABLENAME = 2;
     
     private List<IconInfo> appFilter;
     private List<Icon> icons;
     private List<IconInfo> calendarIcon;
     private LinkedHashMap<String, List<IconPreview>> previewIcons;
+    private List<String> unthemedIcons;
     
 
     private List<String> iconTheme;
@@ -64,6 +71,7 @@ public class IconPack {
     public IconPack(Context context, String packageName) throws NameNotFoundException {
         this.packageName = packageName;
         this.launcherDPI = context.getResources().getDisplayMetrics().densityDpi;
+        this.unthemedIcons = new ArrayList<String>();
         this.icons = new ArrayList<Icon>();
         this.calendarIcon = new ArrayList<IconInfo>();
         setDayOfMonth(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
@@ -188,7 +196,8 @@ public class IconPack {
         while (it.hasNext()) {
             Icon icon = it.next();
             for (ResolveInfo calendar : calendars) {
-                if (calendar.activityInfo.packageName.contains(icon.getPackageName())) {
+                if (icon.getPackageName().contains(calendar.activityInfo.packageName)) {
+                    XposedBridge.log("Found and removed " + calendar.activityInfo.packageName);
                     it.remove();
                 }
             }
@@ -273,19 +282,32 @@ public class IconPack {
             }
         }
 
+        unthemedIcons.add(pkg);
         return null;
     }
 
-    public Drawable loadIconFromDrawableName(String componentName, String drawableName) {
-        for (Icon icon : getIcons()) {
-            if (icon.equals(componentName)) {
-                return icon.getIcon();
+    public void loadSelectedIcons(Set<String> selectedIcons) {
+
+        for (String selectedIcon : selectedIcons) {
+            String[] info = selectedIcon.split("\\|");
+            loadSingleIconFromIconPack(info[ICONPACKNAME], info[COMPONENTNAME], info[DRAWABLENAME]);
+        }
+    }
+
+    public Drawable loadSingleIconFromIconPack(String iconPackPackageName, String componentName, String drawableName) {
+        Resources res = getResources();
+        if (!iconPackPackageName.equals(getPackageName())) {
+            try {
+                Context iconPackContext = getContext().createPackageContext(iconPackPackageName, Context.CONTEXT_IGNORE_SECURITY);
+                res = iconPackContext.getResources();
+            } catch (NameNotFoundException e) {
+                e.printStackTrace();
             }
         }
 
-        int id = resources.getIdentifier(drawableName, "drawable", getPackageName());
+        int id = res.getIdentifier(drawableName, "drawable", iconPackPackageName);
         if (id != 0) {
-            Icon icon = new Icon(componentName, resources.getDrawableForDensity(id, getDPI()));
+            Icon icon = new Icon(componentName, res.getDrawableForDensity(id, getDPI()));
             getIcons().add(icon);
             return icon.getIcon();
         }

@@ -46,6 +46,14 @@ public class FragmentSettings extends FragmentBase {
   
     	View rootView = inflater.inflate(R.layout.options_fragment, container, false);
         addPreferencesFromResource(R.xml.settings_fragment);
+
+        findPreference("nobackgroundimage").setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                CommonUI.NO_BACKGROUND_IMAGE = (Boolean) newValue;
+                return true;
+            }
+        });
         
         OnPreferenceClickListener ImExportResetSettingsListener = new OnPreferenceClickListener() {
             @SuppressWarnings("deprecation")
@@ -143,15 +151,6 @@ public class FragmentSettings extends FragmentBase {
                 Method setPermissions = fileUtils.getMethod("setPermissions", String.class, int.class, int.class, int.class);
                 return (Integer) setPermissions.invoke(null, path.getAbsolutePath(), mode, -1, -1);
             }
-            
-            private void restartActivity() {					
-				Intent mStartActivity = new Intent(mContext, MainActivity.class);
-				int mPendingIntentId = 0xBEEF;
-				PendingIntent mPendingIntent = PendingIntent.getActivity(mContext, mPendingIntentId, mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
-				AlarmManager mgr = (AlarmManager)mContext.getSystemService(Context.ALARM_SERVICE);
-				mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
-				System.exit(0);
-			}
         };
         
         this.findPreference("importsettings").setOnPreferenceClickListener(ImExportResetSettingsListener);
@@ -342,5 +341,14 @@ public class FragmentSettings extends FragmentBase {
         rootView = CommonUI.setBackground(rootView, R.id.prefbackground);
         
         return rootView;
+    }
+
+    private void restartActivity() {
+        Intent mStartActivity = new Intent(mContext, MainActivity.class);
+        int mPendingIntentId = 0xBEEF;
+        PendingIntent mPendingIntent = PendingIntent.getActivity(mContext, mPendingIntentId, mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager mgr = (AlarmManager)mContext.getSystemService(Context.ALARM_SERVICE);
+        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 500, mPendingIntent);
+        System.exit(0);
     }
 }

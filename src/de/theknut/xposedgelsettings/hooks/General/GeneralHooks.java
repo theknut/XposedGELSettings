@@ -53,7 +53,7 @@ public class GeneralHooks extends HooksBaseClass {
 		if (PreferencesHelper.longpressAllAppsButton) {
 			// add long press listener to app drawer button
 			if (Common.PACKAGE_OBFUSCATED) {
-				findAndHookMethod(Classes.CellLayout, Methods.celllayoutAddViewToCellLayout, View.class, Integer.TYPE, Integer.TYPE, Classes.CellLayoutLayoutParams,  boolean.class, new AllAppsButtonHook());
+				findAndHookMethod(Classes.CellLayout, Methods.celllayoutAddViewToCellLayout, View.class, Integer.TYPE, Integer.TYPE, Classes.CellLayoutLayoutParams, boolean.class, new AllAppsButtonHook());
 			} else {
 				XposedBridge.hookAllMethods(Classes.CellLayout, Methods.celllayoutAddViewToCellLayout, new AllAppsButtonHook());
 			}

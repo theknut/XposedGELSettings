@@ -24,6 +24,9 @@ import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -51,6 +54,7 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
     ViewPager mViewPager;
 
     Intent intent;
+    static SharedPreferences prefs;
 
     static Activity mActivity;
     static int tabCount;
@@ -65,6 +69,7 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
         intent = getIntent();
         appComponentName = intent.getStringExtra("app");
         mActivity = this;
+        prefs = CommonUI.CONTEXT.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
 
         mAppSectionsPagerAdapter = new AppSectionsPagerAdapter(getSupportFragmentManager());
         final ActionBar actionBar = getActionBar();
@@ -124,6 +129,49 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
 
         tabCount = actionBar.getTabCount();
         mAppSectionsPagerAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (appComponentName.equals("all_apps_button_icon")) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.icon_menu, menu);
+        }
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            // action with ID action_refresh was selected
+            case R.id.action_refresh:
+
+                SharedPreferences.Editor editor = prefs.edit();
+                String key = "selectedicons";
+                String appComponentName = "all_apps_button_icon";
+                HashSet<String> selectedIcons = (HashSet<String>) prefs.getStringSet(key, new HashSet<String>());
+
+                Iterator it = selectedIcons.iterator();
+                while (it.hasNext()) {
+                    String[] name = it.next().toString().split("\\|");
+                    if (name[0].equals(appComponentName)) {
+                        it.remove();
+                    }
+                }
+
+                editor.remove(key);
+                editor.apply();
+                editor.putStringSet(key, selectedIcons);
+                editor.apply();
+                mActivity.finish();
+                break;
+            default:
+                break;
+        }
+
+        return true;
     }
 
     public boolean hasDrawableList(String packageName) {
@@ -193,6 +241,27 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
         public int getCount() {
             return tabCount;
         }
+    }
+
+    SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            if (sharedPreferences.getBoolean("autokilllauncher", false)) {
+                CommonUI.restartLauncher(false);
+            }
+        }
+    };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
+    }
+
+    @Override
+    public void onPause() {
+        getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).unregisterOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
+        super.onPause();
     }
 
     public static class IconPackPage extends Fragment {
@@ -406,8 +475,9 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    SharedPreferences.Editor editor = prefs.edit();
+
                     String key = "selectedicons";
-                    SharedPreferences prefs = CommonUI.CONTEXT.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
                     HashSet<String> selectedIcons = (HashSet<String>) prefs.getStringSet(key, new HashSet<String>());
 
                     Iterator it = selectedIcons.iterator();
@@ -420,12 +490,12 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
 
                     selectedIcons.add(appComponentName + "|" + currentIconPack + "|" + v.getTag());
 
-                    SharedPreferences.Editor editor = prefs.edit();
                     editor.remove(key);
                     editor.apply();
                     editor.putStringSet(key, selectedIcons);
                     editor.apply();
 
+                    mActivity.setResult(RESULT_OK);
                     mActivity.finish();
                 }
             });
