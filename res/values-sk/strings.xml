@@ -211,7 +211,7 @@
     <string name="alert_hidewidgets_title">Poznámka</string>
     <string name="alert_hidewidgets_summary">Môžete vybrať len miniaplikácie v tomto zozname. Odkazy momentálne skryté byť nemôžu.</string>
     <string name="pref_limited_title">Limitované</string>
-    <string name="pref_limited_summary">Niektoré z týchto funkcií sú k dispozícii len v darcovskej verzii.</string>
+
     <!-- V1.6 -->
     <string-array name="notificationbadge_presets_entries">
         <item>Vlastné</item>
