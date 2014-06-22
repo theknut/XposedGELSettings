@@ -169,7 +169,7 @@ public class FragmentSettings extends FragmentBase {
 				if ((Boolean) newValue) {
 					Intent myIntent = new Intent();				
 					myIntent.setAction(Intent.ACTION_WALLPAPER_CHANGED);
-					CommonUI.CONTEXT.sendBroadcast(myIntent);
+					mContext.sendBroadcast(myIntent);
 				}
 				
 				return true;
@@ -193,7 +193,7 @@ public class FragmentSettings extends FragmentBase {
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
 				
 				if ((Boolean) newValue) {
-					new AlertDialog.Builder(CommonUI.CONTEXT)
+					new AlertDialog.Builder(mContext)
 					.setCancelable(false)
 				    .setTitle(R.string.alert_debug_logging_activated_title)
 				    .setMessage(R.string.alert_debug_logging_activated_summary)
@@ -218,7 +218,7 @@ public class FragmentSettings extends FragmentBase {
 				boolean debugLoggingEnabled = mContext.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).getBoolean("debug", false);
 				
 				if (!debugLoggingEnabled) {
-					new AlertDialog.Builder(CommonUI.CONTEXT)
+					new AlertDialog.Builder(mContext)
 					.setCancelable(false)
 				    .setTitle(R.string.alert_debug_logging_not_activated_title)
 				    .setMessage(R.string.alert_debug_logging_not_activated_summary)

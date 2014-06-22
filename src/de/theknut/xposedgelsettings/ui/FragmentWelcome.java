@@ -89,7 +89,7 @@ public class FragmentWelcome extends FragmentBase {
         		}
         	}
     		
-    		Changelog cl = new Changelog(CommonUI.CONTEXT);
+    		Changelog cl = new Changelog(mContext);
     	    if (cl.firstRun()) {
     	    	CommonUI.needFullReboot = true;
     	        alerts.add(cl.getFullLogDialog());
@@ -157,7 +157,7 @@ public class FragmentWelcome extends FragmentBase {
     }
     
     private void createAlertDialogs() {
-    	IsXposedInstalledAlert = new AlertDialog.Builder(CommonUI.CONTEXT)
+    	IsXposedInstalledAlert = new AlertDialog.Builder(mContext)
 		.setCancelable(false)
 	    .setTitle("Missing framework!")
 	    .setMessage("The Xposed Framework is not installed. This app will not work without the framework!")
@@ -177,7 +177,7 @@ public class FragmentWelcome extends FragmentBase {
 	        }
 	     }).create();
 		
-		IsModuleActive = new AlertDialog.Builder(CommonUI.CONTEXT)
+		IsModuleActive = new AlertDialog.Builder(mContext)
 		.setCancelable(false)
 	    .setTitle("Module not active!")
 	    .setMessage("XGELS is not active. Please activate the module in Xposed Installer -> Modules")
@@ -222,7 +222,7 @@ public class FragmentWelcome extends FragmentBase {
         dontShowAgain.setIncludeFontPadding(false);
         dontShowAgain.setText("Don't show again");
         
-        AlertDialog.Builder adb = new AlertDialog.Builder(CommonUI.CONTEXT);        
+        AlertDialog.Builder adb = new AlertDialog.Builder(mContext);
         adb.setView(dontShowAgainLayout);
         adb.setCancelable(false);
 	    adb.setTitle("Module not installed from Google Play!");
@@ -261,7 +261,7 @@ public class FragmentWelcome extends FragmentBase {
 	     
 	    IsInstalledFromPlayStore = adb.create();
 	    
-	    NeedReboot = new AlertDialog.Builder(CommonUI.CONTEXT)
+	    NeedReboot = new AlertDialog.Builder(mContext)
 		.setCancelable(false)
 	    .setTitle(R.string.alert_xgels_updated_title)
 	    .setMessage(R.string.alert_xgels_updated_summary)
@@ -286,7 +286,7 @@ public class FragmentWelcome extends FragmentBase {
 	        }
 	     }).create();
 	    
-	    IsSupportedLauncherInstalled = new AlertDialog.Builder(CommonUI.CONTEXT)
+	    IsSupportedLauncherInstalled = new AlertDialog.Builder(mContext)
 		.setCancelable(false)
 	    .setTitle(R.string.alert_launcher_not_installed_title)
 	    .setMessage(R.string.alert_launcher_not_installed_summary)

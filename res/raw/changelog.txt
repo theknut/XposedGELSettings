@@ -30,9 +30,11 @@
  _ 2014-01-07
 
  ! Added:
- * per app icon change (Premium)
- * changeable app drawer button
- * automatically hide icon packs from the app drawer
+ * <b>Icon:</b> per app icon change
+ * <b>Icon:</b> changeable app drawer button
+ * <b>Icon:</b> automatically hide icon packs from the app drawer
+ * <b>General:</b> overlapping widgets (Premium)
+ * <b>Homescreen:</b> smart folder
 
  ! Improved:
  * massive performance improvement for icon replacement
@@ -49,6 +51,7 @@
  ! XGELS UI:
  * option to disable the background image
  * added Traditional Chinese (Taiwan) by Eric850130
+ * added Spanish by Jose Artuñedo
  * updated translations
 
   $ 1.7

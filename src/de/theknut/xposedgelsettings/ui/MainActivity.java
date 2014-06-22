@@ -132,7 +132,7 @@ public class MainActivity extends InAppPurchase {
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        SharedPreferences prefs = CommonUI.CONTEXT.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
+        SharedPreferences prefs = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
         CommonUI.NO_BACKGROUND_IMAGE = prefs.getBoolean("nobackgroundimage", false);
         CommonUI.AUTO_BLUR_IMAGE = prefs.getBoolean("autoblurimage", false);
         

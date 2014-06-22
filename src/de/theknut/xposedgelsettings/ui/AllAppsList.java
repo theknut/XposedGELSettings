@@ -9,6 +9,9 @@ import android.content.pm.ResolveInfo;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -24,6 +27,7 @@ import java.util.Set;
 
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.icon.IconPack;
 
 public class AllAppsList extends ListActivity {
 
@@ -69,14 +73,27 @@ public class AllAppsList extends ListActivity {
         hiddenApps = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).getStringSet("hiddenapps", new HashSet<String>());
     }
 
-    public static class ViewHolder {
-        ImageView imageView;
-        TextView textView;
-        CheckBox checkBox;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
 
-        public void loadImageAsync(PackageManager pm, ResolveInfo item, ChooseAppList.ViewHolder holder) {
-            new ImageLoader(pm, item, holder, null).execute();
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            // action with ID action_refresh was selected
+            case R.id.action_refresh:
+                CommonUI.restartLauncherOrDevice();
+                break;
+            default:
+                break;
         }
+
+        return true;
     }
 
     public class AppArrayAdapter extends ArrayAdapter<ResolveInfo> {
@@ -84,6 +101,7 @@ public class AllAppsList extends ListActivity {
         private List<ResolveInfo> values;
         private PackageManager pm;
         private LayoutInflater inflater;
+        private IconPack iconPack;
 
         OnCheckedChangeListener onCheckedChangeListener = new OnCheckedChangeListener () {
 
@@ -111,6 +129,7 @@ public class AllAppsList extends ListActivity {
             this.values = values;
             this.pm = pm;
             this.inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            this.iconPack = FragmentIcon.iconPack;
         }
 
         @Override
@@ -136,7 +155,7 @@ public class AllAppsList extends ListActivity {
             holder.checkBox.setTag(item.activityInfo.packageName + "#" + item.loadLabel(pm));
             holder.checkBox.setChecked(hiddenApps.contains(holder.checkBox.getTag()));
             holder.checkBox.setOnCheckedChangeListener(onCheckedChangeListener);
-            holder.loadImageAsync(pm, item, holder, null);
+            holder.loadImageAsync(pm, item, holder, iconPack);
 
             return rowView;
         }

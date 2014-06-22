@@ -69,7 +69,7 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
         intent = getIntent();
         appComponentName = intent.getStringExtra("app");
         mActivity = this;
-        prefs = CommonUI.CONTEXT.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
+        prefs = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
 
         mAppSectionsPagerAdapter = new AppSectionsPagerAdapter(getSupportFragmentManager());
         final ActionBar actionBar = getActionBar();
@@ -176,7 +176,7 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
 
     public boolean hasDrawableList(String packageName) {
         try {
-            Context resContext = CommonUI.CONTEXT.createPackageContext(packageName, Context.CONTEXT_IGNORE_SECURITY);
+            Context resContext = getApplicationContext().createPackageContext(packageName, Context.CONTEXT_IGNORE_SECURITY);
             Resources res = resContext.getResources();
 
             int resId = res.getIdentifier("drawable", "xml", packageName);
@@ -273,7 +273,7 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
 
             this.inflater = inflater;
             View rootView = inflater.inflate(R.layout.expandablelistview, null);
-            new IconPackLoader(CommonUI.CONTEXT, rootView).execute(getArguments().getString("pkg"));
+            new IconPackLoader(getActivity(), rootView).execute(getArguments().getString("pkg"));
             return rootView;
         }
 

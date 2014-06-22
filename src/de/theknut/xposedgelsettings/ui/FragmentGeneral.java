@@ -9,6 +9,7 @@ import android.preference.Preference.OnPreferenceClickListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import de.theknut.xposedgelsettings.R;
 
@@ -23,27 +24,60 @@ public class FragmentGeneral extends FragmentBase {
     	View rootView = inflater.inflate(R.layout.options_fragment, container, false);
         addPreferencesFromResource(R.xml.general_fragment);
         
-        this.findPreference("enablerotation").setOnPreferenceChangeListener(onChangeListenerFullReboot);        
-        this.findPreference("hidewidgets").setOnPreferenceClickListener(new OnPreferenceClickListener() {
+        findPreference("enablerotation").setOnPreferenceChangeListener(onChangeListenerFullReboot);
+        findPreference("hidewidgets").setOnPreferenceClickListener(new OnPreferenceClickListener() {
 			
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
-				
-				new AlertDialog.Builder(CommonUI.CONTEXT)
-				.setCancelable(false)
-			    .setTitle(R.string.alert_hidewidgets_title)
-			    .setMessage(R.string.alert_hidewidgets_summary)
-			    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-			        public void onClick(DialogInterface dialog, int which) {
-			        	Intent intent = new Intent(getActivity(), AllWidgetsList.class);
-			        	CommonUI.CONTEXT.startActivity(intent);
-			        	dialog.dismiss();
-			        }
-		        }).show();
-				
+
+                try {
+                    new AlertDialog.Builder(getActivity())
+                            .setCancelable(false)
+                            .setTitle(R.string.alert_hidewidgets_title)
+                            .setMessage(R.string.alert_hidewidgets_summary)
+                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    getActivity().startActivity(new Intent(getActivity(), AllWidgetsList.class));
+                                    dialog.dismiss();
+                                }
+                            }).show();
+                } catch (Exception ex) {
+                    Toast.makeText(getActivity(), R.string.alert_hidewidgets_summary, Toast.LENGTH_LONG).show();
+                    getActivity().startActivity(new Intent(getActivity(), AllWidgetsList.class));
+                }
+
 				return true;
 			}
 		});
+
+        final CustomSwitchPreference resizeallwidgets = (CustomSwitchPreference) findPreference("resizeallwidgets");
+        final CustomSwitchPreference overlappingWidgets = (CustomSwitchPreference) findPreference("overlappingwidgets");
+
+        resizeallwidgets.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                if(!(Boolean) newValue) {
+                    overlappingWidgets.setChecked(false);
+                }
+                return true;
+            }
+        });
+        overlappingWidgets.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                if((Boolean) newValue) {
+                    resizeallwidgets.setChecked(true);
+                }
+
+                return true;
+            }
+        });
+
+        if (!InAppPurchase.isPremium) {
+            findPreference("overlappingwidgets").setEnabled(false);
+        } else {
+            getPreferenceScreen().removePreference(this.findPreference("needsDonate"));
+        }
         
         rootView = CommonUI.setBackground(rootView, R.id.prefbackground);
         

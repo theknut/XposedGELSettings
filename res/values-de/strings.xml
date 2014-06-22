@@ -310,5 +310,18 @@
     
     <string name="pref_show_google_search_bar_homescreen_title">Standard-Homescreen</string>
     <string name="pref_show_google_search_bar_homescreen_summary">Suchleiste nur auf Standard-Homescreen anzeigen</string>
+
+    <!-- V1.8 -->
+    <string name="pref_icon_hide_icon_packs_title">Iconpacks verstecken</string>
+    <string name="pref_icon_hide_icon_packs_summary">Automatisch die Iconpacks in der App-Übersicht verstecken</string>
+    <string name="pref_icon_perappicon_title">Pro App Icon verändern</string>
+    <string name="pref_icon_perappicon_summary">Ändere die Icons pro App aus verschiedenen Iconpacks</string>
+    <string name="pref_icon_allappsbutton_title">App-Übersichtbutton</string>
+    <string name="pref_icon_allappsbutton_summary">Ändere das Icon des App-Übersichtbuttons</string>
+    <string name="pref_xgels_no_background_image_title">Kein Hintergrundbild</string>
+    <string name="pref_switch_smart_folder_title">Smart Ordner</string>
+    <string name="pref_switch_smart_folder_summary">Touch - erste App starten\nHochwischen - Ordner öffnen</string>
+    <string name="pref_overlapping_widgets_title">Überlagernde Widgets</string>
+    <string name="pref_overlapping_widgets_summary">Erlaube das Überlagern von Widgets. Das funktioniert nur mit GNL!\n(Beta: Die Position in der Ebene wird nicht gespeichert!)</string>
    
 </resources>

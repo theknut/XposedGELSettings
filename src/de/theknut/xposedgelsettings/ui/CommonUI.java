@@ -114,7 +114,7 @@ public class CommonUI {
     	}
 
     	ImageView background = (ImageView) rootView.findViewById(layout);
-    	background.setImageResource((layout == R.id.welcomebackground) ? R.drawable.wall : R.drawable.wall2);
+    	background.setImageResource(R.drawable.wall);
     	
     	rootView.setOnTouchListener(new OnTouchListener() {
             

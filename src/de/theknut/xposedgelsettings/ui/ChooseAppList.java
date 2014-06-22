@@ -41,7 +41,7 @@ public class ChooseAppList extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        prefs = CommonUI.CONTEXT.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
+        prefs = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
 
         getListView().setCacheColorHint(CommonUI.UIColor);
         getListView().setBackgroundColor(CommonUI.UIColor);

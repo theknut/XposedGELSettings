@@ -2,11 +2,14 @@ package de.theknut.xposedgelsettings.hooks.general;
 
 import android.animation.TimeInterpolator;
 import android.content.Context;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
@@ -15,11 +18,13 @@ import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
+import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
 public class GeneralHooks extends HooksBaseClass {
 	
@@ -82,43 +87,57 @@ public class GeneralHooks extends HooksBaseClass {
             findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvBeginDragging, View.class, drag);
             findAndHookMethod(Classes.Workspace, Methods.workspaceStartDrag, Classes.CellLayoutCellInfo, new StartDragHook());
 		}
-		
-//		findAndHookMethod(Classes.CellLayout, Methods.clMarkCellsForView, Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, boolean[][].class, boolean.class, new XC_MethodHook() {
-//            
-//            final int HSPAN = 2;
-//            final int VSPAN = 3;
-//            final int OCCUPIED = 5;
-//            
-//            @Override
-//            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-//                if ((Integer) param.args[HSPAN] > 1 || (Integer) param.args[VSPAN] > 1) param.args[OCCUPIED] = false;
-//            }
-//        });
-//        
-//        findAndHookMethod(Classes.Workspace, Methods.wStartDrag, Classes.CellInfo, new XC_MethodHook() {
-//            
-//            @Override
-//            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-//                Object cellInfo = getObjectField(param.thisObject, Fields.wDragInfo);
-//                if (cellInfo == null) return;
-//                
-//                Object cell = getObjectField(cellInfo, Fields.ciCell);
-//                
-//                if (cell.getClass().getName().equals(Fields.lAppWidgetHostView)) {
-//                    ((View) cell).bringToFront();
-//                }
-//            }
-//        });
-//        
-//        findAndHookMethod(Classes.LoaderTask, Methods.lmCheckItemPlacement, HashMap.class, Classes.ItemInfo, AtomicBoolean.class, new XC_MethodHook() {
-//            
-//            final int ITEMINFO = 1;
-//            
-//            @Override
-//            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-//                if (param.args[ITEMINFO].getClass().getName().equals(Fields.LauncherAppWidgetInfo)) param.setResult(true);
-//            }
-//        });
+
+        if (PreferencesHelper.overlappingWidgets) {
+            findAndHookMethod(Classes.CellLayout, Methods.clMarkCellsForView, Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, boolean[][].class, boolean.class, new XC_MethodHook() {
+
+                final int HSPAN = 2;
+                final int VSPAN = 3;
+                final int OCCUPIED = 5;
+
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    if ((Integer) param.args[HSPAN] > 1 || (Integer) param.args[VSPAN] > 1)
+                        param.args[OCCUPIED] = false;
+                }
+            });
+
+            findAndHookMethod(Classes.CellLayout, Methods.clAttemptPushInDirection, ArrayList.class, Rect.class, int[].class, View.class, Classes.ItemConfiguration, new XC_MethodHook() {
+
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    if (param.args[3] != null
+                        && param.args[3].getClass().getName().contains(Fields.lAppWidgetHostView)) {
+                        param.setResult(true);
+                    }
+                }
+            });
+
+            findAndHookMethod(Classes.AppWidgetResizeFrame, Methods.awrfCommitResize, new XC_MethodHook() {
+
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    View widget = ((View) getObjectField(param.thisObject, Fields.awrfWidgetView));
+                    widget.bringToFront();
+                }
+            });
+
+            XC_MethodHook checkItemPlacementHook = new XC_MethodHook() {
+
+                final int ITEMINFO = 1;
+
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    if (param.args[ITEMINFO].getClass().getName().contains(Fields.LauncherAppWidgetInfo))
+                        param.setResult(true);
+                }
+            };
+
+            if (Common.PACKAGE_OBFUSCATED) {
+                findAndHookMethod(Classes.LoaderTask, Methods.lmCheckItemPlacement, HashMap.class, Classes.ItemInfo, AtomicBoolean.class, checkItemPlacementHook);
+            } else
+                XposedBridge.hookAllMethods(Classes.LoaderTask, Methods.lmCheckItemPlacement, checkItemPlacementHook);
+        }
         
         if (PreferencesHelper.scrolldevider != 10) {
             XC_MethodHook snapToPageHook = new XC_MethodHook() {

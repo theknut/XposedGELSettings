@@ -32,6 +32,8 @@ public class XGELSReceiver extends BroadcastReceiver {
             }
 
             return;
+        } else if (intent.getAction().equals(Common.XGELS_ACTION_NAVBAR)) {
+
         }
 
         String pkg = intent.getStringExtra("PACKAGENAME");

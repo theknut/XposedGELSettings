@@ -1,5 +1,6 @@
 package de.theknut.xposedgelsettings.hooks.homescreen;
 
+import android.view.MotionEvent;
 import android.view.View;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -67,7 +68,11 @@ public class HomescreenHooks extends HooksBaseClass {
 			// move to default homescreen after workspace has finished loading
 			findAndHookMethod(Classes.Launcher, Methods.lFinishBindingItems, boolean.class, new FinishBindingItemsHook());
 		}
-		
+
+        if (PreferencesHelper.homescreenSmartFolder) {
+            findAndHookMethod(Classes.FolderIcon, "onTouchEvent", MotionEvent.class, new SmartFolderHook());
+        }
+
 		SystemUIHooks.initAllHooks(lpparam);
 	}
 }

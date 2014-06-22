@@ -46,7 +46,9 @@ public class PreferencesHelper {
 	public static boolean dynamicAnimateIconBackbutton = prefs.getBoolean("animatedynamicbackbutton", false);
 	public static boolean dynamicAnimateIconRecentsbutton = prefs.getBoolean("dynamicanimateiconrecentsbutton", false);
 	public static boolean dynamicBackButtonOnEveryScreen = prefs.getBoolean("dynamicbackbuttononeveryscreen", false);
-	
+
+    public static boolean overlappingWidgets = prefs.getBoolean("overlappingwidgets", false);
+    public static boolean homescreenSmartFolder = prefs.getBoolean("homescreensmartfolder", false);
 	public static boolean homescreenFolderSwitch = prefs.getBoolean("homescreenfolderswitch", false);
 	public static boolean homescreenFolderNoLabel = prefs.getBoolean("homescreenfoldernolabel", false);
 	public static boolean gesture_appdrawer = prefs.getBoolean("gesture_appdrawer", false);

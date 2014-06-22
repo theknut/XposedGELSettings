@@ -5,6 +5,7 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
+
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.ClassNames;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
@@ -25,7 +26,7 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
 
 	@Override
 	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
-        XposedBridge.log(lpparam.packageName);
+
 		// only hook to supported launchers		
 		if (lpparam.packageName.equals(Common.PACKAGE_NAME)) {
 

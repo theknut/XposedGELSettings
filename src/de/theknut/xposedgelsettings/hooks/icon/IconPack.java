@@ -49,7 +49,6 @@ public class IconPack {
     private List<IconInfo> calendarIcon;
     private LinkedHashMap<String, List<IconPreview>> previewIcons;
     private List<String> unthemedIcons;
-    
 
     private List<String> iconTheme;
     private float scaleFactor = 0.75f;
@@ -101,6 +100,10 @@ public class IconPack {
     
     public List<Icon> getIcons() {
         return icons;
+    }
+
+    public List<String> getUnthemedIcons() {
+        return unthemedIcons;
     }
 
     public List<IconInfo> getAppFilter() {
@@ -615,5 +618,9 @@ public class IconPack {
 
     public HashMap<String, List<IconPreview>> getIconPreviews() {
         return previewIcons;
+    }
+
+    public boolean isDefault() {
+        return getPackageName().equals(Common.ICONPACK_DEFAULT);
     }
 }

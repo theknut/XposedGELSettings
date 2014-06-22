@@ -52,7 +52,6 @@ public class IconHooks extends HooksBaseClass {
     
     static IconPack iconPack;
     static boolean hasCalendarIcon;
-    static boolean isUpdatingIcons;
     
     static BroadcastReceiver autoapplyReceiver = new BroadcastReceiver() {
         
@@ -95,17 +94,14 @@ public class IconHooks extends HooksBaseClass {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            log(action + " "+  IconPack.getDayOfMonth() + " "+  Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
             if (action.equals(Intent.ACTION_DATE_CHANGED)
                 || action.equals(Intent.ACTION_TIME_CHANGED)
                 || action.equals(Intent.ACTION_TIMEZONE_CHANGED)) {
                 
                 if (IconPack.getDayOfMonth() != Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) {
-                    isUpdatingIcons = true;
                     iconPack.onDateChanged();
                     checkCalendarApps();
                     updateIcons();
-                    isUpdatingIcons = false;
                 }
             }
         }

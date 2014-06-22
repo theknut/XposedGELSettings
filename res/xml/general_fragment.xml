@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+        android:key="needsDonate"
+        android:title="@string/pref_limited_title"
+        android:summary="@string/pref_limited_summary"
+        android:selectable="false"/>
 	<de.theknut.xposedgelsettings.ui.CustomSwitchPreference
 	    android:key="hidepageindicator"
 	    android:title="@string/pref_pageindicator_title"
@@ -39,6 +44,10 @@
 		android:key="resizeallwidgets"
 		android:title="@string/pref_resize_all_widgets_title"
 		android:summary="@string/pref_resize_all_widgets_summary" />
+    <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+        android:key="overlappingwidgets"
+        android:title="@string/pref_overlapping_widgets_title"
+        android:summary="@string/pref_overlapping_widgets_summary" />
 	<de.theknut.xposedgelsettings.ui.MyPreferenceScreen
   		android:key="hidewidgets"
         android:title="@string/pref_selectwidgetstohide_summary" />

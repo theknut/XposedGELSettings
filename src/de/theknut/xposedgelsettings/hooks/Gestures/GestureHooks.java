@@ -141,6 +141,10 @@ public class GestureHooks extends GestureHelper {
 				
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    if (Common.FOLDER_GESTURE_ACTIVE) {
+                        return;
+                    }
+
 					if (wm == null) {
 						init();
 						gnow = (Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherHasCustomContentToLeft);
@@ -191,7 +195,7 @@ public class GestureHooks extends GestureHelper {
 									&& (lp.width == 0 || lp.height == 0)) {
 
 									mHotseat.setAlpha(0.0f);
-									lp.width = lp.width = 0;
+									lp.width = lp.height = 0;
 									mHotseat.setLayoutParams(lp);
 									
 								} else if (autoHideAppDock) {

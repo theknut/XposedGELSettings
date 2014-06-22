@@ -20,6 +20,7 @@ public final class Common {
 	public static final String XGELS_ACTION_OTHER = "OTHER";
 	public static final String XGELS_ACTION_APP_REQUEST = "APP_REQUEST";
 	public static final String XGELS_ACTION_SAVE_ICONPACK = XGELS_INTENT + ".SAVE_ICONPACK";
+    public static final String XGELS_ACTION_SAVE_WIDGET_POSITION = XGELS_INTENT + ".SAVE_WIDGET_POSITION";
 	
 	// MissedIt intent
 	public static final String MISSEDIT_INTENT = "net.igecelabs.android.MissedIt.";
@@ -72,4 +73,5 @@ public final class Common {
 	// all launchers we support (hopefully :-S)
 	public static final List<String> PACKAGE_NAMES = new ArrayList<String>(Arrays.asList("com.android.launcher2", "com.android.launcher3", Common.GEL_PACKAGE, Common.TREBUCHET_PACKAGE));
 
+    public static boolean FOLDER_GESTURE_ACTIVE;
 }

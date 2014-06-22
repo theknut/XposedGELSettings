@@ -90,7 +90,7 @@ public class FragmentIcon extends FragmentBase {
                 
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    new AlertDialog.Builder(CommonUI.CONTEXT)
+                    new AlertDialog.Builder(mContext)
                     .setCancelable(false)
                     .setTitle(R.string.alert_icon_noiconpackfound_title)
                     .setMessage(R.string.alert_icon_noiconpackfound_summary)
@@ -234,7 +234,7 @@ public class FragmentIcon extends FragmentBase {
                     sb.append(string).append('\n');
                 }
                 
-                new AlertDialog.Builder(CommonUI.CONTEXT)
+                new AlertDialog.Builder(mContext)
                 .setCancelable(true)
                 .setMessage(sb.toString())
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -253,6 +253,8 @@ public class FragmentIcon extends FragmentBase {
             iconPackSupport.setEnabled(false);
             findPreference("autoupdateapplyiconpack").setEnabled(false);
             findPreference("hideiconpacks").setEnabled(false);
+            findPreference("selectiveicon").setEnabled(false);
+            findPreference("allappsbuttonicon").setEnabled(false);
         } else {
             getPreferenceScreen().removePreference(this.findPreference("needsDonate"));
         }
@@ -327,7 +329,7 @@ public class FragmentIcon extends FragmentBase {
 
             if (iconPack == null) {
                 try {
-                    mIconPack = new IconPack(CommonUI.CONTEXT, Common.ICONPACK_DEFAULT);
+                    mIconPack = new IconPack(mContext, Common.ICONPACK_DEFAULT);
                 } catch (NameNotFoundException e) {
                     e.printStackTrace();
                 }
