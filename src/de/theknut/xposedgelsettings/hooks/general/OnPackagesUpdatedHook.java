@@ -1,9 +1,10 @@
 package de.theknut.xposedgelsettings.hooks.general;
 
+import android.appwidget.AppWidgetProviderInfo;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import android.appwidget.AppWidgetProviderInfo;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 

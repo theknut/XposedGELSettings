@@ -1,8 +1,5 @@
 package de.theknut.xposedgelsettings.hooks.googlesearchbar;
 
-import static de.robv.android.xposed.XposedHelpers.callMethod;
-import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
-
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -10,12 +7,14 @@ import android.widget.FrameLayout;
 
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
-
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+
+import static de.robv.android.xposed.XposedHelpers.callMethod;
+import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
 public class GoogleSearchBarHooks extends HooksBaseClass {
 	
@@ -25,6 +24,10 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
 		    // hide Google Search Bar
 		    findAndHookMethod(Classes.DeviceProfile, Methods.dpGetWorkspacePadding, Integer.TYPE, new GetWorkspacePaddingHook());
 		    findAndHookMethod(Classes.Launcher, "onCreate", Bundle.class, new LauncherOnCreateHook());
+
+            if (PreferencesHelper.searchBarOnDefaultHomescreen) {
+                findAndHookMethod(Classes.Launcher, "onResume", new LauncherOnResumeHook());
+            }
 			
 			// only do the following changes if we have the actual GEL launcher with GNow
 			if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE)) {				
@@ -39,10 +42,12 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
 					// show Google Search Bar on GEL sidekick - needed if GNow isn't accessed from the homescreen
 					findAndHookMethod(Classes.NowOverlay, Methods.noOnShow, boolean.class, boolean.class, new OnShowNowOverlayHook());
 				}
-				
-				// show when doing a Google search			
-				findAndHookMethod(Classes.SearchOverlayImpl, Methods.soiSetSearchStarted, boolean.class, new StartTextSearchHook());
-			}
+
+				// show when doing a Google search
+                findAndHookMethod(Classes.SearchOverlayImpl, Methods.soiSetSearchStarted, boolean.class, new SetSearchStarted());
+            }
+
+
 			
 			// show DropDeleteTarget on dragging items
 			if (Common.PACKAGE_OBFUSCATED) {

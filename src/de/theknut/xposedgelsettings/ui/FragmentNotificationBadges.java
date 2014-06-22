@@ -1,11 +1,5 @@
 package de.theknut.xposedgelsettings.ui;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import android.annotation.SuppressLint;
 import android.app.FragmentManager;
 import android.content.Context;
@@ -31,19 +25,23 @@ import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.view.ViewManager;
 import android.view.WindowManager;
-import android.view.View.MeasureSpec;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import net.margaritov.preference.colorpicker.ColorPickerPreference;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
-import net.margaritov.preference.colorpicker.ColorPickerPreference;
 
 @SuppressLint("WorldReadableFiles")
 public class FragmentNotificationBadges extends FragmentBase {
@@ -88,7 +86,7 @@ public class FragmentNotificationBadges extends FragmentBase {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	super.onCreateView(inflater, container, savedInstanceState);  
     	
-    	rootView = inflater.inflate(R.layout.options_fragment, container, false);
+    	rootView = inflater.inflate(R.layout.notificationbadges_fragment, container, false);
         addPreferencesFromResource(R.xml.notificationbadges_fragment);
         
         presetsPreference = (MyListPreference) this.findPreference("notificationbadgepresets");
@@ -309,24 +307,13 @@ public class FragmentNotificationBadges extends FragmentBase {
     	
     	initPrefs();
     	
-    	badgePreview = (TextView) rootView.findViewById(0xBEEF);
-    	
-    	if (badgePreview != null) {
-    		((ViewManager) badgePreview.getParent()).removeView(badgePreview);
-    	}
-    	
-    	badgePreview = new TextView(mContext);
+    	badgePreview = (TextView) rootView.findViewById(R.id.iconwithbadge);
     	badgePreview.setDrawingCacheEnabled(true);
-    	badgePreview.setId(0xBEEF);
     	badgePreview.setTextColor(Color.WHITE);
     	badgePreview.setShadowLayer(2.0f, 0.0f, 0.0f, Color.BLACK);
-    	badgePreview.setGravity(Gravity.CENTER);    	
 
 		badgePreview.setText("Gmail");
 		badgePreview.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_launcher_mail, 0, 0);
-    	
-    	RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-    	params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
     	
     	badgePreview.setOnLongClickListener(new OnLongClickListener() {
 			
@@ -376,9 +363,6 @@ public class FragmentNotificationBadges extends FragmentBase {
 		});
     	
     	setBadge();
-    	
-    	
-        ((RelativeLayout) rootView).addView(badgePreview, params);
     }
     
     public void setBadge() {

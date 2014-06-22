@@ -1,11 +1,13 @@
 package de.theknut.xposedgelsettings.hooks.pagindicator;
 
-import static de.robv.android.xposed.XposedHelpers.getObjectField;
-import static de.robv.android.xposed.XposedHelpers.setObjectField;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+
 import de.robv.android.xposed.XC_MethodHook;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
+
+import static de.robv.android.xposed.XposedHelpers.getObjectField;
+import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
 public class OnAttachedToWindowHook extends XC_MethodHook {
 	

@@ -16,10 +16,6 @@
 
 package net.margaritov.preference.colorpicker;
 
-import java.util.Locale;
-
-import de.theknut.xposedgelsettings.R;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -37,6 +33,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.util.Locale;
+
+import de.theknut.xposedgelsettings.R;
 
 public class ColorPickerDialog 
 	extends 

@@ -35,6 +35,10 @@ public class Icon {
         return this.packageName;
     }
 
+    public boolean isLoad() {
+        return getIcon() != null;
+    }
+
     public Drawable getIcon() {
         return icon;
     }

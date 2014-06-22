@@ -1,12 +1,12 @@
 package de.theknut.xposedgelsettings.hooks.googlesearchbar;
 
+import de.robv.android.xposed.XC_MethodHook;
+import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
+import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+
 import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.setObjectField;
-import de.robv.android.xposed.XC_MethodHook;
-
-import de.theknut.xposedgelsettings.hooks.Common;
-import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
-import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 
 public final class DynamicGridLayoutHook extends XC_MethodHook {
 	

@@ -122,6 +122,10 @@
  <de.theknut.xposedgelsettings.ui.MyPreferenceCategory
       	android:title="@string/pref_cat_homescreen_folder_title">
      <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+         android:key="homescreensmartfolder"
+         android:title="@string/pref_switch_smart_folder_title"
+         android:summary="@string/pref_switch_smart_folder_summary" />
+     <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
 		android:key="homescreenfolderswitch"
 		android:title="@string/pref_switch_folder_title"
 		android:summary="@string/pref_switch_folder_summary" />

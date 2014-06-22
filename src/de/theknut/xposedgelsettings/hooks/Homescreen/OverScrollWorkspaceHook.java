@@ -1,15 +1,15 @@
 package de.theknut.xposedgelsettings.hooks.homescreen;
 
-import static de.robv.android.xposed.XposedHelpers.callMethod;
-import static de.robv.android.xposed.XposedHelpers.getBooleanField;
 import android.view.View;
 
 import de.robv.android.xposed.XC_MethodHook;
-
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
-import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
+import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+
+import static de.robv.android.xposed.XposedHelpers.callMethod;
+import static de.robv.android.xposed.XposedHelpers.getBooleanField;
 
 public class OverScrollWorkspaceHook extends XC_MethodHook {
 	

@@ -16,6 +16,9 @@
 
 package eu.chainfire.libsuperuser;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,9 +34,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
-import android.os.Handler;
-import android.os.Looper;
 
 import eu.chainfire.libsuperuser.StreamGobbler.OnLineListener;
 

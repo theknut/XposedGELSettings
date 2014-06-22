@@ -1,8 +1,9 @@
 package de.theknut.xposedgelsettings.hooks;
 
-import static de.robv.android.xposed.XposedHelpers.findClass;
 import de.robv.android.xposed.XposedHelpers.ClassNotFoundError;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
+
+import static de.robv.android.xposed.XposedHelpers.findClass;
 
 public class ObfuscationHelper extends HooksBaseClass {
 
@@ -42,6 +43,9 @@ public class ObfuscationHelper extends HooksBaseClass {
 		CELL_INFO,
 		LOADER_TASK,
 		FOLDER_INFO,
+        LAUNCHER_MODEL,
+        APP_WIDGET_RESIZE_FRAME,
+        ITEM_CONFIGURATION,
 		GEL,
 		NOW_OVERLAY,
 		SEARCH_OVERLAY_IMPL,
@@ -80,6 +84,9 @@ public class ObfuscationHelper extends HooksBaseClass {
 		oLOADER_TASK,
 		oFOLDER_INFO,
 		oSEARCH_DROP_TARGET_BAR,
+        oLAUNCHER_MODEL,
+        oAPP_WIDGET_RESIZE_FRAME,
+        oITEM_CONFIGURATION,
 		oGEL,
 		oNOW_OVERLAY,
 		oSEARCH_OVERLAY_IMPL,
@@ -119,6 +126,9 @@ public class ObfuscationHelper extends HooksBaseClass {
 			CELL_INFO = launcherPackage + "CellLayout$CellInfo";
 			LOADER_TASK = launcherPackage + "LauncherModel$LoaderTask";
 			FOLDER_INFO = launcherPackage + "FolderInfo";
+            LAUNCHER_MODEL = launcherPackage + "LauncherModel";
+            APP_WIDGET_RESIZE_FRAME = launcherPackage + "AppWidgetResizeFrame";
+            ITEM_CONFIGURATION = CELL_LAYOUT + "$ItemConfiguration";
 
 			GEL = "com.google.android.launcher.GEL";
 			NOW_OVERLAY = "com.google.android.sidekick.shared.client.NowOverlay";
@@ -157,6 +167,9 @@ public class ObfuscationHelper extends HooksBaseClass {
 			oCELL_INFO = "nv";
 			oLOADER_TASK = "tb";
 			oFOLDER_INFO = "oz";
+            oLAUNCHER_MODEL = "sg";
+            oAPP_WIDGET_RESIZE_FRAME = "ks";
+            oITEM_CONFIGURATION = "ma";
 
 			oGEL = "com.google.android.launcher.GEL";
 			oNOW_OVERLAY = "dzk";
@@ -200,7 +213,10 @@ public class ObfuscationHelper extends HooksBaseClass {
 		CellInfo,
 		ItemInfo,
 		LoaderTask,
-		FolderInfo;
+		FolderInfo,
+        LauncherModel,
+        AppWidgetResizeFrame,
+        ItemConfiguration;
 
 		public static void hookAllClasses(LoadPackageParam lpparam) {
 			try {
@@ -237,6 +253,9 @@ public class ObfuscationHelper extends HooksBaseClass {
 				ItemInfo = findClass(ClassNames.ITEM_INFO, lpparam.classLoader);
 				LoaderTask = findClass(ClassNames.LOADER_TASK, lpparam.classLoader);
 				FolderInfo = findClass(ClassNames.FOLDER_INFO, lpparam.classLoader);
+                LauncherModel = findClass(ClassNames.LAUNCHER_MODEL, lpparam.classLoader);
+                AppWidgetResizeFrame = findClass(ClassNames.APP_WIDGET_RESIZE_FRAME, lpparam.classLoader);
+                ItemConfiguration = findClass(ClassNames.ITEM_CONFIGURATION, lpparam.classLoader);
 
 				if (lpparam.packageName.equals(Common.GEL_PACKAGE)) {
 					GELClass = findClass(ClassNames.GEL, lpparam.classLoader);
@@ -283,6 +302,9 @@ public class ObfuscationHelper extends HooksBaseClass {
 						ItemInfo = findClass(ClassNames.oITEM_INFO, lpparam.classLoader);
 						LoaderTask = findClass(ClassNames.oLOADER_TASK, lpparam.classLoader);
 						FolderInfo = findClass(ClassNames.oFOLDER_INFO, lpparam.classLoader);
+                        LauncherModel = findClass(ClassNames.oLAUNCHER_MODEL, lpparam.classLoader);
+                        AppWidgetResizeFrame = findClass(ClassNames.oAPP_WIDGET_RESIZE_FRAME, lpparam.classLoader);
+                        ItemConfiguration = findClass(ClassNames.oITEM_CONFIGURATION, lpparam.classLoader);
 						Common.PACKAGE_OBFUSCATED = true;
 
 						GELClass = findClass(ClassNames.oGEL, lpparam.classLoader);
@@ -356,12 +378,21 @@ public class ObfuscationHelper extends HooksBaseClass {
 		iiTitle,
 		iiID,
 		uSCanvas,
-		icIcon,
+		ceIcon,
+        ceTitle,
 		icIconDensity,
 		ciCell,
 		lAppWidgetHostView,
 		wDragInfo,
-		LauncherAppWidgetInfo;
+		LauncherAppWidgetInfo,
+        lIconCache,
+        iiCellX,
+        iiCellY,
+        iiSpanX,
+        iiSpanY,
+        awrfWidgetView,
+        fiLongPressHelper,
+        clphHasPerformedLongPress;
 
 		public static void initFieldNames() {
 
@@ -420,12 +451,21 @@ public class ObfuscationHelper extends HooksBaseClass {
 				iiID = "id";
 				iiTitle = "title";
 				uSCanvas = "NL";
-				icIcon = "DZ";
+				ceIcon = "DZ";
+                ceTitle = "title";
 				icIconDensity = "DY";
 				ciCell = "vL";
 				lAppWidgetHostView = "ru";
 				wDragInfo = "PP";
 				LauncherAppWidgetInfo = "rv";
+                lIconCache = "rF";
+                iiCellX = "vM";
+                iiCellY = "vN";
+                iiSpanX = "vJ";
+                iiSpanY = "vK";
+                awrfWidgetView = "rK";
+                fiLongPressHelper = "ui";
+                clphHasPerformedLongPress = "wG";
 			} else {
 				hotseatAllAppsRank = "hotseatAllAppsRank";
 				dpNumHotseatIcons = "numHotseatIcons";
@@ -481,12 +521,21 @@ public class ObfuscationHelper extends HooksBaseClass {
 				iiTitle = "title";
 				dpSearchBarSpaceWidthPx = "searchBarSpaceWidthPx";
 				uSCanvas = "sCanvas";
-				icIcon = "icon";
+				ceIcon = "icon";
+                ceTitle = "title";
 				icIconDensity = "mIconDpi";
 				ciCell = "cell";
 				lAppWidgetHostView = "LauncherAppWidgetHostView";
 				wDragInfo = "mDragInfo";
 				LauncherAppWidgetInfo = "LauncherAppWidgetInfo";
+                lIconCache = "mIconCache";
+                iiCellX = "cellX";
+                iiCellY = "cellY";
+                iiSpanX = "spanX";
+                iiSpanY = "spanY";
+                awrfWidgetView = "mWidgetView";
+                fiLongPressHelper = "mLongPressHelper";
+                clphHasPerformedLongPress = "mHasPerformedLongPress";
 			}
 		}
 	}
@@ -558,7 +607,11 @@ public class ObfuscationHelper extends HooksBaseClass {
 		clMarkCellsForView,
 		wStartDrag,
 		lmCheckItemPlacement,
-        acpvBeginDragging;
+        acpvBeginDragging,
+        lBindAppsUpdated,
+        lmIsShortcutInfoUpdateable,
+        awrfCommitResize,
+        clAttemptPushInDirection;
 
 		public static void initMethodNames() {
 
@@ -626,6 +679,10 @@ public class ObfuscationHelper extends HooksBaseClass {
 				wStartDrag = "b";
 				lmCheckItemPlacement = "a";
                 acpvBeginDragging = "n";
+                lBindAppsUpdated = "l";
+                lmIsShortcutInfoUpdateable = "e";
+                awrfCommitResize = "cF";
+                clAttemptPushInDirection = "b";
 			} else {
 				applyFromApplicationInfo = "applyFromApplicationInfo";
 				itemInfoTitle = "title";
@@ -689,6 +746,10 @@ public class ObfuscationHelper extends HooksBaseClass {
 				wStartDrag = "startDrag";
 				lmCheckItemPlacement = "checkItemPlacement";
                 acpvBeginDragging = "beginDragging";
+                lBindAppsUpdated = "bindAppsUpdated";
+                lmIsShortcutInfoUpdateable = "isShortcutInfoUpdateable";
+                awrfCommitResize = "commitResize";
+                clAttemptPushInDirection = "attemptPushInDirection";
 			};
 		}
 	}

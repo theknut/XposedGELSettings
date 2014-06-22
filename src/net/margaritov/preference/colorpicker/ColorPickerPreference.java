@@ -16,7 +16,6 @@
 
 package net.margaritov.preference.colorpicker;
 
-import de.theknut.xposedgelsettings.ui.CommonUI;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -30,6 +29,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import de.theknut.xposedgelsettings.ui.CommonUI;
 
 /**
  * A preference type that allows a user to choose a time

@@ -1,17 +1,5 @@
 package de.theknut.xposedgelsettings.ui;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -27,12 +15,24 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
-import android.preference.PreferenceScreen;
 import android.preference.Preference.OnPreferenceClickListener;
+import android.preference.PreferenceScreen;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
@@ -46,6 +46,14 @@ public class FragmentSettings extends FragmentBase {
   
     	View rootView = inflater.inflate(R.layout.options_fragment, container, false);
         addPreferencesFromResource(R.xml.settings_fragment);
+
+        findPreference("nobackgroundimage").setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                CommonUI.NO_BACKGROUND_IMAGE = (Boolean) newValue;
+                return true;
+            }
+        });
         
         OnPreferenceClickListener ImExportResetSettingsListener = new OnPreferenceClickListener() {
             @SuppressWarnings("deprecation")
@@ -143,15 +151,6 @@ public class FragmentSettings extends FragmentBase {
                 Method setPermissions = fileUtils.getMethod("setPermissions", String.class, int.class, int.class, int.class);
                 return (Integer) setPermissions.invoke(null, path.getAbsolutePath(), mode, -1, -1);
             }
-            
-            private void restartActivity() {					
-				Intent mStartActivity = new Intent(mContext, MainActivity.class);
-				int mPendingIntentId = 0xBEEF;
-				PendingIntent mPendingIntent = PendingIntent.getActivity(mContext, mPendingIntentId, mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
-				AlarmManager mgr = (AlarmManager)mContext.getSystemService(Context.ALARM_SERVICE);
-				mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
-				System.exit(0);
-			}
         };
         
         this.findPreference("importsettings").setOnPreferenceClickListener(ImExportResetSettingsListener);
@@ -170,7 +169,7 @@ public class FragmentSettings extends FragmentBase {
 				if ((Boolean) newValue) {
 					Intent myIntent = new Intent();				
 					myIntent.setAction(Intent.ACTION_WALLPAPER_CHANGED);
-					CommonUI.CONTEXT.sendBroadcast(myIntent);
+					mContext.sendBroadcast(myIntent);
 				}
 				
 				return true;
@@ -194,7 +193,7 @@ public class FragmentSettings extends FragmentBase {
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
 				
 				if ((Boolean) newValue) {
-					new AlertDialog.Builder(CommonUI.CONTEXT)
+					new AlertDialog.Builder(mContext)
 					.setCancelable(false)
 				    .setTitle(R.string.alert_debug_logging_activated_title)
 				    .setMessage(R.string.alert_debug_logging_activated_summary)
@@ -219,7 +218,7 @@ public class FragmentSettings extends FragmentBase {
 				boolean debugLoggingEnabled = mContext.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).getBoolean("debug", false);
 				
 				if (!debugLoggingEnabled) {
-					new AlertDialog.Builder(CommonUI.CONTEXT)
+					new AlertDialog.Builder(mContext)
 					.setCancelable(false)
 				    .setTitle(R.string.alert_debug_logging_not_activated_title)
 				    .setMessage(R.string.alert_debug_logging_not_activated_summary)
@@ -342,5 +341,14 @@ public class FragmentSettings extends FragmentBase {
         rootView = CommonUI.setBackground(rootView, R.id.prefbackground);
         
         return rootView;
+    }
+
+    private void restartActivity() {
+        Intent mStartActivity = new Intent(mContext, MainActivity.class);
+        int mPendingIntentId = 0xBEEF;
+        PendingIntent mPendingIntent = PendingIntent.getActivity(mContext, mPendingIntentId, mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager mgr = (AlarmManager)mContext.getSystemService(Context.ALARM_SERVICE);
+        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 500, mPendingIntent);
+        System.exit(0);
     }
 }

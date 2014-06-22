@@ -1,12 +1,13 @@
 package de.theknut.xposedgelsettings.hooks.appdrawer;
 
-import static de.robv.android.xposed.XposedHelpers.callMethod;
+import android.graphics.Color;
 
 import net.margaritov.preference.colorpicker.ColorPickerPreference;
-import android.graphics.Color;
-import de.robv.android.xposed.XC_MethodHook;
+
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+
+import static de.robv.android.xposed.XposedHelpers.callMethod;
 
 public class OnTabChangedHook extends HooksBaseClass {
 	

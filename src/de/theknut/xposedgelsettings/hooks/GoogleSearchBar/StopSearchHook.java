@@ -1,10 +1,11 @@
 package de.theknut.xposedgelsettings.hooks.googlesearchbar;
 
-import static de.robv.android.xposed.XposedHelpers.callMethod;
-import static de.robv.android.xposed.XposedHelpers.getIntField;
 import de.robv.android.xposed.XC_MethodHook;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
+
+import static de.robv.android.xposed.XposedHelpers.callMethod;
+import static de.robv.android.xposed.XposedHelpers.getIntField;
 
 public class StopSearchHook extends XC_MethodHook {
 	

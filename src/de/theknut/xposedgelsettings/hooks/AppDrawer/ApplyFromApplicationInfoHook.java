@@ -1,11 +1,14 @@
 package de.theknut.xposedgelsettings.hooks.appdrawer;
 
-import static de.robv.android.xposed.XposedHelpers.callMethod;
-import net.margaritov.preference.colorpicker.ColorPickerPreference;
 import android.graphics.Color;
 import android.widget.TextView;
+
+import net.margaritov.preference.colorpicker.ColorPickerPreference;
+
 import de.robv.android.xposed.XC_MethodHook;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+
+import static de.robv.android.xposed.XposedHelpers.callMethod;
 
 public final class ApplyFromApplicationInfoHook extends XC_MethodHook {
 	

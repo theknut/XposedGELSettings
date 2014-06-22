@@ -1,6 +1,7 @@
 package de.theknut.xposedgelsettings.hooks.googlesearchbar;
 
 import android.graphics.Rect;
+
 import de.robv.android.xposed.XC_MethodHook;
 
 public class GetWorkspacePaddingHook extends XC_MethodHook {

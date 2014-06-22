@@ -25,15 +25,23 @@
   </head>
   <body>
 
-  $ 1.7.1
-  % Version 1.7.1
- _ 2014-06-02
+  $ 1.8
+  % Version 1.8
+ _ 2014-01-07
 
  ! Added:
- * automatically hide icon packs from the app drawer
+ * <b>Icon:</b> per app icon change
+ * <b>Icon:</b> changeable app drawer button
+ * <b>Icon:</b> automatically hide icon packs from the app drawer
+ * <b>General:</b> overlapping widgets (Premium)
+ * <b>Homescreen:</b> smart folder
+
+ ! Improved:
+ * massive performance improvement for icon replacement
 
  ! Fixed:
  * pixelated icons in some icon packs
+ * Google+ vs. Google Photo icon
  * calendar icon not updating
  * disappearing icon when desktop is locked
  * widgets being draggable when desktop is locked
@@ -41,7 +49,9 @@
  * crashes in Icon menu
 
  ! XGELS UI:
+ * option to disable the background image
  * added Traditional Chinese (Taiwan) by Eric850130
+ * added Spanish by Jose Artuñedo
  * updated translations
 
   $ 1.7

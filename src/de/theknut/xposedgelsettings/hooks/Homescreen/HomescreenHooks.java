@@ -1,13 +1,11 @@
 package de.theknut.xposedgelsettings.hooks.homescreen;
 
-import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
-import static de.robv.android.xposed.XposedHelpers.getObjectField;
-
+import android.view.MotionEvent;
 import android.view.View;
+
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
-
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
@@ -16,6 +14,9 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.general.MoveToDefaultScreenHook;
 import de.theknut.xposedgelsettings.hooks.systemui.SystemUIHooks;
+
+import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
+import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
 public class HomescreenHooks extends HooksBaseClass {
 
@@ -67,7 +68,11 @@ public class HomescreenHooks extends HooksBaseClass {
 			// move to default homescreen after workspace has finished loading
 			findAndHookMethod(Classes.Launcher, Methods.lFinishBindingItems, boolean.class, new FinishBindingItemsHook());
 		}
-		
+
+        if (PreferencesHelper.homescreenSmartFolder) {
+            findAndHookMethod(Classes.FolderIcon, "onTouchEvent", MotionEvent.class, new SmartFolderHook());
+        }
+
 		SystemUIHooks.initAllHooks(lpparam);
 	}
 }

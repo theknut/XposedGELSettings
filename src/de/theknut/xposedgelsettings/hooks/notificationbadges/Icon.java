@@ -1,6 +1,5 @@
 package de.theknut.xposedgelsettings.hooks.notificationbadges;
 
-import net.margaritov.preference.colorpicker.ColorPickerPreference;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -10,6 +9,8 @@ import android.graphics.drawable.GradientDrawable;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.TextView;
+
+import net.margaritov.preference.colorpicker.ColorPickerPreference;
 
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;

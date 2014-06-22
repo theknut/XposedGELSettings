@@ -5,7 +5,7 @@ import android.preference.Preference;
 import android.util.AttributeSet;
 import android.view.View;
 
-public class MyPreferenceScreen extends Preference {
+public class MyPreferenceScreen extends Preference implements View.OnLongClickListener {
 	
 	public MyPreferenceScreen(Context context) {
         super(context);
@@ -25,5 +25,10 @@ public class MyPreferenceScreen extends Preference {
         super.onBindView(view);
 
         CommonUI.setCustomStyle(view, true, true);
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        return false;
     }
 }

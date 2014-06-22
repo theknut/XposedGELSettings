@@ -272,21 +272,6 @@
     <string name="pref_donated_button">Thank you for your purchase!</string>
     <string name="pref_limited_summary">Some of the following features are only available in XGELS Premium.</string>
     
-    <string name="pref_reverseengineering_cat_title">Reverse Engineering</string>
-    <string name="pref_reverseengineering_explain_title">Oh, Hi there!</string>
-    <string name="pref_reverseengineering_explain_summary">As you may have noticed the recent GNL update broke all functionality of XGELS. This is due to the complete obfuscation of the GNL apk. To make XGELS work again I had to reverse engineer each feature of XGELS and basically had to go through all my and even the GNL source code again. Luckily I was able to restore 99% of the features!</string>
-    <string name="pref_reverseengineering_conclusion_title">What does that mean?</string>
-    <string name="pref_reverseengineering_conclusion_summary">It is assumed that Google obfuscates GNL with every major release (3.X) again, meaning that XGELS will break most likely. But this time I\'m prepared and I\'m certain I can restore the same functionality within a few hours!</string>
-    <string name="pref_reverseengineering_what_to_do_title">What can I do?</string>
-    <string name="pref_reverseengineering_what_to_do_summary">If you don\'t want GNL/Google Search to break XGELS you can go to the Google Play Store and disable automatic updates. GNL/Google Search uses staged rollouts, which means in some cases XGELS gets updated before you even receive the official GNL/Google Search update. You can click here to open the Play Store and disable the automatic update right now!</string>
-    <string name="pref_reverseengineering_bugs_title">Bugs</string>
-    <string name="pref_reverseengineering_bugs_summary">Due to the reverse engineering there might still be a few bugs here and there. Please be a little bit more forgiving, don\'t ruin my Play Store rating with bug reports. Use the \"Send bug report\" function in the settings menu. Thank you!</string>
-    <string name="pref_reverseengineering_support_cat">I need your support!</string>
-    <string name="pref_reverseengineering_support_title">Donate to me!</string>
-    <string name="pref_reverseengineering_support_summary">It\'s an incredible amount of work for me to maintain XGELS and give good support to you guys. If you feel like donating to me, click here! (!This won\'t unlock Premium!)</string>
-    <string name="pref_reverseengineering_rate_title">Rate XGELS!</string>
-    <string name="pref_reverseengineering_rate_summary">Show your support and leave me a rating on Google Play. A good reputation will motivate others to try XGELS, too. Click here to rate XGELS on Google Play!</string>
-    
     <!-- V1.6.2 -->
     <string name="pref_notificationbadge_help_title">Need help?</string>
     <string name="pref_notificationbadge_help_summary">Click here to read how to configure notification badges!</string>
@@ -325,14 +310,23 @@
     <string name="pref_icon_premium_title">Premium Feature</string>
     <string name="pref_icon_premium_summary">This feature is only available in XGELS Premium.</string>
     <string name="pref_icon_support_title">Stats</string>
-    <string name="pref_icon_support_summary">%1$d of %2$d icons supported\n%3$d icons in total</string>
+    <string name="pref_icon_support_summary">Dynamic calendar: %1$s\n%2$d of %3$d icons supported\n%4$d icons in total</string>
     <string name="pref_icon_auto_apply_title">Auto apply</string>
     <string name="pref_icon_auto_apply_summary">Apply new or updated icon packs automatically</string>
     
     <string name="pref_show_google_search_bar_homescreen_title">Default homescreen</string>
     <string name="pref_show_google_search_bar_homescreen_summary">Show the search bar on default homescreen</string>
 
-    <!-- V1.7.1 -->
+    <!-- V1.8 -->
     <string name="pref_icon_hide_icon_packs_title">Hide icon packs</string>
     <string name="pref_icon_hide_icon_packs_summary">Automatically hide icon packs from the app drawer</string>
+    <string name="pref_icon_perappicon_title">Per app icon change</string>
+    <string name="pref_icon_perappicon_summary">Choose icons from different icon packs on a per app basis</string>
+    <string name="pref_icon_allappsbutton_title">App drawer button</string>
+    <string name="pref_icon_allappsbutton_summary">Change the icon of the app drawer button</string>
+    <string name="pref_xgels_no_background_image_title">No background image</string>
+    <string name="pref_switch_smart_folder_title">Smart folder</string>
+    <string name="pref_switch_smart_folder_summary">Touch - launch the first app\nSwipe up - open folder</string>
+    <string name="pref_overlapping_widgets_title">Overlapping widgets</string>
+    <string name="pref_overlapping_widgets_summary">Allow widgets overlapping each other. This only works on GNL!\n(Beta: Currently the layer position is not saved over reboot)</string>
 </resources>

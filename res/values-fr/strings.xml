@@ -328,7 +328,7 @@
     <string name="pref_icon_premium_title">Fonctionnalité Premium</string>
     <string name="pref_icon_premium_summary">Seulement disponible avec XGELS Premium.</string>
     <string name="pref_icon_support_title">Stats</string>
-    <string name="pref_icon_support_summary">%1$d icône(s) sur %2$d supportés\n%3$d icônes au total</string>
+    <string name="pref_icon_support_summary">Dynamic calendar: %1$s\n%2$d icône(s) sur %3$d supportés\n%4$d icônes au total</string>
     <string name="pref_icon_auto_apply_title">Appliquer automatiquement</string>
     <string name="pref_icon_auto_apply_summary">Appliquer un nouveau pack/une mise à jour d\'un pack automatiquement</string>
     

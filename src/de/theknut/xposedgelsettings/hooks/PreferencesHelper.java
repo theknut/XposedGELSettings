@@ -1,8 +1,10 @@
 package de.theknut.xposedgelsettings.hooks;
 
+import android.graphics.Color;
+
 import java.util.HashSet;
 import java.util.Set;
-import android.graphics.Color;
+
 import de.robv.android.xposed.XSharedPreferences;
 
 public class PreferencesHelper {
@@ -44,7 +46,9 @@ public class PreferencesHelper {
 	public static boolean dynamicAnimateIconBackbutton = prefs.getBoolean("animatedynamicbackbutton", false);
 	public static boolean dynamicAnimateIconRecentsbutton = prefs.getBoolean("dynamicanimateiconrecentsbutton", false);
 	public static boolean dynamicBackButtonOnEveryScreen = prefs.getBoolean("dynamicbackbuttononeveryscreen", false);
-	
+
+    public static boolean overlappingWidgets = prefs.getBoolean("overlappingwidgets", false);
+    public static boolean homescreenSmartFolder = prefs.getBoolean("homescreensmartfolder", false);
 	public static boolean homescreenFolderSwitch = prefs.getBoolean("homescreenfolderswitch", false);
 	public static boolean homescreenFolderNoLabel = prefs.getBoolean("homescreenfoldernolabel", false);
 	public static boolean gesture_appdrawer = prefs.getBoolean("gesture_appdrawer", false);
@@ -78,7 +82,8 @@ public class PreferencesHelper {
 	public static String gesture_one_down_right = prefs.getString("gesture_one_down_right", "NONE");
 	public static String gesture_double_tap = prefs.getString("gesture_double_tap", "NONE");
 	public static boolean gesture_double_tap_only_on_wallpaper = prefs.getBoolean("gesture_double_tap_only_on_wallpaper", false);
-	
+
+    public static Set<String> selectedIcons = prefs.getStringSet("selectedicons", new HashSet<String>());
 	public static Set<String> hiddenApps = prefs.getStringSet("hiddenapps", new HashSet<String>());
 	public static Set<String> hiddenWidgets = prefs.getStringSet("hiddenwidgets", new HashSet<String>());
 	

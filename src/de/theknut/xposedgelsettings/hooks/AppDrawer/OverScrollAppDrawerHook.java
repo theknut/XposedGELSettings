@@ -1,12 +1,12 @@
 package de.theknut.xposedgelsettings.hooks.appdrawer;
 
-import static de.robv.android.xposed.XposedHelpers.callMethod;
 import de.robv.android.xposed.XC_MethodHook;
-
 import de.theknut.xposedgelsettings.hooks.Common;
-import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
+import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.googlesearchbar.GoogleSearchBarHooks;
+
+import static de.robv.android.xposed.XposedHelpers.callMethod;
 
 public class OverScrollAppDrawerHook extends XC_MethodHook {
 	

@@ -23,8 +23,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_toLeftOf="@+id/checkbox"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:gravity="center|left" />
         
     	<CheckBox
     	    android:id="@+id/checkbox"
@@ -32,6 +35,22 @@
     	    android:layout_height="50dp"
     	    android:layout_alignParentRight="true"
     	    android:layout_centerVertical="true"/>
+
+        <ImageButton
+            android:layout_width="35dp"
+            android:layout_height="50dp"
+            android:visibility="gone"
+            android:id="@+id/deletebutton"
+            android:layout_alignRight="@+id/checkbox"
+            android:layout_alignEnd="@+id/checkbox"
+            android:layout_alignParentRight="true"
+            android:layout_alignLeft="@+id/checkbox"
+            android:layout_alignStart="@+id/checkbox"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/ic_action_remove"
+            android:background="#00ffffff"
+            android:scaleType="centerInside"
+            android:layout_marginRight="10dp" />
 
     </RelativeLayout>
 </LinearLayout>

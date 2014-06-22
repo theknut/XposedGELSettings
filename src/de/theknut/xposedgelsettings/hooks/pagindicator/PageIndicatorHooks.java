@@ -1,14 +1,15 @@
 package de.theknut.xposedgelsettings.hooks.pagindicator;
 
-import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import android.graphics.Rect;
+
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
-
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+
+import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
 public class PageIndicatorHooks {
 	

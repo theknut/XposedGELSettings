@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import de.theknut.xposedgelsettings.R;
 
 public class FragmentHomescreen extends FragmentBase {
@@ -28,7 +29,7 @@ public class FragmentHomescreen extends FragmentBase {
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 
             	if ((Boolean) newValue) {
-	                new AlertDialog.Builder(CommonUI.CONTEXT)
+	                new AlertDialog.Builder(mContext)
 	        		.setCancelable(false)
 	        	    .setTitle(android.R.string.dialog_alert_title)
 	        	    .setMessage(R.string.alert_hidedock_summary)

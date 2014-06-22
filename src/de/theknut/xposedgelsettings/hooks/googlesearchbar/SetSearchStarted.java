@@ -1,13 +1,15 @@
 package de.theknut.xposedgelsettings.hooks.googlesearchbar;
 
-import static de.robv.android.xposed.XposedHelpers.callMethod;
-import static de.robv.android.xposed.XposedHelpers.getIntField;
 import de.robv.android.xposed.XC_MethodHook;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
+import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 
-public class StartTextSearchHook extends XC_MethodHook {
+import static de.robv.android.xposed.XposedHelpers.callMethod;
+import static de.robv.android.xposed.XposedHelpers.getIntField;
+
+public class SetSearchStarted extends XC_MethodHook {
 	
 	int STARTED = 0;
 	
@@ -25,9 +27,13 @@ public class StartTextSearchHook extends XC_MethodHook {
 			
 			if ((hasGNowEnabled && getIntField(Common.WORKSPACE_INSTANCE, Fields.workspaceCurrentPage) != 0)
 				|| !hasGNowEnabled) {
-				
-				// hide the search bar on stop search
-				GoogleSearchBarHooks.hideSearchbar();
+
+                if (PreferencesHelper.searchBarOnDefaultHomescreen) {
+                    GoogleSearchBarHooks.showSearchbar();
+                } else {
+                    // hide the search bar on stop search
+                    GoogleSearchBarHooks.hideSearchbar();
+                }
 			}
 		}
 	}

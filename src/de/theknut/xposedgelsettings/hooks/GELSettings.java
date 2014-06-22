@@ -1,6 +1,5 @@
 package de.theknut.xposedgelsettings.hooks;
 
-import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
@@ -20,6 +19,8 @@ import de.theknut.xposedgelsettings.hooks.icon.IconHooks;
 import de.theknut.xposedgelsettings.hooks.notificationbadges.NotificationBadgesHooks;
 import de.theknut.xposedgelsettings.hooks.pagindicator.PageIndicatorHooks;
 import de.theknut.xposedgelsettings.hooks.systemui.SystemUIReceiver;
+
+import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
 public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage {
 
@@ -42,12 +43,9 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
 			return;
 		}
 
-		if (!lpparam.isFirstApplication) {
-			return;
-		}
-
 		// saving the name of the hooked package
-		Common.HOOKED_PACKAGE = lpparam.packageName;		
+		Common.HOOKED_PACKAGE = lpparam.packageName;
+
 		if (PreferencesHelper.Debug) XposedBridge.log("GELSettings.handleLoadPackage: hooked package -> " + lpparam.packageName);
 		
 		if (Common.HOOKED_PACKAGE.contains("com.android.launcher2")) {
@@ -60,14 +58,14 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
 		Methods.initMethodNames();
 		Fields.initFieldNames();
 
-		// all hooks to modify...
+		// init all hooks...
 		GeneralHooks.initAllHooks(lpparam);
 		GoogleSearchBarHooks.initAllHooks(lpparam);
 		PageIndicatorHooks.initAllHooks(lpparam);
 		HomescreenHooks.initAllHooks(lpparam);
 		AppDrawerHooks.initAllHooks(lpparam);
 		GestureHooks.initAllHooks(lpparam);
-		IconHooks.initAllHooks(lpparam);
 		NotificationBadgesHooks.initAllHooks(lpparam);
+        IconHooks.initAllHooks(lpparam);
 	}
 }

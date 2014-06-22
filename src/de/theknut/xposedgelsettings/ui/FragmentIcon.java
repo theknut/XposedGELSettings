@@ -1,31 +1,41 @@
 package de.theknut.xposedgelsettings.ui;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-
-import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.icon.Icon;
 import de.theknut.xposedgelsettings.hooks.icon.IconPack;
 
 public class FragmentIcon extends FragmentBase {
@@ -34,15 +44,37 @@ public class FragmentIcon extends FragmentBase {
     MyPreferenceScreen iconPackSupport;
     MyListPreference iconPackList;
     List<String> notSupportedIconsList;
+    static public IconPack iconPack;
+    GridView grid;
+    ProgressBar progressBar;
     boolean dirty;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	super.onCreateView(inflater, container, savedInstanceState);
     	
-    	View rootView = inflater.inflate(R.layout.options_fragment, container, false);
+    	View rootView = inflater.inflate(R.layout.icon_fragment, container, false);
         addPreferencesFromResource(R.xml.icon_fragment);
-        
+
+        this.findPreference("selectiveicon").setOnPreferenceClickListener(new OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent i = new Intent(getActivity(), ChooseAppList.class);
+                startActivity(i);
+                return true;
+            }
+        });
+
+        this.findPreference("allappsbuttonicon").setOnPreferenceClickListener(new OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent i = new Intent(getActivity(), FragmentSelectiveIcon.class);
+                i.putExtra("app", "all_apps_button_icon");
+                startActivity(i);
+                return true;
+            }
+        });
+
         packageManager = mContext.getPackageManager();
         List<String> packages = CommonUI.getIconPacks(mContext);
         
@@ -58,7 +90,7 @@ public class FragmentIcon extends FragmentBase {
                 
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    new AlertDialog.Builder(CommonUI.CONTEXT)
+                    new AlertDialog.Builder(mContext)
                     .setCancelable(false)
                     .setTitle(R.string.alert_icon_noiconpackfound_title)
                     .setMessage(R.string.alert_icon_noiconpackfound_summary)
@@ -86,14 +118,14 @@ public class FragmentIcon extends FragmentBase {
                     return false;
                 }
             });
-        } else {            
+        } else {
+
             HashMap<String, String> iconPacks = new HashMap<String, String>();
             for (String pgk : packages) {
                 try {
                     String iconPackName = (String) packageManager.getApplicationInfo(pgk, 0).loadLabel(packageManager);
                     iconPacks.put(iconPackName, pgk);                
                 } catch (NameNotFoundException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
@@ -108,9 +140,7 @@ public class FragmentIcon extends FragmentBase {
                 for (int j = 0; j < tmp.length; j++) {
                     tmp[j] = names.get(j);
                 }
-            } catch (Exception e) {
-                // TODO: handle exception
-            }
+            } catch (Exception e) { }
             iconPackList.setEntries(tmp);
 
             tmp = new CharSequence[names.size()];
@@ -135,11 +165,15 @@ public class FragmentIcon extends FragmentBase {
                     pref.setSummary(iconPackName);
 
                     if (((String) newValue).equals(Common.ICONPACK_DEFAULT)) {
+                        iconPack = null;
                         getFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentIcon()).commit();
                         return true;
                     }
-                    
-                    new UpdateStatisticAsyncTask().execute(iconPackName);
+
+                    grid.setVisibility(View.INVISIBLE);
+                    progressBar.setVisibility(View.VISIBLE);
+                    progressBar.setIndeterminate(true);
+                    loadIconPack(true);
 
                     return true;
                 }
@@ -147,6 +181,41 @@ public class FragmentIcon extends FragmentBase {
             
             if (!packages.contains(iconPackList.getValue())) {
                 iconPackList.setValueIndex(0);
+            }
+
+            progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
+            grid = (GridView) rootView.findViewById(R.id.iconpreview);
+
+            try {
+                if (iconPack == null) {
+                    iconPack = new IconPack(mContext, iconPackList.getValue());
+                    iconPack.loadAppFilter();
+                }
+
+                new AsyncTask<Void, Void, Void>() {
+
+                    ImageAdapter imageAdapter;
+
+                    @Override
+                    protected Void doInBackground(Void... params) {
+
+                        while(CommonUI.LOADING_ICONPACK) {
+                            SystemClock.sleep(100);
+                        }
+
+                        imageAdapter = new ImageAdapter(iconPack);
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Void aVoid) {
+                        super.onPostExecute(aVoid);
+                        grid.setAdapter(imageAdapter);
+                    }
+                }.execute();
+
+            } catch (NameNotFoundException e) {
+                e.printStackTrace();
             }
         }
         
@@ -165,7 +234,7 @@ public class FragmentIcon extends FragmentBase {
                     sb.append(string).append('\n');
                 }
                 
-                new AlertDialog.Builder(CommonUI.CONTEXT)
+                new AlertDialog.Builder(mContext)
                 .setCancelable(true)
                 .setMessage(sb.toString())
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -184,6 +253,8 @@ public class FragmentIcon extends FragmentBase {
             iconPackSupport.setEnabled(false);
             findPreference("autoupdateapplyiconpack").setEnabled(false);
             findPreference("hideiconpacks").setEnabled(false);
+            findPreference("selectiveicon").setEnabled(false);
+            findPreference("allappsbuttonicon").setEnabled(false);
         } else {
             getPreferenceScreen().removePreference(this.findPreference("needsDonate"));
         }
@@ -193,93 +264,217 @@ public class FragmentIcon extends FragmentBase {
         return rootView;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    private class UpdateStatisticAsyncTask extends AsyncTask<Void, Void, Void> {
 
-        if (iconPackList.getEntryValues().length != 0) {
-            new UpdateStatisticAsyncTask().execute(iconPackList.getEntry().toString());
-        } else {
-            iconPackSupport.setSummary(getString(R.string.pref_icon_noiconpack));
+        String summary;
+        IconPack mIconPack;
+
+        public UpdateStatisticAsyncTask(IconPack iconPack) {
+            mIconPack = iconPack;
         }
-    }
 
-    private class UpdateStatisticAsyncTask extends AsyncTask<String, Void, Void> {
-        
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             
-            iconPackSupport.setSummary("Loading...\n");            
+            iconPackSupport.setSummary("Loading...\n\n");
         }
         
         @Override
-        protected Void doInBackground(final String... params) {
+        protected Void doInBackground(Void... params) {
 
-            String newSummary;
             notSupportedIconsList = new ArrayList<String>();
 
+            List<ResolveInfo> apps = CommonUI.getAllApps();
+            if (!iconPackList.getValue().equals(Common.ICONPACK_DEFAULT)) {
 
-            Activity activity = getActivity();
-            if (activity != null) {
-                activity.runOnUiThread(new Runnable() {
-                    public void run() {iconPackSupport.setTitle(params[0]);
+                int cnt = 0;
+                for (ResolveInfo resolveInfo : apps) {
+                    if (mIconPack.getResourceIdForDrawable(resolveInfo.activityInfo.packageName) != 0) {
+                        cnt++;
+                    } else {
+                        notSupportedIconsList.add(resolveInfo.loadLabel(packageManager).toString());
                     }
-                });
+                }
+
+                summary = String.format(
+                        mContext.getString(R.string.pref_icon_support_summary), // string
+                        String.valueOf(mIconPack.getCalendarIcons().size() != 0), // calendar support
+                        cnt, // count supported apps
+                        apps.size(), // count installed apps
+                        mIconPack.getTotalIconCount() // count total apps
+                );
+            } else {
+                summary = (String) iconPackList.getEntry();
             }
 
-            try {
-                List<ResolveInfo> apps = CommonUI.getAllApps();
-                if (!iconPackList.getValue().equals(Common.ICONPACK_DEFAULT)) {
-                    ActivityManager activityManager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
-                    int dpi = activityManager.getLauncherLargeIconDensity();
-                    IconPack ip = new IconPack(mContext, iconPackList.getValue(), dpi);
-                    ip.loadAppFilter();                
-
-                    int cnt = 0;
-                    for (ResolveInfo resolveInfo : apps) {
-                        if (ip.getResourceIdForDrawable(resolveInfo.activityInfo.packageName) != 0) {
-                            cnt++;
-                        } else {
-                            notSupportedIconsList.add(resolveInfo.loadLabel(packageManager).toString());
-                        }
-                    }
-
-                    newSummary = String.format(mContext.getString(R.string.pref_icon_support_summary), cnt, apps.size(), ip.getTotalIconCount());
-                } else {
-                    newSummary = (String) iconPackList.getEntry();
-                }
-
-                final String summary = newSummary;
-                activity = getActivity();
-                if (activity != null) {
-                    activity.runOnUiThread(new Runnable() {
-                        public void run() {
-                            iconPackSupport.setSummary(summary);
-                        }
-                    });
-                }
-            } catch (NameNotFoundException e) {
-                e.printStackTrace();
-
-                activity = getActivity();
-                if (activity != null) {
-                    activity.runOnUiThread(new Runnable() {
-                        public void run() {
-                            iconPackSupport.setSummary("Error while loading statistics\n");
-                        }
-                    });
-                }
-            }
-            
             return null;
         }
         
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            
+            iconPackSupport.setSummary(summary);
             dirty = false;
         }
+    }
+
+    public class ImageAdapter extends BaseAdapter {
+        private Context mContext;
+        private IconPack mIconPack;
+        private List<ResolveInfo> apps;
+        private int iconSize, paddingSize;
+
+        public ImageAdapter(IconPack iconPack) {
+
+            if (iconPack == null) {
+                try {
+                    mIconPack = new IconPack(mContext, Common.ICONPACK_DEFAULT);
+                } catch (NameNotFoundException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                mIconPack = iconPack;
+            }
+
+            mContext = mIconPack.getContext();
+
+            DisplayMetrics dm = mContext.getResources().getDisplayMetrics();
+            iconSize = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 64, dm));
+            paddingSize = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, dm));
+
+            apps = CommonUI.getAllApps();
+        }
+
+        public int getCount() {
+            return apps.size();
+        }
+
+        public Object getItem(int position) {
+            return null;
+        }
+
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        public View getView(final int position, View convertView, ViewGroup parent) {
+
+            final ImageView imageView;
+
+            imageView = new ImageView(mContext);
+            imageView.setId(position);
+            imageView.setLayoutParams(new GridView.LayoutParams(iconSize - paddingSize, iconSize - paddingSize));
+            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            imageView.setPadding(paddingSize, paddingSize, paddingSize, paddingSize);
+
+            new ImageLoader().execute(imageView, mIconPack, apps.get(position));
+
+            return imageView;
+        }
+
+        public class ImageLoader extends AsyncTask<Object, Void, Void> {
+
+            ImageView image;
+            Drawable icon;
+
+            @Override
+            protected Void doInBackground(Object... params) {
+
+                ResolveInfo info = (ResolveInfo) params[2];
+                ComponentName cmpName = new ComponentName(info.activityInfo.packageName, info.activityInfo.name);
+                image = (ImageView) params[0];
+                icon = mIconPack.loadIcon(cmpName.flattenToString());
+
+                if (icon == null) {
+                    if (!mIconPack.shouldThemeMissingIcons()) {
+                        icon = info.loadIcon(mIconPack.getContext().getPackageManager());
+                    } else {
+                        icon = info.loadIcon(mIconPack.getContext().getPackageManager());
+                        Bitmap tmpIcon = Bitmap.createBitmap(CommonUI.drawableToBitmap(icon));
+                        Bitmap tmpFinalIcon = mIconPack.themeIcon(tmpIcon);
+                        icon = new BitmapDrawable(mIconPack.getResources(), tmpFinalIcon);
+                    }
+
+                    Icon newIcon = new Icon(cmpName.flattenToString(), icon);
+                    mIconPack.getIcons().add(newIcon);
+                }
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                if (progressBar.getVisibility() == View.VISIBLE
+                    && image.getId() == grid.getNumColumns()) {
+                    progressBar.setVisibility(View.GONE);
+                    progressBar.setIndeterminate(false);
+
+                    if (iconPackList.getEntryValues().length != 0) {
+                        iconPackSupport.setTitle(iconPackList.getEntry().toString());
+                        new UpdateStatisticAsyncTask(mIconPack).execute();
+                    } else {
+                        iconPackSupport.setSummary(getString(R.string.pref_icon_noiconpack));
+                    }
+                }
+
+                image.setImageDrawable(icon);
+            }
+        }
+    }
+
+    public static void loadIconPack(final boolean reloadFragment) {
+
+        try {
+            new AsyncTask<Void, Void, Void>() {
+
+                @Override
+                protected Void doInBackground(Void... params) {
+                    CommonUI.LOADING_ICONPACK = true;
+                    try {
+                        FragmentIcon.iconPack = new IconPack(
+                                CommonUI.CONTEXT,
+                                CommonUI.CONTEXT.getSharedPreferences(
+                                        Common.PREFERENCES_NAME,
+                                        Context.CONTEXT_IGNORE_SECURITY
+                                ).getString("iconpack", Common.ICONPACK_DEFAULT)
+                        );
+                        FragmentIcon.iconPack.loadAppFilter();
+
+                        for (ResolveInfo info : CommonUI.getAllApps()) {
+                            ComponentName cmpName = new ComponentName(info.activityInfo.packageName, info.activityInfo.name);
+                            Drawable icon = FragmentIcon.iconPack.loadIcon(cmpName.flattenToString());
+
+                            if (icon == null) {
+                                if (!FragmentIcon.iconPack.shouldThemeMissingIcons()) {
+                                    icon = info.loadIcon(FragmentIcon.iconPack.getContext().getPackageManager());
+                                } else {
+                                    icon = info.loadIcon(FragmentIcon.iconPack.getContext().getPackageManager());
+                                    Bitmap tmpIcon = Bitmap.createBitmap(CommonUI.drawableToBitmap(icon));
+                                    Bitmap tmpFinalIcon = FragmentIcon.iconPack.themeIcon(tmpIcon);
+                                    icon = new BitmapDrawable(FragmentIcon.iconPack.getResources(), tmpFinalIcon);
+                                }
+
+                                Icon newIcon = new Icon(cmpName.flattenToString(), icon);
+                                FragmentIcon.iconPack.getIcons().add(newIcon);
+                            }
+                        }
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    super.onPostExecute(aVoid);
+                    CommonUI.LOADING_ICONPACK = false;
+
+                    if (reloadFragment) {
+                        CommonUI.ACTIVITY.getFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentIcon()).commit();
+                    }
+                }
+            }.execute();
+        } catch (Exception ex) {}
     }
 }

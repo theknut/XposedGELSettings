@@ -1,8 +1,5 @@
 package de.theknut.xposedgelsettings.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -21,6 +18,9 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import de.theknut.xposedgelsettings.BuildConfig;
 import de.theknut.xposedgelsettings.R;
@@ -89,7 +89,7 @@ public class FragmentWelcome extends FragmentBase {
         		}
         	}
     		
-    		Changelog cl = new Changelog(CommonUI.CONTEXT);
+    		Changelog cl = new Changelog(mContext);
     	    if (cl.firstRun()) {
     	    	CommonUI.needFullReboot = true;
     	        alerts.add(cl.getFullLogDialog());
@@ -123,6 +123,12 @@ public class FragmentWelcome extends FragmentBase {
             retVal = true;
         }
         catch (PackageManager.NameNotFoundException e) { }
+
+        try {
+            pm.getPackageInfo("com.android.launcher3", PackageManager.GET_ACTIVITIES);
+            retVal = true;
+        }
+        catch (PackageManager.NameNotFoundException e) { }
         
         return retVal;
     }
@@ -151,13 +157,13 @@ public class FragmentWelcome extends FragmentBase {
     }
     
     private void createAlertDialogs() {
-    	IsXposedInstalledAlert = new AlertDialog.Builder(CommonUI.CONTEXT)
+    	IsXposedInstalledAlert = new AlertDialog.Builder(mContext)
 		.setCancelable(false)
 	    .setTitle("Missing framework!")
 	    .setMessage("The Xposed Framework is not installed. This app will not work without the framework!")
 	    .setPositiveButton("Go to Xposed Framework", new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) { 
-	        	Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://forum.xda-developers.com/showthread.php?t=1574401"));
+	        	Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://forum.xda-developers.com/xposed/xposed-installer-versions-changelog-t2714053"));
 	        	startActivity(browserIntent);
 	        	shown = false;
 	        	getActivity().finish();
@@ -171,7 +177,7 @@ public class FragmentWelcome extends FragmentBase {
 	        }
 	     }).create();
 		
-		IsModuleActive = new AlertDialog.Builder(CommonUI.CONTEXT)
+		IsModuleActive = new AlertDialog.Builder(mContext)
 		.setCancelable(false)
 	    .setTitle("Module not active!")
 	    .setMessage("XGELS is not active. Please activate the module in Xposed Installer -> Modules")
@@ -216,7 +222,7 @@ public class FragmentWelcome extends FragmentBase {
         dontShowAgain.setIncludeFontPadding(false);
         dontShowAgain.setText("Don't show again");
         
-        AlertDialog.Builder adb = new AlertDialog.Builder(CommonUI.CONTEXT);        
+        AlertDialog.Builder adb = new AlertDialog.Builder(mContext);
         adb.setView(dontShowAgainLayout);
         adb.setCancelable(false);
 	    adb.setTitle("Module not installed from Google Play!");
@@ -233,9 +239,9 @@ public class FragmentWelcome extends FragmentBase {
 	        	
 	        	final String appPackageName = Common.PACKAGE_NAME;
 	        	try {
-	        	    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+	        	    CommonUI.ACTIVITY.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
 	        	} catch (android.content.ActivityNotFoundException anfe) {
-	        	    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName)));
+                    CommonUI.ACTIVITY.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName)));
 	        	}
 	        }
         });
@@ -255,7 +261,7 @@ public class FragmentWelcome extends FragmentBase {
 	     
 	    IsInstalledFromPlayStore = adb.create();
 	    
-	    NeedReboot = new AlertDialog.Builder(CommonUI.CONTEXT)
+	    NeedReboot = new AlertDialog.Builder(mContext)
 		.setCancelable(false)
 	    .setTitle(R.string.alert_xgels_updated_title)
 	    .setMessage(R.string.alert_xgels_updated_summary)
@@ -280,7 +286,7 @@ public class FragmentWelcome extends FragmentBase {
 	        }
 	     }).create();
 	    
-	    IsSupportedLauncherInstalled = new AlertDialog.Builder(CommonUI.CONTEXT)
+	    IsSupportedLauncherInstalled = new AlertDialog.Builder(mContext)
 		.setCancelable(false)
 	    .setTitle(R.string.alert_launcher_not_installed_title)
 	    .setMessage(R.string.alert_launcher_not_installed_summary)

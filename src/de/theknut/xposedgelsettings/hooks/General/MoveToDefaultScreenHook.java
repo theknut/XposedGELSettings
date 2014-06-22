@@ -1,13 +1,12 @@
 package de.theknut.xposedgelsettings.hooks.general;
 
-import static de.robv.android.xposed.XposedHelpers.callMethod;
-import static de.robv.android.xposed.XposedHelpers.setIntField;
-
 import de.robv.android.xposed.XC_MethodHook;
-
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+
+import static de.robv.android.xposed.XposedHelpers.callMethod;
+import static de.robv.android.xposed.XposedHelpers.setIntField;
 
 public class MoveToDefaultScreenHook extends XC_MethodHook {
 	

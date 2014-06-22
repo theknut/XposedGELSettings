@@ -1,13 +1,14 @@
 package de.theknut.xposedgelsettings.hooks.notificationbadges;
 
-import static de.robv.android.xposed.XposedHelpers.callMethod;
-import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
-
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.view.View;
 import android.widget.TextView;
+
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
+
+import static de.robv.android.xposed.XposedHelpers.callMethod;
 
 public class Shortcut extends Icon {
 	

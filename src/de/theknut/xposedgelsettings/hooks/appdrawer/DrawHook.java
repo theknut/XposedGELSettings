@@ -3,6 +3,7 @@ package de.theknut.xposedgelsettings.hooks.appdrawer;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.widget.TextView;
+
 import de.robv.android.xposed.XC_MethodHook;
 
 public final class DrawHook extends XC_MethodHook {

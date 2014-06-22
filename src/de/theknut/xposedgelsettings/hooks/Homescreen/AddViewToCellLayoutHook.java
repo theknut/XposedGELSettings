@@ -1,11 +1,5 @@
 package de.theknut.xposedgelsettings.hooks.homescreen;
 
-import static de.robv.android.xposed.XposedHelpers.callMethod;
-import static de.robv.android.xposed.XposedHelpers.getBooleanField;
-import static de.robv.android.xposed.XposedHelpers.getObjectField;
-
-import net.margaritov.preference.colorpicker.ColorPickerPreference;
-
 import android.graphics.Color;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.Drawable;
@@ -14,11 +8,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
-import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
+import net.margaritov.preference.colorpicker.ColorPickerPreference;
+
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+
+import static de.robv.android.xposed.XposedHelpers.callMethod;
+import static de.robv.android.xposed.XposedHelpers.getBooleanField;
+import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
 public final class AddViewToCellLayoutHook extends HooksBaseClass {
 	

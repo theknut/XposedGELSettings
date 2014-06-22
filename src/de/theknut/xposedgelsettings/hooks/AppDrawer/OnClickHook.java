@@ -1,10 +1,12 @@
 package de.theknut.xposedgelsettings.hooks.appdrawer;
 
-import static de.robv.android.xposed.XposedHelpers.callMethod;
 import android.content.Intent;
+
 import de.robv.android.xposed.XC_MethodHook;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
+
+import static de.robv.android.xposed.XposedHelpers.callMethod;
 
 public class OnClickHook  extends XC_MethodHook {
 	
