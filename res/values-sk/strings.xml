@@ -331,14 +331,23 @@
     <string name="pref_icon_premium_title">Prémiová funkcia</string>
     <string name="pref_icon_premium_summary">Táto funkcia je dostupná len v XGELS Prémium.</string>
     <string name="pref_icon_support_title">Štatistiky</string>
-    <string name="pref_icon_support_summary">Podporované ikony: %1$d z %2$d\nIkon celkovo: %3$d</string>
+    <string name="pref_icon_support_summary">Dynamický kalendár: %1$s\n%2$d u %3$d ikon podporovaných\n%4$d ikon celkovo</string>
     <string name="pref_icon_auto_apply_title">Automaticky použiť</string>
     <string name="pref_icon_auto_apply_summary">Automaticky použiť nové alebo aktualizované balíky ikon</string>
     
     <string name="pref_show_google_search_bar_homescreen_title">Predvolená domovská obrazovka</string>
     <string name="pref_show_google_search_bar_homescreen_summary">Zobraziť vyhľadávací riadok na predvolenej domovskej obrazovke</string>
     
-    <!-- V1.7.1 -->
+     <!-- V1.8 -->
     <string name="pref_icon_hide_icon_packs_title">Skryť balíky</string>
     <string name="pref_icon_hide_icon_packs_summary">Automaticky skryť balíky ikon z ponuky aplikácií</string>
+    <string name="pref_icon_perappicon_title">Zmeniť ikony aplikácií</string>
+    <string name="pref_icon_perappicon_summary">Vybrať ikony z rôznych balíkov ikon na základe aplikácií</string>
+    <string name="pref_icon_allappsbutton_title">Tlačidlo ponuky aplikácií</string>
+    <string name="pref_icon_allappsbutton_summary">Zmeniť ikonu tlačidla ponuky aplikácií</string>
+    <string name="pref_xgels_no_background_image_title">Žiadny obrázok na pozadí</string>
+    <string name="pref_switch_smart_folder_title">Chytrý priečinok</string>
+    <string name="pref_switch_smart_folder_summary">Dotyk - spustiť prvú aplikáciu\nPotiahnutie nahor - otvoriť priečinok</string>
+    <string name="pref_overlapping_widgets_title">Prekrývajúce miniaplikácie</string>
+    <string name="pref_overlapping_widgets_summary">Povoliť miniaplikáciam vzájomné prekrývanie. Toto funguje len u GNL!\n(Beta: V súčasnosti pozícia vrstvy nie je uložená po reštarte)</string>
 </resources>
