@@ -24,11 +24,21 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:textStyle="bold"
-            android:layout_toLeftOf="@+id/checkbox"
             android:layout_alignParentTop="true"
             android:layout_alignParentBottom="true"
-            android:gravity="center|left" />
-        
+            android:gravity="center|left"
+            android:layout_toLeftOf="@+id/selectedicon" />
+
+        <ImageView
+            android:id="@+id/selectedicon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:visibility="gone"
+            android:padding="3dp"
+            android:scaleType="centerCrop"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/deletebutton" />
+
     	<CheckBox
     	    android:id="@+id/checkbox"
     	    android:layout_width="35dp"

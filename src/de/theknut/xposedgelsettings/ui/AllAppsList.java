@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Set;
 
 import de.theknut.xposedgelsettings.R;
+import de.theknut.xposedgelsettings.ui.ImageLoader.ViewHolder;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.icon.IconPack;
 
@@ -55,12 +56,9 @@ public class AllAppsList extends ListActivity {
         super.onPause();
 
         // save our new list
-        SharedPreferences prefs = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.remove("hiddenapps");
-        editor.apply();
-        editor.putStringSet("hiddenapps", hiddenApps);
-        editor.apply();
+        SharedPreferences.Editor editor = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).edit();
+        editor.remove("hiddenapps").commit();
+        editor.putStringSet("hiddenapps", hiddenApps).commit();
     }
 
     @SuppressLint("WorldReadableFiles")
@@ -136,11 +134,11 @@ public class AllAppsList extends ListActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
 
             ResolveInfo item = values.get(position);
-            ChooseAppList.ViewHolder holder;
+            ViewHolder holder;
             View rowView = convertView;
 
             if (rowView == null) {
-                holder = new ChooseAppList.ViewHolder();
+                holder = new ViewHolder();
                 rowView = inflater.inflate(R.layout.row, parent, false);
                 holder.imageView = (ImageView) rowView.findViewById(R.id.icon);
                 holder.textView = (TextView) rowView.findViewById(R.id.name);
@@ -150,7 +148,7 @@ public class AllAppsList extends ListActivity {
                 rowView.setTag(holder);
             }
 
-            holder = (ChooseAppList.ViewHolder) rowView.getTag();
+            holder = (ViewHolder) rowView.getTag();
             holder.textView.setText(item.loadLabel(pm));
             holder.checkBox.setTag(item.activityInfo.packageName + "#" + item.loadLabel(pm));
             holder.checkBox.setChecked(hiddenApps.contains(holder.checkBox.getTag()));

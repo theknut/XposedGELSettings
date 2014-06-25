@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.TreeSet;
@@ -54,7 +55,6 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
     ViewPager mViewPager;
 
     Intent intent;
-    static SharedPreferences prefs;
 
     static Activity mActivity;
     static int tabCount;
@@ -69,7 +69,6 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
         intent = getIntent();
         appComponentName = intent.getStringExtra("app");
         mActivity = this;
-        prefs = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
 
         mAppSectionsPagerAdapter = new AppSectionsPagerAdapter(getSupportFragmentManager());
         final ActionBar actionBar = getActionBar();
@@ -87,14 +86,17 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
             }
         });
 
+        String currentIconPack = getSharedPreferences(Common.PREFERENCES_NAME, Context.CONTEXT_IGNORE_SECURITY).getString("iconpack", "");
         PackageManager pkgMgr = getApplicationContext().getPackageManager();
         List<String> packages = CommonUI.getIconPacks(getApplicationContext());
-        HashMap<String, String> iconPacks = new HashMap<String, String>();
-        for (String pgk : packages) {
+        LinkedHashMap<String, String> iconPacks = new LinkedHashMap<String, String>();
+        iconPacks.put(getString(R.string.pref_icon_noiconpack), Common.ICONPACK_DEFAULT);
+
+        for (String pkg : packages) {
             try {
-                if (hasDrawableList(pgk)) {
-                    String iconPackName = (String) pkgMgr.getApplicationInfo(pgk, 0).loadLabel(pkgMgr);
-                    iconPacks.put(iconPackName.toLowerCase(Locale.US), pgk);
+                if (shouldShow(pkg)) {
+                    String iconPackName = (String) pkgMgr.getApplicationInfo(pkg, 0).loadLabel(pkgMgr);
+                    iconPacks.put(iconPackName.toLowerCase(Locale.US), pkg);
                 }
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
@@ -108,26 +110,31 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
         int innerSize = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, displayMetrics));
         int distance = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, displayMetrics));
 
+        int startingPosition = 0;
         for (String key : new TreeSet<String>(iconPacks.keySet())) {
             Drawable icon = null;
             try {
-                icon = pkgMgr.getApplicationIcon(iconPacks.get(key));
+                icon = iconPacks.get(key).equals(Common.ICONPACK_DEFAULT)
+                        ? getResources().getDrawable(android.R.drawable.sym_def_app_icon)
+                        : pkgMgr.getApplicationIcon(iconPacks.get(key));
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
             }
-
-            actionBar.addTab(
-                    actionBar.newTab()
-                            .setIcon(createIcon(resources, icon, outerSize, innerSize, distance))
-                            .setText(key)
-                            .setTag(iconPacks.get(key))
-                            .setTabListener(this)
-            );
-
+            ActionBar.Tab tab = actionBar.newTab()
+                    .setIcon(createIcon(resources, icon, outerSize, innerSize, distance))
+                    .setText(key)
+                    .setTag(iconPacks.get(key))
+                    .setTabListener(this);
+            actionBar.addTab(tab);
             tags.add(iconPacks.get(key));
+
+            if (iconPacks.get(key).equals(currentIconPack)) {
+                startingPosition = actionBar.getTabCount() - 1;
+            }
         }
 
         tabCount = actionBar.getTabCount();
+        actionBar.setSelectedNavigationItem(startingPosition);
         mAppSectionsPagerAdapter.notifyDataSetChanged();
     }
 
@@ -148,6 +155,7 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
             // action with ID action_refresh was selected
             case R.id.action_refresh:
 
+                SharedPreferences prefs = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
                 SharedPreferences.Editor editor = prefs.edit();
                 String key = "selectedicons";
                 String appComponentName = "all_apps_button_icon";
@@ -161,10 +169,8 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
                     }
                 }
 
-                editor.remove(key);
-                editor.apply();
-                editor.putStringSet(key, selectedIcons);
-                editor.apply();
+                editor.remove(key).commit();
+                editor.putStringSet(key, selectedIcons).commit();
                 mActivity.finish();
                 break;
             default:
@@ -174,7 +180,7 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
         return true;
     }
 
-    public boolean hasDrawableList(String packageName) {
+    public boolean shouldShow(String packageName) {
         try {
             Context resContext = getApplicationContext().createPackageContext(packageName, Context.CONTEXT_IGNORE_SECURITY);
             Resources res = resContext.getResources();
@@ -186,6 +192,15 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
 
             return true;
         } catch (Exception e) {
+
+            try {
+                IconPack tmpIconPack = new IconPack(getApplicationContext(), packageName);
+                tmpIconPack.loadAppFilter();
+                return tmpIconPack.getAppFilter().size() != 0;
+            } catch (PackageManager.NameNotFoundException e1) {
+                e1.printStackTrace();
+            }
+
             return false;
         }
     }
@@ -214,7 +229,6 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
         mViewPager.setCurrentItem(tab.getPosition());
         currentIconPack = (String) tab.getTag();
-
     }
 
     @Override
@@ -246,6 +260,7 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
     SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+
             if (sharedPreferences.getBoolean("autokilllauncher", false)) {
                 CommonUI.restartLauncher(false);
             }
@@ -475,6 +490,7 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    SharedPreferences prefs = CommonUI.CONTEXT.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
                     SharedPreferences.Editor editor = prefs.edit();
 
                     String key = "selectedicons";
@@ -490,17 +506,15 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
 
                     selectedIcons.add(appComponentName + "|" + currentIconPack + "|" + v.getTag());
 
-                    editor.remove(key);
-                    editor.apply();
-                    editor.putStringSet(key, selectedIcons);
-                    editor.apply();
+                    editor.remove(key).commit();
+                    editor.putStringSet(key, selectedIcons).commit();
 
                     mActivity.setResult(RESULT_OK);
                     mActivity.finish();
                 }
             });
 
-            new ImageLoader().execute(imageView, mContext, icons.get(position).getResID());
+            new ImageLoader().execute(imageView, mContext, icons.get(position));
             return imageView;
         }
 
@@ -512,7 +526,10 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
             protected Void doInBackground(Object... params) {
 
                 image = (ImageView) params[0];
-                icon = ((Context) params[1]).getResources().getDrawable((Integer) params[2]);
+                IconPreview iconPreview = (IconPreview) params[2];
+                icon = iconPreview.getIcon() != null
+                        ? iconPreview.getIcon()
+                        : ((Context) params[1]).getResources().getDrawable(iconPreview.getResID());
                 return null;
             }
 

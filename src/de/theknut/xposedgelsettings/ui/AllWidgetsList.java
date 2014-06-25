@@ -70,12 +70,9 @@ public class AllWidgetsList extends ListActivity {
 		super.onPause();
 		
 		// save our new list
-		SharedPreferences prefs = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
-		SharedPreferences.Editor editor = prefs.edit();
-		editor.remove("hiddenwidgets");
-		editor.apply();
-		editor.putStringSet("hiddenwidgets", hiddenWidgets);
-		editor.apply();
+		SharedPreferences.Editor editor = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).edit();
+		editor.remove("hiddenwidgets").commit();
+		editor.putStringSet("hiddenwidgets", hiddenWidgets).commit();
 	}
 	
 	@SuppressLint("WorldReadableFiles")

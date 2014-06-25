@@ -209,6 +209,11 @@
         <item>OPEN_APPDRAWER</item>
         <item>TOGGLE_DOCK</item>
     </string-array>
+    <string-array name="smartfoldermode_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
     <string-array name="premiumArray">
         <item>a Paulaner beer</item>
         <item>two German Bratwursts</item>

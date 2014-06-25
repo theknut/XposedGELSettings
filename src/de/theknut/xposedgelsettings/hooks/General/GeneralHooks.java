@@ -2,6 +2,7 @@ package de.theknut.xposedgelsettings.hooks.general;
 
 import android.animation.TimeInterpolator;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.View;
@@ -24,6 +25,7 @@ import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
+import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
 public class GeneralHooks extends HooksBaseClass {
@@ -39,8 +41,35 @@ public class GeneralHooks extends HooksBaseClass {
 				Common.LAUNCHER_INSTANCE = param.thisObject;
 				Common.LAUNCHER_CONTEXT = (Context) callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherGetApplicationContext);
 			}
-		});		
-		
+        });
+
+        if (PreferencesHelper.overrideSettingsButton) {
+            XC_MethodHook overriderSettingsHook = new XC_MethodHook() {
+
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    Intent startMain = new Intent(Intent.ACTION_MAIN);
+                    startMain.addCategory(Intent.CATEGORY_HOME);
+                    startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    callMethod(Common.LAUNCHER_INSTANCE, "startActivity", startMain);
+
+                    Intent LaunchIntent = Common.LAUNCHER_CONTEXT.getPackageManager().getLaunchIntentForPackage(Common.PACKAGE_NAME);
+                    callMethod(Common.LAUNCHER_INSTANCE, "startActivity", LaunchIntent);
+                    param.setResult(null);
+                }
+            };
+
+            if (Common.PACKAGE_OBFUSCATED) {
+                try {
+                    findAndHookMethod(findClass("pu", lpparam.classLoader), "onClick", View.class, overriderSettingsHook);
+                } catch (NoSuchMethodError nsme) {
+                    findAndHookMethod(findClass("td", lpparam.classLoader), "onClick", View.class, overriderSettingsHook);
+                }
+            } else {
+                findAndHookMethod(Classes.Launcher, "startSettings", overriderSettingsHook);
+            }
+        }
+
 		if (PreferencesHelper.enableRotation) {
 			// enable rotation
 			XposedBridge.hookAllMethods(Classes.Launcher, Methods.launcherIsRotationEnabled, new IsRotationEnabledHook());			

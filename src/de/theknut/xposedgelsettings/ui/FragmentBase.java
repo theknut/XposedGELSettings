@@ -67,7 +67,8 @@ public class FragmentBase extends PreferenceFragment {
     	
 		@Override
 		public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-    		
+
+            sharedPreferences.edit().commit();
     		if (keys.contains(key)) return;
             
     		if (!sharedPreferences.getBoolean("dontshowkilldialog", false) && !alertShown) {

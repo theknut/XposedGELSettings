@@ -97,7 +97,7 @@ public class IconHooks extends HooksBaseClass {
             if (action.equals(Intent.ACTION_DATE_CHANGED)
                 || action.equals(Intent.ACTION_TIME_CHANGED)
                 || action.equals(Intent.ACTION_TIMEZONE_CHANGED)) {
-                
+
                 if (IconPack.getDayOfMonth() != Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) {
                     iconPack.onDateChanged();
                     checkCalendarApps();
@@ -108,7 +108,7 @@ public class IconHooks extends HooksBaseClass {
     };
     
 	public static void initAllHooks(LoadPackageParam lpparam) {
-	    
+
 	    if (PreferencesHelper.iconpack == Common.ICONPACK_DEFAULT) {
 	        
 	        for (ResolveInfo r : getCalendars()) {
@@ -250,10 +250,13 @@ public class IconHooks extends HooksBaseClass {
                 if (pkg.equals("android")) return;
 
                 PackageManager pkgMgr = iconPack.getContext().getPackageManager();
-                log(" " + pkgMgr + " " + pkg );
-                ComponentName cmpName = pkgMgr.getLaunchIntentForPackage(pkg).getComponent();
 
-                Drawable icon = iconPack.loadIcon(cmpName.flattenToString());
+                try {
+                    // try to get a more precise packagename
+                    pkg = pkgMgr.getLaunchIntentForPackage(pkg).getComponent().flattenToString();
+                } catch (Exception ex) { }
+
+                Drawable icon = iconPack.loadIcon(pkg);
                 if (icon == null && !iconPack.isAppFilterLoaded()) return;
 
                 if (icon == null) {
@@ -267,13 +270,13 @@ public class IconHooks extends HooksBaseClass {
                         Icon newIcon = new Icon(pkg, icon);
                         iconPack.getIcons().add(newIcon);
                         param.setResult(icon);
-                        if (DEBUG) log("Res R: Loaded Themed Icon Replacement for " + cmpName.flattenToString() + " took " + (System.currentTimeMillis() - time) + "ms");
+                        if (DEBUG) log("Res R: Loaded Themed Icon Replacement for " + pkg + " took " + (System.currentTimeMillis() - time) + "ms");
                     } catch (NameNotFoundException nnfe) {
-                        if (DEBUG) log("Res R: Couldn't load Icon Replacement for " + cmpName.flattenToString());
+                        if (DEBUG) log("Res R: Couldn't load Icon Replacement for " + pkg);
                     }                    
                 } else {
                     param.setResult(icon);
-                    if (DEBUG) log("Res R: Loaded Icon Replacement for " + cmpName.flattenToString() + " took " + (System.currentTimeMillis() - time) + "ms");
+                    if (DEBUG) log("Res R: Loaded Icon Replacement for " + pkg + " took " + (System.currentTimeMillis() - time) + "ms");
                 }
             }
         });

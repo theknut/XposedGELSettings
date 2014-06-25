@@ -331,7 +331,7 @@
     <string name="pref_icon_premium_title">Prémiová funkcia</string>
     <string name="pref_icon_premium_summary">Táto funkcia je dostupná len v XGELS Prémium.</string>
     <string name="pref_icon_support_title">Štatistiky</string>
-    <string name="pref_icon_support_summary">Podporované ikony: %1$d z %2$d\nIkon celkovo: %3$d</string>
+    <string name="pref_icon_support_summary">Dynamic calendar: %1$s\n%2$d z %3$d\nIkon celkovo: %4$d</string>
     <string name="pref_icon_auto_apply_title">Automaticky použiť</string>
     <string name="pref_icon_auto_apply_summary">Automaticky použiť nové alebo aktualizované balíky ikon</string>
     

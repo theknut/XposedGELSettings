@@ -1,0 +1,198 @@
+Manifest-Version: 1.0
+Created-By: 1.0 (Android)
+
+Name: res/xml/notificationbadges_fragment.xml
+SHA1-Digest: 2DLxA0F069Ox1eAbR/E44yo3IuE=
+
+Name: res/drawable-hdpi-v4/ic_allapps.png
+SHA1-Digest: /fe34w3JYt7ws/0Y5SbrQxOhpT4=
+
+Name: res/drawable/rounded_corners.xml
+SHA1-Digest: 8Ir61t7a4Ze26DDVx8rgBvAnUMA=
+
+Name: res/xml/premium_fragment.xml
+SHA1-Digest: 06Sw//orI8bOeSb24gDKP9RsBWA=
+
+Name: res/drawable-hdpi-v4/wall.png
+SHA1-Digest: XM59VL87BXTkzCcWQPmYvz6iRg8=
+
+Name: res/layout/dialog_whatsnew.xml
+SHA1-Digest: xXS9tTzZx1faY5PmyJN5JP3oEJs=
+
+Name: res/drawable-xhdpi-v4/drawer_shadow.9.png
+SHA1-Digest: HFB3sMO4IcAktIHBZLzlYgXun9Q=
+
+Name: res/layout/allappslist.xml
+SHA1-Digest: E4jALbz3S7v2xXFwmayOUsaVhaU=
+
+Name: res/drawable-hdpi-v4/ic_action_remove.png
+SHA1-Digest: pABpEb1afSQ9D7x0vCaKnjSTVDM=
+
+Name: res/drawable-hdpi-v4/drawer_shadow.9.png
+SHA1-Digest: 5llgnDP3iZ6t8kEb6+V9mNPUAmU=
+
+Name: res/drawable-mdpi-v4/ic_launcher.png
+SHA1-Digest: xdUV1JRdHMEGZ+pv+C/0phWcLr4=
+
+Name: res/xml/appdrawer_fragment.xml
+SHA1-Digest: bxcOpSK1Fj6hKBMUfsVYYwytNtA=
+
+Name: res/xml/gestures_fragment.xml
+SHA1-Digest: 43aQRitJJVlJdwHtoBw1D4ZKrPQ=
+
+Name: res/drawable-hdpi-v4/ic_action_delete.png
+SHA1-Digest: LHwiwPo2HA6pF/Ie5rc/bUu7fSo=
+
+Name: res/layout/icon_fragment.xml
+SHA1-Digest: pAJyhmJ4GGgJ0t073It/9ABEyeg=
+
+Name: res/layout/options_fragment.xml
+SHA1-Digest: Oh0gqvZYnpH0tq0nS6C1FoxcnFw=
+
+Name: res/xml/homescreen_fragment.xml
+SHA1-Digest: VkHVL7XeBRdX/ZuixOkfhX47bNU=
+
+Name: res/xml/reverseengineering_fragment.xml
+SHA1-Digest: dcWaaO6wDxiJGNeH5gJzXw6O22w=
+
+Name: res/xml/general_fragment.xml
+SHA1-Digest: t2KwxNYmvckulQ0hGoPGxjoFlvk=
+
+Name: res/drawable-hdpi-v4/portal_ring_inner_holo.png
+SHA1-Digest: VtBZGzyqYFdi3Wq+g0O61vVWens=
+
+Name: res/layout/group_row.xml
+SHA1-Digest: Rt9DjTxj0/MXtt8DDe0aHKmVwMU=
+
+Name: res/raw/changelog.txt
+SHA1-Digest: bw5mGSecf6XX5zmLim8TIu9/IA4=
+
+Name: res/xml/searchbar_fragment.xml
+SHA1-Digest: f0FjbZpV02AlclqcuGxlPFfxvHc=
+
+Name: res/drawable-hdpi-v4/ic_home_all_apps_holo_dark.png
+SHA1-Digest: UCup8K6a2n92LDa3YGZKAFMKJR8=
+
+Name: res/xml/settings_fragment.xml
+SHA1-Digest: vp4rqMFkdyJLtOIqPdqtJKOenF0=
+
+Name: res/drawable-xxhdpi-v4/ic_launcher_mail.png
+SHA1-Digest: C1SBAIAIkAWg/6pvGjNj/bvcKkU=
+
+Name: res/drawable-xhdpi-v4/ic_launcher.png
+SHA1-Digest: nac+G7ij9ZNPU1w6lRTNdo+Ihf8=
+
+Name: res/animator/slide_in_left.xml
+SHA1-Digest: 0ZHmRH1ba4cwho/8GDInhGA8HR4=
+
+Name: res/drawable-mdpi-v4/ic_drawer.png
+SHA1-Digest: avlXkQp1YWAufGsapRQPu3uvDgs=
+
+Name: res/layout/row.xml
+SHA1-Digest: Pnh8und2Zfkr6Bi7cAUSAJqEnqA=
+
+Name: res/layout/child_row.xml
+SHA1-Digest: H7SgGrBi65+eBya3/f1FySKzCqU=
+
+Name: res/layout/notificationbadges_fragment.xml
+SHA1-Digest: S1WNqybxd44Bng1KKz7eJ8ZLcSg=
+
+Name: res/drawable-xxhdpi-v4/ic_launcher.png
+SHA1-Digest: KXFd79Qx1E2rlKr0i8shIB2uk68=
+
+Name: res/drawable-xhdpi-v4/ic_drawer.png
+SHA1-Digest: lfux935XI0S6WkHCj9Qm+wnWNh8=
+
+Name: res/xml/systemui_fragment.xml
+SHA1-Digest: d/iQvaBFLY9ahS3mEpALMl8SxxY=
+
+Name: res/layout/dialog_with_checkbox.xml
+SHA1-Digest: pG6XBhNhx7MiUYZoy8SCLy78K8Q=
+
+Name: res/color/color.xml
+SHA1-Digest: O7Z0yYkos1Ix+MYYs6Jah1739E0=
+
+Name: res/xml/backuprestore_fragment.xml
+SHA1-Digest: ffiCZsB7t1mARe/2uzcrGdMeGXM=
+
+Name: resources.arsc
+SHA1-Digest: Xc79cx3xZAAn3kCxnlMqTUpTtyU=
+
+Name: res/drawable-hdpi-v4/ic_launcher.png
+SHA1-Digest: s4n05qcgqhsFsBGJDGLAgxJ2EYU=
+
+Name: res/layout/expandablelistview.xml
+SHA1-Digest: FQXhtjVevmQL8ABwrtofsS1WevQ=
+
+Name: res/xml/icon_fragment.xml
+SHA1-Digest: Ox6tCF0AOMvJL5WRYjZ3DGocUVE=
+
+Name: AndroidManifest.xml
+SHA1-Digest: QUW7exD4nuGN9vDRgNDyiLSVNjU=
+
+Name: res/animator/slideinright.xml
+SHA1-Digest: B92I0pqAW8FF9bODZLUebBVDDSM=
+
+Name: res/drawable-hdpi-v4/ic_menu_refresh.png
+SHA1-Digest: ZLX0F9I0VSFkUvSR41W7Ri3IxTg=
+
+Name: res/drawable-hdpi-v4/navbar_power_icon.png
+SHA1-Digest: /ugz6PLXDyYCaHiWAhhj3Ame7vE=
+
+Name: res/drawable-hdpi-v4/ic_drawer.png
+SHA1-Digest: N1cYKhdG4FxyffOSW19K1zGrDoc=
+
+Name: res/drawable-hdpi-v4/ic_launcher_mail.png
+SHA1-Digest: 6v9y2XmZLFLXLXgpdkSmrl+BuXE=
+
+Name: assets/xposed_init
+SHA1-Digest: rpJZCKxlBHNScn9NSogkfZx+tSc=
+
+Name: res/layout/welcome.xml
+SHA1-Digest: ysRhsOi2lZRQ/1JhXiBtfVYBR2I=
+
+Name: res/menu/menu.xml
+SHA1-Digest: /QoHTzG8Gkg+UfVJd1qkYbYw+Ww=
+
+Name: res/drawable-hdpi-v4/navbar_clear_icon.png
+SHA1-Digest: x3zA/KfN1ZhylbVe5Vwxg3fiy+0=
+
+Name: res/animator/slide_out_right.xml
+SHA1-Digest: rSy2XmE3bvq6eu4c59ZJeUa7hTg=
+
+Name: res/drawable-mdpi-v4/drawer_shadow.9.png
+SHA1-Digest: aA7h/LFLtDM+lcUwERanRQ/MOl8=
+
+Name: res/drawable-hdpi-v4/focused_bg.png
+SHA1-Digest: AQlWX9VHernuaB6WZ22y5mkDB44=
+
+Name: res/layout/selectiveicon.xml
+SHA1-Digest: r6jwxUOE2j5tXWfYzEEFUi55LrI=
+
+Name: classes.dex
+SHA1-Digest: YCsTE9QNi6ZQMDrtYtHkCB7Dt6w=
+
+Name: res/layout/dialog_color_picker.xml
+SHA1-Digest: eYKsdpO+6gPmYmHwv5HEZ5VW8SY=
+
+Name: res/layout/badge.xml
+SHA1-Digest: 60BN0QgiaIKN5ei4Q+rekumzcRs=
+
+Name: res/menu/icon_menu.xml
+SHA1-Digest: sYkbjvF0RqEjK8bUJ9cKTl4HwUo=
+
+Name: res/layout/drawer_list_item.xml
+SHA1-Digest: YBiZjC5jrVSN4v0LZwL04QvpcNs=
+
+Name: res/drawable/focusable_view_bg.xml
+SHA1-Digest: 5DsZPWzrrVO6aCjgyYisbDRL4Ms=
+
+Name: res/drawable-mdpi-v4/ic_launcher_mail.png
+SHA1-Digest: V5QaSY72czx0xl1F98J3KjBnPU4=
+
+Name: res/layout/activity_main.xml
+SHA1-Digest: DhMdLfcEczttyuJiiY5/cJ0NXxw=
+
+Name: res/drawable-xhdpi-v4/ic_launcher_mail.png
+SHA1-Digest: xCBHVZBYHbMayLLRhS4TeeN5WVw=
+

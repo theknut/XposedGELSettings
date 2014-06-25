@@ -11,6 +11,9 @@ import android.content.pm.ResolveInfo;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -25,6 +28,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import de.theknut.xposedgelsettings.R;
+import de.theknut.xposedgelsettings.ui.ImageLoader.ViewHolder;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.icon.IconPack;
 
@@ -32,7 +36,6 @@ import de.theknut.xposedgelsettings.hooks.icon.IconPack;
 public class ChooseAppList extends ListActivity {
 
     AppArrayAdapter adapter;
-    SharedPreferences prefs;
     String prefKey;
     Intent intent;
 
@@ -40,8 +43,6 @@ public class ChooseAppList extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        prefs = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
 
         getListView().setCacheColorHint(CommonUI.UIColor);
         getListView().setBackgroundColor(CommonUI.UIColor);
@@ -64,6 +65,7 @@ public class ChooseAppList extends ListActivity {
     SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+
             if (sharedPreferences.getBoolean("autokilllauncher", false)) {
                 CommonUI.restartLauncher(false);
             }
@@ -83,22 +85,38 @@ public class ChooseAppList extends ListActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        if (prefKey == null) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.chooseapp_menu, menu);
+        }
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            // action with ID action_refresh was selected
+            case R.id.action_reset_all:
+                SharedPreferences.Editor editor = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).edit();
+                editor.remove("selectedicons").commit();
+                adapter.notifyDataSetChanged();
+                break;
+            default:
+                break;
+        }
+
+        return true;
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && adapter != null) {
             adapter.notifyDataSetChanged();
-        }
-    }
-
-    public static class ViewHolder {
-        ImageView imageView;
-        TextView textView;
-        CheckBox checkBox;
-        ImageButton delete;
-        String cmpName;
-
-        public void loadImageAsync(PackageManager pm, ResolveInfo item, ChooseAppList.ViewHolder holder, IconPack iconPack) {
-            new ImageLoader(pm, item, holder, iconPack).execute();
         }
     }
 
@@ -117,10 +135,8 @@ public class ChooseAppList extends ListActivity {
 
                 SharedPreferences prefs = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
                 SharedPreferences.Editor editor = prefs.edit();
-                editor.remove(prefKey + "_launch");
-                editor.apply();
-                editor.putString(prefKey + "_launch", ((ViewHolder) v.getTag()).cmpName);
-                editor.apply();
+                editor.remove(prefKey + "_launch").commit();
+                editor.putString(prefKey + "_launch", ((ViewHolder) v.getTag()).cmpName).commit();
                 setResult(RESULT_OK, intent);
                 ChooseAppList.this.finish();
             }
@@ -161,32 +177,52 @@ public class ChooseAppList extends ListActivity {
                 holder.textView = (TextView) rowView.findViewById(R.id.name);
                 holder.checkBox = (CheckBox) rowView.findViewById(R.id.checkbox);
                 holder.delete = (ImageButton) rowView.findViewById(R.id.deletebutton);
+                holder.selectedIcon = (ImageView) rowView.findViewById(R.id.selectedicon);
+                holder.checkBox.setVisibility(View.GONE);
 
                 if (CommonUI.TextColor == -1) {
                     CommonUI.TextColor = holder.textView.getCurrentTextColor();
                 }
 
-                if (iconPack == null) {
-                    holder.imageView.setImageDrawable(item.loadIcon(pm));
-                } else {
-                    String cmpName = new ComponentName(item.activityInfo.packageName, item.activityInfo.name).flattenToString();
-                    holder.imageView.setImageDrawable(
-                            iconPack == null ?
-                            item.loadIcon(pm)
-                            : iconPack.loadIcon(cmpName)
-                    );
-                }
+                String cmpName = new ComponentName(item.activityInfo.packageName, item.activityInfo.name).flattenToString();
+                holder.imageView.setImageDrawable(
+                        iconPack == null
+                                ? item.loadIcon(pm)
+                                : iconPack.loadIcon(cmpName)
+                );
 
                 rowView.setTag(holder);
             }
 
             holder = (ViewHolder) rowView.getTag();
             holder.textView.setText(item.loadLabel(pm));
-            holder.checkBox.setVisibility(View.GONE);
+
+            if (prefKey != null) {
+                holder.cmpName = item.activityInfo.packageName;
+                rowView.setOnClickListener(onClickListener);
+            } else {
+                String cmpName = new ComponentName(item.activityInfo.packageName, item.activityInfo.name).flattenToString();
+                holder.cmpName = cmpName;
+                holder.delete.setTag(cmpName);
+
+                boolean visible = false;
+                SharedPreferences prefs = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
+                HashSet<String> selectedIcons = (HashSet<String>) prefs.getStringSet("selectedicons", new HashSet<String>());
+                for (String selectedIcon : selectedIcons) {
+                    if (selectedIcon.split("\\|")[0].equals(cmpName)) {
+                        visible = true;
+                    }
+                }
+
+                holder.delete.setVisibility(visible ? View.VISIBLE : View.GONE);
+                holder.selectedIcon.setVisibility(visible ? View.VISIBLE : View.GONE);
+                rowView.setOnClickListener(onClickListenerApp);
+            }
 
             holder.delete.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    SharedPreferences prefs = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
                     SharedPreferences.Editor editor = prefs.edit();
                     String key = "selectedicons";
                     String appComponentName = (String) v.getTag();
@@ -200,35 +236,13 @@ public class ChooseAppList extends ListActivity {
                         }
                     }
 
-                    editor.remove(key);
-                    editor.apply();
-                    editor.putStringSet(key, selectedIcons);
-                    editor.apply();
+                    editor.remove(key).commit();
+                    editor.putStringSet(key, selectedIcons).commit();
 
                     notifyDataSetChanged();
                 }
             });
             holder.loadImageAsync(pm, item, holder, iconPack);
-
-            if (prefKey != null) {
-                holder.cmpName = item.activityInfo.packageName;
-                rowView.setOnClickListener(onClickListener);
-            } else {
-                String cmpName = new ComponentName(item.activityInfo.packageName, item.activityInfo.name).flattenToString();
-                holder.cmpName = cmpName;
-                holder.delete.setTag(cmpName);
-
-                boolean visible = false;
-                HashSet<String> selectedIcons = (HashSet<String>) prefs.getStringSet("selectedicons", new HashSet<String>());
-                for (String selectedIcon : selectedIcons) {
-                    if (selectedIcon.split("\\|")[0].equals(cmpName)) {
-                        visible = true;
-                    }
-                }
-
-                holder.delete.setVisibility(visible ? View.VISIBLE : View.GONE);
-                rowView.setOnClickListener(onClickListenerApp);
-            }
 
             return rowView;
         }

@@ -1,6 +1,8 @@
 package de.theknut.xposedgelsettings.hooks.icon;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
@@ -35,7 +37,7 @@ import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.ui.CommonUI;
 
 public class IconPack {
-    
+
     static final String ICONBACK = "iconback";
     static final String ICONMASK = "iconmask";
     static final String ICONUPON = "iconupon";
@@ -43,7 +45,7 @@ public class IconPack {
     static final int COMPONENTNAME = 0;
     static final int ICONPACKNAME = 1;
     static final int DRAWABLENAME = 2;
-    
+
     private List<IconInfo> appFilter;
     private List<Icon> icons;
     private List<IconInfo> calendarIcon;
@@ -57,16 +59,16 @@ public class IconPack {
     private Context context;
     private Random rand;
     private int launcherDPI;
-    
+
     private HashMap<String, Drawable> iconUponMask;
     private List<Drawable> iconBack;
     private Bitmap iconMask, iconUpon;
     private Canvas mCanvas = new Canvas();
     private Paint mPaint = new Paint(Paint.FILTER_BITMAP_FLAG);
     private Paint mMaskPaint = new Paint();
-    
+
     private static int dayOfMonth;
-    
+
     public IconPack(Context context, String packageName) throws NameNotFoundException {
         this.packageName = packageName;
         this.launcherDPI = context.getResources().getDisplayMetrics().densityDpi;
@@ -75,7 +77,7 @@ public class IconPack {
         this.calendarIcon = new ArrayList<IconInfo>();
         setDayOfMonth(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
         mMaskPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
-        
+
         if (!packageName.equals(Common.ICONPACK_DEFAULT)) {
             this.iconUponMask = new HashMap<String, Drawable>();
             this.appFilter = new ArrayList<IconInfo>();
@@ -89,15 +91,15 @@ public class IconPack {
             this.resources = this.context.getResources();
         }
     }
-    
+
     public Context getContext() {
         return context;
     }
-    
+
     public Resources getResources() {
         return resources;
     }
-    
+
     public List<Icon> getIcons() {
         return icons;
     }
@@ -113,79 +115,79 @@ public class IconPack {
     public String getPackageName() {
         return packageName;
     }
-    
+
     public float getScaleFactor() {
         return scaleFactor;
     }
-    
+
     public void setScaleFactor(float scaleFactor) {
         this.scaleFactor = scaleFactor;
-    }    
-    
+    }
+
     public Drawable getIconMask() {
         return this.iconUponMask.get(ICONMASK);
     }
-    
+
     public Bitmap getIconMaskBitmap() {
         if (iconMask == null) {
             iconMask = CommonUI.drawableToBitmap(getIconMask());
         }
-        
+
         return iconMask;
     }
-    
+
     public boolean hasIconMask() {
         return this.iconUponMask != null && this.iconUponMask.get(ICONMASK) != null;
     }
-    
+
     public boolean hasIconBack() {
         return this.iconBack != null && this.iconBack.size() != 0;
     }
-    
+
     public boolean hasIconUpon() {
         return this.iconUponMask != null && this.iconUponMask.get(ICONUPON) != null;
     }
-    
+
     public Drawable getIconBack() {
         return this.iconBack.get(this.rand.nextInt(this.iconBack.size()));
     }
-    
+
     public Bitmap getIconBackBitmap() {
         return CommonUI.drawableToBitmap(getIconBack());
     }
-    
+
     public Bitmap getIconUponBitmap() {
         if (iconUpon == null) {
             iconUpon = CommonUI.drawableToBitmap(this.iconUponMask.get(ICONUPON));
         }
-        
+
         return iconUpon;
     }
-    
+
     public List<IconInfo> getCalendarIcons() {
         return this.calendarIcon;
     }
-    
+
     public int getDPI() {
         return launcherDPI;
     }
-    
+
     public static int getDayOfMonth() {
         return IconPack.dayOfMonth;
     }
-    
+
     public static void updateDayOfMonth() {
         IconPack.dayOfMonth = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
     }
-    
+
     public void setDayOfMonth(int dayOfMonth) {
         IconPack.dayOfMonth = dayOfMonth;
     }
-    
+
     public boolean shouldThemeMissingIcons() {
         return hasIconBack() || hasIconMask() || hasIconUpon();
     }
-    
+
     public boolean isAppFilterLoaded() {
         return (appFilter != null && appFilter.size() != 0)
                 || shouldThemeMissingIcons();
@@ -206,40 +208,42 @@ public class IconPack {
             }
         }
     }
-    
+
     public Bitmap themeIcon(Bitmap tmpIcon) {
-        Bitmap tmpFinalIcon = Bitmap.createBitmap(tmpIcon.getWidth(), tmpIcon.getHeight(), Config.ARGB_8888);        
+        Bitmap tmpFinalIcon = Bitmap.createBitmap(tmpIcon.getWidth(), tmpIcon.getHeight(), Config.ARGB_8888);
         drawFinalIcon(tmpFinalIcon, tmpIcon);
         return tmpFinalIcon;
     }
-    
-    private void drawFinalIcon(Bitmap finalIcon, Bitmap originalIcon) {         
-        
+
+    private void drawFinalIcon(Bitmap finalIcon, Bitmap originalIcon) {
+
         Canvas c = new Canvas();
         c.setBitmap(finalIcon);
-        
+
         if (hasIconBack()) {
-            Bitmap iconBack = Bitmap.createScaledBitmap(getIconBackBitmap(), originalIcon.getWidth(), originalIcon.getHeight(), true);                
+            Bitmap iconBack = Bitmap.createScaledBitmap(getIconBackBitmap(), originalIcon.getWidth(), originalIcon.getHeight(), true);
             c.drawBitmap(iconBack, 0, 0, mPaint);
+        } else {
+            setScaleFactor(1.0f);
         }
-        
+
         if (hasIconMask()) {
             Bitmap iconMask = Bitmap.createScaledBitmap(getIconMaskBitmap(), originalIcon.getWidth(), originalIcon.getHeight(), true);
             Bitmap tmpMask = Bitmap.createBitmap(iconMask.getWidth(), iconMask.getHeight(), Config.ARGB_8888);
             applyMaskToBitmap(tmpMask, originalIcon, iconMask, getScaleFactor());
             c.drawBitmap(tmpMask, 0, 0, mPaint);
-        } else {                    
+        } else {
             applyScaleFactor(c, finalIcon, originalIcon, getScaleFactor());
         }
-        
+
         if (hasIconUpon()) {
             Bitmap iconUpon = Bitmap.createScaledBitmap(getIconUponBitmap(), originalIcon.getWidth(), originalIcon.getHeight(), true);
             c.drawBitmap(iconUpon, 0, 0, mPaint);
         }
-        
+
         c.setBitmap(null);
     }
-    
+
     // Copyright Kevin Barry, TeslaCoil Software
     private void applyMaskToBitmap(Bitmap dst, Bitmap src, Bitmap mask, float scale) {
         if (dst != null) {
@@ -247,12 +251,12 @@ public class IconPack {
             c.setBitmap(dst);
 
             applyScaleFactor(c, dst, src, scale);
-            
-            c.drawBitmap(mask, 0, 0, mMaskPaint);                    
+
+            c.drawBitmap(mask, 0, 0, mMaskPaint);
             c.setBitmap(null);
         }
     }
-    
+
     // Copyright Kevin Barry, TeslaCoil Software
     private void applyScaleFactor(Canvas c, Bitmap dst, Bitmap src, float scale) {
         c.save();
@@ -262,11 +266,11 @@ public class IconPack {
         int scaledW = dst.getScaledWidth(c);
         int scaledH = dst.getScaledHeight(c);
         int l = - scaledW/2;
-        int t = - scaledH/2;                    
+        int t = - scaledH/2;
         c.drawBitmap(src, l, t, mPaint);
         c.restore();
     }
-    
+
     public Drawable loadIcon(String pkg) {
 
         for (Icon icon : getIcons()) {
@@ -276,12 +280,26 @@ public class IconPack {
         }
 
         if (isAppFilterLoaded()) {
-
             int id = getResourceIdForDrawable(pkg);
             if (id != 0) {
                 Icon icon = new Icon(pkg, resources.getDrawableForDensity(id, getDPI()));
                 getIcons().add(icon);
                 return icon.getIcon();
+            }
+        } else if (isDefault()) {
+            try {
+                PackageManager pkgMgr = getContext().getPackageManager();
+                Intent launchIntent = pkgMgr.getLaunchIntentForPackage(
+                        pkg.contains("/")
+                                ? pkg.substring(0, pkg.indexOf("/"))
+                                : pkg
+                );
+
+                Icon icon = new Icon(pkg, pkgMgr.getActivityIcon(launchIntent));
+                getIcons().add(icon);
+                return icon.getIcon();
+            } catch (NameNotFoundException e) {
+                e.printStackTrace();
             }
         }
 
@@ -298,59 +316,78 @@ public class IconPack {
     }
 
     public Drawable loadSingleIconFromIconPack(String iconPackPackageName, String componentName, String drawableName) {
+        return loadSingleIconFromIconPack(iconPackPackageName, componentName, drawableName, true);
+    }
+
+    public Drawable loadSingleIconFromIconPack(String iconPackPackageName, String componentName, String drawableName, boolean addToCache) {
         Resources res = getResources();
-        if (!iconPackPackageName.equals(getPackageName())) {
+        int id = 0;
+
+        if (isDefault(iconPackPackageName)) {
             try {
+                iconPackPackageName = drawableName.substring(0, drawableName.indexOf(":"));
                 Context iconPackContext = getContext().createPackageContext(iconPackPackageName, Context.CONTEXT_IGNORE_SECURITY);
                 res = iconPackContext.getResources();
+                drawableName = drawableName.split("/")[1];
+                id = res.getIdentifier(drawableName, "drawable", iconPackPackageName);
             } catch (NameNotFoundException e) {
                 e.printStackTrace();
             }
+        } else {
+            if (!iconPackPackageName.equals(getPackageName())) {
+                try {
+                    Context iconPackContext = getContext().createPackageContext(iconPackPackageName, Context.CONTEXT_IGNORE_SECURITY);
+                    res = iconPackContext.getResources();
+                } catch (NameNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            id = res.getIdentifier(drawableName, "drawable", iconPackPackageName);
         }
 
-        int id = res.getIdentifier(drawableName, "drawable", iconPackPackageName);
         if (id != 0) {
-            Icon icon = new Icon(componentName, res.getDrawableForDensity(id, getDPI()));
-            getIcons().add(icon);
-            return icon.getIcon();
+            Drawable icon = res.getDrawableForDensity(id, getDPI());
+            if (addToCache) getIcons().add(new Icon(componentName, icon));
+            return icon;
         }
 
         return null;
     }
-    
+
     public int getResourceIdForDrawable(String pkg) {
         List<String> history = new ArrayList<String>();
         int id = 0;
-        
+
         while (true) {
             String drawableName = getDrawableName(pkg, history);
 
             if (drawableName != "") {
                 id = resources.getIdentifier(drawableName, "drawable", getPackageName());
-                
+
                 if (id == 0) {
                     history.add(drawableName);
                     continue;
                 }
-                
+
                 return id;
             } else {
                 break;
             }
         }
-        
+
         return 0;
     }
-    
+
     public String getDrawableName(String pkg, List<String> history) {
         String name = getIconNameExact(pkg, history);
         if (name == "") {
             name = getIconNameRelative(pkg, history);
         }
-        
+
         return name;
     }
-    
+
     public String getIconNameExact(String pkg, List<String> history) {
 
         for (IconInfo icon : appFilter) {
@@ -358,27 +395,27 @@ public class IconPack {
                 return icon.getDrawableName();
             }
         }
-        
+
         return "";
     }
-    
+
     public String getIconNameRelative(String pkg, List<String> history) {
 
         for (IconInfo icon : appFilter) {
-            
+
             String iconName = pkg;
             if (iconName.contains("/")) {
                 iconName = iconName.substring(0, iconName.indexOf('/'));
             }
-            
+
             if (icon.getComponentName().contains(iconName) && !(history.contains(icon.getDrawableName()))) {
                 return icon.getDrawableName();
             }
         }
-        
+
         return "";
     }
-    
+
     public int getTotalIconCount() {
         List<String> names = new ArrayList<String>();
         for (IconInfo icon : appFilter) {
@@ -386,19 +423,19 @@ public class IconPack {
                 names.add(icon.getDrawableName());
             }
         }
-        
+
         return names.size();
     }
-    
-	public List<IconInfo> loadAppFilter() {
+
+    public List<IconInfo> loadAppFilter() {
         ArrayList<IconInfo> icons = new ArrayList<IconInfo>();
-        
+
         try {
             Context resContext = getContext().createPackageContext(getPackageName(), Context.CONTEXT_IGNORE_SECURITY);
             XmlPullParserFactory factory = null;
             XmlPullParser parser = null;
-            Resources res = resContext.getResources();           
-            
+            Resources res = resContext.getResources();
+
             int resId = res.getIdentifier("appfilter", "xml", packageName);
             if (resId != 0) {
                 parser = res.getXml(resId);
@@ -407,11 +444,11 @@ public class IconPack {
                 parser = factory.newPullParser();
                 parser.setInput(new InputStreamReader(res.getAssets().open("appfilter.xml"), "UTF-8"));
             }
-            
+
             for (int eventType = parser.next(); eventType != XmlPullParser.END_DOCUMENT; eventType = parser.next()) {
                 String name = parser.getName();
                 if (name == null) continue;
-                
+
                 if (name.equalsIgnoreCase("item")) {
                     readIconInfo(parser);
                 } else if (name.equalsIgnoreCase("calendar")) {
@@ -426,10 +463,10 @@ public class IconPack {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            
+
             return null;
         }
-        
+
         return icons;
     }
 
@@ -442,7 +479,7 @@ public class IconPack {
                     .replace("}", "");
             String drawableName = parser.getAttributeValue(null, "drawable");
             appFilter.add(new IconInfo(componentName, drawableName));
-            
+
             parser.nextTag();
             parser.require(XmlPullParser.END_TAG, null, "item");
         } catch (XmlPullParserException e) {
@@ -451,7 +488,7 @@ public class IconPack {
             e.printStackTrace();
         }
     }
-    
+
     private void readCalendarInfo(XmlPullParser parser) {
         try {
             parser.require(XmlPullParser.START_TAG, null, "calendar");
@@ -463,7 +500,7 @@ public class IconPack {
             IconInfo icon = new IconInfo(componentName, null, prefix);
             appFilter.add(0, icon);
             calendarIcon.add(icon);
-            
+
             parser.nextTag();
             parser.require(XmlPullParser.END_TAG, null, "calendar");
         } catch (XmlPullParserException e) {
@@ -489,12 +526,12 @@ public class IconPack {
     }
 
     private void readAndLoadIconBackMaskUpon(String name, Resources res, XmlPullParser parser) {
-        
-        try {            
+
+        try {
             if (name.equals(ICONBACK)) {
-                
+
                 for (int i = 0; i < parser.getAttributeCount(); i++) {
-                    int resID = res.getIdentifier(parser.getAttributeValue(i), "drawable", getPackageName());                    
+                    int resID = res.getIdentifier(parser.getAttributeValue(i), "drawable", getPackageName());
                     if (resID != 0) {
                         iconBack.add(res.getDrawable(resID));
                     }
@@ -505,7 +542,7 @@ public class IconPack {
                     iconUponMask.put(name, res.getDrawable(resID));
                 }
             }
-            
+
             parser.nextTag();
         } catch (NotFoundException e) {
             e.printStackTrace();
@@ -521,6 +558,11 @@ public class IconPack {
         previewIcons = new LinkedHashMap<String, List<IconPreview>>();
         ArrayList<IconPreview> icons = new ArrayList<IconPreview>();
         String currentCategory = null;
+
+        if (isDefault()) {
+            loadDefaultCategories();
+            return;
+        }
 
         try {
             Context resContext = context.createPackageContext(getPackageName(), Context.CONTEXT_IGNORE_SECURITY);
@@ -551,16 +593,47 @@ public class IconPack {
                 }
             }
 
-            if (icons.size() != 0) {
-                if (currentCategory == null) {
-                    currentCategory = "all icons";
-                }
-
-                previewIcons.put(currentCategory, icons);
+            if (currentCategory == null) {
+                currentCategory = "all icons";
             }
+
+            previewIcons.put(currentCategory, icons);
         } catch (Exception e) {
+            loadAppFilter();
+            previewIcons.put("all icons", getIconPreviews(getAppFilter()));
+        }
+    }
+
+    private void loadDefaultCategories() {
+        ArrayList<IconPreview> icons = new ArrayList<IconPreview>();
+
+        try {
+            for (ResolveInfo info : CommonUI.getAllApps()) {
+                Resources res = getContext().createPackageContext(info.activityInfo.packageName, 0).getResources();
+                IconPreview icon = new IconPreview(info.getIconResource(), res.getResourceName(info.getIconResource()));
+                icon.setIcon(res.getDrawable(icon.getResID()));
+                icons.add(icon);
+            }
+        } catch (NameNotFoundException e) {
             e.printStackTrace();
         }
+
+        previewIcons.put("all icons", icons);
+    }
+
+    private ArrayList<IconPreview> getIconPreviews(List<IconInfo> appFilter) {
+        ArrayList<IconPreview> result = new ArrayList<IconPreview>();
+        List<Integer> history = new ArrayList<Integer>();
+
+        for (IconInfo iconInfo : appFilter) {
+            int id = resources.getIdentifier(iconInfo.getDrawableName(), "drawable", getPackageName());
+            if (id != 0 && !history.contains(id)) {
+                history.add(id);
+                result.add(new IconPreview(id, iconInfo.getDrawableName()));
+            }
+        }
+
+        return result;
     }
 
     private String readCategory(XmlPullParser parser, String currentCategory, List<IconPreview> icons) {
@@ -622,5 +695,9 @@ public class IconPack {
 
     public boolean isDefault() {
         return getPackageName().equals(Common.ICONPACK_DEFAULT);
+    }
+
+    public boolean isDefault(String packageName) {
+        return packageName.equals(Common.ICONPACK_DEFAULT);
     }
 }

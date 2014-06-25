@@ -70,7 +70,9 @@ public class FragmentNotificationBadges extends FragmentBase {
 		
 		@Override
 		public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-			List<String> keys = Arrays.asList(presetsPreference.getKey(), "notificationbadge_dialer_launch", "notificationbadge_dialer");
+
+            sharedPreferences.edit().commit();
+            List<String> keys = Arrays.asList(presetsPreference.getKey(), "notificationbadge_dialer_launch", "notificationbadge_dialer");
 			if (keys.contains(key)) return;
 			
 			addIcon();
@@ -220,10 +222,10 @@ public class FragmentNotificationBadges extends FragmentBase {
 				public boolean onPreferenceClick(Preference preference) {
 					SharedPreferences prefs = mContext.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
 					Editor editor = prefs.edit();
-					editor.remove(dialerPref.getKey() + "_launch").apply();
-					editor.putString(dialerPref.getKey() + "_launch", "").apply();
-					editor.remove(smsPref.getKey() + "_launch").apply();
-					editor.putString(smsPref.getKey() + "_launch", "").apply();
+					editor.remove(dialerPref.getKey() + "_launch").commit();
+					editor.putString(dialerPref.getKey() + "_launch", "").commit();
+					editor.remove(smsPref.getKey() + "_launch").commit();
+					editor.putString(smsPref.getKey() + "_launch", "").commit();
 					
 					return true;
 				}
@@ -480,15 +482,12 @@ public class FragmentNotificationBadges extends FragmentBase {
     }
     
     public void changePref(Editor editor, String key, Object value) {
-    	editor.remove(key);
-    	editor.apply();
+    	editor.remove(key).commit();
     	
     	if (value instanceof Integer) {
-    		editor.putInt(key, (Integer) value);
+    		editor.putInt(key, (Integer) value).commit();
     	} else if (value instanceof String) {
-    		editor.putString(key, (String) value);
+    		editor.putString(key, (String) value).commit();
     	}
-    	
-    	editor.apply();
     }
 }

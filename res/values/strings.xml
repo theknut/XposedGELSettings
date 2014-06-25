@@ -329,4 +329,15 @@
     <string name="pref_switch_smart_folder_summary">Touch - launch the first app\nSwipe up - open folder</string>
     <string name="pref_overlapping_widgets_title">Overlapping widgets</string>
     <string name="pref_overlapping_widgets_summary">Allow widgets overlapping each other. This only works on GNL!\n(Beta: Currently the layer position is not saved over reboot)</string>
+
+    <string name="pref_overridesettings_button_title">Settings button</string>
+    <string name="pref_overridesettings_button_summary">Open XGELS instead of Google Now settings</string>
+
+    <string-array name="smartfoldermode_entries">
+        <item>Off</item>
+        <item>Swipe - open folder\nTouch - launch first app</item>
+        <item>Touch - launch first app\nSwipe - open folder</item>
+    </string-array>
+
+    <string name="pref_icon_reset_all">Reset all</string>
 </resources>

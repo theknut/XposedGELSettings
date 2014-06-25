@@ -120,7 +120,7 @@ public class FragmentIcon extends FragmentBase {
             });
         } else {
 
-            HashMap<String, String> iconPacks = new HashMap<String, String>();
+            final HashMap<String, String> iconPacks = new HashMap<String, String>();
             for (String pgk : packages) {
                 try {
                     String iconPackName = (String) packageManager.getApplicationInfo(pgk, 0).loadLabel(packageManager);
@@ -159,6 +159,7 @@ public class FragmentIcon extends FragmentBase {
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     dirty = true;
                     notSupportedIconsList = null;
+                    iconPackList.setEnabled(false);
                     
                     MyListPreference pref = (MyListPreference) preference;
                     String iconPackName = (String) pref.getEntries()[pref.findIndexOfValue((String) newValue)];
@@ -250,14 +251,15 @@ public class FragmentIcon extends FragmentBase {
         
         if (!InAppPurchase.isPremium) {
             iconPackList.setEnabled(false);
-            iconPackSupport.setEnabled(false);
-            findPreference("autoupdateapplyiconpack").setEnabled(false);
-            findPreference("hideiconpacks").setEnabled(false);
-            findPreference("selectiveicon").setEnabled(false);
-            findPreference("allappsbuttonicon").setEnabled(false);
         } else {
             getPreferenceScreen().removePreference(this.findPreference("needsDonate"));
         }
+
+        iconPackSupport.setDependency(iconPackList.getKey());
+        findPreference("autoupdateapplyiconpack").setDependency(iconPackList.getKey());
+        findPreference("hideiconpacks").setDependency(iconPackList.getKey());
+        findPreference("selectiveicon").setDependency(iconPackList.getKey());
+        findPreference("allappsbuttonicon").setDependency(iconPackList.getKey());
         
         rootView = CommonUI.setBackground(rootView, R.id.prefbackground);
         
@@ -276,7 +278,8 @@ public class FragmentIcon extends FragmentBase {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            
+
+            iconPackList.setEnabled(false);
             iconPackSupport.setSummary("Loading...\n\n");
         }
         
@@ -315,6 +318,7 @@ public class FragmentIcon extends FragmentBase {
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             iconPackSupport.setSummary(summary);
+            iconPackList.setEnabled(InAppPurchase.isPremium);
             dirty = false;
         }
     }
@@ -470,9 +474,11 @@ public class FragmentIcon extends FragmentBase {
                     super.onPostExecute(aVoid);
                     CommonUI.LOADING_ICONPACK = false;
 
-                    if (reloadFragment) {
-                        CommonUI.ACTIVITY.getFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentIcon()).commit();
-                    }
+                    try {
+                        if (reloadFragment) {
+                            CommonUI.ACTIVITY.getFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentIcon()).commit();
+                        }
+                    } catch (Exception ex) {}
                 }
             }.execute();
         } catch (Exception ex) {}

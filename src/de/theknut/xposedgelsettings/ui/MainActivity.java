@@ -185,29 +185,6 @@ public class MainActivity extends InAppPurchase {
 	    return true;
     }
     
-//    @Override
-//    public void onInterceptTouchEvent(MotionEvent event) {
-//        
-//        switch (event.getAction() & MotionEvent.ACTION_MASK) {
-//            case MotionEvent.ACTION_DOWN:
-//                downX = event.getRawX();
-//                
-//                break;
-//            case MotionEvent.ACTION_MOVE:
-//                
-//                if ((event.getRawX() - downX) > 100.0f) {
-//                    mDrawerLayout.openDrawer(Gravity.LEFT);
-//                } 
-//                
-//                break;
-//            default:
-//                break;
-//        }
-//    }
-//            
-//        return super.onTouchEvent(event);
-//    }
-    
     /* The click listner for ListView in the navigation drawer */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override

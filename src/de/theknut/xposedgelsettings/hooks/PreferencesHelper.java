@@ -48,7 +48,6 @@ public class PreferencesHelper {
 	public static boolean dynamicBackButtonOnEveryScreen = prefs.getBoolean("dynamicbackbuttononeveryscreen", false);
 
     public static boolean overlappingWidgets = prefs.getBoolean("overlappingwidgets", false);
-    public static boolean homescreenSmartFolder = prefs.getBoolean("homescreensmartfolder", false);
 	public static boolean homescreenFolderSwitch = prefs.getBoolean("homescreenfolderswitch", false);
 	public static boolean homescreenFolderNoLabel = prefs.getBoolean("homescreenfoldernolabel", false);
 	public static boolean gesture_appdrawer = prefs.getBoolean("gesture_appdrawer", false);
@@ -72,6 +71,7 @@ public class PreferencesHelper {
 	public static int defaultHomescreen = Integer.parseInt(prefs.getString("defaulthomescreen", "-1"));
 	public static int workspaceRect = Integer.parseInt(prefs.getString("workspacerect", "1"));
 	public static int homescreenAllAppsPosition = Integer.parseInt(prefs.getString("positionallappsbutton", "-1"));
+    public static int smartFolderMode = Integer.parseInt(prefs.getString("smartfoldermode", "0"));
 	public static double scrolldevider = Integer.parseInt(prefs.getString("scrolldevider", "10"));
 	
 	public static String gesture_one_up_left = prefs.getString("gesture_one_up_left", "NONE");
@@ -102,4 +102,5 @@ public class PreferencesHelper {
 	public static int notificationBadgeBackgroundColor = prefs.getInt("notificationbadgebackgroundcolor", Color.argb(0xA0, 0xD4, 0x49, 0x37));
 	public static int notificationBadgeTextColor = prefs.getInt("notificationbadgetextcolor", Color.argb(0xFF, 0xFF, 0xFF, 0xFF));
 	public static int notificationBadgeFrameColor = prefs.getInt("notificationbadgeframecolor", Color.argb(0xFF, 0xFF, 0xFF, 0xFF));
+    public static boolean overrideSettingsButton = prefs.getBoolean("overridesettingsbutton", false);
 }

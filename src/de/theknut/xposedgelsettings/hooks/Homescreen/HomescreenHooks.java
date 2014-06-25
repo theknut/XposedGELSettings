@@ -69,7 +69,7 @@ public class HomescreenHooks extends HooksBaseClass {
 			findAndHookMethod(Classes.Launcher, Methods.lFinishBindingItems, boolean.class, new FinishBindingItemsHook());
 		}
 
-        if (PreferencesHelper.homescreenSmartFolder) {
+        if (PreferencesHelper.smartFolderMode != 0) {
             findAndHookMethod(Classes.FolderIcon, "onTouchEvent", MotionEvent.class, new SmartFolderHook());
         }
 

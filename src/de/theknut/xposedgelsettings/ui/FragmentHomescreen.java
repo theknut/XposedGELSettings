@@ -50,6 +50,17 @@ public class FragmentHomescreen extends FragmentBase {
                 
                 return true;
             }});
+
+        MyListPreference smartFolderMode = (MyListPreference) findPreference("smartfoldermode");
+        smartFolderMode.setSummary(smartFolderMode.getEntry());
+        smartFolderMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                MyListPreference pref = (MyListPreference) preference;
+                pref.setSummary(pref.getEntries()[pref.findIndexOfValue((String) newValue)]);
+                return true;
+            }
+        });
         
         rootView = CommonUI.setBackground(rootView, R.id.prefbackground);
         
