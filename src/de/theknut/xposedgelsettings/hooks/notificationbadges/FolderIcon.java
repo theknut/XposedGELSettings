@@ -13,7 +13,6 @@ import java.util.List;
 
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
-import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
@@ -90,8 +89,8 @@ public class FolderIcon extends Icon {
 
 			Drawable d = textToDrawable(totalcnt, previewBackground.getDrawable());
 			c.translate(
-                    d.getIntrinsicWidth() + (d.getIntrinsicWidth() - Math.round(d.getIntrinsicWidth() * ((float) PreferencesHelper.iconSize / 100))),
-                    d.getIntrinsicHeight() + (d.getIntrinsicHeight() - Math.round(d.getIntrinsicHeight() * ((float) PreferencesHelper.iconSize / 100)))
+                    d.getIntrinsicWidth()/2,// + (d.getIntrinsicWidth() - Math.round(d.getIntrinsicWidth() * ((float) PreferencesHelper.iconSize / 100))),
+                    d.getIntrinsicHeight()/2// + (d.getIntrinsicHeight() - Math.round(d.getIntrinsicHeight() * ((float) PreferencesHelper.iconSize / 100)))
             );
 			d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
 			d.draw(c);

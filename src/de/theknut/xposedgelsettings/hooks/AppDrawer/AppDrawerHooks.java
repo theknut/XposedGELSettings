@@ -4,6 +4,8 @@ import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.view.View;
 
+import java.util.ArrayList;
+
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
@@ -28,8 +30,7 @@ public class AppDrawerHooks extends HooksBaseClass {
 			
 		if (PreferencesHelper.iconSettingsSwitchApps) {
 			// changing the appearence of the icons in the app drawer
-			
-			XposedBridge.hookAllMethods(Classes.PagedViewIcon, Methods.applyFromApplicationInfo, new ApplyFromApplicationInfoHook());
+            XposedBridge.hookAllMethods(Classes.PagedViewIcon, Methods.applyFromApplicationInfo, new ApplyFromApplicationInfoHook());
 			
 //			if (!PreferencesHelper.appdrawerIconLabelShadow) {
 //				XposedBridge.hookAllMethods(PagedViewIcon, "draw", new DrawHook());
@@ -104,7 +105,10 @@ public class AppDrawerHooks extends HooksBaseClass {
 		}
 		
 		// hiding apps from the app drawer
-		findAndHookMethod(Classes.AllAppsList, Methods.aalAdd, Classes.AppInfo, new AllAppsListAddHook());
+		//findAndHookMethod(Classes.AllAppsList, Methods.aalAdd, Classes.AppInfo, new AllAppsListAddHook());
+        findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvSetApps, ArrayList.class, new AllAppsListAddHook());
+        findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvUpdateApps, ArrayList.class, new AllAppsListAddHook());
+        findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvRemoveApps, ArrayList.class, new AllAppsListAddHook());
 		
 //		final Class<?> CellLayoutClass = findClass(Common.CELL_LAYOUT, lpparam.classLoader);
 //		XposedBridge.hookAllMethods(CellLayoutClass, "onLayout", new XC_MethodHook() {

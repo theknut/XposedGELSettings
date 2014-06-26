@@ -323,5 +323,16 @@
     <string name="pref_switch_smart_folder_summary">Touch - erste App starten\nHochwischen - Ordner öffnen</string>
     <string name="pref_overlapping_widgets_title">Überlagernde Widgets</string>
     <string name="pref_overlapping_widgets_summary">Erlaube das Überlagern von Widgets. Das funktioniert nur mit GNL!\n(Beta: Die Position in der Ebene wird nicht gespeichert!)</string>
+
+    <string name="pref_overridesettings_button_title">Einstellungen Button</string>
+    <string name="pref_overridesettings_button_summary">Öffne XGELS anstatt der Google Now Einstellungen</string>
+
+    <string-array name="smartfoldermode_entries">
+        <item>Aus</item>
+        <item>Wischen - erste App starten\nKlick - Ordner öffnen</item>
+        <item>Klicken - erste App starten\nWischen - Ordner öffnen</item>
+    </string-array>
+
+    <string name="pref_icon_reset_all">Alle zurücksetzen</string>
    
 </resources>

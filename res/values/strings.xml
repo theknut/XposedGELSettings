@@ -335,7 +335,7 @@
 
     <string-array name="smartfoldermode_entries">
         <item>Off</item>
-        <item>Swipe - open folder\nTouch - launch first app</item>
+        <item>Swipe - launch first app\nTouch - open folder</item>
         <item>Touch - launch first app\nSwipe - open folder</item>
     </string-array>
 

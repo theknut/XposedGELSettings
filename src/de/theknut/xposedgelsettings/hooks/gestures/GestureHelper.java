@@ -196,7 +196,7 @@ public class GestureHelper extends HooksBaseClass {
 			     @Override
 			     public void run() {
 			    	 
-			    	 callMethod(Common.LAUNCHER_INSTANCE, "onClickAllAppsButton", new View(context));//, !PreferencesHelper.appdrawerRememberLastPosition);
+			    	 callMethod(Common.LAUNCHER_INSTANCE, "onClickAllAppsButton", new View(context));
 			     }
 		    });
 			

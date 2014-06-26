@@ -3,6 +3,7 @@ package de.theknut.xposedgelsettings.hooks.appdrawer;
 import android.content.ComponentName;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -20,7 +21,7 @@ public final class AllAppsListAddHook extends XC_MethodHook {
 
     List<String> packages = new ArrayList<String>();
     boolean init;
-    final int APPINFO = 0;
+    final int APPINFOLIST = 0;
 	
 	@Override
 	protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
@@ -29,13 +30,19 @@ public final class AllAppsListAddHook extends XC_MethodHook {
             packages = CommonUI.getIconPacks(Common.LAUNCHER_CONTEXT);
         }
 
-		String title = (String) getObjectField(param.args[0], Fields.itemInfoTitle);
-		ComponentName componentName = (ComponentName) getObjectField(param.args[APPINFO], Fields.aiComponentName);
+        ArrayList appInfoList = (ArrayList) param.args[APPINFOLIST];
+        Iterator it = appInfoList.iterator();
 
-		if (PreferencesHelper.hiddenApps.contains(componentName.getPackageName() + "#" + title)
-            || packages.contains(componentName.getPackageName())) {
-			// don't add it to the allAppsList if it is in our list
-			param.setResult(null);
-		}
+        while(it.hasNext()) {
+            Object appInfo = it.next();
+            String title = (String) getObjectField(appInfo, Fields.itemInfoTitle);
+            ComponentName componentName = (ComponentName) getObjectField(appInfo, Fields.aiComponentName);
+
+            if (PreferencesHelper.hiddenApps.contains(componentName.getPackageName() + "#" + title)
+                    || packages.contains(componentName.getPackageName())) {
+                // don't add it to the allAppsList if it is in our list
+                it.remove();
+            }
+        }
 	}
 }

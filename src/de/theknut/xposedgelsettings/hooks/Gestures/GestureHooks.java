@@ -37,7 +37,6 @@ public class GestureHooks extends GestureHelper {
 	static long lastTouchTime = 0;
 	static long currTouchTime = 0;
 	static Object lastTouchView = null;
-	static Object instance = null;
 	static boolean isScheduledOrRunning = false;
 	
 	public static void initAllHooks(LoadPackageParam lpparam) {
@@ -386,25 +385,24 @@ public class GestureHooks extends GestureHelper {
 						
 						View view = (View) param.args[0];
 						Object tag = view.getTag();
-						if (tag == null) return;
-						
+						if (tag == null && !view.getClass().getName().contains(Fields.cellInfoClass)) return;
+
 						if (PreferencesHelper.gesture_double_tap_only_on_wallpaper) {
 							
-							if (!view.getTag().getClass().getName().contains(Fields.cellInfoClass)) {
-								
+							if (!view.getClass().getName().contains(Fields.cellInfoClass)) {
 								return;
 							}
 							
 						} else {
-						
-							if (view.getTag().getClass().getName().contains(Fields.shortcutInfoClass)) {
+
+                            if (tag != null && tag.getClass().getName().contains(Fields.shortcutInfoClass)) {
 								
 								int itemType = getIntField(tag, Fields.iiItemType);
 								if (itemType == ITEM_TYPE_ALLAPPS
 									|| itemType == ITEM_TYPE_FOLDER) {
 									return;
 								}	
-							} else if (view.getTag().getClass().getName().contains(Fields.folderInfoClass)) {
+							} else if (tag != null && view.getTag().getClass().getName().contains(Fields.folderInfoClass)) {
 								
 								return;
 							}

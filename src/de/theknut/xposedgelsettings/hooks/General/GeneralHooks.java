@@ -22,6 +22,7 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import de.theknut.xposedgelsettings.hooks.homescreen.WorkspaceConstructorHook;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
@@ -31,17 +32,20 @@ import static de.robv.android.xposed.XposedHelpers.getObjectField;
 public class GeneralHooks extends HooksBaseClass {
 	
 	public static void initAllHooks(LoadPackageParam lpparam) {
-		
-		findAndHookMethod(Classes.Launcher, Methods.launcherOnCreate, Bundle.class, new XC_MethodHook() {
-		    
-			@Override
-			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				
-				// save the launcher instance and the context
-				Common.LAUNCHER_INSTANCE = param.thisObject;
-				Common.LAUNCHER_CONTEXT = (Context) callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherGetApplicationContext);
-			}
+
+        findAndHookMethod(Classes.Launcher, Methods.launcherOnCreate, Bundle.class, new XC_MethodHook() {
+
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+
+                // save the launcher instance and the context
+                Common.LAUNCHER_INSTANCE = param.thisObject;
+                Common.LAUNCHER_CONTEXT = (Context) callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherGetApplicationContext);
+            }
         });
+
+        // save the workspace instance
+        XposedBridge.hookAllConstructors(Classes.Workspace, new WorkspaceConstructorHook());
 
         if (PreferencesHelper.overrideSettingsButton) {
             XC_MethodHook overriderSettingsHook = new XC_MethodHook() {
@@ -202,10 +206,7 @@ public class GeneralHooks extends HooksBaseClass {
 //				}
 //			}
 //		});
-		
-		// add long press listener to app drawer button
-		//final Class<?> CellLayoutClass = findClass(Common.CELL_LAYOUT, lpparam.classLoader);
-		//XposedBridge.hookAllMethods(CellLayoutClass, "markCellsAsOccupiedForView", new MarkCellsAsOccupiedForViewHook());
+
 		
 		// hiding widgets	
 		if (Common.PACKAGE_OBFUSCATED) {

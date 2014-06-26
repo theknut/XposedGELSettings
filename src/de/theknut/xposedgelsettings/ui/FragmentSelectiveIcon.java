@@ -86,7 +86,7 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
             }
         });
 
-        String currentIconPack = getSharedPreferences(Common.PREFERENCES_NAME, Context.CONTEXT_IGNORE_SECURITY).getString("iconpack", "");
+        String currentIconPack = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).getString("iconpack", "");
         PackageManager pkgMgr = getApplicationContext().getPackageManager();
         List<String> packages = CommonUI.getIconPacks(getApplicationContext());
         LinkedHashMap<String, String> iconPacks = new LinkedHashMap<String, String>();

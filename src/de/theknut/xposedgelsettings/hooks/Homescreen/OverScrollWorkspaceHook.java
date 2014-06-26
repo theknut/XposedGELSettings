@@ -32,7 +32,7 @@ public class OverScrollWorkspaceHook extends XC_MethodHook {
 			
 			if (PreferencesHelper.continuousScrollWithAppDrawer) {
 				Common.OVERSCROLLED = true;
-				callMethod(Common.LAUNCHER_INSTANCE, "onClickAllAppsButton", new View(Common.LAUNCHER_CONTEXT));//Methods.launcherShowAllApps, true, Common.CONTENT_TYPE, !PreferencesHelper.appdrawerRememberLastPosition);
+				callMethod(Common.LAUNCHER_INSTANCE, "onClickAllAppsButton", new View(Common.LAUNCHER_CONTEXT));
 			}
 			else {				
 				if ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherHasCustomContentToLeft)) {

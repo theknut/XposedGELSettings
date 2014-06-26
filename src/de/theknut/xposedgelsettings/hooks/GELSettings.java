@@ -5,7 +5,6 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
-
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.ClassNames;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
@@ -47,25 +46,48 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
 		Common.HOOKED_PACKAGE = lpparam.packageName;
 
 		if (PreferencesHelper.Debug) XposedBridge.log("GELSettings.handleLoadPackage: hooked package -> " + lpparam.packageName);
-		
-		if (Common.HOOKED_PACKAGE.contains("com.android.launcher2")) {
-			ClassNames.initNames("launcher2");
-		} else {
-			ClassNames.initNames("launcher3");
-		}
 
-		Classes.hookAllClasses(lpparam);
-		Methods.initMethodNames();
-		Fields.initFieldNames();
+        try {
+            if (Common.HOOKED_PACKAGE.contains("com.android.launcher2")) {
+                ClassNames.initNames("launcher2", true);
+            } else {
+                ClassNames.initNames("launcher3", true);
+            }
 
-		// init all hooks...
-		GeneralHooks.initAllHooks(lpparam);
-		GoogleSearchBarHooks.initAllHooks(lpparam);
-		PageIndicatorHooks.initAllHooks(lpparam);
-		HomescreenHooks.initAllHooks(lpparam);
-		AppDrawerHooks.initAllHooks(lpparam);
-		GestureHooks.initAllHooks(lpparam);
-		NotificationBadgesHooks.initAllHooks(lpparam);
-        IconHooks.initAllHooks(lpparam);
+            Classes.hookAllClasses(lpparam);
+            Methods.initMethodNames(true);
+            Fields.initFieldNames(true);
+
+            // init all hooks...
+            GeneralHooks.initAllHooks(lpparam);
+            GoogleSearchBarHooks.initAllHooks(lpparam);
+            PageIndicatorHooks.initAllHooks(lpparam);
+            HomescreenHooks.initAllHooks(lpparam);
+            AppDrawerHooks.initAllHooks(lpparam);
+            GestureHooks.initAllHooks(lpparam);
+            NotificationBadgesHooks.initAllHooks(lpparam);
+            IconHooks.initAllHooks(lpparam);
+        } catch (NoSuchMethodError nsme) {
+
+            if (Common.HOOKED_PACKAGE.contains("com.android.launcher2")) {
+                ClassNames.initNames("launcher2", false);
+            } else {
+                ClassNames.initNames("launcher3", false);
+            }
+
+            Classes.hookAllClasses(lpparam);
+            Methods.initMethodNames(false);
+            Fields.initFieldNames(false);
+
+            // init all hooks...
+            GeneralHooks.initAllHooks(lpparam);
+            GoogleSearchBarHooks.initAllHooks(lpparam);
+            PageIndicatorHooks.initAllHooks(lpparam);
+            HomescreenHooks.initAllHooks(lpparam);
+            AppDrawerHooks.initAllHooks(lpparam);
+            GestureHooks.initAllHooks(lpparam);
+            NotificationBadgesHooks.initAllHooks(lpparam);
+            IconHooks.initAllHooks(lpparam);
+        }
 	}
 }

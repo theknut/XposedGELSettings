@@ -22,9 +22,6 @@ public class HomescreenHooks extends HooksBaseClass {
 
 	public static void initAllHooks(LoadPackageParam lpparam) {
 		
-		// save the workspace instance
-		XposedBridge.hookAllConstructors(Classes.Workspace, new WorkspaceConstructorHook());
-		
 		// change the default homescreen
 		findAndHookMethod(Classes.Workspace, Methods.workspaceMoveToDefaultScreen, boolean.class, new MoveToDefaultScreenHook());
 			
@@ -47,7 +44,7 @@ public class HomescreenHooks extends HooksBaseClass {
 			
 			// over scroll to app drawer or first page
 			findAndHookMethod(Classes.Workspace, Methods.wsOverScroll, float.class, new OverScrollWorkspaceHook());
-			findAndHookMethod(Classes.Launcher, Methods.launcherShowWorkspace, boolean.class, Runnable.class, new OnWorkspaceShownHook());
+			//findAndHookMethod(Classes.Launcher, Methods.launcherShowWorkspace, boolean.class, Runnable.class, new OnWorkspaceShownHook());
 		}
 		
 		if (PreferencesHelper.appdockSettingsSwitch || PreferencesHelper.changeGridSizeHome) {

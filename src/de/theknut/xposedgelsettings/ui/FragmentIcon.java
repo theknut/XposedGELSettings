@@ -440,7 +440,7 @@ public class FragmentIcon extends FragmentBase {
                                 CommonUI.CONTEXT,
                                 CommonUI.CONTEXT.getSharedPreferences(
                                         Common.PREFERENCES_NAME,
-                                        Context.CONTEXT_IGNORE_SECURITY
+                                        Context.MODE_WORLD_READABLE
                                 ).getString("iconpack", Common.ICONPACK_DEFAULT)
                         );
                         FragmentIcon.iconPack.loadAppFilter();

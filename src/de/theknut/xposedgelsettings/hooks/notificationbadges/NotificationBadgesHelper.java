@@ -370,7 +370,7 @@ public class NotificationBadgesHelper extends HooksBaseClass {
 			
 			measuredWidth = MeasureSpec.makeMeasureSpec(NotificationBadgesHelper.displayWidth, MeasureSpec.AT_MOST);
 			measuredHeigth = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
-			
+
 			leftRightPadding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, PreferencesHelper.notificationBadgeLeftRightPadding, displayMetrics));
 			topBottomPadding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, PreferencesHelper.notificationBadgeTopBottomPadding, displayMetrics));
 			

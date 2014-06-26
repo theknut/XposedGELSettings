@@ -423,11 +423,10 @@ public class SystemUIHooks extends HooksBaseClass {
 						
 						if ((currentPage == (PreferencesHelper.defaultHomescreen - 1)
 								|| getIntField(Common.WORKSPACE_INSTANCE, Fields.pvNextPage) == (PreferencesHelper.defaultHomescreen - 1))
-							&& getBooleanField(param.thisObject, Fields.lHasFocus)
+							&& getBooleanField(Common.LAUNCHER_INSTANCE, Fields.lHasFocus)
 							&& getObjectField(Common.WORKSPACE_INSTANCE, Fields.workspaceState).toString().equals("NORMAL")) {
 							
 							callMethod(Common.LAUNCHER_INSTANCE, "onClickAllAppsButton", new View(Common.LAUNCHER_CONTEXT));
-							//callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherShowAllApps, true, Common.CONTENT_TYPE, !PreferencesHelper.appdrawerRememberLastPosition);
 							param.setResult(null);
 						}
 					}

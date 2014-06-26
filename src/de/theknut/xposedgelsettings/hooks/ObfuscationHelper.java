@@ -92,7 +92,7 @@ public class ObfuscationHelper extends HooksBaseClass {
 		oSEARCH_OVERLAY_IMPL,
 		oSEARCH_PLATE;
 		
-		public static void initNames(String launcherName) {
+		public static void initNames(String launcherName, boolean first) {
 
 			String launcherPackage = "com.android." + launcherName + ".";
 			ALL_APPS_LIST = launcherPackage + "AllAppsList";
@@ -123,7 +123,6 @@ public class ObfuscationHelper extends HooksBaseClass {
 			ICON_CACHE = launcherPackage + "IconCache";
 			UTILITIES = launcherPackage + "Utilities";
 			CASH_ENTRY = launcherPackage + "IconCache$CacheEntry";
-			CELL_INFO = launcherPackage + "CellLayout$CellInfo";
 			LOADER_TASK = launcherPackage + "LauncherModel$LoaderTask";
 			FOLDER_INFO = launcherPackage + "FolderInfo";
             LAUNCHER_MODEL = launcherPackage + "LauncherModel";
@@ -135,45 +134,43 @@ public class ObfuscationHelper extends HooksBaseClass {
 			SEARCH_OVERLAY_IMPL = "com.google.android.search.gel.SearchOverlayImpl";
 			//SEARCH_PLATE = "com.google.android.search.shared.ui.SearchPlate";
 
-			oALL_APPS_LIST = "kp";
-			oITEM_INFO = "pr";
-			oAPP_INFO = "kr";
+			oALL_APPS_LIST = "nz"; // kp !!!!!!!!!!!!!!!!!!!!
+			oITEM_INFO = first ? "ta" : "pr"; //pr
+			oAPP_INFO = first ? "ob" : "kr"; //kr
 			oCELL_LAYOUT = launcherPackage + "CellLayout";
 			oSEARCH_DROP_TARGET_BAR = launcherPackage + "SearchDropTargetBar";
-			oDEVICE_PROFILE = "mz";
+			oDEVICE_PROFILE = first ? "qi" : "mz"; //mz
 			oLAUNCHER = launcherPackage + "Launcher";
 			oPAGED_VIEW = launcherPackage + "PagedView";
-			oPAGED_VIEW_CELL_LAYOUT = "vd";
-			oPAGED_VIEW_WITH_DRAGGABLE_ITEMS = "vl";
+			oPAGED_VIEW_CELL_LAYOUT = first ? "yo" : "vd"; //vd
+			oPAGED_VIEW_WITH_DRAGGABLE_ITEMS = first ? "yw" : "vl"; //vl
 			oAPPS_CUSTOMIZE_PAGED_VIEW = launcherPackage + "AppsCustomizePagedView";
-			oAPPS_CUSTOMIZE_CELL_LAYOUT = "kw";
+			oAPPS_CUSTOMIZE_CELL_LAYOUT = first ? "yr" : "kw"; //kw
 			oPAGED_VIEW_ICON = launcherPackage + "PagedViewIcon";
 			oWORKSPACE = launcherPackage + "Workspace";
-			oWALLPAPEROFFSETINTERPOLATOR = "zd";
+			oWALLPAPEROFFSETINTERPOLATOR = first ? "acp" : "zd"; //zd
 			oAPPS_CUSTOMIZE_TAB_HOST = launcherPackage + "AppsCustomizeTabHost";
-			oAPPS_CUSTOMIZE_CONTENT_TYPE = "lf";
-			oWALLPAPER_CROP_ACTIVITY = launcherPackage + "WallpaperCropActivity";
+			oAPPS_CUSTOMIZE_CONTENT_TYPE = first ? "oo" : "lf"; //lf
 			oFOLDER = launcherPackage + "Folder";
 			oFOLDER_ICON = launcherPackage + "FolderIcon";
 			oCELL_LAYOUT_LAYOUT_PARAMS = launcherPackage + "CellLayout$LayoutParams";
-			oCELL_LAYOUT_CELL_INFO = "lz";
-			oWORKSPACE_STATE = "zc";
+			oCELL_LAYOUT_CELL_INFO = first ? "pi" : "lz"; //lz
+			oWORKSPACE_STATE = first ? "aco" : "zc"; //zc
 			oHOTSEAT = launcherPackage + "Hotseat";
-			oDRAG_SOURCE = "nn";
-			oSHORTCUT_INFO = "vz";
-			oICON_CACHE = "pk";
-			oUTILITIES = "wi";
-			oCASH_ENTRY = "pl";
-			oCELL_INFO = "nv";
-			oLOADER_TASK = "tb";
-			oFOLDER_INFO = "oz";
-            oLAUNCHER_MODEL = "sg";
-            oAPP_WIDGET_RESIZE_FRAME = "ks";
-            oITEM_CONFIGURATION = "ma";
+			oDRAG_SOURCE = first ? "qw" : "nn"; // first parameter in onDragStart of SearchDropTargetBar // nn
+			oSHORTCUT_INFO = first ? "zl" : "vz"; //vz
+			oICON_CACHE = first ? "ss" : "pk"; //pk
+			oUTILITIES = first ? "zu" : "wi"; //wi
+			oCASH_ENTRY = first ? "st" : "pl"; //pl
+			oLOADER_TASK = first ? "wl" : "tb"; //tb
+			oFOLDER_INFO = first ? "sh" : "oz"; //oz
+            oLAUNCHER_MODEL = first ? "vq" : "sg"; //sg
+            oAPP_WIDGET_RESIZE_FRAME = first ? "oc" : "ks"; //ks
+            oITEM_CONFIGURATION = first ? "pj" : "ma"; //ma
 
 			oGEL = "com.google.android.launcher.GEL";
-			oNOW_OVERLAY = "dzk";
-			oSEARCH_OVERLAY_IMPL = "ccu";
+			oNOW_OVERLAY = first ? "enc" : "dzk"; //dzk
+			oSEARCH_OVERLAY_IMPL = first ? "cmh" : "ccu"; //ccu
 			//oSEARCH_PLATE = "com.google.android.search.searchplate.SearchPlate";
 		}
 	}
@@ -216,7 +213,8 @@ public class ObfuscationHelper extends HooksBaseClass {
 		FolderInfo,
         LauncherModel,
         AppWidgetResizeFrame,
-        ItemConfiguration;
+        ItemConfiguration,
+        ADL;
 
 		public static void hookAllClasses(LoadPackageParam lpparam) {
 			try {
@@ -249,7 +247,6 @@ public class ObfuscationHelper extends HooksBaseClass {
 				IconCache = findClass(ClassNames.ICON_CACHE, lpparam.classLoader);
 				Utilities = findClass(ClassNames.UTILITIES, lpparam.classLoader);
 				CacheEntry = findClass(ClassNames.CASH_ENTRY, lpparam.classLoader);
-				CellInfo = findClass(ClassNames.CELL_INFO, lpparam.classLoader);
 				ItemInfo = findClass(ClassNames.ITEM_INFO, lpparam.classLoader);
 				LoaderTask = findClass(ClassNames.LOADER_TASK, lpparam.classLoader);
 				FolderInfo = findClass(ClassNames.FOLDER_INFO, lpparam.classLoader);
@@ -298,13 +295,13 @@ public class ObfuscationHelper extends HooksBaseClass {
 						IconCache = findClass(ClassNames.oICON_CACHE, lpparam.classLoader);
 						Utilities = findClass(ClassNames.oUTILITIES, lpparam.classLoader);
 						CacheEntry = findClass(ClassNames.oCASH_ENTRY, lpparam.classLoader);
-						CellInfo = findClass(ClassNames.oCELL_INFO, lpparam.classLoader);
 						ItemInfo = findClass(ClassNames.oITEM_INFO, lpparam.classLoader);
 						LoaderTask = findClass(ClassNames.oLOADER_TASK, lpparam.classLoader);
 						FolderInfo = findClass(ClassNames.oFOLDER_INFO, lpparam.classLoader);
                         LauncherModel = findClass(ClassNames.oLAUNCHER_MODEL, lpparam.classLoader);
                         AppWidgetResizeFrame = findClass(ClassNames.oAPP_WIDGET_RESIZE_FRAME, lpparam.classLoader);
                         ItemConfiguration = findClass(ClassNames.oITEM_CONFIGURATION, lpparam.classLoader);
+                        ADL = findClass("adl", lpparam.classLoader);
 						Common.PACKAGE_OBFUSCATED = true;
 
 						GELClass = findClass(ClassNames.oGEL, lpparam.classLoader);
@@ -394,78 +391,78 @@ public class ObfuscationHelper extends HooksBaseClass {
         fiLongPressHelper,
         clphHasPerformedLongPress;
 
-		public static void initFieldNames() {
+		public static void initFieldNames(boolean first) {
 
 			if (Common.PACKAGE_OBFUSCATED) {
-				hotseatAllAppsRank = "zp";
-				dpNumHotseatIcons = "yz";
+				hotseatAllAppsRank = first ? "BQ" : "zq"; // only / 2 operation // zq
+				dpNumHotseatIcons = first ? "AY" : "yz"; // toString of DynamicGrid // yz
 				itemInfoTitle = "title";
-				celllayoutlayoutparamsCanReorder = "wf";
+				celllayoutlayoutparamsCanReorder = first ? "yE" : "wf"; // second member with = true // wf
 				deviceProfileSearchBarSpaceWidthPx = "zs";
 				launcherSearchDropTargetBar = "um";
 				launcherQsbBar = "EU";
-				sdtbIsSearchBarHidden = "MV";
-				sdtbQsbBar = "MW";
-				workspaceCustomContentShowing = "PV";
-				workspaceCurrentPage = acpvCurrentPage = "KF";
-				launcherHotseat = "EO";
-				launcherAppsCustomizeTabHost = "ER";
-				acthInTransition = "tf";
-				workspaceState = "Qj";
-				workspaceDefaultPage = "PI";
+				sdtbIsSearchBarHidden = first ? "PF" : "MV"; // above Qsb member // MV
+				sdtbQsbBar = first ? "PG" : "MW"; // MW
+				workspaceCustomContentShowing = first ? "SH" : "PV"; // setContentDescription // PV
+				workspaceCurrentPage = acpvCurrentPage = first ? "Nm" : "KF"; // setPadding(0, 0, 0, 0); // KF
+				launcherHotseat = first ? "Hu" : "EO"; // EO
+				launcherAppsCustomizeTabHost = first ? "Hx" : "ER"; // ER
+				acthInTransition = first ? "vF" : "tf"; // onInterceptTouchEvent first member in if-clause // tf
+				workspaceState = first ? "SV" : "Qj"; // WorkspaceState member //  Qj
+				workspaceDefaultPage = first ? "Su" : "PI"; // "Expected custom content", member gets decreased by one // PI
 				bubbleTextView = "BubbleTextView";
 				folderIcon = "FolderIcon";
 				pagedViewIcon = "PagedViewIcon";
-				btvShadowsEnabled = "ue";
-				fiPreviewBackground = "CE";
-				fiFolderName = "CF";
-				fiFolderEditText = "Cf";
-				fiFolder = "CB";
+				btvShadowsEnabled = first ? "wF" : "ue"; // only boolean member = true// ue
+				fiPreviewBackground = first ? "Fh" : "CE"; // only ImageView member // CE
+				fiFolderName = first ? "Fi" : "CF"; // only BubbleTextView // CF
+				fiFolderEditText = first ? "EJ" : "Cf"; // only FolderEditText member // Cf
+				fiFolder = first ? "Fe" : "CB"; // only Folder member // CB
 				fiFolderIcon = "FolderIcon";
-				fFolderIcon = "BL";
-				acpvContentType = "sw";
-				pvIsPageMoving = "Lv";
-				pvNextPage = "KI";
-				dpHotseatBarHeightPx = "zo";
-				lState = "Et";
-				cellInfoClass = "lz";
-				shortcutInfoClass = "vz";
-				folderInfoClass = "oz";
-				wTouchState = "KY";
-				lHasFocus = "Fj";
-				lPaused = "EZ";
-				iiItemType = "En";
+				fFolderIcon = first ? "Ep" : "BL"; // only FolderIcon member // BL
+				acpvContentType = first ? "uW" : "sw"; // private oo uW = oo.vW;// sw
+				pvIsPageMoving = first ? "Oc" : "Lv"; // in pageBeginMoving if-clause // Lv
+				pvNextPage = first ? "Np" : "KI"; // String.format // KI
+				dpHotseatBarHeightPx = first ? "BP" : "zo"; // 4 * ... // zo
+				lState = first ? "GZ" : "Et"; // onNewIntent if-clause after Folder // Et
+				cellInfoClass = first ? "CellLayout" : "lz"; // lz
+				shortcutInfoClass = first ? "zl" : "vz"; // vz
+				folderInfoClass = first ? "sh" : "oz"; // oz
+				wTouchState = first ? "NF" : "KY"; // onInterceptTouchEvent while clause// KY
+				lHasFocus = first ? "HP" : "Fj"; // onWindowFocusChanged // Fj
+				lPaused = first ? "HF" : "EZ"; // only boolean assignement in onPause() // EZ
+				iiItemType = first ? "GT" : "En"; // Item(id= // En
 				dpSearchBarHeightPx = "zv";
 				dpSearchBarSpaceHeightPx = "zu";
 				dpSearchBarSpaceWidthPx = "zs";
-				aiComponentName = "rJ";
-				acpvAllAppsNumCols = "zr";
-				acpvAllAppsNumRows = "zq";
-				pvPageIndicator = "Lz";
-				acthContent = "tD";
-				dpPageIndicatorHeightPx = "zw";
+				aiComponentName = first ? "uj" : "rJ"; // only ComponentName member // rJ
+				acpvAllAppsNumCols = first ? "BS" : "zr"; // onMeasure localDeviceProfile // zr
+				acpvAllAppsNumRows = first ? "BR" : "zq"; // onMeasure localDeviceProfile // zq
+				pvPageIndicator = first ? "Og" : "Lz"; // setContentDescription // Lz
+				acthContent = first ? "wd" : "tD"; // .getLayoutParams in setInsets // tD
+				dpPageIndicatorHeightPx = first ? "BX" : "zw"; // last parameter in .set // zw
 				dpDesiredWorkspaceLeftRightMarginPx = "yJ";
-				wIsSwitchingState = "Qk";
-				fContent = "BH";
-				lAppsCustomizePagedView = "ES";
+				wIsSwitchingState = first ? "SW" : "Qk"; // start from onTouch, second method call in if-clause // Qk
+				fContent = first ? "El" : "BH"; // only CellLayout member // BH
+				lAppsCustomizePagedView = first ? "Hy" : "ES"; // AppsCustomizePagedView in Launcher // ES
 				iiID = "id";
 				iiTitle = "title";
 				uSCanvas = "NL";
-				ceIcon = "DZ";
+				ceIcon = first ? "GE" : "DZ"; // DZ
                 ceTitle = "title";
 				icIconDensity = "DY";
 				ciCell = "vL";
-				lAppWidgetHostView = "ru";
+				lAppWidgetHostView = first ? "ve" : "ru"; // make logging // ru
 				wDragInfo = "PP";
-				LauncherAppWidgetInfo = "rv";
-                lIconCache = "rF";
+				LauncherAppWidgetInfo = first ? "vf" : "rv"; // AppWidget(id= // rv
+                lIconCache = first ? "uf" : "rF"; // IconCache member in Launcher // rF
                 iiCellX = "vM";
                 iiCellY = "vN";
                 iiSpanX = "vJ";
                 iiSpanY = "vK";
-                awrfWidgetView = "rK";
-                fiLongPressHelper = "ui";
-                clphHasPerformedLongPress = "wG";
+                awrfWidgetView = first ? "uk" : "rK"; // only obfuscated member class // rK
+                fiLongPressHelper = first ? "wJ" : "ui"; // cancelLongPress // ui
+                clphHasPerformedLongPress = first ? "zf" : "wG"; // only boolean member // wG
 			} else {
 				hotseatAllAppsRank = "hotseatAllAppsRank";
 				dpNumHotseatIcons = "numHotseatIcons";
@@ -611,78 +608,84 @@ public class ObfuscationHelper extends HooksBaseClass {
         lBindAppsUpdated,
         lmIsShortcutInfoUpdateable,
         awrfCommitResize,
-        clAttemptPushInDirection;
+        clAttemptPushInDirection,
+        acpvSetApps,
+        acpvUpdateApps,
+        acpvRemoveApps;
 
-		public static void initMethodNames() {
+		public static void initMethodNames(boolean first) {
 
 			if (Common.PACKAGE_OBFUSCATED) {
 				applyFromApplicationInfo = "a";
 				itemInfoTitle = "title";
 				launcherOnCreate = "onCreate";
 				launcherGetApplicationContext = "getApplicationContext";
-				launcherIsRotationEnabled = "gC";
-				celllayoutAddViewToCellLayout = "a";
-				wallpaperoffsetinterpolatorSyncWithScroll = "kf";
-				workspaceStartDrag = "a";
+				launcherIsRotationEnabled = first ? "hr" : "gC"; // getBoolean - single line method // gC
+				celllayoutAddViewToCellLayout = "a"; // View paramView, int paramInt1, int paramInt2, CellLayout.LayoutParams paramLayoutParams, boolean paramBoolean
+				wallpaperoffsetinterpolatorSyncWithScroll = first ? "la" : "kF"; // computeScroll in Workspace // kf
+				workspaceStartDrag = "a"; // isInTouchMode
 				workspaceBeginDraggingApplication = "P";
 				workspaceBeginDragShared = "a";
-				acpvOnPackagesUpdated = "a";
+				acpvOnPackagesUpdated = "a"; // "can not fit on this device"
 				dynamicgridLayout = "a";
-				launcherGetSearchbar = "fZ";
-				launcherGetQsbBar = "gw";
-				pagedviewPageBeginMoving = "ii";
-				pagedviewPageEndMoving = "ij";
-				sdtbOnDragStart = "a";
-				sdtbOnDragEnd = "dt";
-				launcherHasCustomContentToLeft = "fL";
-				hideAppsCustomizeHelper = "a";
-				launcherShowWorkspace = "a";
+				launcherGetSearchbar = first ? "gO" : "fZ"; // return  SearchDropTargetBar in Launcher // fZ
+				launcherGetQsbBar = first ? "hl" : "gw"; // inflate followed by addView // gw
+				pagedviewPageBeginMoving = first ? "iY" : "ii"; // protected void // ii
+				pagedviewPageEndMoving = first ? "iZ" : "ij";  // ij
+				sdtbOnDragStart = "a"; // twice .start in the method
+				sdtbOnDragEnd = first ? "ei" : "dt"; // twice .reverse // dt
+				launcherHasCustomContentToLeft = first ? "gA" : "fL"; // isEmpty // fL
+				hideAppsCustomizeHelper = "a"; //
+				launcherShowWorkspace = "a"; // boolean paramBoolean, Runnable paramRunnable
 				launcherShowAllApps = "a";
-				workspaceMoveToDefaultScreen = "ao";
-				btvSetShadowsEnabled = "w";
-				wsOverScroll = acpvOverScroll = "g";
-				lFinishBindingItems = "U";
-				dpGetWorkspacePadding = "aC";
-				lIsAllAppsVisible = "gs";
-				lGetOpenFolder = "jp";
-				wIsOnOrMovingToCustomContent = "jJ";
-				wEnterOverviewMode = "jO";
-				wMoveToCustomContentScreen = "ap";
-				pvSnapToPage = "a";
-				lOpenFolder = "i";
-				lCloseFolder = "gr";
-				acthOnTabChanged = "c";
-				wSetCurrentPage = acpvSetCurrentPage = "aV";
+				workspaceMoveToDefaultScreen = first ? "at" : "ao"; // Launcher onNewIntent method call of workspace member with (true) // ao
+				btvSetShadowsEnabled = first ? "z" : "w"; // w
+				wsOverScroll = acpvOverScroll = "g"; // (float paramFloat)
+				lFinishBindingItems = first ? "Z" : "U"; // hasFocus() // U
+				dpGetWorkspacePadding = first ? "aS" : "aC"; // second method with (int paramInt)  // aC
+				lIsAllAppsVisible = first ? "hh" : "gs"; // onBackPressed first method call // gs
+				lGetOpenFolder = first ? "kj" : "jp"; // in closeFolder // jp
+				wIsOnOrMovingToCustomContent = first ? "kE" : "jJ"; // last if-clause in Launcher onResume// jJ
+				wEnterOverviewMode = first ? "kJ" : "jO"; // Touchstate != 0 // jO
+				wMoveToCustomContentScreen = first ? "au" : "ap"; // Workspace "View localView = getChildAt" // ap
+				pvSnapToPage = "a"; // int paramInt1, int paramInt2, int paramInt3, boolean paramBoolean, TimeInterpolator paramTimeInterpolator
+				lOpenFolder = "i"; // "Folder info marked as ope" // i
+				lCloseFolder = first ? "hg" : "gr"; // gr
+				acthOnTabChanged = "c"; // setBackgroundColor
+				wSetCurrentPage = acpvSetCurrentPage = first ? "bl" : "aV"; // aV
 				aalAdd = "a";
-				dpUpdateFromConfiguration = "a";
+				dpUpdateFromConfiguration = "a"; // float paramFloat, int paramInt, Resources paramResources, DisplayMetrics paramDisplayMetrics
 				lHideAppsCustomizeHelper = "a";
-				acthSetInsets = "c";
-				wSnapToPage = "bc";
-				soiSetSearchStarted = "cs";
-				noOnShow = "p";
-				wOnDragStart = "a";
-				wOnDragEnd = "dt";
-				wOnLauncherTransitionEnd = "a"; 
-				fOnRemove = "g";
-				fOnAdd = "f";
-				fReplaceFolderWithFinalItem = "fo";
-				fGetItemsInReadingOrder = "fr";
-				clGetShortcutsAndWidgets = "dH";
-				acthGetContentTypeForTabTag = "j";
+				acthSetInsets = "c"; // (Rect
+				wSnapToPage = first ? "bs" : "bc"; // in PagedView requestChildFocus// bc
+				soiSetSearchStarted = first ? "cI" : "cs"; // onResume before cancel() // cs
+				noOnShow = first ? "u" : "p"; // boolean paramBoolean1, boolean paramBoolean2 // p
+				wOnDragStart = "a"; // only method with interface parameters with InstallShortcutReceiver
+				wOnDragEnd = first ? "ei" : "dt"; // only method without interface parameters with InstallShortcutReceiver // dt
+				wOnLauncherTransitionEnd = "a"; // , boolean paramBoolean1, boolean paramBoolean2)
+				fOnRemove = "g"; // removeView(localView)
+				fOnAdd = "f"; // (<Shortcutinfo> param<...>)
+				fReplaceFolderWithFinalItem = "ge"; // getItemCount() <= 1
+				fGetItemsInReadingOrder = first ? "gh" : "fr"; // public final ArrayList // fr
+				clGetShortcutsAndWidgets = first ? "ew" : "dH"; // getChildCount() > 0 // dH
+				acthGetContentTypeForTabTag = first ? "r" : "j"; // (String paramString) // j
 				lStartActivitySafely = "b";
-				wOnTransitionPrepare = "jR";
+				wOnTransitionPrepare = first ? "kM" : "jR"; // boolean bool = true; this.<IsSwitchingState> = bool; // jR
 				siGetIntent = "getIntent";
-				icGetFullResIcon = "a";
-				uCreateIconBitmap = "a";
-				icCacheLocked = "b";
-				clMarkCellsForView = "a";
+				icGetFullResIcon = "a"; // (Resources paramResources, int paramInt)
+				uCreateIconBitmap = "a"; // (Drawable paramDrawable, Context paramContext)
+				icCacheLocked = first ? "a" : "b"; // b
+				clMarkCellsForView = "a"; // int paramInt1, int paramInt2, int paramInt3, int paramInt4, boolean[][] paramArrayOfBoolean, boolean paramBoolean
 				wStartDrag = "b";
-				lmCheckItemPlacement = "a";
-                acpvBeginDragging = "n";
-                lBindAppsUpdated = "l";
-                lmIsShortcutInfoUpdateable = "e";
-                awrfCommitResize = "cF";
-                clAttemptPushInDirection = "b";
+				lmCheckItemPlacement = "a"; // "Error loading shortcut into "
+                acpvBeginDragging = "n"; // "instanceof PagedViewIcon" in AppsCustomizePagedView // n
+                lBindAppsUpdated = "l"; // if (this.Hi == null)
+                lmIsShortcutInfoUpdateable = "e"; // "android.intent.action.MAIN" // e
+                awrfCommitResize = first ? "du" : "cF"; // requestLayout // cF
+                clAttemptPushInDirection = "b"; // ArrayList paramArrayList, Rect paramRect, int[] paramArrayOfInt, View paramView, pj parampj
+                acpvSetApps = "b"; // Collections.sort // b
+                acpvUpdateApps = "g"; // in BindAppsUpdated in Launcher //
+                acpvRemoveApps = "f"; // in Launcher (paramArrayList2)
 			} else {
 				applyFromApplicationInfo = "applyFromApplicationInfo";
 				itemInfoTitle = "title";
@@ -750,6 +753,9 @@ public class ObfuscationHelper extends HooksBaseClass {
                 lmIsShortcutInfoUpdateable = "isShortcutInfoUpdateable";
                 awrfCommitResize = "commitResize";
                 clAttemptPushInDirection = "attemptPushInDirection";
+                acpvSetApps = "setApps";
+                acpvUpdateApps = "updateApps";
+                acpvRemoveApps = "removeApps";
 			};
 		}
 	}

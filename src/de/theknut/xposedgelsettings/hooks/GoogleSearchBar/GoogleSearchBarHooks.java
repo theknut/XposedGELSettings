@@ -46,8 +46,6 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
 				// show when doing a Google search
                 findAndHookMethod(Classes.SearchOverlayImpl, Methods.soiSetSearchStarted, boolean.class, new SetSearchStarted());
             }
-
-
 			
 			// show DropDeleteTarget on dragging items
 			if (Common.PACKAGE_OBFUSCATED) {

@@ -1,7 +1,9 @@
 <html>
   <head>
     <style type='text/css'>
-      body {background-color:#222222;}
+      body {
+        background-color:#222222;
+        color:white; }
       a {
       	color:#5c5cff }
       div.title    { 
@@ -27,8 +29,9 @@
 
   $ 1.8
   % Version 1.8
- _ 2014-01-07
-
+ _ 2014-26-06
+XGELS fixed in < 24h<br>
+Suck that Fabian Pineda!<br>
  ! Added:
  * <b>Icon:</b> per app icon change
  * <b>Icon:</b> changeable app drawer button
@@ -40,6 +43,7 @@
  * massive performance improvement for icon replacement
 
  ! Fixed:
+ * support for GNL 3.5
  * pixelated icons in some icon packs
  * Google+ vs. Google Photo icon
  * calendar icon not updating
@@ -49,6 +53,8 @@
  * crashes in Icon menu
 
  ! XGELS UI:
+ * fixed preview icon in notification badges menu
+ * no more lag in app lists
  * option to disable the background image
  * added Traditional Chinese (Taiwan) by Eric850130
  * added Spanish by Jose Artuñedo

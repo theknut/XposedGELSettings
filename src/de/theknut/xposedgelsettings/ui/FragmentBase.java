@@ -88,7 +88,7 @@ public class FragmentBase extends PreferenceFragment {
 	    	        public void onClick(DialogInterface dialog, int which) { 
 	    	        	
 	    	        	if (dontShowAgain.isChecked()) {
-	    		        	SharedPreferences settings = mContext.getSharedPreferences(Common.PREFERENCES_NAME, 0);
+	    		        	SharedPreferences settings = mContext.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
 	    	                SharedPreferences.Editor editor = settings.edit();
 	    	                editor.putBoolean("dontshowkilldialog", true).commit();
 	    	                editor.putBoolean("autokilllauncher", true).commit();
@@ -102,7 +102,7 @@ public class FragmentBase extends PreferenceFragment {
 	    	        public void onClick(DialogInterface dialog, int which) {
 	    	        	
 	    	        	if (dontShowAgain.isChecked()) {
-	    		        	SharedPreferences settings = mContext.getSharedPreferences(Common.PREFERENCES_NAME, 0);
+	    		        	SharedPreferences settings = mContext.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
 	    	                SharedPreferences.Editor editor = settings.edit();
 	    	                editor.putBoolean("dontshowkilldialog", true).commit();
 	    	                editor.putBoolean("autokilllauncher", false).commit();

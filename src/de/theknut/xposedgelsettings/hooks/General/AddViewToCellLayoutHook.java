@@ -13,7 +13,7 @@ public final class AddViewToCellLayoutHook extends HooksBaseClass {
 	
 	@Override
 	protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-		
+
 		if (param.args[0].getClass().getName().contains(Fields.lAppWidgetHostView)) {
 			if (DEBUG) log(param, "Make widget resizeable");
 			
