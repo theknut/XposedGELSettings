@@ -1,24 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="alert_autokill_cancel">"Irei fazer manualmente!"</string>
-    <string name="alert_autokill_checkbox">"Não mostrar novamente"</string>
+    <string name="alert_autokill_cancel">Irei fazer manualmente!</string>
+    <string name="alert_autokill_checkbox">Não mostrar novamente</string>
     <string name="alert_autokill_ok">Entendi!</string>
     <string name="alert_autokill_summary">XGELS encerra automaticamente GNL/Trebuchet assim que uma alteração é feita. Ao voltar à tela inicial GNL/Trebuchet será lançado com as novas configurações</string>
     <string name="alert_autokill_title">Nota</string>
-    <string name="alert_debug_logging_activated_summary">Log está ativado. Por favor nos envie o log de debug.</string>
+    <string name="alert_debug_logging_activated_summary">Log está ativado. Por favor envie o log de debug.</string>
     <string name="alert_debug_logging_activated_title">Log ativado!</string>
     <string name="alert_debug_logging_not_activated_summary">Log de depuração não está habilitado. Certifique-se de habilitar e reproduzir o erro antes de enviar.</string>
     <string name="alert_debug_logging_not_activated_title">Log não ativada!</string>
-    <string name="alert_hidedock_summary">"Por favor, certifique-se de definir uma alternância ao ocultar, você pode ir no menu de gestos e ativar o botão home dinâmica SystemUI ajustes. Caso contrário, você não será capaz de abrir a Tela Aplicativos!"</string>
-    <string name="alert_hidewidgets_summary">"Você só pode selecionar os widgets desta lista. Atalhos não pode ser ocultos no momento."</string>
+    <string name="alert_hidedock_summary">Por favor, certifique-se de definir uma alternância ao ocultar, você pode ir no menu de gestos e ativar o botão home dinâmica SystemUI ajustes. Caso contrário, você não será capaz de abrir a Tela Aplicativos!</string>
+    <string name="alert_hidewidgets_summary">Você só pode selecionar os widgets desta lista. Atalhos não pode ser ocultos no momento.</string>
     <string name="alert_hidewidgets_title">Nota</string>
     <string name="alert_icon_noiconpackfound_summary">Nenhum pacote de ícone suportado e/ou encontrado. Deseja obter um?</string>
-    <string name="alert_icon_noiconpackfound_title">NNenhum pacote de ícone encontrado!</string>
+    <string name="alert_icon_noiconpackfound_title">Nenhum pacote de ícone encontrado!</string>
     <string name="alert_icon_noiconpackfound_yes">Sim</string>
     <string name="alert_launcher_not_installed_get_gnl">Obter Google Now Launcher</string>
     <string name="alert_launcher_not_installed_summary">"Parece que você não tem o  Google Now Launcher nem Trebuchet instalado. Este módulo é projetado para os dois lançadores e não vai funcionar se nenhum deles está instalado. Por favor, certifique-se de instalar GNL ou Trebuchet antes de usar este app!"</string>
     <string name="alert_launcher_not_installed_title">Lançador não encontrado!</string>
-    <string name="alert_reboot_needed_summary">"Você fez alterações que exigem, pelo menos, um reboot completo (requer root)."</string>
+    <string name="alert_reboot_needed_summary">Você fez alterações que exigem, pelo menos, um reboot completo (requer root).</string>
     <string name="alert_reboot_needed_title">Reinicialização requerido!</string>
     <string name="alert_xgels_updated_cancel">mais tarde</string>
     <string name="alert_xgels_updated_summary">Uma reinicialização é necessária para ativar a atualização. Deseja reiniciar agora?</string>
@@ -27,7 +26,7 @@
     <string name="app_name">Xposed GEL Settings</string>
     <string name="changelog_full_title">Log de mudanças</string>
     <string name="changelog_show_full">mais...</string>
-    <string name="changelog_title">"O que há de novo"</string>
+    <string name="changelog_title">O que há de novo</string>
     <string name="colorpicker_apply">Aplicar</string>
     <string name="colorpicker_hex_hint">Cor hexadecimal personalizado</string>
     <string name="drawer_close">Fechar Tela Aplicativo</string>
@@ -174,6 +173,8 @@
     <string name="pref_overlapping_widgets_summary">"Permitir widgets se sobrepor. Isso só funciona em GNL!
 (Beta: Atualmente, a posição da camada não é salvo após o reboot)"</string>
     <string name="pref_overlapping_widgets_title">Widgets sobreposição</string>
+    <string name="pref_overridesettings_button_summary">Iniciar XGELS em vez de Configurações do Google Now</string>
+    <string name="pref_overridesettings_button_title">Botão Configurações Google Now</string>
     <string name="pref_pageindicator_summary">Ocultar o indicador de página na Tela Inicial e Tela Aplicativos</string>
     <string name="pref_pageindicator_title">Indicador de página</string>
     <string name="pref_requires_donation_summary">Os seguintes recursos estão disponíveis somente na versão doação.</string>
@@ -184,19 +185,19 @@
     <string name="pref_restore_homescreen_summary">"Restaurar tela inicial (apenas ícones e pastas) de
 /sdcard/XposedGELSettings"</string>
     <string name="pref_restore_homescreen_title">Restaurar</string>
-    <string name="pref_reverseengineering_bugs_summary">"Devido à engenharia reversa ainda pode haver alguns bugs aqui e ali. Por favor, seja um pouco mais tolerante, não arruinar minha classificação Play Store com relatórios de bugs. Use a função \"Enviar relatório de erro\" no menu de configurações. Obrigado!"</string>
+    <string name="pref_reverseengineering_bugs_summary">Devido à engenharia reversa ainda pode haver alguns bugs aqui e ali. Por favor, seja um pouco mais tolerante, não arruinar minha classificação Play Store com relatórios de bugs. Use a função \"Enviar relatório de erro\" no menu de configurações. Obrigado!</string>
     <string name="pref_reverseengineering_bugs_title">Problemas</string>
     <string name="pref_reverseengineering_cat_title">Engenharia Reversa</string>
-    <string name="pref_reverseengineering_conclusion_summary">"Supõe-se que o Google ofusca GNL com cada grande lançamento (3.X) mais uma vez, o que significa que XGELS vai quebrar mais provável. Mas desta vez estou preparado e tenho certeza que eu posso restaurar a mesma funcionalidade dentro de algumas horas!"</string>
+    <string name="pref_reverseengineering_conclusion_summary">Supõe-se que o Google ofusca GNL com cada grande lançamento (3.X) mais uma vez, o que significa que XGELS vai quebrar mais provável. Mas desta vez estou preparado e tenho certeza que eu posso restaurar a mesma funcionalidade dentro de algumas horas!</string>
     <string name="pref_reverseengineering_conclusion_title">O que significa isso?</string>
     <string name="pref_reverseengineering_explain_summary">Como você deve ter notado a atualização recente GNL quebrou todas as funcionalidades de XGELS. Isto é devido ao ofuscamento completo do APK GNL. Para fazer XGELS funcionar novamente eu tive que fazer engenharia reversa de cada recurso de XGELS e, basicamente, teve que passar por toda a minha e até mesmo o código fonte GNL novamente. Felizmente eu era capaz de restaurar 99% dos recursos!</string>
     <string name="pref_reverseengineering_explain_title">Olá!</string>
     <string name="pref_reverseengineering_rate_summary">Mostre seu apoio e me deixar uma classificação no Google Play. Uma boa reputação vai motivar os outros para tentar XGELS também. Clique aqui para avaliar XGELS no Google Play!</string>
     <string name="pref_reverseengineering_rate_title">Avaliar XGELS!</string>
     <string name="pref_reverseengineering_support_cat">Eu preciso do seu apoio!</string>
-    <string name="pref_reverseengineering_support_summary">"É uma incrível quantidade de trabalho para me manter XGELS e dar um bom suporte para vocês. Se você sentir vontade de doar para mim, clique aqui!"</string>
+    <string name="pref_reverseengineering_support_summary">É uma incrível quantidade de trabalho para me manter XGELS e dar um bom suporte para vocês. Se você sentir vontade de doar para mim, clique aqui!</string>
     <string name="pref_reverseengineering_support_title">Doe!</string>
-    <string name="pref_reverseengineering_what_to_do_summary">"Se você não quer GNL / Google Search para quebrar XGELS você pode ir para o Google Play Store e desativar as atualizações automáticas. GNL/Google Search usos encenado lançamentos, o que significa, em alguns casos XGELS é atualizado antes mesmo de receber o GNL / Google atualização oficial Search. Você pode clicar aqui para abrir a loja Play e desativar a atualização automática agora mesmo!"</string>
+    <string name="pref_reverseengineering_what_to_do_summary">Se você não quer GNL / Google Search para quebrar XGELS você pode ir para o Google Play Store e desativar as atualizações automáticas. GNL/Google Search usos encenado lançamentos, o que significa, em alguns casos XGELS é atualizado antes mesmo de receber o GNL / Google atualização oficial Search. Você pode clicar aqui para abrir a loja Play e desativar a atualização automática agora mesmo!</string>
     <string name="pref_reverseengineering_what_to_do_title">O que posso fazer?</string>
     <string name="pref_selectappstohide_summary">Ocultar aplicativos</string>
     <string name="pref_selectwidgetstohide_summary">Selecione os widgets que deseja ocultar</string>
@@ -256,7 +257,7 @@
 Deslize para cima - pasta aberta"</string>
     <string name="pref_switch_smart_folder_title">Pasta inteligente</string>
     <string name="pref_systemui_explain_summary">Todas essas configurações podem ou não funcionar, dependendo do dispositivo e/ou na ROM instalado. Além disso todas essas configurações requer um reinício completo.</string>
-    <string name="pref_systemui_explain_title">Mota</string>
+    <string name="pref_systemui_explain_title">Nota</string>
     <string name="pref_title_longpress_app_drawer_button">Botão aplicativos Tela Inicial</string>
     <string name="pref_workspacerect_dialog">Escolha um multiplicador</string>
     <string name="pref_workspacerect_summary">Escolha um multiplicador de margem para o lado esquerdo e direito da tela inicial</string>
@@ -274,47 +275,44 @@ Deslize para cima - pasta aberta"</string>
     <string name="progress_requesting_root_summary">Solicitando privilégios de root…</string>
     <string name="progress_requesting_root_title">Aguarde…</string>
     <string name="restart_launcher_icon_title">Reiniciar</string>
-    <string name="toast_backup_failed">"Não foi possível aplicar as alterações!"</string>
+    <string name="toast_backup_failed">Não foi possível aplicar as alterações!</string>
     <string name="toast_backup_success">Tela Inicial restaurada com sucesso!</string>
     <string name="toast_desktop_locked">ALERTA: Tela Inicial bloqueada!</string>
     <string name="toast_donate_only">Este recurso requer XGELS Premium!</string>
     <string name="toast_donate_thanks">Sim, você é incrível! Palmadinhas no ombro!</string>
     <string name="toast_donation_result_fail">Algo deu errado. Você pode querer matar XGELS e iniciá-lo novamente. Por favor, verifique o logcat!</string>
     <string name="toast_export">Exportado com sucesso!</string>
-    <string name="toast_export_failed">"Não foi possível aplicar as alterações!"</string>
+    <string name="toast_export_failed">Não foi possível aplicar as alterações!</string>
     <string name="toast_fail">"Não foi possível aplicar as alterações!
 Por favor, veja o log!"</string>
     <string name="toast_full_reboot">Para que esta alteração tenha efeito execute uma reinicialização completa!</string>
     <string name="toast_getprices_fail">Alguma coisa correu mal ao receber a lista de preços. Por favor, verifique o logcat!</string>
     <string name="toast_import">Importado com sucesso!</string>
-    <string name="toast_import_failed">"Não foi possível aplicar as alterações!"</string>
-    <string name="toast_no_log_found">"Não foi possível encontrar debug.log de ​​Xposed Installer"</string>
-    <string name="toast_openinstaller_failed">"Não foi possível abrir Xposed Installer. Por favor, iniciá-lo manualmente!"</string>
+    <string name="toast_import_failed">Não foi possível aplicar as alterações!</string>
+    <string name="toast_no_log_found">Não foi possível encontrar debug.log de ​​Xposed Installer</string>
+    <string name="toast_openinstaller_failed">Não foi possível abrir Xposed Installer. Por favor, iniciá-lo manualmente!</string>
     <string name="toast_reboot">Por favor, reinicie o aplicativo para que essas alterações entrem em vigor!</string>
     <string name="toast_reboot_failed">Por favor, reinicie o seu dispositivo manualmente!</string>
     <string name="toast_reboot_failed_nothing_msg">nenhuma</string>
     <string name="toast_reset">Configurações definidas com sucesso!</string>
-    <string name="toast_reset_failed">"Não foi possível aplicar as alterações!"</string>
-    <string name="toast_restore_failed">"Não foi possível aplicar as alterações!"</string>
+    <string name="toast_reset_failed">Não foi possível aplicar as alterações!</string>
+    <string name="toast_restore_failed">Não foi possível aplicar as alterações!</string>
     <string name="toast_restore_success">Tela Inicial restaurada com sucesso!</string>
 
-    <string-array name="gesture_actions_entries_limited">
-        <item>Nenhum</item>
-        <item>Tela Aplicativos</item>
-        <item>Barra de Aplicativos</item>
-    </string-array>
-    
-    <string-array name="gesture_actions_entries">
-        <item>Nenhum</item>
-        <item>Barra de Notificação</item>
-        <item>Configurações Rápidas</item>
-        <item>Tela Aplicativos</item>
-        <item>Aplicativos Recentes</item>
-        <item>Mostrar Recentes</item>
-        <item>Configurações do Android</item>
-        <item>Dormir</item>
-        <item>Alternar Barra de Aplicativos</item>
-        <item>Abrir Aplicativo</item>
+    <string-array name="allappsbuttonposition_entries">
+        <item>Padrão</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
     </string-array>
 
     <string-array name="fragmenttitles_array">
@@ -338,5 +336,27 @@ Por favor, veja o log!"</string>
         <item>Rápido</item>
         <item>Vmax</item>
         <item>Sem animação</item>
+    </string-array>
+    <string-array name="gesture_actions_entries">
+        <item>Nenhum</item>
+        <item>Barra de Notificação</item>
+        <item>Configurações Rápidas</item>
+        <item>Tela Aplicativos</item>
+        <item>Aplicativos Recentes</item>
+        <item>Mostrar Recentes</item>
+        <item>Configurações do Android</item>
+        <item>Dormir</item>
+        <item>Alternar Barra de Aplicativos</item>
+        <item>Abrir Aplicativo</item>
+    </string-array>
+    <string-array name="gesture_actions_entries_limited">
+        <item>Nenhum</item>
+        <item>Tela Aplicativos</item>
+        <item>Barra de Aplicativos</item>
+    </string-array>
+    <string-array name="smartfoldermode_entries">
+        <item>Nenhuma</item>
+        <item>Deslizar - inciar o primeiro aplicativo\nToque - pasta aberta</item>
+        <item>Toque - inicar o primeiro aplicativo\nDeslizar - abrir pasta</item>
     </string-array>
 </resources>

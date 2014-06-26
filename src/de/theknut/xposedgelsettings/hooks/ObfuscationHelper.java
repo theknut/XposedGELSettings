@@ -394,7 +394,7 @@ public class ObfuscationHelper extends HooksBaseClass {
 		public static void initFieldNames(boolean first) {
 
 			if (Common.PACKAGE_OBFUSCATED) {
-				hotseatAllAppsRank = first ? "BQ" : "zq"; // only / 2 operation // zq
+				hotseatAllAppsRank = first ? "BQ" : "zp"; // only / 2 operation // zp
 				dpNumHotseatIcons = first ? "AY" : "yz"; // toString of DynamicGrid // yz
 				itemInfoTitle = "title";
 				celllayoutlayoutparamsCanReorder = first ? "yE" : "wf"; // second member with = true // wf

@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
@@ -166,12 +165,11 @@ public class IconHooks extends HooksBaseClass {
                 if (icon == null && !iconPack.isAppFilterLoaded()) return;
 
                 PackageManager pkgMgr = Common.LAUNCHER_CONTEXT.getPackageManager();
-                pkgMgr.getActivityIcon(cmpName);
-                pkgMgr.getApplicationInfo(cmpName.getPackageName(), 0);
+
                 if (icon == null) {
                     if (!iconPack.shouldThemeMissingIcons()) return;
                     //icon = info.loadIcon(pkgMgr);
-                    icon = pkgMgr.getActivityIcon(cmpName);
+                    icon = pkgMgr.getActivityInfo(cmpName, 0).loadIcon(pkgMgr);
                     Bitmap tmpIcon = (Bitmap) callStaticMethod(Classes.Utilities, Methods.uCreateIconBitmap, icon, iconPack.getContext());
                     Bitmap tmpFinalIcon = iconPack.themeIcon(tmpIcon);
 
@@ -214,9 +212,9 @@ public class IconHooks extends HooksBaseClass {
             private Object createCacheEntry(HashMap<Object, String> labelCache, ComponentName cmpName, PackageManager pkgMgr, Bitmap tmpFinalIcon) {
                 Object cacheEntry = newInstance(Classes.CacheEntry);
                 setObjectField(cacheEntry, Fields.ceIcon, tmpFinalIcon);
-                ApplicationInfo info = null;
+                ActivityInfo info = null;
                 try {
-                    info = pkgMgr.getApplicationInfo(cmpName.getPackageName(), 0);
+                    info = pkgMgr.getActivityInfo(cmpName, 0);
                 } catch (NameNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -342,6 +340,8 @@ public class IconHooks extends HooksBaseClass {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 time = System.currentTimeMillis();
+                if (!initIconPack(param)) return;
+
                 ActivityInfo ai = ((ActivityInfo) param.args[0]);
                 ComponentName app = new ComponentName(ai.packageName, ai.name);
                 Drawable icon = iconPack.loadIcon(app.flattenToString());
@@ -414,8 +414,10 @@ public class IconHooks extends HooksBaseClass {
             Common.LAUNCHER_CONTEXT.registerReceiver(autoapplyReceiver, intentFilter);
 
             iconPack = new IconPack(Common.LAUNCHER_CONTEXT, PreferencesHelper.iconpack);
+            if (DEBUG) log("Instantiated " + iconPack.getPackageName());
             if (!PreferencesHelper.iconpack.equals(Common.ICONPACK_DEFAULT)) {
                 iconPack.loadAppFilter();
+                if (DEBUG) log ("Appfilter loaded");
             }
 
             iconPack.loadSelectedIcons(PreferencesHelper.selectedIcons);

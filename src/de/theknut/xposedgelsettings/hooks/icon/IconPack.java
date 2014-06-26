@@ -1,8 +1,6 @@
 package de.theknut.xposedgelsettings.hooks.icon;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
@@ -286,22 +284,24 @@ public class IconPack {
                 getIcons().add(icon);
                 return icon.getIcon();
             }
-        } else if (isDefault()) {
-            try {
-                PackageManager pkgMgr = getContext().getPackageManager();
-                Intent launchIntent = pkgMgr.getLaunchIntentForPackage(
-                        pkg.contains("/")
-                                ? pkg.substring(0, pkg.indexOf("/"))
-                                : pkg
-                );
-
-                Icon icon = new Icon(pkg, pkgMgr.getActivityIcon(launchIntent));
-                getIcons().add(icon);
-                return icon.getIcon();
-            } catch (NameNotFoundException e) {
-                e.printStackTrace();
-            }
         }
+
+//        else if (isDefault()) {
+//            try {
+//                PackageManager pkgMgr = getContext().getPackageManager();
+//                Intent launchIntent = pkgMgr.getLaunchIntentForPackage(
+//                        pkg.contains("/")
+//                                ? pkg.substring(0, pkg.indexOf("/"))
+//                                : pkg
+//                );
+//
+//                Icon icon = new Icon(pkg, pkgMgr.getActivityIcon(launchIntent));
+//                getIcons().add(icon);
+//                return icon.getIcon();
+//            } catch (NameNotFoundException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
         unthemedIcons.add(pkg);
         return null;

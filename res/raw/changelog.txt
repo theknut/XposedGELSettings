@@ -27,6 +27,20 @@
   </head>
   <body>
 
+I'll do staged rollouts if a single bug leads to 1 star ratings on Google Play. Thats disgusting given that I fixed XGELS even before GNL 3.5 reached everyone. Click <a href="http://bit.ly/1pETPwz">here</a> to see a code sample of the code I have to read. You got to be a little bit more forgiving, my friends!
+
+$ 1.8.1
+  % Version 1.8.1
+ _ 2014-26-06
+
+ ! Fixed:
+ * app drawer button not hidden
+ * apps not hidden
+ * Google+ vs. Google Photo icon and label
+
+ ! XGELS UI:
+ * updated translations
+
   $ 1.8
   % Version 1.8
  _ 2014-26-06
