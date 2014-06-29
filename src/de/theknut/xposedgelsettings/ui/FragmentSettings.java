@@ -8,7 +8,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -290,17 +292,23 @@ public class FragmentSettings extends FragmentBase {
 					
 				    String version = null;
 				    try {
-				    	PackageInfo packageInfo = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
+                        PackageManager pkgMgr = mContext.getPackageManager();
+				    	PackageInfo packageInfo = pkgMgr.getPackageInfo(mContext.getPackageName(), 0);
 				    	version = "XGELS: " + packageInfo.versionName + " (" + packageInfo.versionCode + ")";
 				    	deviceInfo.append(version).append(ls);
 				    	
-				    	packageInfo = mContext.getPackageManager().getPackageInfo("de.robv.android.xposed.installer", 0);
+				    	packageInfo = pkgMgr.getPackageInfo("de.robv.android.xposed.installer", 0);
 				    	version = "Xposed: " + packageInfo.versionName + " (" + packageInfo.versionCode + ")";
 				    	deviceInfo.append(version).append(ls);
 				    	
-				    	packageInfo = mContext.getPackageManager().getPackageInfo(Common.GEL_PACKAGE, 0);
+				    	packageInfo = pkgMgr.getPackageInfo(Common.GEL_PACKAGE, 0);
 				    	version = "GNL: " + packageInfo.versionName + " (" + packageInfo.versionCode + ")";
 				    	deviceInfo.append(version).append(ls);
+
+                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        intent.addCategory(Intent.CATEGORY_HOME);
+                        ResolveInfo resolveInfo = pkgMgr.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
+                        deviceInfo.append("Launcher: " + resolveInfo.activityInfo.name + " (" + resolveInfo.activityInfo.packageName + ")").append(ls);
 				    } catch (NameNotFoundException e) {
 				        // shouldn't be here but lets prevent this from crashing...
 				    }
