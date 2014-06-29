@@ -399,9 +399,7 @@ public class GestureHooks extends GestureHelper {
 						
 						View view = (View) param.args[0];
 						Object tag = view.getTag();
-                        log(view.getClass().getName());
-                        log(view.getTag().getClass().getName());
-                        log("Contains: " + Fields.cellInfoClass);
+                        
 						if (PreferencesHelper.gesture_double_tap_only_on_wallpaper) {
 							
 							if (!(view.getClass().getName().contains(Fields.cellInfoClass)
