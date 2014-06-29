@@ -38,8 +38,9 @@ import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.getStaticObjectField;
 
 public class SystemUIReceiver extends HooksBaseClass {
-	
-	public static View CLOCK_VIEW;
+
+    private static boolean IS_CLOCK_VISIBLE = false;
+    public static View CLOCK_VIEW;
 	public static ImageView HOME_BUTTON;
 	public static ImageView BACK_BUTTON;
 	//public static ImageView RECENTS_BUTTON;
@@ -58,6 +59,7 @@ public class SystemUIReceiver extends HooksBaseClass {
 	public static Drawable TMP_HOME_BUTTON;
 	public static Drawable TMP_BACK_BUTTON;
 	public static ScaleType TMP_BACK_BUTTON_SCALE;
+    public static boolean TMP_CLOCK_VISIBILITY;
 	
 	public static Object PHONE_STATUSBAR_OBJECT;
 	public static Object NOTIFICATIONBAR_OBJECT;
@@ -391,7 +393,8 @@ public class SystemUIReceiver extends HooksBaseClass {
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 					
 					if (isLauncherInForeground()) {
-						
+
+                        TMP_CLOCK_VISIBILITY = IS_CLOCK_VISIBLE;
 						TMP_HOME_BUTTON = HOME_BUTTON.getDrawable();
 						TMP_BACK_BUTTON = BACK_BUTTON.getDrawable();
 						TMP_BACK_BUTTON_SCALE = BACK_BUTTON.getScaleType();
@@ -418,6 +421,7 @@ public class SystemUIReceiver extends HooksBaseClass {
 							
 							setHomeButtonIcon(TMP_HOME_BUTTON);
 							setBackButtonIcon(TMP_BACK_BUTTON, TMP_BACK_BUTTON_SCALE);
+                            showHideClock(TMP_CLOCK_VISIBILITY);
 							
 							TMP_HOME_BUTTON = null;
 							TMP_BACK_BUTTON = null;
@@ -494,7 +498,7 @@ public class SystemUIReceiver extends HooksBaseClass {
     
     public static void showHideClock(boolean show) {
     	if (PHONE_STATUSBAR_OBJECT == null) return;
-    	
+    	IS_CLOCK_VISIBLE = show;
 		if (DEBUG) log("SystemUIReceiver: " + (show ? "Show" : "Hide") + " clock");
 		callMethod(PHONE_STATUSBAR_OBJECT, "showClock", show);
 	}
