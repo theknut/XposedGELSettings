@@ -118,7 +118,7 @@ public class GeneralHooks extends HooksBaseClass {
 
             findAndHookMethod(Classes.Folder, "onLongClick", View.class, drag);
             findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvBeginDragging, View.class, drag);
-            findAndHookMethod(Classes.Workspace, Methods.workspaceStartDrag, Classes.CellLayoutCellInfo, new StartDragHook());
+            findAndHookMethod(Classes.Workspace, Methods.workspaceStartDrag, Classes.CellLayoutCellInfo, drag);
 		}
 
         if (PreferencesHelper.overlappingWidgets) {
