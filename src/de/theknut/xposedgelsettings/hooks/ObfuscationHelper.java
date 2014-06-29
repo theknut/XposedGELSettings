@@ -99,6 +99,7 @@ public class ObfuscationHelper extends HooksBaseClass {
 			ITEM_INFO = launcherPackage + "ItemInfo";
 			APP_INFO = launcherPackage + "AppInfo";
 			CELL_LAYOUT = launcherPackage + "CellLayout";
+            CELL_LAYOUT_CELL_INFO = CELL_LAYOUT + "$CellInfo";
 			CELL_LAYOUT_LAYOUT_PARAMS = launcherPackage + "CellLayout$LayoutParams";
 			SEARCH_DROP_TARGET_BAR = launcherPackage + "SearchDropTargetBar";
 			LAUNCHER = launcherPackage + "Launcher";
@@ -234,6 +235,7 @@ public class ObfuscationHelper extends HooksBaseClass {
 					AppsCustomizeTabHost = findClass(ClassNames.APPS_CUSTOMIZE_TAB_HOST, lpparam.classLoader);
 				}
 
+                CellLayoutCellInfo = findClass(ClassNames.CELL_LAYOUT_CELL_INFO, lpparam.classLoader);
 				AppsCustomizeContentType = findClass(ClassNames.APPS_CUSTOMIZE_CONTENT_TYPE, lpparam.classLoader);
 				AllAppsList = findClass(ClassNames.ALL_APPS_LIST, lpparam.classLoader);
 				Folder = findClass(ClassNames.FOLDER, lpparam.classLoader);
@@ -622,7 +624,7 @@ public class ObfuscationHelper extends HooksBaseClass {
 				launcherGetApplicationContext = "getApplicationContext";
 				launcherIsRotationEnabled = first ? "hr" : "gC"; // getBoolean - single line method // gC
 				celllayoutAddViewToCellLayout = "a"; // View paramView, int paramInt1, int paramInt2, CellLayout.LayoutParams paramLayoutParams, boolean paramBoolean
-				wallpaperoffsetinterpolatorSyncWithScroll = first ? "la" : "kF"; // computeScroll in Workspace // kf
+				wallpaperoffsetinterpolatorSyncWithScroll = first ? "la" : "kf"; // computeScroll in Workspace // kf
 				workspaceStartDrag = "a"; // isInTouchMode
 				workspaceBeginDraggingApplication = "P";
 				workspaceBeginDragShared = "a";
