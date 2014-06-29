@@ -334,4 +334,26 @@
     
     <string name="pref_show_google_search_bar_homescreen_title">Ecran d\'accueil par défaut</string>
     <string name="pref_show_google_search_bar_homescreen_summary">Montre la barre de recherche sur l\'écran d\'accueil par défaut</string>
+
+    <string name="pref_icon_hide_icon_packs_title">Masquer les pack d\'icônes</string>
+    <string name="pref_icon_hide_icon_packs_summary">Masque automatiquement les pack d\'icônes du drawer</string>
+    <string name="pref_icon_perappicon_title">Changement individuel des icônes</string>
+    <string name="pref_icon_perappicon_summary">Choisissez individuellement des icônes provenant de plusieurs packs</string>
+    <string name="pref_icon_allappsbutton_title">Icône du drawer</string>
+    <string name="pref_icon_allappsbutton_summary">Change l\'icône du drawer</string>
+    <string name="pref_xgels_no_background_image_title">Pas d\'image d\'arrière plan</string>
+    <string name="pref_switch_smart_folder_title">Dossier intelligents</string>
+    <string name="pref_overlapping_widgets_title">Widgets chevauchants</string>
+    <string name="pref_overlapping_widgets_summary">Permer le chevauchement des widgets. Ne fonctionne que sur GNL!\n(Beta: Actuellement la position de la couche n\'est pas sauvegardée après un redémarrage)</string>
+
+    <string name="pref_overridesettings_button_title">Bouton des paramètres</string>
+    <string name="pref_overridesettings_button_summary">Ouvre XGELS au lieu des paramètres de Google Now</string>
+
+    <string-array name="smartfoldermode_entries">
+        <item>Off</item>
+        <item>Glisser - lancer la première appli\nToucher - ouvrir le dossier</item>
+        <item>Toucher - lancer la première appli\nGlisser - ouvrir le dossier</item>
+    </string-array>
+
+    <string name="pref_icon_reset_all">Tout remettre à zéro</string>
 </resources>
