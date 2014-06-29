@@ -79,7 +79,7 @@ public class ImageLoader extends AsyncTask<Void, Void, Void> {
             if (selectedIcon != null) {
                 holder.selectedIcon.setImageDrawable(selectedIcon);
             }
-        } else if (!iconPack.isDefault()
+        } else if (iconPack != null && !iconPack.isDefault()
                     && FragmentIcon.iconPack.getUnthemedIcons().contains(cmpName.flattenToString())) {
             holder.textView.setTextColor(Color.RED);
         }  else {
