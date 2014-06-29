@@ -30,7 +30,6 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.Set;
 
-import de.robv.android.xposed.XposedBridge;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.ui.CommonUI;
 
@@ -200,7 +199,6 @@ public class IconPack {
             Icon icon = it.next();
             for (ResolveInfo calendar : calendars) {
                 if (icon.getPackageName().contains(calendar.activityInfo.packageName)) {
-                    XposedBridge.log("Found and removed " + calendar.activityInfo.packageName);
                     it.remove();
                 }
             }
@@ -614,7 +612,7 @@ public class IconPack {
                 icon.setIcon(res.getDrawable(icon.getResID()));
                 icons.add(icon);
             }
-        } catch (NameNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
