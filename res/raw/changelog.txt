@@ -19,7 +19,7 @@
         margin-bottom:1em; 
 		text-align:center }
       div.freetext {
-		color:#FFFFFF;
+		color:#FFdfdfff
 		font-weight:bold }
       div.list {
       	color:#FFFFFF }
@@ -27,7 +27,22 @@
   </head>
   <body>
 
-I'll do staged rollouts if a single bug leads to 1 star ratings on Google Play. Thats disgusting given that I fixed XGELS even before GNL 3.5 reached everyone. Click <a href="http://bit.ly/1pETPwz">here</a> to see a code sample of the code I have to read. You got to be a little bit more forgiving, my friends!
+$ 1.8.2
+  % Version 1.8.2
+ _ 2014-29-06
+
+ ! Added:
+ * app dock icon count range 1 - 12 instead of 4 - 12
+
+ ! Fixed:
+ * Wallpaper scrolling
+ * Double tap gesture
+ * Clock not hidden after closing notification bar/quicksettings
+ * app drawer gesture too sensitive
+ * bugs from bug/crash report
+
+ ! XGELS UI:
+ * updated translations
 
 $ 1.8.1
   % Version 1.8.1
