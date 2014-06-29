@@ -202,6 +202,14 @@ public class GestureHooks extends GestureHelper {
 									hideAppdock(animateDuration);
 								}
 							}
+
+//                            TextView f = new TextView(Common.LAUNCHER_CONTEXT);
+//                            f.setText("jojojojo");
+//                            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(30, 40);
+//                            params.leftMargin = 50;
+//                            params.topMargin = 60;
+//                            ViewGroup d = (ViewGroup) param.thisObject;
+//                            d.addView(f, params);
 							
 							break;
 						case MotionEvent.ACTION_UP:
@@ -251,7 +259,7 @@ public class GestureHooks extends GestureHelper {
 					height = size.y;
 				}
 				
-				float downY;
+				float downY, downX;
 				boolean isDown = false;
 				
 				@Override
@@ -287,6 +295,7 @@ public class GestureHooks extends GestureHelper {
 							
 							if (!isDown) {
 								downY = ev.getRawY();
+                                downX = ev.getRawX();
 							}
 							
 							break;
@@ -294,12 +303,17 @@ public class GestureHooks extends GestureHelper {
 							if (DEBUG) log("DOWN: " + ev.getRawY());
 							
 							downY = ev.getRawY();
+                            downX = ev.getRawX();
 							isDown = true;
 							break;
 						case MotionEvent.ACTION_UP:
 							if (DEBUG) log("UP: " + ev.getRawY());
 							
 							isDown = false;
+
+                            // user probably switched pages
+                            if (Math.abs(ev.getRawX() - downX) > (width / 4)) return;
+
 							if ((ev.getRawY() - downY) > (height / 6)) {
 								// getObjectField(param.thisObject, "mLauncher")
 								callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherShowWorkspace, true, null);
@@ -385,11 +399,13 @@ public class GestureHooks extends GestureHelper {
 						
 						View view = (View) param.args[0];
 						Object tag = view.getTag();
-						if (tag == null && !view.getClass().getName().contains(Fields.cellInfoClass)) return;
-
+                        log(view.getClass().getName());
+                        log(view.getTag().getClass().getName());
+                        log("Contains: " + Fields.cellInfoClass);
 						if (PreferencesHelper.gesture_double_tap_only_on_wallpaper) {
 							
-							if (!view.getClass().getName().contains(Fields.cellInfoClass)) {
+							if (!(view.getClass().getName().contains(Fields.cellInfoClass)
+                                 || (tag != null && tag.getClass().getName().contains(Fields.cellInfoClass)))) {
 								return;
 							}
 							
