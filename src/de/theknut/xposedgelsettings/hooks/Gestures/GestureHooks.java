@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout.LayoutParams;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -408,18 +409,19 @@ public class GestureHooks extends GestureHelper {
 							}
 							
 						} else {
-
                             if (tag != null && tag.getClass().getName().contains(Fields.shortcutInfoClass)) {
-								
 								int itemType = getIntField(tag, Fields.iiItemType);
 								if (itemType == ITEM_TYPE_ALLAPPS
 									|| itemType == ITEM_TYPE_FOLDER) {
 									return;
 								}	
 							} else if (tag != null && view.getTag().getClass().getName().contains(Fields.folderInfoClass)) {
-								
 								return;
-							}
+							} else if (view instanceof TextView) {
+                                // thats the all apps button
+                                // we don't want to do anthing when pressing this button
+                                return;
+                            }
 						}
 						
 						if (isScheduledOrRunning) {
