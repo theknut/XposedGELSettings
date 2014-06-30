@@ -27,6 +27,16 @@
   </head>
   <body>
 
+Sorry for the hectic ;)
+
+$ 1.8.3
+  % Version 1.8.3
+ _ 2014-30-06
+
+ ! Fixed:
+ * clock hidden after open/closing statusbar
+ * app drawer button freezing homescreen
+
 $ 1.8.2
   % Version 1.8.2
  _ 2014-29-06
