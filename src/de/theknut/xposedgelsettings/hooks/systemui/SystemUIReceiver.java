@@ -39,7 +39,7 @@ import static de.robv.android.xposed.XposedHelpers.getStaticObjectField;
 
 public class SystemUIReceiver extends HooksBaseClass {
 
-    private static boolean IS_CLOCK_VISIBLE = false;
+    private static boolean IS_CLOCK_VISIBLE = true;
     public static View CLOCK_VIEW;
 	public static ImageView HOME_BUTTON;
 	public static ImageView BACK_BUTTON;
