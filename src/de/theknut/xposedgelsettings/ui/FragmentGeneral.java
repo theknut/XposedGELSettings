@@ -3,6 +3,8 @@ package de.theknut.xposedgelsettings.ui;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import de.theknut.xposedgelsettings.R;
+import de.theknut.xposedgelsettings.hooks.Common;
 
 public class FragmentGeneral extends FragmentBase {
 	
@@ -23,7 +26,31 @@ public class FragmentGeneral extends FragmentBase {
     	
     	View rootView = inflater.inflate(R.layout.options_fragment, container, false);
         addPreferencesFromResource(R.xml.general_fragment);
-        
+
+        findPreference("enablellauncher").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+
+                if (!(Boolean) newValue) return true;
+
+                try {
+                    PackageManager pkgMgr = mContext.getPackageManager();
+                    PackageInfo packageInfo = pkgMgr.getPackageInfo(Common.GEL_PACKAGE, 0);
+                    if ((Integer.parseInt(packageInfo.versionName.split("\\.")[0]) >= 3)
+                        && (Integer.parseInt(packageInfo.versionName.split("\\.")[1]) < 5)) {
+                        Toast.makeText(
+                                mContext,
+                                "Your Google Search version is outdated (" + packageInfo.versionName + ")\n" + "Google Search 3.5 and up is required!\nThis tweak will have no effect!",
+                                Toast.LENGTH_LONG
+                        ).show();
+                    }
+                } catch (Exception e) {
+                    // shouldn't be here but lets prevent this from crashing...
+                }
+                return true;
+            }
+        });
+
         findPreference("enablerotation").setOnPreferenceChangeListener(onChangeListenerFullReboot);
         findPreference("hidewidgets").setOnPreferenceClickListener(new OnPreferenceClickListener() {
 			

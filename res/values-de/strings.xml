@@ -334,5 +334,7 @@
     </string-array>
 
     <string name="pref_icon_reset_all">Alle zurücksetzen</string>
+    <string name="pref_enable_l_launcher_title">L Launcher Design</string>
+    <string name="pref_enable_l_launcher_summary">Verwendet das L Launcher Design, welches ab Google Suche 3.5 verfügbar ist. Es verändert nicht die Navigationsleiste, da das keine Funktion des Launchers ist.</string>
    
 </resources>

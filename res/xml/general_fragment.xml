@@ -5,6 +5,10 @@
         android:title="@string/pref_limited_title"
         android:summary="@string/pref_limited_summary"
         android:selectable="false"/>
+    <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+        android:key="enablellauncher"
+        android:title="@string/pref_enable_l_launcher_title"
+        android:summary="@string/pref_enable_l_launcher_summary"/>
 	<de.theknut.xposedgelsettings.ui.CustomSwitchPreference
 	    android:key="hidepageindicator"
 	    android:title="@string/pref_pageindicator_title"

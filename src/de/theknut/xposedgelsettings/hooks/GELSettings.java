@@ -24,7 +24,7 @@ import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage {
 
 	@Override
-	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
+	public void handleLoadPackage(final LoadPackageParam lpparam) throws Throwable {
 
 		// only hook to supported launchers		
 		if (lpparam.packageName.equals(Common.PACKAGE_NAME)) {

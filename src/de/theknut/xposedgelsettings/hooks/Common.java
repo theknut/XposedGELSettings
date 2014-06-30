@@ -74,4 +74,5 @@ public final class Common {
 	public static final List<String> PACKAGE_NAMES = new ArrayList<String>(Arrays.asList("com.android.launcher2", "com.android.launcher3", Common.GEL_PACKAGE, Common.TREBUCHET_PACKAGE));
 
     public static boolean FOLDER_GESTURE_ACTIVE;
+    public static boolean L_VALUE = true;
 }

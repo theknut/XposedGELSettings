@@ -13,7 +13,9 @@ import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
+import de.robv.android.xposed.XposedHelpers.ClassNotFoundError;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
@@ -28,10 +30,11 @@ import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
+import static de.robv.android.xposed.XposedHelpers.newInstance;
 
 public class GeneralHooks extends HooksBaseClass {
 	
-	public static void initAllHooks(LoadPackageParam lpparam) {
+	public static void initAllHooks(final LoadPackageParam lpparam) {
 
         findAndHookMethod(Classes.Launcher, Methods.launcherOnCreate, Bundle.class, new XC_MethodHook() {
 
@@ -43,6 +46,42 @@ public class GeneralHooks extends HooksBaseClass {
                 Common.LAUNCHER_CONTEXT = (Context) callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherGetApplicationContext);
             }
         });
+
+        try {
+            if (PreferencesHelper.enableLLauncher) {
+                findAndHookMethod(findClass("zu", lpparam.classLoader), "jO", new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        // somehow methodreplacement didn't work
+                        // let's do it like this...
+                        param.setResult(Common.L_VALUE);
+                    }
+                });
+                findAndHookMethod(Classes.Launcher, "onAttachedToWindow", new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        Common.L_VALUE = false;
+                    }
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        Common.L_VALUE = true;
+                    }
+                });
+                findAndHookMethod(findClass("adm", lpparam.classLoader), "z", new XC_MethodReplacement() {
+                    @Override
+                    protected Object replaceHookedMethod(MethodHookParam methodHookParam) throws Throwable {
+                        XposedBridge.log(Common.LAUNCHER_CONTEXT.getResources().getResourceName(2131820552));
+                        return newInstance(findClass("adp", lpparam.classLoader), methodHookParam.args[0]);
+                    }
+                });
+            }
+        } catch (ClassNotFoundError cnfe) {
+
+        } catch (NoSuchMethodError nsme) {
+
+        } catch (Exception e) {
+
+        }
 
         // save the workspace instance
         XposedBridge.hookAllConstructors(Classes.Workspace, new WorkspaceConstructorHook());

@@ -103,4 +103,6 @@ public class PreferencesHelper {
 	public static int notificationBadgeTextColor = prefs.getInt("notificationbadgetextcolor", Color.argb(0xFF, 0xFF, 0xFF, 0xFF));
 	public static int notificationBadgeFrameColor = prefs.getInt("notificationbadgeframecolor", Color.argb(0xFF, 0xFF, 0xFF, 0xFF));
     public static boolean overrideSettingsButton = prefs.getBoolean("overridesettingsbutton", false);
+
+    public static boolean enableLLauncher = prefs.getBoolean("enablellauncher", false);;
 }

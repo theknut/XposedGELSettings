@@ -298,6 +298,8 @@ Por favor, veja o log!"</string>
     <string name="toast_reset_failed">Não foi possível aplicar as alterações!</string>
     <string name="toast_restore_failed">Não foi possível aplicar as alterações!</string>
     <string name="toast_restore_success">Tela Inicial restaurada com sucesso!</string>
+    <string name="pref_enable_l_launcher_title">Projeto Lançador L</string>
+    <string name="pref_enable_l_launcher_summary">Este utiliza o novo tema lançador que está disponível no Google Search 3.5 em. Ele não tema e barra de navegação, pois isso não faz parte do programa de lançamento.</string>
 
     <string-array name="allappsbuttonposition_entries">
         <item>Padrão</item>
