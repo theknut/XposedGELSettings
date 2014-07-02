@@ -360,4 +360,8 @@
     </string-array>
 
     <string name="pref_icon_reset_all">Obnoviť všetky</string>
+    
+    <!-- V1.8.4 -->
+    <string name="pref_enable_l_launcher_title">L dizajn spúšťača</string>
+    <string name="pref_enable_l_launcher_summary">Použiť novú L tému pre spúšťač, ktorá je k dispozícii od Vyhľadávania Google 3.5. Nezmení sa téma navigačného panela, pretože navigačný panel nie je súčasťou spúšťača.</string>
 </resources>
