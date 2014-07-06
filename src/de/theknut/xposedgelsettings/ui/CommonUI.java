@@ -205,7 +205,7 @@ public class CommonUI {
     		new AlertDialog.Builder(CONTEXT)
     	    .setTitle(R.string.alert_reboot_needed_title)
     	    .setMessage(R.string.alert_reboot_needed_summary)
-    	    .setPositiveButton("Full reboot", new DialogInterface.OnClickListener() {
+    	    .setPositiveButton(R.string.full_reboot, new DialogInterface.OnClickListener() {
     	        public void onClick(DialogInterface dialog, int which) {
     	        	if (!InAppPurchase.isPremium) {
     	    			Toast.makeText(CONTEXT, CONTEXT.getString(R.string.toast_donate_only), Toast.LENGTH_SHORT).show();
@@ -216,7 +216,7 @@ public class CommonUI {
     	        }
 	        }
     	     )
-    	     .setNeutralButton("Hot reboot", new DialogInterface.OnClickListener() {
+    	     .setNeutralButton(R.string.hot_reboot, new DialogInterface.OnClickListener() {
 
 			      public void onClick(DialogInterface dialog, int id) {
 			    	if (!InAppPurchase.isPremium) {
@@ -226,7 +226,7 @@ public class CommonUI {
 			    	  
 			    	openRootShell(new String[]{ "su", "-c", "killall system_server"});			
 			    }})
-    	    .setNegativeButton("Launcher reboot", new DialogInterface.OnClickListener() {
+    	    .setNegativeButton(R.string.launcher_reboot, new DialogInterface.OnClickListener() {
     	        public void onClick(DialogInterface dialog, int which) { 
     	            restartLauncher();
     	        }
@@ -241,7 +241,7 @@ public class CommonUI {
     public static boolean restartLauncher(boolean showToast) {   	
     	
 		 ActivityManager am = (ActivityManager) CONTEXT.getSystemService(Context.ACTIVITY_SERVICE);
-	   	 String msg = "Killed:\n";
+	   	 String msg = getString(R.string.killed);
 	   	 boolean neededRoot = false;
 	   	 
 	   	 List<RunningAppProcessInfo> processes = am.getRunningAppProcesses();
@@ -267,7 +267,7 @@ public class CommonUI {
 	   	 
 	   	 if (!neededRoot) {
 	   		 
-		   	 if (msg.equals("Killed:\n")) {
+		   	 if (msg.equals(getString(R.string.killed))) {
 		   		 msg = msg.substring(0, msg.lastIndexOf('\n')) + " " + CONTEXT.getString(R.string.toast_reboot_failed_nothing_msg) + "... :(\n" + CONTEXT.getString(R.string.toast_reboot_failed);
 		   	 } else {
 		   		 msg = msg.substring(0, msg.lastIndexOf('\n'));
@@ -356,9 +356,9 @@ public class CommonUI {
 		                	Toast.makeText(CONTEXT, "Error executing commands: exitCode " + exitCode, Toast.LENGTH_LONG).show();
 		                } else {
 		                	if (output.size() == 0) {
-		                		Toast.makeText(CONTEXT, "Success", Toast.LENGTH_LONG).show();
+		                		Toast.makeText(CONTEXT, getString(R.string.success), Toast.LENGTH_LONG).show();
 		                	} else {
-		                		Toast.makeText(CONTEXT, "Failed: " + output, Toast.LENGTH_LONG).show();
+		                		Toast.makeText(CONTEXT, getString(R.string.failed) + ": " + output, Toast.LENGTH_LONG).show();
 		                	}
 		                }
 		            }
