@@ -344,5 +344,26 @@
     <!-- V1.8.4 -->
     <string name="pref_enable_l_launcher_title">L Launcher Design</string>
     <string name="pref_enable_l_launcher_summary">This uses the new L launcher theme which is available from Google Search 3.5 on. It doesn\'t theme the navigation bar as this is not part of the launcher.</string>
+    
+    <string name="full_reboot">Full reboot</string>
+    <string name="hot_reboot">Hot reboot</string>
+    <string name="launcher_reboot">Launcher reboot</string>
+    <string name="hot_reboot">Hot reboot</string>
+    <string name="killed">Killed:\n</string>
+    <string name="success">Success</string>
+    <string name="failed">Failed</string>
+    <string name="missing_framework">Missing framework!</string>
+    <string name="missing_framework_msg">The Xposed Framework is not installed. This app will not work without the framework!</string>
+    <string name="go_to_framework">Go to Xposed Framework</string>
+    <string name="exit">Exit</string>
+    <string name="module_not_active">Module not active!</string>
+    <string name="module_not_active_msg">XGELS is not active. Please activate the module in Xposed Installer -> Modules</string>
+    <string name="open_xposed_installer">Open Xposed Installer</string>
+    <string name="active_manually">Ehm... that didn't work. Please open Xposed Installer manually and activate the module. Restart your device!</string>
+    <string name="continue">Continue</string>
+    <string name="dont_show_again">Don't show again</string>
+    <string name="module_not_from_google_play">Module not installed from Google Play!</string>
+    <string name="module_not_from_google_play_msg">XGELS is not installed from Google Play! Please reinstall XGELS and download the module from the store to get updates automatically!</string>
+    <string name="open_play_store">Open Play Store</string>
 
 </resources>
