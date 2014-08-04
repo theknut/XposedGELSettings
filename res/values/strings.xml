@@ -318,10 +318,10 @@
     <string name="module_not_from_google_play">Module not installed from Google Play!</string>
     <string name="module_not_from_google_play_msg">XGELS is not installed from Google Play! Please install XGELS from the Play Store to be able to buy XGELS Premium and to get updates automatically!</string>
     <string name="open_play_store">Open Play Store</string>
-    <string name="dont_show_again">Don't show again</string>
+    <string name="dont_show_again">Don\'t show again</string>
     <string name="success">Success</string>
     <string name="failed">Failed</string>
-    <string name="active_manually">Ehm&#823; that didn't work. Please open Xposed Installer manually and activate the module. Restart your device!</string>
+    <string name="active_manually">Ehm&#823; that didn\'t work. Please open Xposed Installer manually and activate the module. Restart your device!</string>
     <string name="continue_text">Continue</string>
 
 </resources>
