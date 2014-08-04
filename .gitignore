@@ -260,3 +260,4 @@ gradle/wrapper/gradle-wrapper.jar
 gradle/wrapper/gradle-wrapper.properties
 gradlew
 gradlew.bat
+src/de/theknut/xposedgelsettings/ui/Crypto.java
