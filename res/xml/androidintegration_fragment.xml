@@ -4,6 +4,13 @@
 		android:title="@string/pref_systemui_explain_title"
 		android:summary="@string/pref_systemui_explain_summary"
 	    android:selectable="false" />
+    <de.theknut.xposedgelsettings.ui.MyPreferenceCategory
+        android:title="@string/pref_cat_system_bars_title">
+        <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+            android:key="transparentsystembars"
+            android:title="@string/pref_transparent_system_bars_title"
+            android:summary="@string/pref_transparent_system_bars_summary" />
+    </de.theknut.xposedgelsettings.ui.MyPreferenceCategory>
 	<de.theknut.xposedgelsettings.ui.MyPreferenceCategory
       android:title="@string/pref_cat_systemui_statusbar_title">
       <de.theknut.xposedgelsettings.ui.CustomSwitchPreference

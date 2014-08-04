@@ -20,8 +20,10 @@ public final class Common {
 	public static final String XGELS_ACTION_OTHER = "OTHER";
 	public static final String XGELS_ACTION_APP_REQUEST = "APP_REQUEST";
 	public static final String XGELS_ACTION_SAVE_ICONPACK = XGELS_INTENT + ".SAVE_ICONPACK";
-    public static final String XGELS_ACTION_SAVE_WIDGET_POSITION = XGELS_INTENT + ".SAVE_WIDGET_POSITION";
-	
+    public static final String XGELS_ACTION_SAVE_LAYER_POSITIONS = XGELS_INTENT + ".SAVE_LAYER_POSITIONS";
+    public static final String XGELS_ACTION_SAVE_STRING_ARRAY = XGELS_INTENT + ".SAVE_STRING_ARRAY";
+    public static final String XGELS_ACTION_RELOAD_SETTINGS = XGELS_INTENT + ".RELOAD_SETTINGS";
+
 	// MissedIt intent
 	public static final String MISSEDIT_INTENT = "net.igecelabs.android.MissedIt.";
 	public static final String MISSEDIT_ACTION_INTENT = MISSEDIT_INTENT + "action.";
@@ -42,7 +44,6 @@ public final class Common {
 	
 	// Instances
 	public static Object LAUNCHER_INSTANCE;
-	public static Object DEVICE_PROFILE_INSTANCE;
 	public static Object CONTENT_TYPE;
 	public static Object WORKSPACE_INSTANCE;
 	public static Object APP_DRAWER_INSTANCE;
@@ -51,7 +52,6 @@ public final class Common {
 		
 	// saved messures of the search bar
 	public static int SEARCH_BAR_SPACE_HEIGHT = -1;
-	public static int SEARCH_BAR_SPACE_WIDTH = -1;
 	public static int HOTSEAT_BAR_HEIGHT;
 	
 	// saved measures for the icon sizes
@@ -67,8 +67,8 @@ public final class Common {
 	public static boolean MOVED_TO_DEFAULTHOMESCREEN = false;
 	public static int APPDRAWER_LAST_POSITION = 0;
 
-    public static boolean UPDATING_ICONS;
 	public static boolean PACKAGE_OBFUSCATED;
+    public static int GNL_VERSION;
 	
 	// all launchers we support (hopefully :-S)
 	public static final List<String> PACKAGE_NAMES = new ArrayList<String>(Arrays.asList("com.android.launcher2", "com.android.launcher3", Common.GEL_PACKAGE, Common.TREBUCHET_PACKAGE));

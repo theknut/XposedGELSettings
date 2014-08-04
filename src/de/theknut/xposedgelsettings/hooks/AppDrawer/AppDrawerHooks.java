@@ -43,11 +43,11 @@ public class AppDrawerHooks extends HooksBaseClass {
 		}
 		
 		if (Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE)) {
-			// set the background color of the app drawer
+			// set the background pref_color of the app drawer
 			XposedBridge.hookAllConstructors(Classes.AppsCustomizeLayout, new AppsCustomizeLayoutConstructorHook());
 		}
 		else {
-			// set the background color of the app drawer
+			// set the background pref_color of the app drawer
 			if (Common.PACKAGE_OBFUSCATED) {
 				findAndHookMethod(Classes.AppsCustomizeTabHost, Methods.acthOnTabChanged, Classes.AppsCustomizeContentType, new OnTabChangedHook());
 			} else {
@@ -73,9 +73,13 @@ public class AppDrawerHooks extends HooksBaseClass {
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 					if ((Boolean) param.args[TOWORKSPACE]) {
-					    Common.OVERSCROLLED = false;
-						Object acpv = getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizePagedView);
-						Common.APPDRAWER_LAST_POSITION = getIntField(acpv, Fields.acpvCurrentPage);
+
+                        if (!Common.OVERSCROLLED) {
+                            Object acpv = getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizePagedView);
+                            Common.APPDRAWER_LAST_POSITION = getIntField(acpv, Fields.acpvCurrentPage);
+                        }
+
+                        Common.OVERSCROLLED = false;
 						if (DEBUG) log(param, "AppDrawerHooks: get current position - " + Common.APPDRAWER_LAST_POSITION);
 					}
 				}

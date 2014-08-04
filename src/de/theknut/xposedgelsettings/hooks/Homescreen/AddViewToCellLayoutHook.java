@@ -12,6 +12,7 @@ import net.margaritov.preference.colorpicker.ColorPickerPreference;
 
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
@@ -34,7 +35,7 @@ public final class AddViewToCellLayoutHook extends HooksBaseClass {
 	@Override
 	protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 		
-		if (param.args[0].getClass().getName().contains(Fields.bubbleTextView)) {
+		if (param.args[0].getClass().equals(Classes.BubbleTextView)) {
 			
 			// apps in folders don't have a shadow so we can filter that for future customization
 			if (!getBooleanField(param.args[0], Fields.btvShadowsEnabled)) {
@@ -64,7 +65,7 @@ public final class AddViewToCellLayoutHook extends HooksBaseClass {
 				}
 			}
 			
-		} else if (param.args[0].getClass().getName().contains(Fields.fiFolderIcon)) {
+		} else if (param.args[0].getClass().equals(Classes.FolderIcon)) {
 			Object folderName = getObjectField(param.args[0], Fields.fiFolderName);
 			
 			if (PreferencesHelper.iconSettingsSwitchHome) {
@@ -92,7 +93,7 @@ public final class AddViewToCellLayoutHook extends HooksBaseClass {
 				d.setColorFilter(newFolderBackgroundColor, Mode.MULTIPLY);
 				ll.setBackground(d);
 
-				EditText mFolderName = (EditText) getObjectField(mFolder, Fields.fiFolderEditText);
+				EditText mFolderName = (EditText) getObjectField(mFolder, Fields.fFolderEditText);
 				mFolderName.setTextColor(newFolderNameColor);
 				
 				ImageView prevBackground = (ImageView) getObjectField(param.args[0], Fields.fiPreviewBackground);

@@ -11,18 +11,14 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.theknut.xposedgelsettings.BuildConfig;
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 
@@ -36,25 +32,11 @@ public class FragmentWelcome extends FragmentBase {
 	boolean cancel;
      
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
     	super.onCreateView(inflater, container, savedInstanceState);
     	
-    	View rootView = inflater.inflate(R.layout.welcome, container, false);    	
-    	rootView = CommonUI.setBackground(rootView, R.id.welcomebackground);
-    	
-    	if (BuildConfig.DEBUG) {
-    		
-	    	((TextView) rootView.findViewById(R.id.welcometext)).setOnTouchListener(new OnTouchListener() {
-				
-				@Override
-				public boolean onTouch(View v, MotionEvent event) {
-				    
-					return true;
-				}
-			});
-    	}
-    	
-        return rootView;
+    	View rootView = inflater.inflate(R.layout.welcome, container, false);
+        return CommonUI.setBackground(rootView, R.id.welcomebackground);
     }
     
     @SuppressWarnings("deprecation")
@@ -159,9 +141,9 @@ public class FragmentWelcome extends FragmentBase {
     private void createAlertDialogs() {
     	IsXposedInstalledAlert = new AlertDialog.Builder(mContext)
 		.setCancelable(false)
-	    .setTitle("Missing framework!")
-	    .setMessage("The Xposed Framework is not installed. This app will not work without the framework!")
-	    .setPositiveButton("Go to Xposed Framework", new DialogInterface.OnClickListener() {
+	    .setTitle(getString(R.string.missing_framework))
+	    .setMessage(getString(R.string.missing_framework_msg))
+	    .setPositiveButton(getString(R.string.go_to_framework), new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) { 
 	        	Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://forum.xda-developers.com/xposed/xposed-installer-versions-changelog-t2714053"));
 	        	startActivity(browserIntent);
@@ -179,9 +161,9 @@ public class FragmentWelcome extends FragmentBase {
 		
 		IsModuleActive = new AlertDialog.Builder(mContext)
 		.setCancelable(false)
-	    .setTitle("Module not active!")
-	    .setMessage("XGELS is not active. Please activate the module in Xposed Installer -> Modules")
-	    .setPositiveButton("Open Xposed Installer", new DialogInterface.OnClickListener() {
+	    .setTitle(getString(R.string.module_not_active))
+	    .setMessage(getString(R.string.module_not_active_msg))
+	    .setPositiveButton(getString(R.string.open_xposed_installer), new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) {
 	        	
 	        	Intent LaunchIntent = null;
@@ -203,7 +185,7 @@ public class FragmentWelcome extends FragmentBase {
 	        			mContext.startActivity(LaunchIntent);
 	        		} else {
 	        			e.printStackTrace();
-	        			Toast.makeText(mContext, "Ehm... that didn't work. Please open Xposed Installer manually and activate the module. Restart your device!", Toast.LENGTH_LONG).show();
+	        			Toast.makeText(mContext, getString(R.string.active_manually), Toast.LENGTH_LONG).show();
 	        		}
 	        	}
 	        }
@@ -220,14 +202,14 @@ public class FragmentWelcome extends FragmentBase {
         View dontShowAgainLayout = adbInflater.inflate(R.layout.dialog_with_checkbox, null);
         final CheckBox dontShowAgain = (CheckBox) dontShowAgainLayout.findViewById(R.id.skip);
         dontShowAgain.setIncludeFontPadding(false);
-        dontShowAgain.setText("Don't show again");
+        dontShowAgain.setText(getString(R.string.dont_show_again));
         
         AlertDialog.Builder adb = new AlertDialog.Builder(mContext);
         adb.setView(dontShowAgainLayout);
         adb.setCancelable(false);
-	    adb.setTitle("Module not installed from Google Play!");
-	    adb.setMessage("XGELS is not installed from Google Play! Please reinstall XGELS and download the module from the store to get updates automatically!");
-	    adb.setPositiveButton("Open Play Store", new DialogInterface.OnClickListener() {
+	    adb.setTitle(getString(R.string.module_not_from_google_play));
+	    adb.setMessage(getString(R.string.module_not_from_google_play_msg));
+	    adb.setPositiveButton(getString(R.string.open_play_store), new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) { 
 	        	
 	        	if (dontShowAgain.isChecked()) {
@@ -265,7 +247,7 @@ public class FragmentWelcome extends FragmentBase {
 		.setCancelable(false)
 	    .setTitle(R.string.alert_xgels_updated_title)
 	    .setMessage(R.string.alert_xgels_updated_summary)
-	    .setPositiveButton("Full reboot", new DialogInterface.OnClickListener() {
+	    .setPositiveButton(getString(R.string.full_reboot), new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) {
 	        	
 	        	CommonUI.openRootShell(new String[]{"su", "-c", "reboot now"});
@@ -273,7 +255,7 @@ public class FragmentWelcome extends FragmentBase {
 	        }
         }
 	     )
-	     .setNeutralButton("Hot reboot", new DialogInterface.OnClickListener() {
+	     .setNeutralButton(getString(R.string.hot_reboot), new DialogInterface.OnClickListener() {
 
 		      public void onClick(DialogInterface dialog, int id) {
 		    	  

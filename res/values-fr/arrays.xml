@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="gesture_actions_entries_limited">
+        <item>Aucun</item>
+        <item>Drawer</item>
+        <item>Toggle dock</item>
+    </string-array>
+
+    <string-array name="gesture_actions_entries">
+        <item>Aucun</item>
+        <item>Barre de notification</item>
+        <item>Paramètres rapides</item>
+        <item>Drawer</item>
+        <item>Application récente</item>
+        <item>Panneau des applis récentes</item>
+        <item>Paramètres systèmes</item>
+        <item>Mettre en veille</item>
+        <item>Toggle dock</item>
+        <item>Ouvrir une application</item>
+    </string-array>
+
+    <string-array name="fragmenttitles_array">
+        <item>Bienvenue</item>
+        <item>Général</item>
+        <item>Barre de recherche Google</item>
+        <item>Ecran d\'accueil</item>
+        <item>Drawer</item>
+        <item>Gestes</item>
+        <item>Badges de notifications (Beta)</item>
+        <item>Icônes</item> <!-- NEW -->
+        <item>Android Integration</item>
+        <item>Sauvegarde/Restauration</item>
+        <item>Paramètres</item>
+        <item>Premium/Support</item>
+        <item>Reverse Engineering</item>
+    </string-array>
+
+    <string-array name="smartfoldermode_entries">
+        <item>Off</item>
+        <item>Glisser - lancer la première appli\nToucher - ouvrir le dossier</item>
+        <item>Toucher - lancer la première appli\nGlisser - ouvrir le dossier</item>
+    </string-array>
+
+</resources>

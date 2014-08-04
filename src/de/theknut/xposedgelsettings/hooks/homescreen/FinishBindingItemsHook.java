@@ -17,7 +17,7 @@ public class FinishBindingItemsHook extends HooksBaseClass {
 	protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 		
 		if (PreferencesHelper.defaultHomescreen == -1) {
-			boolean gnow = (Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherHasCustomContentToLeft);
+			boolean gnow = (Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lHasCustomContentToLeft);
 			
 			if (gnow) {
 				PreferencesHelper.defaultHomescreen = 2;
@@ -33,7 +33,7 @@ public class FinishBindingItemsHook extends HooksBaseClass {
 			callMethod(Common.WORKSPACE_INSTANCE, Methods.workspaceMoveToDefaultScreen, true);
 			Common.MOVED_TO_DEFAULTHOMESCREEN = true;
 		} else {
-			int currPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.workspaceCurrentPage);
+			int currPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage);
 			
 			Intent myIntent = new Intent();
 			myIntent.setAction(Common.XGELS_INTENT);

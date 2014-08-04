@@ -23,7 +23,7 @@ public class OverScrollAppDrawerHook extends XC_MethodHook {
 				if (Common.OVERSCROLLED) {
 					//Common.OVERSCROLLED = false;
 					
-					if ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherHasCustomContentToLeft)) {
+					if ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lHasCustomContentToLeft)) {
 						callMethod(Common.WORKSPACE_INSTANCE, Methods.wSetCurrentPage, 1);
 					}
 					else {

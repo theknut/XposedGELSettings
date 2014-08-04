@@ -4,6 +4,33 @@
     <string name="changelog_title">What\'s New</string>
     <string name="changelog_show_full">more&#8230;</string>
 
+    <string-array name="notificationbadge_presets_entries">
+        <item>Custom</item>
+        <item>G+ Style</item>
+        <item>G+ Style (Semi-Transparent)</item>
+        <item>Magnum Steel</item>
+        <item>Vinyl</item>
+        <item>Black and White</item>
+        <item>Round clean</item>
+        <item>Round glass</item>
+    </string-array>
+
+    <string-array name="premiumArray">
+        <item>a Paulaner beer</item>
+        <item>two German Bratwursts</item>
+        <item>a Schnitzel with fries</item>
+    </string-array>
+
+    <string-array name="donationArray">
+        <item>a Pretzel</item>
+        <item>a Pretzel with butter</item>
+        <item>a Paulaner beer</item>
+        <item>two German Bratwursts</item>
+        <item>a Schnitzel with fries</item>
+    </string-array>
+
+    <string name="pref_force_english_locale_title">Force English language</string>
+
     <string name="pref_reverseengineering_cat_title">Reverse Engineering</string>
     <string name="pref_reverseengineering_explain_title">Oh, Hi there!</string>
     <string name="pref_reverseengineering_explain_summary">As you may have noticed the recent GNL update broke all functionality of XGELS. This is due to the complete obfuscation of the GNL apk. To make XGELS work again I had to reverse engineer each feature of XGELS and basically had to go through all my and even the GNL source code again. Luckily I was able to restore 99% of the features!</string>
@@ -18,4 +45,18 @@
     <string name="pref_reverseengineering_support_summary">It\'s an incredible amount of work for me to maintain XGELS and give good support to you guys. If you feel like donating to me, click here! (!This won\'t unlock Premium!)</string>
     <string name="pref_reverseengineering_rate_title">Rate XGELS!</string>
     <string name="pref_reverseengineering_rate_summary">Show your support and leave me a rating on Google Play. A good reputation will motivate others to try XGELS, too. Click here to rate XGELS on Google Play!</string>
+
+    <string name="full_reboot">Full reboot</string>
+    <string name="hot_reboot">Hot reboot</string>
+    <string name="launcher_reboot">Launcher reboot</string>
+    <string name="killed">Killed:\n</string>
+    <string name="missing_framework">Missing framework!</string>
+    <string name="missing_framework_msg">The Xposed Framework is not installed. This app will not work without the framework!</string>
+    <string name="go_to_framework">Go to Xposed Framework</string>
+    <string name="exit">Exit</string>
+    <string name="module_not_active">Module not active!</string>
+    <string name="module_not_active_msg">XGELS is not active. Please activate the module in Xposed Installer -> Modules</string>
+    <string name="open_xposed_installer">Open Xposed Installer</string>
+    <string name="error_root_shell">Error opening root shell: exitCode</string>
+
 </resources>

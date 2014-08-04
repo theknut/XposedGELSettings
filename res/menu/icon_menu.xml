@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item
-        android:id="@+id/action_refresh"
+        android:id="@+id/appdrawerdefault"
+        android:visible="false"
         android:orderInCategory="100"
         android:showAsAction="always"
         android:icon="@drawable/ic_allapps"
-        android:title="@string/pref_icon_noiconpack" />
+        android:title="@string/default_text" />
+    <item
+        android:id="@+id/shortcutdefault"
+        android:visible="false"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:title="@string/default_text" />
 </menu>

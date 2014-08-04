@@ -70,6 +70,7 @@ public class FragmentIcon extends FragmentBase {
             public boolean onPreferenceClick(Preference preference) {
                 Intent i = new Intent(getActivity(), FragmentSelectiveIcon.class);
                 i.putExtra("app", "all_apps_button_icon");
+                i.putExtra("mode", FragmentSelectiveIcon.MODE_PICK_APPDRAWER_ICON);
                 startActivity(i);
                 return true;
             }

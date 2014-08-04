@@ -177,12 +177,6 @@
     <string name="pref_folder_namelabel_color">Folder name text color</string>
     <string name="pref_folder_preview_color">Folder preview color</string>
     
-    <string-array name="gesture_actions_entries_limited">
-        <item>None</item>
-        <item>App drawer</item>
-        <item>Toggle dock</item>
-    </string-array>
-    
     <string name="pref_choose_gesture_action_title">Choose a gesture action</string>
     <string name="pref_switch_gesture_appdrawer_title">App drawer</string>
     <string name="pref_switch_gesture_appdrawer_summary">Swipe down - close app drawer\nSwipe up - toggle between all apps and widgets</string>
@@ -254,19 +248,6 @@
     <string name="alert_launcher_not_installed_summary">It seems like you neither have Google Now Launcher nor Trebuchet installed. This module is designed for those two launchers and won\'t work if none of them is installed. Please make sure to install GNL or Trebuchet before using this app!</string>
     <string name="alert_launcher_not_installed_get_gnl">Get GNL</string>
     
-    <string-array name="gesture_actions_entries">
-        <item>None</item>
-        <item>Notification bar</item>
-        <item>Quick settings</item>
-        <item>App drawer</item>
-        <item>Recent app</item>
-        <item>Show recents</item>  <!-- NEW -->
-        <item>Android settings</item>
-        <item>Go to sleep</item>
-        <item>Toggle dock</item>
-        <item>Open app</item>
-    </string-array>
-    
     <string name="toast_donate_only">This feature requires XGELS Premium!</string>
     <string name="pref_donate_button">Buy Premium and support me!</string>
     <string name="pref_donated_button">Thank you for your purchase!</string>
@@ -281,24 +262,7 @@
     <string name="pref_switch_position_all_apps_button_summary">Choose the position of the app drawer</string>
     <string name="pref_general_scroll_devider_title">Scroll speed</string>
     <string name="pref_general_scroll_devider_summary">Set a global scroll speed</string>
-    
-    <!-- These strings are already existing, please try to edit them -->
-    <string-array name="fragmenttitles_array">
-        <item>Welcome</item>
-        <item>General</item>
-        <item>Google Search Bar</item>
-        <item>Homescreen</item>
-        <item>App Drawer</item>
-        <item>Gestures</item>
-        <item>Notification Badges (Beta)</item>
-        <item>Icon</item> <!-- NEW -->
-        <item>System UI Tweaks</item>
-        <item>Backup/Restore</item>
-        <item>Settings</item>
-        <item>Premium/Support</item>
-        <item>Reverse Engineering</item>
-    </string-array>
-    
+
     <string name="pref_switch_folder_hide_label">Hide icon labels</string>
     <string name="pref_icon_chooseiconpack_title">Icon pack</string>
     <string name="pref_icon_chooseiconpack_dialog_title">Choose an icon pack</string>
@@ -333,16 +297,31 @@
     <string name="pref_overridesettings_button_title">Settings button</string>
     <string name="pref_overridesettings_button_summary">Open XGELS instead of Google Now settings</string>
 
-    <string-array name="smartfoldermode_entries">
-        <item>Off</item>
-        <item>Swipe - launch first app\nTouch - open folder</item>
-        <item>Touch - launch first app\nSwipe - open folder</item>
-    </string-array>
-
     <string name="pref_icon_reset_all">Reset all</string>
 
     <!-- V1.8.4 -->
     <string name="pref_enable_l_launcher_title">L Launcher Design</string>
     <string name="pref_enable_l_launcher_summary">This uses the new L launcher theme which is available from Google Search 3.5 on. It doesn\'t theme the navigation bar as this is not part of the launcher.</string>
+
+    <!-- V1.9 -->
+    <string name="pref_hide_workspace_shadow_title">Homescreen shadow</string>
+    <string name="pref_hide_workspace_shadow_summary">Hide the homescreen shadow (visible in immersive mode)</string>
+    <string name="pref_switch_unlimited_folder_size_title">Unlimited folder size</string>
+    <string name="pref_always_show_ok_google_title">Always show "Ok Google"</string>
+    <string name="pref_glow_color_title">Glow color</string>
+    <string name="pref_glow_color_summary">Color when pressing an icon</string>
+    <string name="hide_app_switch_label">Hide from app drawer</string>
+    <string name="default_text">Default</string>
+    <string name="pref_cat_system_bars_title">System bars</string>
+    <string name="pref_transparent_system_bars_title">Transparent system bars</string>
+    <string name="pref_transparent_system_bars_summary">Use Android L-like transparent system bars (requires >= Android 4.4)</string>
+    <string name="module_not_from_google_play">Module not installed from Google Play!</string>
+    <string name="module_not_from_google_play_msg">XGELS is not installed from Google Play! Please install XGELS from the Play Store to be able to buy XGELS Premium and to get updates automatically!</string>
+    <string name="open_play_store">Open Play Store</string>
+    <string name="dont_show_again">Don't show again</string>
+    <string name="success">Success</string>
+    <string name="failed">Failed</string>
+    <string name="active_manually">Ehm&#823; that didn't work. Please open Xposed Installer manually and activate the module. Restart your device!</string>
+    <string name="continue_text">Continue</string>
 
 </resources>

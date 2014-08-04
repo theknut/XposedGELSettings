@@ -15,9 +15,9 @@ public final class LauncherOnResumeHook extends HooksBaseClass {
 	protected void afterHookedMethod(MethodHookParam param) throws Throwable {
         if (!((Boolean) callMethod(param.thisObject, ObfuscationHelper.Methods.lIsAllAppsVisible))
             && !(Boolean) callMethod(Common.WORKSPACE_INSTANCE, ObfuscationHelper.Methods.wIsOnOrMovingToCustomContent)
-            && getObjectField(Common.WORKSPACE_INSTANCE, ObfuscationHelper.Fields.workspaceState).toString().equals("NORMAL")) {
+            && getObjectField(Common.WORKSPACE_INSTANCE, ObfuscationHelper.Fields.wState).toString().equals("NORMAL")) {
 
-            int currentPage = getIntField(Common.WORKSPACE_INSTANCE, ObfuscationHelper.Fields.workspaceCurrentPage);
+            int currentPage = getIntField(Common.WORKSPACE_INSTANCE, ObfuscationHelper.Fields.wCurrentPage);
 
             if (currentPage == (PreferencesHelper.defaultHomescreen - 1)) {
 

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="gesture_actions_entries_limited">
+        <item>Brak</item>
+        <item>Szuflada aplikacji</item>
+        <item>Pokaż dock</item>
+    </string-array>
+
+    <string-array name="gesture_actions_entries">
+        <item>Brak</item>
+        <item>Belka powiadomień</item>
+        <item>Szybkie ustawienia</item>
+        <item>Szyflada aplikacji</item>
+        <item>Pokaż aplikacje w tle</item>
+        <item>Pokaż ostatnią aplikację</item>
+        <item>Ustawienia Android</item>
+        <item>Uśpij</item>
+        <item>Pokaż dock</item>
+        <item>Otwóz aplikację</item>
+    </string-array>
+
+    <string-array name="fragmenttitles_array">
+        <item>Witaj</item>
+        <item>Ogólne</item>
+        <item>Pasek Google Search</item>
+        <item>Pulpit</item>
+        <item>Szuflada aplikacji</item>
+        <item>Gesty</item>
+        <item>Znaczniki powiadomień</item>
+        <item>Icon</item> <!-- NEW -->
+        <item>Android Integration</item>
+        <item>Backup/Przywracanie</item>
+        <item>Ustawienia</item>
+        <item>Premium/Support</item>
+    </string-array>
+
+</resources>

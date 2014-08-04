@@ -17,7 +17,7 @@ public class StopSearchHook extends XC_MethodHook {
 		
 		boolean hasGNowEnabled = (Boolean) callMethod(Common.LAUNCHER_INSTANCE, "hasCustomContentToLeft");
 		
-		if ((hasGNowEnabled && getIntField(Common.WORKSPACE_INSTANCE, Fields.workspaceCurrentPage) != 0)
+		if ((hasGNowEnabled && getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage) != 0)
 			|| !hasGNowEnabled) {
 			
 			// hide the search bar on stop search

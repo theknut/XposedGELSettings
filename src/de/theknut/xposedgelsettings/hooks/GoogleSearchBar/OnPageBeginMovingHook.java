@@ -15,7 +15,7 @@ public final class OnPageBeginMovingHook extends XC_MethodHook {
 	protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 		if (Common.LAUNCHER_INSTANCE == null) return;
 
-		if ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherHasCustomContentToLeft) && !Common.IS_DRAGGING) {
+		if ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lHasCustomContentToLeft) && !Common.IS_DRAGGING) {
 			GoogleSearchBarHooks.hideSearchbar();					
 		}
 	}

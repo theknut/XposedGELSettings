@@ -171,13 +171,7 @@
         <item>6</item>
         <item>7</item>
     </string-array>
-    <string-array name="general_scroll_devider_entries">
-        <item>Default</item>
-        <item>Medium</item>
-        <item>Fast</item>
-        <item>Vmax</item>
-        <item>No animation</item>
-    </string-array>
+
     <string-array name="general_scroll_devider_values">
         <item>10</item>
         <item>15</item>
@@ -185,16 +179,7 @@
         <item>40</item>
         <item>-1</item>
     </string-array>
-    <string-array name="notificationbadge_presets_entries">
-        <item>Custom</item>
-        <item>G+ Style</item>
-        <item>G+ Style (Semi-Transparent)</item>
-        <item>Magnum Steel</item>
-        <item>Vinyl</item>
-        <item>Black and White</item>
-        <item>Round clean</item>
-        <item>Round glass</item>
-    </string-array>
+
     <string-array name="gesture_actions_values">
         <item>NONE</item>
         <item>NOTIFICATION_BAR</item>
@@ -217,23 +202,13 @@
         <item>1</item>
         <item>2</item>
     </string-array>
-    <string-array name="premiumArray">
-        <item>a Paulaner beer</item>
-        <item>two German Bratwursts</item>
-        <item>a Schnitzel with fries</item>
-    </string-array>
+
     <string-array name="premiumValues">
         <item>beerdonation</item>
         <item>bratwurstdonation</item>
         <item>schnitzeldonation</item>
     </string-array>
-    <string-array name="donationArray">
-        <item>a Pretzel</item>
-        <item>a Pretzel with butter</item>
-        <item>a Paulaner beer</item>
-        <item>two German Bratwursts</item>
-        <item>a Schnitzel with fries</item>
-    </string-array>
+
     <string-array name="donationValues">
         <item>donationpretzel</item>
         <item>donationpretzelbutter</item>

@@ -25,6 +25,9 @@
     <de.theknut.xposedgelsettings.ui.MyCheckboxPreference
         android:key="nobackgroundimage"
         android:title="@string/pref_xgels_no_background_image_title" />
+    <de.theknut.xposedgelsettings.ui.MyCheckboxPreference
+        android:key="forceenglishlocale"
+        android:title="@string/pref_force_english_locale_title" />
     <de.theknut.xposedgelsettings.ui.MyPreferenceCategory
         android:title="@string/pref_cat_eximport_settings">
 	    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen

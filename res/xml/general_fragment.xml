@@ -28,8 +28,18 @@
 	<de.theknut.xposedgelsettings.ui.CustomSwitchPreference
 		android:key="disablewallpaperscroll"
 		android:title="@string/pref_disable_wallpaper_scroll_title"
-		android:summary="@string/pref_disable_wallpaper_scroll_summary" />  
-	<de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+		android:summary="@string/pref_disable_wallpaper_scroll_summary" />
+    <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+        android:key="hideworkspaceshadow"
+        android:title="@string/pref_hide_workspace_shadow_title"
+        android:summary="@string/pref_hide_workspace_shadow_summary" />
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+        android:key="glowcolor"
+        android:title="@string/pref_glow_color_title"
+        android:summary="@string/pref_glow_color_summary"
+        android:defaultValue="0xffffffff"
+        alphaSlider="true" />
+    <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
 		android:key="lockhomescreen"
 		android:title="@string/pref_lock_desktop_title"
 		android:summary="@string/pref_lock_desktop_summary" />

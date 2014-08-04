@@ -72,7 +72,7 @@ public class GestureHelper extends HooksBaseClass {
 		if (PreferencesHelper.appdockSettingsSwitch && PreferencesHelper.hideAppDock) {
 			
 			isAnimating = false;
-			mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, Fields.launcherHotseat);
+			mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, Fields.lHotseat);
 			mHotseat.setBackgroundColor(Color.parseColor(ColorPickerPreference.convertToARGB(PreferencesHelper.appDockBackgroundColor)));
 			
 			showListener = new AnimatorListener() {
@@ -220,7 +220,9 @@ public class GestureHelper extends HooksBaseClass {
 			
 			Intent LaunchIntent = new Intent(android.provider.Settings.ACTION_SETTINGS);
 			LaunchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			callMethod(Common.LAUNCHER_INSTANCE, "startActivity", LaunchIntent);
+			//callMethod(Common.LAUNCHER_INSTANCE, "startActivity", LaunchIntent);
+
+            startActivity(LaunchIntent);
 			
 		} else if (action.equals("SCREEN_OFF")) {
 			
@@ -248,12 +250,13 @@ public class GestureHelper extends HooksBaseClass {
 			if (!pkg.equals("")) {
 				Intent LaunchIntent = context.getPackageManager().getLaunchIntentForPackage(pkg);
 				LaunchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				callMethod(Common.LAUNCHER_INSTANCE, "startActivity", LaunchIntent);
+
+                startActivity(LaunchIntent);
 			}
 		}
 	}
-	
-	static Gestures identifyGesture(float upX, float upY, float downX, float downY) {
+
+    static Gestures identifyGesture(float upX, float upY, float downX, float downY) {
 		
 		if (isSwipeDOWN(upY, downY)) {
 			
@@ -324,7 +327,7 @@ public class GestureHelper extends HooksBaseClass {
 	}
 	
 	static void showAppdock(int duration) {
-		mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, Fields.launcherHotseat);
+		mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, Fields.lHotseat);
 		
 		if (Common.LAUNCHER_INSTANCE == null || mHotseat == null || mHotseat.getAlpha() != 0.0f) {
 			if (DEBUG) log("Don't show App Dock");
@@ -358,7 +361,7 @@ public class GestureHelper extends HooksBaseClass {
 		
 		if (duration == FORCEHIDE) {
 			
-			mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, Fields.launcherHotseat);
+			mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, Fields.lHotseat);
 			
 			LayoutParams lp = (LayoutParams) mHotseat.getLayoutParams();
 			lp.width = 0;
@@ -378,7 +381,7 @@ public class GestureHelper extends HooksBaseClass {
 		
 		if (duration != 0) {
 			
-			mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, Fields.launcherHotseat);
+			mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, Fields.lHotseat);
 			hideAnimation = mHotseat.animate();
 			hideAnimation.setListener(hideListener);
 			

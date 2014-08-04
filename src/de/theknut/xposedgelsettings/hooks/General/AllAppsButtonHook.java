@@ -21,7 +21,7 @@ public class AllAppsButtonHook extends HooksBaseClass {
 	protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 		
 		// there is only one button which can't be reordered and thats the app drawer
-		if (param.args[0] instanceof TextView && !getBooleanField(param.args[3], Fields.celllayoutlayoutparamsCanReorder)) {
+		if (param.args[0] instanceof TextView && !getBooleanField(param.args[3], Fields.cllpCanReorder)) {
 			if (DEBUG) log(param, "Adding XGELS intent to AllAppsButton");
 			
 			View allAppsButton = (View) param.args[0];

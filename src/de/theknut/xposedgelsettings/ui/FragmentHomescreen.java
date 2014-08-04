@@ -61,6 +61,12 @@ public class FragmentHomescreen extends FragmentBase {
                 return true;
             }
         });
+
+        if (!InAppPurchase.isPremium) {
+            findPreference("unlimitedfoldersize").setEnabled(false);
+        } else {
+            getPreferenceScreen().removePreference(this.findPreference("needsDonate"));
+        }
         
         rootView = CommonUI.setBackground(rootView, R.id.prefbackground);
         

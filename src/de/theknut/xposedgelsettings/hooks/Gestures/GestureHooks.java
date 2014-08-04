@@ -85,12 +85,19 @@ public class GestureHooks extends GestureHelper {
 			} else {
 				XposedBridge.hookAllMethods(Classes.Launcher, Methods.hideAppsCustomizeHelper, hideAppsCustomizeHelper);
 			}
+
+            XposedBridge.hookAllMethods(Classes.Workspace, "onDetachedFromWindow", new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    log("onDetachedFromWindow ");
+                }});
+
 		
 			XposedBridge.hookAllMethods(Classes.Workspace, "onWindowVisibilityChanged", new XC_MethodHook() {
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 					if (DEBUG) log("GestureHooks: onWindowVisibilityChanged");
-					
+					log("onWindowVisibilityChanged " + ((Integer)param.args[0] == View.VISIBLE));
 					try {
 						if (mHotseat.getAlpha() != 1.0f) {
 							
@@ -134,23 +141,23 @@ public class GestureHooks extends GestureHelper {
 		}
 		
 		if (true) {
-			XposedBridge.hookAllMethods(Classes.Workspace, "onInterceptTouchEvent", new XC_MethodHook() {
+			XposedBridge.hookAllMethods(Classes.DragLayer, "onInterceptTouchEvent", new XC_MethodHook() {
 				
 				boolean gnow = true;
 				float downY = 0, downX = 0;
 				
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    if (Common.FOLDER_GESTURE_ACTIVE) {
+                    if (Common.FOLDER_GESTURE_ACTIVE || ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lIsAllAppsVisible))) {
                         return;
                     }
 
 					if (wm == null) {
 						init();
-						gnow = (Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherHasCustomContentToLeft);
+						gnow = (Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lHasCustomContentToLeft);
 					}
 					
-					final int currentPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.workspaceCurrentPage);					
+					final int currentPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage);
 					if (currentPage == 0 && gnow) return;					
 					
 					MotionEvent ev = (MotionEvent) param.args[0];
@@ -187,7 +194,7 @@ public class GestureHooks extends GestureHelper {
 							downY = ev.getRawY();
 							downX = ev.getRawX();
 							
-							mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, Fields.launcherHotseat);
+							mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, Fields.lHotseat);
 							
 							if (PreferencesHelper.appdockSettingsSwitch && PreferencesHelper.hideAppDock) {
 								LayoutParams lp = (LayoutParams) mHotseat.getLayoutParams();
@@ -203,17 +210,12 @@ public class GestureHooks extends GestureHelper {
 									hideAppdock(animateDuration);
 								}
 							}
-
-//                            TextView f = new TextView(Common.LAUNCHER_CONTEXT);
-//                            f.setText("jojojojo");
-//                            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(30, 40);
-//                            params.leftMargin = 50;
-//                            params.topMargin = 60;
-//                            ViewGroup d = (ViewGroup) param.thisObject;
-//                            d.addView(f, params);
 							
 							break;
 						case MotionEvent.ACTION_UP:
+
+                            // user probably switched pages
+                            if (getBooleanField(Common.WORKSPACE_INSTANCE, Fields.pvIsPageMoving)) return;
 							
 							switch (identifyGesture(ev.getRawX(), ev.getRawY(), downX, downY)) {
 								case DOWN_LEFT:
@@ -313,7 +315,7 @@ public class GestureHooks extends GestureHelper {
 							isDown = false;
 
                             // user probably switched pages
-                            if (Math.abs(ev.getRawX() - downX) > (width / 4)) return;
+                            if (getBooleanField(Common.APP_DRAWER_INSTANCE, Fields.pvIsPageMoving)) return;
 
 							if ((ev.getRawY() - downY) > (height / 6)) {
 								// getObjectField(param.thisObject, "mLauncher")
@@ -326,7 +328,7 @@ public class GestureHooks extends GestureHelper {
 									return;
 								}
 								
-								Object tabhost = getObjectField(Common.LAUNCHER_INSTANCE, Fields.launcherAppsCustomizeTabHost);
+								Object tabhost = getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizeTabHost);
 								
 								if (!getBooleanField(tabhost, Fields.acthInTransition)) {
 									Object ContentType = null;									
@@ -396,33 +398,28 @@ public class GestureHooks extends GestureHelper {
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 					currTouchTime = System.currentTimeMillis();
 					
-					if (getObjectField(Common.WORKSPACE_INSTANCE, Fields.workspaceState).toString().equals("NORMAL")) {
+					if (getObjectField(Common.WORKSPACE_INSTANCE, Fields.wState).toString().equals("NORMAL")) {
 						
 						View view = (View) param.args[0];
 						Object tag = view.getTag();
-                        
-						if (PreferencesHelper.gesture_double_tap_only_on_wallpaper) {
-							
-							if (!(view.getClass().getName().contains(Fields.cellInfoClass)
-                                 || (tag != null && tag.getClass().getName().contains(Fields.cellInfoClass)))) {
-								return;
-							}
-							
-						} else {
-                            if (tag != null && tag.getClass().getName().contains(Fields.shortcutInfoClass)) {
-								int itemType = getIntField(tag, Fields.iiItemType);
-								if (itemType == ITEM_TYPE_ALLAPPS
-									|| itemType == ITEM_TYPE_FOLDER) {
-									return;
-								}	
-							} else if (tag != null && view.getTag().getClass().getName().contains(Fields.folderInfoClass)) {
-								return;
-							} else if (view instanceof TextView) {
+
+                        if (PreferencesHelper.gesture_double_tap_only_on_wallpaper
+                                && !view.getClass().equals(Classes.CellLayout)) {
+                            return;
+                        } else {
+                            if (view.getClass().equals(Classes.FolderIcon)) {
+                                return;
+                            } else if (!view.getClass().equals(Classes.CellLayout) && tag != null) {
+                                int itemType = getIntField(tag, Fields.iiItemType);
+                                if (itemType == ITEM_TYPE_ALLAPPS || itemType == ITEM_TYPE_FOLDER) {
+                                    return;
+                                }
+                            } else if (view instanceof TextView) {
                                 // thats the all apps button
                                 // we don't want to do anthing when pressing this button
                                 return;
                             }
-						}
+                        }
 						
 						if (isScheduledOrRunning) {
 							isScheduledOrRunning = false;

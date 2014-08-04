@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -40,6 +41,8 @@ import android.view.View.OnKeyListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import java.util.Locale;
 
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
@@ -65,6 +68,13 @@ public class MainActivity extends InAppPurchase {
         mContext = CommonUI.CONTEXT = mActivity = CommonUI.ACTIVITY = this;
 
         FragmentIcon.loadIconPack(false);
+
+        if (getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).getBoolean("forceenglishlocale", false)) {
+            Resources res = mContext.getResources();
+            Configuration conf = res.getConfiguration();
+            conf.locale = new Locale(Locale.US.getDisplayLanguage().toLowerCase());
+            res.updateConfiguration(conf, res.getDisplayMetrics());
+        }
 
         mTitle = mDrawerTitle = getTitle();
         mFragmentTitles = getResources().getStringArray(R.array.fragmenttitles_array);
@@ -235,7 +245,7 @@ public class MainActivity extends InAppPurchase {
                 mCurrFragment = new FragmentIcon();
                 break;
 	        case 8:
-	        	mCurrFragment = new FragmentSystemUI();
+	        	mCurrFragment = new FragmentAndroidIntegration();
 	        	break;
 	        case 9:
 	        	mCurrFragment = new FragmentBackupRestore();
@@ -251,7 +261,7 @@ public class MainActivity extends InAppPurchase {
 	        	mCurrFragment = new FragmentReverseEngineering();
 	        	break;
         }
-        
+
         fm.beginTransaction().replace(R.id.content_frame, mCurrFragment).commit();
 
         // update selected item and title

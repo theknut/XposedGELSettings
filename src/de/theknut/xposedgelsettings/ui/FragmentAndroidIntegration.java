@@ -7,14 +7,14 @@ import android.view.ViewGroup;
 
 import de.theknut.xposedgelsettings.R;
 
-public class FragmentSystemUI extends FragmentBase {
+public class FragmentAndroidIntegration extends FragmentBase {
 	
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	super.onCreateView(inflater, container, savedInstanceState);
   
     	View rootView = inflater.inflate(R.layout.options_fragment, container, false);
-        addPreferencesFromResource(R.xml.systemui_fragment);
+        addPreferencesFromResource(R.xml.androidintegration_fragment);
         
         this.findPreference("hideclock").setOnPreferenceChangeListener(onChangeListenerFullReboot);
         this.findPreference("dynamichomebutton").setOnPreferenceChangeListener(onChangeListenerFullReboot);
@@ -24,6 +24,7 @@ public class FragmentSystemUI extends FragmentBase {
         this.findPreference("animatedynamicbackbutton").setOnPreferenceChangeListener(onChangeListenerFullReboot);
         this.findPreference("animatedynamichomebutton").setOnPreferenceChangeListener(onChangeListenerFullReboot);
         this.findPreference("dynamicbackbuttononeveryscreen").setOnPreferenceChangeListener(onChangeListenerFullReboot);
+        this.findPreference("transparentsystembars").setOnPreferenceChangeListener(onChangeListenerFullReboot);
         
         rootView = CommonUI.setBackground(rootView, R.id.prefbackground);
         

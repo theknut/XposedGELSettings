@@ -11,11 +11,11 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
-import android.os.Bundle;
+import android.os.*;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -23,12 +23,14 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckedTextView;
@@ -61,6 +63,12 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
     static List<String> tags;
     static String currentIconPack;
     static String appComponentName;
+    static long itemID;
+    static int mode;
+
+    static final int MODE_PICK_GLOBAL_ICON = 1;
+    public static final int MODE_PICK_SHORTCUT_ICON = 2;
+    static final int MODE_PICK_APPDRAWER_ICON = 3;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +76,13 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
 
         intent = getIntent();
         appComponentName = intent.getStringExtra("app");
-        mActivity = this;
+        mode = intent.getIntExtra("mode", 1);
+
+        if (mode == MODE_PICK_SHORTCUT_ICON) {
+            itemID = intent.getLongExtra("itemtid", 0);
+        }
+
+        CommonUI.CONTEXT = mActivity = this;
 
         mAppSectionsPagerAdapter = new AppSectionsPagerAdapter(getSupportFragmentManager());
         final ActionBar actionBar = getActionBar();
@@ -140,9 +154,14 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (appComponentName.equals("all_apps_button_icon")) {
-            MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.icon_menu, menu);
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.icon_menu, menu);
+
+        if (mode == MODE_PICK_APPDRAWER_ICON) {
+            menu.findItem(R.id.appdrawerdefault).setVisible(true);
+        } else if (mode == MODE_PICK_SHORTCUT_ICON) {
+            menu.findItem(R.id.shortcutdefault).setVisible(true);
         }
 
         return super.onCreateOptionsMenu(menu);
@@ -151,33 +170,63 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()) {
-            // action with ID action_refresh was selected
-            case R.id.action_refresh:
+        SharedPreferences prefs = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
+        SharedPreferences.Editor editor = prefs.edit();
+        String key, shortcutItem;
+        Iterator it;
 
-                SharedPreferences prefs = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
-                SharedPreferences.Editor editor = prefs.edit();
-                String key = "selectedicons";
-                String appComponentName = "all_apps_button_icon";
+        switch (item.getItemId()) {
+            case R.id.appdrawerdefault:
+
+                key = "selectedicons";
+                shortcutItem = "all_apps_button_icon";
                 HashSet<String> selectedIcons = (HashSet<String>) prefs.getStringSet(key, new HashSet<String>());
 
-                Iterator it = selectedIcons.iterator();
+                it = selectedIcons.iterator();
                 while (it.hasNext()) {
                     String[] name = it.next().toString().split("\\|");
-                    if (name[0].equals(appComponentName)) {
+                    if (name[0].equals(shortcutItem)) {
                         it.remove();
                     }
                 }
 
                 editor.remove(key).commit();
                 editor.putStringSet(key, selectedIcons).commit();
-                mActivity.finish();
+                finishActivity();
+
+                break;
+            case R.id.shortcutdefault:
+
+                key = "shortcuticons";
+                shortcutItem = "" + itemID;
+
+                HashSet<String> shortcuticons = (HashSet<String>) prefs.getStringSet(key, new HashSet<String>());
+                it = shortcuticons.iterator();
+                while (it.hasNext()) {
+                    String[] name = it.next().toString().split("\\|");
+                    if (name[0].equals(shortcutItem)) {
+                        it.remove();
+                    }
+                }
+
+                editor.remove(key).commit();
+                editor.putStringSet(key, shortcuticons).commit();
+                finishActivity();
+
                 break;
             default:
                 break;
         }
 
         return true;
+    }
+
+    public static void finishActivity() {
+        if (mode == MODE_PICK_SHORTCUT_ICON) {
+            System.exit(0);
+        } else {
+            mActivity.finish();
+        }
     }
 
     public boolean shouldShow(String packageName) {
@@ -428,7 +477,16 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
                     DisplayMetrics displayMetrics = resources.getDisplayMetrics();
                     int requestedColumnWidth = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, displayMetrics));
                     int requestedHorizontalSpacing = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, displayMetrics));
-                    int mNumColumns = (elv.getWidth() + requestedHorizontalSpacing) / (requestedColumnWidth + requestedHorizontalSpacing);
+                    int gridWidth = elv.getWidth();
+                    if (gridWidth == 0) {
+                        WindowManager wm = (WindowManager) Common.LAUNCHER_CONTEXT.getSystemService(Context.WINDOW_SERVICE);
+                        Display display = wm.getDefaultDisplay();
+                        Point size = new Point();
+                        display.getSize(size);
+                        gridWidth = size.x;
+                    }
+
+                    int mNumColumns = (gridWidth + requestedHorizontalSpacing) / (requestedColumnWidth + requestedHorizontalSpacing);
 
                     ela.setIconPack(iconPack, mNumColumns);
                 } catch (PackageManager.NameNotFoundException e) {
@@ -494,6 +552,11 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
                     SharedPreferences.Editor editor = prefs.edit();
 
                     String key = "selectedicons";
+                    if (mode == MODE_PICK_SHORTCUT_ICON) {
+                        key = "shortcuticons";
+                        appComponentName = "" + itemID;
+                    }
+
                     HashSet<String> selectedIcons = (HashSet<String>) prefs.getStringSet(key, new HashSet<String>());
 
                     Iterator it = selectedIcons.iterator();
@@ -510,7 +573,7 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
                     editor.putStringSet(key, selectedIcons).commit();
 
                     mActivity.setResult(RESULT_OK);
-                    mActivity.finish();
+                    finishActivity();
                 }
             });
 

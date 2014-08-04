@@ -27,7 +27,7 @@ public class MoveToDefaultScreenHook extends XC_MethodHook {
 			param.setResult(null);
 		}
 		else {
-			setIntField(param.thisObject, Fields.workspaceDefaultPage, newDefaultPageNumber);
+			setIntField(param.thisObject, Fields.wDefaultPage, newDefaultPageNumber);
 		}
 	}
 }

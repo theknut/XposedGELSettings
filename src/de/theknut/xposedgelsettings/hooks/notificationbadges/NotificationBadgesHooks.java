@@ -125,7 +125,7 @@ public class NotificationBadgesHooks extends NotificationBadgesHelper {
 			}			
 		});
 		
-		findAndHookMethod(Classes.CellLayout, Methods.celllayoutAddViewToCellLayout, View.class, Integer.TYPE, Integer.TYPE, Classes.CellLayoutLayoutParams, boolean.class, new XC_MethodHook() {
+		findAndHookMethod(Classes.CellLayout, Methods.clAddViewToCellLayout, View.class, Integer.TYPE, Integer.TYPE, Classes.CellLayoutLayoutParams, boolean.class, new XC_MethodHook() {
 			
 			int CHILD = 0, CHILDID = 2;
 			
@@ -134,7 +134,7 @@ public class NotificationBadgesHooks extends NotificationBadgesHelper {
 				
 				int childID = (Integer) param.args[CHILDID];
 				
-				if (param.args[CHILD].getClass().getName().contains(Fields.bubbleTextView)) {
+				if (param.args[CHILD].getClass().equals(Classes.BubbleTextView)) {
 					
 					for (Iterator<Shortcut> it = shortcutsDesktop.iterator(); it.hasNext();) {
 						
@@ -145,7 +145,7 @@ public class NotificationBadgesHooks extends NotificationBadgesHelper {
 					}
 					
 					shortcutsDesktop.add(new Shortcut(param.args[CHILD]));
-				} else if (param.args[CHILD].getClass().getName().contains(Fields.folderIcon)) {
+				} else if (param.args[CHILD].getClass().equals(Classes.FolderIcon)) {
 					
 					for (Iterator<FolderIcon> it = folders.iterator(); it.hasNext();) {
 						
@@ -156,7 +156,7 @@ public class NotificationBadgesHooks extends NotificationBadgesHelper {
 					}
 					
 					folders.add(new FolderIcon(param.args[CHILD]));
-				} else if (param.args[CHILD].getClass().getName().contains(Fields.pagedViewIcon)) {
+				} else if (param.args[CHILD].getClass().equals(Classes.PagedViewIcon)) {
 					
 					for (Iterator<Shortcut> it = shortcutsAppDrawer.iterator(); it.hasNext();) {
 						
@@ -181,7 +181,7 @@ public class NotificationBadgesHooks extends NotificationBadgesHelper {
 				
 				int childID = ((View) param.args[VIEW]).getId();
 				
-				if (param.args[VIEW].getClass().getName().contains(Fields.bubbleTextView)) {
+				if (param.args[VIEW].getClass().equals(Classes.BubbleTextView)) {
 					
 					for (Iterator<Shortcut> it = shortcutsDesktop.iterator(); it.hasNext();) {
 						
@@ -191,7 +191,7 @@ public class NotificationBadgesHooks extends NotificationBadgesHelper {
 							if (DEBUG) log(param, "Removed " + shortcut.pgkName + " (ID" + shortcut.childID + ")");
 						}
 					}
-				} else if (param.args[VIEW].getClass().getName().contains(Fields.folderIcon)) {
+				} else if (param.args[VIEW].getClass().equals(Classes.FolderIcon)) {
 					
 					for (Iterator<FolderIcon> it = folders.iterator(); it.hasNext();) {
 						
@@ -212,7 +212,7 @@ public class NotificationBadgesHooks extends NotificationBadgesHelper {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {	
 				
-				if (param.args[INFO].getClass().getName().contains(Fields.shortcutInfoClass)) {
+				if (param.args[INFO].getClass().equals(Classes.ShortcutInfo)) {
 					
 					long childID = getLongField(param.args[INFO], Fields.iiID);
 					
@@ -222,7 +222,7 @@ public class NotificationBadgesHooks extends NotificationBadgesHelper {
 							break;
 						}
 					}
-				} else if (param.args[INFO].getClass().getName().contains(Fields.folderIcon)) {
+				} else if (param.args[INFO].getClass().equals(Classes.FolderIcon)) {
 					
 					int childID = ((View) param.args[INFO]).getId();
 					
@@ -248,7 +248,7 @@ public class NotificationBadgesHooks extends NotificationBadgesHelper {
 			
 			@Override
 			protected void afterHookedMethod(MethodHookParam param) throws Throwable {	
-				if (DEBUG) log(param, "Add " + getObjectField(param.args[ITEM], Fields.itemInfoTitle) + " to folder " + ((View) getObjectField(param.thisObject, Fields.fFolderIcon)).getId());
+				if (DEBUG) log(param, "Add " + getObjectField(param.args[ITEM], Fields.iiTitle) + " to folder " + ((View) getObjectField(param.thisObject, Fields.fFolderIcon)).getId());
 				
 				Object folderIcon = getObjectField(param.thisObject, Fields.fFolderIcon);
 				int childID = ((View) folderIcon).getId();
@@ -273,7 +273,7 @@ public class NotificationBadgesHooks extends NotificationBadgesHelper {
 			
 			@Override
 			protected void afterHookedMethod(MethodHookParam param) throws Throwable {	
-				if (DEBUG) log(param, "Remove " + getObjectField(param.args[ITEM], Fields.itemInfoTitle) + " from folder " + ((View) getObjectField(param.thisObject, Fields.fFolderIcon)).getId());
+				if (DEBUG) log(param, "Remove " + getObjectField(param.args[ITEM], Fields.iiTitle) + " from folder " + ((View) getObjectField(param.thisObject, Fields.fFolderIcon)).getId());
 				
 				Object folderIcon = getObjectField(param.thisObject, Fields.fFolderIcon);
 				int childID = ((View) folderIcon).getId();

@@ -1,6 +1,5 @@
 package de.theknut.xposedgelsettings.hooks.homescreen;
 
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -78,8 +77,7 @@ public class SmartFolderHook extends HooksBaseClass {
                 Methods.fGetItemsInReadingOrder))
                 .get(0);
 
-        ActivityOptions activityOptions = ActivityOptions.makeScaleUpAnimation(firstItemInFolder, 0, 0, firstItemInFolder.getMeasuredWidth(), firstItemInFolder.getMeasuredHeight());
-        Common.LAUNCHER_CONTEXT.startActivity((Intent) callMethod(firstItemInFolder.getTag(), "getIntent"), activityOptions.toBundle());
+        startActivity((Intent) callMethod(firstItemInFolder.getTag(), "getIntent"));
         param.setResult(true);
     }
 }

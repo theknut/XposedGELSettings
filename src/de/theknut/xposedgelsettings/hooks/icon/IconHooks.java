@@ -24,6 +24,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -32,6 +33,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
@@ -42,9 +44,9 @@ import de.theknut.xposedgelsettings.ui.CommonUI;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
-import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.getBooleanField;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
+import static de.robv.android.xposed.XposedHelpers.getLongField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.newInstance;
 import static de.robv.android.xposed.XposedHelpers.setObjectField;
@@ -110,29 +112,29 @@ public class IconHooks extends HooksBaseClass {
     
 	public static void initAllHooks(LoadPackageParam lpparam) {
 
-	    if (PreferencesHelper.iconpack == Common.ICONPACK_DEFAULT) {
-	        
-	        for (ResolveInfo r : getCalendars()) {
-	            if (r.activityInfo.metaData != null) {
-	                int arrayID = r.activityInfo.metaData.getInt("com.teslacoilsw.launcher.calendarIconArray");
-	                if (arrayID != 0) {
-	                    hasCalendarIcon = true;
-	                }
-	            }
-	        }
-	        
-	        if (!hasCalendarIcon) {
-	            return;
-	        }
-	    }
-		
-		XposedBridge.hookAllConstructors(Classes.IconCache, new XC_MethodHook() {
-		    
-			@Override
-			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+        if (PreferencesHelper.iconpack == Common.ICONPACK_DEFAULT) {
+
+            for (ResolveInfo r : getCalendars()) {
+                if (r.activityInfo.metaData != null) {
+                    int arrayID = r.activityInfo.metaData.getInt("com.teslacoilsw.launcher.calendarIconArray");
+                    if (arrayID != 0) {
+                        hasCalendarIcon = true;
+                    }
+                }
+            }
+
+            if (!hasCalendarIcon) {
+                return;
+            }
+        }
+
+        XposedBridge.hookAllConstructors(Classes.IconCache, new XC_MethodHook() {
+
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 if (!initIconPack(param)) return;
-			}
-		});
+            }
+        });
 
         findAndHookMethod(Classes.Launcher, "onStart", new XC_MethodHook() {
             @Override
@@ -148,7 +150,6 @@ public class IconHooks extends HooksBaseClass {
         XC_MethodHook cacheLockedHook = new XC_MethodHook() {
 
             final int COMPONENTNAME = 0;
-            final int RESOLVEINFO = 1;
             final int LABELCACHE = 2;
             long time;
 
@@ -159,7 +160,6 @@ public class IconHooks extends HooksBaseClass {
 
                 HashMap<Object, String> labelCache = (HashMap<Object, String>) param.args[LABELCACHE];
                 ComponentName cmpName = ((ComponentName) param.args[COMPONENTNAME]);
-                //ResolveInfo info = ((ResolveInfo) param.args[RESOLVEINFO]);
                 String appName = cmpName.flattenToString();
                 Drawable icon = iconPack.loadIcon(appName);
                 if (icon == null && !iconPack.isAppFilterLoaded()) return;
@@ -168,7 +168,7 @@ public class IconHooks extends HooksBaseClass {
 
                 if (icon == null) {
                     if (!iconPack.shouldThemeMissingIcons()) return;
-                    //icon = info.loadIcon(pkgMgr);
+
                     icon = pkgMgr.getActivityInfo(cmpName, 0).loadIcon(pkgMgr);
                     Bitmap tmpIcon = (Bitmap) callStaticMethod(Classes.Utilities, Methods.uCreateIconBitmap, icon, iconPack.getContext());
                     Bitmap tmpFinalIcon = iconPack.themeIcon(tmpIcon);
@@ -176,37 +176,17 @@ public class IconHooks extends HooksBaseClass {
                     Icon newIcon = new Icon(appName, new BitmapDrawable(iconPack.getResources(), tmpFinalIcon));
                     iconPack.getIcons().add(newIcon);
 
-                    //Object cacheEntry = createCacheEntry(labelCache, info, pkgMgr, tmpFinalIcon);
                     Object cacheEntry = createCacheEntry(labelCache, cmpName, pkgMgr, tmpFinalIcon);
                     param.setResult(cacheEntry);
-                    if (DEBUG) log("CacheLocked: Loaded Themed Icon Replacement for " + appName + " took " + (System.currentTimeMillis() - time) + "ms");
+                    if (DEBUG)
+                        log("CacheLocked: Loaded Themed Icon Replacement for " + appName + " took " + (System.currentTimeMillis() - time) + "ms");
                 } else {
                     Bitmap replacedIcon = (Bitmap) callStaticMethod(Classes.Utilities, Methods.uCreateIconBitmap, icon, iconPack.getContext());
-                    //Object cacheEntry = createCacheEntry(labelCache, info, pkgMgr, replacedIcon);
                     Object cacheEntry = createCacheEntry(labelCache, cmpName, pkgMgr, replacedIcon);
                     param.setResult(cacheEntry);
-                    if (DEBUG) log("CacheLocked: Loaded Icon Replacement for " + appName + " took " + (System.currentTimeMillis() - time) + "ms");
+                    if (DEBUG)
+                        log("CacheLocked: Loaded Icon Replacement for " + appName + " took " + (System.currentTimeMillis() - time) + "ms");
                 }
-            }
-
-            private Object createCacheEntry(HashMap<Object, String> labelCache, ResolveInfo info, PackageManager pkgMgr, Bitmap tmpFinalIcon) {
-                Object cacheEntry = newInstance(Classes.CacheEntry);
-                setObjectField(cacheEntry, Fields.ceIcon, tmpFinalIcon);
-
-                ComponentName key = getComponentNameFromResolveInfo(info);
-                if (labelCache != null && labelCache.containsKey(key)) {
-                    setObjectField(cacheEntry, Fields.ceTitle, labelCache.get(key).toString());
-                } else {
-                    String title = info.loadLabel(pkgMgr).toString();
-                    setObjectField(cacheEntry, Fields.ceTitle, title);
-                    if (labelCache != null) {
-                        labelCache.put(key, title);
-                    }
-                }
-                if (getObjectField(cacheEntry, Fields.ceTitle) == null) {
-                    setObjectField(cacheEntry, Fields.ceTitle, info.activityInfo.name);
-                }
-                return cacheEntry;
             }
 
             private Object createCacheEntry(HashMap<Object, String> labelCache, ComponentName cmpName, PackageManager pkgMgr, Bitmap tmpFinalIcon) {
@@ -229,25 +209,16 @@ public class IconHooks extends HooksBaseClass {
                     }
                 }
                 if (getObjectField(cacheEntry, Fields.ceTitle) == null) {
-                    //setObjectField(cacheEntry, Fields.ceTitle, info.activityInfo.name);
                     setObjectField(cacheEntry, Fields.ceTitle, info.loadLabel(pkgMgr));
                 }
                 return cacheEntry;
             }
-
-            private ComponentName getComponentNameFromResolveInfo(ResolveInfo info) {
-                if (info.activityInfo != null) {
-                    return new ComponentName(info.activityInfo.packageName, info.activityInfo.name);
-                } else {
-                    return new ComponentName(info.serviceInfo.packageName, info.serviceInfo.name);
-                }
-            }
         };
 
-        try {
+        if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION >= ObfuscationHelper.GNL_3_5_14) {
+            findAndHookMethod(Classes.IconCache, Methods.icCacheLocked, ComponentName.class, Classes.Adb, HashMap.class, Classes.UserHandle, cacheLockedHook);
+        } else {
             findAndHookMethod(Classes.IconCache, Methods.icCacheLocked, ComponentName.class, ResolveInfo.class, HashMap.class, cacheLockedHook);
-        } catch (NoSuchMethodError nsme) {
-            findAndHookMethod(Classes.IconCache, Methods.icCacheLocked, ComponentName.class, findClass("adb", lpparam.classLoader), HashMap.class, findClass("adl", lpparam.classLoader), cacheLockedHook);
         }
 		
 		findAndHookMethod(Classes.IconCache, Methods.icGetFullResIcon, Resources.class, Integer.TYPE, new XC_MethodHook() {
@@ -374,7 +345,7 @@ public class IconHooks extends HooksBaseClass {
             for (String selectedIcon : PreferencesHelper.selectedIcons) {
                 if (selectedIcon.split("\\|")[0].equals("all_apps_button_icon")) {
 
-                    findAndHookMethod(Classes.CellLayout, Methods.celllayoutAddViewToCellLayout, View.class, Integer.TYPE, Integer.TYPE, Classes.CellLayoutLayoutParams, boolean.class, new XC_MethodHook() {
+                    findAndHookMethod(Classes.CellLayout, Methods.clAddViewToCellLayout, View.class, Integer.TYPE, Integer.TYPE, Classes.CellLayoutLayoutParams, boolean.class, new XC_MethodHook() {
 
                         final int ITEM_TYPE_ALLAPPS = 5; // Trebuchet
 
@@ -382,7 +353,7 @@ public class IconHooks extends HooksBaseClass {
                         protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                             Object tag = ((View) param.args[0]).getTag();
                             if (param.args[0] instanceof TextView
-                                && (!getBooleanField(param.args[3], Fields.celllayoutlayoutparamsCanReorder) || (tag != null && getIntField(tag, Fields.iiItemType) == ITEM_TYPE_ALLAPPS))) {
+                                && (!getBooleanField(param.args[3], Fields.cllpCanReorder) || (tag != null && getIntField(tag, Fields.iiItemType) == ITEM_TYPE_ALLAPPS))) {
                                 if (DEBUG) log(param, "theme all apps button");
 
                                 Drawable icon = iconPack.loadIcon("all_apps_button_icon");
@@ -400,6 +371,21 @@ public class IconHooks extends HooksBaseClass {
                 }
             }
         }
+
+        findAndHookMethod(Classes.ShortcutInfo, Methods.siGetIcon, Classes.IconCache, new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                long id = getLongField(param.thisObject, Fields.iiID);
+
+                Iterator it = PreferencesHelper.shortcutIcons.iterator();
+                while (it.hasNext()) {
+                    String[] name = it.next().toString().split("\\|");
+                    if (name[0].equals("" + id)) {
+                        param.setResult(CommonUI.drawableToBitmap(iconPack.loadSingleIconFromIconPack(name[1], null, name[2], false)));
+                    }
+                }
+            }
+        });
 	}
 	
 	public static boolean initIconPack(MethodHookParam param) throws NameNotFoundException {

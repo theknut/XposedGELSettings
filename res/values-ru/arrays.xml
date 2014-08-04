@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="fragmenttitles_array">
+        <item>Привет!</item>
+        <item>Основные</item>
+        <item>Google Поиск</item>
+        <item>Домашний экран</item>
+        <item>Меню приложений</item>
+        <item>Жесты</item>
+        <item>Notification Badges</item>
+        <item>Иконки</item>
+        <item>Твики System UI</item>
+        <item>Им-/Экспорт</item>
+        <item>Настройки</item>
+        <item>Premium/Поддержка</item>
+        <item>Повторная разработка</item>
+    </string-array>
+    <string-array name="gesture_actions_entries">
+        <item>Ничего</item>
+        <item>Панель уведомлений</item>
+        <item>Быстрые настройки</item>
+        <item>Меню приложений</item>
+        <item>Последнее приложение</item>
+        <item>Показать недавние</item>
+        <item>Настройки Android</item>
+        <item>Выключить экран</item>
+        <item>Док панель</item>
+        <item>Открыть приложение</item>
+    </string-array>
+    <string-array name="notificationbadge_presets_entries">
+        <item>Вручную</item>
+        <item>G+ стиль</item>
+        <item>G+ стиль (Полу-Прозрачный)</item>
+        <item>Magnum Steel</item>
+        <item>Винил</item>
+        <item>Чёрно-белый</item>
+        <item>Чистый круг</item>
+        <item>Стекляный круг</item>
+    </string-array>
+    <string-array name="general_scroll_devider_entries">
+        <item>По умолчанию</item>
+        <item>Средняя</item>
+        <item>Быстрая</item>
+        <item>Максимальная</item>
+        <item>Без анимации</item>
+    </string-array>
+    <string-array name="smartfoldermode_entries">
+        <item>Отключено</item>
+        <item>"Свайп - открыть первое приложение
+Нажатие - открыть папку"</item>
+        <item>"Нажатие - открыть первое приложение
+Свайп - открыть папку"</item>
+    </string-array>
+</resources>

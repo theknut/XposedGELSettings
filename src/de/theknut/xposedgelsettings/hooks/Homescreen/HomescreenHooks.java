@@ -13,10 +13,11 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.general.MoveToDefaultScreenHook;
-import de.theknut.xposedgelsettings.hooks.systemui.SystemUIHooks;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
+import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
+import static de.robv.android.xposed.XposedHelpers.setIntField;
 
 public class HomescreenHooks extends HooksBaseClass {
 
@@ -30,7 +31,7 @@ public class HomescreenHooks extends HooksBaseClass {
 		
 		if (PreferencesHelper.iconSettingsSwitchHome || PreferencesHelper.homescreenFolderSwitch || PreferencesHelper.appdockSettingsSwitch) {			
 			// changing the appearence of the icons on the homescreen
-			findAndHookMethod(Classes.CellLayout, Methods.celllayoutAddViewToCellLayout, View.class, Integer.TYPE, Integer.TYPE, Classes.CellLayoutLayoutParams, boolean.class, new AddViewToCellLayoutHook());
+			findAndHookMethod(Classes.CellLayout, Methods.clAddViewToCellLayout, View.class, Integer.TYPE, Integer.TYPE, Classes.CellLayoutLayoutParams, boolean.class, new AddViewToCellLayoutHook());
 		}
 		
 		XposedBridge.hookAllConstructors(Classes.AppsCustomizePagedView, new XC_MethodHook() {
@@ -70,6 +71,14 @@ public class HomescreenHooks extends HooksBaseClass {
             findAndHookMethod(Classes.FolderIcon, "onTouchEvent", MotionEvent.class, new SmartFolderHook());
         }
 
-		SystemUIHooks.initAllHooks(lpparam);
+        if (PreferencesHelper.unlimitedFolderSize) {
+            XposedBridge.hookAllConstructors(Classes.Folder, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    setIntField(param.thisObject, Fields.fMaxCountY, 100);
+                    setIntField(param.thisObject, Fields.fMaxNumItems, getIntField(param.thisObject, Fields.fMaxCountX) * getIntField(param.thisObject, Fields.fMaxCountY));
+                }
+            });
+        }
 	}
 }

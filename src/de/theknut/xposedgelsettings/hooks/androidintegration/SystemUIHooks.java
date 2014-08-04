@@ -1,4 +1,4 @@
-package de.theknut.xposedgelsettings.hooks.systemui;
+package de.theknut.xposedgelsettings.hooks.androidintegration;
 
 import android.animation.TimeInterpolator;
 import android.app.ActivityManager;
@@ -18,6 +18,7 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import de.theknut.xposedgelsettings.hooks.general.ContextMenu;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
@@ -30,6 +31,60 @@ public class SystemUIHooks extends HooksBaseClass {
 	static ActivityManager activityManager = null;
 	
 	public static void initAllHooks(LoadPackageParam lpparam) {
+
+        XposedBridge.hookAllMethods(Classes.Launcher, "onBackPressed", new XC_MethodHook() {
+
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+
+                boolean isDefaultHomescreen = (getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage) == (PreferencesHelper.defaultHomescreen - 1))
+                        || (getIntField(Common.WORKSPACE_INSTANCE, Fields.pvNextPage) == (PreferencesHelper.defaultHomescreen - 1));
+
+                if (DEBUG) log("SystemUIHooks: onBackPressed " + (PreferencesHelper.defaultHomescreen - 1) + " : " + isDefaultHomescreen);
+
+                if (ContextMenu.isOpen()) {
+                    ContextMenu.closeAndRemove();
+                } else if (PreferencesHelper.dynamicBackbutton
+                        && !((Boolean) callMethod(param.thisObject, Methods.lIsAllAppsVisible))
+                        && callMethod(Common.WORKSPACE_INSTANCE, Methods.lGetOpenFolder) == null
+                        && (isDefaultHomescreen || PreferencesHelper.dynamicBackButtonOnEveryScreen)
+                        && getObjectField(Common.WORKSPACE_INSTANCE, Fields.wState).toString().equals("NORMAL")) {
+
+                    Intent myIntent = new Intent();
+                    myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_OTHER);
+                    myIntent.putExtra(Common.XGELS_ACTION, "GO_TO_SLEEP");
+                    myIntent.setAction(Common.XGELS_INTENT);
+                    Common.LAUNCHER_CONTEXT.sendBroadcast(myIntent);
+                }
+            }
+        });
+
+        XposedBridge.hookAllMethods(Classes.Launcher, "onNewIntent", new XC_MethodHook() {
+
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                if (DEBUG) log("SystemUIHooks: onNewIntent");
+
+                if (ContextMenu.isOpen()) {
+                    ContextMenu.closeAndRemove();
+                } else if (PreferencesHelper.dynamicHomebutton
+                        && Intent.ACTION_MAIN.equals(((Intent)param.args[0]).getAction())
+                        && !((Boolean) callMethod(param.thisObject, Methods.lIsAllAppsVisible))
+                        && callMethod(Common.WORKSPACE_INSTANCE, Methods.lGetOpenFolder) == null) {
+
+                    int currentPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage);
+
+                    if ((currentPage == (PreferencesHelper.defaultHomescreen - 1)
+                            || getIntField(Common.WORKSPACE_INSTANCE, Fields.pvNextPage) == (PreferencesHelper.defaultHomescreen - 1))
+                            && getBooleanField(Common.LAUNCHER_INSTANCE, Fields.lHasFocus)
+                            && getObjectField(Common.WORKSPACE_INSTANCE, Fields.wState).toString().equals("NORMAL")) {
+
+                        callMethod(Common.LAUNCHER_INSTANCE, "onClickAllAppsButton", new View(Common.LAUNCHER_CONTEXT));
+                        param.setResult(null);
+                    }
+                }
+            }
+        });
 		
 		if (!PreferencesHelper.hideClock && !PreferencesHelper.dynamicBackbutton && !PreferencesHelper.dynamicHomebutton) 
 		{
@@ -43,12 +98,12 @@ public class SystemUIHooks extends HooksBaseClass {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 				
-				gnow = (Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherHasCustomContentToLeft);
+				gnow = (Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lHasCustomContentToLeft);
 				String launcherState = getObjectField(Common.LAUNCHER_INSTANCE, Fields.lState).toString();
 				
 				try {
 					if (!((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lIsAllAppsVisible))
-						&& getObjectField(Common.WORKSPACE_INSTANCE, Fields.workspaceState).toString().equals("NORMAL")
+						&& getObjectField(Common.WORKSPACE_INSTANCE, Fields.wState).toString().equals("NORMAL")
 						&& (launcherState.equals("WORKSPACE") || launcherState.equals("NORMAL"))) {
 						
 						Intent myIntent = new Intent();
@@ -82,7 +137,7 @@ public class SystemUIHooks extends HooksBaseClass {
 			XposedBridge.hookAllMethods(Classes.PagedView, Methods.pvSnapToPage, snapToPageHook);
 		}
 		
-		XposedBridge.hookAllMethods(Classes.PagedView, Methods.pagedviewPageBeginMoving, new XC_MethodHook() {
+		XposedBridge.hookAllMethods(Classes.PagedView, Methods.pvPageBeginMoving, new XC_MethodHook() {
 			
 			int TOUCH_STATE_REST = 0;
 			
@@ -90,10 +145,10 @@ public class SystemUIHooks extends HooksBaseClass {
 			protected void afterHookedMethod(MethodHookParam param) throws Throwable {				
 				if (DEBUG) log("SystemUIHooks: onPageBeginMoving TouchState " + getObjectField(Common.WORKSPACE_INSTANCE, Fields.wTouchState));
 				
-				int currentPage = getIntField(param.thisObject, Fields.workspaceCurrentPage);
+				int currentPage = getIntField(param.thisObject, Fields.wCurrentPage);
 				
 				if (!((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lIsAllAppsVisible))
-					&& getObjectField(Common.WORKSPACE_INSTANCE, Fields.workspaceState).toString().equals("NORMAL")
+					&& getObjectField(Common.WORKSPACE_INSTANCE, Fields.wState).toString().equals("NORMAL")
 					&& getIntField(Common.WORKSPACE_INSTANCE, Fields.wTouchState) != TOUCH_STATE_REST
 					&& getIntField(Common.WORKSPACE_INSTANCE, Fields.pvNextPage) != currentPage) {
 					
@@ -116,16 +171,16 @@ public class SystemUIHooks extends HooksBaseClass {
 			}
 		});
 		
-		XposedBridge.hookAllMethods(Classes.PagedView, Methods.pagedviewPageEndMoving, new XC_MethodHook() {
+		XposedBridge.hookAllMethods(Classes.PagedView, Methods.pvPageEndMoving, new XC_MethodHook() {
 			
 			@Override
 			protected void afterHookedMethod(MethodHookParam param) throws Throwable {				
-				if (DEBUG) log("SystemUIHooks: onPageEndMoving TouchState " + getObjectField(Common.WORKSPACE_INSTANCE, Fields.wTouchState) + " " + getIntField(param.thisObject, Fields.workspaceCurrentPage) + " " + getObjectField(Common.WORKSPACE_INSTANCE, Fields.workspaceState));
+				if (DEBUG) log("SystemUIHooks: onPageEndMoving TouchState " + getObjectField(Common.WORKSPACE_INSTANCE, Fields.wTouchState) + " " + getIntField(param.thisObject, Fields.wCurrentPage) + " " + getObjectField(Common.WORKSPACE_INSTANCE, Fields.wState));
 				
 				if (!((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lIsAllAppsVisible))
-					&& getObjectField(Common.WORKSPACE_INSTANCE, Fields.workspaceState).toString().equals("NORMAL")) {
+					&& getObjectField(Common.WORKSPACE_INSTANCE, Fields.wState).toString().equals("NORMAL")) {
 					
-					int currPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.workspaceCurrentPage);						
+					int currPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage);
 					Intent myIntent = new Intent();
 					myIntent.setAction(Common.XGELS_INTENT);
 					myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_NAVBAR);
@@ -199,7 +254,7 @@ public class SystemUIHooks extends HooksBaseClass {
 			protected void afterHookedMethod(MethodHookParam param) throws Throwable {				
 				if (DEBUG) log("SystemUIHooks: onStart");
 				
-				boolean isDefaultHomescreen = getIntField(Common.WORKSPACE_INSTANCE, Fields.workspaceCurrentPage) == (PreferencesHelper.defaultHomescreen - 1);
+				boolean isDefaultHomescreen = getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage) == (PreferencesHelper.defaultHomescreen - 1);
 				
 				if (activityManager == null) {
 					activityManager = (ActivityManager) Common.LAUNCHER_CONTEXT.getSystemService(Context.ACTIVITY_SERVICE);
@@ -210,7 +265,7 @@ public class SystemUIHooks extends HooksBaseClass {
 				if (!(Boolean) callMethod(param.thisObject, Methods.lIsAllAppsVisible)
 					&& isDefaultHomescreen
 					&& Common.PACKAGE_NAMES.contains(appProcesses.get(0).processName.replace(":search", ""))
-					&& getObjectField(Common.WORKSPACE_INSTANCE, Fields.workspaceState).toString().equals("NORMAL")) {
+					&& getObjectField(Common.WORKSPACE_INSTANCE, Fields.wState).toString().equals("NORMAL")) {
 					
 					Intent myIntent = new Intent();
 					myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_NAVBAR);
@@ -225,13 +280,13 @@ public class SystemUIHooks extends HooksBaseClass {
 			
 			@Override
 			protected void afterHookedMethod(MethodHookParam param) throws Throwable {				
-				if (DEBUG) log("SystemUIHooks: onResume currentPage" + getIntField(Common.WORKSPACE_INSTANCE, Fields.workspaceCurrentPage));
+				if (DEBUG) log("SystemUIHooks: onResume currentPage" + getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage));
 				
 				if (!((Boolean) callMethod(param.thisObject, Methods.lIsAllAppsVisible))
 					&& !(Boolean) callMethod(Common.WORKSPACE_INSTANCE, Methods.wIsOnOrMovingToCustomContent)
-					&& getObjectField(Common.WORKSPACE_INSTANCE, Fields.workspaceState).toString().equals("NORMAL")) {
+					&& getObjectField(Common.WORKSPACE_INSTANCE, Fields.wState).toString().equals("NORMAL")) {
 					
-					int currentPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.workspaceCurrentPage);
+					int currentPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage);
 					
 					if (currentPage == (PreferencesHelper.defaultHomescreen - 1)) {
 						
@@ -251,7 +306,7 @@ public class SystemUIHooks extends HooksBaseClass {
 			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 				if (DEBUG) log("SystemUIHooks: onWorkspaceShown");
 				
-				int currentPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.workspaceCurrentPage);
+				int currentPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage);
 				
 				if (activityManager == null) {
 					activityManager = (ActivityManager) Common.LAUNCHER_CONTEXT.getSystemService(Context.ACTIVITY_SERVICE);
@@ -264,7 +319,7 @@ public class SystemUIHooks extends HooksBaseClass {
 				
 				if (Common.PACKAGE_NAMES.contains(appProcesses.get(0).processName.replace(":search", ""))
 					&& !getBooleanField(param.thisObject, Fields.lPaused)
-					&& !getObjectField(Common.WORKSPACE_INSTANCE, Fields.workspaceState).toString().equals("OVERVIEW")) {	
+					&& !getObjectField(Common.WORKSPACE_INSTANCE, Fields.wState).toString().equals("OVERVIEW")) {
 					
 					Intent myIntent = new Intent();
 					myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_NAVBAR);					
@@ -305,25 +360,11 @@ public class SystemUIHooks extends HooksBaseClass {
 			@Override
 			protected void afterHookedMethod(MethodHookParam param) throws Throwable {	
 				
-				int currPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.workspaceCurrentPage);
+				int currPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage);
 				
 				if ((Boolean) param.args[TOWORKSPACE]) {
 					if (DEBUG) log(param, "Transitioning to Workspace " + currPage + " " + (PreferencesHelper.defaultHomescreen - 1));
-//					
-//					Intent myIntent = new Intent();
-//					myIntent.setAction(Common.XGELS_INTENT);
-//					myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_NAVBAR);
-//					
-//					if (currPage == (PreferencesHelper.defaultHomescreen - 1)) {
-//						
-//						myIntent.putExtra(Common.XGELS_ACTION, "ON_DEFAULT_HOMESCREEN");
-//						Common.LAUNCHER_CONTEXT.sendBroadcast(myIntent);
-//					} else {						
-//						if (PreferencesHelper.dynamicBackButtonOnEveryScreen) {
-//							myIntent.putExtra(Common.XGELS_ACTION, "BACK_POWER_OFF");
-//							Common.LAUNCHER_CONTEXT.sendBroadcast(myIntent);
-//						}						
-//					}
+
 				} else {
 					if (DEBUG) log(param, "Transitioning to All Apps - BACK_HOME_ORIG");
 					
@@ -335,103 +376,49 @@ public class SystemUIHooks extends HooksBaseClass {
 				}
 			}			
 		});
-		
-		if (PreferencesHelper.dynamicBackbutton) {
-			
-			if (PreferencesHelper.dynamicIconBackbutton) {
-				
-				findAndHookMethod(Classes.Launcher, Methods.lOpenFolder, Classes.FolderIcon, new XC_MethodHook() {
-					
-					@Override
-					protected void afterHookedMethod(MethodHookParam param) throws Throwable {						
-						if (DEBUG) log("SystemUIHooks: openFolder");
-						
-						int currentPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.workspaceCurrentPage);
-						
-						if (currentPage == (PreferencesHelper.defaultHomescreen - 1)
-							|| PreferencesHelper.dynamicBackButtonOnEveryScreen) {					
-							Intent myIntent = new Intent();
-							myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_NAVBAR);
-							myIntent.putExtra(Common.XGELS_ACTION, "BACK_ORIG");						
-							myIntent.setAction(Common.XGELS_INTENT);
-							Common.LAUNCHER_CONTEXT.sendBroadcast(myIntent);
-						}
-					}
-				});
-				
-				XposedBridge.hookAllMethods(Classes.Launcher, Methods.lCloseFolder, new XC_MethodHook() {
-					
-					@Override
-					protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-						if (DEBUG) log("SystemUIHooks: closeFolder");
-						
-						int currentPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.workspaceCurrentPage);
-						
-						if (callMethod(Common.WORKSPACE_INSTANCE, Methods.lGetOpenFolder) != null
-							&& (currentPage == (PreferencesHelper.defaultHomescreen - 1) || PreferencesHelper.dynamicBackButtonOnEveryScreen)
-							&& !getBooleanField(param.thisObject, Fields.lPaused)
-							&& getObjectField(Common.WORKSPACE_INSTANCE, Fields.workspaceState).toString().equals("NORMAL")) {
-							
-							Intent myIntent = new Intent();
-							myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_NAVBAR);
-							myIntent.putExtra(Common.XGELS_ACTION, "BACK_POWER_OFF");						
-							myIntent.setAction(Common.XGELS_INTENT);
-							Common.LAUNCHER_CONTEXT.sendBroadcast(myIntent);
-						}
-					}
-				});
-			}
-			
-			XposedBridge.hookAllMethods(Classes.Launcher, "onBackPressed", new XC_MethodHook() {
-				
-				@Override
-				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-					
-					boolean isDefaultHomescreen = (getIntField(Common.WORKSPACE_INSTANCE, Fields.workspaceCurrentPage) == (PreferencesHelper.defaultHomescreen - 1))
-							|| (getIntField(Common.WORKSPACE_INSTANCE, Fields.pvNextPage) == (PreferencesHelper.defaultHomescreen - 1));
-					
-					if (DEBUG) log("SystemUIHooks: onBackPressed " + (PreferencesHelper.defaultHomescreen - 1) + " : " + isDefaultHomescreen);
-					
-					if (!((Boolean) callMethod(param.thisObject, Methods.lIsAllAppsVisible))
-						&& callMethod(Common.WORKSPACE_INSTANCE, Methods.lGetOpenFolder) == null
-						&& (isDefaultHomescreen || PreferencesHelper.dynamicBackButtonOnEveryScreen)
-						&& getObjectField(Common.WORKSPACE_INSTANCE, Fields.workspaceState).toString().equals("NORMAL")) {
-						
-						Intent myIntent = new Intent();
-						myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_OTHER);
-						myIntent.putExtra(Common.XGELS_ACTION, "GO_TO_SLEEP");						
-						myIntent.setAction(Common.XGELS_INTENT);
-						Common.LAUNCHER_CONTEXT.sendBroadcast(myIntent);
-					}
-				}
-			});
-		}
-		
-		if (PreferencesHelper.dynamicHomebutton) {
-			
-			XposedBridge.hookAllMethods(Classes.Launcher, "onNewIntent", new XC_MethodHook() {
-				
-				@Override
-				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {					
-					if (DEBUG) log("SystemUIHooks: onNewIntent");
-					
-					if (Intent.ACTION_MAIN.equals(((Intent)param.args[0]).getAction())
-						&& !((Boolean) callMethod(param.thisObject, Methods.lIsAllAppsVisible))
-						&& callMethod(Common.WORKSPACE_INSTANCE, Methods.lGetOpenFolder) == null) {
-						
-						int currentPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.workspaceCurrentPage);
-						
-						if ((currentPage == (PreferencesHelper.defaultHomescreen - 1)
-								|| getIntField(Common.WORKSPACE_INSTANCE, Fields.pvNextPage) == (PreferencesHelper.defaultHomescreen - 1))
-							&& getBooleanField(Common.LAUNCHER_INSTANCE, Fields.lHasFocus)
-							&& getObjectField(Common.WORKSPACE_INSTANCE, Fields.workspaceState).toString().equals("NORMAL")) {
-							
-							callMethod(Common.LAUNCHER_INSTANCE, "onClickAllAppsButton", new View(Common.LAUNCHER_CONTEXT));
-							param.setResult(null);
-						}
-					}
-				}
-			});
-		}	
+
+        if (PreferencesHelper.dynamicBackbutton && PreferencesHelper.dynamicIconBackbutton) {
+
+            findAndHookMethod(Classes.Launcher, Methods.lOpenFolder, Classes.FolderIcon, new XC_MethodHook() {
+
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    if (DEBUG) log("SystemUIHooks: openFolder");
+
+                    int currentPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage);
+
+                    if (currentPage == (PreferencesHelper.defaultHomescreen - 1)
+                        || PreferencesHelper.dynamicBackButtonOnEveryScreen) {
+                        Intent myIntent = new Intent();
+                        myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_NAVBAR);
+                        myIntent.putExtra(Common.XGELS_ACTION, "BACK_ORIG");
+                        myIntent.setAction(Common.XGELS_INTENT);
+                        Common.LAUNCHER_CONTEXT.sendBroadcast(myIntent);
+                    }
+                }
+            });
+
+            XposedBridge.hookAllMethods(Classes.Launcher, Methods.lCloseFolder, new XC_MethodHook() {
+
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    if (DEBUG) log("SystemUIHooks: closeFolder");
+
+                    int currentPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage);
+
+                    if (callMethod(Common.WORKSPACE_INSTANCE, Methods.lGetOpenFolder) != null
+                        && (currentPage == (PreferencesHelper.defaultHomescreen - 1) || PreferencesHelper.dynamicBackButtonOnEveryScreen)
+                        && !getBooleanField(param.thisObject, Fields.lPaused)
+                        && getObjectField(Common.WORKSPACE_INSTANCE, Fields.wState).toString().equals("NORMAL")) {
+
+                        Intent myIntent = new Intent();
+                        myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_NAVBAR);
+                        myIntent.putExtra(Common.XGELS_ACTION, "BACK_POWER_OFF");
+                        myIntent.setAction(Common.XGELS_INTENT);
+                        Common.LAUNCHER_CONTEXT.sendBroadcast(myIntent);
+                    }
+                }
+            });
+        }
 	}
 }

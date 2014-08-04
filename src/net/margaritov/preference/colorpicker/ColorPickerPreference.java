@@ -220,7 +220,7 @@ public class ColorPickerPreference
 	 * For custom purposes. Not used by ColorPickerPreference
 	 * @param color
 	 * @author Charles Rosaaen
-	 * @return A string representing the hex value of color,
+	 * @return A string representing the hex value of pref_color,
 	 * without the alpha value
 	 */
     public static String convertToRGB(int color) {

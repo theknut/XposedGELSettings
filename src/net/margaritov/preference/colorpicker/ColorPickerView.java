@@ -34,8 +34,8 @@ import android.view.MotionEvent;
 import android.view.View;
 
 /**
- * Displays a color picker to the user and allow them
- * to select a color. A slider for the alpha channel is
+ * Displays a pref_color picker to the user and allow them
+ * to select a pref_color. A slider for the alpha channel is
  * also available. Enable it by setting
  * setAlphaSliderVisible(boolean) to true.
  * @author Daniel Nilsson
@@ -48,7 +48,7 @@ public class ColorPickerView extends View {
 
 	/**
 	 * The width in pixels of the border
-	 * surrounding all color panels.
+	 * surrounding all pref_color panels.
 	 */
 	private final static float	BORDER_WIDTH_PX = 1;
 
@@ -62,11 +62,11 @@ public class ColorPickerView extends View {
 	private float		ALPHA_PANEL_HEIGHT = 20f;
 	/**
 	 * The distance in dp between the different
-	 * color panels.
+	 * pref_color panels.
 	 */
 	private float 		PANEL_SPACING = 10f;
 	/**
-	 * The radius in dp of the color palette tracker circle.
+	 * The radius in dp of the pref_color palette tracker circle.
 	 */
 	private float 		PALETTE_CIRCLE_TRACKER_RADIUS = 5f;
 	/**
@@ -802,7 +802,7 @@ public class ColorPickerView extends View {
 
 
 	/**
-	 * Set a OnColorChangedListener to get notified when the color
+	 * Set a OnColorChangedListener to get notified when the pref_color
 	 * selected by the user has changed.
 	 * @param listener
 	 */
@@ -811,7 +811,7 @@ public class ColorPickerView extends View {
 	}
 
 	/**
-	 * Set the color of the border surrounding all panels.
+	 * Set the pref_color of the border surrounding all panels.
 	 * @param color
 	 */
 	public void setBorderColor(int color){
@@ -820,31 +820,31 @@ public class ColorPickerView extends View {
 	}
 
 	/**
-	 * Get the color of the border surrounding all panels.
+	 * Get the pref_color of the border surrounding all panels.
 	 */
 	public int getBorderColor(){
 		return mBorderColor;
 	}
 
 	/**
-	 * Get the current color this view is showing.
-	 * @return the current color.
+	 * Get the current pref_color this view is showing.
+	 * @return the current pref_color.
 	 */
 	public int getColor(){
 		return Color.HSVToColor(mAlpha, new float[]{mHue,mSat,mVal});
 	}
 
 	/**
-	 * Set the color the view should show.
-	 * @param color The color that should be selected.
+	 * Set the pref_color the view should show.
+	 * @param color The pref_color that should be selected.
 	 */
 	public void setColor(int color){
 		setColor(color, false);
 	}
 
 	/**
-	 * Set the color this view should show.
-	 * @param color The color that should be selected.
+	 * Set the pref_color this view should show.
+	 * @param color The pref_color that should be selected.
 	 * @param callback If you want to get a callback to
 	 * your OnColorChangedListener.
 	 */
@@ -869,11 +869,11 @@ public class ColorPickerView extends View {
 	}
 
 	/**
-	 * Get the drawing offset of the color picker view.
+	 * Get the drawing offset of the pref_color picker view.
 	 * The drawing offset is the distance from the side of
 	 * a panel to the side of the view minus the padding.
 	 * Useful if you want to have your own panel below showing
-	 * the currently selected color and want to align it perfectly.
+	 * the currently selected pref_color and want to align it perfectly.
 	 * @return The offset in pixels.
 	 */
 	public float getDrawingOffset(){

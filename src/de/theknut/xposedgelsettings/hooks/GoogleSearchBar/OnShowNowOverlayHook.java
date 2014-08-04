@@ -18,9 +18,9 @@ public class OnShowNowOverlayHook extends XC_MethodHook {
 		
 		if (Common.LAUNCHER_INSTANCE == null) {	return;	}
 		
-		if ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherHasCustomContentToLeft)
-			&& getBooleanField(Common.WORKSPACE_INSTANCE, Fields.workspaceCustomContentShowing)
-			&& getIntField(Common.WORKSPACE_INSTANCE, Fields.workspaceCurrentPage) == 0) {
+		if ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lHasCustomContentToLeft)
+			&& getBooleanField(Common.WORKSPACE_INSTANCE, Fields.wCustomContentShowing)
+			&& getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage) == 0) {
 			
 			GoogleSearchBarHooks.showSearchbar();
 		}

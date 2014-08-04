@@ -179,12 +179,6 @@
     <string name="pref_folder_namelabel_color">Couleur des noms des dossiers</string>
     <string name="pref_folder_preview_color">Aperçu de la couleur des dossiers</string>
     
-    <string-array name="gesture_actions_entries_limited">
-        <item>Aucun</item>
-        <item>Drawer</item>
-        <item>Toggle dock</item>
-    </string-array>
-    
     <string name="pref_choose_gesture_action_title">Choisir une action gestuelle</string>
     <string name="pref_switch_gesture_appdrawer_title">Drawer</string>
     <string name="pref_switch_gesture_appdrawer_summary">Glisser vers le bas - fermer le drawer\nGlisser vers le haut - Interrupteur entre toutes les applications et les widgets</string>
@@ -256,19 +250,6 @@
     <string name="alert_launcher_not_installed_summary">Il semblerait que ni Google Now Launcher ni Trebuchet ne soient installés. Ce module fonctionne pour ces deux launchers. Il ne fonctionnera pas si aucun d\'eux n\'est installé.</string>
     <string name="alert_launcher_not_installed_get_gnl">Obtenez GNL</string>
     
-    <string-array name="gesture_actions_entries">
-        <item>Aucun</item>
-        <item>Barre de notification</item>
-        <item>Paramètres rapides</item>
-        <item>Drawer</item>
-        <item>Application récente</item>
-        <item>Panneau des applis récentes</item>  <!-- NEW -->
-        <item>Paramètres systèmes</item>
-        <item>Mettre en veille</item>
-        <item>Toggle dock</item>
-        <item>Ouvrir une application</item>
-    </string-array>
-    
     <string name="toast_donate_only">Cette fonctionnalité nécessite XGELS Premium!</string>
     <string name="pref_donate_button">Achetez Premium et soutenez-moi!</string>
     <string name="pref_donated_button">Merci de votre achat!</string>
@@ -299,24 +280,7 @@
     <string name="pref_switch_position_all_apps_button_summary">Choisir la position du drawer</string>
     <string name="pref_general_scroll_devider_title">Vitesse de défilement</string>
     <string name="pref_general_scroll_devider_summary">Définir une vitesse de défilement</string>
-    
-    <!-- These strings are already existing, please try to edit them -->
-    <string-array name="fragmenttitles_array">
-        <item>Bienvenue</item>
-        <item>Général</item>
-        <item>Barre de recherche Google</item>
-        <item>Ecran d\'accueil</item>
-        <item>Drawer</item>
-        <item>Gestes</item>
-        <item>Badges de notifications (Beta)</item>
-        <item>Icônes</item> <!-- NEW -->
-        <item>IU Système</item>
-        <item>Sauvegarde/Restauration</item>
-        <item>Paramètres</item>
-        <item>Premium/Support</item>
-        <item>Reverse Engineering</item>
-    </string-array>
-    
+
     <string name="pref_switch_folder_hide_label">Masquer le nom des icônes</string>
     <string name="pref_icon_chooseiconpack_title">Pack d\'icônes</string>
     <string name="pref_icon_chooseiconpack_dialog_title">Choisir un pack d\'icônes</string>
@@ -348,12 +312,6 @@
 
     <string name="pref_overridesettings_button_title">Bouton des paramètres</string>
     <string name="pref_overridesettings_button_summary">Ouvre XGELS au lieu des paramètres de Google Now</string>
-
-    <string-array name="smartfoldermode_entries">
-        <item>Off</item>
-        <item>Glisser - lancer la première appli\nToucher - ouvrir le dossier</item>
-        <item>Toucher - lancer la première appli\nGlisser - ouvrir le dossier</item>
-    </string-array>
 
     <string name="pref_icon_reset_all">Tout remettre à zéro</string>
 </resources>

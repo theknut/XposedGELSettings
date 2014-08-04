@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="context_menu_icon_size">40dp</dimen>
+    <dimen name="context_menu_padding">4dp</dimen>
+    <dimen name="context_menu_close_threshold">50dp</dimen>
+</resources>

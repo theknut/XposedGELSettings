@@ -67,7 +67,7 @@ public class ColorPickerDialog
 	}
 
 	private void init(int color) {
-		// To fight color banding.
+		// To fight pref_color banding.
 		getWindow().setFormat(PixelFormat.RGBA_8888);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setUp(color);
@@ -82,7 +82,7 @@ public class ColorPickerDialog
 
 		setContentView(layout);
 
-		setTitle("Select a color");
+		setTitle("Select a pref_color");
 		
 		mColorPicker = (ColorPickerView) layout.findViewById(R.id.color_picker_view);
 		mOldColor = (ColorPickerPanelView) layout.findViewById(R.id.old_color_panel);
@@ -142,7 +142,7 @@ public class ColorPickerDialog
 
 		/*
 		if (mListener != null) {
-			mListener.onColorChanged(color);
+			mListener.onColorChanged(pref_color);
 		}
 		*/
 
@@ -192,7 +192,7 @@ public class ColorPickerDialog
 	}
 	
 	/**
-	 * Set a OnColorChangedListener to get notified when the color
+	 * Set a OnColorChangedListener to get notified when the pref_color
 	 * selected by the user has changed.
 	 * @param listener
 	 */

@@ -1,4 +1,4 @@
-package de.theknut.xposedgelsettings.hooks.systemui;
+package de.theknut.xposedgelsettings.hooks.androidintegration;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
@@ -8,6 +8,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.PowerManager;
 import android.os.SystemClock;
@@ -31,6 +33,7 @@ import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import de.theknut.xposedgelsettings.ui.StatusBarTintApi;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
@@ -62,8 +65,13 @@ public class SystemUIReceiver extends HooksBaseClass {
     public static boolean TMP_CLOCK_VISIBILITY;
 	
 	public static Object PHONE_STATUSBAR_OBJECT;
-	public static Object NOTIFICATIONBAR_OBJECT;
-	public static Object SETTINGSPANEL_OBJECT;
+	public static View STATUS_BAR_VIEW;
+	public static View NAVIGATION_BAR_VIEW;
+
+    public static int BACKGROUND_COLOR = Color.TRANSPARENT;
+    public static Drawable BACKGROUND_COLOR_DRAWABLE = new ColorDrawable(BACKGROUND_COLOR);
+    public static Drawable ORIG_BACKGROUND_STATUSBAR;
+    public static Drawable ORIG_BACKGROUND_NAVIGATIONBAR;
 	
 	public static Context systemUIContext;
 	
@@ -100,6 +108,8 @@ public class SystemUIReceiver extends HooksBaseClass {
 				
 				long time = System.currentTimeMillis();
 				PHONE_STATUSBAR_OBJECT = param.thisObject;
+                STATUS_BAR_VIEW = (View) getObjectField(PHONE_STATUSBAR_OBJECT, "mStatusBarView");
+                NAVIGATION_BAR_VIEW = (View) getObjectField(PHONE_STATUSBAR_OBJECT, "mNavigationBarView");
 				
 				systemUIContext = ((Context) getObjectField(PHONE_STATUSBAR_OBJECT, "mContext"));
 				
@@ -267,9 +277,37 @@ public class SystemUIReceiver extends HooksBaseClass {
 	                					
 	                            		if (DEBUG) log("SystemUIReceiver: Show Recents");
 	                            		callMethod(PHONE_STATUSBAR_OBJECT, "toggleRecentsActivity");
-	                            		
-	                            		//setRecentsButtonIcon(CLEAR_BUTTON);
-	                	        	}
+
+	                	        	} else if (intent.getStringExtra(Common.XGELS_ACTION).equals("SHADOWS")) {
+
+                                        if (!isLauncherInForeground()
+                                            && (STATUS_BAR_VIEW == null || NAVIGATION_BAR_VIEW == null)) return;
+
+                                        if (DEBUG) log("SystemUIReceiver: Hide shadows");
+
+                                        if (ORIG_BACKGROUND_NAVIGATIONBAR == null) {
+                                            ORIG_BACKGROUND_NAVIGATIONBAR = NAVIGATION_BAR_VIEW.getBackground();
+                                            ORIG_BACKGROUND_STATUSBAR = STATUS_BAR_VIEW.getBackground();
+
+                                            STATUS_BAR_VIEW.setBackgroundColor(BACKGROUND_COLOR);
+                                            STATUS_BAR_VIEW.setBackgroundDrawable(ORIG_BACKGROUND_STATUSBAR);
+                                            NAVIGATION_BAR_VIEW.setBackgroundColor(BACKGROUND_COLOR);
+                                            NAVIGATION_BAR_VIEW.setBackgroundDrawable(ORIG_BACKGROUND_NAVIGATIONBAR);
+                                            StatusBarTintApi.sendColorChangeIntent(Color.TRANSPARENT, Color.WHITE, Color.TRANSPARENT, Color.WHITE, systemUIContext);
+                                        }
+
+                                        boolean show = intent.getBooleanExtra("SHOW", false);
+                                        Drawable background = show ? ORIG_BACKGROUND_STATUSBAR : BACKGROUND_COLOR_DRAWABLE;
+
+                                        STATUS_BAR_VIEW.setBackgroundDrawable(background);
+                                        STATUS_BAR_VIEW.setBackgroundColor(BACKGROUND_COLOR);
+
+                                        NAVIGATION_BAR_VIEW.setBackgroundDrawable(background);
+                                        NAVIGATION_BAR_VIEW.setBackgroundColor(BACKGROUND_COLOR);
+
+                                        int color = show ? Color.parseColor("#66000000") : Color.TRANSPARENT;
+                                        StatusBarTintApi.sendColorChangeIntent(color, Color.WHITE, color, Color.WHITE, systemUIContext);
+                                    }
 	                        	}  else if (intent.hasExtra(Common.XGELS_ACTION_EXTRA)
                         				&& intent.getStringExtra(Common.XGELS_ACTION_EXTRA).equals(Common.XGELS_ACTION_APP_REQUEST)) {
 	                        		
@@ -483,18 +521,6 @@ public class SystemUIReceiver extends HooksBaseClass {
 			BACK_BUTTON.setAlpha(1f);
 		}
 	}
-    
-//    public static void setRecentsButtonIcon(Drawable icon) {
-//		RECENTS_BUTTON.setAlpha(0f);
-//		RECENTS_BUTTON.setImageDrawable(icon);
-//		
-//		if (PreferencesHelper.dynamicAnimateIconRecentsbutton) {
-//			RECENTS_BUTTON.animate().alpha(1f).setDuration(animationDuration).start();
-//		}
-//		else {
-//			RECENTS_BUTTON.setAlpha(1f);
-//		}
-//	}
     
     public static void showHideClock(boolean show) {
     	if (PHONE_STATUSBAR_OBJECT == null) return;

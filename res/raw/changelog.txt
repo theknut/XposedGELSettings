@@ -27,6 +27,28 @@
   </head>
   <body>
 
+$ 1.9
+  % Version 1.9
+ _ 2014-29-07
+
+ ! Added:
+ * Context menu: Added context menu (long press an icon or widget)
+ * Context menu: Per shortcut icon change (Premium)
+ * Homescreen: Unlimited folder size (Premium)
+ * Google Searchbar: Always show "Ok Google"
+ * General: hide homescreen shadow (visible in immersive mode)
+ * Android Integration: make navigation/statusbar transparent (Android >= 4.4)
+ * Gestures now work in app dock, too
+
+ ! Fixed:
+ * Google Searchbar appearing on every screen
+ * default icon not loading when selected
+ * remembered app drawer position when overscrolled
+
+ ! XGELS UI:
+ * option to force English language
+ * updated translations
+
 $ 1.8.4
   % Version 1.8.4
  _ 2014-30-06

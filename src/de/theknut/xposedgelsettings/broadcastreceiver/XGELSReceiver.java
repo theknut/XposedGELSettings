@@ -8,9 +8,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.os.Bundle;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.ui.Blur;
@@ -32,17 +35,41 @@ public class XGELSReceiver extends BroadcastReceiver {
             }
 
             return;
-        } else if (intent.getAction().equals(Common.XGELS_ACTION_NAVBAR)) {
-
         }
-
-        String pkg = intent.getStringExtra("PACKAGENAME");
-        if (pkg == null) return;
 
         if (intent.getAction().equals(Common.XGELS_ACTION_SAVE_ICONPACK)) {
+            String pkg = intent.getStringExtra("PACKAGENAME");
+            if (pkg == null) return;
+
             prefs.edit().remove("iconpack").commit();
             prefs.edit().putString("iconpack", pkg).commit();
+        } else if (intent.getAction().equals(Common.XGELS_ACTION_SAVE_STRING_ARRAY)) {
+
+            String key = intent.getStringExtra("key");
+            ArrayList<String> stringArrayListExtra = intent.getStringArrayListExtra(key);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.remove(key).commit();
+            editor.putStringSet(key, new HashSet(stringArrayListExtra)).commit();
+
+        } else if (intent.getAction().equals(Common.XGELS_ACTION_SAVE_LAYER_POSITIONS)) {
+            SharedPreferences.Editor editor = prefs.edit();
+
+            String key = "layerpositions";
+            HashSet<String> layerpositions = (HashSet<String>) prefs.getStringSet(key, new HashSet<String>());
+            HashSet<String> newlayerpositions = new HashSet<String>();
+
+            Bundle bundles  = intent.getBundleExtra(key);
+            if (bundles != null) {
+                for (int j = 0; j < bundles.size(); j++) {
+                    Bundle bundle = bundles.getBundle("" + j);
+                    if (bundle != null) {
+                        newlayerpositions.add(bundle.getLong("id") + "|" + bundle.getBoolean("front"));
+                    }
+                }
+            }
         }
+
+        context.sendBroadcast(new Intent("de.theknut.xposedgelsettings.Intent.RELOAD_SETTINGS"));
     }
 
     @SuppressLint("SdCardPath")

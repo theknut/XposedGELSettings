@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="gesture_actions_entries_limited">
+        <item>Nessuno</item>
+        <item>App drawer</item>
+        <item>Passa a dock</item>
+    </string-array>
+
+    <string-array name="gesture_actions_entries">
+        <item>Nessuno</item>
+        <item>Barra di notifica</item>
+        <item>Quick settings</item>
+        <item>App drawer</item>
+        <item>App recenti</item>
+        <item>Mostra recenti</item>
+        <item>Impostazioni android</item>
+        <item>Stand-by</item>
+        <item>Passa al dock</item>
+        <item>Apri app</item>
+    </string-array>
+
+    <string-array name="fragmenttitles_array">
+        <item>Benvenuto</item>
+        <item>Generali</item>
+        <item>Barra Google Search</item>
+        <item>Home</item>
+        <item>App drawer</item>
+        <item>Gesti</item>
+        <item>Badge di notifica (Beta)</item>
+        <item>Icon</item>
+        <item>Android Integration</item>
+        <item>Backup/Ripristino</item>
+        <item>Preferenze</item>
+        <item>Premium/Supporto</item>
+        <item>Reverse Engineering</item>
+    </string-array>
+
+</resources>

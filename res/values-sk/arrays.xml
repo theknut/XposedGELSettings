@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="gesture_actions_entries">
+        <item>Žiadna</item>
+        <item>Notifikačná lišta</item>
+        <item>Rýchle nastavenia</item>
+        <item>Ponuka aplikácií</item>
+        <item>Nedávne aplikácie</item>
+        <item>Zobraziť nedávne</item>
+        <item>Nastavenia Androidu</item>
+        <item>Prejsť do spánku</item>
+        <item>Prepnúť dok</item>
+        <item>Otvoriť aplikáciu</item>
+    </string-array>
+
+    <string-array name="gesture_actions_entries_limited">
+        <item>Žiadna</item>
+        <item>Ponuka aplikácií</item>
+        <item>Prepnúť dok</item>
+    </string-array>
+
+    <string-array name="notificationbadge_presets_entries">
+        <item>Vlastné</item>
+        <item>G+ štýl</item>
+        <item>G+ štýl (polopriehľadné)</item>
+        <item>Oceľ</item>
+        <item>Vinyl</item>
+        <item>Biele a čierne</item>
+        <item>Čistý kruh</item>
+        <item>Sklenený kruh</item>
+    </string-array>
+
+    <string-array name="fragmenttitles_array">
+        <item>Vitajte</item>
+        <item>Všeobecné</item>
+        <item>Vyhľadávací riadok</item>
+        <item>Domovská obrazovka</item>
+        <item>Ponuka aplikácií</item>
+        <item>Gestá</item>
+        <item>Symboly oznámení (Beta)</item>
+        <item>Ikony</item>
+        <item>Android Integration</item>
+        <item>Zálohovať/Obnoviť</item>
+        <item>Nastavenia</item>
+        <item>Prémium/Podpora</item>
+        <item>Reverzné inžinierstvo</item>
+    </string-array>
+
+    <string-array name="smartfoldermode_entries">
+        <item>Vypnuté</item>
+        <item>Potiahnutie - spustiť prvú aplikáciu\nDotyk - otvoriť priečinok</item>
+        <item>Dotyk - spustiť prvú aplikáciu\nPotiahnutie - otvoriť priečinok</item>
+    </string-array>
+
+</resources>

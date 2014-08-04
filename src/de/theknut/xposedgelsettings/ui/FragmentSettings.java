@@ -56,6 +56,18 @@ public class FragmentSettings extends FragmentBase {
                 return true;
             }
         });
+
+        findPreference("forceenglishlocale").setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                mContext.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE)
+                        .edit()
+                        .putBoolean("forceenglishlocale", (Boolean) newValue)
+                        .commit();
+                restartActivity();
+                return true;
+            }
+        });
         
         OnPreferenceClickListener ImExportResetSettingsListener = new OnPreferenceClickListener() {
             @SuppressWarnings("deprecation")

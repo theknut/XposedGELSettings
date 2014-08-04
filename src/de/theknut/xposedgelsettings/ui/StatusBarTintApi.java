@@ -24,9 +24,9 @@ public class StatusBarTintApi {
 	 * each Activity.
 	 * 
 	 * Here's an example on how to do that (helper method below)
-	 *     int color = Color.parseColor("#33b5e5");
+	 *     int pref_color = Color.parseColor("#33b5e5");
 	 *     Intent intent = new Intent("com.mohammadag.colouredstatusbar.ChangeStatusBarColor");
-	 *     intent.putExtra("status_bar_color", color);
+	 *     intent.putExtra("status_bar_color", pref_color);
 	 *     intent.putExtra("status_bar_icons_color", Color.WHITE);
 	 *     // Please note that these are not yet implemented!!!
 	 *     // You're free to include them in your code so that when they 

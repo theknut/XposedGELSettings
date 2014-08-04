@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="dark_grey">#222</color>
+    <color name="light_grey">#888</color>
+    <color name="contextmenu_bg_color">#C1000000</color>
+</resources>

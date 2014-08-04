@@ -176,12 +176,6 @@
     <string name="pref_folder_namelabel_color">Kolor tekstu folderów</string>
     <string name="pref_folder_preview_color">Kolor tła zamkniętego folderu</string>
     
-    <string-array name="gesture_actions_entries_limited">
-        <item>Brak</item>
-        <item>Szuflada aplikacji</item>
-        <item>Pokaż dock</item>
-    </string-array>
-    
     <string name="pref_choose_gesture_action_title">Wybierz gest</string>
     <string name="pref_switch_gesture_appdrawer_title">Szuflada aplikacji</string>
     <string name="pref_switch_gesture_appdrawer_summary">Przesuń w dół - zamknij szufladę aplikacji\nPrzesuń w górę - przejdź do widżetów</string>
@@ -235,37 +229,9 @@
     <string name="alert_launcher_not_installed_summary">Musisz koniecznie zainstalować GNL lub Trebuchet, gdyż XGEL obsługuje tylko te launchery!</string>
     <string name="alert_launcher_not_installed_get_gnl">Zainstaluj GNL</string>
     
-    <string-array name="gesture_actions_entries">
-        <item>Brak</item>
-        <item>Belka powiadomień</item>
-        <item>Szybkie ustawienia</item>
-        <item>Szyflada aplikacji</item>
-        <item>Pokaż aplikacje w tle</item>
-        <item>Pokaż ostatnią aplikację</item>
-        <item>Ustawienia Android</item>
-        <item>Uśpij</item>
-        <item>Pokaż dock</item>
-        <item>Otwóz aplikację</item>
-    </string-array>
-    
     <string name="toast_donate_only">Ta funkcja wymaga XGELS Premium!</string>
     <string name="pref_donate_button">Podaruj i wesprzyj mnie!</string>
     <string name="pref_donated_button">Dziękuję za zakup!</string>
     <string name="pref_limited_summary">Niektóre z tych funkcjonalności są dostępne tylko z XGEL Premium.</string>
-    
-    <!-- V1.7 -->
-    <string-array name="fragmenttitles_array">
-        <item>Witaj</item>
-        <item>Ogólne</item>
-        <item>Pasek Google Search</item>
-        <item>Pulpit</item>
-        <item>Szuflada aplikacji</item>
-        <item>Gesty</item>
-        <item>Znaczniki powiadomień</item>
-        <item>Icon</item> <!-- NEW -->
-        <item>Modyfikacje System UI</item>
-        <item>Backup/Przywracanie</item>
-        <item>Ustawienia</item>
-        <item>Premium/Support</item>
-    </string-array>
+
 </resources>

@@ -35,7 +35,7 @@ public final class AllAppsListAddHook extends XC_MethodHook {
 
         while(it.hasNext()) {
             Object appInfo = it.next();
-            String title = (String) getObjectField(appInfo, Fields.itemInfoTitle);
+            String title = (String) getObjectField(appInfo, Fields.iiTitle);
             ComponentName componentName = (ComponentName) getObjectField(appInfo, Fields.aiComponentName);
 
             if (PreferencesHelper.hiddenApps.contains(componentName.getPackageName() + "#" + title)

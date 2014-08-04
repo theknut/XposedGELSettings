@@ -326,8 +326,7 @@ public class IconPack {
                 iconPackPackageName = drawableName.substring(0, drawableName.indexOf(":"));
                 Context iconPackContext = getContext().createPackageContext(iconPackPackageName, Context.CONTEXT_IGNORE_SECURITY);
                 res = iconPackContext.getResources();
-                drawableName = drawableName.split("/")[1];
-                id = res.getIdentifier(drawableName, "drawable", iconPackPackageName);
+                id = res.getIdentifier(drawableName.split("/")[1], drawableName.split("/")[0].split(":")[1], iconPackPackageName);
             } catch (NameNotFoundException e) {
                 e.printStackTrace();
             }

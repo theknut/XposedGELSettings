@@ -111,7 +111,7 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="pref_systemui_explain_title">Hinweis</string>
-    <string name="pref_systemui_explain_summary">Die folgenden Einstellungenfunktionieren je nachdem welches ROM oder Module installiert besser oder schlechter. Außerdem benötigen alle Einstellungen einen Geräteneustart, um wirksam zu werden.</string>
+    <string name="pref_systemui_explain_summary">Die folgenden Einstellungen funktionieren je nachdem welches ROM oder Module installiert besser oder schlechter. Außerdem benötigen alle Einstellungen einen Geräteneustart, um wirksam zu werden.</string>
     <string name="pref_cat_systemui_navbar_title">Navigationsleiste</string>
     <string name="pref_cat_systemui_statusbar_title">Statusleiste</string>
     <string name="pref_dynamic_backbutton_title">Zurück-Button</string>
@@ -248,25 +248,6 @@
     <string name="alert_launcher_not_installed_summary">Es scheint so, als hätten Sie weder den Google Now Launcher noch Trebuchet installiert. Diese Modul wurde für diese beiden Launcher entwickelt und wird ohne einen von beiden nicht funktionieren. Bitte stellen Sie sicher, dass Sie den Google Now Launcher oder Trebuchet installiert haben, wenn Sie diese App verwenden möchten!</string>
     <string name="alert_launcher_not_installed_get_gnl">GNL heruntenladen</string>
     
-    <string-array name="gesture_actions_entries">
-        <item>Keine</item>
-        <item>Benachrichtigungszeile</item>
-        <item>Quicktoggles</item>
-        <item>App-Übersicht</item>
-        <item>Zuletzt verwendete App</item>
-        <item>Öffne Recents</item>
-        <item>Android-Einstellungen</item>
-        <item>Display ausschalten</item>
-        <item>Toggle Dock</item>
-        <item>App öffnen</item>
-    </string-array>
-    
-    <string-array name="gesture_actions_entries_limited">
-        <item>Keine</item>
-        <item>App-Übersicht</item>
-        <item>Toggle Dock</item>
-    </string-array>
-    
     <!-- V1.6.2 -->
     <string name="pref_notificationbadge_help_title">Brauchen Sie Hilfe?</string>
     <string name="pref_notificationbadge_help_summary">Klicken Sie hier, um zu lesen, wie man Notification Badges einrichtet!</string>
@@ -276,22 +257,6 @@
     <string name="pref_switch_position_all_apps_button_summary">Wähle die Position des App-Übersicht Buttons</string>
     <string name="pref_general_scroll_devider_title">Scrollgeschwindigkeit</string>
     <string name="pref_general_scroll_devider_summary">Stelle eine Scrollgeschwindigkeit ein</string>
-    
-    <string-array name="fragmenttitles_array">
-        <item>Willkommen</item>
-        <item>Allgemein</item>
-        <item>Google Suchleiste</item>
-        <item>Homescreen</item>
-        <item>App-Übersicht</item>
-        <item>Gesten</item>
-        <item>Notification Badges (Beta)</item>
-        <item>Icon</item>
-        <item>System UI Tweaks</item>
-        <item>Sichern/Wiederherstellen</item>
-        <item>Einstellungen</item>
-        <item>Premium/Support</item>
-        <item>Reverse Engineering</item>
-    </string-array>
     
     <string name="pref_switch_folder_hide_label">Icontext verbergen</string>
     <string name="pref_icon_chooseiconpack_title">Iconpack</string>
@@ -326,12 +291,6 @@
 
     <string name="pref_overridesettings_button_title">Einstellungen Button</string>
     <string name="pref_overridesettings_button_summary">Öffne XGELS anstatt der Google Now Einstellungen</string>
-
-    <string-array name="smartfoldermode_entries">
-        <item>Aus</item>
-        <item>Wischen - erste App starten\nKlick - Ordner öffnen</item>
-        <item>Klicken - erste App starten\nWischen - Ordner öffnen</item>
-    </string-array>
 
     <string name="pref_icon_reset_all">Alle zurücksetzen</string>
     <string name="pref_enable_l_launcher_title">L Launcher Design</string>
