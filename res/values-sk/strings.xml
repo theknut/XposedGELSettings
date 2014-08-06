@@ -333,8 +333,25 @@
     <string name="dont_show_again">Nezobrazovať znova</string>
     <string name="success">Úspech</string>
     <string name="failed">Zlyhanie</string>
-    <string name="active_manually">Ehm&#823; that didn\'t work. Please open Xposed Installer manually and activate the module. Restart your device!</string>
+    <string name="active_manually">Ehm&#823; toto nefungovalo. Prosím, otvorte Xposed Installer ručne a aktivujte modul. Reštartnite vaše zariadenie!</string>
     <string name="continue_text">Pokračovať</string>
     
+    <string name="changelog_full_title">Zoznam zmien</string>
+    <string name="changelog_title">Čo je nové</string>
+    <string name="changelog_show_full">viac&#8230;</string>
     
+    <string name="pref_force_english_locale_title">Vynútiť anglický jazyk</string>
+    
+    <string name="full_reboot">Úplný reštart</string>
+    <string name="hot_reboot">Rýchly reštart</string>
+    <string name="launcher_reboot">Reštart spúšťača</string>
+    <string name="killed">Ukončené:\n</string>
+    <string name="missing_framework">Chýbajúci framework!</string>
+    <string name="missing_framework_msg">Xposed framework nie je nainštalovaný. Táto aplikácia nebude fungovať bez Xposed frameworku!</string>
+    <string name="go_to_framework">Prejsť do Xposed frameworku</string>
+    <string name="exit">Ukončiť</string>
+    <string name="module_not_active">Modul nie je aktívny!</string>
+    <string name="module_not_active_msg">XGELS nie je aktívny. Prosím, aktivujte modul v Xposed Installer -> Moduly</string>
+    <string name="open_xposed_installer">Otvoriť Xposed Installer</string>
+    <string name="error_root_shell">Chyba pri otváraní root konzoly: kód chyby</string>
 </resources>
