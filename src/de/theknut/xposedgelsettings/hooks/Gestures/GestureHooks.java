@@ -86,18 +86,11 @@ public class GestureHooks extends GestureHelper {
 				XposedBridge.hookAllMethods(Classes.Launcher, Methods.hideAppsCustomizeHelper, hideAppsCustomizeHelper);
 			}
 
-            XposedBridge.hookAllMethods(Classes.Workspace, "onDetachedFromWindow", new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    log("onDetachedFromWindow ");
-                }});
-
-		
 			XposedBridge.hookAllMethods(Classes.Workspace, "onWindowVisibilityChanged", new XC_MethodHook() {
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 					if (DEBUG) log("GestureHooks: onWindowVisibilityChanged");
-					log("onWindowVisibilityChanged " + ((Integer)param.args[0] == View.VISIBLE));
+
 					try {
 						if (mHotseat.getAlpha() != 1.0f) {
 							
