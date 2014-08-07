@@ -147,7 +147,7 @@
     <string name="pref_requires_donation_title">Nie je k dispozícii</string>
     <string name="pref_requires_donation_summary">Nasledujúce funkcie sú dostupné len v Prémium verzii.</string>
     <string name="alert_reboot_needed_title">Vyžadovaný úplný reštart!</string>
-    <string name="alert_reboot_needed_summary">Vykonali ste zmeny, ktoré vyžadujú úSkrývaťplný reštart (vyžaduje sa root). Prosím, vyberte spôsob!</string>
+    <string name="alert_reboot_needed_summary">Vykonali ste zmeny, ktoré vyžadujú úplný reštart (vyžaduje sa root). Prosím, vyberte spôsob!</string>
     <string name="progress_requesting_root_title">Prosím, počkajte&#8230;</string>
     <string name="progress_requesting_root_summary">Vyžaduje sa root prístup&#8230;</string>
     <string name="pref_auto_blur_wallpaper_title">Dynamické pozadie</string>
@@ -314,4 +314,44 @@
     <!-- V1.8.4 -->
     <string name="pref_enable_l_launcher_title">L dizajn spúšťača</string>
     <string name="pref_enable_l_launcher_summary">Použiť novú L tému pre spúšťač, ktorá je k dispozícii od Vyhľadávania Google 3.5. Nezmení sa téma navigačného panela, pretože navigačný panel nie je súčasťou spúšťača.</string>
+    
+    <!-- V1.9 -->
+    <string name="pref_hide_workspace_shadow_title">Tieň domovskej obrazovky</string>
+    <string name="pref_hide_workspace_shadow_summary">Skryť tieň domovskej obrazovky (viditeľný v režime na celú obrazovku)</string>
+    <string name="pref_switch_unlimited_folder_size_title">Neobmedzená veľkosť priečinka</string>
+    <string name="pref_always_show_ok_google_title">Vždy zobraziť "Ok Google"</string>
+    <string name="pref_glow_color_title">Farba žiary</string>
+    <string name="pref_glow_color_summary">Farba pri stlačení ikony</string>
+    <string name="hide_app_switch_label">Skryť z ponuky aplikácií</string>
+    <string name="default_text">Predvolené</string>
+    <string name="pref_cat_system_bars_title">Systémové panely</string>
+    <string name="pref_transparent_system_bars_title">Priehľadné systémové panely</string>
+    <string name="pref_transparent_system_bars_summary">Použiť priehľadné systémové panely na štýl Androidu L (vyžaduje verziu Androidu >= Android 4.4)</string>
+    <string name="module_not_from_google_play">Modul nie je nainštalovaný z Obchodu Play!</string>
+    <string name="module_not_from_google_play_msg">XGELS nie je nainštalovaný z Obchodu Play! Prosím, nainštalujte XGELS z Obchodu Play, aby ste mohli zakúpiť XGELS Prémium a získavať aktualizácie automaticky!</string>
+    <string name="open_play_store">Otvoriť Obchod Play</string>
+    <string name="dont_show_again">Nezobrazovať znova</string>
+    <string name="success">Úspech</string>
+    <string name="failed">Zlyhanie</string>
+    <string name="active_manually">Ehm&#823; toto nefungovalo. Prosím, otvorte Xposed Installer ručne a aktivujte modul. Reštartnite vaše zariadenie!</string>
+    <string name="continue_text">Pokračovať</string>
+    
+    <string name="changelog_full_title">Zoznam zmien</string>
+    <string name="changelog_title">Čo je nové</string>
+    <string name="changelog_show_full">viac&#8230;</string>
+    
+    <string name="pref_force_english_locale_title">Vynútiť anglický jazyk</string>
+    
+    <string name="full_reboot">Úplný reštart</string>
+    <string name="hot_reboot">Rýchly reštart</string>
+    <string name="launcher_reboot">Reštart spúšťača</string>
+    <string name="killed">Ukončené:\n</string>
+    <string name="missing_framework">Chýbajúci framework!</string>
+    <string name="missing_framework_msg">Xposed framework nie je nainštalovaný. Táto aplikácia nebude fungovať bez Xposed frameworku!</string>
+    <string name="go_to_framework">Prejsť do Xposed frameworku</string>
+    <string name="exit">Ukončiť</string>
+    <string name="module_not_active">Modul nie je aktívny!</string>
+    <string name="module_not_active_msg">XGELS nie je aktívny. Prosím, aktivujte modul v Xposed Installer -> Moduly</string>
+    <string name="open_xposed_installer">Otvoriť Xposed Installer</string>
+    <string name="error_root_shell">Chyba pri otváraní root konzoly: kód chyby</string>
 </resources>
