@@ -87,7 +87,8 @@ public class ObfuscationHelper extends HooksBaseClass {
                 GSA_CONFIG_FLAGS,
                 RECOGNIZER_VIEW,
                 SEARCH_PLATE,
-                TRANSITIONS_MANAGER;
+                TRANSITIONS_MANAGER,
+                LAUNCHER_APP_STATE;
 
         public static void initNames(int idx) {
 
@@ -128,6 +129,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                     _LAUNCHER_MODEL = {launcherPackage + "LauncherModel", "sg", "vq", "ws"}, // Error: ItemInfo passed to checkItemInfo doesn't match original
                     _LOADER_TASK = {_LAUNCHER_MODEL[0] + "$LoaderTask", "tb", "wl", "xn"}, // Should not call runBindSynchronousPage
                     _FOLDER_INFO = {launcherPackage + "FolderInfo", "oz", "sh", "ti"}, // FolderInfo(id=
+                    _LAUNCHER_APP_STATE = {launcherPackage + "LauncherAppState", "rr", "vb", "wd"}, // Folder onMeasure
                     _APP_WIDGET_RESIZE_FRAME = {launcherPackage + "AppWidgetResizeFrame", "ks", "oc", "pd"}, // in AppsCustomizePagedView search for Bundle its below if (....17)
                     _ITEM_CONFIGURATION = {_CELL_LAYOUT[0] + "$ItemConfiguration", "ma", "pj", "qk"}, // in CellLayout Math.abs(paramArrayOfInt[0])
                     _LAUNCHER_APPWIDGET_INFO = {launcherPackage + "LauncherAppWidgetInfo", "rv", "vf", "wh"}, // AppWidget(id=
@@ -192,6 +194,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             RECOGNIZER_VIEW = _RECOGNIZER_VIEW[idx];
             SEARCH_PLATE = _SEARCH_PLATE[idx];
             TRANSITIONS_MANAGER = _TRANSITIONS_MANAGER[idx];
+            LAUNCHER_APP_STATE = _LAUNCHER_APP_STATE[idx];
         }
     }
 
@@ -241,7 +244,8 @@ public class ObfuscationHelper extends HooksBaseClass {
                 RecognizerView,
                 SearchPlate,
                 TransitionsManager,
-                BubbleTextView;
+                BubbleTextView,
+                LauncherAppState;
 
         public static void hookAllClasses(LoadPackageParam lpparam) {
             Launcher = findClass(ClassNames.LAUNCHER, lpparam.classLoader);
@@ -283,6 +287,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             DragLayer = findClass(ClassNames.DRAG_LAYER, lpparam.classLoader);
             LauncherAppWidgetHostView = findClass(ClassNames.LAUNCHER_APP_WIDGET_HOST_VIEW, lpparam.classLoader);
             BubbleTextView = findClass(ClassNames.BUBBLE_TEXT_VIEW, lpparam.classLoader);
+            LauncherAppState = findClass(ClassNames.LAUNCHER_APP_STATE, lpparam.classLoader);
 
             if (lpparam.packageName.equals(Common.GEL_PACKAGE)) {
                 GELClass = findClass(ClassNames.GEL, lpparam.classLoader);
@@ -384,7 +389,8 @@ public class ObfuscationHelper extends HooksBaseClass {
                 rvCanShowHotwordAnimation,
                 spSetProximityToNow,
                 tmSetTransitionsEnabled,
-                uIsL;
+                uIsL,
+                lasIsDisableAllApps;
 
         public static void initMethodNames(int idx) {
 
@@ -461,7 +467,8 @@ public class ObfuscationHelper extends HooksBaseClass {
                     _rvCanShowHotwordAnimation = {"canShowHotwordAnimation", "NH", "Se", "UC"}, // == 5
                     _spSetProximityToNow = {"setProximityToNow", "x", "x", "x"}, // (float paramFloat) with RecognizerView
                     _tmSetTransitionsEnabled = {"setTransitionsEnabled", "cG", "cY", "cZ"}, // (4)
-                    _uIsL = {"", "", "jO", "jS"};
+                    _uIsL = {"", "", "jO", "jS"},
+                    _lasIsDisableAllApps = {"isDisableAllApps", "ha", "hS", "hW"};
 
             applyFromApplicationInfo = _applyFromApplicationInfo[idx];
             lGetApplicationContext = _launcherGetApplicationContext[idx];
@@ -537,6 +544,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             spSetProximityToNow = _spSetProximityToNow[idx];
             tmSetTransitionsEnabled = _tmSetTransitionsEnabled[idx];
             uIsL = _uIsL[idx];
+            lasIsDisableAllApps = _lasIsDisableAllApps[idx];
         }
     }
 

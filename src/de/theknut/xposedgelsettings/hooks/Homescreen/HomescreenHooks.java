@@ -4,6 +4,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import de.theknut.xposedgelsettings.hooks.Common;
@@ -15,7 +16,6 @@ import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.general.MoveToDefaultScreenHook;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
-import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setIntField;
 
@@ -75,10 +75,32 @@ public class HomescreenHooks extends HooksBaseClass {
             XposedBridge.hookAllConstructors(Classes.Folder, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    setIntField(param.thisObject, Fields.fMaxCountY, 100);
-                    setIntField(param.thisObject, Fields.fMaxNumItems, getIntField(param.thisObject, Fields.fMaxCountX) * getIntField(param.thisObject, Fields.fMaxCountY));
+                    setIntField(param.thisObject, Fields.fMaxCountY, Integer.MAX_VALUE);
+                    setIntField(param.thisObject, Fields.fMaxNumItems, Integer.MAX_VALUE);
                 }
             });
+
+            // very dirty hack :(
+            if (!Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE)) {
+                findAndHookMethod(Classes.Folder, "onMeasure", Integer.TYPE, Integer.TYPE, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        Common.ON_MEASURE = true;
+                    }
+
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        Common.ON_MEASURE = false;
+                    }
+                });
+
+                findAndHookMethod(Classes.LauncherAppState, Methods.lasIsDisableAllApps, new XC_MethodReplacement() {
+                    @Override
+                    protected Object replaceHookedMethod(MethodHookParam methodHookParam) throws Throwable {
+                        return Common.ON_MEASURE;
+                    }
+                });
+            }
         }
 	}
 }

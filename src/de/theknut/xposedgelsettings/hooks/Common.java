@@ -75,4 +75,5 @@ public final class Common {
 
     public static boolean FOLDER_GESTURE_ACTIVE;
     public static boolean L_VALUE = true;
+    public static boolean ON_MEASURE;
 }
