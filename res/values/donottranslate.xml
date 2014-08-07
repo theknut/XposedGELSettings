@@ -42,7 +42,7 @@
     <string name="pref_reverseengineering_bugs_summary">Due to the reverse engineering there might still be a few bugs here and there. Please be a little bit more forgiving, don\'t ruin my Play Store rating with bug reports. Use the \"Send bug report\" function in the settings menu. Thank you!</string>
     <string name="pref_reverseengineering_support_cat">I need your support!</string>
     <string name="pref_reverseengineering_support_title">Donate to me!</string>
-    <string name="pref_reverseengineering_support_summary">It\'s an incredible amount of work for me to maintain XGELS and give good support to you guys. If you feel like donating to me, click here! (!This won\'t unlock Premium!)</string>
+    <string name="pref_reverseengineering_support_summary">!!This won\'t unlock Premium!!\nIt\'s an incredible amount of work for me to maintain XGELS and give good support to you guys. If you feel like donating to me, click here!</string>
     <string name="pref_reverseengineering_rate_title">Rate XGELS!</string>
     <string name="pref_reverseengineering_rate_summary">Show your support and leave me a rating on Google Play. A good reputation will motivate others to try XGELS, too. Click here to rate XGELS on Google Play!</string>
 
