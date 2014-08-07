@@ -87,6 +87,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 GSA_CONFIG_FLAGS,
                 RECOGNIZER_VIEW,
                 SEARCH_PLATE,
+                GEL_SEARCH_PLATE_CONTAINER,
                 TRANSITIONS_MANAGER,
                 LAUNCHER_APP_STATE;
 
@@ -144,7 +145,8 @@ public class ObfuscationHelper extends HooksBaseClass {
                     _GSA_CONFIG_FLAGS = {"com.google.android.search.core.GsaConfigFlags", "ayc", "bgr", "bnj"}, // Unknown string array encoding
                     _RECOGNIZER_VIEW = {"com.google.android.search.shared.ui.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView"},
                     _SEARCH_PLATE = {"com.google.android.search.shared.ui.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate"},
-                    _TRANSITIONS_MANAGER = {"com.google.android.search.shared.ui.SearchPlate$TransitionsManager", "cen", "cog", "cwb"}; // onLayout - SearchPlate
+                    _TRANSITIONS_MANAGER = {"com.google.android.search.shared.ui.SearchPlate$TransitionsManager", "cen", "cog", "cwb"}, // onLayout - SearchPlate
+                    _GEL_SEARCH_PLATE_CONTAINER = {"com.google.android.search.gel.GelSearchPlateContainer", "com.google.android.search.gel.GelSearchPlateContainer", "com.google.android.search.gel.GelSearchPlateContainer", "com.google.android.search.gel.GelSearchPlateContainer"};
 
 
             LAUNCHER = _LAUNCHER[idx];
@@ -195,6 +197,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             SEARCH_PLATE = _SEARCH_PLATE[idx];
             TRANSITIONS_MANAGER = _TRANSITIONS_MANAGER[idx];
             LAUNCHER_APP_STATE = _LAUNCHER_APP_STATE[idx];
+            GEL_SEARCH_PLATE_CONTAINER = _GEL_SEARCH_PLATE_CONTAINER[idx];
         }
     }
 
@@ -243,6 +246,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 GSAConfigFlags,
                 RecognizerView,
                 SearchPlate,
+                GelSearchPlateContainer,
                 TransitionsManager,
                 BubbleTextView,
                 LauncherAppState;
@@ -297,6 +301,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 TransitionsManager = findClass(ClassNames.TRANSITIONS_MANAGER, lpparam.classLoader);
                 RecognizerView = findClass(ClassNames.RECOGNIZER_VIEW, lpparam.classLoader);
                 SearchPlate = findClass(ClassNames.SEARCH_PLATE, lpparam.classLoader);
+                GelSearchPlateContainer = findClass()
 
                 if (Common.PACKAGE_OBFUSCATED) {
                     WorkspaceState = findClass(ClassNames.WORKSPACE_STATE, lpparam.classLoader);
