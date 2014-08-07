@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string-array name="allappsbuttonposition_entries">
         <item>Padrão</item>
         <item>1</item>
@@ -16,7 +15,6 @@
         <item>11</item>
         <item>12</item>
     </string-array>
-
     <string-array name="fragmenttitles_array">
         <item>Bem-Vindo</item>
         <item>Geral</item>
@@ -26,13 +24,12 @@
         <item>Gestos</item>
         <item>Notificações (Beta)</item>
         <item>Ícones</item>
-        <item>Android Integration</item>
+        <item>Integração Android</item>
         <item>Backup/Restaurar</item>
         <item>Configurações</item>
         <item>Suporte</item>
         <item>Engenharia Reversa</item>
     </string-array>
-
     <string-array name="general_scroll_devider_entries">
         <item>Padrão</item>
         <item>Médio</item>
@@ -40,7 +37,6 @@
         <item>Vmax</item>
         <item>Sem animação</item>
     </string-array>
-
     <string-array name="gesture_actions_entries">
         <item>Nenhum</item>
         <item>Barra de Notificação</item>
@@ -53,17 +49,14 @@
         <item>Alternar Barra de Aplicativos</item>
         <item>Abrir Aplicativo</item>
     </string-array>
-
     <string-array name="gesture_actions_entries_limited">
         <item>Nenhum</item>
         <item>Tela Aplicativos</item>
         <item>Barra de Aplicativos</item>
     </string-array>
-
     <string-array name="smartfoldermode_entries">
         <item>Nenhuma</item>
-        <item>Deslizar - inciar o primeiro aplicativo\nToque - pasta aberta</item>
-        <item>Toque - inicar o primeiro aplicativo\nDeslizar - abrir pasta</item>
+        <item>"Deslizar - inciar o primeiro aplicativo\nToque - pasta aberta"</item>
+        <item>"Toque - inicar o primeiro aplicativo\nDeslizar - abrir pasta"</item>
     </string-array>
-
 </resources>

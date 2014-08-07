@@ -1,4 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="active_manually">"Isso não funcionou. Por favor, abra Xposed Installer manualmente e ativar o módulo. Reinicie o seu dispositivo!"</string>
     <string name="alert_autokill_cancel">Irei fazer manualmente!</string>
     <string name="alert_autokill_checkbox">Não mostrar novamente</string>
     <string name="alert_autokill_ok">Entendi!</string>
@@ -29,8 +31,29 @@
     <string name="changelog_title">O que há de novo</string>
     <string name="colorpicker_apply">Aplicar</string>
     <string name="colorpicker_hex_hint">Cor hexadecimal personalizado</string>
+    <string name="continue_text">Continuar</string>
+    <string name="default_text">Padrão</string>
+    <string name="dont_show_again">"Não exibir novamente"</string>
     <string name="drawer_close">Fechar Tela Aplicativo</string>
     <string name="drawer_open">Abrir Tela Aplicativos</string>
+    <string name="error_root_shell">Erro no comando de root: exitCode</string>
+    <string name="exit">Sair</string>
+    <string name="failed">Falhou</string>
+    <string name="full_reboot">Reinicialização completa</string>
+    <string name="go_to_framework">Ir para Xposed Framework</string>
+    <string name="hide_app_switch_label">Ocultar tela aplicativos</string>
+    <string name="hot_reboot">Reiniciar</string>
+    <string name="killed">processos interrompidos:\n</string>
+    <string name="launcher_reboot">Reiniciar Launcher</string>
+    <string name="missing_framework">estrutura faltante!</string>
+    <string name="missing_framework_msg">O quadro Xposed não está instalado. Este aplicativo não funcionará sem o framework!</string>
+    <string name="module_not_active">Módulo não está ativo!</string>
+    <string name="module_not_active_msg">XGELS não está ativa. Por favor, ative o módulo em Xposed Installer -> Módulos</string>
+    <string name="module_not_from_google_play">Módulo não instalado do Google Play!</string>
+    <string name="module_not_from_google_play_msg">XGELS não é instalado do Google Play! Por favor, instale XGELS do Google Play para obter o aplicativo Premium e atualizações automaticamente!</string>
+    <string name="open_play_store">Abir Google Play</string>
+    <string name="open_xposed_installer">Abir Xposed Installer</string>
+    <string name="pref_always_show_ok_google_title">Sempre mostrar Ok Google</string>
     <string name="pref_animate_dynamic_backbutton_summary">Esmaecer rápida em quando muda</string>
     <string name="pref_animate_dynamic_backbutton_title">Animar ícone de mudança</string>
     <string name="pref_animate_dynamic_homebutton_summary">Esmaecer rápida em quando muda</string>
@@ -49,8 +72,7 @@
     <string name="pref_autohide_google_search_bar_title">Auto Ocultar</string>
     <string name="pref_autokill_launcher_summary">Encerra GNL / Trebuchet automaticamente uma vez que a preferência é alterado. Quando voltar para a tela inicial GNL / Trebuchet será então carregado com as novas configurações.</string>
     <string name="pref_autokill_launcher_title">Encerrar lançador</string>
-    <string name="pref_backup_homescreen_summary">"Backup da tela inicial (apenas ícones e pastas) para
-/sdcard/XposedGELSettings"</string>
+    <string name="pref_backup_homescreen_summary">"Backup da tela inicial (apenas ícones e pastas) para\n/sdcard/XposedGELSettings"</string>
     <string name="pref_backup_homescreen_title">Backup</string>
     <string name="pref_backuprestore_note_summary">Apenas backup restaura seus ícones e pastas. Widgets e suas posições serão perdidos e precisam ser colocados de novo! As características deste também exigem root!</string>
     <string name="pref_backuprestore_note_title">Nota</string>
@@ -62,6 +84,10 @@
     <string name="pref_cat_homescreen_appdock_title">Aplicativos da Bandeja</string>
     <string name="pref_cat_homescreen_folder_title">Pastas</string>
     <string name="pref_cat_homescreen_icon_title">Ícones</string>
+    <string name="pref_cat_quicksettings_lock_desktop_summary">Adicionar um bloco para as definições rápidas que permitem alternar entre desktops bloqueado e desbloqueado rapidamente</string>
+    <string name="pref_cat_quicksettings_lock_desktop_title">Bloquear bloco </string>
+    <string name="pref_cat_quicksettings_title">Definições rápidas de blocos</string>
+    <string name="pref_cat_system_bars_title">Barra do sistema</string>
     <string name="pref_cat_systemui_navbar_title">Barra de Navegação</string>
     <string name="pref_cat_systemui_statusbar_title">Barra de Status</string>
     <string name="pref_cat_title_app_drawer">Tela Aplicativos</string>
@@ -76,9 +102,9 @@
     <string name="pref_change_dynamic_backbutton_title">Ícone voltar dinâmico</string>
     <string name="pref_change_dynamic_homebutton_summary">Altera o ícone para um ícone da Tela Aplicativos na Tela Inicial</string>
     <string name="pref_change_dynamic_homebutton_title">Botão dinâmico na tela inicial</string>
-    <string name="pref_choose_gesture_action_title">Escolha uma ação gesto</string>
-    <string name="pref_continuous_scroll_summary">"Rolagem continua voltando para a primeira página
-(Experimental)"</string>
+    <string name="pref_choose_gesture_action_title">Escolha uma ação de gesto</string>
+    <string name="pref_contextmenu_mode_title">Modo de menu de contexto</string>
+    <string name="pref_continuous_scroll_summary">"Rolagem continua voltando para a primeira página\n(Experimental)"</string>
     <string name="pref_continuous_scroll_title">Rolagem contínua</string>
     <string name="pref_continuous_scroll_with_app_drawer_summary">Inclui na Tela Aplicativos a rolagem contínua</string>
     <string name="pref_continuous_scroll_with_app_drawer_title">Incluir na Tela Aplicativos</string>
@@ -97,13 +123,15 @@
     <string name="pref_dynamic_hideclock_title">Ocultar relógio</string>
     <string name="pref_dynamic_homebutton_summary">Opções para \"Abrir Tela Aplicativos\" na tela inicial</string>
     <string name="pref_dynamic_homebutton_title">Botão tela inicial</string>
-    <string name="pref_enable_rotation_summary">"Ativar rotação
-(Requer uma reinicialização completa)"</string>
+    <string name="pref_enable_l_launcher_summary">Usando Lançador L. Este utiliza o novo tema do lançador Google Search 3.5. Não faz tema da barra de navegação, pois isso não faz parte do programa de lançamento.</string>
+    <string name="pref_enable_l_launcher_title">Projeto Lançador L</string>
+    <string name="pref_enable_rotation_summary">"Ativar rotação\n(Requer uma reinicialização completa)"</string>
     <string name="pref_enable_rotation_title">Rotação</string>
     <string name="pref_folder_applabel_color">Cor do título do ícone</string>
     <string name="pref_folder_background_color">Cor de fundo</string>
     <string name="pref_folder_namelabel_color">Nome da pasta cor do título</string>
     <string name="pref_folder_preview_color">Cor de visualização de pastas</string>
+    <string name="pref_force_english_locale_title">Mudar idioma para inglês</string>
     <string name="pref_general_scroll_devider_summary">Defina uma velocidade global</string>
     <string name="pref_general_scroll_devider_title">Velocidade de rolagem</string>
     <string name="pref_gesture_down_left_title">Deslizar para baixo esquerda</string>
@@ -114,11 +142,15 @@
     <string name="pref_gesture_up_right_title">Deslize para cima direita</string>
     <string name="pref_gestures_note_summary">Gestos precisa de 1 ou 2 minutos após a reinicialização para iniciar</string>
     <string name="pref_gestures_note_title">Nota</string>
+    <string name="pref_glow_color_summary">Cor ao pressionar um ícone</string>
+    <string name="pref_glow_color_title">Cor brilhante</string>
     <string name="pref_grid_size_explain_summary">Alterar o tamanho da grade ocorrerá alterações nos ícones. Se você diminuir o tamanho alguns ícones podem ser perdidos.</string>
     <string name="pref_grid_size_explain_title">Atenção!</string>
     <string name="pref_hide_google_search_bar_title">Ocultar da Tela Inicial</string>
     <string name="pref_hide_icon_label_on_app_drawer_title">Ocultar títulos de ícones</string>
     <string name="pref_hide_icon_label_on_homescreen_title">Ocultar títulos de ícones</string>
+    <string name="pref_hide_workspace_shadow_summary">Ocultar sombra tela inicial (visível no modo de imersão)</string>
+    <string name="pref_hide_workspace_shadow_title">Sombra tela inicial</string>
     <string name="pref_icon_allappsbutton_summary">Altere o ícone da Tela Aplicativos</string>
     <string name="pref_icon_allappsbutton_title">Ícone da Tela Aplicativos</string>
     <string name="pref_icon_auto_apply_summary">Aplicar ícone novos e/ou atualizados automaticamente</string>
@@ -133,9 +165,8 @@
     <string name="pref_icon_perappicon_title">Mudar ícone do aplicativo</string>
     <string name="pref_icon_premium_summary">Esta funcionalidade só está disponível em XGELS Premium.</string>
     <string name="pref_icon_premium_title">Recurso Premium</string>
-    <string name="pref_icon_support_summary">"Calendário dinâmico: %1$s
-%2$d de %3$d ícones suportados
-%4$d ícones no total"</string>
+    <string name="pref_icon_reset_all">Resetar</string>
+    <string name="pref_icon_support_summary">"Calendário dinâmico: %1$s\n%2$d de %3$d ícones suportados\n%4$d ícones no total"</string>
     <string name="pref_icon_support_title">Estatísticas</string>
     <string name="pref_iconsize_summary">Selecione uma porcentagem</string>
     <string name="pref_iconsize_title">Tamanho do ícone</string>
@@ -170,20 +201,19 @@
     <string name="pref_notificationbadge_textcolor_title">Cor do título</string>
     <string name="pref_notificationbadge_textsize_title">Tamanho do título</string>
     <string name="pref_notificationbadge_topbottom_padding_title">Topo/Rodapé espaçamento</string>
-    <string name="pref_overlapping_widgets_summary">"Permitir widgets se sobrepor. Isso só funciona em GNL!
-(Beta: Atualmente, a posição da camada não é salvo após o reboot)"</string>
+    <string name="pref_overlapping_widgets_summary">"Permitir widgets se sobrepor. Isso só funciona em GNL!\n(Beta: Atualmente, a posição da camada não é salvo após o reboot)"</string>
     <string name="pref_overlapping_widgets_title">Widgets sobreposição</string>
     <string name="pref_overridesettings_button_summary">Iniciar XGELS em vez de Configurações do Google Now</string>
     <string name="pref_overridesettings_button_title">Botão Configurações Google Now</string>
     <string name="pref_pageindicator_summary">Ocultar o indicador de página na Tela Inicial e Tela Aplicativos</string>
     <string name="pref_pageindicator_title">Indicador de página</string>
+    <string name="pref_quicksettings_explain_summary">"Atualmente só funciona em stock ou ROMs AOSP\nDefinições rápidas são introduzidos com Android 4.2 e pode ou não pode trabalhar em conjunto com outros módulos ou funcionalidades Xposed ROM."</string>
     <string name="pref_requires_donation_summary">Os seguintes recursos estão disponíveis somente na versão doação.</string>
     <string name="pref_requires_donation_title">Não disponível</string>
     <string name="pref_resize_all_widgets_summary">Faça todos os widgets redimensionáveis</string>
     <string name="pref_resize_all_widgets_title">Redimensionar widgets</string>
     <string name="pref_restart_launcher_summary">Clique aqui para reiniciar o dispositivo e carregá-lo com as suas configurações.</string>
-    <string name="pref_restore_homescreen_summary">"Restaurar tela inicial (apenas ícones e pastas) de
-/sdcard/XposedGELSettings"</string>
+    <string name="pref_restore_homescreen_summary">"Restaurar tela inicial (apenas ícones e pastas) de\n/sdcard/XposedGELSettings"</string>
     <string name="pref_restore_homescreen_title">Restaurar</string>
     <string name="pref_reverseengineering_bugs_summary">Devido à engenharia reversa ainda pode haver alguns bugs aqui e ali. Por favor, seja um pouco mais tolerante, não arruinar minha classificação Play Store com relatórios de bugs. Use a função \"Enviar relatório de erro\" no menu de configurações. Obrigado!</string>
     <string name="pref_reverseengineering_bugs_title">Problemas</string>
@@ -199,14 +229,13 @@
     <string name="pref_reverseengineering_support_title">Doe!</string>
     <string name="pref_reverseengineering_what_to_do_summary">Se você não quer GNL / Google Search para quebrar XGELS você pode ir para o Google Play Store e desativar as atualizações automáticas. GNL/Google Search usos encenado lançamentos, o que significa, em alguns casos XGELS é atualizado antes mesmo de receber o GNL / Google atualização oficial Search. Você pode clicar aqui para abrir a loja Play e desativar a atualização automática agora mesmo!</string>
     <string name="pref_reverseengineering_what_to_do_title">O que posso fazer?</string>
+    <string name="pref_searchbar_style_title">Estilo da barra de pesquisa</string>
     <string name="pref_selectappstohide_summary">Ocultar aplicativos</string>
     <string name="pref_selectwidgetstohide_summary">Selecione os widgets que deseja ocultar</string>
     <string name="pref_send_bugreport">Enviar relatório de erros</string>
-    <string name="pref_settings_export_summary">"Exporte suas configurações para
-/sdcard/XposedGELSettings"</string>
+    <string name="pref_settings_export_summary">Exporte suas configurações para\n/sdcard/XposedGELSettings</string>
     <string name="pref_settings_export_title">Exportação</string>
-    <string name="pref_settings_import_summary">"Importe suas configurações de
-/sdcard/XposedGELSettings"</string>
+    <string name="pref_settings_import_summary">Importe suas configurações de\n/sdcard/XposedGELSettings</string>
     <string name="pref_settings_import_title">Importação</string>
     <string name="pref_settings_reset_summary">Restaurar configurações</string>
     <string name="pref_settings_reset_title">Restaurar</string>
@@ -232,7 +261,7 @@
     <string name="pref_switch_folder_hide_label">Ocultar títulos de ícone</string>
     <string name="pref_switch_folder_summary">Habilitar alterações em pastas</string>
     <string name="pref_switch_folder_title">Habilitar</string>
-    <string name="pref_switch_gesture_appdrawer_summary">Deslize - Tela Aplicativos, Para Cima - alternância entre todos os apps e widgets</string>
+    <string name="pref_switch_gesture_appdrawer_summary">Deslize - Tela Aplicativos, Para Cima -\nalternância entre todos os apps e widgets</string>
     <string name="pref_switch_gesture_appdrawer_title">Tela Aplicativos</string>
     <string name="pref_switch_gesture_double_tap_only_on_wallpaper_summary">Marque esta opção para permitir que apenas tocar duas vezes no papel de parede. Isto irá eliminar a demora para reconhecer o gesto de tocar duas vezes quando tocando duas vezes ícones.</string>
     <string name="pref_switch_gesture_double_tap_only_on_wallpaper_title">Só no papel de parede</string>
@@ -253,12 +282,14 @@
     <string name="pref_switch_no_all_apps_button_title">Botão Tela Aplicativos</string>
     <string name="pref_switch_position_all_apps_button_summary">Escolha a posição da Tela Aplicativos</string>
     <string name="pref_switch_position_all_apps_button_title">Posição do botão na Tela Aplicativos</string>
-    <string name="pref_switch_smart_folder_summary">"Toque - iniciar o primeiro aplicativo
-Deslize para cima - pasta aberta"</string>
+    <string name="pref_switch_smart_folder_summary">Toque - iniciar o primeiro aplicativo\nDeslize para cima - pasta aberta</string>
     <string name="pref_switch_smart_folder_title">Pasta inteligente</string>
+    <string name="pref_switch_unlimited_folder_size_title">Espaço em pasta ilimitado</string>
     <string name="pref_systemui_explain_summary">Todas essas configurações podem ou não funcionar, dependendo do dispositivo e/ou na ROM instalado. Além disso todas essas configurações requer um reinício completo.</string>
     <string name="pref_systemui_explain_title">Nota</string>
     <string name="pref_title_longpress_app_drawer_button">Botão aplicativos Tela Inicial</string>
+    <string name="pref_transparent_system_bars_summary">Use Android L - como bares sistema transparente (requer> = Android 4.4)</string>
+    <string name="pref_transparent_system_bars_title">Barras do sistema transparentes</string>
     <string name="pref_workspacerect_dialog">Escolha um multiplicador</string>
     <string name="pref_workspacerect_summary">Escolha um multiplicador de margem para o lado esquerdo e direito da tela inicial</string>
     <string name="pref_workspacerect_title">Margem esquerda/direita da Tela Inicial</string>
@@ -274,7 +305,10 @@ Deslize para cima - pasta aberta"</string>
     <string name="pref_ycountallapps_title">Linhas da Tela Aplicativos</string>
     <string name="progress_requesting_root_summary">Solicitando privilégios de root…</string>
     <string name="progress_requesting_root_title">Aguarde…</string>
+    <string name="quicksettings_desktop_locked">Área de trabalho bloqueada</string>
+    <string name="quicksettings_desktop_unlocked">Área de trabalho desbloqueado</string>
     <string name="restart_launcher_icon_title">Reiniciar</string>
+    <string name="success">Sucesso</string>
     <string name="toast_backup_failed">Não foi possível aplicar as alterações!</string>
     <string name="toast_backup_success">Tela Inicial restaurada com sucesso!</string>
     <string name="toast_desktop_locked">ALERTA: Tela Inicial bloqueada!</string>
@@ -283,8 +317,7 @@ Deslize para cima - pasta aberta"</string>
     <string name="toast_donation_result_fail">Algo deu errado. Você pode querer matar XGELS e iniciá-lo novamente. Por favor, verifique o logcat!</string>
     <string name="toast_export">Exportado com sucesso!</string>
     <string name="toast_export_failed">Não foi possível aplicar as alterações!</string>
-    <string name="toast_fail">"Não foi possível aplicar as alterações!
-Por favor, veja o log!"</string>
+    <string name="toast_fail">"Não foi possível aplicar as alterações!\nPor favor, veja o log!"</string>
     <string name="toast_full_reboot">Para que esta alteração tenha efeito execute uma reinicialização completa!</string>
     <string name="toast_getprices_fail">Alguma coisa correu mal ao receber a lista de preços. Por favor, verifique o logcat!</string>
     <string name="toast_import">Importado com sucesso!</string>
@@ -298,7 +331,4 @@ Por favor, veja o log!"</string>
     <string name="toast_reset_failed">Não foi possível aplicar as alterações!</string>
     <string name="toast_restore_failed">Não foi possível aplicar as alterações!</string>
     <string name="toast_restore_success">Tela Inicial restaurada com sucesso!</string>
-    <string name="pref_enable_l_launcher_title">Projeto Lançador L</string>
-    <string name="pref_enable_l_launcher_summary">Usando Lançador L. Este utiliza o novo tema do lançador Google Search 3.5. Não faz tema da barra de navegação, pois isso não faz parte do programa de lançamento.</string>
-
 </resources>
