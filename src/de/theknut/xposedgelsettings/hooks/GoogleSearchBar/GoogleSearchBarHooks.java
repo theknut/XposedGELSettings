@@ -124,7 +124,7 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
                 };
 
                 findAndHookMethod(Classes.SearchPlate, Methods.spSetProximityToNow, float.class, proximityToNowHook);
-                findAndHookMethod(Classes.SearchOverlayImpl, Methods.spSetProximityToNow, float.class, proximityToNowHook);
+                findAndHookMethod("com.google.android.search.gel.GelSearchPlateContainer", lpparam.classLoader, Methods.spSetProximityToNow, float.class, proximityToNowHook);
             }
         }
 	}
