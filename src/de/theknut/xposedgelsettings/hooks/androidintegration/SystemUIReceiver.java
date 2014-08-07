@@ -8,7 +8,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -73,8 +72,6 @@ public class SystemUIReceiver extends HooksBaseClass {
     public static Drawable BACKGROUND_COLOR_DRAWABLE = new ColorDrawable(BACKGROUND_COLOR);
     public static Drawable ORIG_BACKGROUND_STATUSBAR;
     public static Drawable ORIG_BACKGROUND_NAVIGATIONBAR;
-    public static int ORIG_COLOR_STATUSBAR;
-    public static int ORIG_COLOR_NAVIGATIONBAR;
 	
 	public static Context systemUIContext;
 	
@@ -297,20 +294,25 @@ public class SystemUIReceiver extends HooksBaseClass {
                                         if (ORIG_BACKGROUND_NAVIGATIONBAR == null) {
                                             ORIG_BACKGROUND_NAVIGATIONBAR = NAVIGATION_BAR_VIEW.getBackground();
                                             ORIG_BACKGROUND_STATUSBAR = STATUS_BAR_VIEW.getBackground();
+
+                                            STATUS_BAR_VIEW.setBackgroundColor(BACKGROUND_COLOR);
+                                            STATUS_BAR_VIEW.setBackgroundDrawable(ORIG_BACKGROUND_STATUSBAR);
+                                            NAVIGATION_BAR_VIEW.setBackgroundColor(BACKGROUND_COLOR);
+                                            NAVIGATION_BAR_VIEW.setBackgroundDrawable(ORIG_BACKGROUND_NAVIGATIONBAR);
+                                            StatusBarTintApi.sendColorChangeIntent(Color.TRANSPARENT, Color.WHITE, Color.TRANSPARENT, Color.WHITE, systemUIContext);
                                         }
 
                                         boolean show = intent.getBooleanExtra("SHOW", false);
+                                        Drawable background = show ? ORIG_BACKGROUND_STATUSBAR : BACKGROUND_COLOR_DRAWABLE;
 
-                                        STATUS_BAR_VIEW.setBackgroundDrawable(show ? ORIG_BACKGROUND_STATUSBAR : BACKGROUND_COLOR_DRAWABLE);
-                                        NAVIGATION_BAR_VIEW.setBackgroundDrawable(show ? ORIG_BACKGROUND_NAVIGATIONBAR : BACKGROUND_COLOR_DRAWABLE);
+                                        STATUS_BAR_VIEW.setBackgroundDrawable(background);
+                                        STATUS_BAR_VIEW.setBackgroundColor(BACKGROUND_COLOR);
 
-                                        if (tsbIsInstalled()) {
-                                            STATUS_BAR_VIEW.setBackgroundColor(BACKGROUND_COLOR);
-                                            NAVIGATION_BAR_VIEW.setBackgroundColor(BACKGROUND_COLOR);
+                                        NAVIGATION_BAR_VIEW.setBackgroundDrawable(background);
+                                        NAVIGATION_BAR_VIEW.setBackgroundColor(BACKGROUND_COLOR);
 
-                                            int color = show ? Color.parseColor("#66000000") : Color.TRANSPARENT;
-                                            StatusBarTintApi.sendColorChangeIntent(color, Color.WHITE, color, Color.WHITE, systemUIContext);
-                                        }
+                                        int color = show ? Color.parseColor("#66000000") : Color.TRANSPARENT;
+                                        StatusBarTintApi.sendColorChangeIntent(color, Color.WHITE, color, Color.WHITE, systemUIContext);
                                     }
 	                        	}  else if (intent.hasExtra(Common.XGELS_ACTION_EXTRA)
                         				&& intent.getStringExtra(Common.XGELS_ACTION_EXTRA).equals(Common.XGELS_ACTION_APP_REQUEST)) {
@@ -355,17 +357,6 @@ public class SystemUIReceiver extends HooksBaseClass {
                     		log("Something went wrong. Show this to the dev!");
                     		log(ex.toString());
                     	}
-                    }
-
-                    private boolean tsbIsInstalled() {
-                        try {
-                            PackageManager pm = systemUIContext.getPackageManager();
-                            pm.getPackageInfo("com.mohammadag.colouredstatusbar", PackageManager.GET_ACTIVITIES);
-                            return true;
-                        } catch (Exception ex) {
-
-                        }
-                        return false;
                     }
                 }, intentFilter);
                 
