@@ -81,6 +81,14 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
 					
 					// show Google Search Bar on GEL sidekick - needed if GNow isn't accessed from the homescreen
 					findAndHookMethod(Classes.NowOverlay, Methods.noOnShow, boolean.class, boolean.class, new OnShowNowOverlayHook());
+
+                    // avoid that nasty animation when showing the search bar again
+                    findAndHookMethod(Classes.TransitionsManager, Methods.tmSetTransitionsEnabled, boolean.class, new XC_MethodHook() {
+                        @Override
+                        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                            param.args[0] = false;
+                        }
+                    });
 				}
 
 				// show when doing a Google search
@@ -116,13 +124,6 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
                 findAndHookMethod(Classes.SearchPlate, Methods.spSetProximityToNow, float.class, proximityToNowHook);
                 findAndHookMethod(Classes.SearchOverlayImpl, Methods.spSetProximityToNow, float.class, proximityToNowHook);
             }
-
-            findAndHookMethod(Classes.TransitionsManager, Methods.tmSetTransitionsEnabled, boolean.class, new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    param.args[0] = false;
-                }
-            });
         }
 	}
 
