@@ -42,4 +42,16 @@
         <item>Klicken - erste App starten\nWischen - Ordner öffnen</item>
     </string-array>
 
+    <string-array name="searchbarstyle_entries">
+        <item>Standard</item>
+        <item>Android L Style</item>
+    </string-array>
+
+    <string-array name="contextmenu_mode_entries">
+        <item>Deaktiviert</item>
+        <item>Nur Shortcuts</item>
+        <item>Nur Widgets</item>
+        <item>Shortcuts &amp; Widgets</item>
+    </string-array>
+
 </resources>
