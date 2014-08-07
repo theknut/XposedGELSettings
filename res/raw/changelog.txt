@@ -27,6 +27,20 @@
   </head>
   <body>
 
+$ 1.9.1
+  % Version 1.9.1
+ _ 2014-07-08
+
+ ! Added:
+ * General: Choose a context menu mode
+ * Google Searchbar: Choose a search bar style
+
+ ! Fixed:
+ * gestures broken after hiding the app dock
+ * search bar disappearing after scrolling Google Now
+ * nasty mic animation when showing search bar
+ * fixed buggy system bar animations
+
 $ 1.9
   % Version 1.9
  _ 2014-07-08
