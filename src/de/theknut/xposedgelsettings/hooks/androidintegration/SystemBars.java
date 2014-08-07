@@ -55,10 +55,7 @@ public class SystemBars extends HooksBaseClass {
             hookAllMethods(Classes.PagedView, Methods.pvPageBeginMoving, new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    if ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lHasCustomContentToLeft)
-                            && getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage) == 0) {
-                        setGradientVisbility(false);
-                    }
+                    setGradientVisbility(false);
                 }
             });
 

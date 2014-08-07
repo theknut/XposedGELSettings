@@ -68,4 +68,14 @@
 <!-- 		android:summary="@string/pref_animate_dynamic_recentsbutton_summary" -->
 <!-- 		android:dependency="changeicondynamichomebutton" /> -->
     </de.theknut.xposedgelsettings.ui.MyPreferenceCategory>
+    <de.theknut.xposedgelsettings.ui.MyPreferenceCategory
+        android:title="@string/pref_cat_quicksettings_title">
+        <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+            android:summary="@string/pref_quicksettings_explain_summary"
+            android:selectable="false" />
+        <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+            android:key="quicksettingslockdesktop"
+            android:title="@string/pref_cat_quicksettings_lock_desktop_title"
+            android:summary="@string/pref_cat_quicksettings_lock_desktop_summary" />
+    </de.theknut.xposedgelsettings.ui.MyPreferenceCategory>
 </PreferenceScreen>

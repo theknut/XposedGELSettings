@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 
+import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import de.theknut.xposedgelsettings.hooks.Common;
@@ -87,7 +88,7 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
             }
 			
 			// show DropDeleteTarget on dragging items
-			if (Common.PACKAGE_OBFUSCATED) {
+			if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE)) {
 				// this is actually not DragSource but the parameter type is unknown as of now
 				findAndHookMethod(Classes.SearchDropTargetBar, Methods.sdtbOnDragStart, Classes.DragSource, Object.class, new OnDragStart());
 			} else {
@@ -97,10 +98,29 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
 			hookAllMethods(Classes.SearchDropTargetBar, Methods.sdtbOnDragEnd, new OnDragEnd());
 		}
 
-        if (Common.PACKAGE_OBFUSCATED && PreferencesHelper.alwaysShowSayOKGoogle) {
-            //"always_show_hotword_hint" in res
+        if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE) && PreferencesHelper.alwaysShowSayOKGoogle) {
+
             findAndHookMethod(Classes.GSAConfigFlags, Methods.gsaShouldAlwaysShowHotwordHint, XC_MethodReplacement.returnConstant(true));
-            findAndHookMethod("com.google.android.search.searchplate.RecognizerView", lpparam.classLoader, "Se", XC_MethodReplacement.returnConstant(false));
+            findAndHookMethod(Classes.RecognizerView, Methods.rvCanShowHotwordAnimation, XC_MethodReplacement.returnConstant(false));
+
+            XC_MethodHook proximityToNowHook = new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    param.args[0] = 1.0f;
+                }
+            };
+
+            if (PreferencesHelper.enableLLauncher) {
+                findAndHookMethod(Classes.SearchPlate, Methods.spSetProximityToNow, float.class, proximityToNowHook);
+                findAndHookMethod(Classes.SearchOverlayImpl, Methods.spSetProximityToNow, float.class, proximityToNowHook);
+            }
+
+            findAndHookMethod(Classes.TransitionsManager, Methods.tmSetTransitionsEnabled, boolean.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    param.args[0] = false;
+                }
+            });
         }
 	}
 

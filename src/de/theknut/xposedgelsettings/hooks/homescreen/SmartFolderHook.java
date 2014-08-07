@@ -11,6 +11,7 @@ import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import de.theknut.xposedgelsettings.hooks.Utils;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.getBooleanField;
@@ -77,7 +78,7 @@ public class SmartFolderHook extends HooksBaseClass {
                 Methods.fGetItemsInReadingOrder))
                 .get(0);
 
-        startActivity((Intent) callMethod(firstItemInFolder.getTag(), "getIntent"));
+        Utils.startActivity((Intent) callMethod(firstItemInFolder.getTag(), "getIntent"));
         param.setResult(true);
     }
 }

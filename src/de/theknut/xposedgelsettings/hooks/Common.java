@@ -21,7 +21,7 @@ public final class Common {
 	public static final String XGELS_ACTION_APP_REQUEST = "APP_REQUEST";
 	public static final String XGELS_ACTION_SAVE_ICONPACK = XGELS_INTENT + ".SAVE_ICONPACK";
     public static final String XGELS_ACTION_SAVE_LAYER_POSITIONS = XGELS_INTENT + ".SAVE_LAYER_POSITIONS";
-    public static final String XGELS_ACTION_SAVE_STRING_ARRAY = XGELS_INTENT + ".SAVE_STRING_ARRAY";
+    public static final String XGELS_ACTION_SAVE_SETTING = XGELS_INTENT + ".SAVE_SETTING";
     public static final String XGELS_ACTION_RELOAD_SETTINGS = XGELS_INTENT + ".RELOAD_SETTINGS";
 
 	// MissedIt intent

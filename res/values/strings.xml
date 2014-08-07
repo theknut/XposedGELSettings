@@ -323,5 +323,11 @@
     <string name="failed">Failed</string>
     <string name="active_manually">Ehm&#823; that didn\'t work. Please open Xposed Installer manually and activate the module. Restart your device!</string>
     <string name="continue_text">Continue</string>
+    <string name="quicksettings_desktop_locked">Desktop locked</string>
+    <string name="quicksettings_desktop_unlocked">Desktop locked</string>
+    <string name="pref_cat_quicksettings_title">Quick settings tiles</string>
+    <string name="pref_cat_quicksettings_lock_desktop_title">Lock desktop tile</string>
+    <string name="pref_cat_quicksettings_lock_desktop_summary">Add a tile to the quicksettings allowing to toggle between locked and unlocked desktop quickly</string>
+    <string name="pref_quicksettings_explain_summary">Quicksettings are introduced with Android 4.2 and may or may not work along with other Xposed modules or ROM features.</string>
 
 </resources>

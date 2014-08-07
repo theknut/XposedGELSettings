@@ -2,12 +2,10 @@ package de.theknut.xposedgelsettings.hooks.androidintegration;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.UserHandle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,26 +13,24 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.callbacks.XC_LoadPackage;
+import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
-import de.theknut.xposedgelsettings.ui.CommonUI;
+import de.theknut.xposedgelsettings.hooks.Utils;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
-import static de.robv.android.xposed.XposedHelpers.newInstance;
 
 /**
  * Created by Alexander Schulz on 29.07.2014.
  */
-public class AndroidSettings extends HooksBaseClass {
+public class AppInfo extends HooksBaseClass {
 
     static Context SettingsContext;
     static Context XGELSContext;
@@ -42,7 +38,7 @@ public class AndroidSettings extends HooksBaseClass {
     static Set<String> hiddenApps;
     static final int USER_CURRENT = -2;
 
-    public static void initAllHooks(XC_LoadPackage.LoadPackageParam lpparam) {
+    public static void initAllHooks(LoadPackageParam lpparam) {
 
         final String key = "hiddenapps";
 
@@ -93,14 +89,7 @@ public class AndroidSettings extends HooksBaseClass {
                             }
                         }
 
-                        Intent saveIntent = new Intent(Common.XGELS_ACTION_SAVE_STRING_ARRAY);
-                        saveIntent.putExtra("key", key);
-                        saveIntent.putStringArrayListExtra(key, new ArrayList<String>(hiddenApps));
-
-                        SettingsContext.sendBroadcastAsUser(saveIntent, (UserHandle) newInstance(UserHandle.class, USER_CURRENT));
-
-                        CommonUI.CONTEXT = SettingsContext;
-                        CommonUI.restartLauncher(false);
+                        Utils.saveToSettings(SettingsContext, key, hiddenApps, true);
                     }
                 });
 

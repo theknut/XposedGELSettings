@@ -295,5 +295,32 @@
     <string name="pref_icon_reset_all">Alle zurücksetzen</string>
     <string name="pref_enable_l_launcher_title">L Launcher Design</string>
     <string name="pref_enable_l_launcher_summary">Verwendet das L Launcher Design, welches ab Google Suche 3.5 verfügbar ist. Es verändert nicht die Navigationsleiste, da das keine Funktion des Launchers ist.</string>
+
+    <!-- V1.9 -->
+    <string name="pref_hide_workspace_shadow_title">Homescreenschatten</string>
+    <string name="pref_hide_workspace_shadow_summary">Schatten auf dem Homescreen verbergen (Sichtbar bspw. im Immersive Mode)</string>
+    <string name="pref_switch_unlimited_folder_size_title">Unbegrenzte Ordnergröße</string>
+    <string name="pref_always_show_ok_google_title">Immer "Ok Google" zeigen</string>
+    <string name="pref_glow_color_title">Umrissfarbe</string>
+    <string name="pref_glow_color_summary">Umrissfarbe beim Drücken eines Icons ändern</string>
+    <string name="hide_app_switch_label">App in der App-Übersicht verbergen</string>
+    <string name="default_text">Standard</string>
+    <string name="pref_cat_system_bars_title">Systemleisten</string>
+    <string name="pref_transparent_system_bars_title">Transparente Systemleisten</string>
+    <string name="pref_transparent_system_bars_summary">Verwende transparente Systemleisten wie bei Android L (requires >= Android 4.4)</string>
+    <string name="module_not_from_google_play">Modul wurde nicht vom Google Play Store installiert!</string>
+    <string name="module_not_from_google_play_msg">XGELS ist nicht vom Google Play installiert! Bitte installieren Sie XGELS vom Google Play Store, sodass Sie XGELS Premium kaufen können und immer automatisch Updates erhalten!</string>
+    <string name="open_play_store">Play Store öffnen</string>
+    <string name="dont_show_again">Nicht nochmal zeigen</string>
+    <string name="success">Erfolgreich</string>
+    <string name="failed">Fehlgeschlagen</string>
+    <string name="active_manually">Öhm&#823; das hat nicht funktioniert. Bitte den Xposed Installer manuell öffnen und das Modul aktivieren. Starten Sie ihr Gerät neu!</string>
+    <string name="continue_text">Weiter</string>
+    <string name="quicksettings_desktop_locked">Desktop gesperrt</string>
+    <string name="quicksettings_desktop_unlocked">Desktop entsperrt</string>
+    <string name="pref_cat_quicksettings_title">Quick settings Kacheln</string>
+    <string name="pref_cat_quicksettings_lock_desktop_title">Desktop sperren</string>
+    <string name="pref_cat_quicksettings_lock_desktop_summary">Füge den Quicksettings eine Kachel zum schnellen Wechseln zwischen "Desktop gesperrt" und "Desktop entsperrt" hinzu</string>
+    <string name="pref_quicksettings_explain_summary">Quicksettings wurden mit Android 4.2 eingeführt. Eventuell funktioniert dieser Tweak aufgrund Ihres ROMs oder anderer Xposed Module nicht.</string>
    
 </resources>

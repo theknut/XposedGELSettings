@@ -7,7 +7,8 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
-import de.theknut.xposedgelsettings.hooks.androidintegration.AndroidSettings;
+import de.theknut.xposedgelsettings.hooks.androidintegration.AppInfo;
+import de.theknut.xposedgelsettings.hooks.androidintegration.QuickSettings;
 import de.theknut.xposedgelsettings.hooks.androidintegration.SystemBars;
 import de.theknut.xposedgelsettings.hooks.androidintegration.SystemUIHooks;
 import de.theknut.xposedgelsettings.hooks.androidintegration.SystemUIReceiver;
@@ -42,12 +43,13 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
 
             PreferencesHelper.init();
 			SystemUIReceiver.initAllHooks(lpparam);
+            QuickSettings.initAllHooks(lpparam);
 			return;
 
 		} else if (lpparam.packageName.equals("com.android.settings")) {
 
             PreferencesHelper.init();
-            AndroidSettings.initAllHooks(lpparam);
+            AppInfo.initAllHooks(lpparam);
             return;
 
         } else if (!Common.PACKAGE_NAMES.contains(lpparam.packageName)) {

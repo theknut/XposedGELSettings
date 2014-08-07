@@ -8,11 +8,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.os.Bundle;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
 import java.util.HashSet;
 
 import de.theknut.xposedgelsettings.hooks.Common;
@@ -26,6 +25,7 @@ public class XGELSReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         SharedPreferences prefs = context.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
+        Log.e("XGELS", "Context " + context.getPackageName());
 
         if (intent.getAction().equals(Intent.ACTION_WALLPAPER_CHANGED)) {
             boolean autoBlurImage = prefs.getBoolean("autoblurimage", false);
@@ -43,33 +43,26 @@ public class XGELSReceiver extends BroadcastReceiver {
 
             prefs.edit().remove("iconpack").commit();
             prefs.edit().putString("iconpack", pkg).commit();
-        } else if (intent.getAction().equals(Common.XGELS_ACTION_SAVE_STRING_ARRAY)) {
+        } else if (intent.getAction().equals(Common.XGELS_ACTION_SAVE_SETTING)) {
 
+            SharedPreferences.Editor editor = prefs.edit();
+            String type = intent.getStringExtra("type");
             String key = intent.getStringExtra("key");
-            ArrayList<String> stringArrayListExtra = intent.getStringArrayListExtra(key);
-            SharedPreferences.Editor editor = prefs.edit();
             editor.remove(key).commit();
-            editor.putStringSet(key, new HashSet(stringArrayListExtra)).commit();
 
-        } else if (intent.getAction().equals(Common.XGELS_ACTION_SAVE_LAYER_POSITIONS)) {
-            SharedPreferences.Editor editor = prefs.edit();
+            if (type.equals("boolean")) {
+                editor.putBoolean(key, intent.getBooleanExtra(key, false)).commit();
+            } else if (type.equals("arraylist")) {
+                editor.putStringSet(key, new HashSet(intent.getStringArrayListExtra(key))).commit();
+            }
 
-            String key = "layerpositions";
-            HashSet<String> layerpositions = (HashSet<String>) prefs.getStringSet(key, new HashSet<String>());
-            HashSet<String> newlayerpositions = new HashSet<String>();
+            context.sendBroadcast(new Intent(Common.XGELS_ACTION_RELOAD_SETTINGS));
 
-            Bundle bundles  = intent.getBundleExtra(key);
-            if (bundles != null) {
-                for (int j = 0; j < bundles.size(); j++) {
-                    Bundle bundle = bundles.getBundle("" + j);
-                    if (bundle != null) {
-                        newlayerpositions.add(bundle.getLong("id") + "|" + bundle.getBoolean("front"));
-                    }
-                }
+            if (intent.getBooleanExtra("restart", false)) {
+                CommonUI.CONTEXT = context;
+                CommonUI.restartLauncher(false);
             }
         }
-
-        context.sendBroadcast(new Intent("de.theknut.xposedgelsettings.Intent.RELOAD_SETTINGS"));
     }
 
     @SuppressLint("SdCardPath")

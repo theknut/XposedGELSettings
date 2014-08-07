@@ -8,8 +8,8 @@ import java.util.Set;
 import de.robv.android.xposed.XSharedPreferences;
 
 public class PreferencesHelper {
-    public static XSharedPreferences prefs;
-    public static boolean Debug;
+    public static XSharedPreferences prefs = new XSharedPreferences(Common.PACKAGE_NAME);
+    public static boolean Debug = prefs.getBoolean("debug", false);
     public static boolean hideSearchBar;
     public static boolean searchBarOnDefaultHomescreen;
     public static boolean autoHideSearchBar;
@@ -87,6 +87,7 @@ public class PreferencesHelper {
     public static Set<String> shortcutIcons;
     public static Set<String> hiddenApps;
     public static Set<String> hiddenWidgets;
+    public static Set<String> layerPositions;
 
     public static String iconpack;
     public static boolean iconPackAutoApply;
@@ -111,9 +112,12 @@ public class PreferencesHelper {
     public static boolean alwaysShowSayOKGoogle;
     public static int glowColor;
     public static boolean transparentSystemBars;
+    public static boolean quicksettingsLockDesktop;
 
     public static void init() {
         prefs = new XSharedPreferences(Common.PACKAGE_NAME);
+        prefs.reload();
+
         Debug = prefs.getBoolean("debug", false);
         hideSearchBar = prefs.getBoolean("hidesearchbar", false);
         searchBarOnDefaultHomescreen = prefs.getBoolean("searchbarondefaulthomescreen", false);
@@ -192,6 +196,7 @@ public class PreferencesHelper {
         shortcutIcons = prefs.getStringSet("shortcuticons", new HashSet<String>());
         hiddenApps = prefs.getStringSet("hiddenapps", new HashSet<String>());
         hiddenWidgets = prefs.getStringSet("hiddenwidgets", new HashSet<String>());
+        layerPositions = prefs.getStringSet("layerpositions", new HashSet<String>());
 
         iconpack = prefs.getString("iconpack", Common.ICONPACK_DEFAULT);
         iconPackAutoApply = prefs.getBoolean("autoupdateapplyiconpack", false);
@@ -216,5 +221,6 @@ public class PreferencesHelper {
         alwaysShowSayOKGoogle = prefs.getBoolean("alwaysshowsayokgoogle", false);
         glowColor = prefs.getInt("glowcolor", Color.argb(0xFF, 0xFF, 0xFF, 0xFF));
         transparentSystemBars = prefs.getBoolean("transparentsystembars", false);
+        quicksettingsLockDesktop = prefs.getBoolean("quicksettingslockdesktop", false);
     }
 }

@@ -9,11 +9,14 @@ public class ObfuscationHelper extends HooksBaseClass {
     public static final int GNL_3_3_11 = 300303110;
     public static final int GNL_3_4_15 = 300304150;
     public static final int GNL_3_5_14 = 300305140;
+    public static final int GNL_3_6_13 = 300306130;
 
     public static int getVersionIndex(int version) {
 
         if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE)) {
-            if (version >= GNL_3_5_14) {
+            if (version >= GNL_3_6_13) {
+                return 3;
+            } else if (version >= GNL_3_5_14) {
                 return 2;
             } else if (version >= GNL_3_4_15) {
                 return 1;
@@ -81,7 +84,10 @@ public class ObfuscationHelper extends HooksBaseClass {
                 GEL,
                 NOW_OVERLAY,
                 SEARCH_OVERLAY_IMPL,
-                GSA_CONFIG_FLAGS;
+                GSA_CONFIG_FLAGS,
+                RECOGNIZER_VIEW,
+                SEARCH_PLATE,
+                TRANSITIONS_MANAGER;
 
         public static void initNames(int idx) {
 
@@ -90,50 +96,54 @@ public class ObfuscationHelper extends HooksBaseClass {
                 launcherPackage = "com.android.launcher2.";
             }
 
-            String[] _LAUNCHER = {launcherPackage + "Launcher", launcherPackage + "Launcher", launcherPackage + "Launcher"},
-                    _WORKSPACE = {launcherPackage + "Workspace", launcherPackage + "Workspace", launcherPackage + "Workspace"},
-                    _WORKSPACE_STATE = {_WORKSPACE[0] + "$State", "zc", "aco"},
-                    _DEVICE_PROFILE = {launcherPackage + "DeviceProfile", "mz", "qi"},
-                    _CELL_LAYOUT = {launcherPackage + "CellLayout", launcherPackage + "CellLayout", launcherPackage + "CellLayout"},
-                    _CELL_LAYOUT_CELL_INFO = {_CELL_LAYOUT[0] + "$CellInfo", "lz", "pi"},
-                    _CELL_LAYOUT_LAYOUT_PARAMS = {_CELL_LAYOUT[0] + "$LayoutParams", _CELL_LAYOUT[0] + "$LayoutParams", _CELL_LAYOUT[0] + "$LayoutParams"},
-                    _PAGED_VIEW = {launcherPackage + "PagedView", launcherPackage + "PagedView", launcherPackage + "PagedView"},
-                    _PAGED_VIEW_ICON = {launcherPackage + "PagedViewIcon", launcherPackage + "PagedViewIcon", launcherPackage + "PagedViewIcon"},
-                    _PAGED_VIEW_CELL_LAYOUT = {launcherPackage + "PagedViewCellLayout", "vd", "yo"},
-                    _PAGED_VIEW_WITH_DRAGGABLE_ITEMS = {launcherPackage + "PagedViewWithDraggableItems", "vl", "yw"},
-                    _APPS_CUSTOMIZE_CELL_LAYOUT = {launcherPackage + "AppsCustomizeCellLayout", "kw", "yr"},
-                    _APPS_CUSTOMIZE_LAYOUT = {launcherPackage + "AppsCustomizeLayout", launcherPackage + "AppsCustomizeLayout", launcherPackage + "AppsCustomizeLayout"},
-                    _APPS_CUSTOMIZE_PAGED_VIEW = {launcherPackage + "AppsCustomizePagedView", launcherPackage + "AppsCustomizePagedView", launcherPackage + "AppsCustomizePagedView"},
-                    _APPS_CUSTOMIZE_TAB_HOST = {launcherPackage + "AppsCustomizeTabHost", launcherPackage + "AppsCustomizeTabHost", launcherPackage + "AppsCustomizeTabHost"},
-                    _APPS_CUSTOMIZE_CONTENT_TYPE = {_APPS_CUSTOMIZE_PAGED_VIEW[0] + "$ContentType", "lf", "oo"},
-                    _WALLPAPEROFFSETINTERPOLATOR = {_WORKSPACE[0] + "$WallpaperOffsetInterpolator", "zd", "acp"},
-                    _FOLDER = {launcherPackage + "Folder", launcherPackage + "Folder", launcherPackage + "Folder"},
-                    _FOLDER_ICON = {launcherPackage + "FolderIcon", launcherPackage + "FolderIcon", launcherPackage + "FolderIcon"},
-                    _HOTSEAT = {launcherPackage + "Hotseat", launcherPackage + "Hotseat", launcherPackage + "Hotseat"},
-                    _START_SETTINGS_ONCLICK = { "", "pu", "td" },
-                    _DRAG_SOURCE = {launcherPackage + "DragSource", "nn", "qw"}, // first parameter in onDragStart of SearchDropTargetBar
-                    _ITEM_INFO = {launcherPackage + "ItemInfo", "pr", "ta"},
-                    _APP_INFO = {launcherPackage + "AppInfo", "kr", "ob"},
-                    _SHORTCUT_INFO = {launcherPackage + "ShortcutInfo", "vz", "zl"},
-                    _SEARCH_DROP_TARGET_BAR = {launcherPackage + "SearchDropTargetBar", launcherPackage + "SearchDropTargetBar", launcherPackage + "SearchDropTargetBar"},
-                    _ICON_CACHE = {launcherPackage + "IconCache", "pk", "ss"},
-                    _UTILITIES = {launcherPackage + "Utilities", "wi", "zu"},
-                    _CACHE_ENTRY = {_ICON_CACHE[0] + "$CacheEntry", "pl", "st"},
-                    _LAUNCHER_MODEL = {launcherPackage + "LauncherModel", "sg", "vq"},
-                    _LOADER_TASK = {_LAUNCHER_MODEL[0] + "$LoaderTask", "tb", "wl"},
-                    _FOLDER_INFO = {launcherPackage + "FolderInfo", "oz", "sh"},
-                    _APP_WIDGET_RESIZE_FRAME = {launcherPackage + "AppWidgetResizeFrame", "ks", "oc"},
-                    _ITEM_CONFIGURATION = {_CELL_LAYOUT[0] + "$ItemConfiguration", "ma", "pj"},
-                    _LAUNCHER_APPWIDGET_INFO = {launcherPackage + "LauncherAppWidgetInfo", "rv", "vf"},
-                    _DRAG_LAYER = {launcherPackage + "DragLayer", launcherPackage + "DragLayer", launcherPackage + "DragLayer"},
-                    _LAUNCHER_APP_WIDGET_HOST_VIEW = {launcherPackage + "LauncherAppWidgetHostView", "ru", "ve"},
-                    _BUBBLE_TEXT_VIEW = {launcherPackage + "BubbleTextView", launcherPackage + "BubbleTextView", launcherPackage + "BubbleTextView"},
-                    _USER_HANDLE = {"", "", "adl"},
-                    _ADB = {"", "", "adb"},
-                    _GEL = {"com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL"},
-                    _NOW_OVERLAY = {"com.google.android.sidekick.shared.client.NowOverlay", "dzk", "enc"},
-                    _SEARCH_OVERLAY_IMPL = {"com.google.android.search.gel.SearchOverlayImpl", "ccu", "cmh"},
-                    _GSA_CONFIG_FLAGS = {"com.google.android.search.core.GsaConfigFlags", "ayc", "bgr"}; // Unknown string array encoding
+            String[] _LAUNCHER = {launcherPackage + "Launcher", launcherPackage + "Launcher", launcherPackage + "Launcher", launcherPackage + "Launcher"},
+                    _WORKSPACE = {launcherPackage + "Workspace", launcherPackage + "Workspace", launcherPackage + "Workspace", launcherPackage + "Workspace"},
+                    _WORKSPACE_STATE = {_WORKSPACE[0] + "$State", "zc", "aco", "adg"}, // ??
+                    _DEVICE_PROFILE = {launcherPackage + "DeviceProfile", "mz", "qi", "rj"}, // All Device Profiles must have
+                    _CELL_LAYOUT = {launcherPackage + "CellLayout", launcherPackage + "CellLayout", launcherPackage + "CellLayout", launcherPackage + "CellLayout"},
+                    _CELL_LAYOUT_CELL_INFO = {_CELL_LAYOUT[0] + "$CellInfo", "lz", "pi", "qj"}, // Cell[=view
+                    _CELL_LAYOUT_LAYOUT_PARAMS = {_CELL_LAYOUT[0] + "$LayoutParams", _CELL_LAYOUT[0] + "$LayoutParams", _CELL_LAYOUT[0] + "$LayoutParams", _CELL_LAYOUT[0] + "$LayoutParams"},
+                    _PAGED_VIEW = {launcherPackage + "PagedView", launcherPackage + "PagedView", launcherPackage + "PagedView", launcherPackage + "PagedView"},
+                    _PAGED_VIEW_ICON = {launcherPackage + "PagedViewIcon", launcherPackage + "PagedViewIcon", launcherPackage + "PagedViewIcon", launcherPackage + "PagedViewIcon"},
+                    _PAGED_VIEW_CELL_LAYOUT = {launcherPackage + "PagedViewCellLayout", "vd", "yo", "zq"}, // CellLayout cannot have UNSPECIFIED dimensions" the one with more members
+                    _PAGED_VIEW_WITH_DRAGGABLE_ITEMS = {launcherPackage + "PagedViewWithDraggableItems", "vl", "yw", "zy"}, // AppsCustomizePagedView extends
+                    _APPS_CUSTOMIZE_CELL_LAYOUT = {launcherPackage + "AppsCustomizeCellLayout", "kw", "yr", "zt"}, // "Invalid ContentType" in AppsCostumize - getChildCount
+                    _APPS_CUSTOMIZE_LAYOUT = {launcherPackage + "AppsCustomizeLayout", launcherPackage + "AppsCustomizeLayout", launcherPackage + "AppsCustomizeLayout", launcherPackage + "AppsCustomizeLayout"}, // Trebuchet only
+                    _APPS_CUSTOMIZE_PAGED_VIEW = {launcherPackage + "AppsCustomizePagedView", launcherPackage + "AppsCustomizePagedView", launcherPackage + "AppsCustomizePagedView", launcherPackage + "AppsCustomizePagedView"},
+                    _APPS_CUSTOMIZE_TAB_HOST = {launcherPackage + "AppsCustomizeTabHost", launcherPackage + "AppsCustomizeTabHost", launcherPackage + "AppsCustomizeTabHost", launcherPackage + "AppsCustomizeTabHost"},
+                    _APPS_CUSTOMIZE_CONTENT_TYPE = {_APPS_CUSTOMIZE_PAGED_VIEW[0] + "$ContentType", "lf", "oo", "pp"},
+                    _WALLPAPEROFFSETINTERPOLATOR = {_WORKSPACE[0] + "$WallpaperOffsetInterpolator", "zd", "acp", "adr"}, // Error updating wallpaper offset
+                    _FOLDER = {launcherPackage + "Folder", launcherPackage + "Folder", launcherPackage + "Folder", launcherPackage + "Folder"},
+                    _FOLDER_ICON = {launcherPackage + "FolderIcon", launcherPackage + "FolderIcon", launcherPackage + "FolderIcon", launcherPackage + "FolderIcon"},
+                    _HOTSEAT = {launcherPackage + "Hotseat", launcherPackage + "Hotseat", launcherPackage + "Hotseat", launcherPackage + "Hotseat"},
+                    _START_SETTINGS_ONCLICK = { "", "pu", "td", "ue"}, // in onCreate first setOnClickListener after in if-clause
+                    _DRAG_SOURCE = {launcherPackage + "DragSource", "nn", "qw", "rx"}, // first parameter in onDragStart of SearchDropTargetBar
+                    _ITEM_INFO = {launcherPackage + "ItemInfo", "pr", "ta", "ub"}, // Item(id=
+                    _APP_INFO = {launcherPackage + "AppInfo", "kr", "ob", "pc"}, // firstInstallTime=
+                    _SHORTCUT_INFO = {launcherPackage + "ShortcutInfo", "vz", "zl", "aan"}, // ShortcutInfo(title=
+                    _SEARCH_DROP_TARGET_BAR = {launcherPackage + "SearchDropTargetBar", launcherPackage + "SearchDropTargetBar", launcherPackage + "SearchDropTargetBar", launcherPackage + "SearchDropTargetBar"},
+                    _ICON_CACHE = {launcherPackage + "IconCache", "pk", "ss", "tt"}, // using preloaded icon for
+                    _UTILITIES = {launcherPackage + "Utilities", "wi", "zu", "aaw"}, // Launcher.Utilities
+                    _CACHE_ENTRY = {_ICON_CACHE[0] + "$CacheEntry", "pl", "st", "tu"}, // new HashMap(50)
+                    _LAUNCHER_MODEL = {launcherPackage + "LauncherModel", "sg", "vq", "ws"}, // Error: ItemInfo passed to checkItemInfo doesn't match original
+                    _LOADER_TASK = {_LAUNCHER_MODEL[0] + "$LoaderTask", "tb", "wl", "xn"}, // Should not call runBindSynchronousPage
+                    _FOLDER_INFO = {launcherPackage + "FolderInfo", "oz", "sh", "ti"}, // FolderInfo(id=
+                    _APP_WIDGET_RESIZE_FRAME = {launcherPackage + "AppWidgetResizeFrame", "ks", "oc", "pd"}, // in AppsCustomizePagedView search for Bundle its below if (....17)
+                    _ITEM_CONFIGURATION = {_CELL_LAYOUT[0] + "$ItemConfiguration", "ma", "pj", "qk"}, // in CellLayout Math.abs(paramArrayOfInt[0])
+                    _LAUNCHER_APPWIDGET_INFO = {launcherPackage + "LauncherAppWidgetInfo", "rv", "vf", "wh"}, // AppWidget(id=
+                    _DRAG_LAYER = {launcherPackage + "DragLayer", launcherPackage + "DragLayer", launcherPackage + "DragLayer", launcherPackage + "DragLayer"},
+                    _LAUNCHER_APP_WIDGET_HOST_VIEW = {launcherPackage + "LauncherAppWidgetHostView", "ru", "ve", "wg"}, // in Workspace "getAppWidgetInfo"
+                    _BUBBLE_TEXT_VIEW = {launcherPackage + "BubbleTextView", launcherPackage + "BubbleTextView", launcherPackage + "BubbleTextView", launcherPackage + "BubbleTextView"},
+                    _USER_HANDLE = {"", "", "adl", "aen"}, // last parameter in IconCache "cacheLocked"
+                    _ADB = {"", "", "adb", "aed"},
+                    _GEL = {"com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL"},
+                    _NOW_OVERLAY = {"com.google.android.sidekick.shared.client.NowOverlay", "dzk", "enc", "evx"}, // now_overlay:views_hidden_for_search
+                    _SEARCH_OVERLAY_IMPL = {"com.google.android.search.gel.SearchOverlayImpl", "ccu", "cmh", "cuc"}, // hammerhead
+                    _GSA_CONFIG_FLAGS = {"com.google.android.search.core.GsaConfigFlags", "ayc", "bgr", "bnj"}, // Unknown string array encoding
+                    _RECOGNIZER_VIEW = {"com.google.android.search.shared.ui.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView"},
+                    _SEARCH_PLATE = {"com.google.android.search.shared.ui.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate"},
+                    _TRANSITIONS_MANAGER = {"com.google.android.search.shared.ui.SearchPlate$TransitionsManager", "cen", "cog", "cwb"}; // onLayout - SearchPlate
+
 
             LAUNCHER = _LAUNCHER[idx];
             WORKSPACE = _WORKSPACE[idx];
@@ -179,6 +189,9 @@ public class ObfuscationHelper extends HooksBaseClass {
             NOW_OVERLAY = _NOW_OVERLAY[idx];
             SEARCH_OVERLAY_IMPL = _SEARCH_OVERLAY_IMPL[idx];
             GSA_CONFIG_FLAGS = _GSA_CONFIG_FLAGS[idx];
+            RECOGNIZER_VIEW = _RECOGNIZER_VIEW[idx];
+            SEARCH_PLATE = _SEARCH_PLATE[idx];
+            TRANSITIONS_MANAGER = _TRANSITIONS_MANAGER[idx];
         }
     }
 
@@ -225,6 +238,9 @@ public class ObfuscationHelper extends HooksBaseClass {
                 DragLayer,
                 LauncherAppWidgetHostView,
                 GSAConfigFlags,
+                RecognizerView,
+                SearchPlate,
+                TransitionsManager,
                 BubbleTextView;
 
         public static void hookAllClasses(LoadPackageParam lpparam) {
@@ -273,6 +289,9 @@ public class ObfuscationHelper extends HooksBaseClass {
                 NowOverlay = findClass(ClassNames.NOW_OVERLAY, lpparam.classLoader);
                 SearchOverlayImpl = findClass(ClassNames.SEARCH_OVERLAY_IMPL, lpparam.classLoader);
                 GSAConfigFlags = findClass(ClassNames.GSA_CONFIG_FLAGS, lpparam.classLoader);
+                TransitionsManager = findClass(ClassNames.TRANSITIONS_MANAGER, lpparam.classLoader);
+                RecognizerView = findClass(ClassNames.RECOGNIZER_VIEW, lpparam.classLoader);
+                SearchPlate = findClass(ClassNames.SEARCH_PLATE, lpparam.classLoader);
 
                 if (Common.PACKAGE_OBFUSCATED) {
                     WorkspaceState = findClass(ClassNames.WORKSPACE_STATE, lpparam.classLoader);
@@ -315,7 +334,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 lFinishBindingItems,
                 dpGetWorkspacePadding,
                 lIsAllAppsVisible,
-                lGetOpenFolder,
+                wGetOpenFolder,
                 wIsOnOrMovingToCustomContent,
                 wEnterOverviewMode,
                 wMoveToCustomContentScreen,
@@ -361,80 +380,88 @@ public class ObfuscationHelper extends HooksBaseClass {
                 btvCreateGlowingOutline,
                 lmDeleteItemFromDatabase,
                 lmDeleteFolderContentsFromDatabase,
-                siGetIcon;
+                siGetIcon,
+                rvCanShowHotwordAnimation,
+                spSetProximityToNow,
+                tmSetTransitionsEnabled,
+                uIsL;
 
         public static void initMethodNames(int idx) {
 
-            String[] _applyFromApplicationInfo = {"applyFromApplicationInfo", "a", "a"},
-                    _launcherGetApplicationContext = {"getApplicationContext", "getApplicationContext", "getApplicationContext"},
-                    _launcherIsRotationEnabled = {"isRotationEnabled", "gC", "hr"}, // getBoolean - single line method
-                    _celllayoutAddViewToCellLayout = {"addViewToCellLayout", "a", "a"}, // View paramView, int paramInt1, int paramInt2, CellLayout.LayoutParams paramLayoutParams, boolean paramBoolean
-                    _wallpaperoffsetinterpolatorSyncWithScroll = {"syncWithScroll", "kf", "la"}, // computeScroll in Workspace
-                    _workspaceStartDrag = {"startDrag", "a", "a"}, // isInTouchMode
-                    _acpvOnPackagesUpdated = {"onPackagesUpdated", "a", "a"}, // "can not fit on this device"
-                    _launcherGetSearchbar = {"getSearchBar", "fZ", "gO"}, // return SearchDropTargetBar in Launcher
-                    _launcherGetQsbBar = {"getQsbBar", "gw", "hl"}, // inflate followed by addView
-                    _pagedviewPageBeginMoving = {"pageBeginMoving", "ii", "iY"}, // protected void
-                    _pagedviewPageEndMoving = {"pageEndMoving", "ij", "iZ"},
-                    _sdtbOnDragStart = {"onDragStart", "a", "a"}, // twice .start in the method
-                    _sdtbOnDragEnd = {"onDragEnd", "dt", "ei"}, // twice .reverse
-                    _launcherHasCustomContentToLeft = {"hasCustomContentToLeft", "fL", "gA"}, // isEmpty
-                    _hideAppsCustomizeHelper = {"hideAppsCustomizeHelper", "a", "a"},
-                    _launcherShowWorkspace = {"showWorkspace", "a", "a"}, // boolean paramBoolean, Runnable paramRunnable
-                    _launcherShowAllApps = {"showAllApps", "a", "a"},
-                    _workspaceMoveToDefaultScreen = {"moveToDefaultScreen", "ao", "at"}, // Launcher onNewIntent method call of workspace member with (true)
-                    _btvSetShadowsEnabled = {"setShadowsEnabled", "w", "z"},
-                    _wsOverScroll = {"overScroll", "g", "g"}, // (float paramFloat)
-                    _acpvOverScroll = {"overScroll", "g", "g"}, // (float paramFloat)
-                    _lFinishBindingItems = {"finishBindingItems", "U", "Z"}, // hasFocus()
-                    _dpGetWorkspacePadding = {"getWorkspacePadding", "aC", "aS"}, // second method with (int paramInt)
-                    _lIsAllAppsVisible = {"isAllAppsVisible", "gs", "hh"}, // onBackPressed first method call
-                    _lGetOpenFolder = {"getOpenFolder", "jp", "kj"}, // in closeFolder
-                    _wIsOnOrMovingToCustomContent = {"isOnOrMovingToCustomContent", "jJ", "kE"}, // last if-clause in Launcher onResume
-                    _wEnterOverviewMode = {"enterOverviewMode", "jO", "kJ"}, // Touchstate != 0
-                    _wMoveToCustomContentScreen = {"moveToCustomContentScreen", "ap", "au"}, // Workspace "View localView = getChildAt"
-                    _pvSnapToPage = {"snapToPage", "a", "a"}, // int paramInt1, int paramInt2, int paramInt3, boolean paramBoolean, TimeInterpolator paramTimeInterpolator
-                    _lOpenFolder = {"openFolder", "i", "i"}, // "Folder info marked as open"
-                    _lCloseFolder = {"closeFolder", "gr", "hg"},
-                    _acthOnTabChanged = {"onTabChanged", "c", "c"}, // setBackgroundColor
-                    _wSetCurrentPage = {"setCurrentPage", "aV", "bl"},
-                    _acpvSetCurrentPage = {"setCurrentPage", "aV", "bl"},
-                    _dpUpdateFromConfiguration = {"updateFromConfiguration", "a", "a"}, // float paramFloat, int paramInt, Resources paramResources, DisplayMetrics paramDisplayMetrics
-                    _acthSetInsets = {"setInsets", "c", "c"}, // (Rect
-                    _wSnapToPage = {"snapToPage", "bc", "bs"}, // in PagedView requestChildFocus
-                    _soiSetSearchStarted = {"setSearchStarted", "cs", "cI"}, // onResume before cancel()
-                    _noOnShow = {"onShow", "p", "u"}, // boolean paramBoolean1, boolean paramBoolean2
-                    _wOnDragEnd = {"onDragEnd", "dt", "ei"}, // only method without interface parameters with InstallShortcutReceiver
-                    _wOnDragStart = {"onDragStart", "a", "a"}, // only method with interface parameters with InstallShortcutReceiver
-                    _wOnLauncherTransitionEnd = {"onLauncherTransitionEnd", "a", "a"}, // , boolean paramBoolean1, boolean paramBoolean2)
-                    _fOnRemove = {"onRemove", "g", "g"}, // removeView(localView)
-                    _fOnAdd = {"onAdd", "f", "f"}, // (<Shortcutinfo> param<...>)
-                    _fReplaceFolderWithFinalItem = {"replaceFolderWithFinalItem", "ge", "ge"}, // getItemCount() <= 1
-                    _fGetItemsInReadingOrder = {"getItemsInReadingOrder", "fr", "gh"}, // public final ArrayList
-                    _clGetShortcutsAndWidgets = {"getShortcutsAndWidgets", "dH", "ew"}, // getChildCount() > 0
-                    _acthGetContentTypeForTabTag = {"getContentTypeForTabTag", "j", "r"}, // (String paramString)
-                    _wOnTransitionPrepare = {"onTransitionPrepare", "jR", "kM"}, // boolean bool = true; this.<IsSwitchingState> = bool;
-                    _siGetIntent = {"getIntent", "getIntent", "getIntent"},
-                    _icGetFullResIcon = {"getFullResIcon", "a", "a"}, // (Resources paramResources, int paramInt)
-                    _uCreateIconBitmap = {"createIconBitmap", "a", "a"}, // (Drawable paramDrawable, Context paramContext)
-                    _icCacheLocked = {"cacheLocked", "b", "a"},
-                    _clMarkCellsForView = {"markCellsForView", "a", "a"}, // int paramInt1, int paramInt2, int paramInt3, int paramInt4, boolean[][] paramArrayOfBoolean, boolean paramBoolean
-                    _lmCheckItemPlacement = {"checkItemPlacement", "a", "a"}, // "Error loading shortcut into "
-                    _acpvBeginDragging = {"beginDragging", "n", "n"}, // "instanceof PagedViewIcon" in AppsCustomizePagedView
-                    _lBindAppsUpdated = {"bindAppsUpdated", "l", "l"}, // if (this.Hi == null)
-                    _lmIsShortcutInfoUpdateable = {"isShortcutInfoUpdateable", "e", "e"}, // "android.intent.action.MAIN"
-                    _clAttemptPushInDirection = {"attemptPushInDirection", "b", "b"}, // ArrayList paramArrayList, Rect paramRect, int[] paramArrayOfInt, View paramView, pj parampj
-                    _acpvSetApps = {"setApps", "b", "b"}, // Collections.sort
-                    _acpvUpdateApps = {"updateApps", "g", "g"}, // in BindAppsUpdated in Launcher
-                    _acpvRemoveApps = {"removeApps", "f", "f"}, // in Launcher (paramArrayList2)
-                    _lSetWorkspaceBackground = {"setWorkspaceBackground", "N", "S"}, // setBackground
-                    _lGetDragLayer = {"getDragLayer", "fV", "gK"}, // public final DragLayer
-                    _dlAddResizeFrame = {"addResizeFrame", "a", "a"}, // (-1, -1)
-                    _gsaShouldAlwaysShowHotwordHint = {"shouldAlwaysShowHotwordHint", "uK", "xE"}, // always_show_hotword_hint
-                    _btvCreateGlowingOutline = {"createGlowingOutline", "a", "a"}, // setBitmap
-                    _lmDeleteItemFromDatabase = {"deleteItemFromDatabase", "b", "b"}, // (Context paramContext, ItemInfo paramta) - link to "deleting a folder"
-                    _siGetIcon = {"getIcon", "a", "a"}, // public final Bitmap
-                    _lmDeleteFolderContentsFromDatabase = {"deleteFolderContentsFromDatabase", "a", "a"}; // (Context paramContext, FolderInfo paramsh)
+            String[] _applyFromApplicationInfo = {"applyFromApplicationInfo", "a", "a", "a"},
+                    _launcherGetApplicationContext = {"getApplicationContext", "getApplicationContext", "getApplicationContext", "getApplicationContext"},
+                    _launcherIsRotationEnabled = {"isRotationEnabled", "gC", "hr", "hA"}, // getBoolean - single line method
+                    _celllayoutAddViewToCellLayout = {"addViewToCellLayout", "a", "a", "a"}, // View paramView, int paramInt1, int paramInt2, CellLayout.LayoutParams paramLayoutParams, boolean paramBoolean
+                    _wallpaperoffsetinterpolatorSyncWithScroll = {"syncWithScroll", "kf", "la", "lf"}, // computeScroll in Workspace
+                    _workspaceStartDrag = {"startDrag", "a", "a", "a"}, // isInTouchMode
+                    _acpvOnPackagesUpdated = {"onPackagesUpdated", "a", "a", "a"}, // "can not fit on this device"
+                    _launcherGetSearchbar = {"getSearchBar", "fZ", "gO", "gX"}, // return SearchDropTargetBar in Launcher
+                    _launcherGetQsbBar = {"getQsbBar", "gw", "hl", "hu"}, // public View
+                    _pagedviewPageBeginMoving = {"pageBeginMoving", "ii", "iY", "jb"}, // above "awakenScrollBars"
+                    _pagedviewPageEndMoving = {"pageEndMoving", "ij", "iZ", "jc"}, // method above "accessibility"
+                    _sdtbOnDragStart = {"onDragStart", "a", "a", "a"}, // twice .start in the method
+                    _sdtbOnDragEnd = {"onDragEnd", "dt", "ei", "er"}, // twice .reverse
+                    _launcherHasCustomContentToLeft = {"hasCustomContentToLeft", "fL", "gA", "gJ"}, // "()) || (!" under isEmpty
+                    _hideAppsCustomizeHelper = {"hideAppsCustomizeHelper", "a", "a", "a"},
+                    _launcherShowWorkspace = {"showWorkspace", "a", "a", "a"}, // boolean paramBoolean, Runnable paramRunnable
+                    _launcherShowAllApps = {"showAllApps", "a", "a", "a"},
+                    _workspaceMoveToDefaultScreen = {"moveToDefaultScreen", "ao", "at", "at"}, // Launcher onNewIntent method call of workspace member with (true)
+                    _btvSetShadowsEnabled = {"setShadowsEnabled", "w", "z", "z"}, // invalidate
+                    _wsOverScroll = {"overScroll", "g", "g", "g"}, // (float paramFloat)
+                    _acpvOverScroll = {"overScroll", "g", "g", "g"}, // (float paramFloat)
+                    _lFinishBindingItems = {"finishBindingItems", "U", "Z", "Z"}, // hasFocus()
+                    _dpGetWorkspacePadding = {"getWorkspacePadding", "aC", "aS", "aS"}, // second method with (int paramInt)
+                    _lIsAllAppsVisible = {"isAllAppsVisible", "gs", "hh", "hq"}, // onBackPressed first method call
+                    _wGetOpenFolder = {"getOpenFolder", "jp", "kj", "kn"}, // localDragLayer.getChildCount();
+                    _wIsOnOrMovingToCustomContent = {"isOnOrMovingToCustomContent", "jJ", "kE", "kI"}, // last if-clause in Launcher onResume
+                    _wEnterOverviewMode = {"enterOverviewMode", "jO", "kJ", "kN"}, // "()) || (!this."
+                    _wMoveToCustomContentScreen = {"moveToCustomContentScreen", "ap", "au", "au"}, // Workspace "View localView = getChildAt"
+                    _pvSnapToPage = {"snapToPage", "a", "a", "a"}, // int paramInt1, int paramInt2, int paramInt3, boolean paramBoolean, TimeInterpolator paramTimeInterpolator
+                    _lOpenFolder = {"openFolder", "i", "i", "i"}, // "Opening folder ("
+                    _lCloseFolder = {"closeFolder", "gr", "hg", "hq"}, // localFolder != null
+                    _acthOnTabChanged = {"onTabChanged", "c", "c", "c"}, // setBackgroundColor
+                    _wSetCurrentPage = {"setCurrentPage", "aV", "bl", "bm"},
+                    _acpvSetCurrentPage = {"setCurrentPage", "aV", "bl", "bm"},
+                    _dpUpdateFromConfiguration = {"updateFromConfiguration", "a", "a", "a"}, // float paramFloat, int paramInt, Resources paramResources, DisplayMetrics paramDisplayMetrics
+                    _acthSetInsets = {"setInsets", "c", "c", "c"}, // (Rect
+                    _wSnapToPage = {"snapToPage", "bc", "bs", "bt"}, // in PagedView requestChildFocus
+                    _soiSetSearchStarted = {"setSearchStarted", "cs", "cI", "cI"}, // onResume before cancel()
+                    _noOnShow = {"onShow", "p", "u", "v"}, // boolean paramBoolean1, boolean paramBoolean2
+                    _wOnDragEnd = {"onDragEnd", "dt", "ei", "er"}, // only method without interface parameters with InstallShortcutReceiver
+                    _wOnDragStart = {"onDragStart", "a", "a", "a"}, // only method with interface parameters with InstallShortcutReceiver
+                    _wOnLauncherTransitionEnd = {"onLauncherTransitionEnd", "a", "a", "a"}, // (Launcher paramLauncher, boolean paramBoolean1, boolean paramBoolean2)
+                    _fOnRemove = {"onRemove", "g", "g", "g"}, // removeView(localView)
+                    _fOnAdd = {"onAdd", "f", "f", "f"}, // (1 + getItemCount()); - first line  = true
+                    _fReplaceFolderWithFinalItem = {"replaceFolderWithFinalItem", "ge", "ge", "gn"}, // if (localView != null)
+                    _fGetItemsInReadingOrder = {"getItemsInReadingOrder", "fr", "gh", "gq"}, // public final ArrayList
+                    _clGetShortcutsAndWidgets = {"getShortcutsAndWidgets", "dH", "ew", "eF"}, // getChildCount() > 0
+                    _acthGetContentTypeForTabTag = {"getContentTypeForTabTag", "j", "r", "r"}, // (String paramString)
+                    _wOnTransitionPrepare = {"onTransitionPrepare", "jR", "kM", "kR"}, // "if ((bool) && ("
+                    _siGetIntent = {"getIntent", "getIntent", "getIntent", "getIntent"},
+                    _icGetFullResIcon = {"getFullResIcon", "a", "a", "a"}, // (Resources paramResources, int paramInt)
+                    _uCreateIconBitmap = {"createIconBitmap", "a", "a", "a"}, // (Drawable paramDrawable, Context paramContext)
+                    _icCacheLocked = {"cacheLocked", "b", "a", "a"},
+                    _clMarkCellsForView = {"markCellsForView", "a", "a", "a"}, // int paramInt1, int paramInt2, int paramInt3, int paramInt4, boolean[][] paramArrayOfBoolean, boolean paramBoolean
+                    _lmCheckItemPlacement = {"checkItemPlacement", "a", "a", "a"}, // "Error loading shortcut into "
+                    _acpvBeginDragging = {"beginDragging", "n", "n", "n"}, // "instanceof PagedViewIcon" in AppsCustomizePagedView
+                    _lBindAppsUpdated = {"bindAppsUpdated", "l", "l", "l"}, // "(this, paramArrayList), false));"
+                    _lmIsShortcutInfoUpdateable = {"isShortcutInfoUpdateable", "e", "e", "e"}, // "android.intent.action.MAIN"
+                    _clAttemptPushInDirection = {"attemptPushInDirection", "b", "b", "b"}, // "if (Math.abs(paramArrayOfInt[0]) + Math.abs(paramArrayOfInt[1]) > 1)"
+                    _acpvSetApps = {"setApps", "b", "b", "b"}, // Collections.sort
+                    _acpvUpdateApps = {"updateApps", "g", "g", "g"}, // in BindAppsUpdated in Launcher
+                    _acpvRemoveApps = {"removeApps", "f", "f", "f"}, // in Launcher removeApps."(paramArrayList2)"
+                    _lSetWorkspaceBackground = {"setWorkspaceBackground", "N", "S", "S"}, // setBackground
+                    _lGetDragLayer = {"getDragLayer", "fV", "gK", "gT"}, // public final DragLayer
+                    _dlAddResizeFrame = {"addResizeFrame", "a", "a", "a"}, // (-1, -1)
+                    _gsaShouldAlwaysShowHotwordHint = {"shouldAlwaysShowHotwordHint", "uK", "xE", "yB"}, // always_show_hotword_hint
+                    _btvCreateGlowingOutline = {"createGlowingOutline", "a", "a", "a"}, // setBitmap
+                    _lmDeleteItemFromDatabase = {"deleteItemFromDatabase", "b", "b", "b"}, // (Context paramContext, ItemInfo paramta) - link to "deleting a folder"
+                    _siGetIcon = {"getIcon", "a", "a", "a"}, // public final Bitmap
+                    _lmDeleteFolderContentsFromDatabase = {"deleteFolderContentsFromDatabase", "a", "a", "a"}, // (Context paramContext, FolderInfo paramsh)
+                    _rvCanShowHotwordAnimation = {"canShowHotwordAnimation", "NH", "Se", "UC"}, // == 5
+                    _spSetProximityToNow = {"setProximityToNow", "x", "x", "x"}, // (float paramFloat) with RecognizerView
+                    _tmSetTransitionsEnabled = {"setTransitionsEnabled", "cG", "cY", "cZ"}, // (4)
+                    _uIsL = {"", "", "jO", "jS"};
 
             applyFromApplicationInfo = _applyFromApplicationInfo[idx];
             lGetApplicationContext = _launcherGetApplicationContext[idx];
@@ -460,7 +487,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             lFinishBindingItems = _lFinishBindingItems[idx];
             dpGetWorkspacePadding = _dpGetWorkspacePadding[idx];
             lIsAllAppsVisible = _lIsAllAppsVisible[idx];
-            lGetOpenFolder = _lGetOpenFolder[idx];
+            wGetOpenFolder = _wGetOpenFolder[idx];
             wIsOnOrMovingToCustomContent = _wIsOnOrMovingToCustomContent[idx];
             wEnterOverviewMode = _wEnterOverviewMode[idx];
             wMoveToCustomContentScreen = _wMoveToCustomContentScreen[idx];
@@ -506,6 +533,10 @@ public class ObfuscationHelper extends HooksBaseClass {
             lmDeleteItemFromDatabase = _lmDeleteItemFromDatabase[idx];
             lmDeleteFolderContentsFromDatabase = _lmDeleteFolderContentsFromDatabase[idx];
             siGetIcon = _siGetIcon[idx];
+            rvCanShowHotwordAnimation = _rvCanShowHotwordAnimation[idx];
+            spSetProximityToNow = _spSetProximityToNow[idx];
+            tmSetTransitionsEnabled = _tmSetTransitionsEnabled[idx];
+            uIsL = _uIsL[idx];
         }
     }
 
@@ -552,7 +583,6 @@ public class ObfuscationHelper extends HooksBaseClass {
                 iiID,
                 ceIcon,
                 ceTitle,
-                lAppWidgetHostView,
                 lIconCache,
                 iiTitle,
                 fiLongPressHelper,
@@ -564,56 +594,55 @@ public class ObfuscationHelper extends HooksBaseClass {
 
         public static void initFieldNames(int idx) {
 
-            String[] _hotseatAllAppsRank = {"hotseatAllAppsRank", "zp", "BQ"}, // only / 2 operation
-                    _dpNumHotseatIcons = {"numHotseatIcons", "yz", "AY"}, // toString of DynamicGrid
-                    _cllpCanReorder = {"canReorder", "wf", "yE"}, // second member with = true
-                    _sdtbIsSearchBarHidden = {"mIsSearchBarHidden", "MV", "PF"}, // above Qsb member
-                    _sdtbQsbBar = {"mQSBSearchBar", "MW", "PG"},
-                    _wCustomContentShowing = {"mCustomContentShowing", "PV", "SH"}, // setContentDescription
-                    _wCurrentPage = {"mCurrentPage", "KF", "Nm"}, // setPadding(0, 0, 0, 0);
-                    _acpvCurrentPage = {"mCurrentPage", "KF", "Nm"}, // == _wCurrentPage
-                    _lHotseat = {"mHotseat", "EO", "Hu"},
-                    _lAppsCustomizeTabHost = {"mAppsCustomizeTabHost", "ER", "Hx"},
-                    _acthInTransition = {"mInTransition", "tf", "vF"}, // onInterceptTouchEvent first member in if-clause
-                    _wState = {"mState", "Qj", "SV"}, // WorkspaceState member
-                    _wDefaultPage = {"mDefaultPage", "PI", "Su"},  // "Expected custom content", member gets decreased by one
-                    _btvShadowsEnabled = {"mShadowsEnabled", "ue", "wF"}, // only boolean member = true
-                    _fiPreviewBackground = {"mPreviewBackground", "CE", "Fh"}, // only ImageView member
-                    _fiFolderName = {"mFolderName", "CF", "Fi"}, // only BubbleTextView
-                    _fiFolder = {"mFolder", "CB", "Fe"}, // only Folder member
-                    _fiContents = {"contents", "Dt", "FW"}, // first ArrayList in FolderInfo
-                    _fFolderIcon = {"mFolderIcon", "BL", "Ep"}, // only FolderIcon member
-                    _fFolderEditText = {"mFolderName", "Cf", "EJ"}, // only FolderEditText member
-                    _acpvContentType = {"mContentType", "sw", "uW"}, // private oo uW = oo.vW;
-                    _pvIsPageMoving = {"mIsPageMoving", "Lv", "Oc"},  // in pageBeginMoving if-clause
-                    _dpHotseatBarHeightPx = {"hotseatBarHeightPx", "zo", "BP"}, // 4 * ...
-                    _lState = {"mState", "Et", "GZ"}, // onNewIntent if-clause after Folder
-                    _wTouchState = {"mTouchState", "KY", "NF"}, // onInterceptTouchEvent while clause
-                    _pvNextPage = {"mNextPage", "KI", "Np"}, // String.format
-                    _lHasFocus = {"mHasFocus", "Fj", "HP"}, // onWindowFocusChanged
-                    _lPaused = {"mPaused", "EZ", "HF"}, // only boolean assignement in onPause()
-                    _iiItemType = {"itemType", "En", "GT"}, // Item(id=
-                    _aiComponentName = {"componentName", "rJ", "uj"}, // only ComponentName member
-                    _acpvAllAppsNumCols = {"allAppsNumCols", "zr", "BS"}, // onMeasure localDeviceProfile
-                    _acpvAllAppsNumRows = {"allAppsNumRows", "zq", "BR"}, // onMeasure localDeviceProfile
-                    _pvPageIndicator = {"mPageIndicator", "Lz", "Og"}, // setContentDescription
-                    _acthContent = {"mContent", "tD", "wd"}, // .getLayoutParams in setInsets
-                    _dpPageIndicatorHeightPx = {"pageIndicatorHeightPx", "zw", "BX"}, // last parameter in .set
-                    _wIsSwitchingState = {"mIsSwitchingState", "Qk", "SW"}, // start from onTouch, second method call in if-clause
-                    _fContent = {"mContent", "BH", "El"}, // only CellLayout member
-                    _lAppsCustomizePagedView = {"mAppsCustomizeContent", "ES", "Hy"}, // AppsCustomizePagedView in Launcher
-                    _iiID = {"id", "id", "id"},
-                    _iiTitle = {"title", "title", "title"},
-                    _ceIcon = {"icon", "DZ", "GE"},
-                    _ceTitle = {"title", "title", "title"},
-                    _lAppWidgetHostView = {"LauncherAppWidgetHostView", "ru", "ve"}, // make logging
-                    _lIconCache = {"mIconCache", "rF", "uf"}, // IconCache member in Launcher
-                    _fiLongPressHelper = {"mLongPressHelper", "ui", "wJ"}, // cancelLongPress
-                    _clphHasPerformedLongPress = {"mHasPerformedLongPress", "wG", "zf"}, // only boolean member
-                    _lawiProviderName = {"providerName", "GX", "JF"}, // only ComponentName member
-                    _fMaxCountX = {"mMaxCountX", "BM", "Eq"}, // Folder constructor, last line - maxNumItems = X * Y;
-                    _fMaxCountY = {"mMaxCountY", "BN", "Er"}, // Folder constructor, last line - maxNumItems = X * Y;
-                    _fMaxNumItems = {"mMaxNumItems", "BO", "Es"}; // Folder constructor, last line - maxNumItems = X * Y;
+            String[] _hotseatAllAppsRank = {"hotseatAllAppsRank", "zp", "BQ", "Cv"}, // only / 2 operation
+                    _dpNumHotseatIcons = {"numHotseatIcons", "yz", "AY", "BD"}, // toString of DynamicGrid
+                    _cllpCanReorder = {"canReorder", "wf", "yE", "zj"}, // second member with = true
+                    _sdtbIsSearchBarHidden = {"mIsSearchBarHidden", "MV", "PF", "Qg"}, // above Qsb member
+                    _sdtbQsbBar = {"mQSBSearchBar", "MW", "PG", "Qh"},
+                    _wCustomContentShowing = {"mCustomContentShowing", "PV", "SH", "Ti"}, // "() == 0) || (!this."
+                    _wCurrentPage = {"mCurrentPage", "KF", "Nm", "NQ"}, // in OnTouch -> "indexOfChild(paramView) != this."
+                    _acpvCurrentPage = {"mCurrentPage", "KF", "Nm", "NQ"}, // == _wCurrentPage
+                    _lHotseat = {"mHotseat", "EO", "Hu", "HZ"},
+                    _lAppsCustomizeTabHost = {"mAppsCustomizeTabHost", "ER", "Hx", "Ic"},
+                    _acthInTransition = {"mInTransition", "tf", "vF", "wk"}, // onInterceptTouchEvent first member in if-clause
+                    _wState = {"mState", "Qj", "SV", "Tw"}, // WorkspaceState member
+                    _wDefaultPage = {"mDefaultPage", "PI", "Su", "SV"},  // "Expected custom content", member gets decreased by one // " = (-1 + this."
+                    _btvShadowsEnabled = {"mShadowsEnabled", "ue", "wF", "xk"}, // only boolean member = true
+                    _fiPreviewBackground = {"mPreviewBackground", "CE", "Fh", "FM"}, // FOLDERICON - only ImageView member
+                    _fiFolderName = {"mFolderName", "CF", "Fi", "FN"}, // FOLDERICON - only BubbleTextView
+                    _fiFolder = {"mFolder", "CB", "Fe", "FJ"}, // FOLDERICON - only Folder member
+                    _fiContents = {"contents", "Dt", "FW", "GB"}, // first ArrayList in FolderInfo
+                    _fFolderIcon = {"mFolderIcon", "BL", "Ep", "EU"}, // only FolderIcon member
+                    _fFolderEditText = {"mFolderName", "Cf", "EJ", "Fo"}, // only FolderEditText member
+                    _acpvContentType = {"mContentType", "sw", "uW", "vB"}, // private oo uW = oo.vW;
+                    _pvIsPageMoving = {"mIsPageMoving", "Lv", "Oc", "OG"},  // "while (!this."
+                    _dpHotseatBarHeightPx = {"hotseatBarHeightPx", "zo", "BP", "Cu"}, // 4 * ...
+                    _lState = {"mState", "Et", "GZ", "HE"}, // onNewIntent - "if ((i != 0) && (this."
+                    _wTouchState = {"mTouchState", "KY", "NF", "Oj"}, // onInterceptTouchEvent while clause
+                    _pvNextPage = {"mNextPage", "KI", "Np", "NT"}, // first protected int = -1
+                    _lHasFocus = {"mHasFocus", "Fj", "HP", "It"}, // onWindowFocusChanged
+                    _lPaused = {"mPaused", "EZ", "HF", "Ik"}, // only boolean assignement in onPause()
+                    _iiItemType = {"itemType", "En", "GT", "Hy"}, // Item(id=
+                    _aiComponentName = {"componentName", "rJ", "uj", "uO"}, // only ComponentName member
+                    _acpvAllAppsNumCols = {"allAppsNumCols", "zr", "BS", "Cx"}, // onMeasure localDeviceProfile
+                    _acpvAllAppsNumRows = {"allAppsNumRows", "zq", "BR", "Cw"}, // onMeasure localDeviceProfile
+                    _pvPageIndicator = {"mPageIndicator", "Lz", "Og", "OK"}, // setContentDescription
+                    _acthContent = {"mContent", "tD", "wd", "wI"}, // .getLayoutParams in setInsets
+                    _dpPageIndicatorHeightPx = {"pageIndicatorHeightPx", "zw", "BX", "CC"}, // last parameter in .set
+                    _wIsSwitchingState = {"mIsSwitchingState", "Qk", "SW", "Tx"}, // start from onTouch, second method call in if-clause
+                    _fContent = {"mContent", "BH", "El", "EQ"}, // only CellLayout member
+                    _lAppsCustomizePagedView = {"mAppsCustomizeContent", "ES", "Hy", "Id"}, // AppsCustomizePagedView in Launcher
+                    _iiID = {"id", "id", "id", "id"},
+                    _iiTitle = {"title", "title", "title", "title"},
+                    _ceIcon = {"icon", "DZ", "GE", "Hj"},
+                    _ceTitle = {"title", "title", "title", "title"},
+                    _lIconCache = {"mIconCache", "rF", "uf", "uK"}, // IconCache member in Launcher
+                    _fiLongPressHelper = {"mLongPressHelper", "ui", "wJ", "xo"}, // cancelLongPress
+                    _clphHasPerformedLongPress = {"mHasPerformedLongPress", "wG", "zf", "zK"}, // only boolean member
+                    _lawiProviderName = {"providerName", "GX", "JF", "Kj"}, // only ComponentName member
+                    _fMaxCountX = {"mMaxCountX", "BM", "Eq", "EV"}, // Folder constructor, last line - maxNumItems = X * Y;
+                    _fMaxCountY = {"mMaxCountY", "BN", "Er", "EW"}, // Folder constructor, last line - maxNumItems = X * Y;
+                    _fMaxNumItems = {"mMaxNumItems", "BO", "Es", "EX"}; // Folder constructor, last line - maxNumItems = X * Y;
 
             hotseatAllAppsRank = _hotseatAllAppsRank[idx];
             dpNumHotseatIcons = _dpNumHotseatIcons[idx];
@@ -656,7 +685,6 @@ public class ObfuscationHelper extends HooksBaseClass {
             iiTitle = _iiTitle[idx];
             ceIcon = _ceIcon[idx];
             ceTitle = _ceTitle[idx];
-            lAppWidgetHostView = _lAppWidgetHostView[idx];
             lIconCache = _lIconCache[idx];
             fiLongPressHelper = _fiLongPressHelper[idx];
             clphHasPerformedLongPress = _clphHasPerformedLongPress[idx];

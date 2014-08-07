@@ -27,11 +27,11 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import de.theknut.xposedgelsettings.hooks.Utils;
 import de.theknut.xposedgelsettings.hooks.homescreen.WorkspaceConstructorHook;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
-import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.getLongField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
@@ -56,7 +56,7 @@ public class GeneralHooks extends HooksBaseClass {
 
         try {
             if (PreferencesHelper.enableLLauncher) {
-                findAndHookMethod(findClass("zu", lpparam.classLoader), "jO", new XC_MethodHook() {
+                findAndHookMethod(Classes.Utilities, Methods.uIsL, new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                         // somehow methodreplacement didn't work
@@ -136,25 +136,25 @@ public class GeneralHooks extends HooksBaseClass {
 			// don't scroll the wallpaper
 			XposedBridge.hookAllMethods(Classes.WallpaperOffsetInterpolator, Methods.woiSyncWithScroll, new SyncWithScrollHook());
 		}
-		
-		if (PreferencesHelper.lockHomescreen) {
-			// prevent dragging
 
-            XC_MethodHook drag = new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+        // prevent dragging
+
+        XC_MethodHook drag = new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                if (PreferencesHelper.lockHomescreen) {
                     if (DEBUG) log(param, "Don't allow dragging");
 
                     Context context = Common.LAUNCHER_CONTEXT.createPackageContext(Common.PACKAGE_NAME, Context.CONTEXT_IGNORE_SECURITY);
                     Toast.makeText(Common.LAUNCHER_CONTEXT, context.getString(R.string.toast_desktop_locked), Toast.LENGTH_LONG).show();
                     param.setResult(true);
                 }
-            };
+            }
+        };
 
-            findAndHookMethod(Classes.Folder, "onLongClick", View.class, drag);
-            findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvBeginDragging, View.class, drag);
-            findAndHookMethod(Classes.Workspace, Methods.wStartDrag, Classes.CellLayoutCellInfo, drag);
-		}
+        findAndHookMethod(Classes.Folder, "onLongClick", View.class, drag);
+        findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvBeginDragging, View.class, drag);
+        findAndHookMethod(Classes.Workspace, Methods.wStartDrag, Classes.CellLayoutCellInfo, drag);
 
         if (PreferencesHelper.overlappingWidgets) {
             findAndHookMethod(Classes.CellLayout, Methods.clMarkCellsForView, Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, boolean[][].class, boolean.class, new XC_MethodHook() {
@@ -174,7 +174,7 @@ public class GeneralHooks extends HooksBaseClass {
 
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    if (param.args[3] != null && param.args[3].equals(Classes.LauncherAppWidgetHostView)){
+                    if (param.args[3] != null && param.args[3].getClass().equals(Classes.LauncherAppWidgetHostView)){
                         param.setResult(true);
                     }
                 }
@@ -186,11 +186,22 @@ public class GeneralHooks extends HooksBaseClass {
 
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    if (param.args[ITEMINFO].getClass().equals(Classes.LauncherAppWidgetInfo)) {
+                    if (param.args[ITEMINFO].getClass().equals(Classes.LauncherAppWidgetInfo) || param.args[ITEMINFO].getClass().equals(Classes.BubbleTextView)) {
                         param.setResult(true);
                     }
                 }
             };
+
+            findAndHookMethod(Classes.CellLayout, Methods.clAddViewToCellLayout, View.class, Integer.TYPE, Integer.TYPE, Classes.CellLayoutLayoutParams, boolean.class, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    View view = (View) param.args[0];
+                    if (view.getTag() != null && PreferencesHelper.layerPositions.contains("" + getLongField(view.getTag(), Fields.iiID))) {
+                        log("Front " + view.getTag());
+                        view.bringToFront();
+                    }
+                }
+            });
 
             if (Common.PACKAGE_OBFUSCATED) {
                 findAndHookMethod(Classes.LoaderTask, Methods.lmCheckItemPlacement, HashMap.class, Classes.ItemInfo, AtomicBoolean.class, checkItemPlacementHook);
@@ -251,11 +262,7 @@ public class GeneralHooks extends HooksBaseClass {
                     String[] name = it.next().toString().split("\\|");
                     if (name[0].equals("" + getLongField(param.args[1], Fields.iiID))) {
                         it.remove();
-
-                        Intent intent = new Intent(Common.XGELS_ACTION_SAVE_STRING_ARRAY);
-                        intent.putExtra("key", "shortcuticons");
-                        intent.putStringArrayListExtra("shortcuticons", new ArrayList<String>(PreferencesHelper.shortcutIcons));
-                        Common.LAUNCHER_CONTEXT.sendBroadcast(intent);
+                        Utils.saveToSettings(Common.LAUNCHER_CONTEXT, "shortcuticons", PreferencesHelper.shortcutIcons);
                         return;
                     }
                 }
@@ -268,7 +275,7 @@ public class GeneralHooks extends HooksBaseClass {
 
                 log("Removed " + param.args[1]);
                 ArrayList folderContents = (ArrayList) getObjectField(param.args[1], Fields.fiContents);
-                int initSize = PreferencesHelper.shortcutIcons.size();
+                boolean dirty = false;
 
                 for (int i = 0; i < folderContents.size(); i++) {
                     log("Check " + folderContents.get(i));
@@ -278,17 +285,15 @@ public class GeneralHooks extends HooksBaseClass {
                         log("Compare " + getLongField(folderContents.get(i), Fields.iiID) + " with " + name[0]);
                         if (name[0].equals("" + getLongField(folderContents.get(i), Fields.iiID))) {
                             it.remove();
+                            dirty = true;
                             log("Removed " + name[0]);
                             break;
                         }
                     }
                 }
 
-                if (initSize != PreferencesHelper.shortcutIcons.size()) {
-                    Intent intent = new Intent(Common.XGELS_ACTION_SAVE_STRING_ARRAY);
-                    intent.putExtra("key", "shortcuticons");
-                    intent.putStringArrayListExtra("shortcuticons", new ArrayList<String>(PreferencesHelper.shortcutIcons));
-                    Common.LAUNCHER_CONTEXT.sendBroadcast(intent);
+                if (dirty) {
+                    Utils.saveToSettings(Common.LAUNCHER_CONTEXT, "shortcuticons", PreferencesHelper.shortcutIcons);
                 }
             }
         });
@@ -300,6 +305,7 @@ public class GeneralHooks extends HooksBaseClass {
 
             if (intent.getAction().equals(Common.XGELS_ACTION_RELOAD_SETTINGS)) {
                 PreferencesHelper.init();
+                if (DEBUG) log("Launcher: Settings reloaded");
             }
         }
     };

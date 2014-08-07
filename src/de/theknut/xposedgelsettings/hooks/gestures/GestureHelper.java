@@ -21,6 +21,7 @@ import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import de.theknut.xposedgelsettings.hooks.Utils;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
@@ -222,7 +223,7 @@ public class GestureHelper extends HooksBaseClass {
 			LaunchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			//callMethod(Common.LAUNCHER_INSTANCE, "startActivity", LaunchIntent);
 
-            startActivity(LaunchIntent);
+            Utils.startActivity(LaunchIntent);
 			
 		} else if (action.equals("SCREEN_OFF")) {
 			
@@ -251,7 +252,7 @@ public class GestureHelper extends HooksBaseClass {
 				Intent LaunchIntent = context.getPackageManager().getLaunchIntentForPackage(pkg);
 				LaunchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                startActivity(LaunchIntent);
+                Utils.startActivity(LaunchIntent);
 			}
 		}
 	}

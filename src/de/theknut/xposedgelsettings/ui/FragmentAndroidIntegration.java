@@ -25,6 +25,7 @@ public class FragmentAndroidIntegration extends FragmentBase {
         this.findPreference("animatedynamichomebutton").setOnPreferenceChangeListener(onChangeListenerFullReboot);
         this.findPreference("dynamicbackbuttononeveryscreen").setOnPreferenceChangeListener(onChangeListenerFullReboot);
         this.findPreference("transparentsystembars").setOnPreferenceChangeListener(onChangeListenerFullReboot);
+        this.findPreference("quicksettingslockdesktop").setOnPreferenceChangeListener(onChangeListenerFullReboot);
         
         rootView = CommonUI.setBackground(rootView, R.id.prefbackground);
         

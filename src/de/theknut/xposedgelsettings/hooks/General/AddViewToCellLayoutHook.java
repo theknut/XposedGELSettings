@@ -4,7 +4,7 @@ import android.appwidget.AppWidgetHostView;
 import android.appwidget.AppWidgetProviderInfo;
 
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
-import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
 
 public final class AddViewToCellLayoutHook extends HooksBaseClass {
 	
@@ -14,7 +14,7 @@ public final class AddViewToCellLayoutHook extends HooksBaseClass {
 	@Override
 	protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 
-		if (param.args[0].getClass().getName().contains(Fields.lAppWidgetHostView)) {
+		if (param.args[0].getClass().equals(ObfuscationHelper.Classes.LauncherAppWidgetHostView)) {
 			if (DEBUG) log(param, "Make widget resizeable");
 			
 			AppWidgetHostView widget = (AppWidgetHostView) param.args[0];

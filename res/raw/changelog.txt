@@ -29,7 +29,9 @@
 
 $ 1.9
   % Version 1.9
- _ 2014-29-07
+ _ 2014-07-08
+
+This update came a little bit out of the blue for me so please be forgiving if a feature is not working 100% :-/
 
  ! Added:
  * Context menu: Added context menu (long press an icon or widget)
@@ -37,10 +39,18 @@ $ 1.9
  * Homescreen: Unlimited folder size (Premium)
  * Google Searchbar: Always show "Ok Google"
  * General: hide homescreen shadow (visible in immersive mode)
+ * General: change icon glow outline color
  * Android Integration: make navigation/statusbar transparent (Android >= 4.4)
+ * Android Integration: hide apps from the app info
+ * Android Integration: add quicksetting tile "Lock desktop" (Android >= 4.2)
  * Gestures now work in app dock, too
 
+ ! Improvement:
+ * L-like Google Search bar
+ * a lot of internal changes
+
  ! Fixed:
+ * Compatibility with Google Search 3.6
  * Google Searchbar appearing on every screen
  * default icon not loading when selected
  * remembered app drawer position when overscrolled

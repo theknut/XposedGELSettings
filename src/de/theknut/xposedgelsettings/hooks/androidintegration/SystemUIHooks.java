@@ -46,7 +46,7 @@ public class SystemUIHooks extends HooksBaseClass {
                     ContextMenu.closeAndRemove();
                 } else if (PreferencesHelper.dynamicBackbutton
                         && !((Boolean) callMethod(param.thisObject, Methods.lIsAllAppsVisible))
-                        && callMethod(Common.WORKSPACE_INSTANCE, Methods.lGetOpenFolder) == null
+                        && callMethod(Common.WORKSPACE_INSTANCE, Methods.wGetOpenFolder) == null
                         && (isDefaultHomescreen || PreferencesHelper.dynamicBackButtonOnEveryScreen)
                         && getObjectField(Common.WORKSPACE_INSTANCE, Fields.wState).toString().equals("NORMAL")) {
 
@@ -70,7 +70,7 @@ public class SystemUIHooks extends HooksBaseClass {
                 } else if (PreferencesHelper.dynamicHomebutton
                         && Intent.ACTION_MAIN.equals(((Intent)param.args[0]).getAction())
                         && !((Boolean) callMethod(param.thisObject, Methods.lIsAllAppsVisible))
-                        && callMethod(Common.WORKSPACE_INSTANCE, Methods.lGetOpenFolder) == null) {
+                        && callMethod(Common.WORKSPACE_INSTANCE, Methods.wGetOpenFolder) == null) {
 
                     int currentPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage);
 
@@ -406,7 +406,7 @@ public class SystemUIHooks extends HooksBaseClass {
 
                     int currentPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage);
 
-                    if (callMethod(Common.WORKSPACE_INSTANCE, Methods.lGetOpenFolder) != null
+                    if (callMethod(Common.WORKSPACE_INSTANCE, Methods.wGetOpenFolder) != null
                         && (currentPage == (PreferencesHelper.defaultHomescreen - 1) || PreferencesHelper.dynamicBackButtonOnEveryScreen)
                         && !getBooleanField(param.thisObject, Fields.lPaused)
                         && getObjectField(Common.WORKSPACE_INSTANCE, Fields.wState).toString().equals("NORMAL")) {

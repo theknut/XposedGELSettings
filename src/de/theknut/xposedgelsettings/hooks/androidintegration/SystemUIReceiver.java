@@ -115,6 +115,7 @@ public class SystemUIReceiver extends HooksBaseClass {
 				
 				IntentFilter intentFilter = new IntentFilter();
                 intentFilter.addAction(Common.XGELS_INTENT);
+                intentFilter.addAction(Common.XGELS_ACTION_RELOAD_SETTINGS);
                 systemUIContext.registerReceiver(new BroadcastReceiver() {
                 	
                 	Context myContext = null;
@@ -141,6 +142,11 @@ public class SystemUIReceiver extends HooksBaseClass {
 					@Override
                     public void onReceive(Context context, Intent intent) {
                     	try {
+                            if (intent.getAction().equals(Common.XGELS_ACTION_RELOAD_SETTINGS)) {
+                                PreferencesHelper.init();
+                                if (DEBUG) log("SystemUI: Settings reloaded");
+                                return;
+                            }
 	                        if (intent.getAction().equals(Common.XGELS_INTENT) && intent.hasExtra(Common.XGELS_ACTION)) {
 	                        	
 	                        	if (intent.hasExtra(Common.XGELS_ACTION_EXTRA)

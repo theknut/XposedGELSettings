@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.net.Uri;
-import android.os.Bundle;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -19,6 +18,8 @@ import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import java.util.ArrayList;
+
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import de.theknut.xposedgelsettings.R;
@@ -28,6 +29,7 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import de.theknut.xposedgelsettings.hooks.Utils;
 import de.theknut.xposedgelsettings.ui.FragmentSelectiveIcon;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
@@ -37,6 +39,7 @@ import static de.robv.android.xposed.XposedHelpers.getAdditionalInstanceField;
 import static de.robv.android.xposed.XposedHelpers.getLongField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setAdditionalInstanceField;
+import static de.theknut.xposedgelsettings.hooks.Utils.isIntersecting;
 
 /**
  * Created by Alexander Schulz on 20.07.2014.
@@ -82,9 +85,10 @@ public class ContextMenu extends HooksBaseClass{
 
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                if (PreferencesHelper.lockHomescreen) return;
 
                 if (!param.thisObject.getClass().equals(Classes.Folder)) {
-                    if (callMethod(Common.WORKSPACE_INSTANCE, Methods.lGetOpenFolder) != null) {
+                    if (callMethod(Common.WORKSPACE_INSTANCE, Methods.wGetOpenFolder) != null) {
                         return;
                     }
                 }
@@ -307,7 +311,7 @@ public class ContextMenu extends HooksBaseClass{
                 removeContextMenu();
 
                 if (!isPremium) {
-                    showPremiumOnly();
+                    Utils.showPremiumOnly();
                     return;
                 }
 
@@ -343,15 +347,39 @@ public class ContextMenu extends HooksBaseClass{
                 closeAndRemove();
                 longPressedItem.bringToFront();
 
-                Bundle bundles = new Bundle();
-                Bundle bundle = new Bundle();
-                bundle.putLong("id", getLongField(tag, Fields.iiID));
-                bundle.putBoolean("front", true);
-                bundles.putBundle("" + 0, bundle);
-                //savePositionInLayer(bundles);
+                boolean dirty = false;
+                long id = getLongField(tag, Fields.iiID);
+                ArrayList<String> positions = new ArrayList<String>(PreferencesHelper.layerPositions);
+
+                for (String pos : positions) {
+                    log("Saved " + pos);
+                }
+
+                ViewGroup shortcutAndWidgetsContainer = (ViewGroup) longPressedItem.getParent();
+                for (int j = 0; j < shortcutAndWidgetsContainer.getChildCount(); j++) {
+                    View child = shortcutAndWidgetsContainer.getChildAt(j);
+                    log("Child " + child.getTag());
+                }
+
+                for (int j = 0; j < shortcutAndWidgetsContainer.getChildCount(); j++) {
+                    View child = shortcutAndWidgetsContainer.getChildAt(j);
+                    long childId = getLongField(child.getTag(), Fields.iiID);
+                    if (childId != id && Utils.isIntersecting(longPressedItem)) {
+                        positions.remove("" + childId);
+                        positions.remove("" + id);
+                        positions.add("" + id);
+                        dirty = true;
+                        log("Layer up Removed " + childId);
+                        log("Layer up Added " + id);
+                    }
+                }
+
+                if (dirty) {
+                    savePositionInLayer(positions);
+                }
             }
         });
-        show = (PreferencesHelper.overlappingWidgets && isWidget) || isIntecting(longPressedItem);
+        show = (PreferencesHelper.overlappingWidgets && isWidget) || Utils.isIntersecting(longPressedItem);
         layerUp.setVisibility(show ? View.VISIBLE : View.GONE);
 
         ImageView layerDown = (ImageView) contextMenuHolder.findViewById(R.id.layerdown);
@@ -360,16 +388,39 @@ public class ContextMenu extends HooksBaseClass{
             public void onClick(View v) {
                 closeAndRemove();
 
+                boolean dirty = false;
                 long id = getLongField(tag, Fields.iiID);
-                boolean foundChild = false;
+                ArrayList<String> positions = new ArrayList<String>(PreferencesHelper.layerPositions);
+
+                for (String pos : positions) {
+                    log("Saved " + pos);
+                }
+
                 ViewGroup shortcutAndWidgetsContainer = (ViewGroup) longPressedItem.getParent();
+
+                for (int j = 0; j < shortcutAndWidgetsContainer.getChildCount(); j++) {
+                    View child = shortcutAndWidgetsContainer.getChildAt(j);
+                    log("Child " + child.getTag());
+                }
+
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < shortcutAndWidgetsContainer.getChildCount(); j++) {
                         View child = shortcutAndWidgetsContainer.getChildAt(j);
-                        if (intersects(child) && getLongField(child.getTag(), Fields.iiID) != id) {
+                        long childId = getLongField(child.getTag(), Fields.iiID);
+                        if (intersects(child) && childId != id) {
                             child.bringToFront();
+                            positions.remove("" + id);
+                            positions.remove("" + childId);
+                            positions.add("" + childId);
+                            dirty = true;
+                            log("Layer down Removed " + id);
+                            log("Layer down Added " + childId);
                         }
                     }
+                }
+
+                if (dirty) {
+                    savePositionInLayer(positions);
                 }
             }
 
@@ -383,33 +434,12 @@ public class ContextMenu extends HooksBaseClass{
                 return Rect.intersects(myViewRect, otherViewRect1);
             }
         });
-        show = (PreferencesHelper.overlappingWidgets && isWidget) || isIntecting(longPressedItem);
+        show = (PreferencesHelper.overlappingWidgets && isWidget) || isIntersecting(longPressedItem);
         layerDown.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
-    private static void savePositionInLayer(Bundle bundles) {
-        Intent i = new Intent(Common.XGELS_ACTION_SAVE_LAYER_POSITIONS);
-        i.putExtra("layerpositions", bundles);
-        Common.LAUNCHER_CONTEXT.sendBroadcast(i);
-    }
-
-    private static boolean isIntecting(View item) {
-        long id = getLongField(item.getTag(), Fields.iiID);
-        ViewGroup shortcutAndWidgetsContainer = (ViewGroup) item.getParent();
-        for (int i = 0; i < shortcutAndWidgetsContainer.getChildCount(); i++) {
-            Rect myViewRect = new Rect();
-            Rect otherViewRect1 = new Rect();
-            View child = shortcutAndWidgetsContainer.getChildAt(i);
-
-            item.getHitRect(myViewRect);
-            child.getHitRect(otherViewRect1);
-
-            if (Rect.intersects(myViewRect, otherViewRect1) && getLongField(child.getTag(), Fields.iiID) != id) {
-                return true;
-            }
-        }
-
-        return false;
+    private static void savePositionInLayer(ArrayList<String> positions) {
+        Utils.saveToSettings(Common.LAUNCHER_CONTEXT, "layerpositions", positions);
     }
 
     private static String getPackageName(Object tag) {
