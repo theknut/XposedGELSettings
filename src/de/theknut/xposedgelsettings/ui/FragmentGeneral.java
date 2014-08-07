@@ -100,6 +100,20 @@ public class FragmentGeneral extends FragmentBase {
             }
         });
 
+        final MyListPreference contextmenuMode = (MyListPreference) findPreference("contextmenumode");
+        contextmenuMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+
+                MyListPreference pref = (MyListPreference) preference;
+                pref.setSummary(pref.getEntries()[pref.findIndexOfValue((String) newValue)]);
+
+                return true;
+            }
+        });
+        contextmenuMode.setSummary(contextmenuMode.getEntry());
+
         if (!InAppPurchase.isPremium) {
             findPreference("overlappingwidgets").setEnabled(false);
         } else {

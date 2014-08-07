@@ -208,6 +208,13 @@
         <item>1</item>
     </string-array>
 
+    <string-array name="contextmenu_mode_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
     <string-array name="premiumValues">
         <item>beerdonation</item>
         <item>bratwurstdonation</item>

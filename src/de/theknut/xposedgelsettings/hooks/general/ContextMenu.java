@@ -54,29 +54,37 @@ public class ContextMenu extends HooksBaseClass{
     static boolean isAnimating;
     static int closeThreshold;
 
+    static final int DISABLED = 0;
+    static final int SHORTCUT_ONLY = 1;
+    static final int WIDGET_ONLY = 2;
+    static final int SHORTCUT_WIDGET = 3;
 
     public static void initAllHooks(final LoadPackageParam lpparam) {
 
-        XC_MethodHook addResizeFrameHook = new XC_MethodHook() {
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+        if (isMode(DISABLED)) return;
 
-                Object resize = getAdditionalInstanceField(param.args[0], "resize");
-                if (resize == null) {
-                    param.setResult(null);
-                } else if (resize != null) {
-                    setAdditionalInstanceField(param.args[0], "resize", false);
-                    if (!(Boolean) resize) {
+        if (isMode(WIDGET_ONLY) || isMode(SHORTCUT_WIDGET)) {
+            XC_MethodHook addResizeFrameHook = new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+
+                    Object resize = getAdditionalInstanceField(param.args[0], "resize");
+                    if (resize == null) {
                         param.setResult(null);
+                    } else if (resize != null) {
+                        setAdditionalInstanceField(param.args[0], "resize", false);
+                        if (!(Boolean) resize) {
+                            param.setResult(null);
+                        }
                     }
                 }
-            }
-        };
+            };
 
-        if (Common.PACKAGE_OBFUSCATED) {
-            findAndHookMethod(Classes.DragLayer, Methods.dlAddResizeFrame, Classes.LauncherAppWidgetHostView, Classes.CellLayout, addResizeFrameHook);
-        } else {
-            findAndHookMethod(Classes.DragLayer, Methods.dlAddResizeFrame, Classes.ItemInfo, Classes.LauncherAppWidgetHostView, Classes.CellLayout, addResizeFrameHook);
+            if (Common.PACKAGE_OBFUSCATED) {
+                findAndHookMethod(Classes.DragLayer, Methods.dlAddResizeFrame, Classes.LauncherAppWidgetHostView, Classes.CellLayout, addResizeFrameHook);
+            } else {
+                findAndHookMethod(Classes.DragLayer, Methods.dlAddResizeFrame, Classes.ItemInfo, Classes.LauncherAppWidgetHostView, Classes.CellLayout, addResizeFrameHook);
+            }
         }
 
         XC_MethodHook longClickHook = new XC_MethodHook() {
@@ -95,6 +103,9 @@ public class ContextMenu extends HooksBaseClass{
 
                 final View longPressedItem = (View) param.args[0];
                 if (longPressedItem.getClass().equals(Classes.CellLayout) || longPressedItem.getClass().equals(Classes.FolderIcon)) return;
+
+                if (isMode(SHORTCUT_ONLY) && !longPressedItem.getClass().equals(Classes.BubbleTextView)) return;
+                if (isMode(WIDGET_ONLY) && !isWidget(longPressedItem)) return;
 
                 if (inflater == null) {
                     XGELSContext = Common.LAUNCHER_CONTEXT.createPackageContext(Common.PACKAGE_NAME, Context.CONTEXT_IGNORE_SECURITY);
@@ -574,5 +585,9 @@ public class ContextMenu extends HooksBaseClass{
 
     public static boolean isOpen() {
         return getDragLayer().findViewWithTag(HOLDER_TAG) != null;
+    }
+
+    private static boolean isMode(int mode) {
+        return PreferencesHelper.contextmenuMode == mode;
     }
 }

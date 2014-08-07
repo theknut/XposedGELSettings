@@ -5,6 +5,12 @@
         android:title="@string/pref_limited_title"
         android:summary="@string/pref_limited_summary"
         android:selectable="false"/>
+    <de.theknut.xposedgelsettings.ui.MyListPreference
+        android:key="contextmenumode"
+        android:defaultValue="3"
+        android:title="@string/pref_contextmenu_mode_title"
+        android:entries="@array/contextmenu_mode_entries"
+        android:entryValues="@array/contextmenu_mode_values"/>
     <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
         android:key="enablellauncher"
         android:title="@string/pref_enable_l_launcher_title"

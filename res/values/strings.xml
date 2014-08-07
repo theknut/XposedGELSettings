@@ -332,5 +332,6 @@
 
     <!-- V1.9.1 -->
     <string name="pref_searchbar_style_title">Search bar style</string>
+    <string name="pref_contextmenu_mode_title">Context menu mode</string>
 
 </resources>
