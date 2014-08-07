@@ -98,10 +98,12 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
 			hookAllMethods(Classes.SearchDropTargetBar, Methods.sdtbOnDragEnd, new OnDragEnd());
 		}
 
-        if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE) && PreferencesHelper.alwaysShowSayOKGoogle) {
+        if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE)) {
 
-            findAndHookMethod(Classes.GSAConfigFlags, Methods.gsaShouldAlwaysShowHotwordHint, XC_MethodReplacement.returnConstant(true));
-            findAndHookMethod(Classes.RecognizerView, Methods.rvCanShowHotwordAnimation, XC_MethodReplacement.returnConstant(false));
+            if (PreferencesHelper.alwaysShowSayOKGoogle) {
+                findAndHookMethod(Classes.GSAConfigFlags, Methods.gsaShouldAlwaysShowHotwordHint, XC_MethodReplacement.returnConstant(true));
+                findAndHookMethod(Classes.RecognizerView, Methods.rvCanShowHotwordAnimation, XC_MethodReplacement.returnConstant(false));
+            }
 
             XC_MethodHook proximityToNowHook = new XC_MethodHook() {
                 @Override
