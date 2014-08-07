@@ -301,7 +301,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 TransitionsManager = findClass(ClassNames.TRANSITIONS_MANAGER, lpparam.classLoader);
                 RecognizerView = findClass(ClassNames.RECOGNIZER_VIEW, lpparam.classLoader);
                 SearchPlate = findClass(ClassNames.SEARCH_PLATE, lpparam.classLoader);
-                GelSearchPlateContainer = findClass()
+                GelSearchPlateContainer = findClass(ClassNames.GEL_SEARCH_PLATE_CONTAINER, lpparam.classLoader);
 
                 if (Common.PACKAGE_OBFUSCATED) {
                     WorkspaceState = findClass(ClassNames.WORKSPACE_STATE, lpparam.classLoader);
