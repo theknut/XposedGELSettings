@@ -99,7 +99,7 @@ public class ObfuscationHelper extends HooksBaseClass {
 
             String[] _LAUNCHER = {launcherPackage + "Launcher", launcherPackage + "Launcher", launcherPackage + "Launcher", launcherPackage + "Launcher"},
                     _WORKSPACE = {launcherPackage + "Workspace", launcherPackage + "Workspace", launcherPackage + "Workspace", launcherPackage + "Workspace"},
-                    _WORKSPACE_STATE = {_WORKSPACE[0] + "$State", "zc", "aco", "adg"}, // ??
+                    _WORKSPACE_STATE = {_WORKSPACE[0] + "$State", "zc", "aco", "adq"},
                     _DEVICE_PROFILE = {launcherPackage + "DeviceProfile", "mz", "qi", "rj"}, // All Device Profiles must have
                     _CELL_LAYOUT = {launcherPackage + "CellLayout", launcherPackage + "CellLayout", launcherPackage + "CellLayout", launcherPackage + "CellLayout"},
                     _CELL_LAYOUT_CELL_INFO = {_CELL_LAYOUT[0] + "$CellInfo", "lz", "pi", "qj"}, // Cell[=view
