@@ -27,7 +27,7 @@ public class SystemBars extends HooksBaseClass {
         if (PreferencesHelper.transparentSystemBars) {
             findAndHookMethod(Classes.Launcher, "onResume", new XC_MethodHook() {
                 @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 
                     boolean show = ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lHasCustomContentToLeft)
                             && getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage) == 0);
