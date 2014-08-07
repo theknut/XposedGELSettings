@@ -113,14 +113,16 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
                 findAndHookMethod(Classes.RecognizerView, Methods.rvCanShowHotwordAnimation, XC_MethodReplacement.returnConstant(false));
             }
 
-            XC_MethodHook proximityToNowHook = new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    param.args[0] = 1.0f;
-                }
-            };
+            // 0 - Default
+            // 1 - Android L
+            if (PreferencesHelper.searchbarStyle == 1) {
+                XC_MethodHook proximityToNowHook = new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        param.args[0] = 1.0f;
+                    }
+                };
 
-            if (PreferencesHelper.enableLLauncher) {
                 findAndHookMethod(Classes.SearchPlate, Methods.spSetProximityToNow, float.class, proximityToNowHook);
                 findAndHookMethod(Classes.SearchOverlayImpl, Methods.spSetProximityToNow, float.class, proximityToNowHook);
             }

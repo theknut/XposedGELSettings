@@ -72,6 +72,7 @@ public class PreferencesHelper {
     public static int workspaceRect;
     public static int homescreenAllAppsPosition;
     public static int smartFolderMode;
+    public static int searchbarStyle;
     public static double scrolldevider;
 
     public static String gesture_one_up_left;
@@ -182,6 +183,7 @@ public class PreferencesHelper {
         homescreenAllAppsPosition = Integer.parseInt(prefs.getString("positionallappsbutton", "-1"));
         smartFolderMode = Integer.parseInt(prefs.getString("smartfoldermode", "0"));
         scrolldevider = Integer.parseInt(prefs.getString("scrolldevider", "10"));
+        searchbarStyle = Integer.parseInt(prefs.getString("searchbarstyle", "0"));
 
         gesture_one_up_left = prefs.getString("gesture_one_up_left", "NONE");
         gesture_one_up_middle = prefs.getString("gesture_one_up_middle", "NONE");

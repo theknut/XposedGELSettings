@@ -203,6 +203,11 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="searchbarstyle_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
     <string-array name="premiumValues">
         <item>beerdonation</item>
         <item>bratwurstdonation</item>

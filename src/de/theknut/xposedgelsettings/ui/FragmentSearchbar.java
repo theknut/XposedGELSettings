@@ -1,6 +1,7 @@
 package de.theknut.xposedgelsettings.ui;
 
 import android.os.Bundle;
+import android.preference.Preference;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,20 @@ public class FragmentSearchbar extends FragmentBase {
   
     	View rootView = inflater.inflate(R.layout.options_fragment, container, false);
         addPreferencesFromResource(R.xml.searchbar_fragment);
+
+        final MyListPreference searchbarStyle = (MyListPreference) findPreference("searchbarstyle");
+        searchbarStyle.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+
+                MyListPreference pref = (MyListPreference) preference;
+                pref.setSummary(pref.getEntries()[pref.findIndexOfValue((String) newValue)]);
+
+                return true;
+            }
+        });
+        searchbarStyle.setSummary(searchbarStyle.getEntry());
         
         rootView = CommonUI.setBackground(rootView, R.id.prefbackground);
         

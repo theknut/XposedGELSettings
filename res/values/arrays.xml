@@ -23,6 +23,11 @@
         <item>Touch - launch first app\nSwipe - open folder</item>
     </string-array>
 
+    <string-array name="searchbarstyle_entries">
+        <item>Default</item>
+        <item>Android L style</item>
+    </string-array>
+
     <string-array name="gesture_actions_entries">
         <item>None</item>
         <item>Notification bar</item>
