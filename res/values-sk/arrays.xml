@@ -52,5 +52,11 @@
         <item>Potiahnutie - spustiť prvú aplikáciu\nDotyk - otvoriť priečinok</item>
         <item>Dotyk - spustiť prvú aplikáciu\nPotiahnutie - otvoriť priečinok</item>
     </string-array>
+    
+
+    <string-array name="searchbarstyle_entries">
+        <item>Predvolený</item>
+        <item>Štýl Androidu L</item>
+    </string-array>
 
 </resources>
