@@ -261,7 +261,7 @@
     <string name="pref_reverseengineering_bugs_summary">Vzhľadom k potrebe reverzného inžinierstva, je možné, že sa vyskytnú nejaké chyby. Prosím, buďte trochu zhovievavejší a neudeľujte nízke hodnotenie pre túto aplikácia v Obchode Play. Použite funkciu \"Poslať hlásenie o chybe\" v Nastaveniach. Ďakujeme vám!</string>
     <string name="pref_reverseengineering_support_cat">Potrebujeme vašu podporu!</string>
     <string name="pref_reverseengineering_support_title">Prispieť!</string>
-    <string name="pref_reverseengineering_support_summary">Neuveriteľné možnostvo mojem práce je potrebné pre vývoj XGELS. Ak sa vám táto aplikácia páči, prosím, kliknite sem pre prispenie!</string>
+    <string name="pref_reverseengineering_support_summary">Toto neodomkne Prémium!\nNeuveriteľné možnostvo mojej práce je potrebné pre vývoj XGELS. Ak sa vám táto aplikácia páči, prosím, kliknite sem pre prispenie!</string>
     <string name="pref_reverseengineering_rate_title">Ohodnotiť XGELS!</string>
     <string name="pref_reverseengineering_rate_summary">Ukážte vašu podporu a ohodnoťte aplikáciu v Obchode Play. Dobré hodnotenie bude motivovať ostatných, aby sa skúsili XGELS. Kliknite sem pre ohodnotenie XGELS v Obchode Play!</string>
 
@@ -354,4 +354,15 @@
     <string name="module_not_active_msg">XGELS nie je aktívny. Prosím, aktivujte modul v Xposed Installer -> Moduly</string>
     <string name="open_xposed_installer">Otvoriť Xposed Installer</string>
     <string name="error_root_shell">Chyba pri otváraní root konzoly: kód chyby</string>
+    
+    <string name="quicksettings_desktop_locked">Plocha zamknutá</string>
+    <string name="quicksettings_desktop_unlocked">Plocha odomknutá</string>
+    <string name="pref_cat_quicksettings_title">Dlaždice v Rýchlych nastaveniach</string>
+    <string name="pref_cat_quicksettings_lock_desktop_title">Dlaždica zamknutia plochy</string>
+    <string name="pref_cat_quicksettings_lock_desktop_summary">Pridať dlaždicu do Rýchlych nastavení, ktorá umožní rýchlo prepínať medzi zamknutou a odomknutou plochou</string>
+    <string name="pref_quicksettings_explain_summary">V súčasnosti funguje len na továrenských alebo AOSP ROM!\nRýchle nastavenia boli predstavené s operačným systémom Android 4.2 a môžu alebo nemusia fungovať spoločne s ďalšími Xposed modulmi alebo funkciami ROM.</string>
+    
+    <!-- V1.9.1 -->
+    <string name="pref_searchbar_style_title">Štýl vyhľadávacieho riadku</string>
+    <string name="pref_contextmenu_mode_title">Režim kontextovej ponuky</string>
 </resources>
