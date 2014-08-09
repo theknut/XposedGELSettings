@@ -15,6 +15,12 @@
         <item>11</item>
         <item>12</item>
     </string-array>
+    <string-array name="contextmenu_mode_entries">
+        <item>Desativado</item>
+        <item>Apenas Atalhos</item>
+        <item>Apenas Widgets</item>
+        <item>Atalhos &amp; Widgets</item>
+    </string-array>
     <string-array name="fragmenttitles_array">
         <item>Bem-Vindo</item>
         <item>Geral</item>
@@ -52,11 +58,27 @@
     <string-array name="gesture_actions_entries_limited">
         <item>Nenhum</item>
         <item>Tela Aplicativos</item>
-        <item>Barra de Aplicativos</item>
+        <item>Aplicativos da Bandeja</item>
+    </string-array>
+    <string-array name="notificationbadge_presets_entries">
+        <item>Personalizado</item>
+        <item>Estilo G+</item>
+        <item>Estilo G+ (Semi-Transparente)</item>
+        <item>Magnum Steel</item>
+        <item>Vinil</item>
+        <item>Preto e Branco</item>
+        <item>Round clean</item>
+        <item>Round glass</item>
+    </string-array>
+    <string-array name="searchbarstyle_entries">
+        <item>Padrão</item>
+        <item>Estilo Android L</item>
     </string-array>
     <string-array name="smartfoldermode_entries">
         <item>Nenhuma</item>
-        <item>"Deslizar - inciar o primeiro aplicativo\nToque - pasta aberta"</item>
-        <item>"Toque - inicar o primeiro aplicativo\nDeslizar - abrir pasta"</item>
+        <item>"Deslizar - inciar o primeiro aplicativo
+Toque - pasta aberta"</item>
+        <item>"Toque - inicar o primeiro aplicativo
+Deslizar - abrir pasta"</item>
     </string-array>
 </resources>

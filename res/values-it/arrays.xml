@@ -1,10 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="gesture_actions_entries_limited">
-        <item>Nessuno</item>
-        <item>App drawer</item>
-        <item>Passa a dock</item>
+    <string-array name="fragmenttitles_array">
+        <item>Benvenuto</item>
+        <item>Generali</item>
+        <item>Barra di ricerca Google</item>
+        <item>Homescreen</item>
+        <item>App Drawer</item>
+        <item>Gesti</item>
+        <item>Badge di notifica(Beta)</item>
+        <item>Icone</item>
+        <item>Integrazione Android</item>
+        <item>Backup/Ripristino</item>
+        <item>Impostazioni</item>
+        <item>Premium/Supporto</item>
+        <item>Retroingegneria</item>
+    </string-array>
+
+    <string-array name="smartfoldermode_entries">
+        <item>Off</item>
+        <item>Scorri - apre la prima applicazione\nTouch - apre la cartella</item>
+        <item>Touch - apre la prima applicazione\nStriscia - apre la cartella</item>
+    </string-array>
+
+    <string-array name="searchbarstyle_entries">
+        <item>Predefinito</item>
+        <item>Stile Android L</item>
     </string-array>
 
     <string-array name="gesture_actions_entries">
@@ -14,26 +35,31 @@
         <item>App drawer</item>
         <item>App recenti</item>
         <item>Mostra recenti</item>
-        <item>Impostazioni android</item>
+        <item>Impostazioni Android</item>
         <item>Stand-by</item>
         <item>Passa al dock</item>
         <item>Apri app</item>
     </string-array>
 
-    <string-array name="fragmenttitles_array">
-        <item>Benvenuto</item>
-        <item>Generali</item>
-        <item>Barra Google Search</item>
-        <item>Home</item>
+    <string-array name="gesture_actions_entries_limited">
+        <item>Nessuno</item>
         <item>App drawer</item>
-        <item>Gesti</item>
-        <item>Badge di notifica (Beta)</item>
-        <item>Icon</item>
-        <item>Android Integration</item>
-        <item>Backup/Ripristino</item>
-        <item>Preferenze</item>
-        <item>Premium/Supporto</item>
-        <item>Reverse Engineering</item>
+        <item>Passa al dock</item>
+    </string-array>
+
+    <string-array name="general_scroll_devider_entries">
+        <item>Predefinito</item>
+        <item>Medio</item>
+        <item>Veloce</item>
+        <item>Velocit&#224; massima</item>
+        <item>Nessuna animazione</item>
+    </string-array>
+
+    <string-array name="contextmenu_mode_entries">
+        <item>Disabilitato</item>
+        <item>Solo scorciatoie</item>
+        <item>Solo Widgets</item>
+        <item>Scorciatoie &amp; Widgets</item>
     </string-array>
 
 </resources>
