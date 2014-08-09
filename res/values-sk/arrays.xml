@@ -40,7 +40,7 @@
         <item>Gestá</item>
         <item>Symboly oznámení (Beta)</item>
         <item>Ikony</item>
-        <item>Android Integration</item>
+        <item>Integrácia do Androidu</item>
         <item>Zálohovať/Obnoviť</item>
         <item>Nastavenia</item>
         <item>Prémium/Podpora</item>
@@ -51,6 +51,12 @@
         <item>Vypnuté</item>
         <item>Potiahnutie - spustiť prvú aplikáciu\nDotyk - otvoriť priečinok</item>
         <item>Dotyk - spustiť prvú aplikáciu\nPotiahnutie - otvoriť priečinok</item>
+    </string-array>
+    
+
+    <string-array name="searchbarstyle_entries">
+        <item>Predvolený</item>
+        <item>Štýl Androidu L</item>
     </string-array>
 
 </resources>
