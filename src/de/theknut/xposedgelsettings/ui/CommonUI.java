@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -285,6 +287,15 @@ public class CommonUI {
 	   	 
 	   	 return restartLauncher(true);
 	}
+
+    public static void restartActivity() {
+        Intent mStartActivity = new Intent(CONTEXT, MainActivity.class);
+        int mPendingIntentId = 0xBEEF;
+        PendingIntent mPendingIntent = PendingIntent.getActivity(CONTEXT, mPendingIntentId, mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager mgr = (AlarmManager) CONTEXT.getSystemService(Context.ALARM_SERVICE);
+        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 500, mPendingIntent);
+        System.exit(0);
+    }
     
     static boolean isPackageInstalled(String packagename, Context context) {
         PackageManager pm = context.getPackageManager();

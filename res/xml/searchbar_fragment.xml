@@ -15,7 +15,8 @@
 	    android:summary="@string/pref_show_google_search_bar_homescreen_summary" />
     <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
         android:key="alwaysshowsayokgoogle"
-        android:title="@string/pref_always_show_ok_google_title" />
+        android:title="@string/pref_always_show_ok_google_title"
+        android:summary="@string/pref_always_show_ok_google_summary" />
     <de.theknut.xposedgelsettings.ui.MyListPreference
         android:key="searchbarstyle"
         android:title="@string/pref_searchbar_style_title"

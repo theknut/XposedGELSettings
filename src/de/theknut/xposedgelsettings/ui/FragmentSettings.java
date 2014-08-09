@@ -1,9 +1,7 @@
 package de.theknut.xposedgelsettings.ui;
 
 import android.annotation.SuppressLint;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,7 +12,6 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
@@ -26,14 +23,9 @@ import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import de.theknut.xposedgelsettings.R;
@@ -64,112 +56,10 @@ public class FragmentSettings extends FragmentBase {
                         .edit()
                         .putBoolean("forceenglishlocale", (Boolean) newValue)
                         .commit();
-                restartActivity();
+                CommonUI.restartActivity();
                 return true;
             }
         });
-        
-        OnPreferenceClickListener ImExportResetSettingsListener = new OnPreferenceClickListener() {
-            @SuppressWarnings("deprecation")
-			@SuppressLint("WorldReadableFiles")
-			public boolean onPreferenceClick(Preference preference) {
-            	
-            	File sdcard = new File(Environment.getExternalStorageDirectory().getPath() + "/XposedGELSettings/" + Common.PREFERENCES_NAME + ".xml");
-            	File data = new File(mContext.getFilesDir(), "../shared_prefs/"+ Common.PREFERENCES_NAME + ".xml");
-            	
-            	sdcard.getParentFile().mkdirs();
-            	data.getParentFile().mkdirs();
-            	
-            	if (preference.getKey().contains("importsettings")) {
-            		boolean success = false;
-            		
-					try {
-						// copy from sdcard to data
-						success = copy(sdcard, data);
-						
-						// set permissions
-						chmod(new File (mContext.getFilesDir(), "../shared_prefs"), 0771);
-						chmod(data, 0664);							
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-            		
-            		if (success) {
-            			Toast.makeText(mContext, getString(R.string.toast_import), Toast.LENGTH_LONG).show();
-            			CommonUI.restartLauncher(false);
-            			restartActivity();
-            		}
-            		else {
-            			Toast.makeText(mContext, getString(R.string.toast_import_failed), Toast.LENGTH_LONG).show();
-            		}
-            	}
-            	else if (preference.getKey().contains("exportsettings")) {
-            		boolean success = false;
-            		
-					try {
-						// copy from data to sdcard
-						success = copy(data, sdcard);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-            		
-            		if (success) {
-            			Toast.makeText(mContext, getString(R.string.toast_export), Toast.LENGTH_LONG).show();
-            		}
-            		else {
-            			Toast.makeText(mContext, getString(R.string.toast_export_failed), Toast.LENGTH_LONG).show();
-            		}
-            	}
-            	else if (preference.getKey().contains("resetsettings")) {
-            		// reset your settings, I mean you wanted that so lets do it!
-            		boolean success = mContext.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).edit().clear().commit();
-            		
-            		if (success) {
-            			Toast.makeText(mContext, getString(R.string.toast_reset), Toast.LENGTH_LONG).show();
-            		}
-            		else {
-            			Toast.makeText(mContext, getString(R.string.toast_reset_failed), Toast.LENGTH_LONG).show();
-            		}
-            	}
-            	
-            	return true;
-            }
-            
-            public boolean copy(File src, File dst) throws IOException {
-            	
-            	if (!src.exists()) {
-            		src.createNewFile();
-            	}
-            	if (!dst.exists()) {
-            		dst.createNewFile();
-            	}
-            	
-                InputStream in = new FileInputStream(src);
-                OutputStream out = new FileOutputStream(dst);
-
-                // Transfer bytes from in to out
-                byte[] buf = new byte[1024];
-                int len;
-                while ((len = in.read(buf)) > 0) {
-                    out.write(buf, 0, len);
-                }
-                
-                in.close();
-                out.close();
-                
-                return true;
-            }
-            
-            public int chmod(File path, int mode) throws Exception {
-                Class<?> fileUtils = Class.forName("android.os.FileUtils");
-                Method setPermissions = fileUtils.getMethod("setPermissions", String.class, int.class, int.class, int.class);
-                return (Integer) setPermissions.invoke(null, path.getAbsolutePath(), mode, -1, -1);
-            }
-        };
-        
-        this.findPreference("importsettings").setOnPreferenceClickListener(ImExportResetSettingsListener);
-        this.findPreference("exportsettings").setOnPreferenceClickListener(ImExportResetSettingsListener);
-        this.findPreference("resetsettings").setOnPreferenceClickListener(ImExportResetSettingsListener);
         
         this.findPreference("autoblurimage").setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			
@@ -361,14 +251,5 @@ public class FragmentSettings extends FragmentBase {
         rootView = CommonUI.setBackground(rootView, R.id.prefbackground);
         
         return rootView;
-    }
-
-    private void restartActivity() {
-        Intent mStartActivity = new Intent(mContext, MainActivity.class);
-        int mPendingIntentId = 0xBEEF;
-        PendingIntent mPendingIntent = PendingIntent.getActivity(mContext, mPendingIntentId, mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
-        AlarmManager mgr = (AlarmManager)mContext.getSystemService(Context.ALARM_SERVICE);
-        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 500, mPendingIntent);
-        System.exit(0);
     }
 }

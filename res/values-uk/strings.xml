@@ -57,7 +57,7 @@
   <string name="pref_donate_summary">"Якщо Вам подобається цей модуль, то не забудьте купити мені пиво! Було витрачено багато часу! Як так… без пива&#8230;\nНатисніть тут! "</string>
   <string name="pref_support_thread_title">Потрібна допомога?</string>
   <string name="pref_support_thread_summary">Будь ласка, приділіть трохи часу для підтримки.\nЯкщо Вам потрібна допомога чи хочете щось мені повідомити, то будь ласка, натисніть тут, щоб Відкрити форум-обговорення на XDA.</string>
-  <string name="pref_cat_eximport_settings">Імпорт/Експорт налаштувань</string>
+  <string name="pref_cat_eximport_settings">XGELS Імпорт/Експорт налаштувань</string>
   <string name="pref_settings_import_title">Імпорт</string>
   <string name="pref_settings_import_summary">"Імпортуйте Ваші налаштування з\n/sdcard/XposedGELSettings"</string>
   <string name="pref_settings_export_title">Експорт</string>
@@ -78,7 +78,7 @@
   <string name="colorpicker_hex_hint">Задати колір тексту</string>
   <string name="pref_disable_wallpaper_scroll_title">Прокрутка фонового зображення</string>
   <string name="pref_disable_wallpaper_scroll_summary">Вимкнути синхронізовану прокрутку фонового зображення</string>
-  <string name="toast_desktop_locked">XGELS: Екран заблоковано!</string>
+  <string name="toast_desktop_locked">Екран заблоковано!</string>
   <string name="toast_fail">"Ну що ж… це не працює :-S\nБудь ласка, подивіться logcat!"</string>
   <string name="pref_switch_hideappdock_title">Зховати док-панель</string>
   <string name="pref_switch_hideappdock_summary">Свайп вверх, для відображення</string>

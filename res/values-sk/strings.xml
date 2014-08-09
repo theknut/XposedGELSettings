@@ -55,7 +55,7 @@
     <string name="pref_restart_launcher_summary">Kliknite tu pre reštart spúšťača a jeho spustenie s vašimi nastaveniami.</string>
     <string name="pref_support_thread_title">Potrebujete pomoc?</string>
     <string name="pref_support_thread_summary">Ak potrebujete pomoc alebo máte spätnú väzbu, prosím, kliknite tu pre otvorenie témy podpory.</string>
-    <string name="pref_cat_eximport_settings">Importovať/exportovať nastavenia</string>
+    <string name="pref_cat_eximport_settings">XGELS Importovať/exportovať nastavenia</string>
     <string name="pref_settings_import_title">Importovať</string>
     <string name="pref_settings_import_summary">Importovať vaše nastavenia z \n/sdcard/XposedGELSettings</string>
     <string name="pref_settings_export_title">Exportovať</string>
@@ -78,7 +78,7 @@
     <string name="pref_disable_wallpaper_scroll_title">Posun tapety</string>
     <string name="pref_disable_wallpaper_scroll_summary">Zakázať synchronizovaný posun tapety</string>
     <!-- V1.3 -->
-    <string name="toast_desktop_locked">XGELS: Plocha je zamknutá!</string>
+    <string name="toast_desktop_locked">Plocha je zamknutá!</string>
     <string name="toast_fail">Ok&#8230; toto nefunguje :-S\nProsím, skontrolujte logcat</string>
     <string name="pref_switch_appdock_title">Skryť dok</string>
     <string name="pref_switch_appdock_summary">Skryť dok aplikácií</string>

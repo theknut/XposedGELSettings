@@ -56,7 +56,7 @@
     <string name="pref_restart_launcher_summary">Click here to restart the launcher and load it with your settings.</string>
     <string name="pref_support_thread_title">Need help?</string>
     <string name="pref_support_thread_summary">Please show some love to the support thread. If you need help or have feedback please click here to open the thread.</string>
-    <string name="pref_cat_eximport_settings">Import/Export Settings</string>
+    <string name="pref_cat_eximport_settings">Import/Export XGELS Settings</string>
     <string name="pref_settings_import_title">Import</string>
     <string name="pref_settings_import_summary">Import your settings from\n/sdcard/XposedGELSettings</string>
     <string name="pref_settings_export_title">Export</string>
@@ -79,7 +79,7 @@
     <string name="pref_disable_wallpaper_scroll_title">Wallpaper scrolling</string>
     <string name="pref_disable_wallpaper_scroll_summary">Disable synchronized wallpaper scrolling</string>
     <!-- V1.3 -->
-    <string name="toast_desktop_locked">XGELS: Desktop is locked!</string>
+    <string name="toast_desktop_locked">Desktop is locked!</string>
     <string name="toast_fail">Well&#8230; that didn\'t work :-S\nPlease see the logcat!</string>
     <string name="pref_switch_appdock_title">Hide dock</string>
     <string name="pref_switch_appdock_summary">Hide the dock</string>

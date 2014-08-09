@@ -57,7 +57,7 @@
     <string name="pref_donate_summary">XGELS ist kostenlos und wird es auch immer sein. Aber, wenn Sie meine Arbeit mögen und mich für die vielen Stunden, die ich investiert habe, entschädigen wollen, spenden Sie mir ruhig etwas. Drücken Sie diesen Button!</string>
     <string name="pref_support_thread_title">Brauchen Sie Hilfe?</string>
     <string name="pref_support_thread_summary">Bitte widmen Sie dem Support-Thread ein wenig Aufmerksamkeit. Wenn Sie Hilfe brauchen oder ein Feedback geben möchten, dann drücken Sie bitte hier um den Thread zu öffnen.</string>
-    <string name="pref_cat_eximport_settings">Import/Export der Einstellungen</string>
+    <string name="pref_cat_eximport_settings">Import/Export der XGELS Einstellungen</string>
     <string name="pref_settings_import_title">Import</string>
     <string name="pref_settings_import_summary">Importieren Sie Ihre Einstellungen von\n/sdcard/XposedGELSettings</string>
     <string name="pref_settings_export_title">Export</string>
@@ -79,7 +79,7 @@
     <string name="restart_launcher_icon_title">Neustart</string>
     <string name="pref_disable_wallpaper_scroll_title">Hintergrundbild</string>
     <string name="pref_disable_wallpaper_scroll_summary">Schaltet das synchronisierte Scrollen des Hintergrundes ab</string>
-    <string name="toast_desktop_locked">XGELS: Desktop ist gesperrt!</string>
+    <string name="toast_desktop_locked">Desktop ist gesperrt!</string>
     <string name="toast_fail">Öhm&#8230; das hat nicht funktioniert :-S\nBitte für weitere Infos im logcat nachschauen!</string>
     <string name="pref_switch_appdock_title">Dock verbergen</string>
     <string name="pref_switch_appdock_summary">Nach oben wischen um es wieder einzublenden</string>

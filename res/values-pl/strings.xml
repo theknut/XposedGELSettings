@@ -57,7 +57,7 @@
     <string name="pref_donate_summary">XGELS jest darmowy i taki pozostanie na zawsze, ale jeśli naprawdę Ci się podoba wesprzyj mnie. Dzięki!</string>
     <string name="pref_support_thread_title">Potrzebujesz pomocy?</string>
     <string name="pref_support_thread_summary">Kliknij aby otworzyć wątek pomocy</string>
-    <string name="pref_cat_eximport_settings">Import/eksport ustawień</string>
+    <string name="pref_cat_eximport_settings">XGELS Import/eksport ustawień</string>
     <string name="pref_settings_import_title">Import</string>
     <string name="pref_settings_import_summary">Importuj swoje ustawienia z\n/sdcard/XposedGELSettings</string>
     <string name="pref_settings_export_title">Eksport</string>

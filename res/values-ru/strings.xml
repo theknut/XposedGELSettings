@@ -56,7 +56,7 @@
     <string name="pref_backuprestore_note_summary">Это только резервирует ваши ярлыки и папки... Виджеты резервированию не поддаются...</string>
     <string name="pref_backuprestore_note_title">Заметка</string>
     <string name="pref_cat_backuprestore_homescreen_title">Настройки рабочего стола</string>
-    <string name="pref_cat_eximport_settings">Импорт/Экспорт настроек</string>
+    <string name="pref_cat_eximport_settings">XGELS Импорт/Экспорт настроек</string>
     <string name="pref_cat_gesture_down_title">Жесты по Свайпу вниз</string>
     <string name="pref_cat_gesture_up_title">Жесты по Свайпу вверх</string>
     <string name="pref_cat_gestures">Жесты</string>
@@ -269,7 +269,7 @@
     <string name="restart_launcher_icon_title">Перезапуск</string>
     <string name="toast_backup_failed">Так… это не работает :-S</string>
     <string name="toast_backup_success">Настройки рабочего стола удачно зарезервированы</string>
-    <string name="toast_desktop_locked">XGELS: Экран заблокирован!</string>
+    <string name="toast_desktop_locked">Экран заблокирован!</string>
     <string name="toast_donate_only">Эта функция требует XGELS Premium!</string>
     <string name="toast_donate_thanks">Да, Вы сделали потрясающе! Похлопайте себя по плечу!</string>
     <string name="toast_donation_result_fail">Какая-то ошибка. Вы можете убить XGELS и запустить заново. Пожалуйста, проверьте logcat!</string>

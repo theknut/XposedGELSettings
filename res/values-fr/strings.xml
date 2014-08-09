@@ -58,7 +58,7 @@
     <string name="pref_donate_summary">XGELS est gratuit et le restera. Cependant, si vous aimez mon travail et voulez me récompenser, assurez-vous de me faire un don. Appuyez-ici!</string>
     <string name="pref_support_thread_title">Besoin d\'aide ?</string>
     <string name="pref_support_thread_summary">Vous pouvez utiliser ce topic d\'aide. Si vous avez besoin d\'aide ou voulez donner un commentaire merci d\'ouvrir ce topic.</string>
-    <string name="pref_cat_eximport_settings">Importer/Exporter les paramètres</string>
+    <string name="pref_cat_eximport_settings">Importer/Exporter les paramètres des XGELS</string>
     <string name="pref_settings_import_title">Importer</string>
     <string name="pref_settings_import_summary">Importer vos paramètres depuis\n/sdcard/XposedGELSettings</string>
     <string name="pref_settings_export_title">Exporter</string>
@@ -81,7 +81,7 @@
     <string name="pref_disable_wallpaper_scroll_title">Défilement du fond d\'écran</string>
     <string name="pref_disable_wallpaper_scroll_summary">Désactiver la synchro du défilement du fond d\'écran</string>
     <!-- V1.3 -->
-    <string name="toast_desktop_locked">XGELS: l\'écran d\'accueil est bloqué !</string>
+    <string name="toast_desktop_locked">l\'écran d\'accueil est bloqué !</string>
     <string name="toast_fail">Oh !&#8230; ça n\'a pas marché :-S\nRegardez le logcat!</string>
     <string name="pref_switch_appdock_title">Masquer le dock</string>
     <string name="pref_switch_appdock_summary"></string>

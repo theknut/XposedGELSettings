@@ -80,7 +80,7 @@
     <string name="pref_backuprestore_note_summary">Backup restaura apenas seus ícones e pastas. Widgets e suas posições serão perdidos e precisam ser colocados de novo! As características deste também exigem root!</string>
     <string name="pref_backuprestore_note_title">Nota</string>
     <string name="pref_cat_backuprestore_homescreen_title">Iniciador da Tela Inicial</string>
-    <string name="pref_cat_eximport_settings">Configurações de Importação / Exportação</string>
+    <string name="pref_cat_eximport_settings">XGELS Configurações de Importação / Exportação</string>
     <string name="pref_cat_gesture_down_title">Deslizar para baixo</string>
     <string name="pref_cat_gesture_up_title">Deslizar para cima</string>
     <string name="pref_cat_gestures">Gestos</string>
@@ -326,7 +326,7 @@ Deslize para cima - pasta aberta"</string>
     <string name="success">Sucesso</string>
     <string name="toast_backup_failed">Não foi possível aplicar as alterações!</string>
     <string name="toast_backup_success">Tela Inicial restaurada com sucesso!</string>
-    <string name="toast_desktop_locked">ALERTA: Tela Inicial bloqueada!</string>
+    <string name="toast_desktop_locked">Tela Inicial bloqueada!</string>
     <string name="toast_donate_only">Este recurso requer XGELS Premium!</string>
     <string name="toast_donate_thanks">Sim, você é incrível! Palmadinhas no ombro!</string>
     <string name="toast_donation_result_fail">Algo deu errado. Você pode querer matar XGELS e iniciá-lo novamente. Por favor, verifique o logcat!</string>

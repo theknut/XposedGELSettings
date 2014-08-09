@@ -56,7 +56,7 @@
     <string name="pref_restart_launcher_summary">点击以重启启动器</string>
     <string name="pref_support_thread_title">需要帮助？</string>
     <string name="pref_support_thread_summary">如果您需要帮助或者想要反馈请点击打开反馈贴</string>
-    <string name="pref_cat_eximport_settings">导入/导出设置</string>
+    <string name="pref_cat_eximport_settings">XGELS 导入/导出设置</string>
     <string name="pref_settings_import_title">导入</string>
     <string name="pref_settings_import_summary">从以下位置导入您的设置\n/sdcard/XposedGELSettings</string>
     <string name="pref_settings_export_title">导出</string>
@@ -79,7 +79,7 @@
     <string name="pref_disable_wallpaper_scroll_title">壁纸滚动</string>
     <string name="pref_disable_wallpaper_scroll_summary">关闭壁纸同步滚动</string>
     <!-- V1.3 -->
-    <string name="toast_desktop_locked">XGELS：桌面已锁定！</string>
+    <string name="toast_desktop_locked">桌面已锁定！</string>
     <string name="toast_fail">呃，未能生效 :-S\n请查看 logcat！</string>
     <string name="pref_switch_hideappdock_title">隐藏托盘</string>
     <string name="pref_switch_hideappdock_summary">隐藏该托盘</string>
