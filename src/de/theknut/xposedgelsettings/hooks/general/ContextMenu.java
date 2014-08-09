@@ -67,12 +67,13 @@ public class ContextMenu extends HooksBaseClass{
             XC_MethodHook addResizeFrameHook = new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    int WIDGET = Common.PACKAGE_OBFUSCATED ? 0 : 1;
 
-                    Object resize = getAdditionalInstanceField(param.args[0], "resize");
+                    Object resize = getAdditionalInstanceField(param.args[WIDGET], "resize");
                     if (resize == null) {
                         param.setResult(null);
                     } else if (resize != null) {
-                        setAdditionalInstanceField(param.args[0], "resize", false);
+                        setAdditionalInstanceField(param.args[WIDGET], "resize", false);
                         if (!(Boolean) resize) {
                             param.setResult(null);
                         }
@@ -345,7 +346,12 @@ public class ContextMenu extends HooksBaseClass{
                 closeAndRemove();
 
                 setAdditionalInstanceField(longPressedItem, "resize", true);
-                callMethod(getDragLayer(), Methods.dlAddResizeFrame, longPressedItem, longPressedItem.getParent().getParent());
+
+                if (Common.PACKAGE_OBFUSCATED) {
+                    callMethod(getDragLayer(), Methods.dlAddResizeFrame, longPressedItem, longPressedItem.getParent().getParent());
+                } else {
+                    callMethod(getDragLayer(), Methods.dlAddResizeFrame, longPressedItem.getTag(), longPressedItem, longPressedItem.getParent().getParent());
+                }
             }
         });
         show = isWidget;
