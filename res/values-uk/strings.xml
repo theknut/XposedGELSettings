@@ -53,8 +53,6 @@
   <string name="pref_selectappstohide_summary">Виберіть програми для приховання</string>
   <string name="pref_cat_title_restart_launcher">Перезапустити лаунчер</string>
   <string name="pref_restart_launcher_summary">Натисніть тут для перезапусуа лаунчера и прийняття Ваших налаштувань.</string>
-  <string name="pref_donate_title">Подобається модуль? - Пожертвуйте!</string>
-  <string name="pref_donate_summary">"Якщо Вам подобається цей модуль, то не забудьте купити мені пиво! Було витрачено багато часу! Як так… без пива&#8230;\nНатисніть тут! "</string>
   <string name="pref_support_thread_title">Потрібна допомога?</string>
   <string name="pref_support_thread_summary">Будь ласка, приділіть трохи часу для підтримки.\nЯкщо Вам потрібна допомога чи хочете щось мені повідомити, то будь ласка, натисніть тут, щоб Відкрити форум-обговорення на XDA.</string>
   <string name="pref_cat_eximport_settings">XGELS Імпорт/Експорт налаштувань</string>

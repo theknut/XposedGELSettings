@@ -54,8 +54,6 @@
     <string name="pref_selectappstohide_summary">Sélectionner les applications à masquer</string>
     <string name="pref_cat_title_restart_launcher">Redémarrer le launcher</string>
     <string name="pref_restart_launcher_summary">Appuyez-ici pour redémarrer le launcher et ses paramètres.</string>
-    <string name="pref_donate_title">Vous aimez ce module ? Faites un don!</string>
-    <string name="pref_donate_summary">XGELS est gratuit et le restera. Cependant, si vous aimez mon travail et voulez me récompenser, assurez-vous de me faire un don. Appuyez-ici!</string>
     <string name="pref_support_thread_title">Besoin d\'aide ?</string>
     <string name="pref_support_thread_summary">Vous pouvez utiliser ce topic d\'aide. Si vous avez besoin d\'aide ou voulez donner un commentaire merci d\'ouvrir ce topic.</string>
     <string name="pref_cat_eximport_settings">Importer/Exporter les paramètres des XGELS</string>

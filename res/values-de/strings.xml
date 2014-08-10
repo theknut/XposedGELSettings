@@ -53,8 +53,6 @@
     <string name="pref_selectappstohide_summary">Zu versteckende Apps</string>
     <string name="pref_cat_title_restart_launcher">Launcher neu starten</string>
     <string name="pref_restart_launcher_summary">Drücken Sie hier um den Launcher neu zu starten und mit Ihren Einstellungen zu laden.</string>
-    <string name="pref_donate_title">Sie mögen dieses Modul? - Spende!</string>
-    <string name="pref_donate_summary">XGELS ist kostenlos und wird es auch immer sein. Aber, wenn Sie meine Arbeit mögen und mich für die vielen Stunden, die ich investiert habe, entschädigen wollen, spenden Sie mir ruhig etwas. Drücken Sie diesen Button!</string>
     <string name="pref_support_thread_title">Brauchen Sie Hilfe?</string>
     <string name="pref_support_thread_summary">Bitte widmen Sie dem Support-Thread ein wenig Aufmerksamkeit. Wenn Sie Hilfe brauchen oder ein Feedback geben möchten, dann drücken Sie bitte hier um den Thread zu öffnen.</string>
     <string name="pref_cat_eximport_settings">Import/Export der XGELS Einstellungen</string>
@@ -167,7 +165,7 @@
     <string name="pref_cat_homescreen_appdock_title">App Dock</string>
     <string name="pref_switch_appdocksettings_title">Aktivieren</string>
     <string name="pref_switch_appdocksettings_explain_summary">Erlaube Einstellungen am App Dock</string>
-    <string name="pref_switch_autohideappdock_title">Automatisch Verbergen</string>
+    <string name="pref_switch_autohideappdock_title">Automatisch verbergen</string>
     <string name="pref_switch_autohideappdock_summary">Verbirgt das App Dock automatisch</string>
     <string name="pref_switch_folder_title">Aktivieren</string>
     <string name="pref_switch_folder_summary">Erlaube Einstellungen an Ordnern</string>
