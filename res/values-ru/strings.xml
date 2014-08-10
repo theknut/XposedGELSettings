@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="active_manually">Эм.. что-то не работает. Пожалуйста откройте Xposed Installer и активируйте модуль. Перезагрузите устройство!</string>
     <string name="alert_autokill_cancel">Сделаю сам!</string>
     <string name="alert_autokill_checkbox">Больше не показывать!</string>
     <string name="alert_autokill_ok">Сделать это!</string>
@@ -30,8 +31,17 @@
     <string name="changelog_title">Что нового?</string>
     <string name="colorpicker_apply">Применить</string>
     <string name="colorpicker_hex_hint">Задать цвет текста</string>
+    <string name="continue_text">Продолжить</string>
+    <string name="default_text">По умолчанию</string>
+    <string name="dont_show_again">Не показывать</string>
     <string name="drawer_close">Закрыть панель навигации</string>
     <string name="drawer_open">Открыть панель навигации</string>
+    <string name="failed">Неудачно</string>
+    <string name="hide_app_switch_label">Скрыть из меню приложений</string>
+    <string name="module_not_from_google_play">Модуль установлен не из Google Play!</string>
+    <string name="module_not_from_google_play_msg">XGELS установлен не из Google Play! Пожалуйста, установите XGELS из Google Play для покупки XGELS Premium и автоматического обновления</string>
+    <string name="open_play_store">Открыть Play Маркет</string>
+    <string name="pref_always_show_ok_google_title">Надпись \"Ok Google\"</string>
     <string name="pref_animate_dynamic_backbutton_summary">Быстрое изменение иконки</string>
     <string name="pref_animate_dynamic_backbutton_title">Анимированая смена значка</string>
     <string name="pref_animate_dynamic_homebutton_summary">Быстрое изменение иконки</string>
@@ -52,17 +62,21 @@
     <string name="pref_autokill_launcher_title">Закрыть Лаунчер</string>
   <string name="pref_backup_homescreen_summary">"Резервирование ярлыков и папок в 
 /sdcard/XposedGELSettings"</string>
-    <string name="pref_backup_homescreen_title">Бэкап</string>
+    <string name="pref_backup_homescreen_title">Резервирование</string>
     <string name="pref_backuprestore_note_summary">Это только резервирует ваши ярлыки и папки... Виджеты резервированию не поддаются...</string>
     <string name="pref_backuprestore_note_title">Заметка</string>
-    <string name="pref_cat_backuprestore_homescreen_title">Настройки рабочего стола</string>
-    <string name="pref_cat_eximport_settings">XGELS Импорт/Экспорт настроек</string>
+    <string name="pref_cat_backuprestore_homescreen_title">Настройки Google Старта</string>
+    <string name="pref_cat_eximport_settings">Настройки XGELS</string>
     <string name="pref_cat_gesture_down_title">Жесты по Свайпу вниз</string>
     <string name="pref_cat_gesture_up_title">Жесты по Свайпу вверх</string>
     <string name="pref_cat_gestures">Жесты</string>
     <string name="pref_cat_homescreen_appdock_title">Док панель</string>
     <string name="pref_cat_homescreen_folder_title">Папки</string>
     <string name="pref_cat_homescreen_icon_title">Значки</string>
+    <string name="pref_cat_quicksettings_lock_desktop_summary">Добавить тайл в быстрые настройки для быстрого переключения блокировки рабочего стола</string>
+    <string name="pref_cat_quicksettings_lock_desktop_title">Тайл \"Lock Desktop\"</string>
+    <string name="pref_cat_quicksettings_title">Тайл Быстрых настроек</string>
+    <string name="pref_cat_system_bars_title">Системные панели</string>
     <string name="pref_cat_systemui_navbar_title">Навигационная панель</string>
     <string name="pref_cat_systemui_statusbar_title">Статус бар</string>
     <string name="pref_cat_title_app_drawer">Меню приложений</string>
@@ -78,6 +92,7 @@
     <string name="pref_change_dynamic_homebutton_summary">Изменяет иконку Домой на кнопку Меню приложений на главном экране</string>
     <string name="pref_change_dynamic_homebutton_title">Динамическая кнопка Домой</string>
     <string name="pref_choose_gesture_action_title">Выберите действие жеста</string>
+    <string name="pref_contextmenu_mode_title">Контекстное меню</string>
   <string name="pref_continuous_scroll_summary">"Прокрутить на первый рабочий стол
 (Эксперементально)"</string>
     <string name="pref_continuous_scroll_title">Продолжительная прокрутка</string>
@@ -117,6 +132,8 @@
     <string name="pref_gesture_up_right_title">Свайп вверх справа</string>
     <string name="pref_gestures_note_summary">Подождите 1–2 минуты после загрузки устройства для работы жестов</string>
     <string name="pref_gestures_note_title">Заметка</string>
+    <string name="pref_glow_color_summary">Цвет нажатия на иконку</string>
+    <string name="pref_glow_color_title">Цвет свечения</string>
     <string name="pref_grid_size_explain_summary">Пожалуйста, имейте в виду: Изменение размера сетки может привести к возникновению беспорядка со значками на рабочем столе… Если вы слишком уменьшите размер сетки, то некоторые иконки могут быть потеряны. Увеличение размера сетки вернёт их обратно, хотя, кроме того, если размер сетки является слишком большой, то частично иконки будут сжаты. Не увеличивайте размер сетки на слишком большой.</string>
     <string name="pref_grid_size_explain_title">Внимание!</string>
     <string name="pref_hide_google_search_bar_title">Скрыть</string>
@@ -183,6 +200,8 @@
     <string name="pref_overridesettings_button_title">Кнопка настроек</string>
     <string name="pref_pageindicator_summary">Скрыть индикатор страницы на главном экране и в меню приложений</string>
     <string name="pref_pageindicator_title">Индикатор страниц</string>
+  <string name="pref_quicksettings_explain_summary">"!!Работает только на Stock или AOSP прошивках!! 
+Быстрые настройки были представлены с Android 4.2 и это может работать или не работать с другими модулями или прошивками"</string>
     <string name="pref_requires_donation_summary">Следующие функции доступны только в премиум версии.</string>
     <string name="pref_requires_donation_title">Не доступно</string>
     <string name="pref_resize_all_widgets_summary">Разрешить изменять все виджеты</string>
@@ -191,11 +210,13 @@
   <string name="pref_restore_homescreen_summary">"Восстановление ярлыков и папок с 
 /sdcard/XposedGELSettings"</string>
     <string name="pref_restore_homescreen_title">Восстановление</string>
+    <string name="pref_searchbar_style_title">Стиль поисковой строки</string>
     <string name="pref_selectappstohide_summary">Выберите приложения для скрытия</string>
     <string name="pref_selectwidgetstohide_summary">Выберите виджеты для скрытия</string>
     <string name="pref_send_bugreport">Отправить bug report</string>
   <string name="pref_settings_export_summary">"Экспортируйте Ваши настройки в
 /sdcard/XposedGELSettings"</string>
+    <string name="pref_settings_export_title">Экспорт</string>
   <string name="pref_settings_import_summary">"Импортируйте Ваши настройки с
 /sdcard/XposedGELSettings"</string>
     <string name="pref_settings_import_title">Импорт</string>
@@ -248,9 +269,12 @@
   <string name="pref_switch_smart_folder_summary">"Нажатие - открыть первое приложение
 Свайп вверх - открыть папку"</string>
     <string name="pref_switch_smart_folder_title">Умная папка</string>
+    <string name="pref_switch_unlimited_folder_size_title">Бесконечная папка</string>
     <string name="pref_systemui_explain_summary">Каждая из этих опций может работать или не работать на вашем устройстве и/или прошивке</string>
     <string name="pref_systemui_explain_title">Заметка</string>
     <string name="pref_title_longpress_app_drawer_button">Кнопка Все приложения</string>
+    <string name="pref_transparent_system_bars_summary">Использовать Android L-подобную прозрачность системных панелей (требуется ≥ Android 4.4)</string>
+    <string name="pref_transparent_system_bars_title">Прозрачные панели</string>
     <string name="pref_workspacerect_dialog">Выберите коэффициент</string>
     <string name="pref_workspacerect_summary">Выберите величину отступов слева/справа на рабочем столе</string>
     <string name="pref_workspacerect_title">Отступы слева/справа на домашнем экране</string>
@@ -266,7 +290,10 @@
     <string name="pref_ycountallapps_title">Строки в меню приложений</string>
     <string name="progress_requesting_root_summary">Требуется разрешение Суперпользователя (root)</string>
     <string name="progress_requesting_root_title">Пожалуйста, подождите...</string>
+    <string name="quicksettings_desktop_locked">Экран заблокирован</string>
+    <string name="quicksettings_desktop_unlocked">Экран разблокирован</string>
     <string name="restart_launcher_icon_title">Перезапуск</string>
+    <string name="success">Удачно</string>
     <string name="toast_backup_failed">Так… это не работает :-S</string>
     <string name="toast_backup_success">Настройки рабочего стола удачно зарезервированы</string>
     <string name="toast_desktop_locked">Экран заблокирован!</string>
