@@ -6,7 +6,7 @@ import android.graphics.Point;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.FrameLayout.LayoutParams;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -119,7 +119,7 @@ public class GestureHooks extends GestureHelper {
 							
 							if (autoHideAppDock) {
 								if (DEBUG) log("GestureHooks: onRequestFocusInDescendants autoHideAppDock");
-								hideAppdock(200);
+								hideAppdock(animateDuration);
 							} else {
 								if (DEBUG) log("GestureHooks: onRequestFocusInDescendants !autoHideAppDock");
 								hideAppdock(0);
@@ -186,23 +186,23 @@ public class GestureHooks extends GestureHelper {
 						case MotionEvent.ACTION_DOWN:
 							downY = ev.getRawY();
 							downX = ev.getRawX();
-							
-							mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, Fields.lHotseat);
-							
-							if (PreferencesHelper.appdockSettingsSwitch && PreferencesHelper.hideAppDock) {
-								LayoutParams lp = (LayoutParams) mHotseat.getLayoutParams();
-								if (mHotseat.getAlpha() == 1.0f
-									&& (lp.width == 0 || lp.height == 0)) {
 
-									mHotseat.setAlpha(0.0f);
-									lp.width = lp.height = 0;
-									mHotseat.setLayoutParams(lp);
-									
-								} else if (autoHideAppDock) {
-									
-									hideAppdock(animateDuration);
-								}
-							}
+                            mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, Fields.lHotseat);
+
+                            if (PreferencesHelper.appdockSettingsSwitch && PreferencesHelper.hideAppDock) {
+                                FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mHotseat.getLayoutParams();
+                                if (mHotseat.getAlpha() == 1.0f
+                                        && (lp.width == 0 || lp.height == 0)) {
+
+                                    mHotseat.setAlpha(0.0f);
+                                    lp.width = lp.height = 0;
+                                    mHotseat.setLayoutParams(lp);
+
+                                } else if (autoHideAppDock) {
+
+                                    hideAppdock(animateDuration);
+                                }
+                            }
 							
 							break;
 						case MotionEvent.ACTION_UP:

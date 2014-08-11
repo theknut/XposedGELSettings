@@ -19,6 +19,7 @@ import java.io.IOException;
 
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.Utils;
@@ -373,8 +374,13 @@ public class GestureHelper extends HooksBaseClass {
 			mHotseat.setLayoutParams(lp);
 		}
 		
-		if (Common.LAUNCHER_INSTANCE == null || mHotseat == null || isAnimating || mHotseat.getAlpha() == 0.0f) {
-			if (DEBUG) log("Don't hide App Dock " + isAnimating + " " + mHotseat + " " + mHotseat.getAlpha());
+		if (Common.LAUNCHER_INSTANCE == null || mHotseat == null || isAnimating || mHotseat.getAlpha() == 0.0f || Utils.isFolderOpen()) {
+			if (DEBUG) log("Don't hide App Dock\n" +
+                    "Was Launcher null: " + (Common.LAUNCHER_INSTANCE == null)
+                    + "\nWas Hotseat null: " + (mHotseat == null)
+                    + "\nisAnimating: " + isAnimating
+                    + "\nAlpha == 0.0f: " + (mHotseat.getAlpha() == 0.0f)
+                    + "\nisFolderOpen: " + Utils.isFolderOpen());
 			return;
 		}
 		
@@ -392,6 +398,21 @@ public class GestureHelper extends HooksBaseClass {
 			    	 
 			    	 hideAnimation
 				    	 .alpha(0f)
+                         .setListener(new AnimatorListener() {
+                                 @Override
+                                 public void onAnimationStart(Animator animation) {
+                                     callMethod(Common.LAUNCHER_INSTANCE, ObfuscationHelper.Methods.lCloseFolder);
+                                 }
+
+                                 @Override
+                                 public void onAnimationEnd(Animator animation) { }
+
+                                 @Override
+                                 public void onAnimationCancel(Animator animation) { }
+
+                                 @Override
+                                 public void onAnimationRepeat(Animator animation) { }
+                             })
 				    	 .setDuration(duration)
 				    	 .start();
 			     }
