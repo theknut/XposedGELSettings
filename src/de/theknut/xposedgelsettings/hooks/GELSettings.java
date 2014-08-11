@@ -2,10 +2,12 @@ package de.theknut.xposedgelsettings.hooks;
 
 import android.content.Context;
 
+import de.robv.android.xposed.IXposedHookInitPackageResources;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
+import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import de.theknut.xposedgelsettings.hooks.androidintegration.AppInfo;
 import de.theknut.xposedgelsettings.hooks.androidintegration.QuickSettings;
@@ -27,7 +29,7 @@ import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 
-public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage {
+public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage, IXposedHookInitPackageResources {
 
 	@Override
 	public void handleLoadPackage(final LoadPackageParam lpparam) throws Throwable {
@@ -98,4 +100,14 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
         NotificationBadgesHooks.initAllHooks(lpparam);
         IconHooks.initAllHooks(lpparam);
 	}
+
+    @Override
+    public void handleInitPackageResources(InitPackageResourcesParam resparam) throws Throwable {
+        if (!Common.PACKAGE_NAMES.contains(resparam.packageName)) {
+            return;
+        }
+
+        PreferencesHelper.init();
+        resparam.res.setReplacement(resparam.packageName, "color", "outline_color", PreferencesHelper.glowColor);
+    }
 }
