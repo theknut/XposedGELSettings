@@ -82,7 +82,7 @@
     <string name="toast_desktop_locked">l\'écran d\'accueil est bloqué !</string>
     <string name="toast_fail">Oh !&#8230; ça n\'a pas marché :-S\nRegardez le logcat!</string>
     <string name="pref_switch_appdock_title">Masquer le dock</string>
-    <string name="pref_switch_appdock_summary"></string>
+    <string name="pref_switch_appdock_summary">Masquer le dock automatiquement</string>
     <string name="pref_lock_desktop_title">Verrouiller l\'écran d\'accueil</string>
     <string name="pref_lock_desktop_summary">Empêche une modification accidentelle en verrouillant l\'écran d\'accueil</string>
     <string name="pref_continuous_scroll_title">Défilement infini</string>
@@ -198,7 +198,7 @@
     <!-- V1.6 -->
     <string name="pref_debug">Activer le débug logging</string>
     <string name="pref_send_bugreport">Envoyer un rapport de bug</string>
-    <string name="toast_no_log_found">debug.log non trouvé sur Xposed Installer</string>
+    <string name="toast_no_log_found">error.log non trouvé sur Xposed Installer</string>
     <string name="alert_debug_logging_activated_title">Debug logging activé!</string>
     <string name="alert_debug_logging_activated_summary">Debug logging est maintenant activé. Merci de reproduire l\'erreur et d\'envoyer le debug log.</string>
     <string name="alert_debug_logging_not_activated_title">Le debug logging n\'est pas activé!</string>
@@ -316,7 +316,7 @@
     
     <!-- V1.8.4 -->
     <string name="pref_enable_l_launcher_title">Android L thème</string>
-    <string name="pref_enable_l_launcher_summary">Utilise le thème du launcher d'Android L (Recherche Google 3.5+ ). Ne modifie ni la barre de navigation, ni les icônes des applications.</string>
+    <string name="pref_enable_l_launcher_summary">Utilise le thème du launcher d\'Android L (Recherche Google 3.5+ ). Ne modifie ni la barre de navigation, ni les icônes des applications.</string>
 
     <!-- V1.9 -->
     <string name="pref_hide_workspace_shadow_title">Ombres sur l\'écran d\'accueil</string>
@@ -337,14 +337,14 @@
     <string name="dont_show_again">Ne plus afficher</string>
     <string name="success">Réussi</string>
     <string name="failed">Echec</string>
-    <string name="active_manually">Euh&#823; ça n'a pas marché. Activez XGELS depuis Xposed Installer et redémarrez !</string>
+    <string name="active_manually">Euh&#823; ça n\'a pas marché. Activez XGELS depuis Xposed Installer et redémarrez !</string>
     <string name="continue_text">Continuer</string>
     <string name="quicksettings_desktop_locked">Bureau vérouillé</string>
     <string name="quicksettings_desktop_unlocked">Bureau déverouillé</string>
     <string name="pref_cat_quicksettings_title">Tuiles des paramètres rapides</string>
     <string name="pref_cat_quicksettings_lock_desktop_title">Tuile de verouillage du bureau</string>
     <string name="pref_cat_quicksettings_lock_desktop_summary">Ajoute une tuile permettant de verouiller et déverouiller le bureau depuis les paramètres rapides.</string>
-    <string name="pref_quicksettings_explain_summary">Ne fonctionne que sur les ROMS Stock ou AOSP !\nPeut ne pas fonctionner à cause d'un autre module ou de votre ROM.</string>
+    <string name="pref_quicksettings_explain_summary">Ne fonctionne que sur les ROMs Stock ou AOSP !\nPeut ne pas fonctionner à cause d\'un autre module ou de votre ROM.</string>
 
     <!-- V1.9.1 -->
     <string name="pref_searchbar_style_title">Thème de la barre de recherche</string>
