@@ -13,9 +13,12 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.view.View;
@@ -52,29 +55,29 @@ import static de.robv.android.xposed.XposedHelpers.newInstance;
 import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
 public class IconHooks extends HooksBaseClass {
-    
+
     static IconPack iconPack;
     static boolean hasCalendarIcon;
-    
+
     static BroadcastReceiver autoapplyReceiver = new BroadcastReceiver() {
-        
+
         @Override
         public void onReceive(Context context, Intent intent) {
             String pkg = intent.getDataString().replace("package:", "");
             List<String> packages = CommonUI.getIconPacks(context);
-            
+
             if (intent.getAction().equals(Intent.ACTION_PACKAGE_ADDED)) {
                 if (!packages.contains(pkg)) return;
-                
+
                 if (!intent.getBooleanExtra(Intent.EXTRA_REPLACING, false)
-                    && PreferencesHelper.iconPackAutoApply) {
+                        && PreferencesHelper.iconPackAutoApply) {
                     savePackageName(pkg, context);
                     killLauncher();
                 }
             } else if (intent.getAction().equals(Intent.ACTION_PACKAGE_REPLACED)) {
                 if (!packages.contains(pkg)) return;
                 if (PreferencesHelper.iconPackAutoApply
-                    && pkg.equals(PreferencesHelper.prefs.getString("iconpack", ""))) {
+                        && pkg.equals(PreferencesHelper.prefs.getString("iconpack", ""))) {
                     killLauncher();
                 }
             } else if (intent.getAction().equals(Intent.ACTION_PACKAGE_REMOVED)) {
@@ -82,24 +85,24 @@ public class IconHooks extends HooksBaseClass {
                     savePackageName(Common.ICONPACK_DEFAULT, context);
                     killLauncher();
                 }
-            }           
+            }
         }
-        
+
         void savePackageName(String pkg, Context context) {
             Intent i = new Intent(Common.XGELS_ACTION_SAVE_ICONPACK);
             i.putExtra("PACKAGENAME", pkg);
             context.sendBroadcast(i);
         }
     };
-    
+
     static BroadcastReceiver updateCalendarReceiver = new BroadcastReceiver() {
-        
+
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (action.equals(Intent.ACTION_DATE_CHANGED)
-                || action.equals(Intent.ACTION_TIME_CHANGED)
-                || action.equals(Intent.ACTION_TIMEZONE_CHANGED)) {
+                    || action.equals(Intent.ACTION_TIME_CHANGED)
+                    || action.equals(Intent.ACTION_TIMEZONE_CHANGED)) {
 
                 if (IconPack.getDayOfMonth() != Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) {
                     iconPack.onDateChanged();
@@ -109,8 +112,8 @@ public class IconHooks extends HooksBaseClass {
             }
         }
     };
-    
-	public static void initAllHooks(LoadPackageParam lpparam) {
+
+    public static void initAllHooks(LoadPackageParam lpparam) {
 
         if (PreferencesHelper.iconpack == Common.ICONPACK_DEFAULT) {
 
@@ -220,38 +223,38 @@ public class IconHooks extends HooksBaseClass {
         } else {
             findAndHookMethod(Classes.IconCache, Methods.icCacheLocked, ComponentName.class, ResolveInfo.class, HashMap.class, cacheLockedHook);
         }
-		
-		findAndHookMethod(Classes.IconCache, Methods.icGetFullResIcon, Resources.class, Integer.TYPE, new XC_MethodHook() {
-            
-		    final int RESOURCES = 0;
-		    final int ICONRESID = 1;
+
+        findAndHookMethod(Classes.IconCache, Methods.icGetFullResIcon, Resources.class, Integer.TYPE, new XC_MethodHook() {
+
+            final int RESOURCES = 0;
+            final int ICONRESID = 1;
             long time;
-		    
-		    @Override
+
+            @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 time = System.currentTimeMillis();
-		        if (!initIconPack(param)) return;
-		        int resID = (Integer) param.args[ICONRESID];
-		        
-		        if (resID == 0) {
-		            String msg = "Some of your homescreen icons couldn't be themed. Please delete the shortcut from the homescreen and add it from the app drawer again.";
-		            NotificationCompat.BigTextStyle notiStyle = new NotificationCompat.BigTextStyle();
-		            notiStyle.setBigContentTitle("Oh snap!");
-		            notiStyle.bigText(msg);
-		            
-		            Context ctx = Common.LAUNCHER_CONTEXT.createPackageContext(Common.PACKAGE_NAME, Context.CONTEXT_IGNORE_SECURITY);
-		            NotificationCompat.Builder builder = new NotificationCompat.Builder(ctx)
-		            .setContentTitle("Oh snap!")
-		            .setContentText(msg)
-		            .setTicker("Something went wrong :-\\")
-		            .setAutoCancel(true)
-		            .setStyle(notiStyle)
-		            .setSmallIcon(R.drawable.ic_launcher);
+                if (!initIconPack(param)) return;
+                int resID = (Integer) param.args[ICONRESID];
 
-		            ((NotificationManager) Common.LAUNCHER_CONTEXT.getSystemService(Context.NOTIFICATION_SERVICE)).notify(null, 0, builder.build());
-		            return;
-		        }
-		        
+                if (resID == 0) {
+                    String msg = "Some of your homescreen icons couldn't be themed. Please delete the shortcut from the homescreen and add it from the app drawer again.";
+                    NotificationCompat.BigTextStyle notiStyle = new NotificationCompat.BigTextStyle();
+                    notiStyle.setBigContentTitle("Oh snap!");
+                    notiStyle.bigText(msg);
+
+                    Context ctx = Common.LAUNCHER_CONTEXT.createPackageContext(Common.PACKAGE_NAME, Context.CONTEXT_IGNORE_SECURITY);
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(ctx)
+                            .setContentTitle("Oh snap!")
+                            .setContentText(msg)
+                            .setTicker("Something went wrong :-\\")
+                            .setAutoCancel(true)
+                            .setStyle(notiStyle)
+                            .setSmallIcon(R.drawable.ic_launcher);
+
+                    ((NotificationManager) Common.LAUNCHER_CONTEXT.getSystemService(Context.NOTIFICATION_SERVICE)).notify(null, 0, builder.build());
+                    return;
+                }
+
                 Resources res = (Resources) param.args[RESOURCES];
                 String pkg = res.getResourcePackageName(resID);
                 if (pkg.equals("android")) return;
@@ -272,7 +275,7 @@ public class IconHooks extends HooksBaseClass {
                         icon = pkgMgr.getApplicationInfo(pkg, 0).loadIcon(pkgMgr);
                         Bitmap tmpIcon = (Bitmap) callStaticMethod(Classes.Utilities, Methods.uCreateIconBitmap, icon, iconPack.getContext());
                         Bitmap tmpFinalIcon = iconPack.themeIcon(tmpIcon);
-                        
+
                         icon = new BitmapDrawable(iconPack.getResources(), tmpFinalIcon);
                         Icon newIcon = new Icon(pkg, icon);
                         iconPack.getIcons().add(newIcon);
@@ -280,7 +283,7 @@ public class IconHooks extends HooksBaseClass {
                         if (DEBUG) log("Res R: Loaded Themed Icon Replacement for " + pkg + " took " + (System.currentTimeMillis() - time) + "ms");
                     } catch (NameNotFoundException nnfe) {
                         if (DEBUG) log("Res R: Couldn't load Icon Replacement for " + pkg);
-                    }                    
+                    }
                 } else {
                     param.setResult(icon);
                     if (DEBUG) log("Res R: Loaded Icon Replacement for " + pkg + " took " + (System.currentTimeMillis() - time) + "ms");
@@ -353,15 +356,30 @@ public class IconHooks extends HooksBaseClass {
                         protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                             Object tag = ((View) param.args[0]).getTag();
                             if (param.args[0] instanceof TextView
-                                && (!getBooleanField(param.args[3], Fields.cllpCanReorder) || (tag != null && getIntField(tag, Fields.iiItemType) == ITEM_TYPE_ALLAPPS))) {
+                                    && (!getBooleanField(param.args[3], Fields.cllpCanReorder) || (tag != null && getIntField(tag, Fields.iiItemType) == ITEM_TYPE_ALLAPPS))) {
                                 if (DEBUG) log(param, "theme all apps button");
 
                                 Drawable icon = iconPack.loadIcon("all_apps_button_icon");
                                 if (icon != null) {
+
+                                    Bitmap tmpIcon = CommonUI.drawableToBitmap(icon);
+                                    Bitmap iconPressed = Bitmap.createBitmap(tmpIcon.getWidth(), tmpIcon.getHeight(), Bitmap.Config.ARGB_8888);
+
+                                    Canvas c = new Canvas(iconPressed);
+                                    Paint p = new Paint();
+                                    p.setAlpha(128);
+                                    c.drawBitmap(tmpIcon, 0, 0, p);
+
+                                    Drawable pressedIcon = new BitmapDrawable(iconPressed);
+                                    StateListDrawable states = new StateListDrawable();
+                                    states.addState(new int[] {android.R.attr.state_pressed}, pressedIcon);
+                                    states.addState(new int[] {android.R.attr.state_focused}, pressedIcon);
+                                    states.addState(new int[] { }, icon);
+
                                     TextView allAppsButton = (TextView) param.args[0];
                                     Rect bounds = allAppsButton.getCompoundDrawables()[1].copyBounds();
-                                    icon.setBounds(bounds);
-                                    allAppsButton.setCompoundDrawables(null, icon, null, null);
+                                    states.setBounds(bounds);
+                                    allAppsButton.setCompoundDrawables(null, states, null, null);
                                 } else {
                                     if (DEBUG) log(param, "Couldn't load icon for all apps button");
                                 }
@@ -386,13 +404,13 @@ public class IconHooks extends HooksBaseClass {
                 }
             }
         });
-	}
-	
-	public static boolean initIconPack(MethodHookParam param) throws NameNotFoundException {
-	    if (Common.LAUNCHER_CONTEXT == null) { return false; }
-        
-	    if (iconPack == null) {
-	        IntentFilter intentFilter = new IntentFilter();
+    }
+
+    public static boolean initIconPack(MethodHookParam param) throws NameNotFoundException {
+        if (Common.LAUNCHER_CONTEXT == null) { return false; }
+
+        if (iconPack == null) {
+            IntentFilter intentFilter = new IntentFilter();
             intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
             intentFilter.addAction(Intent.ACTION_PACKAGE_REPLACED);
             intentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED);
@@ -408,13 +426,13 @@ public class IconHooks extends HooksBaseClass {
 
             iconPack.loadSelectedIcons(PreferencesHelper.selectedIcons);
             checkCalendarApps();
-	    }
-        
+        }
+
         return true;
-	}
-	
-	public static void checkCalendarApps() {
-	    boolean hasThemedCalendarIcon = false;
+    }
+
+    public static void checkCalendarApps() {
+        boolean hasThemedCalendarIcon = false;
 
         for (ResolveInfo r : getCalendars()) {
             if (r.activityInfo.metaData != null) {
@@ -426,23 +444,23 @@ public class IconHooks extends HooksBaseClass {
                                 hasThemedCalendarIcon = true;
                             }
                         }
-                        
+
                         if (!hasThemedCalendarIcon) {
                             Context ctx = iconPack.getContext().createPackageContext(r.activityInfo.packageName, Context.CONTEXT_IGNORE_SECURITY);
                             TypedArray icons = ctx.getResources().obtainTypedArray(arrayID);
                             int iconID = icons.getResourceId(IconPack.getDayOfMonth() - 1, 29);
                             Drawable icon = ctx.getResources().getDrawable(iconID);
-                            
+
                             if (iconPack.shouldThemeMissingIcons()) {
                                 Bitmap tmpIcon = Blur.drawableToBitmap(icon);
-                                Bitmap finalIcon = iconPack.themeIcon(tmpIcon);                                
+                                Bitmap finalIcon = iconPack.themeIcon(tmpIcon);
                                 icon = new BitmapDrawable(iconPack.getResources(), finalIcon);
                             }
 
                             iconPack.getIcons().add(new Icon(r.activityInfo.packageName, icon, true));
                             icons.recycle();
                         }
-                        
+
                         hasCalendarIcon = true;
                     } catch (NameNotFoundException e) {
                         e.printStackTrace();
@@ -450,7 +468,7 @@ public class IconHooks extends HooksBaseClass {
                 }
             }
         }
-        
+
         if (hasCalendarIcon) {
             IntentFilter intentFilter = new IntentFilter();
             intentFilter.addAction(Intent.ACTION_TIME_CHANGED);
@@ -460,7 +478,7 @@ public class IconHooks extends HooksBaseClass {
             if (DEBUG) log("Has Calendar app");
         }
     }
-	
+
     static void killLauncher() {
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -470,7 +488,7 @@ public class IconHooks extends HooksBaseClass {
             }
         }, 5000);
     }
-    
+
     @SuppressWarnings({ "rawtypes", "rawtypes", "unchecked" })
     static void updateIcons() {
         long time = System.currentTimeMillis();
