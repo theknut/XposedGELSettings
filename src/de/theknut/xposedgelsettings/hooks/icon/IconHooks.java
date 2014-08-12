@@ -367,7 +367,7 @@ public class IconHooks extends HooksBaseClass {
 
                                     Canvas c = new Canvas(iconPressed);
                                     Paint p = new Paint();
-                                    p.setAlpha(128);
+                                    p.setAlpha(0x80);
                                     c.drawBitmap(tmpIcon, 0, 0, p);
 
                                     Drawable pressedIcon = new BitmapDrawable(iconPressed);
@@ -505,7 +505,7 @@ public class IconHooks extends HooksBaseClass {
                 );
             } catch (NoSuchMethodError nsme) {
                 Intent i = Common.LAUNCHER_CONTEXT.getPackageManager().getLaunchIntentForPackage(r.activityInfo.packageName);
-                appsToUpdate.add(callMethod(Common.LAUNCHER_INSTANCE, "d", i));
+                appsToUpdate.add(callMethod(Common.LAUNCHER_INSTANCE, Methods.lCreateAppInfo, i));
             }
         }
 
