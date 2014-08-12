@@ -186,6 +186,9 @@ public class GestureHooks extends GestureHelper {
 						case MotionEvent.ACTION_DOWN:
 							downY = ev.getRawY();
 							downX = ev.getRawX();
+							
+							break;
+						case MotionEvent.ACTION_UP:
 
                             mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, Fields.lHotseat);
 
@@ -203,9 +206,6 @@ public class GestureHooks extends GestureHelper {
                                     hideAppdock(animateDuration);
                                 }
                             }
-							
-							break;
-						case MotionEvent.ACTION_UP:
 
                             // user probably switched pages
                             if (getBooleanField(Common.WORKSPACE_INSTANCE, Fields.pvIsPageMoving)) return;
