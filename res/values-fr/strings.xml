@@ -184,7 +184,7 @@
     <string name="pref_switch_gesture_double_tap_summary">Exclure les dossiers et les widgets</string>
     <string name="pref_cat_gesture_down_title">Glissement vers le bas</string>
     <string name="pref_cat_gesture_up_title">Glissement vers le haut</string>
-    <string name="pref_gesture_down_left_title">Glisssemnt bas-gauche</string>
+    <string name="pref_gesture_down_left_title">Glisssement bas-gauche</string>
     <string name="pref_gesture_down_middle_title">Glissement milieu-bas</string>
     <string name="pref_gesture_down_right_title">Glissement bas-droit</string>
     <string name="pref_gesture_up_left_title">Glissement haut-gauche</string>
@@ -297,6 +297,7 @@
     <string name="pref_show_google_search_bar_homescreen_title">Ecran d\'accueil par défaut</string>
     <string name="pref_show_google_search_bar_homescreen_summary">Montre la barre de recherche sur l\'écran d\'accueil par défaut</string>
 
+    <!-- V1.8 -->
     <string name="pref_icon_hide_icon_packs_title">Masquer les pack d\'icônes</string>
     <string name="pref_icon_hide_icon_packs_summary">Masque automatiquement les pack d\'icônes du drawer</string>
     <string name="pref_icon_perappicon_title">Changement individuel des icônes</string>
@@ -312,4 +313,41 @@
     <string name="pref_overridesettings_button_summary">Ouvre XGELS au lieu des paramètres de Google Now</string>
 
     <string name="pref_icon_reset_all">Tout remettre à zéro</string>
+    
+    <!-- V1.8.4 -->
+    <string name="pref_enable_l_launcher_title">Android L thème</string>
+    <string name="pref_enable_l_launcher_summary">Utilise le thème du launcher d'Android L (Recherche Google 3.5+ ). Ne modifie ni la barre de navigation, ni les icônes des applications.</string>
+
+    <!-- V1.9 -->
+    <string name="pref_hide_workspace_shadow_title">Ombres sur l\'écran d\'accueil</string>
+    <string name="pref_hide_workspace_shadow_summary">Masque les ombres visibles en mode immersif.</string>
+    <string name="pref_switch_unlimited_folder_size_title">Dossiers infinis</string>
+    <string name="pref_always_show_ok_google_title">Ok Google</string>
+    <string name="pref_always_show_ok_google_summary">Toujours afficher \"Ok Google\"</string>
+    <string name="pref_glow_color_title">Couleur de pression</string>
+    <string name="pref_glow_color_summary">Couleur s\'affichant en pressant un icône</string>
+    <string name="hide_app_switch_label">Masquer du drawer</string>
+    <string name="default_text">Par défaut</string>
+    <string name="pref_cat_system_bars_title">Barres systèmes</string>
+    <string name="pref_transparent_system_bars_title">Barres systèmes transparentes</string>
+    <string name="pref_transparent_system_bars_summary">Utilise la transparence des barres systèmes d\'Android L (Android 4.4+)</string>
+    <string name="module_not_from_google_play">Module non installé depuis le Google Play Store!</string>
+    <string name="module_not_from_google_play_msg">XGELS n\'a pas été installé depuis le Google Play Store! Faîtes-le pour acheter la version Premium et recevoir automatiquement les mises à jours.</string>
+    <string name="open_play_store">Ouvrir le Play Store</string>
+    <string name="dont_show_again">Ne plus afficher</string>
+    <string name="success">Réussi</string>
+    <string name="failed">Echec</string>
+    <string name="active_manually">Euh&#823; ça n'a pas marché. Activez XGELS depuis Xposed Installer et redémarrez !</string>
+    <string name="continue_text">Continuer</string>
+    <string name="quicksettings_desktop_locked">Bureau vérouillé</string>
+    <string name="quicksettings_desktop_unlocked">Bureau déverouillé</string>
+    <string name="pref_cat_quicksettings_title">Tuiles des paramètres rapides</string>
+    <string name="pref_cat_quicksettings_lock_desktop_title">Tuile de verouillage du bureau</string>
+    <string name="pref_cat_quicksettings_lock_desktop_summary">Ajoute une tuile permettant de verouiller et déverouiller le bureau depuis les paramètres rapides.</string>
+    <string name="pref_quicksettings_explain_summary">Ne fonctionne que sur les ROMS Stock ou AOSP !\nPeut ne pas fonctionner à cause d'un autre module ou de votre ROM.</string>
+
+    <!-- V1.9.1 -->
+    <string name="pref_searchbar_style_title">Thème de la barre de recherche</string>
+    <string name="pref_contextmenu_mode_title">Menu contextuel</string>
+    
 </resources>
