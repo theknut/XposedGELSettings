@@ -23,6 +23,7 @@ import de.theknut.xposedgelsettings.hooks.homescreen.HomescreenHooks;
 import de.theknut.xposedgelsettings.hooks.icon.IconHooks;
 import de.theknut.xposedgelsettings.hooks.notificationbadges.NotificationBadgesHooks;
 import de.theknut.xposedgelsettings.hooks.pagindicator.PageIndicatorHooks;
+import de.theknut.xposedgelsettings.hooks.resourcereplacements.ResourceReplacements;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
@@ -31,35 +32,35 @@ import static de.robv.android.xposed.XposedHelpers.findClass;
 
 public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage, IXposedHookInitPackageResources {
 
-	@Override
-	public void handleLoadPackage(final LoadPackageParam lpparam) throws Throwable {
+    @Override
+    public void handleLoadPackage(final LoadPackageParam lpparam) throws Throwable {
 
-		// only hook to supported launchers		
-		if (lpparam.packageName.equals(Common.PACKAGE_NAME)) {
+        // only hook to supported launchers
+        if (lpparam.packageName.equals(Common.PACKAGE_NAME)) {
 
-			// tells the UI that the module is active and running
-			findAndHookMethod(Common.PACKAGE_NAME + ".ui.FragmentWelcome", lpparam.classLoader, "isXGELSActive", XC_MethodReplacement.returnConstant(true));			
-			return;
+            // tells the UI that the module is active and running
+            findAndHookMethod(Common.PACKAGE_NAME + ".ui.FragmentWelcome", lpparam.classLoader, "isXGELSActive", XC_MethodReplacement.returnConstant(true));
+            return;
 
-		} else if (lpparam.packageName.equals("com.android.systemui")) {
+        } else if (lpparam.packageName.equals("com.android.systemui")) {
 
             PreferencesHelper.init();
-			SystemUIReceiver.initAllHooks(lpparam);
+            SystemUIReceiver.initAllHooks(lpparam);
             QuickSettings.initAllHooks(lpparam);
-			return;
+            return;
 
-		} else if (lpparam.packageName.equals("com.android.settings")) {
+        } else if (lpparam.packageName.equals("com.android.settings")) {
 
             PreferencesHelper.init();
             AppInfo.initAllHooks(lpparam);
             return;
 
         } else if (!Common.PACKAGE_NAMES.contains(lpparam.packageName)) {
-			return;
-		}
+            return;
+        }
 
         int versionIdx;
-		Common.HOOKED_PACKAGE = lpparam.packageName;
+        Common.HOOKED_PACKAGE = lpparam.packageName;
         if (PreferencesHelper.Debug) XposedBridge.log("XGELS: GELSettings.handleLoadPackage: hooked package -> " + lpparam.packageName);
 
         if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE)) {
@@ -99,7 +100,7 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
         GestureHooks.initAllHooks(lpparam);
         NotificationBadgesHooks.initAllHooks(lpparam);
         IconHooks.initAllHooks(lpparam);
-	}
+    }
 
     @Override
     public void handleInitPackageResources(InitPackageResourcesParam resparam) throws Throwable {
@@ -108,6 +109,6 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
         }
 
         PreferencesHelper.init();
-        resparam.res.setReplacement(resparam.packageName, "color", "outline_color", PreferencesHelper.glowColor);
+        ResourceReplacements.initAllReplacements(resparam);
     }
 }
