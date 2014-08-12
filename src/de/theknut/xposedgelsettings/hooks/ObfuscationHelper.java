@@ -1,7 +1,6 @@
 package de.theknut.xposedgelsettings.hooks;
 
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
-
 import static de.robv.android.xposed.XposedHelpers.findClass;
 
 public class ObfuscationHelper extends HooksBaseClass {
@@ -32,9 +31,9 @@ public class ObfuscationHelper extends HooksBaseClass {
         long time = System.currentTimeMillis();
 
         ClassNames.initNames(versionIdx);
-        Classes.hookAllClasses(lpparam);
         Methods.initMethodNames(versionIdx);
         Fields.initFieldNames(versionIdx);
+        Classes.hookAllClasses(lpparam);
 
         if (DEBUG) log("Initialized ObfuscationHelper in " + (System.currentTimeMillis() - time) + "ms");
     }
@@ -98,106 +97,55 @@ public class ObfuscationHelper extends HooksBaseClass {
                 launcherPackage = "com.android.launcher2.";
             }
 
-            String[] _LAUNCHER = {launcherPackage + "Launcher", launcherPackage + "Launcher", launcherPackage + "Launcher", launcherPackage + "Launcher"},
-                    _WORKSPACE = {launcherPackage + "Workspace", launcherPackage + "Workspace", launcherPackage + "Workspace", launcherPackage + "Workspace"},
-                    _WORKSPACE_STATE = {_WORKSPACE[0] + "$State", "zc", "aco", "adq"},
-                    _DEVICE_PROFILE = {launcherPackage + "DeviceProfile", "mz", "qi", "rj"}, // All Device Profiles must have
-                    _CELL_LAYOUT = {launcherPackage + "CellLayout", launcherPackage + "CellLayout", launcherPackage + "CellLayout", launcherPackage + "CellLayout"},
-                    _CELL_LAYOUT_CELL_INFO = {_CELL_LAYOUT[0] + "$CellInfo", "lz", "pi", "qj"}, // Cell[=view
-                    _CELL_LAYOUT_LAYOUT_PARAMS = {_CELL_LAYOUT[0] + "$LayoutParams", _CELL_LAYOUT[0] + "$LayoutParams", _CELL_LAYOUT[0] + "$LayoutParams", _CELL_LAYOUT[0] + "$LayoutParams"},
-                    _PAGED_VIEW = {launcherPackage + "PagedView", launcherPackage + "PagedView", launcherPackage + "PagedView", launcherPackage + "PagedView"},
-                    _PAGED_VIEW_ICON = {launcherPackage + "PagedViewIcon", launcherPackage + "PagedViewIcon", launcherPackage + "PagedViewIcon", launcherPackage + "PagedViewIcon"},
-                    _PAGED_VIEW_CELL_LAYOUT = {launcherPackage + "PagedViewCellLayout", "vd", "yo", "zq"}, // CellLayout cannot have UNSPECIFIED dimensions" the one with more members
-                    _PAGED_VIEW_WITH_DRAGGABLE_ITEMS = {launcherPackage + "PagedViewWithDraggableItems", "vl", "yw", "zy"}, // AppsCustomizePagedView extends
-                    _APPS_CUSTOMIZE_CELL_LAYOUT = {launcherPackage + "AppsCustomizeCellLayout", "kw", "yr", "zt"}, // "Invalid ContentType" in AppsCostumize - getChildCount
-                    _APPS_CUSTOMIZE_LAYOUT = {launcherPackage + "AppsCustomizeLayout", launcherPackage + "AppsCustomizeLayout", launcherPackage + "AppsCustomizeLayout", launcherPackage + "AppsCustomizeLayout"}, // Trebuchet only
-                    _APPS_CUSTOMIZE_PAGED_VIEW = {launcherPackage + "AppsCustomizePagedView", launcherPackage + "AppsCustomizePagedView", launcherPackage + "AppsCustomizePagedView", launcherPackage + "AppsCustomizePagedView"},
-                    _APPS_CUSTOMIZE_TAB_HOST = {launcherPackage + "AppsCustomizeTabHost", launcherPackage + "AppsCustomizeTabHost", launcherPackage + "AppsCustomizeTabHost", launcherPackage + "AppsCustomizeTabHost"},
-                    _APPS_CUSTOMIZE_CONTENT_TYPE = {_APPS_CUSTOMIZE_PAGED_VIEW[0] + "$ContentType", "lf", "oo", "pp"},
-                    _WALLPAPEROFFSETINTERPOLATOR = {_WORKSPACE[0] + "$WallpaperOffsetInterpolator", "zd", "acp", "adr"}, // Error updating wallpaper offset
-                    _FOLDER = {launcherPackage + "Folder", launcherPackage + "Folder", launcherPackage + "Folder", launcherPackage + "Folder"},
-                    _FOLDER_ICON = {launcherPackage + "FolderIcon", launcherPackage + "FolderIcon", launcherPackage + "FolderIcon", launcherPackage + "FolderIcon"},
-                    _HOTSEAT = {launcherPackage + "Hotseat", launcherPackage + "Hotseat", launcherPackage + "Hotseat", launcherPackage + "Hotseat"},
-                    _START_SETTINGS_ONCLICK = { "", "pu", "td", "ue"}, // in onCreate first setOnClickListener after in if-clause
-                    _DRAG_SOURCE = {launcherPackage + "DragSource", "nn", "qw", "rx"}, // first parameter in onDragStart of SearchDropTargetBar
-                    _ITEM_INFO = {launcherPackage + "ItemInfo", "pr", "ta", "ub"}, // Item(id=
-                    _APP_INFO = {launcherPackage + "AppInfo", "kr", "ob", "pc"}, // firstInstallTime=
-                    _SHORTCUT_INFO = {launcherPackage + "ShortcutInfo", "vz", "zl", "aan"}, // ShortcutInfo(title=
-                    _SEARCH_DROP_TARGET_BAR = {launcherPackage + "SearchDropTargetBar", launcherPackage + "SearchDropTargetBar", launcherPackage + "SearchDropTargetBar", launcherPackage + "SearchDropTargetBar"},
-                    _ICON_CACHE = {launcherPackage + "IconCache", "pk", "ss", "tt"}, // using preloaded icon for
-                    _UTILITIES = {launcherPackage + "Utilities", "wi", "zu", "aaw"}, // Launcher.Utilities
-                    _CACHE_ENTRY = {_ICON_CACHE[0] + "$CacheEntry", "pl", "st", "tu"}, // new HashMap(50)
-                    _LAUNCHER_MODEL = {launcherPackage + "LauncherModel", "sg", "vq", "ws"}, // Error: ItemInfo passed to checkItemInfo doesn't match original
-                    _LOADER_TASK = {_LAUNCHER_MODEL[0] + "$LoaderTask", "tb", "wl", "xn"}, // Should not call runBindSynchronousPage
-                    _FOLDER_INFO = {launcherPackage + "FolderInfo", "oz", "sh", "ti"}, // FolderInfo(id=
-                    _LAUNCHER_APP_STATE = {launcherPackage + "LauncherAppState", "rr", "vb", "wd"}, // Folder onMeasure
-                    _APP_WIDGET_RESIZE_FRAME = {launcherPackage + "AppWidgetResizeFrame", "ks", "oc", "pd"}, // in AppsCustomizePagedView search for Bundle its below if (....17)
-                    _ITEM_CONFIGURATION = {_CELL_LAYOUT[0] + "$ItemConfiguration", "ma", "pj", "qk"}, // in CellLayout Math.abs(paramArrayOfInt[0])
-                    _LAUNCHER_APPWIDGET_INFO = {launcherPackage + "LauncherAppWidgetInfo", "rv", "vf", "wh"}, // AppWidget(id=
-                    _DRAG_LAYER = {launcherPackage + "DragLayer", launcherPackage + "DragLayer", launcherPackage + "DragLayer", launcherPackage + "DragLayer"},
-                    _LAUNCHER_APP_WIDGET_HOST_VIEW = {launcherPackage + "LauncherAppWidgetHostView", "ru", "ve", "wg"}, // in Workspace "getAppWidgetInfo"
-                    _BUBBLE_TEXT_VIEW = {launcherPackage + "BubbleTextView", launcherPackage + "BubbleTextView", launcherPackage + "BubbleTextView", launcherPackage + "BubbleTextView"},
-                    _USER_HANDLE = {"", "", "adl", "aen"}, // last parameter in IconCache "cacheLocked"
-                    _ADB = {"", "", "adb", "aed"},
-                    _GEL = {"com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL"},
-                    _NOW_OVERLAY = {"com.google.android.sidekick.shared.client.NowOverlay", "dzk", "enc", "evx"}, // now_overlay:views_hidden_for_search
-                    _SEARCH_OVERLAY_IMPL = {"com.google.android.search.gel.SearchOverlayImpl", "ccu", "cmh", "cuc"}, // hammerhead
-                    _GSA_CONFIG_FLAGS = {"com.google.android.search.core.GsaConfigFlags", "ayc", "bgr", "bnj"}, // Unknown string array encoding
-                    _RECOGNIZER_VIEW = {"com.google.android.search.shared.ui.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView"},
-                    _SEARCH_PLATE = {"com.google.android.search.shared.ui.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate"},
-                    _TRANSITIONS_MANAGER = {"com.google.android.search.shared.ui.SearchPlate$TransitionsManager", "cen", "cog", "cwb"}, // onLayout - SearchPlate
-                    _GEL_SEARCH_PLATE_CONTAINER = {"com.google.android.search.gel.GelSearchPlateContainer", "com.google.android.search.gel.GelSearchPlateContainer", "com.google.android.search.gel.GelSearchPlateContainer", "com.google.android.search.gel.GelSearchPlateContainer"};
-
-
-            LAUNCHER = _LAUNCHER[idx];
-            WORKSPACE = _WORKSPACE[idx];
-            WORKSPACE_STATE = _WORKSPACE_STATE[idx];
-            DEVICE_PROFILE = _DEVICE_PROFILE[idx];
-            CELL_LAYOUT = _CELL_LAYOUT[idx];
-            CELL_LAYOUT_CELL_INFO = _CELL_LAYOUT_CELL_INFO[idx];
-            CELL_LAYOUT_LAYOUT_PARAMS = _CELL_LAYOUT_LAYOUT_PARAMS[idx];
-            PAGED_VIEW = _PAGED_VIEW[idx];
-            PAGED_VIEW_ICON = _PAGED_VIEW_ICON[idx];
-            PAGED_VIEW_CELL_LAYOUT = _PAGED_VIEW_CELL_LAYOUT[idx];
-            PAGED_VIEW_WITH_DRAGGABLE_ITEMS = _PAGED_VIEW_WITH_DRAGGABLE_ITEMS[idx];
-            APPS_CUSTOMIZE_CELL_LAYOUT = _APPS_CUSTOMIZE_CELL_LAYOUT[idx];
-            APPS_CUSTOMIZE_LAYOUT = _APPS_CUSTOMIZE_LAYOUT[idx];
-            APPS_CUSTOMIZE_PAGED_VIEW = _APPS_CUSTOMIZE_PAGED_VIEW[idx];
-            APPS_CUSTOMIZE_TAB_HOST = _APPS_CUSTOMIZE_TAB_HOST[idx];
-            APPS_CUSTOMIZE_CONTENT_TYPE = _APPS_CUSTOMIZE_CONTENT_TYPE[idx];
-            WALLPAPER_OFFSET_INTERPOLATOR = _WALLPAPEROFFSETINTERPOLATOR[idx];
-            FOLDER = _FOLDER[idx];
-            FOLDER_ICON = _FOLDER_ICON[idx];
-            HOTSEAT = _HOTSEAT[idx];
-            START_SETTINGS_ONCLICK = _START_SETTINGS_ONCLICK[idx];
-            DRAG_SOURCE = _DRAG_SOURCE[idx];
-            ITEM_INFO = _ITEM_INFO[idx];
-            APP_INFO = _APP_INFO[idx];
-            SHORTCUT_INFO = _SHORTCUT_INFO[idx];
-            SEARCH_DROP_TARGET_BAR = _SEARCH_DROP_TARGET_BAR[idx];
-            ICON_CACHE = _ICON_CACHE[idx];
-            UTILITIES = _UTILITIES[idx];
-            CACHE_ENTRY = _CACHE_ENTRY[idx];
-            LAUNCHER_MODEL = _LAUNCHER_MODEL[idx];
-            LOADER_TASK = _LOADER_TASK[idx];
-            FOLDER_INFO = _FOLDER_INFO[idx];
-            APP_WIDGET_RESIZE_FRAME = _APP_WIDGET_RESIZE_FRAME[idx];
-            ITEM_CONFIGURATION = _ITEM_CONFIGURATION[idx];
-            LAUNCHER_APPWIDGET_INFO = _LAUNCHER_APPWIDGET_INFO[idx];
-            DRAG_LAYER = _DRAG_LAYER[idx];
-            LAUNCHER_APP_WIDGET_HOST_VIEW = _LAUNCHER_APP_WIDGET_HOST_VIEW[idx];
-            BUBBLE_TEXT_VIEW = _BUBBLE_TEXT_VIEW[idx];
-            USER_HANDLE = _USER_HANDLE[idx];
-            ADB = _ADB[idx];
-            GEL = _GEL[idx];
-            NOW_OVERLAY = _NOW_OVERLAY[idx];
-            SEARCH_OVERLAY_IMPL = _SEARCH_OVERLAY_IMPL[idx];
-            GSA_CONFIG_FLAGS = _GSA_CONFIG_FLAGS[idx];
-            RECOGNIZER_VIEW = _RECOGNIZER_VIEW[idx];
-            SEARCH_PLATE = _SEARCH_PLATE[idx];
-            TRANSITIONS_MANAGER = _TRANSITIONS_MANAGER[idx];
-            LAUNCHER_APP_STATE = _LAUNCHER_APP_STATE[idx];
-            GEL_SEARCH_PLATE_CONTAINER = _GEL_SEARCH_PLATE_CONTAINER[idx];
+            LAUNCHER = new String[]{launcherPackage + "Launcher", launcherPackage + "Launcher", launcherPackage + "Launcher", launcherPackage + "Launcher"}[idx];
+            WORKSPACE = new String[]{launcherPackage + "Workspace", launcherPackage + "Workspace", launcherPackage + "Workspace", launcherPackage + "Workspace"}[idx];
+            WORKSPACE_STATE = new String[]{WORKSPACE + "$State", "zc", "aco", "adq"}[idx];
+            DEVICE_PROFILE = new String[]{launcherPackage + "DeviceProfile", "mz", "qi", "rj"}[idx]; // All Device Profiles must have
+            CELL_LAYOUT = new String[]{launcherPackage + "CellLayout", launcherPackage + "CellLayout", launcherPackage + "CellLayout", launcherPackage + "CellLayout"}[idx];
+            CELL_LAYOUT_CELL_INFO = new String[]{CELL_LAYOUT + "$CellInfo", "lz", "pi", "qj"}[idx]; // Cell[=view
+            CELL_LAYOUT_LAYOUT_PARAMS = new String[]{CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams"}[idx];
+            PAGED_VIEW = new String[]{launcherPackage + "PagedView", launcherPackage + "PagedView", launcherPackage + "PagedView", launcherPackage + "PagedView"}[idx];
+            PAGED_VIEW_ICON = new String[]{launcherPackage + "PagedViewIcon", launcherPackage + "PagedViewIcon", launcherPackage + "PagedViewIcon", launcherPackage + "PagedViewIcon"}[idx];
+            PAGED_VIEW_CELL_LAYOUT = new String[]{launcherPackage + "PagedViewCellLayout", "vd", "yo", "zq"}[idx]; // CellLayout cannot have UNSPECIFIED dimensions" the one with more members
+            PAGED_VIEW_WITH_DRAGGABLE_ITEMS = new String[]{launcherPackage + "PagedViewWithDraggableItems", "vl", "yw", "zy"}[idx]; // AppsCustomizePagedView extends
+            APPS_CUSTOMIZE_CELL_LAYOUT = new String[]{launcherPackage + "AppsCustomizeCellLayout", "kw", "yr", "zt"}[idx]; // "Invalid ContentType" in AppsCostumize - getChildCount
+            APPS_CUSTOMIZE_LAYOUT = new String[]{launcherPackage + "AppsCustomizeLayout", launcherPackage + "AppsCustomizeLayout", launcherPackage + "AppsCustomizeLayout", launcherPackage + "AppsCustomizeLayout"}[idx]; // Trebuchet only
+            APPS_CUSTOMIZE_PAGED_VIEW = new String[]{launcherPackage + "AppsCustomizePagedView", launcherPackage + "AppsCustomizePagedView", launcherPackage + "AppsCustomizePagedView", launcherPackage + "AppsCustomizePagedView"}[idx];
+            APPS_CUSTOMIZE_TAB_HOST = new String[]{launcherPackage + "AppsCustomizeTabHost", launcherPackage + "AppsCustomizeTabHost", launcherPackage + "AppsCustomizeTabHost", launcherPackage + "AppsCustomizeTabHost"}[idx];
+            APPS_CUSTOMIZE_CONTENT_TYPE = new String[]{APPS_CUSTOMIZE_PAGED_VIEW + "$ContentType", "lf", "oo", "pp"}[idx];
+            WALLPAPER_OFFSET_INTERPOLATOR = new String[]{WORKSPACE + "$WallpaperOffsetInterpolator", "zd", "acp", "adr"}[idx]; // Error updating wallpaper offset
+            FOLDER = new String[]{launcherPackage + "Folder", launcherPackage + "Folder", launcherPackage + "Folder", launcherPackage + "Folder"}[idx];
+            FOLDER_ICON = new String[]{launcherPackage + "FolderIcon", launcherPackage + "FolderIcon", launcherPackage + "FolderIcon", launcherPackage + "FolderIcon"}[idx];
+            HOTSEAT = new String[]{launcherPackage + "Hotseat", launcherPackage + "Hotseat", launcherPackage + "Hotseat", launcherPackage + "Hotseat"}[idx];
+            START_SETTINGS_ONCLICK = new String[]{ "", "pu", "td", "ue"}[idx]; // in onCreate first setOnClickListener after in if-clause
+            DRAG_SOURCE = new String[]{launcherPackage + "DragSource", "nn", "qw", "rx"}[idx]; // first parameter in onDragStart of SearchDropTargetBar
+            ITEM_INFO = new String[]{launcherPackage + "ItemInfo", "pr", "ta", "ub"}[idx]; // Item(id=
+            APP_INFO = new String[]{launcherPackage + "AppInfo", "kr", "ob", "pc"}[idx]; // firstInstallTime=
+            SHORTCUT_INFO = new String[]{launcherPackage + "ShortcutInfo", "vz", "zl", "aan"}[idx]; // ShortcutInfo(title=
+            SEARCH_DROP_TARGET_BAR = new String[]{launcherPackage + "SearchDropTargetBar", launcherPackage + "SearchDropTargetBar", launcherPackage + "SearchDropTargetBar", launcherPackage + "SearchDropTargetBar"}[idx];
+            ICON_CACHE = new String[]{launcherPackage + "IconCache", "pk", "ss", "tt"}[idx]; // using preloaded icon for
+            UTILITIES = new String[]{launcherPackage + "Utilities", "wi", "zu", "aaw"}[idx]; // Launcher.Utilities
+            CACHE_ENTRY = new String[]{ICON_CACHE + "$CacheEntry", "pl", "st", "tu"}[idx]; // new HashMap(50)
+            LAUNCHER_MODEL = new String[]{launcherPackage + "LauncherModel", "sg", "vq", "ws"}[idx]; // Error: ItemInfo passed to checkItemInfo doesn't match original
+            LOADER_TASK = new String[]{LAUNCHER_MODEL + "$LoaderTask", "tb", "wl", "xn"}[idx]; // Should not call runBindSynchronousPage
+            FOLDER_INFO = new String[]{launcherPackage + "FolderInfo", "oz", "sh", "ti"}[idx]; // FolderInfo(id=
+            LAUNCHER_APP_STATE = new String[]{launcherPackage + "LauncherAppState", "rr", "vb", "wd"}[idx]; // Folder onMeasure
+            APP_WIDGET_RESIZE_FRAME = new String[]{launcherPackage + "AppWidgetResizeFrame", "ks", "oc", "pd"}[idx]; // in AppsCustomizePagedView search for Bundle its below if (....17)
+            ITEM_CONFIGURATION = new String[]{CELL_LAYOUT + "$ItemConfiguration", "ma", "pj", "qk"}[idx]; // in CellLayout Math.abs(paramArrayOfInt[0])
+            LAUNCHER_APPWIDGET_INFO = new String[]{launcherPackage + "LauncherAppWidgetInfo", "rv", "vf", "wh"}[idx]; // AppWidget(id=
+            DRAG_LAYER = new String[]{launcherPackage + "DragLayer", launcherPackage + "DragLayer", launcherPackage + "DragLayer", launcherPackage + "DragLayer"}[idx];
+            LAUNCHER_APP_WIDGET_HOST_VIEW = new String[]{launcherPackage + "LauncherAppWidgetHostView", "ru", "ve", "wg"}[idx]; // in Workspace "getAppWidgetInfo"
+            BUBBLE_TEXT_VIEW = new String[]{launcherPackage + "BubbleTextView", launcherPackage + "BubbleTextView", launcherPackage + "BubbleTextView", launcherPackage + "BubbleTextView"}[idx];
+            USER_HANDLE = new String[]{"", "", "adl", "aen"}[idx]; // last parameter in IconCache "cacheLocked"
+            ADB = new String[]{"", "", "adb", "aed"}[idx];
+            GEL = new String[]{"com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL"}[idx];
+            NOW_OVERLAY = new String[]{"com.google.android.sidekick.shared.client.NowOverlay", "dzk", "enc", "evx"}[idx]; // now_overlay:views_hidden_for_search
+            SEARCH_OVERLAY_IMPL = new String[]{"com.google.android.search.gel.SearchOverlayImpl", "ccu", "cmh", "cuc"}[idx]; // hammerhead
+            GSA_CONFIG_FLAGS = new String[]{"com.google.android.search.core.GsaConfigFlags", "ayc", "bgr", "bnj"}[idx]; // Unknown string array encoding
+            RECOGNIZER_VIEW = new String[]{"com.google.android.search.shared.ui.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView"}[idx];
+            SEARCH_PLATE = new String[]{"com.google.android.search.shared.ui.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate"}[idx];
+            TRANSITIONS_MANAGER = new String[]{"com.google.android.search.shared.ui.SearchPlate$TransitionsManager", "cen", "cog", "cwb"}[idx]; // onLayout - SearchPlate
+            GEL_SEARCH_PLATE_CONTAINER = new String[]{"com.google.android.search.gel.GelSearchPlateContainer", "com.google.android.search.gel.GelSearchPlateContainer", "com.google.android.search.gel.GelSearchPlateContainer", "com.google.android.search.gel.GelSearchPlateContainer"}[idx];
         }
     }
 
@@ -395,161 +343,101 @@ public class ObfuscationHelper extends HooksBaseClass {
                 spSetProximityToNow,
                 tmSetTransitionsEnabled,
                 uIsL,
-                lasIsDisableAllApps;
+                lasIsDisableAllApps,
+                acpvGetTabHost,
+                acpvSyncAppsPageItems,
+                acpvSetContentType,
+                acpvInvalidatePageData,
+                acpvSyncPages,
+                acpvIsLayoutRtl,
+                pvGetPageAt,
+                acpvEnableHwLayersOnVisiblePages;
 
         public static void initMethodNames(int idx) {
 
-            String[] _applyFromApplicationInfo = {"applyFromApplicationInfo", "a", "a", "a"},
-                    _launcherGetApplicationContext = {"getApplicationContext", "getApplicationContext", "getApplicationContext", "getApplicationContext"},
-                    _launcherIsRotationEnabled = {"isRotationEnabled", "gC", "hr", "hA"}, // getBoolean - single line method
-                    _celllayoutAddViewToCellLayout = {"addViewToCellLayout", "a", "a", "a"}, // View paramView, int paramInt1, int paramInt2, CellLayout.LayoutParams paramLayoutParams, boolean paramBoolean
-                    _wallpaperoffsetinterpolatorSyncWithScroll = {"syncWithScroll", "kf", "la", "lf"}, // computeScroll in Workspace
-                    _workspaceStartDrag = {"startDrag", "a", "a", "a"}, // isInTouchMode
-                    _acpvOnPackagesUpdated = {"onPackagesUpdated", "a", "a", "a"}, // "can not fit on this device"
-                    _launcherGetSearchbar = {"getSearchBar", "fZ", "gO", "gX"}, // return SearchDropTargetBar in Launcher
-                    _launcherGetQsbBar = {"getQsbBar", "gw", "hl", "hu"}, // public View
-                    _pagedviewPageBeginMoving = {"pageBeginMoving", "ii", "iY", "jb"}, // above "awakenScrollBars"
-                    _pagedviewPageEndMoving = {"pageEndMoving", "ij", "iZ", "jc"}, // method above "accessibility"
-                    _sdtbOnDragStart = {"onDragStart", "a", "a", "a"}, // twice .start in the method
-                    _sdtbOnDragEnd = {"onDragEnd", "dt", "ei", "er"}, // twice .reverse
-                    _launcherHasCustomContentToLeft = {"hasCustomContentToLeft", "fL", "gA", "gJ"}, // "()) || (!" under isEmpty
-                    _hideAppsCustomizeHelper = {"hideAppsCustomizeHelper", "a", "a", "a"},
-                    _launcherShowWorkspace = {"showWorkspace", "a", "a", "a"}, // boolean paramBoolean, Runnable paramRunnable
-                    _launcherShowAllApps = {"showAllApps", "a", "a", "a"},
-                    _workspaceMoveToDefaultScreen = {"moveToDefaultScreen", "ao", "at", "at"}, // Launcher onNewIntent method call of workspace member with (true)
-                    _btvSetShadowsEnabled = {"setShadowsEnabled", "w", "z", "z"}, // invalidate
-                    _wsOverScroll = {"overScroll", "g", "g", "g"}, // (float paramFloat)
-                    _acpvOverScroll = {"overScroll", "g", "g", "g"}, // (float paramFloat)
-                    _lFinishBindingItems = {"finishBindingItems", "U", "Z", "Z"}, // hasFocus()
-                    _dpGetWorkspacePadding = {"getWorkspacePadding", "aC", "aS", "aS"}, // second method with (int paramInt)
-                    _lIsAllAppsVisible = {"isAllAppsVisible", "gs", "hh", "hq"}, // onBackPressed first method call
-                    _wGetOpenFolder = {"getOpenFolder", "jp", "kj", "kn"}, // localDragLayer.getChildCount();
-                    _wIsOnOrMovingToCustomContent = {"isOnOrMovingToCustomContent", "jJ", "kE", "kI"}, // last if-clause in Launcher onResume
-                    _wEnterOverviewMode = {"enterOverviewMode", "jO", "kJ", "kN"}, // "()) || (!this."
-                    _wMoveToCustomContentScreen = {"moveToCustomContentScreen", "ap", "au", "au"}, // Workspace "View localView = getChildAt"
-                    _pvSnapToPage = {"snapToPage", "a", "a", "a"}, // int paramInt1, int paramInt2, int paramInt3, boolean paramBoolean, TimeInterpolator paramTimeInterpolator
-                    _lOpenFolder = {"openFolder", "i", "i", "i"}, // "Opening folder ("
-                    _lCloseFolder = {"closeFolder", "gr", "hg", "hq"}, // localFolder != null
-                    _acthOnTabChanged = {"onTabChanged", "c", "c", "c"}, // setBackgroundColor
-                    _wSetCurrentPage = {"setCurrentPage", "aV", "bl", "bm"},
-                    _acpvSetCurrentPage = {"setCurrentPage", "aV", "bl", "bm"},
-                    _dpUpdateFromConfiguration = {"updateFromConfiguration", "a", "a", "a"}, // float paramFloat, int paramInt, Resources paramResources, DisplayMetrics paramDisplayMetrics
-                    _acthSetInsets = {"setInsets", "c", "c", "c"}, // (Rect
-                    _wSnapToPage = {"snapToPage", "bc", "bs", "bt"}, // in PagedView requestChildFocus
-                    _soiSetSearchStarted = {"setSearchStarted", "cs", "cI", "cI"}, // onResume before cancel()
-                    _noOnShow = {"onShow", "p", "u", "v"}, // boolean paramBoolean1, boolean paramBoolean2
-                    _wOnDragEnd = {"onDragEnd", "dt", "ei", "er"}, // only method without interface parameters with InstallShortcutReceiver
-                    _wOnDragStart = {"onDragStart", "a", "a", "a"}, // only method with interface parameters with InstallShortcutReceiver
-                    _wOnLauncherTransitionEnd = {"onLauncherTransitionEnd", "a", "a", "a"}, // (Launcher paramLauncher, boolean paramBoolean1, boolean paramBoolean2)
-                    _fOnRemove = {"onRemove", "g", "g", "g"}, // removeView(localView)
-                    _fOnAdd = {"onAdd", "f", "f", "f"}, // (1 + getItemCount()); - first line  = true
-                    _fReplaceFolderWithFinalItem = {"replaceFolderWithFinalItem", "ge", "ge", "gn"}, // if (localView != null)
-                    _fGetItemsInReadingOrder = {"getItemsInReadingOrder", "fr", "gh", "gq"}, // public final ArrayList
-                    _clGetShortcutsAndWidgets = {"getShortcutsAndWidgets", "dH", "ew", "eF"}, // getChildCount() > 0
-                    _acthGetContentTypeForTabTag = {"getContentTypeForTabTag", "j", "r", "r"}, // (String paramString)
-                    _wOnTransitionPrepare = {"onTransitionPrepare", "jR", "kM", "kR"}, // "if ((bool) && ("
-                    _siGetIntent = {"getIntent", "getIntent", "getIntent", "getIntent"},
-                    _icGetFullResIcon = {"getFullResIcon", "a", "a", "a"}, // (Resources paramResources, int paramInt)
-                    _uCreateIconBitmap = {"createIconBitmap", "a", "a", "a"}, // (Drawable paramDrawable, Context paramContext)
-                    _icCacheLocked = {"cacheLocked", "b", "a", "a"},
-                    _clMarkCellsForView = {"markCellsForView", "a", "a", "a"}, // int paramInt1, int paramInt2, int paramInt3, int paramInt4, boolean[][] paramArrayOfBoolean, boolean paramBoolean
-                    _lmCheckItemPlacement = {"checkItemPlacement", "a", "a", "a"}, // "Error loading shortcut into "
-                    _acpvBeginDragging = {"beginDragging", "n", "n", "n"}, // "instanceof PagedViewIcon" in AppsCustomizePagedView
-                    _lBindAppsUpdated = {"bindAppsUpdated", "l", "l", "l"}, // "(this, paramArrayList), false));"
-                    _lmIsShortcutInfoUpdateable = {"isShortcutInfoUpdateable", "e", "e", "e"}, // "android.intent.action.MAIN"
-                    _clAttemptPushInDirection = {"attemptPushInDirection", "b", "b", "b"}, // "if (Math.abs(paramArrayOfInt[0]) + Math.abs(paramArrayOfInt[1]) > 1)"
-                    _acpvSetApps = {"setApps", "b", "b", "b"}, // Collections.sort
-                    _acpvUpdateApps = {"updateApps", "g", "g", "g"}, // in BindAppsUpdated in Launcher
-                    _acpvRemoveApps = {"removeApps", "f", "f", "f"}, // in Launcher removeApps."(paramArrayList2)"
-                    _lSetWorkspaceBackground = {"setWorkspaceBackground", "N", "S", "S"}, // setBackground
-                    _lGetDragLayer = {"getDragLayer", "fV", "gK", "gT"}, // public final DragLayer
-                    _dlAddResizeFrame = {"addResizeFrame", "a", "a", "a"}, // (-1, -1)
-                    _gsaShouldAlwaysShowHotwordHint = {"shouldAlwaysShowHotwordHint", "uK", "xE", "yB"}, // always_show_hotword_hint
-                    _btvCreateGlowingOutline = {"createGlowingOutline", "a", "a", "a"}, // setBitmap
-                    _lmDeleteItemFromDatabase = {"deleteItemFromDatabase", "b", "b", "b"}, // (Context paramContext, ItemInfo paramta) - link to "deleting a folder"
-                    _siGetIcon = {"getIcon", "a", "a", "a"}, // public final Bitmap
-                    _lmDeleteFolderContentsFromDatabase = {"deleteFolderContentsFromDatabase", "a", "a", "a"}, // (Context paramContext, FolderInfo paramsh)
-                    _rvCanShowHotwordAnimation = {"canShowHotwordAnimation", "NH", "Se", "UC"}, // == 5
-                    _spSetProximityToNow = {"setProximityToNow", "x", "x", "x"}, // (float paramFloat) with RecognizerView
-                    _tmSetTransitionsEnabled = {"setTransitionsEnabled", "cG", "cY", "cZ"}, // (4)
-                    _uIsL = {"", "", "jO", "jS"},
-                    _lasIsDisableAllApps = {"isDisableAllApps", "ha", "hS", "hW"};
-
-            applyFromApplicationInfo = _applyFromApplicationInfo[idx];
-            lGetApplicationContext = _launcherGetApplicationContext[idx];
-            lIsRotationEnabled = _launcherIsRotationEnabled[idx];
-            clAddViewToCellLayout = _celllayoutAddViewToCellLayout[idx];
-            woiSyncWithScroll = _wallpaperoffsetinterpolatorSyncWithScroll[idx];
-            wStartDrag = _workspaceStartDrag[idx];
-            acpvOnPackagesUpdated = _acpvOnPackagesUpdated[idx];
-            lGetSearchbar = _launcherGetSearchbar[idx];
-            lGetQsbBar = _launcherGetQsbBar[idx];
-            pvPageBeginMoving = _pagedviewPageBeginMoving[idx];
-            pvPageEndMoving = _pagedviewPageEndMoving[idx];
-            sdtbOnDragStart = _sdtbOnDragStart[idx];
-            sdtbOnDragEnd = _sdtbOnDragEnd[idx];
-            lHasCustomContentToLeft = _launcherHasCustomContentToLeft[idx];
-            hideAppsCustomizeHelper = _hideAppsCustomizeHelper[idx];
-            launcherShowWorkspace = _launcherShowWorkspace[idx];
-            launcherShowAllApps = _launcherShowAllApps[idx];
-            workspaceMoveToDefaultScreen = _workspaceMoveToDefaultScreen[idx];
-            btvSetShadowsEnabled = _btvSetShadowsEnabled[idx];
-            wsOverScroll = _wsOverScroll[idx];
-            acpvOverScroll = _acpvOverScroll[idx];
-            lFinishBindingItems = _lFinishBindingItems[idx];
-            dpGetWorkspacePadding = _dpGetWorkspacePadding[idx];
-            lIsAllAppsVisible = _lIsAllAppsVisible[idx];
-            wGetOpenFolder = _wGetOpenFolder[idx];
-            wIsOnOrMovingToCustomContent = _wIsOnOrMovingToCustomContent[idx];
-            wEnterOverviewMode = _wEnterOverviewMode[idx];
-            wMoveToCustomContentScreen = _wMoveToCustomContentScreen[idx];
-            pvSnapToPage = _pvSnapToPage[idx];
-            lOpenFolder = _lOpenFolder[idx];
-            lCloseFolder = _lCloseFolder[idx];
-            acthOnTabChanged = _acthOnTabChanged[idx];
-            wSetCurrentPage = _wSetCurrentPage[idx];
-            acpvSetCurrentPage = _acpvSetCurrentPage[idx];
-            dpUpdateFromConfiguration = _dpUpdateFromConfiguration[idx];
-            acthSetInsets = _acthSetInsets[idx];
-            wSnapToPage = _wSnapToPage[idx];
-            noOnShow = _noOnShow[idx];
-            wOnDragEnd = _wOnDragEnd[idx];
-            wOnDragStart = _wOnDragStart[idx];
-            wOnLauncherTransitionEnd = _wOnLauncherTransitionEnd[idx];
-            fOnRemove = _fOnRemove[idx];
-            fOnAdd = _fOnAdd[idx];
-            fReplaceFolderWithFinalItem = _fReplaceFolderWithFinalItem[idx];
-            fGetItemsInReadingOrder = _fGetItemsInReadingOrder[idx];
-            clGetShortcutsAndWidgets = _clGetShortcutsAndWidgets[idx];
-            soiSetSearchStarted = _soiSetSearchStarted[idx];
-            acthGetContentTypeForTabTag = _acthGetContentTypeForTabTag[idx];
-            wOnTransitionPrepare = _wOnTransitionPrepare[idx];
-            siGetIntent = _siGetIntent[idx];
-            icGetFullResIcon = _icGetFullResIcon[idx];
-            uCreateIconBitmap = _uCreateIconBitmap[idx];
-            icCacheLocked = _icCacheLocked[idx];
-            clMarkCellsForView = _clMarkCellsForView[idx];
-            lmCheckItemPlacement = _lmCheckItemPlacement[idx];
-            acpvBeginDragging = _acpvBeginDragging[idx];
-            lBindAppsUpdated = _lBindAppsUpdated[idx];
-            lmIsShortcutInfoUpdateable = _lmIsShortcutInfoUpdateable[idx];
-            clAttemptPushInDirection = _clAttemptPushInDirection[idx];
-            acpvSetApps = _acpvSetApps[idx];
-            acpvUpdateApps = _acpvUpdateApps[idx];
-            acpvRemoveApps = _acpvRemoveApps[idx];
-            lSetWorkspaceBackground = _lSetWorkspaceBackground[idx];
-            lGetDragLayer = _lGetDragLayer[idx];
-            dlAddResizeFrame = _dlAddResizeFrame[idx];
-            gsaShouldAlwaysShowHotwordHint = _gsaShouldAlwaysShowHotwordHint[idx];
-            btvCreateGlowingOutline = _btvCreateGlowingOutline[idx];
-            lmDeleteItemFromDatabase = _lmDeleteItemFromDatabase[idx];
-            lmDeleteFolderContentsFromDatabase = _lmDeleteFolderContentsFromDatabase[idx];
-            siGetIcon = _siGetIcon[idx];
-            rvCanShowHotwordAnimation = _rvCanShowHotwordAnimation[idx];
-            spSetProximityToNow = _spSetProximityToNow[idx];
-            tmSetTransitionsEnabled = _tmSetTransitionsEnabled[idx];
-            uIsL = _uIsL[idx];
-            lasIsDisableAllApps = _lasIsDisableAllApps[idx];
+            applyFromApplicationInfo = new String[]{"applyFromApplicationInfo", "a", "a", "a"}[idx];
+            lGetApplicationContext = new String[]{"getApplicationContext", "getApplicationContext", "getApplicationContext", "getApplicationContext"}[idx];
+            lIsRotationEnabled = new String[]{"isRotationEnabled", "gC", "hr", "hA"}[idx]; // getBoolean - single line method
+            clAddViewToCellLayout = new String[]{"addViewToCellLayout", "a", "a", "a"}[idx]; // View paramView, int paramInt1, int paramInt2, CellLayout.LayoutParams paramLayoutParams, boolean paramBoolean
+            woiSyncWithScroll = new String[]{"syncWithScroll", "kf", "la", "lf"}[idx]; // computeScroll in Workspace
+            wStartDrag = new String[]{"startDrag", "a", "a", "a"}[idx]; // isInTouchMode
+            acpvOnPackagesUpdated = new String[]{"onPackagesUpdated", "a", "a", "a"}[idx]; // "can not fit on this device"
+            lGetSearchbar = new String[]{"getSearchBar", "fZ", "gO", "gX"}[idx]; // return SearchDropTargetBar in Launcher
+            lGetQsbBar = new String[]{"getQsbBar", "gw", "hl", "hu"}[idx]; // public View
+            pvPageBeginMoving = new String[]{"pageBeginMoving", "ii", "iY", "jb"}[idx]; // above "awakenScrollBars"
+            pvPageEndMoving = new String[]{"pageEndMoving", "ij", "iZ", "jc"}[idx]; // method above "accessibility"
+            sdtbOnDragStart = new String[]{"onDragStart", "a", "a", "a"}[idx]; // twice .start in the method
+            sdtbOnDragEnd = new String[]{"onDragEnd", "dt", "ei", "er"}[idx]; // twice .reverse
+            lHasCustomContentToLeft = new String[]{"hasCustomContentToLeft", "fL", "gA", "gJ"}[idx]; // "()) || (!" under isEmpty
+            hideAppsCustomizeHelper = new String[]{"hideAppsCustomizeHelper", "a", "a", "a"}[idx];
+            launcherShowWorkspace = new String[]{"showWorkspace", "a", "a", "a"}[idx]; // boolean paramBoolean, Runnable paramRunnable
+            launcherShowAllApps = new String[]{"showAllApps", "a", "a", "a"}[idx];
+            workspaceMoveToDefaultScreen = new String[]{"moveToDefaultScreen", "ao", "at", "at"}[idx]; // Launcher onNewIntent method call of workspace member with (true)
+            btvSetShadowsEnabled = new String[]{"setShadowsEnabled", "w", "z", "z"}[idx]; // invalidate
+            wsOverScroll = new String[]{"overScroll", "g", "g", "g"}[idx]; // (float paramFloat)
+            acpvOverScroll = new String[]{"overScroll", "g", "g", "g"}[idx]; // (float paramFloat)
+            lFinishBindingItems = new String[]{"finishBindingItems", "U", "Z", "Z"}[idx]; // hasFocus()
+            dpGetWorkspacePadding = new String[]{"getWorkspacePadding", "aC", "aS", "aS"}[idx]; // second method with (int paramInt)
+            lIsAllAppsVisible = new String[]{"isAllAppsVisible", "gs", "hh", "hq"}[idx]; // onBackPressed first method call
+            wGetOpenFolder = new String[]{"getOpenFolder", "jp", "kj", "kn"}[idx]; // localDragLayer.getChildCount();
+            wIsOnOrMovingToCustomContent = new String[]{"isOnOrMovingToCustomContent", "jJ", "kE", "kI"}[idx]; // last if-clause in Launcher onResume
+            wEnterOverviewMode = new String[]{"enterOverviewMode", "jO", "kJ", "kN"}[idx]; // "()) || (!this."
+            wMoveToCustomContentScreen = new String[]{"moveToCustomContentScreen", "ap", "au", "au"}[idx]; // Workspace "View localView = new String[]getChildAt"
+            pvSnapToPage = new String[]{"snapToPage", "a", "a", "a"}[idx]; // int paramInt1, int paramInt2, int paramInt3, boolean paramBoolean, TimeInterpolator paramTimeInterpolator
+            lOpenFolder = new String[]{"openFolder", "i", "i", "i"}[idx]; // "Opening folder ("
+            lCloseFolder = new String[]{"closeFolder", "gr", "hg", "hq"}[idx]; // localFolder != new String[]null
+            acthOnTabChanged = new String[]{"onTabChanged", "c", "c", "c"}[idx]; // setBackgroundColor
+            wSetCurrentPage = new String[]{"setCurrentPage", "aV", "bl", "bm"}[idx];
+            acpvSetCurrentPage = new String[]{"setCurrentPage", "aV", "bl", "bm"}[idx];
+            dpUpdateFromConfiguration = new String[]{"updateFromConfiguration", "a", "a", "a"}[idx]; // float paramFloat, int paramInt, Resources paramResources, DisplayMetrics paramDisplayMetrics
+            acthSetInsets = new String[]{"setInsets", "c", "c", "c"}[idx]; // (Rect
+            wSnapToPage = new String[]{"snapToPage", "bc", "bs", "bt"}[idx]; // in PagedView requestChildFocus
+            soiSetSearchStarted = new String[]{"setSearchStarted", "cs", "cI", "cI"}[idx]; // onResume before cancel()
+            noOnShow = new String[]{"onShow", "p", "u", "v"}[idx]; // boolean paramBoolean1, boolean paramBoolean2
+            wOnDragEnd = new String[]{"onDragEnd", "dt", "ei", "er"}[idx]; // only method without interface parameters with InstallShortcutReceiver
+            wOnDragStart = new String[]{"onDragStart", "a", "a", "a"}[idx]; // only method with interface parameters with InstallShortcutReceiver
+            wOnLauncherTransitionEnd = new String[]{"onLauncherTransitionEnd", "a", "a", "a"}[idx]; // (Launcher paramLauncher, boolean paramBoolean1, boolean paramBoolean2)
+            fOnRemove = new String[]{"onRemove", "g", "g", "g"}[idx]; // removeView(localView)
+            fOnAdd = new String[]{"onAdd", "f", "f", "f"}[idx]; // (1 + getItemCount()); - first line  = new String[]true
+            fReplaceFolderWithFinalItem = new String[]{"replaceFolderWithFinalItem", "ge", "ge", "gn"}[idx]; // if (localView != new String[]null)
+            fGetItemsInReadingOrder = new String[]{"getItemsInReadingOrder", "fr", "gh", "gq"}[idx]; // public final ArrayList
+            clGetShortcutsAndWidgets = new String[]{"getShortcutsAndWidgets", "dH", "ew", "eF"}[idx]; // getChildCount() > 0
+            acthGetContentTypeForTabTag = new String[]{"getContentTypeForTabTag", "j", "r", "r"}[idx]; // (String paramString)
+            wOnTransitionPrepare = new String[]{"onTransitionPrepare", "jR", "kM", "kR"}[idx]; // "if ((bool) && ("
+            siGetIntent = new String[]{"getIntent", "getIntent", "getIntent", "getIntent"}[idx];
+            icGetFullResIcon = new String[]{"getFullResIcon", "a", "a", "a"}[idx]; // (Resources paramResources, int paramInt)
+            uCreateIconBitmap = new String[]{"createIconBitmap", "a", "a", "a"}[idx]; // (Drawable paramDrawable, Context paramContext)
+            icCacheLocked = new String[]{"cacheLocked", "b", "a", "a"}[idx];
+            clMarkCellsForView = new String[]{"markCellsForView", "a", "a", "a"}[idx]; // int paramInt1, int paramInt2, int paramInt3, int paramInt4, boolean[][] paramArrayOfBoolean, boolean paramBoolean
+            lmCheckItemPlacement = new String[]{"checkItemPlacement", "a", "a", "a"}[idx]; // "Error loading shortcut into "
+            acpvBeginDragging = new String[]{"beginDragging", "n", "n", "n"}[idx]; // "instanceof PagedViewIcon" in AppsCustomizePagedView
+            lBindAppsUpdated = new String[]{"bindAppsUpdated", "l", "l", "l"}[idx]; // "(this, paramArrayList), false));"
+            lmIsShortcutInfoUpdateable = new String[]{"isShortcutInfoUpdateable", "e", "e", "e"}[idx]; // "android.intent.action.MAIN"
+            clAttemptPushInDirection = new String[]{"attemptPushInDirection", "b", "b", "b"}[idx]; // "if (Math.abs(paramArrayOfInt[0]) + Math.abs(paramArrayOfInt[1]) > 1)"
+            acpvSetApps = new String[]{"setApps", "b", "b", "b"}[idx]; // Collections.sort
+            acpvUpdateApps = new String[]{"updateApps", "g", "g", "g"}[idx]; // in BindAppsUpdated in Launcher
+            acpvRemoveApps = new String[]{"removeApps", "f", "f", "f"}[idx]; // in Launcher removeApps."(paramArrayList2)"
+            lSetWorkspaceBackground = new String[]{"setWorkspaceBackground", "N", "S", "S"}[idx]; // setBackground
+            lGetDragLayer = new String[]{"getDragLayer", "fV", "gK", "gT"}[idx]; // public final DragLayer
+            dlAddResizeFrame = new String[]{"addResizeFrame", "a", "a", "a"}[idx]; // (-1, -1)
+            gsaShouldAlwaysShowHotwordHint = new String[]{"shouldAlwaysShowHotwordHint", "uK", "xE", "yB"}[idx]; // always_show_hotword_hint
+            btvCreateGlowingOutline = new String[]{"createGlowingOutline", "a", "a", "a"}[idx]; // setBitmap
+            lmDeleteItemFromDatabase = new String[]{"deleteItemFromDatabase", "b", "b", "b"}[idx]; // (Context paramContext, ItemInfo paramta) - link to "deleting a folder"
+            siGetIcon = new String[]{"getIcon", "a", "a", "a"}[idx]; // public final Bitmap
+            lmDeleteFolderContentsFromDatabase = new String[]{"deleteFolderContentsFromDatabase", "a", "a", "a"}[idx]; // (Context paramContext, FolderInfo paramsh)
+            rvCanShowHotwordAnimation = new String[]{"canShowHotwordAnimation", "NH", "Se", "UC"}[idx]; // == new String[]5
+            spSetProximityToNow = new String[]{"setProximityToNow", "x", "x", "x"}[idx]; // (float paramFloat) with RecognizerView
+            tmSetTransitionsEnabled = new String[]{"setTransitionsEnabled", "cG", "cY", "cZ"}[idx]; // (4)
+            uIsL = new String[]{"", "", "jO", "jS"}[idx];
+            lasIsDisableAllApps = new String[]{"isDisableAllApps", "ha", "hS", "hW"}[idx];
+            acpvGetTabHost = new String[]{"getTabHost", "de", "dt", "ec"}[idx];
+            acpvSyncAppsPageItems = new String[]{"syncAppsPageItems", "aq", "aG", "aG"}[idx];
+            acpvSetContentType = new String[]{"setContentType", "a", "a", "a"}[idx];
+            acpvInvalidatePageData = new String[]{"invalidatePageData", "j", "k", "k"}[idx];
+            acpvSyncPages = new String[]{"syncPages", "da", "dP", "dY"}[idx]; // removeAllViews
+            acpvIsLayoutRtl = new String[]{"isLayoutRtl", "hX", "iN", "iQ"}[idx];
+            pvGetPageAt = new String[]{"getPageAt", "at", "aJ", "aJ"}[idx];
+            acpvEnableHwLayersOnVisiblePages = new String[]{"enableHwLayersOnVisiblePages", "db", "dQ", "dZ"}[idx];
         }
     }
 
@@ -603,109 +491,71 @@ public class ObfuscationHelper extends HooksBaseClass {
                 lawiProviderName,
                 fMaxCountY,
                 fMaxCountX,
-                fMaxNumItems;
+                fMaxNumItems,
+                acthTabsContainer,
+                acthAppsCustomizePane,
+                acpvNumAppsPages,
+                acpvCellCountX,
+                acpvCellCountY,
+                acpvRemoveAllViewsOnPage;
 
         public static void initFieldNames(int idx) {
 
-            String[] _hotseatAllAppsRank = {"hotseatAllAppsRank", "zp", "BQ", "Cv"}, // only / 2 operation
-                    _dpNumHotseatIcons = {"numHotseatIcons", "yz", "AY", "BD"}, // toString of DynamicGrid
-                    _cllpCanReorder = {"canReorder", "wf", "yE", "zj"}, // second member with = true
-                    _sdtbIsSearchBarHidden = {"mIsSearchBarHidden", "MV", "PF", "Qg"}, // above Qsb member
-                    _sdtbQsbBar = {"mQSBSearchBar", "MW", "PG", "Qh"},
-                    _wCustomContentShowing = {"mCustomContentShowing", "PV", "SH", "Ti"}, // "() == 0) || (!this."
-                    _wCurrentPage = {"mCurrentPage", "KF", "Nm", "NQ"}, // in OnTouch -> "indexOfChild(paramView) != this."
-                    _acpvCurrentPage = {"mCurrentPage", "KF", "Nm", "NQ"}, // == _wCurrentPage
-                    _lHotseat = {"mHotseat", "EO", "Hu", "HZ"},
-                    _lAppsCustomizeTabHost = {"mAppsCustomizeTabHost", "ER", "Hx", "Ic"},
-                    _acthInTransition = {"mInTransition", "tf", "vF", "wk"}, // onInterceptTouchEvent first member in if-clause
-                    _wState = {"mState", "Qj", "SV", "Tw"}, // WorkspaceState member
-                    _wDefaultPage = {"mDefaultPage", "PI", "Su", "SV"},  // "Expected custom content", member gets decreased by one // " = (-1 + this."
-                    _btvShadowsEnabled = {"mShadowsEnabled", "ue", "wF", "xk"}, // only boolean member = true
-                    _fiPreviewBackground = {"mPreviewBackground", "CE", "Fh", "FM"}, // FOLDERICON - only ImageView member
-                    _fiFolderName = {"mFolderName", "CF", "Fi", "FN"}, // FOLDERICON - only BubbleTextView
-                    _fiFolder = {"mFolder", "CB", "Fe", "FJ"}, // FOLDERICON - only Folder member
-                    _fiContents = {"contents", "Dt", "FW", "GB"}, // first ArrayList in FolderInfo
-                    _fFolderIcon = {"mFolderIcon", "BL", "Ep", "EU"}, // only FolderIcon member
-                    _fFolderEditText = {"mFolderName", "Cf", "EJ", "Fo"}, // only FolderEditText member
-                    _acpvContentType = {"mContentType", "sw", "uW", "vB"}, // private oo uW = oo.vW;
-                    _pvIsPageMoving = {"mIsPageMoving", "Lv", "Oc", "OG"},  // "while (!this."
-                    _dpHotseatBarHeightPx = {"hotseatBarHeightPx", "zo", "BP", "Cu"}, // 4 * ...
-                    _lState = {"mState", "Et", "GZ", "HE"}, // onNewIntent - "if ((i != 0) && (this."
-                    _wTouchState = {"mTouchState", "KY", "NF", "Oj"}, // onInterceptTouchEvent while clause
-                    _pvNextPage = {"mNextPage", "KI", "Np", "NT"}, // first protected int = -1
-                    _lHasFocus = {"mHasFocus", "Fj", "HP", "It"}, // onWindowFocusChanged
-                    _lPaused = {"mPaused", "EZ", "HF", "Ik"}, // only boolean assignement in onPause()
-                    _iiItemType = {"itemType", "En", "GT", "Hy"}, // Item(id=
-                    _aiComponentName = {"componentName", "rJ", "uj", "uO"}, // only ComponentName member
-                    _acpvAllAppsNumCols = {"allAppsNumCols", "zr", "BS", "Cx"}, // onMeasure localDeviceProfile
-                    _acpvAllAppsNumRows = {"allAppsNumRows", "zq", "BR", "Cw"}, // onMeasure localDeviceProfile
-                    _pvPageIndicator = {"mPageIndicator", "Lz", "Og", "OK"}, // setContentDescription
-                    _acthContent = {"mContent", "tD", "wd", "wI"}, // .getLayoutParams in setInsets
-                    _dpPageIndicatorHeightPx = {"pageIndicatorHeightPx", "zw", "BX", "CC"}, // last parameter in .set
-                    _wIsSwitchingState = {"mIsSwitchingState", "Qk", "SW", "Tx"}, // start from onTouch, second method call in if-clause
-                    _fContent = {"mContent", "BH", "El", "EQ"}, // only CellLayout member
-                    _lAppsCustomizePagedView = {"mAppsCustomizeContent", "ES", "Hy", "Id"}, // AppsCustomizePagedView in Launcher
-                    _iiID = {"id", "id", "id", "id"},
-                    _iiTitle = {"title", "title", "title", "title"},
-                    _ceIcon = {"icon", "DZ", "GE", "Hj"},
-                    _ceTitle = {"title", "title", "title", "title"},
-                    _lIconCache = {"mIconCache", "rF", "uf", "uK"}, // IconCache member in Launcher
-                    _fiLongPressHelper = {"mLongPressHelper", "ui", "wJ", "xo"}, // cancelLongPress
-                    _clphHasPerformedLongPress = {"mHasPerformedLongPress", "wG", "zf", "zK"}, // only boolean member
-                    _lawiProviderName = {"providerName", "GX", "JF", "Kj"}, // only ComponentName member
-                    _fMaxCountX = {"mMaxCountX", "BM", "Eq", "EV"}, // Folder constructor, last line - maxNumItems = X * Y;
-                    _fMaxCountY = {"mMaxCountY", "BN", "Er", "EW"}, // Folder constructor, last line - maxNumItems = X * Y;
-                    _fMaxNumItems = {"mMaxNumItems", "BO", "Es", "EX"}; // Folder constructor, last line - maxNumItems = X * Y;
-
-            hotseatAllAppsRank = _hotseatAllAppsRank[idx];
-            dpNumHotseatIcons = _dpNumHotseatIcons[idx];
-            cllpCanReorder = _cllpCanReorder[idx];
-            sdtbIsSearchBarHidden = _sdtbIsSearchBarHidden[idx];
-            sdtbQsbBar = _sdtbQsbBar[idx];
-            wCustomContentShowing = _wCustomContentShowing[idx];
-            wCurrentPage = _wCurrentPage[idx];
-            lHotseat = _lHotseat[idx];
-            lAppsCustomizeTabHost = _lAppsCustomizeTabHost[idx];
-            acthInTransition = _acthInTransition[idx];
-            wState = _wState[idx];
-            wDefaultPage = _wDefaultPage[idx];
-            btvShadowsEnabled = _btvShadowsEnabled[idx];
-            fiPreviewBackground = _fiPreviewBackground[idx];
-            fiFolderName = _fiFolderName[idx];
-            fiFolder = _fiFolder[idx];
-            fiContents = _fiContents[idx];
-            fFolderIcon = _fFolderIcon[idx];
-            fFolderEditText = _fFolderEditText[idx];
-            acpvContentType = _acpvContentType[idx];
-            pvIsPageMoving = _pvIsPageMoving[idx];
-            dpHotseatBarHeightPx = _dpHotseatBarHeightPx[idx];
-            lState = _lState[idx];
-            wTouchState = _wTouchState[idx];
-            pvNextPage = _pvNextPage[idx];
-            lHasFocus = _lHasFocus[idx];
-            lPaused = _lPaused[idx];
-            iiItemType = _iiItemType[idx];
-            aiComponentName = _aiComponentName[idx];
-            acpvAllAppsNumCols = _acpvAllAppsNumCols[idx];
-            acpvAllAppsNumRows = _acpvAllAppsNumRows[idx];
-            pvPageIndicator = _pvPageIndicator[idx];
-            acthContent = _acthContent[idx];
-            dpPageIndicatorHeightPx = _dpPageIndicatorHeightPx[idx];
-            wIsSwitchingState = _wIsSwitchingState[idx];
-            fContent = _fContent[idx];
-            lAppsCustomizePagedView = _lAppsCustomizePagedView[idx];
-            iiID = _iiID[idx];
-            iiTitle = _iiTitle[idx];
-            ceIcon = _ceIcon[idx];
-            ceTitle = _ceTitle[idx];
-            lIconCache = _lIconCache[idx];
-            fiLongPressHelper = _fiLongPressHelper[idx];
-            clphHasPerformedLongPress = _clphHasPerformedLongPress[idx];
-            lawiProviderName = _lawiProviderName[idx];
-            fMaxCountX = _fMaxCountX[idx];
-            fMaxCountY = _fMaxCountY[idx];
-            fMaxNumItems = _fMaxNumItems[idx];
-            acpvCurrentPage = _acpvCurrentPage[idx];
+            hotseatAllAppsRank = new String[]{"hotseatAllAppsRank", "zp", "BQ", "Cv"}[idx]; // only / 2 operation
+            dpNumHotseatIcons = new String[]{"numHotseatIcons", "yz", "AY", "BD"}[idx]; // toString of DynamicGrid
+            cllpCanReorder = new String[]{"canReorder", "wf", "yE", "zj"}[idx]; // second member with = new String[]true
+            sdtbIsSearchBarHidden = new String[]{"mIsSearchBarHidden", "MV", "PF", "Qg"}[idx]; // above Qsb member
+            sdtbQsbBar = new String[]{"mQSBSearchBar", "MW", "PG", "Qh"}[idx];
+            wCustomContentShowing = new String[]{"mCustomContentShowing", "PV", "SH", "Ti"}[idx]; // "() == new String[]0) || (!this."
+            wCurrentPage = new String[]{"mCurrentPage", "KF", "Nm", "NQ"}[idx]; // in OnTouch -> "indexOfChild(paramView) != new String[]this."
+            acpvCurrentPage = new String[]{"mCurrentPage", "KF", "Nm", "NQ"}[idx]; // == new String[]_wCurrentPage
+            lHotseat = new String[]{"mHotseat", "EO", "Hu", "HZ"}[idx];
+            lAppsCustomizeTabHost = new String[]{"mAppsCustomizeTabHost", "ER", "Hx", "Ic"}[idx];
+            acthInTransition = new String[]{"mInTransition", "tf", "vF", "wk"}[idx]; // onInterceptTouchEvent first member in if-clause
+            wState = new String[]{"mState", "Qj", "SV", "Tw"}[idx]; // WorkspaceState member
+            wDefaultPage = new String[]{"mDefaultPage", "PI", "Su", "SV"}[idx];  // "Expected custom content", member gets decreased by one // " = new String[](-1 + this."
+            btvShadowsEnabled = new String[]{"mShadowsEnabled", "ue", "wF", "xk"}[idx]; // only boolean member = new String[]true
+            fiPreviewBackground = new String[]{"mPreviewBackground", "CE", "Fh", "FM"}[idx]; // FOLDERICON - only ImageView member
+            fiFolderName = new String[]{"mFolderName", "CF", "Fi", "FN"}[idx]; // FOLDERICON - only BubbleTextView
+            fiFolder = new String[]{"mFolder", "CB", "Fe", "FJ"}[idx]; // FOLDERICON - only Folder member
+            fiContents = new String[]{"contents", "Dt", "FW", "GB"}[idx]; // first ArrayList in FolderInfo
+            fFolderIcon = new String[]{"mFolderIcon", "BL", "Ep", "EU"}[idx]; // only FolderIcon member
+            fFolderEditText = new String[]{"mFolderName", "Cf", "EJ", "Fo"}[idx]; // only FolderEditText member
+            acpvContentType = new String[]{"mContentType", "sw", "uW", "vB"}[idx]; // private oo uW = new String[]oo.vW;
+            pvIsPageMoving = new String[]{"mIsPageMoving", "Lv", "Oc", "OG"}[idx];  // "while (!this."
+            dpHotseatBarHeightPx = new String[]{"hotseatBarHeightPx", "zo", "BP", "Cu"}[idx]; // 4 * ...
+            lState = new String[]{"mState", "Et", "GZ", "HE"}[idx]; // onNewIntent - "if ((i != new String[]0) && (this."
+            wTouchState = new String[]{"mTouchState", "KY", "NF", "Oj"}[idx]; // onInterceptTouchEvent while clause
+            pvNextPage = new String[]{"mNextPage", "KI", "Np", "NT"}[idx]; // first protected int = new String[]-1
+            lHasFocus = new String[]{"mHasFocus", "Fj", "HP", "It"}[idx]; // onWindowFocusChanged
+            lPaused = new String[]{"mPaused", "EZ", "HF", "Ik"}[idx]; // only boolean assignement in onPause()
+            iiItemType = new String[]{"itemType", "En", "GT", "Hy"}[idx]; // Item(id=
+            aiComponentName = new String[]{"componentName", "rJ", "uj", "uO"}[idx]; // only ComponentName member
+            acpvAllAppsNumCols = new String[]{"allAppsNumCols", "zr", "BS", "Cx"}[idx]; // onMeasure localDeviceProfile
+            acpvAllAppsNumRows = new String[]{"allAppsNumRows", "zq", "BR", "Cw"}[idx]; // onMeasure localDeviceProfile
+            pvPageIndicator = new String[]{"mPageIndicator", "Lz", "Og", "OK"}[idx]; // setContentDescription
+            acthContent = new String[]{"mContent", "tD", "wd", "wI"}[idx]; // .getLayoutParams in setInsets
+            dpPageIndicatorHeightPx = new String[]{"pageIndicatorHeightPx", "zw", "BX", "CC"}[idx]; // last parameter in .set
+            wIsSwitchingState = new String[]{"mIsSwitchingState", "Qk", "SW", "Tx"}[idx]; // start from onTouch, second method call in if-clause
+            fContent = new String[]{"mContent", "BH", "El", "EQ"}[idx]; // only CellLayout member
+            lAppsCustomizePagedView = new String[]{"mAppsCustomizeContent", "ES", "Hy", "Id"}[idx]; // AppsCustomizePagedView in Launcher
+            iiID = new String[]{"id", "id", "id", "id"}[idx];
+            iiTitle = new String[]{"title", "title", "title", "title"}[idx];
+            ceIcon = new String[]{"icon", "DZ", "GE", "Hj"}[idx];
+            ceTitle = new String[]{"title", "title", "title", "title"}[idx];
+            lIconCache = new String[]{"mIconCache", "rF", "uf", "uK"}[idx]; // IconCache member in Launcher
+            fiLongPressHelper = new String[]{"mLongPressHelper", "ui", "wJ", "xo"}[idx]; // cancelLongPress
+            clphHasPerformedLongPress = new String[]{"mHasPerformedLongPress", "wG", "zf", "zK"}[idx]; // only boolean member
+            lawiProviderName = new String[]{"providerName", "GX", "JF", "Kj"}[idx]; // only ComponentName member
+            fMaxCountX = new String[]{"mMaxCountX", "BM", "Eq", "EV"}[idx]; // Folder constructor, last line - maxNumItems = new String[]X * Y;
+            fMaxCountY = new String[]{"mMaxCountY", "BN", "Er", "EW"}[idx]; // Folder constructor, last line - maxNumItems = new String[]X * Y;
+            fMaxNumItems = new String[]{"mMaxNumItems", "BO", "Es", "EX"}[idx]; // Folder constructor, last line - maxNumItems = new String[]X * Y;
+            acthTabsContainer = new String[]{"mTabsContainer", "tA", "wA", "wF"}[idx]; // setAlpha
+            acthAppsCustomizePane = new String[]{"mAppsCustomizePane", "tB", "wb", "wG"}[idx]; // setAlpha
+            acpvNumAppsPages = new String[]{"mNumAppsPages", "sN", "vn", "vS"}[idx]; // Math.ceil
+            acpvCellCountX = new String[]{"mCellCountX", "NN", "Lg", "Or"}[idx]; // Math.ceil
+            acpvCellCountY = new String[]{"mCellCountY", "NO", "Lh", "Os"}[idx]; // Math.ceil
+            acpvRemoveAllViewsOnPage = new String[]{"removeAllViewsOnPage", "cI", "dx", "dG"}[idx]; // Math.ceil
         }
     }
 }
