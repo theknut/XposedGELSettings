@@ -27,6 +27,25 @@
   </head>
   <body>
 
+$ 1.9.2
+  % Version 1.9.2
+ _ 2014-13-08
+
+ ! Improvement:
+ * drop outline color now matches glow color
+ * pressed state for custom app drawer button
+ * Quicksettings tile now works on CM
+ * dragging items from and in app dock in auto hide mode works better
+
+ ! Fixed:
+ * crash when resizing a widget
+ * crash when changing icon of a shortcut widget
+ * crash when opening an app from a folder in app dock when in auto hide mode
+
+ ! XGELS UI:
+ * moved XGELS settings import/export to "Backup/Restore"
+ * updated translations
+
 $ 1.9.1
   % Version 1.9.1
  _ 2014-07-08
