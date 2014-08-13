@@ -1,2 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string-array name="contextmenu_mode_entries">
+        <item>Відключено</item>
+        <item>тільки Ярлики</item>
+        <item>тільки Віджети</item>
+        <item>Ярлики та Віджети</item>
+    </string-array>
+    <string-array name="fragmenttitles_array">
+        <item>Привіт!</item>
+        <item>Загальне</item>
+        <item>Пошук Google</item>
+        <item>Домашній екран</item>
+        <item>Меню програм</item>
+        <item>Жести</item>
+        <item>Оповіщення</item>
+        <item>Іконки</item>
+        <item>Android Integration</item>
+        <item>Ім-/Експорт</item>
+        <item>Налаштування</item>
+        <item>Premium / Підтримка</item>
+        <item>Reverse Engineering</item>
+    </string-array>
+    <string-array name="general_scroll_devider_entries">
+        <item>Стандартно</item>
+        <item>Середня</item>
+        <item>Швидко</item>
+        <item>Максимально</item>
+        <item>Без анімації</item>
+    </string-array>
+    <string-array name="gesture_actions_entries">
+        <item>Нічого</item>
+        <item>Панель повідомленнь</item>
+        <item>Швидкі налаштування</item>
+        <item>Меню програм</item>
+        <item>Остання програма</item>
+        <item>Показати недавні</item>
+        <item>Настройки Android</item>
+        <item>Виключить екран</item>
+        <item>Док панель</item>
+        <item>Відкрити програму</item>
+    </string-array>
+    <string-array name="notificationbadge_presets_entries">
+        <item>Вручну</item>
+        <item>G+ стиль</item>
+        <item>G+ стиль (напівпрозорий)</item>
+        <item>Magnum Steel</item>
+        <item>Виніл</item>
+        <item>Чорно-білий</item>
+        <item>Чистий круг</item>
+        <item>Склянний круг</item>
+    </string-array>
+    <string-array name="searchbarstyle_entries">
+        <item>Стандартно</item>
+        <item>Android L стиль</item>
+    </string-array>
+    <string-array name="smartfoldermode_entries">
+        <item>Відключено</item>
+    <item>"Свайп - відкрити першу програму
+Нажаття - відкрити папку"</item>
+    <item>"Нажаття - відкрити першу програму
+Свайп - відкрити папку"</item>
+    </string-array>
+</resources>

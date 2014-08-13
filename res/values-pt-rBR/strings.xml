@@ -215,8 +215,7 @@
     <string name="pref_overridesettings_button_title">Botão Configurações Google Now</string>
     <string name="pref_pageindicator_summary">Ocultar o indicador de página na Tela Inicial e Tela Aplicativos</string>
     <string name="pref_pageindicator_title">Indicador de página</string>
-	<string name="pref_quicksettings_explain_summary">"Atualmente só funciona em stock ou ROMs AOSP 
-Definições rápidas são introduzidos com Android 4.2 e pode ou não pode trabalhar em conjunto com outros módulos ou funcionalidades Xposed ROM."</string>
+	<string name="pref_quicksettings_explain_summary">Definições rápidas são introduzidos com Android 4.2 e pode ou não pode trabalhar em conjunto com outros módulos ou funcionalidades Xposed ROM.</string>
     <string name="pref_requires_donation_summary">Os seguintes recursos estão disponíveis somente na versão doação.</string>
     <string name="pref_requires_donation_title">Não disponível</string>
     <string name="pref_resize_all_widgets_summary">Faça todos os widgets redimensionáveis</string>

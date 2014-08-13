@@ -15,11 +15,11 @@
         <item>Жесты</item>
         <item>Уведомления</item>
         <item>Иконки</item>
-        <item>Твики System UI</item>
+        <item>Android Integration</item>
         <item>Им-/Экспорт</item>
         <item>Настройки</item>
-        <item>Premium/Поддержка</item>
-        <item>Повторная разработка</item>
+        <item>Premium / Поддержка</item>
+        <item>Reverse Engineering</item>
     </string-array>
     <string-array name="general_scroll_devider_entries">
         <item>По умолчанию</item>
@@ -56,9 +56,7 @@
     </string-array>
     <string-array name="smartfoldermode_entries">
         <item>Отключено</item>
-        <item>"Свайп - открыть первое приложение
-Нажатие - открыть папку"</item>
-        <item>"Нажатие - открыть первое приложение
-Свайп - открыть папку"</item>
+    <item>Свайп - открыть первое приложение\nНажатие - открыть папку</item>
+    <item>Нажатие - открыть первое приложение\nСвайп - открыть папку</item>
     </string-array>
 </resources>

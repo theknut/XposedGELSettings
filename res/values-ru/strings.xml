@@ -41,7 +41,7 @@
     <string name="module_not_from_google_play">Модуль установлен не из Google Play!</string>
     <string name="module_not_from_google_play_msg">XGELS установлен не из Google Play! Пожалуйста, установите XGELS из Google Play для покупки XGELS Premium и автоматического обновления</string>
     <string name="open_play_store">Открыть Play Маркет</string>
-    <string name="pref_always_show_ok_google_title">Надпись \"Ok Google\"</string>
+    <string name="pref_always_show_ok_google_title">Ok Google</string>
     <string name="pref_animate_dynamic_backbutton_summary">Быстрое изменение иконки</string>
     <string name="pref_animate_dynamic_backbutton_title">Анимированая смена значка</string>
     <string name="pref_animate_dynamic_homebutton_summary">Быстрое изменение иконки</string>
@@ -114,7 +114,7 @@
     <string name="pref_dynamic_homebutton_summary">Изменяется на \"Open app drawer\" на главном экране</string>
     <string name="pref_dynamic_homebutton_title">Кнопка Домой</string>
     <string name="pref_enable_l_launcher_summary">Это использует новый дизайн L лаунчера, который доступен с Google Поиск 3.5+. Это не изменяет навигационную панель, так как она не является частью лаунчера.</string>
-    <string name="pref_enable_l_launcher_title">Дизайл лаунчера L</string>
+    <string name="pref_enable_l_launcher_title">Дизайн лаунчера L</string>
   <string name="pref_enable_rotation_summary">"Включить поворот лаунчера
 (требуется перезагрузка)"</string>
     <string name="pref_enable_rotation_title">Поворот</string>
@@ -200,8 +200,7 @@
     <string name="pref_overridesettings_button_title">Кнопка настроек</string>
     <string name="pref_pageindicator_summary">Скрыть индикатор страницы на главном экране и в меню приложений</string>
     <string name="pref_pageindicator_title">Индикатор страниц</string>
-  <string name="pref_quicksettings_explain_summary">"!!Работает только на Stock или AOSP прошивках!! 
-Быстрые настройки были представлены с Android 4.2 и это может работать или не работать с другими модулями или прошивками"</string>
+    <string name="pref_quicksettings_explain_summary">Быстрые настройки были представлены с Android 4.2 и это может работать или не работать с другими модулями или прошивками</string>
     <string name="pref_requires_donation_summary">Следующие функции доступны только в премиум версии.</string>
     <string name="pref_requires_donation_title">Не доступно</string>
     <string name="pref_resize_all_widgets_summary">Разрешить изменять все виджеты</string>
@@ -317,4 +316,5 @@
     <string name="toast_reset_failed">Так… это не работает :-S</string>
     <string name="toast_restore_failed">Так… это не работает :-S</string>
     <string name="toast_restore_success">Удачно восстановлено настройки рабочего стола</string>
+    <string name="pref_always_show_ok_google_summary"> Всегда отображать \"Ok Google\"</string>
 </resources>
