@@ -261,3 +261,4 @@ gradle/wrapper/gradle-wrapper.properties
 gradlew
 gradlew.bat
 src/de/theknut/xposedgelsettings/ui/Crypto.java
+.idea/libraries/universal_image_loader_1_9_2.xml
