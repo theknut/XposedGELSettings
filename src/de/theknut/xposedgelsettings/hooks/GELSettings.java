@@ -9,6 +9,7 @@ import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
+
 import de.theknut.xposedgelsettings.hooks.androidintegration.AppInfo;
 import de.theknut.xposedgelsettings.hooks.androidintegration.QuickSettings;
 import de.theknut.xposedgelsettings.hooks.androidintegration.SystemBars;

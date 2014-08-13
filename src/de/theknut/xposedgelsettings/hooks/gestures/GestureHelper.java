@@ -374,13 +374,12 @@ public class GestureHelper extends HooksBaseClass {
 			mHotseat.setLayoutParams(lp);
 		}
 		
-		if (Common.LAUNCHER_INSTANCE == null || mHotseat == null || isAnimating || mHotseat.getAlpha() == 0.0f || Utils.isFolderOpen()) {
+		if (Common.LAUNCHER_INSTANCE == null || mHotseat == null || isAnimating || mHotseat.getAlpha() == 0.0f) {
 			if (DEBUG) log("Don't hide App Dock\n" +
                     "Was Launcher null: " + (Common.LAUNCHER_INSTANCE == null)
                     + "\nWas Hotseat null: " + (mHotseat == null)
                     + "\nisAnimating: " + isAnimating
-                    + "\nAlpha == 0.0f: " + (mHotseat.getAlpha() == 0.0f)
-                    + "\nisFolderOpen: " + Utils.isFolderOpen());
+                    + "\nAlpha == 0.0f: " + (mHotseat.getAlpha() == 0.0f));
 			return;
 		}
 		
