@@ -249,7 +249,7 @@
     <string name="alert_launcher_not_installed_get_gnl">Insralla GNL</string>
 
     <string name="toast_donate_only">Questa funzionalità richiede XGELS Premium!</string>
-    <string name="pref_donate_button">Acquista premio e sostienimi!</string>
+    <string name="pref_donate_button">Acquista Premium e supportami!</string>
     <string name="pref_donated_button">Grazie per il vostro acquisto!</string>
     <string name="pref_limited_summary">Alcune delle seguenti funzioni sono disponibili solo in XGELS Premium.</string>
 
