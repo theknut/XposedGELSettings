@@ -2,14 +2,11 @@ package de.theknut.xposedgelsettings.hooks;
 
 import android.content.Context;
 
-import de.robv.android.xposed.IXposedHookInitPackageResources;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
-import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
-
 import de.theknut.xposedgelsettings.hooks.androidintegration.AppInfo;
 import de.theknut.xposedgelsettings.hooks.androidintegration.QuickSettings;
 import de.theknut.xposedgelsettings.hooks.androidintegration.SystemBars;
@@ -24,14 +21,13 @@ import de.theknut.xposedgelsettings.hooks.homescreen.HomescreenHooks;
 import de.theknut.xposedgelsettings.hooks.icon.IconHooks;
 import de.theknut.xposedgelsettings.hooks.notificationbadges.NotificationBadgesHooks;
 import de.theknut.xposedgelsettings.hooks.pagindicator.PageIndicatorHooks;
-import de.theknut.xposedgelsettings.hooks.resourcereplacements.ResourceReplacements;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 
-public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage, IXposedHookInitPackageResources {
+public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage {
 
     @Override
     public void handleLoadPackage(final LoadPackageParam lpparam) throws Throwable {
@@ -101,15 +97,5 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
         GestureHooks.initAllHooks(lpparam);
         NotificationBadgesHooks.initAllHooks(lpparam);
         IconHooks.initAllHooks(lpparam);
-    }
-
-    @Override
-    public void handleInitPackageResources(InitPackageResourcesParam resparam) throws Throwable {
-        if (!Common.PACKAGE_NAMES.contains(resparam.packageName)) {
-            return;
-        }
-
-        PreferencesHelper.init();
-        ResourceReplacements.initAllReplacements(resparam);
     }
 }
