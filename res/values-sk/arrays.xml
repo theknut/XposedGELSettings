@@ -58,5 +58,12 @@
         <item>Predvolený</item>
         <item>Štýl Androidu L</item>
     </string-array>
+    
+    <string-array name="contextmenu_mode_entries">
+        <item>Zakázaný</item>
+        <item>Iba skratky</item>
+        <item>Iba miniaplikácie</item>
+        <item>Skratky a miniaplikácie</item>
+    </string-array>
 
 </resources>
