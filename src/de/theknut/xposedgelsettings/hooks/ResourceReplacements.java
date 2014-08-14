@@ -27,6 +27,7 @@ public class ResourceReplacements extends XC_MethodHook implements IXposedHookIn
             resparam.res.setReplacement(resparam.packageName, "color", "outline_color", PreferencesHelper.glowColor);
         } catch (Resources.NotFoundException nte) {
             // not working on Trebuchet for no reason...
+            resparam.res.setReplacement("com.android.launcher3", "color", "outline_color", PreferencesHelper.glowColor);
         }
     }
 }
