@@ -2,15 +2,14 @@ package de.theknut.xposedgelsettings.hooks.homescreen;
 
 import android.content.Context;
 
-import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 
 import static de.robv.android.xposed.XposedHelpers.setIntField;
 
-public final class DeviceProfileConstructorHook extends XC_MethodHook {
+public final class DeviceProfileConstructorHook extends HooksBaseClass {
 	
 	// http://androidxref.com/4.4.2_r1/xref/packages/apps/Launcher3/src/com/android/launcher3/DynamicGrid.java#99
 	// DeviceProfile(String n, float w, float h, float r, float c, float is, float its, float hs, float his)
@@ -44,13 +43,13 @@ public final class DeviceProfileConstructorHook extends XC_MethodHook {
 				// calculating custom sizes
 				float newIconSize = (float) (Math.ceil((Float) param.args[ICONSIZE] * (PreferencesHelper.iconSize / 100.0)));
 				float newIconTextSize = (float) (Math.ceil((Float) param.args[ICONTEXTSIZE] * (PreferencesHelper.iconTextSize / 100.0)));
-				
+
 				// some validation
 				if (newIconSize > 0.0 ) {
 					param.args[ICONSIZE] = Common.NEW_ICON_SIZE = newIconSize;
 				}
 				else {
-					XposedBridge.log("Didn't change icon size! Value was " + newIconSize);
+					log("Didn't change icon size! Value was " + newIconSize);
 				}
 				
 				// some validation
@@ -58,7 +57,7 @@ public final class DeviceProfileConstructorHook extends XC_MethodHook {
 					param.args[ICONTEXTSIZE] = newIconTextSize;
 				}
 				else {
-					XposedBridge.log("Didn't change icon text size! Value was " + newIconTextSize);
+					log("Didn't change icon text size! Value was " + newIconTextSize);
 				}
 			}
 			
@@ -70,12 +69,10 @@ public final class DeviceProfileConstructorHook extends XC_MethodHook {
 					param.args[HOTSEATICONSIZE] = Common.NEW_HOTSEAT_ICON_SIZE = newHotseatIconSize;
 				}
 				else {
-					XposedBridge.log("Didn't change hotseat icon size! Value was " + newHotseatIconSize);
+					log("Didn't change hotseat icon size! Value was " + newHotseatIconSize);
 				}
 				
-				//param.args[NUMHOTSEATICONS] = PreferencesHelper.appDockCount;
-				
-				int hotseatBarHeight = (int) (Math.round((Float)param.args[ICONSIZE]) + 24);
+				int hotseatBarHeight = (Math.round((Float)param.args[ICONSIZE]) + 24);
 				setIntField(param.thisObject, Fields.dpHotseatBarHeightPx, hotseatBarHeight);
 			}
 		}
