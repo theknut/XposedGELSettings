@@ -4,17 +4,25 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
+import de.theknut.xposedgelsettings.hooks.icon.IconPack;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.getLongField;
@@ -102,5 +110,38 @@ public class Utils extends HooksBaseClass {
             saveIntent.putStringArrayListExtra(key, new ArrayList<String>((HashSet) setting));
         }
         context.sendBroadcast(saveIntent);
+    }
+
+    public static Object createAppInfo(ResolveInfo info) {
+        Intent i = Common.LAUNCHER_CONTEXT.getPackageManager().getLaunchIntentForPackage(info.activityInfo.packageName);
+        return callMethod(Common.LAUNCHER_INSTANCE, Methods.lCreateAppInfo, i);
+    }
+
+    public static List<ResolveInfo> getAllApps() {
+        PackageManager pm = Common.LAUNCHER_CONTEXT.getPackageManager();
+        final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        final List<ResolveInfo> apps = pm.queryIntentActivities(mainIntent, 0);
+        Collections.sort(apps, new ResolveInfo.DisplayNameComparator(pm));
+
+        return apps;
+    }
+
+    public static String[] getDataByTag(Set<String> preference, Object tag) {
+        long id = getLongField(tag, Fields.iiID);
+        Iterator it = preference.iterator();
+        while (it.hasNext()) {
+            String[] name = it.next().toString().split("\\|");
+            if (name[0].equals("" + id)) {
+                return name;
+            }
+        }
+
+        return null;
+    }
+
+    public static Drawable loadIconByTag(IconPack iconPack, Set<String> preference, Object tag) {
+        String[] data = Utils.getDataByTag(preference, tag);
+        return iconPack.loadSingleIconFromIconPack(data[1], null, data[2], false);
     }
 }

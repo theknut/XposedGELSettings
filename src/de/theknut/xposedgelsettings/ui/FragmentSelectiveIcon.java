@@ -69,6 +69,7 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
     static final int MODE_PICK_GLOBAL_ICON = 1;
     public static final int MODE_PICK_SHORTCUT_ICON = 2;
     static final int MODE_PICK_APPDRAWER_ICON = 3;
+    public static final int MODE_PICK_FOLDER_ICON = 4;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +79,7 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
         appComponentName = intent.getStringExtra("app");
         mode = intent.getIntExtra("mode", 1);
 
-        if (mode == MODE_PICK_SHORTCUT_ICON) {
+        if (mode == MODE_PICK_SHORTCUT_ICON || mode == MODE_PICK_FOLDER_ICON) {
             itemID = intent.getLongExtra("itemtid", 0);
         }
 
@@ -160,8 +161,8 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
 
         if (mode == MODE_PICK_APPDRAWER_ICON) {
             menu.findItem(R.id.appdrawerdefault).setVisible(true);
-        } else if (mode == MODE_PICK_SHORTCUT_ICON) {
-            menu.findItem(R.id.shortcutdefault).setVisible(true);
+        } else if (mode == MODE_PICK_SHORTCUT_ICON || mode == MODE_PICK_FOLDER_ICON) {
+            menu.findItem(R.id.shortcutfolderdefault).setVisible(true);
         }
 
         return super.onCreateOptionsMenu(menu);
@@ -195,9 +196,9 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
                 finishActivity();
 
                 break;
-            case R.id.shortcutdefault:
+            case R.id.shortcutfolderdefault:
 
-                key = "shortcuticons";
+                key = mode == MODE_PICK_SHORTCUT_ICON ? "shortcuticons" : "foldericons";
                 shortcutItem = "" + itemID;
 
                 HashSet<String> shortcuticons = (HashSet<String>) prefs.getStringSet(key, new HashSet<String>());
@@ -222,7 +223,7 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
     }
 
     public static void finishActivity() {
-        if (mode == MODE_PICK_SHORTCUT_ICON) {
+        if (mode == MODE_PICK_SHORTCUT_ICON || mode == MODE_PICK_FOLDER_ICON) {
             System.exit(0);
         } else {
             mActivity.finish();
@@ -554,6 +555,9 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
                     String key = "selectedicons";
                     if (mode == MODE_PICK_SHORTCUT_ICON) {
                         key = "shortcuticons";
+                        appComponentName = "" + itemID;
+                    } else if (mode == MODE_PICK_FOLDER_ICON) {
+                        key = "foldericons";
                         appComponentName = "" + itemID;
                     }
 

@@ -103,7 +103,7 @@ public class ContextMenu extends HooksBaseClass{
                 }
 
                 final View longPressedItem = (View) param.args[0];
-                if (longPressedItem.getClass().equals(Classes.CellLayout) || longPressedItem.getClass().equals(Classes.FolderIcon)) return;
+                if (longPressedItem.getClass().equals(Classes.CellLayout)) return;
 
                 if (isMode(SHORTCUT_ONLY) && !longPressedItem.getClass().equals(Classes.BubbleTextView)) return;
                 if (isMode(WIDGET_ONLY) && !isWidget(longPressedItem)) return;
@@ -237,7 +237,8 @@ public class ContextMenu extends HooksBaseClass{
 
     private static void setupMenuItems(ViewGroup contextMenuHolder, final View longPressedItem) {
 
-        boolean show, isWidget, isFolder, isSystemApp;
+        boolean show;
+        final boolean isWidget, isFolder, isSystemApp;
 
         final boolean isPremium = checkPremium();
         final Object tag = longPressedItem.getTag();
@@ -293,7 +294,7 @@ public class ContextMenu extends HooksBaseClass{
         });
         // TODO: widgets need more than deleteItemFromDatabase, defer this for later
         // http://androidxref.com/4.4.2_r1/xref/packages/apps/Launcher3/src/com/android/launcher3/DeleteDropTarget.java#327
-        show = isWidget;
+        show = isWidget || isFolder;
         remove.setVisibility(show ? View.GONE : View.VISIBLE);
 
         ImageView addToFolder = (ImageView) contextMenuHolder.findViewById(R.id.addtofolder);
@@ -329,13 +330,13 @@ public class ContextMenu extends HooksBaseClass{
 
                 Intent intent = new Intent();
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-                intent.setComponent(new ComponentName(Common.PACKAGE_NAME, Common.PACKAGE_NAME + ".ui.FragmentSelectiveIcon"));
-                intent.putExtra("mode", FragmentSelectiveIcon.MODE_PICK_SHORTCUT_ICON);
+                intent.setComponent(new ComponentName(Common.PACKAGE_NAME, FragmentSelectiveIcon.class.getName()));
+                intent.putExtra("mode", isFolder ? FragmentSelectiveIcon.MODE_PICK_FOLDER_ICON : FragmentSelectiveIcon.MODE_PICK_SHORTCUT_ICON);
                 intent.putExtra("itemtid", getLongField(tag, Fields.iiID));
                 Common.LAUNCHER_CONTEXT.startActivity(intent);
             }
         });
-        show = isFolder || isWidget;
+        show = isWidget;
         iconPicker.setVisibility(show ? View.GONE : View.VISIBLE);
 
         ImageView resize = (ImageView) contextMenuHolder.findViewById(R.id.resize);

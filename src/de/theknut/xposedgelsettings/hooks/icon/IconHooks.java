@@ -22,12 +22,12 @@ import android.graphics.drawable.StateListDrawable;
 import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -41,6 +41,7 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import de.theknut.xposedgelsettings.hooks.Utils;
 import de.theknut.xposedgelsettings.ui.Blur;
 import de.theknut.xposedgelsettings.ui.CommonUI;
 
@@ -49,8 +50,8 @@ import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.getBooleanField;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
-import static de.robv.android.xposed.XposedHelpers.getLongField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
+import static de.robv.android.xposed.XposedHelpers.getStaticIntField;
 import static de.robv.android.xposed.XposedHelpers.newInstance;
 import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
@@ -343,6 +344,51 @@ public class IconHooks extends HooksBaseClass {
             }
         });
 
+        findAndHookMethod(Classes.CellLayout, Methods.clAddViewToCellLayout, View.class, Integer.TYPE, Integer.TYPE, Classes.CellLayoutLayoutParams, boolean.class, new XC_MethodHook(PRIORITY_LOWEST) {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                if (param.args[0].getClass().equals(Classes.FolderIcon)) {
+                    Drawable icon = Utils.loadIconByTag(iconPack, PreferencesHelper.folderIcons, ((View) param.args[0]).getTag());
+                    if (icon == null) return;
+
+                    ImageView prevBackground = (ImageView) getObjectField(param.args[0], Fields.fiPreviewBackground);
+                    Bitmap bitmap = ((BitmapDrawable) icon).getBitmap();
+                    icon = new BitmapDrawable(
+                            Common.LAUNCHER_CONTEXT.getResources(),
+                            Bitmap.createScaledBitmap(
+                                    bitmap,
+                                    getStaticIntField(Classes.Utilities, Fields.uIconWidth),
+                                    getStaticIntField(Classes.Utilities, Fields.uIconHeight),
+                                    true
+                            )
+                    );
+
+                    prevBackground.setScaleType(ImageView.ScaleType.CENTER);
+                    prevBackground.setImageDrawable(icon);
+                    prevBackground.clearColorFilter();
+                }
+            }
+        });
+
+        findAndHookMethod(Classes.FolderIcon, "dispatchDraw", Canvas.class, new XC_MethodHook() {
+            Object mFolder = null;
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                if (null != Utils.getDataByTag(PreferencesHelper.folderIcons, ((View) param.thisObject).getTag())) {
+                    mFolder = getObjectField(param.thisObject, Fields.fiFolder);
+                    setObjectField(param.thisObject, Fields.fiFolder, null);
+                }
+            }
+
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                if (mFolder != null) {
+                    setObjectField(param.thisObject, Fields.fiFolder, mFolder);
+                    mFolder = null;
+                }
+            }
+        });
+
         if (!PreferencesHelper.noAllAppsButton) {
 
             for (String selectedIcon : PreferencesHelper.selectedIcons) {
@@ -393,15 +439,10 @@ public class IconHooks extends HooksBaseClass {
         findAndHookMethod(Classes.ShortcutInfo, Methods.siGetIcon, Classes.IconCache, new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                long id = getLongField(param.thisObject, Fields.iiID);
+                Drawable d = Utils.loadIconByTag(iconPack, PreferencesHelper.shortcutIcons, param.thisObject);
+                if (d == null) return;
 
-                Iterator it = PreferencesHelper.shortcutIcons.iterator();
-                while (it.hasNext()) {
-                    String[] name = it.next().toString().split("\\|");
-                    if (name[0].equals("" + id)) {
-                        param.setResult(CommonUI.drawableToBitmap(iconPack.loadSingleIconFromIconPack(name[1], null, name[2], false)));
-                    }
-                }
+                param.setResult(CommonUI.drawableToBitmap(d));
             }
         });
     }

@@ -87,6 +87,7 @@ public class PreferencesHelper {
 
     public static Set<String> selectedIcons;
     public static Set<String> shortcutIcons;
+    public static Set<String> folderIcons;
     public static Set<String> hiddenApps;
     public static Set<String> hiddenWidgets;
     public static Set<String> layerPositions;
@@ -198,6 +199,7 @@ public class PreferencesHelper {
 
         selectedIcons = prefs.getStringSet("selectedicons", new HashSet<String>());
         shortcutIcons = prefs.getStringSet("shortcuticons", new HashSet<String>());
+        folderIcons = prefs.getStringSet("foldericons", new HashSet<String>());
         hiddenApps = prefs.getStringSet("hiddenapps", new HashSet<String>());
         hiddenWidgets = prefs.getStringSet("hiddenwidgets", new HashSet<String>());
         layerPositions = prefs.getStringSet("layerpositions", new HashSet<String>());

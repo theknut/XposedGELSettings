@@ -351,7 +351,8 @@ public class ObfuscationHelper extends HooksBaseClass {
                 acpvSyncPages,
                 acpvIsLayoutRtl,
                 pvGetPageAt,
-                acpvEnableHwLayersOnVisiblePages;
+                acpvEnableHwLayersOnVisiblePages,
+                lCreateAppInfo;
 
         public static void initMethodNames(int idx) {
 
@@ -438,6 +439,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             acpvIsLayoutRtl = new String[]{"isLayoutRtl", "hX", "iN", "iQ"}[idx];
             pvGetPageAt = new String[]{"getPageAt", "at", "aJ", "aJ"}[idx];
             acpvEnableHwLayersOnVisiblePages = new String[]{"enableHwLayersOnVisiblePages", "db", "dQ", "dZ"}[idx];
+            lCreateAppInfo = new String[]{"", "e", "d", "d"}[idx];
         }
     }
 
@@ -497,7 +499,9 @@ public class ObfuscationHelper extends HooksBaseClass {
                 acpvNumAppsPages,
                 acpvCellCountX,
                 acpvCellCountY,
-                acpvRemoveAllViewsOnPage;
+                acpvRemoveAllViewsOnPage,
+                uIconWidth,
+                uIconHeight;
 
         public static void initFieldNames(int idx) {
 
@@ -556,6 +560,8 @@ public class ObfuscationHelper extends HooksBaseClass {
             acpvCellCountX = new String[]{"mCellCountX", "NN", "Lg", "Or"}[idx]; // Math.ceil
             acpvCellCountY = new String[]{"mCellCountY", "NO", "Lh", "Os"}[idx]; // Math.ceil
             acpvRemoveAllViewsOnPage = new String[]{"removeAllViewsOnPage", "cI", "dx", "dG"}[idx]; // Math.ceil
+            uIconWidth = new String[]{"sIconWidth", "NC", "Qm", "QN"}[idx]; // first private static int
+            uIconHeight = new String[]{"sIconHeight", "ND", "Qn", "QO"}[idx]; // second private static int
         }
     }
 }
