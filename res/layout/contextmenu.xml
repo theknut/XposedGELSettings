@@ -19,11 +19,11 @@
             android:src="@drawable/contextmenu_action_about" />
 
         <ImageView
-            android:id="@+id/addtofolder"
+            android:id="@+id/managefolder"
             android:layout_width="@dimen/context_menu_icon_size"
             android:layout_height="@dimen/context_menu_icon_size"
             android:layout_gravity="center"
-            android:src="@drawable/contextmenu_action_new" />
+            android:src="@drawable/contextmenu_action_settings" />
 
         <ImageView
             android:id="@+id/remove"

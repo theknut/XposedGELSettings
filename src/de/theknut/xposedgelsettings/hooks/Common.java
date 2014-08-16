@@ -1,6 +1,7 @@
 package de.theknut.xposedgelsettings.hooks;
 
 import android.content.Context;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,6 +24,7 @@ public final class Common {
     public static final String XGELS_ACTION_SAVE_LAYER_POSITIONS = XGELS_INTENT + ".SAVE_LAYER_POSITIONS";
     public static final String XGELS_ACTION_SAVE_SETTING = XGELS_INTENT + ".SAVE_SETTING";
     public static final String XGELS_ACTION_RELOAD_SETTINGS = XGELS_INTENT + ".RELOAD_SETTINGS";
+    public static final String XGELS_ACTION_UPDATE_FOLDER_ITEMS = XGELS_INTENT + ".UPDATE_FOLDER_ITEMS";
 
 	// MissedIt intent
 	public static final String MISSEDIT_INTENT = "net.igecelabs.android.MissedIt.";
@@ -76,4 +78,5 @@ public final class Common {
     public static boolean FOLDER_GESTURE_ACTIVE;
     public static boolean L_VALUE = true;
     public static boolean ON_MEASURE;
+    public static View CURRENT_FOLDER;
 }

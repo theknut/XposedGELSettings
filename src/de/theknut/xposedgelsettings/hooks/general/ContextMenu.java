@@ -30,6 +30,7 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.Utils;
+import de.theknut.xposedgelsettings.ui.AllAppsList;
 import de.theknut.xposedgelsettings.ui.FragmentSelectiveIcon;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
@@ -297,25 +298,33 @@ public class ContextMenu extends HooksBaseClass{
         show = isWidget || isFolder;
         remove.setVisibility(show ? View.GONE : View.VISIBLE);
 
-        ImageView addToFolder = (ImageView) contextMenuHolder.findViewById(R.id.addtofolder);
-        addToFolder.setOnClickListener(new View.OnClickListener() {
+        ImageView manageFolder = (ImageView) contextMenuHolder.findViewById(R.id.managefolder);
+        manageFolder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 removeContextMenu();
 
-                Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                try {
-                    intent.setData(Uri.parse("package:" + getPackageName(tag)));
-                } catch (Exception ex) {
-                    intent = new Intent(android.provider.Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
+                ArrayList<String> items = new ArrayList<String>();
+                Object mFolder = getObjectField(longPressedItem, Fields.fiFolder);
+                ArrayList<View> folderItems = (ArrayList<View>) callMethod(mFolder, Methods.fGetItemsInReadingOrder);
+
+                for (View item : folderItems) {
+                    items.add(((Intent) callMethod(item.getTag(), Methods.siGetIntent)).getComponent().flattenToString());
                 }
 
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+                Intent intent = new Intent();
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+                intent.setComponent(new ComponentName(Common.PACKAGE_NAME, AllAppsList.class.getName()));
+                intent.putExtra("mode", AllAppsList.MODE_SELECT_FOLDER_APPS);
+                intent.putExtra("itemtid", getLongField(tag, Fields.iiID));
+                intent.putStringArrayListExtra("items", items);
                 Common.LAUNCHER_CONTEXT.startActivity(intent);
+
+                Common.CURRENT_FOLDER = longPressedItem;
             }
         });
         show = isFolder;
-        addToFolder.setVisibility(show ? View.VISIBLE : View.GONE);
+        manageFolder.setVisibility(show ? View.VISIBLE : View.GONE);
 
         ImageView iconPicker = (ImageView) contextMenuHolder.findViewById(R.id.settings);
         iconPicker.setOnClickListener(new View.OnClickListener() {

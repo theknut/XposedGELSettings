@@ -2,9 +2,11 @@ package de.theknut.xposedgelsettings.hooks.general;
 
 import android.animation.TimeInterpolator;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -50,7 +52,9 @@ public class GeneralHooks extends HooksBaseClass {
 
                 IntentFilter filter = new IntentFilter();
                 filter.addAction(Common.XGELS_ACTION_RELOAD_SETTINGS);
+                filter.addAction(Common.XGELS_ACTION_UPDATE_FOLDER_ITEMS);
                 Common.LAUNCHER_CONTEXT.registerReceiver(broadcastReceiver, filter);
+                log("Launcher: installed receiver");
             }
         });
 
@@ -273,20 +277,16 @@ public class GeneralHooks extends HooksBaseClass {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 
-                log("Removed " + param.args[1]);
                 ArrayList folderContents = (ArrayList) getObjectField(param.args[1], Fields.fiContents);
                 boolean dirty = false;
 
                 for (int i = 0; i < folderContents.size(); i++) {
-                    log("Check " + folderContents.get(i));
                     Iterator it = PreferencesHelper.shortcutIcons.iterator();
                     while (it.hasNext()) {
                         String[] name = it.next().toString().split("\\|");
-                        log("Compare " + getLongField(folderContents.get(i), Fields.iiID) + " with " + name[0]);
                         if (name[0].equals("" + getLongField(folderContents.get(i), Fields.iiID))) {
                             it.remove();
                             dirty = true;
-                            log("Removed " + name[0]);
                             break;
                         }
                     }
@@ -300,12 +300,44 @@ public class GeneralHooks extends HooksBaseClass {
 	}
 
     static BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+
         @Override
         public void onReceive(Context context, Intent intent) {
 
             if (intent.getAction().equals(Common.XGELS_ACTION_RELOAD_SETTINGS)) {
                 PreferencesHelper.init();
                 if (DEBUG) log("Launcher: Settings reloaded");
+            } else if (intent.getAction().equals(Common.XGELS_ACTION_UPDATE_FOLDER_ITEMS)) {
+                PreferencesHelper.init();
+                long folderID = intent.getLongExtra("itemid", -1);
+                View view = Common.CURRENT_FOLDER;
+
+                if (view.getClass() == Classes.FolderIcon) {
+                    if (getLongField(view.getTag(), Fields.iiID) != folderID) return;
+
+                    Object mFolder = getObjectField(view, Fields.fiFolder);
+                    for (String newItem : intent.getStringArrayListExtra("additems")) {
+                        ComponentName currCmp = ComponentName.unflattenFromString(newItem);
+                        PackageManager pm = Common.LAUNCHER_CONTEXT.getPackageManager();
+                        Object shortcutInfo = Utils.createShortcutInfo(pm.getLaunchIntentForPackage(currCmp.getPackageName()));
+                        callMethod(getObjectField(mFolder, Fields.fFolderInfo), Methods.fiAdd, shortcutInfo);
+                    }
+
+                    ArrayList<View> folderItems = new ArrayList<View>((ArrayList<View>) callMethod(mFolder, Methods.fGetItemsInReadingOrder));
+                    for (String removeItem : intent.getStringArrayListExtra("removeitems")) {
+                        ComponentName currCmp = ComponentName.unflattenFromString(removeItem);
+
+                        Iterator<View> it = folderItems.iterator();
+                        while (it.hasNext()) {
+                            View item = it.next();
+                            if (currCmp.equals(((Intent) callMethod(item.getTag(), Methods.siGetIntent)).getComponent())) {
+                                callMethod(getObjectField(mFolder, Fields.fFolderInfo), Methods.fiRemove, item.getTag());
+                            }
+                        }
+                    }
+                }
+
+                if (DEBUG) log("Launcher: Updated folder items");
             }
         }
     };

@@ -2,7 +2,9 @@ package de.theknut.xposedgelsettings.ui;
 
 import android.annotation.SuppressLint;
 import android.app.ListActivity;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -21,25 +23,46 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import de.theknut.xposedgelsettings.R;
-import de.theknut.xposedgelsettings.ui.ImageLoader.ViewHolder;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.icon.IconPack;
+import de.theknut.xposedgelsettings.ui.ImageLoader.ViewHolder;
 
 public class AllAppsList extends ListActivity {
 
     public static Set<String> hiddenApps;
+
+    static List<String> originalFolderItems, folderItems, newFolderItems, removedFolderItems;
+    static String appComponentName;
+    static long itemID;
+    static int mode;
+
+    static final int MODE_PICK_APPS_TO_HIDE = 1;
+    public static final int MODE_SELECT_FOLDER_APPS = 2;
 
     @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        CommonUI.CONTEXT = getApplicationContext();
+        Intent intent = getIntent();
+        appComponentName = intent.getStringExtra("app");
+        mode = intent.getIntExtra("mode", 1);
+
+        if (mode == MODE_SELECT_FOLDER_APPS) {
+            itemID = intent.getLongExtra("itemtid", 0);
+            originalFolderItems = intent.getStringArrayListExtra("items");
+            folderItems = new ArrayList<String>(originalFolderItems);
+            newFolderItems = new ArrayList<String>();
+            removedFolderItems = new ArrayList<String>();
+        }
+
+        CommonUI.CONTEXT = this;
 
         getListView().setCacheColorHint(CommonUI.UIColor);
         getListView().setBackgroundColor(CommonUI.UIColor);
@@ -55,10 +78,12 @@ public class AllAppsList extends ListActivity {
     protected void onPause() {
         super.onPause();
 
-        // save our new list
-        SharedPreferences.Editor editor = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).edit();
-        editor.remove("hiddenapps").commit();
-        editor.putStringSet("hiddenapps", hiddenApps).commit();
+        if (mode == MODE_PICK_APPS_TO_HIDE) {
+            // save our new list
+            SharedPreferences.Editor editor = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).edit();
+            editor.remove("hiddenapps").commit();
+            editor.putStringSet("hiddenapps", hiddenApps).commit();
+        }
     }
 
     @SuppressLint("WorldReadableFiles")
@@ -67,14 +92,21 @@ public class AllAppsList extends ListActivity {
     protected void onResume() {
         super.onResume();
 
-        // get our hidden app list
-        hiddenApps = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).getStringSet("hiddenapps", new HashSet<String>());
+        if (mode == MODE_PICK_APPS_TO_HIDE) {
+            // get our hidden app list
+            hiddenApps = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).getStringSet("hiddenapps", new HashSet<String>());
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
+
+        if (mode == MODE_SELECT_FOLDER_APPS) {
+            menu.findItem(R.id.action_refresh).setVisible(false);
+            menu.findItem(R.id.action_save).setVisible(true);
+        }
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -87,6 +119,26 @@ public class AllAppsList extends ListActivity {
             case R.id.action_refresh:
                 CommonUI.restartLauncherOrDevice();
                 break;
+            case R.id.action_save:
+
+                for (String folderItem : folderItems) {
+                    if (!originalFolderItems.contains(folderItem)) {
+                        newFolderItems.add(folderItem);
+                    }
+                }
+
+                for (String folderItem : originalFolderItems) {
+                    if (!folderItems.contains(folderItem)) {
+                        removedFolderItems.add(folderItem);
+                    }
+                }
+
+                Intent intent = new Intent(Common.XGELS_ACTION_UPDATE_FOLDER_ITEMS);
+                intent.putExtra("itemid", itemID);
+                intent.putStringArrayListExtra("additems", new ArrayList<String>(newFolderItems));
+                intent.putStringArrayListExtra("removeitems", new ArrayList<String>(removedFolderItems));
+                sendBroadcast(intent);
+                finish();
             default:
                 break;
         }
@@ -101,7 +153,7 @@ public class AllAppsList extends ListActivity {
         private LayoutInflater inflater;
         private IconPack iconPack;
 
-        OnCheckedChangeListener onCheckedChangeListener = new OnCheckedChangeListener () {
+        OnCheckedChangeListener onCheckedChangeListenerHideApps = new OnCheckedChangeListener () {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -116,6 +168,26 @@ public class AllAppsList extends ListActivity {
                     if (hiddenApps.contains((String) buttonView.getTag())) {
                         // app is in the list but the checkbox is no longer checked, we can remove it
                         hiddenApps.remove((String) buttonView.getTag());
+                    }
+                }
+            }
+        };
+
+        OnCheckedChangeListener onCheckedChangeListenerSelectApps = new OnCheckedChangeListener () {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if (isChecked) {
+                    if (!folderItems.contains((String) buttonView.getTag())) {
+                        // app is not in the list, so lets add it
+                        folderItems.add((String)buttonView.getTag());
+                    }
+                }
+                else {
+                    if (folderItems.contains((String) buttonView.getTag())) {
+                        // app is in the list but the checkbox is no longer checked, we can remove it
+                        folderItems.remove((String) buttonView.getTag());
                     }
                 }
             }
@@ -150,12 +222,29 @@ public class AllAppsList extends ListActivity {
 
             holder = (ViewHolder) rowView.getTag();
             holder.textView.setText(item.loadLabel(pm));
-            holder.checkBox.setTag(item.activityInfo.packageName + "#" + item.loadLabel(pm));
-            holder.checkBox.setChecked(hiddenApps.contains(holder.checkBox.getTag()));
-            holder.checkBox.setOnCheckedChangeListener(onCheckedChangeListener);
+
+            if (mode == MODE_PICK_APPS_TO_HIDE) {
+                holder.checkBox.setTag(item.activityInfo.packageName + "#" + item.loadLabel(pm));
+                holder.checkBox.setOnCheckedChangeListener(onCheckedChangeListenerHideApps);
+            } else if (mode == MODE_SELECT_FOLDER_APPS) {
+                holder.checkBox.setTag(new ComponentName(item.activityInfo.packageName, item.activityInfo.name).flattenToString());
+                holder.checkBox.setOnCheckedChangeListener(onCheckedChangeListenerSelectApps);
+            }
+
+            holder.checkBox.setChecked(isChecked(holder));
             holder.loadImageAsync(pm, item, holder, iconPack);
 
             return rowView;
+        }
+
+        private boolean isChecked(ViewHolder holder) {
+            if (mode == MODE_PICK_APPS_TO_HIDE) {
+                return hiddenApps.contains(holder.checkBox.getTag());
+            } else if (mode == MODE_SELECT_FOLDER_APPS) {
+                return folderItems.contains(holder.checkBox.getTag().toString());
+            }
+
+            return false;
         }
     }
 }

@@ -117,6 +117,10 @@ public class Utils extends HooksBaseClass {
         return callMethod(Common.LAUNCHER_INSTANCE, Methods.lCreateAppInfo, i);
     }
 
+    public static Object createShortcutInfo(Intent intent) {
+        return callMethod(callMethod(Common.LAUNCHER_INSTANCE, Methods.lCreateAppInfo, intent), "dC");
+    }
+
     public static List<ResolveInfo> getAllApps() {
         PackageManager pm = Common.LAUNCHER_CONTEXT.getPackageManager();
         final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
@@ -128,6 +132,8 @@ public class Utils extends HooksBaseClass {
     }
 
     public static String[] getDataByTag(Set<String> preference, Object tag) {
+        if (tag == null) return null;
+
         long id = getLongField(tag, Fields.iiID);
         Iterator it = preference.iterator();
         while (it.hasNext()) {
@@ -142,6 +148,7 @@ public class Utils extends HooksBaseClass {
 
     public static Drawable loadIconByTag(IconPack iconPack, Set<String> preference, Object tag) {
         String[] data = Utils.getDataByTag(preference, tag);
+        if (data == null) return null;
         return iconPack.loadSingleIconFromIconPack(data[1], null, data[2], false);
     }
 }

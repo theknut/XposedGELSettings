@@ -313,6 +313,8 @@ public class ObfuscationHelper extends HooksBaseClass {
                 wOnLauncherTransitionEnd,
                 fOnRemove,
                 fOnAdd,
+                fiAdd,
+                fiRemove,
                 fReplaceFolderWithFinalItem,
                 fGetItemsInReadingOrder,
                 clGetShortcutsAndWidgets,
@@ -400,6 +402,8 @@ public class ObfuscationHelper extends HooksBaseClass {
             wOnLauncherTransitionEnd = new String[]{"onLauncherTransitionEnd", "a", "a", "a"}[idx]; // (Launcher paramLauncher, boolean paramBoolean1, boolean paramBoolean2)
             fOnRemove = new String[]{"onRemove", "g", "g", "g"}[idx]; // removeView(localView)
             fOnAdd = new String[]{"onAdd", "f", "f", "f"}[idx]; // (1 + getItemCount()); - first line  = new String[]true
+            fiAdd = new String[]{"add", "j", "j", "j"}[idx]; // FolderInfo - .add
+            fiRemove = new String[]{"remove", "k", "k", "k"}[idx]; // FolderInfo - .remove
             fReplaceFolderWithFinalItem = new String[]{"replaceFolderWithFinalItem", "ge", "ge", "gn"}[idx]; // if (localView != new String[]null)
             fGetItemsInReadingOrder = new String[]{"getItemsInReadingOrder", "fr", "gh", "gq"}[idx]; // public final ArrayList
             clGetShortcutsAndWidgets = new String[]{"getShortcutsAndWidgets", "dH", "ew", "eF"}[idx]; // getChildCount() > 0
@@ -461,6 +465,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 fiPreviewBackground,
                 fiFolderName,
                 fFolderEditText,
+                fFolderInfo,
                 fiFolder,
                 fiContents,
                 fFolderIcon,
@@ -522,6 +527,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             fiPreviewBackground = new String[]{"mPreviewBackground", "CE", "Fh", "FM"}[idx]; // FOLDERICON - only ImageView member
             fiFolderName = new String[]{"mFolderName", "CF", "Fi", "FN"}[idx]; // FOLDERICON - only BubbleTextView
             fiFolder = new String[]{"mFolder", "CB", "Fe", "FJ"}[idx]; // FOLDERICON - only Folder member
+            fFolderInfo = new String[]{"mInfo", "BF", "Ej", "EO"}[idx]; // <mInfo>.title))
             fiContents = new String[]{"contents", "Dt", "FW", "GB"}[idx]; // first ArrayList in FolderInfo
             fFolderIcon = new String[]{"mFolderIcon", "BL", "Ep", "EU"}[idx]; // only FolderIcon member
             fFolderEditText = new String[]{"mFolderName", "Cf", "EJ", "Fo"}[idx]; // only FolderEditText member

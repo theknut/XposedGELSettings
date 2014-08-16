@@ -6,4 +6,11 @@
         android:showAsAction="always"
         android:icon="@drawable/ic_menu_refresh"
         android:title="@string/restart_launcher_icon_title"/>
+    <item
+        android:id="@+id/action_save"
+        android:visible="false"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:icon="@drawable/ic_action_accept"
+        android:title="@string/default_text" />
 </menu>
