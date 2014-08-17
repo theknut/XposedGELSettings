@@ -533,7 +533,9 @@ public class ContextMenu extends HooksBaseClass{
             return false;
         }
 
-        return (flags & 0x81) == 0x81;
+        // SYSTEM - 0x1
+        // FLAG_UPDATED_SYSTEM_APP - 0x80
+        return (flags & 0x81) > 0;
     }
 
     private static ViewGroup getDragLayer() {
