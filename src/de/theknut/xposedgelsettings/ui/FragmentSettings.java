@@ -240,9 +240,6 @@ public class FragmentSettings extends FragmentBase {
         
         if (!InAppPurchase.isPremium) {
         	this.findPreference("autoblurimage").setEnabled(false);
-        	this.findPreference("importsettings").setEnabled(false);
-            this.findPreference("exportsettings").setEnabled(false);
-            this.findPreference("resetsettings").setEnabled(false);
         }
         else {
         	preferenceScreen.removePreference(this.findPreference("needsDonate"));
