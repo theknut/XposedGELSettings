@@ -37,6 +37,7 @@ import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.getAdditionalInstanceField;
+import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getLongField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setAdditionalInstanceField;
@@ -104,7 +105,18 @@ public class ContextMenu extends HooksBaseClass{
                 }
 
                 final View longPressedItem = (View) param.args[0];
-                if (longPressedItem.getClass().equals(Classes.CellLayout)) return;
+                if (longPressedItem.getClass().equals(Classes.CellLayout) || longPressedItem.getClass().equals(Classes.FolderIcon)) return;
+
+                if (Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE)) {
+                    try {
+                        // alls apps button
+                        if (getIntField(longPressedItem.getTag(), Fields.iiItemType) == 5) {
+                            return;
+                        }
+                    }catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
 
                 if (isMode(SHORTCUT_ONLY) && !longPressedItem.getClass().equals(Classes.BubbleTextView)) return;
                 if (isMode(WIDGET_ONLY) && !isWidget(longPressedItem)) return;
@@ -182,7 +194,7 @@ public class ContextMenu extends HooksBaseClass{
                 MotionEvent ev = (MotionEvent) param.args[0];
                 if ((ev.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_MOVE) {
                     if (Math.abs(ev.getRawX() - downX) > closeThreshold
-                        || Math.abs(ev.getRawY() - downY) > closeThreshold) {
+                            || Math.abs(ev.getRawY() - downY) > closeThreshold) {
                         closeAndRemove();
                     }
                 }
