@@ -66,7 +66,19 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
 		    findAndHookMethod(Classes.Launcher, "onCreate", Bundle.class, new LauncherOnCreateHook());
 
             if (PreferencesHelper.searchBarOnDefaultHomescreen) {
+                // show on default homescreen
                 findAndHookMethod(Classes.Launcher, "onResume", new LauncherOnResumeHook());
+                // hide search bar when the page is beeing moved
+                hookAllMethods(Classes.PagedView, Methods.pvPageBeginMoving, new OnPageBeginMovingHook());
+                // show search bar if GNow is visible
+                hookAllMethods(Classes.PagedView, Methods.pvPageEndMoving, new OnPageEndMovingHook());
+                // avoid that nasty animation when showing the search bar again
+                findAndHookMethod(Classes.TransitionsManager, Methods.tmSetTransitionsEnabled, boolean.class, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        param.args[0] = false;
+                    }
+                });
             }
 			
 			// only do the following changes if we have the actual GEL launcher with GNow
