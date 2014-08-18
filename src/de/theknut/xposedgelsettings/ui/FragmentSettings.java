@@ -246,7 +246,6 @@ public class FragmentSettings extends FragmentBase {
         }
         
         rootView = CommonUI.setBackground(rootView, R.id.prefbackground);
-        
         return rootView;
     }
 }

@@ -415,11 +415,15 @@ public class FragmentIcon extends FragmentBase {
                     progressBar.setVisibility(View.GONE);
                     progressBar.setIndeterminate(false);
 
-                    if (iconPackList.getEntryValues().length != 0) {
-                        iconPackSupport.setTitle(iconPackList.getEntry().toString());
-                        new UpdateStatisticAsyncTask(mIconPack).execute();
-                    } else {
-                        iconPackSupport.setSummary(getString(R.string.pref_icon_noiconpack));
+                    try {
+                        if (iconPackList.getEntryValues().length != 0) {
+                            iconPackSupport.setTitle(iconPackList.getEntry().toString());
+                            new UpdateStatisticAsyncTask(mIconPack).execute();
+                        } else {
+                            iconPackSupport.setSummary(getString(R.string.pref_icon_noiconpack));
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
 

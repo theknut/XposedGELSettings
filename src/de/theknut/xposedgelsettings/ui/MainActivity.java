@@ -186,6 +186,7 @@ public class MainActivity extends InAppPurchase {
         switch (item.getItemId()) {
 		    // action with ID action_refresh was selected
 		    case R.id.action_refresh:
+                CommonUI.CONTEXT = this;
 		    	CommonUI.restartLauncherOrDevice();
 		      break;
 		    default:
