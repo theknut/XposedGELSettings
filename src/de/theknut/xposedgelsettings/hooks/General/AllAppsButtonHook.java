@@ -9,22 +9,29 @@ import android.widget.TextView;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
+import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 
 import static de.robv.android.xposed.XposedHelpers.getBooleanField;
+import static de.robv.android.xposed.XposedHelpers.getIntField;
 
 public class AllAppsButtonHook extends HooksBaseClass {
 
     // http://androidxref.com/4.4.2_r1/xref/packages/apps/Launcher3/src/com/android/launcher3/CellLayout.java#604
     // public boolean addViewToCellLayout(View child, int index, int childId, LayoutParams params, boolean markCells)
 
+    final int ITEM_TYPE_ALLAPPS = 5; // Trebuchet
+    final int CAN_REORDER = 3;
+    final int CHILD = 0;
+
     @Override
     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-
+        Object tag = ((View) param.args[CHILD]).getTag();
         // there is only one button which can't be reordered and thats the app drawer
-        if (param.args[0] instanceof TextView && !getBooleanField(param.args[3], Fields.cllpCanReorder)) {
+        if ((param.args[CHILD] instanceof TextView && !getBooleanField(param.args[CAN_REORDER], Fields.cllpCanReorder)
+                || (tag != null && getIntField(tag, Fields.iiItemType) == ITEM_TYPE_ALLAPPS))) {
             if (DEBUG) log(param, "Adding XGELS intent to AllAppsButton");
 
-            View allAppsButton = (View) param.args[0];
+            View allAppsButton = (View) param.args[CHILD];
             final Context context = Common.LAUNCHER_CONTEXT;
 
             // set on long press listener to do the stuff we want on long press
@@ -39,6 +46,11 @@ public class AllAppsButtonHook extends HooksBaseClass {
                     return true;
                 }
             });
+
+            if (Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE) && PreferencesHelper.noAllAppsButton) {
+                if (DEBUG) log(param, "Removing AllAppsButton");
+                param.setResult(false);
+            }
         }
     }
 }
