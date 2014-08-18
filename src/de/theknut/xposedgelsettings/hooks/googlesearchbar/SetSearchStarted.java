@@ -1,7 +1,6 @@
 package de.theknut.xposedgelsettings.hooks.googlesearchbar;
 
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
@@ -30,7 +29,7 @@ public class SetSearchStarted extends XC_MethodHook {
 				|| !hasGNowEnabled) {
 
                 if (PreferencesHelper.searchBarOnDefaultHomescreen && page == (PreferencesHelper.defaultHomescreen - 1)) {
-                    XposedBridge.log("Scheinbar hier?!");
+                    // show the search bar on stop search
                     GoogleSearchBarHooks.showSearchbar();
                 } else {
                     // hide the search bar on stop search

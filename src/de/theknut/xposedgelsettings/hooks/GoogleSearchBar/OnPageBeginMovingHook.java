@@ -8,15 +8,15 @@ import static de.robv.android.xposed.XposedHelpers.callMethod;
 
 public final class OnPageBeginMovingHook extends XC_MethodHook {
 
-	// http://androidxref.com/4.4.2_r1/xref/packages/apps/Launcher3/src/com/android/launcher3/PagedView.java#595
-	// protected void onPageBeginMoving()
+    // http://androidxref.com/4.4.2_r1/xref/packages/apps/Launcher3/src/com/android/launcher3/PagedView.java#595
+    // protected void onPageBeginMoving()
 
-	@Override
-	protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-		if (Common.LAUNCHER_INSTANCE == null) return;
+    @Override
+    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+        if (Common.LAUNCHER_INSTANCE == null) return;
 
-		if ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lHasCustomContentToLeft) && !Common.IS_DRAGGING) {
-			GoogleSearchBarHooks.hideSearchbar();					
-		}
-	}
+        if ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lHasCustomContentToLeft) && !Common.IS_DRAGGING) {
+            GoogleSearchBarHooks.hideSearchbar();
+        }
+    }
 }
