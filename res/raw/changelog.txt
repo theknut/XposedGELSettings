@@ -27,6 +27,25 @@
   </head>
   <body>
 
+$ 1.9.3
+  % Version 1.9.3
+ _ 2014-18-08
+
+ ! Improvement:
+ * drop outline color working on CM
+
+ ! Fixed:
+ * toggle apps/widget gesture (yaaay!)
+ * all apps button not hiding on Trebuchet
+ * Context menu showing for all apps button on Trebuchet
+ * uninstall option showing for system apps in context menu
+ * Google Searchbar showing on every screen when "Show on default homescreen"
+ * FC when opening XGELS "Settings"
+ * several XGELS UI crashs
+
+ ! XGELS UI:
+ * updated translations
+
 $ 1.9.2
   % Version 1.9.2
  _ 2014-13-08
