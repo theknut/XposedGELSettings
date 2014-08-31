@@ -284,23 +284,6 @@ public class IconPack {
             }
         }
 
-//        else if (isDefault()) {
-//            try {
-//                PackageManager pkgMgr = getContext().getPackageManager();
-//                Intent launchIntent = pkgMgr.getLaunchIntentForPackage(
-//                        pkg.contains("/")
-//                                ? pkg.substring(0, pkg.indexOf("/"))
-//                                : pkg
-//                );
-//
-//                Icon icon = new Icon(pkg, pkgMgr.getActivityIcon(launchIntent));
-//                getIcons().add(icon);
-//                return icon.getIcon();
-//            } catch (NameNotFoundException e) {
-//                e.printStackTrace();
-//            }
-//        }
-
         unthemedIcons.add(pkg);
         return null;
     }
@@ -426,7 +409,6 @@ public class IconPack {
 
     public List<IconInfo> loadAppFilter() {
         ArrayList<IconInfo> icons = new ArrayList<IconInfo>();
-
         try {
             Context resContext = getContext().createPackageContext(getPackageName(), Context.CONTEXT_IGNORE_SECURITY);
             XmlPullParserFactory factory = null;
@@ -471,10 +453,13 @@ public class IconPack {
         try {
             parser.require(XmlPullParser.START_TAG, null, "item");
 
-            String componentName = parser.getAttributeValue(null, "component")
-                    .replace("ComponentInfo{", "")
-                    .replace("}", "");
+
             String drawableName = parser.getAttributeValue(null, "drawable");
+            String componentName = parser.getAttributeValue(null, "component");
+            if (componentName == null) {
+                componentName = parser.getAttributeValue(null, "Component");
+            }
+            componentName = componentName.replace("ComponentInfo{", "").replace("}", "");
             appFilter.add(new IconInfo(componentName, drawableName));
 
             parser.nextTag();
