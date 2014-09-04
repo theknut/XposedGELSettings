@@ -44,7 +44,7 @@ public class FragmentIcon extends FragmentBase {
     MyPreferenceScreen iconPackSupport;
     MyListPreference iconPackList;
     List<String> notSupportedIconsList;
-    static public IconPack iconPack;
+    public static IconPack iconPack;
     GridView grid;
     ProgressBar progressBar;
     boolean dirty;
@@ -449,26 +449,7 @@ public class FragmentIcon extends FragmentBase {
                                 ).getString("iconpack", Common.ICONPACK_DEFAULT)
                         );
                         FragmentIcon.iconPack.loadAppFilter();
-
-                        for (ResolveInfo info : CommonUI.getAllApps()) {
-                            ComponentName cmpName = new ComponentName(info.activityInfo.packageName, info.activityInfo.name);
-                            Drawable icon = FragmentIcon.iconPack.loadIcon(cmpName.flattenToString());
-
-                            if (icon == null) {
-                                if (!FragmentIcon.iconPack.shouldThemeMissingIcons()) {
-                                    icon = info.loadIcon(FragmentIcon.iconPack.getContext().getPackageManager());
-                                } else {
-                                    icon = info.loadIcon(FragmentIcon.iconPack.getContext().getPackageManager());
-                                    Bitmap tmpIcon = Bitmap.createBitmap(CommonUI.drawableToBitmap(icon));
-                                    Bitmap tmpFinalIcon = FragmentIcon.iconPack.themeIcon(tmpIcon);
-                                    icon = new BitmapDrawable(FragmentIcon.iconPack.getResources(), tmpFinalIcon);
-                                }
-
-                                Icon newIcon = new Icon(cmpName.flattenToString(), icon);
-                                FragmentIcon.iconPack.getIcons().add(newIcon);
-                            }
-                        }
-                    } catch (PackageManager.NameNotFoundException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                     return null;

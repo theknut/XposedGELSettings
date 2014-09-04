@@ -1,6 +1,5 @@
 package de.theknut.xposedgelsettings.hooks.icon;
 
-import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -20,7 +19,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Handler;
-import android.support.v4.app.NotificationCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,7 +31,6 @@ import java.util.List;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
-import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
@@ -42,6 +39,7 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.Utils;
+import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelper;
 import de.theknut.xposedgelsettings.ui.Blur;
 import de.theknut.xposedgelsettings.ui.CommonUI;
 
@@ -66,6 +64,8 @@ public class IconHooks extends HooksBaseClass {
         public void onReceive(Context context, Intent intent) {
             String pkg = intent.getDataString().replace("package:", "");
             List<String> packages = CommonUI.getIconPacks(context);
+
+            TabHelper.getInstance().updateTabs();
 
             if (intent.getAction().equals(Intent.ACTION_PACKAGE_ADDED)) {
                 if (!packages.contains(pkg)) return;
@@ -238,21 +238,6 @@ public class IconHooks extends HooksBaseClass {
                 int resID = (Integer) param.args[ICONRESID];
 
                 if (resID == 0) {
-                    String msg = "Some of your homescreen icons couldn't be themed. Please delete the shortcut from the homescreen and add it from the app drawer again.";
-                    NotificationCompat.BigTextStyle notiStyle = new NotificationCompat.BigTextStyle();
-                    notiStyle.setBigContentTitle("Oh snap!");
-                    notiStyle.bigText(msg);
-
-                    Context ctx = Common.LAUNCHER_CONTEXT.createPackageContext(Common.PACKAGE_NAME, Context.CONTEXT_IGNORE_SECURITY);
-                    NotificationCompat.Builder builder = new NotificationCompat.Builder(ctx)
-                            .setContentTitle("Oh snap!")
-                            .setContentText(msg)
-                            .setTicker("Something went wrong :-\\")
-                            .setAutoCancel(true)
-                            .setStyle(notiStyle)
-                            .setSmallIcon(R.drawable.ic_launcher);
-
-                    ((NotificationManager) Common.LAUNCHER_CONTEXT.getSystemService(Context.NOTIFICATION_SERVICE)).notify(null, 0, builder.build());
                     return;
                 }
 
@@ -536,7 +521,11 @@ public class IconHooks extends HooksBaseClass {
 
         List<Object> appsToUpdate = new ArrayList<Object>();
         for (ResolveInfo r : getCalendars()) {
-            try {
+            if (Common.PACKAGE_OBFUSCATED) {
+                Intent i = Common.LAUNCHER_CONTEXT.getPackageManager().getLaunchIntentForPackage(r.activityInfo.packageName);
+                appsToUpdate.add(callMethod(Common.LAUNCHER_INSTANCE, Methods.lCreateAppInfo, i));
+
+            } else {
                 appsToUpdate.add(newInstance(
                                 Classes.AppInfo,
                                 iconPack.getContext().getPackageManager(),
@@ -544,9 +533,6 @@ public class IconHooks extends HooksBaseClass {
                                 getObjectField(Common.LAUNCHER_INSTANCE, Fields.lIconCache),
                                 new HashMap<Object, CharSequence>())
                 );
-            } catch (NoSuchMethodError nsme) {
-                Intent i = Common.LAUNCHER_CONTEXT.getPackageManager().getLaunchIntentForPackage(r.activityInfo.packageName);
-                appsToUpdate.add(callMethod(Common.LAUNCHER_INSTANCE, Methods.lCreateAppInfo, i));
             }
         }
 

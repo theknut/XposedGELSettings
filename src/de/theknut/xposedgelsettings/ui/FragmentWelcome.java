@@ -19,6 +19,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.theknut.xposedgelsettings.BuildConfig;
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 
@@ -36,6 +37,25 @@ public class FragmentWelcome extends FragmentBase {
     	super.onCreateView(inflater, container, savedInstanceState);
     	
     	View rootView = inflater.inflate(R.layout.welcome, container, false);
+
+        if (BuildConfig.DEBUG) {
+            rootView.findViewById(R.id.welcometext).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent galleryIntent= new Intent(Intent.ACTION_GET_CONTENT);
+                    galleryIntent.setType("image/*");
+                    galleryIntent.putExtra("crop", "true");
+                    galleryIntent.putExtra("aspectX", 1);
+                    galleryIntent.putExtra("aspectY", 1);
+                    galleryIntent.putExtra("outputX", 196);
+                    galleryIntent.putExtra("outputY", 196);
+                    startActivityForResult(galleryIntent, 0xBEEF);
+                }
+            });
+        }
+
+
         return CommonUI.setBackground(rootView, R.id.welcomebackground);
     }
     
@@ -75,7 +95,7 @@ public class FragmentWelcome extends FragmentBase {
     	    if (cl.firstRun()) {
     	    	CommonUI.needFullReboot = true;
     	        alerts.add(cl.getFullLogDialog());
-    	        getFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentReverseEngineering()).commit();
+    	        //getFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentReverseEngineering()).commit();
     	    }
     	    
     	    if (alerts.size() != 0) {

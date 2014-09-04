@@ -17,6 +17,7 @@ import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -105,7 +106,7 @@ public class ContextMenu extends HooksBaseClass{
                 }
 
                 final View longPressedItem = (View) param.args[0];
-                if (longPressedItem.getClass().equals(Classes.CellLayout) || longPressedItem.getClass().equals(Classes.FolderIcon)) return;
+                if (longPressedItem.getClass().equals(Classes.CellLayout)) return;
 
                 if (Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE)) {
                     try {
@@ -192,6 +193,7 @@ public class ContextMenu extends HooksBaseClass{
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 MotionEvent ev = (MotionEvent) param.args[0];
+
                 if ((ev.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_MOVE) {
                     if (Math.abs(ev.getRawX() - downX) > closeThreshold
                             || Math.abs(ev.getRawY() - downY) > closeThreshold) {
@@ -272,7 +274,7 @@ public class ContextMenu extends HooksBaseClass{
                 Common.LAUNCHER_CONTEXT.startActivity(intent);
             }
         });
-        show = isSystemApp || isFolder;
+        show = isSystemApp || isFolder || getPackageName(tag) == null;
         uninstall.setVisibility(show ? View.GONE : View.VISIBLE);
 
         ImageView appInfo = (ImageView) contextMenuHolder.findViewById(R.id.appinfo);
@@ -292,7 +294,7 @@ public class ContextMenu extends HooksBaseClass{
                 Common.LAUNCHER_CONTEXT.startActivity(intent);
             }
         });
-        show = isFolder;
+        show = isFolder || getPackageName(tag) == null;
         appInfo.setVisibility(show ? View.GONE : View.VISIBLE);
 
         ImageView remove = (ImageView) contextMenuHolder.findViewById(R.id.remove);
@@ -328,7 +330,8 @@ public class ContextMenu extends HooksBaseClass{
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
                 intent.setComponent(new ComponentName(Common.PACKAGE_NAME, AllAppsList.class.getName()));
                 intent.putExtra("mode", AllAppsList.MODE_SELECT_FOLDER_APPS);
-                intent.putExtra("itemtid", getLongField(tag, Fields.iiID));
+                intent.putExtra("foldername", ((TextView) getObjectField(longPressedItem, Fields.fiFolderName)).getText());
+                intent.putExtra("itemid", getLongField(tag, Fields.iiID));
                 intent.putStringArrayListExtra("items", items);
                 Common.LAUNCHER_CONTEXT.startActivity(intent);
 
@@ -337,6 +340,26 @@ public class ContextMenu extends HooksBaseClass{
         });
         show = isFolder;
         manageFolder.setVisibility(show ? View.VISIBLE : View.GONE);
+
+        ImageView sort = (ImageView) contextMenuHolder.findViewById(R.id.sortapps);
+        sort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                closeAndRemove();
+
+                Object folder = getObjectField(longPressedItem, Fields.fiFolder);
+                ArrayList tagList = new ArrayList();
+                ArrayList<View> apps = (ArrayList<View>) callMethod(folder, Methods.fGetItemsInReadingOrder);
+                for (View app : apps) {
+                    tagList.add(app.getTag());
+                }
+                callMethod(folder, "h", tagList);
+                callMethod(folder, "aU", 6);
+
+            }
+        });
+        show = false;
+        sort.setVisibility(show ? View.VISIBLE : View.GONE);
 
         ImageView iconPicker = (ImageView) contextMenuHolder.findViewById(R.id.settings);
         iconPicker.setOnClickListener(new View.OnClickListener() {

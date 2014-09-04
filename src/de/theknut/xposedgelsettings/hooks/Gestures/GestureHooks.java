@@ -313,7 +313,6 @@ public class GestureHooks extends GestureHelper {
 
                             if ((ev.getRawY() - downY) > (height / 6)) {
                                 callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherShowWorkspace, true, null);
-
                             } else if ((ev.getRawY() - downY) < -(height / 6)) {
 
                                 if (Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE)) {
@@ -324,20 +323,8 @@ public class GestureHooks extends GestureHelper {
                                 TabHost tabhost = (TabHost) getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizeTabHost);
 
                                 if (!getBooleanField(tabhost, Fields.acthInTransition)) {
-                                    Object ContentType = null;
-
-                                    String tabtag = (String) callMethod(tabhost, "getCurrentTabTag");
-                                    //callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherShowWorkspace, false, null);
-
-                                    if (tabtag.equals("APPS")) {
-                                        //ContentType = callMethod(tabhost, Methods.acthGetContentTypeForTabTag, "WIDGETS");
-                                        tabhost.setCurrentTab(1);
-                                    } else if (tabtag.equals("WIDGETS")) {
-                                        //ContentType = callMethod(tabhost, Methods.acthGetContentTypeForTabTag, "APPS");
-                                        tabhost.setCurrentTab(0);
-                                    }
-
-                                    callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherShowAllApps, true, ContentType, !PreferencesHelper.appdrawerRememberLastPosition);
+                                    int tabIdx = tabhost.getCurrentTab() + 1;
+                                    tabhost.setCurrentTab(tabIdx == tabhost.getTabWidget().getTabCount() ? 0 : tabIdx);
                                 }
                             }
 

@@ -24,7 +24,11 @@ public final class Common {
     public static final String XGELS_ACTION_SAVE_LAYER_POSITIONS = XGELS_INTENT + ".SAVE_LAYER_POSITIONS";
     public static final String XGELS_ACTION_SAVE_SETTING = XGELS_INTENT + ".SAVE_SETTING";
     public static final String XGELS_ACTION_RELOAD_SETTINGS = XGELS_INTENT + ".RELOAD_SETTINGS";
+    public static final String XGELS_ACTION_RESTART_LAUNCHER = XGELS_INTENT + ".RESTART_LAUNCHER";
     public static final String XGELS_ACTION_UPDATE_FOLDER_ITEMS = XGELS_INTENT + ".UPDATE_FOLDER_ITEMS";
+    public static final String XGELS_ACTION_MODIFY_TAB = XGELS_INTENT + ".MODIFY_TAG";
+    public static final String XGELS_ACTION_CONVERT_SETTING = XGELS_INTENT + ".CONVERT_SETTING";
+    public static final String XGELS_ACTION_RECEIVER_RUNNING = XGELS_INTENT + ".RECEIVER_RUNNING";
 
 	// MissedIt intent
 	public static final String MISSEDIT_INTENT = "net.igecelabs.android.MissedIt.";
@@ -67,7 +71,8 @@ public final class Common {
 	public static boolean OVERSCROLLED = false;
 	public static boolean IS_DRAGGING = false;
 	public static boolean MOVED_TO_DEFAULTHOMESCREEN = false;
-	public static int APPDRAWER_LAST_POSITION = 0;
+	public static int APPDRAWER_LAST_PAGE_POSITION = 0;
+	public static int APPDRAWER_LAST_TAB_POSITION = 0;
 
 	public static boolean PACKAGE_OBFUSCATED;
     public static int GNL_VERSION;
@@ -79,4 +84,5 @@ public final class Common {
     public static boolean L_VALUE = true;
     public static boolean ON_MEASURE;
     public static View CURRENT_FOLDER;
+    public static boolean IS_TREBUCHET;
 }

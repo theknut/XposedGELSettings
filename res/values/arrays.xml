@@ -62,4 +62,28 @@
         <item>Shortcuts &amp; Widgets</item>
     </string-array>
 
+    <string-array name="tabcontent_entries">
+        <item>Apps</item>
+        <item>Widgets</item>
+        <item>Xposed modules</item>
+        <item>Google apps</item>
+        <item>New apps</item>
+        <item>New/Updated apps</item>
+    </string-array>
+
+    <string-array name="tabcontent_names">
+        <item>Apps</item>
+        <item>Widgets</item>
+        <item>Xposed</item>
+        <item>Google</item>
+        <item>New Apps</item>
+        <item>New/Updated</item>
+    </string-array>
+
+    <string-array name="tabsort_entries">
+        <item>Alphabetically</item>
+        <item>Install date</item>
+        <item>Last update</item>
+    </string-array>
+
 </resources>

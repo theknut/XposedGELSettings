@@ -1,13 +1,9 @@
 package de.theknut.xposedgelsettings.ui;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.preference.Preference.OnPreferenceClickListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,30 +48,6 @@ public class FragmentGeneral extends FragmentBase {
         });
 
         findPreference("enablerotation").setOnPreferenceChangeListener(onChangeListenerFullReboot);
-        findPreference("hidewidgets").setOnPreferenceClickListener(new OnPreferenceClickListener() {
-			
-			@Override
-			public boolean onPreferenceClick(Preference preference) {
-
-                try {
-                    new AlertDialog.Builder(getActivity())
-                            .setCancelable(false)
-                            .setTitle(R.string.alert_hidewidgets_title)
-                            .setMessage(R.string.alert_hidewidgets_summary)
-                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    getActivity().startActivity(new Intent(getActivity(), AllWidgetsList.class));
-                                    dialog.dismiss();
-                                }
-                            }).show();
-                } catch (Exception ex) {
-                    Toast.makeText(getActivity(), R.string.alert_hidewidgets_summary, Toast.LENGTH_LONG).show();
-                    getActivity().startActivity(new Intent(getActivity(), AllWidgetsList.class));
-                }
-
-				return true;
-			}
-		});
 
         final CustomSwitchPreference resizeallwidgets = (CustomSwitchPreference) findPreference("resizeallwidgets");
         final CustomSwitchPreference overlappingWidgets = (CustomSwitchPreference) findPreference("overlappingwidgets");

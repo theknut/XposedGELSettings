@@ -27,6 +27,24 @@
   </head>
   <body>
 
+$ A2.0 Build 1
+  % Version A2.0 Build 1
+ _ 2014-04-09
+
+ ! Added:
+ * App drawer tabs
+
+$ 2.0 Build 1
+  % Version B2.0 Build 1
+ _ 2014-19-08
+
+ ! Added:
+ * Context menu: manage apps in folders
+ * Context menu: choose a folder icon
+
+ ! Improvement:
+ * you can now hide widget shortcuts
+
 $ 1.9.3
   % Version 1.9.3
  _ 2014-18-08

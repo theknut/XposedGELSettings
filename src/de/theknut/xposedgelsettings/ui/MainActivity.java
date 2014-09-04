@@ -67,8 +67,6 @@ public class MainActivity extends InAppPurchase {
 
         mContext = CommonUI.CONTEXT = mActivity = CommonUI.ACTIVITY = this;
 
-        FragmentIcon.loadIconPack(false);
-
         if (getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).getBoolean("forceenglishlocale", false)) {
             Resources res = mContext.getResources();
             Configuration conf = res.getConfiguration();
@@ -171,6 +169,7 @@ public class MainActivity extends InAppPurchase {
     public boolean onCreateOptionsMenu(Menu menu) {
     	MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.menu.menu, menu);
+        menu.findItem(R.id.action_save).setVisible(false);
 	    
         return super.onCreateOptionsMenu(menu);
     }
@@ -209,7 +208,7 @@ public class MainActivity extends InAppPurchase {
     	boolean beforeIsDonate = isPremium;
     	
     	super.onActivityResult(requestCode, resultCode, data);
-    	
+
     	if (isPremium && !beforeIsDonate) {
     		selectItem(11);
     	}

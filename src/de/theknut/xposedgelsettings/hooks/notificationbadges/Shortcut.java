@@ -35,10 +35,7 @@ public class Shortcut extends Icon {
 			Intent i = (Intent) callMethod(tag, Methods.siGetIntent);
 			this.pgkName = i.getComponent().getPackageName();
 		} catch (Exception ex) {
-			log("Shortcut.Cstr: There was a problem getting the intent for the shortcut - " + tag);
-			log("Exception: " + ex);
-			
-			throw new Exception("XGELS: Don't create Shortcut internally - aborting Constructor");
+			throw new Exception();
 		}
 		
 		Object drawable = ((TextView) this.shortcut).getCompoundDrawables()[1];

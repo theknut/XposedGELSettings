@@ -91,6 +91,7 @@ public class PreferencesHelper {
     public static Set<String> hiddenApps;
     public static Set<String> hiddenWidgets;
     public static Set<String> layerPositions;
+    public static Set<String> appdrawerTabData;
 
     public static String iconpack;
     public static boolean iconPackAutoApply;
@@ -203,6 +204,7 @@ public class PreferencesHelper {
         hiddenApps = prefs.getStringSet("hiddenapps", new HashSet<String>());
         hiddenWidgets = prefs.getStringSet("hiddenwidgets", new HashSet<String>());
         layerPositions = prefs.getStringSet("layerpositions", new HashSet<String>());
+        appdrawerTabData = prefs.getStringSet("appdrawertabdata", new HashSet<String>());
 
         iconpack = prefs.getString("iconpack", Common.ICONPACK_DEFAULT);
         iconPackAutoApply = prefs.getBoolean("autoupdateapplyiconpack", false);

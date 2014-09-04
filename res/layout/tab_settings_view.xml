@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true"
+        android:orientation="horizontal"
+        android:gravity="center" >
+
+        <Spinner
+            android:layout_width="100dp"
+            android:layout_height="@dimen/tab_menu_icon_size"
+            android:visibility="gone"
+            android:id="@+id/tabcontenttype"
+            android:entries="@array/tabcontent_entries"
+            android:layout_weight="0.40" />
+
+        <EditText
+            android:layout_width="175dp"
+            android:layout_height="@dimen/tab_menu_icon_size"
+            android:id="@+id/tabname"
+            android:layout_weight="0.60"
+            android:hint="@string/alert_tab_hint_text_title"
+            android:textColorHint="@color/hint_text" />
+
+        <ImageView
+            android:layout_width="@dimen/tab_menu_icon_size"
+            android:layout_height="@dimen/tab_menu_icon_size"
+            android:id="@+id/tab_save_settings"
+            android:src="@drawable/ic_action_accept" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#FFFFFF"
+        android:id="@+id/tab_settings_divider" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/context_menu_icon_size"
+        android:id="@+id/tab_settings_bar"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingTop="@dimen/tab_menu_padding" >
+
+        <ImageView
+            android:layout_width="@dimen/tab_menu_icon_size"
+            android:layout_height="@dimen/tab_menu_icon_size"
+            android:id="@+id/movetableft"
+            android:src="@drawable/appdrawer_tab_left"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:layout_width="@dimen/tab_menu_icon_size"
+            android:layout_height="@dimen/tab_menu_icon_size"
+            android:id="@+id/deletetab"
+            android:src="@drawable/contextmenu_action_discard"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:layout_width="@dimen/tab_menu_icon_size"
+            android:layout_height="@dimen/tab_menu_icon_size"
+            android:id="@+id/manageapps"
+            android:src="@drawable/contextmenu_action_settings"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:layout_width="@dimen/tab_menu_icon_size"
+            android:layout_height="@dimen/tab_menu_icon_size"
+            android:id="@+id/movetabright"
+            android:src="@drawable/appdrawer_tab_right"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tab_settings_additional"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingTop="@dimen/tab_menu_padding" >
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tab_menu_icon_size"
+            android:id="@+id/tabsort"
+            android:entries="@array/tabsort_entries" />
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tab_hide_apps"
+            android:text="@string/alert_tab_hide_from_apps_title" />
+
+    </LinearLayout>
+
+</LinearLayout>

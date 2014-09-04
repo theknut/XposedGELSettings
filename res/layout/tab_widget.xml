@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/xgels_tab_widget"
+    android:orientation="horizontal" >
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/horizontalscrollview"
+        android:scrollbars="none"
+        android:overScrollMode="ifContentScrolls"
+        android:fillViewport="true"
+        android:layout_toStartOf="@+id/addbutton"
+        android:layout_toLeftOf="@+id/addbutton"
+        android:layout_alignParentBottom="true" >
+
+    </HorizontalScrollView>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="52.0dp"
+        android:id="@+id/addbutton"
+        android:layout_gravity="center"
+        android:src="@drawable/tab_add_button"
+        android:background="@drawable/tab_indicator"
+        android:scaleType="centerCrop"
+        android:layout_alignParentEnd="true" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="#FFF"
+        android:id="@+id/tab_host_divider"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>

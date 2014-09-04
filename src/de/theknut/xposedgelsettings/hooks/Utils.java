@@ -1,6 +1,7 @@
 package de.theknut.xposedgelsettings.hooks;
 
 import android.app.ActivityOptions;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -112,13 +113,18 @@ public class Utils extends HooksBaseClass {
         context.sendBroadcast(saveIntent);
     }
 
-    public static Object createAppInfo(ResolveInfo info) {
-        Intent i = Common.LAUNCHER_CONTEXT.getPackageManager().getLaunchIntentForPackage(info.activityInfo.packageName);
-        return callMethod(Common.LAUNCHER_INSTANCE, Methods.lCreateAppInfo, i);
+    public static Object createAppInfo(ComponentName cmp) {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+        intent.setComponent(cmp);
+        return callMethod(Common.LAUNCHER_INSTANCE, Methods.lCreateAppInfo, intent);
     }
 
-    public static Object createShortcutInfo(Intent intent) {
-        return callMethod(callMethod(Common.LAUNCHER_INSTANCE, Methods.lCreateAppInfo, intent), "dC");
+    public static Object createShortcutInfo(String componentName) {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+        intent.setComponent(ComponentName.unflattenFromString(componentName));
+        return callMethod(callMethod(Common.LAUNCHER_INSTANCE, Methods.lCreateAppInfo, intent), Methods.aiMakeShortcut);
     }
 
     public static List<ResolveInfo> getAllApps() {

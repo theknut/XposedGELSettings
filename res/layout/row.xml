@@ -27,7 +27,8 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentBottom="true"
             android:gravity="center|left"
-            android:layout_toLeftOf="@+id/selectedicon" />
+            android:layout_toLeftOf="@+id/checkbox"
+            android:layout_toStartOf="@+id/checkbox" />
 
         <ImageView
             android:id="@+id/selectedicon"

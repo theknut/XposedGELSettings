@@ -1,7 +1,5 @@
 package de.theknut.xposedgelsettings.hooks;
 
-import android.content.res.Resources;
-
 import de.robv.android.xposed.IXposedHookInitPackageResources;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam;
@@ -17,17 +15,20 @@ public class ResourceReplacements extends XC_MethodHook implements IXposedHookIn
             return;
         }
 
+        Common.HOOKED_PACKAGE = resparam.packageName;
+        Common.IS_TREBUCHET = Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE);
+
         PreferencesHelper.init();
         ResourceReplacements.initAllReplacements(resparam);
     }
 
     public static void initAllReplacements(InitPackageResourcesParam resparam) {
 
-        try {
-            resparam.res.setReplacement(resparam.packageName, "color", "outline_color", PreferencesHelper.glowColor);
-        } catch (Resources.NotFoundException nte) {
-            // not working on Trebuchet for no reason...
+        if (Common.IS_TREBUCHET) {
             resparam.res.setReplacement("com.android.launcher3", "color", "outline_color", PreferencesHelper.glowColor);
+        } else {
+            resparam.res.setReplacement(resparam.packageName, "color", "outline_color", PreferencesHelper.glowColor);
+            resparam.res.setReplacement(resparam.packageName, "integer", "config_tabTransitionDuration", 0);
         }
     }
 }

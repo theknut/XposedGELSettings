@@ -8,11 +8,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.util.Log;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.ui.Blur;
@@ -25,7 +27,6 @@ public class XGELSReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         SharedPreferences prefs = context.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
-        Log.e("XGELS", "Context " + context.getPackageName());
 
         if (intent.getAction().equals(Intent.ACTION_WALLPAPER_CHANGED)) {
             boolean autoBlurImage = prefs.getBoolean("autoblurimage", false);
@@ -62,6 +63,29 @@ public class XGELSReceiver extends BroadcastReceiver {
                 CommonUI.CONTEXT = context;
                 CommonUI.restartLauncher(false);
             }
+        } else if (intent.getAction().equals(Common.XGELS_ACTION_CONVERT_SETTING)) {
+            String key = intent.getStringExtra("key");
+            Set<String> hiddenWidgets = prefs.getStringSet(key, new HashSet<String>());
+            Set<String> tmp = new HashSet<String>();
+
+            Iterator<String> it = hiddenWidgets.iterator();
+            while (it.hasNext()) {
+                String[] item = it.next().split("#");
+                if (item.length > 1) {
+                    tmp.add(item[0] + "/" + item[0] + item[1]);
+                }
+            }
+
+            if (tmp.size() == hiddenWidgets.size()) {
+                prefs.edit().remove(key).apply();
+                prefs.edit().putStringSet(key, tmp).apply();
+                context.sendBroadcast(new Intent(Common.XGELS_ACTION_RELOAD_SETTINGS));
+                Toast.makeText(context, "Settings successfully converted! Please restart your launcher!", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(context, "Settings couldn't be converted successfully. Please reassign the setting (" + key + ") manually!", Toast.LENGTH_LONG).show();
+            }
+        } else if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
+            context.sendBroadcast(new Intent(Common.XGELS_ACTION_RECEIVER_RUNNING));
         }
     }
 

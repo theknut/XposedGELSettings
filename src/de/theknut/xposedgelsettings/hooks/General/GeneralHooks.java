@@ -6,14 +6,15 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -30,6 +31,8 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.Utils;
+import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.Tab;
+import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelper;
 import de.theknut.xposedgelsettings.hooks.homescreen.WorkspaceConstructorHook;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
@@ -38,8 +41,8 @@ import static de.robv.android.xposed.XposedHelpers.getLongField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
 public class GeneralHooks extends HooksBaseClass {
-	
-	public static void initAllHooks(final LoadPackageParam lpparam) {
+
+    public static void initAllHooks(final LoadPackageParam lpparam) {
 
         findAndHookMethod(Classes.Launcher, "onCreate", Bundle.class, new XC_MethodHook() {
 
@@ -53,8 +56,8 @@ public class GeneralHooks extends HooksBaseClass {
                 IntentFilter filter = new IntentFilter();
                 filter.addAction(Common.XGELS_ACTION_RELOAD_SETTINGS);
                 filter.addAction(Common.XGELS_ACTION_UPDATE_FOLDER_ITEMS);
+                filter.addAction(Common.XGELS_ACTION_MODIFY_TAB);
                 Common.LAUNCHER_CONTEXT.registerReceiver(broadcastReceiver, filter);
-                log("Launcher: installed receiver");
             }
         });
 
@@ -113,33 +116,33 @@ public class GeneralHooks extends HooksBaseClass {
             }
         }
 
-		if (PreferencesHelper.enableRotation) {
-			// enable rotation
-			XposedBridge.hookAllMethods(Classes.Launcher, Methods.lIsRotationEnabled, new IsRotationEnabledHook());
-		}
-		
-		if (PreferencesHelper.resizeAllWidgets) {
-			// manipulate the widget settings to make them resizeable			
-			if (Common.PACKAGE_OBFUSCATED) {
-				findAndHookMethod(Classes.CellLayout, Methods.clAddViewToCellLayout, View.class, Integer.TYPE, Integer.TYPE, Classes.CellLayoutLayoutParams,  boolean.class, new AddViewToCellLayoutHook());
-			} else {
-				XposedBridge.hookAllMethods(Classes.CellLayout, Methods.clAddViewToCellLayout, new AddViewToCellLayoutHook());
-			}
-		}
-		
-		if (PreferencesHelper.longpressAllAppsButton) {
-			// add long press listener to app drawer button
-			if (Common.PACKAGE_OBFUSCATED) {
-				findAndHookMethod(Classes.CellLayout, Methods.clAddViewToCellLayout, View.class, Integer.TYPE, Integer.TYPE, Classes.CellLayoutLayoutParams, boolean.class, new AllAppsButtonHook());
-			} else {
-				XposedBridge.hookAllMethods(Classes.CellLayout, Methods.clAddViewToCellLayout, new AllAppsButtonHook());
-			}
-		}
-		
-		if (PreferencesHelper.disableWallpaperScroll) {
-			// don't scroll the wallpaper
-			XposedBridge.hookAllMethods(Classes.WallpaperOffsetInterpolator, Methods.woiSyncWithScroll, new SyncWithScrollHook());
-		}
+        if (PreferencesHelper.enableRotation) {
+            // enable rotation
+            XposedBridge.hookAllMethods(Classes.Launcher, Methods.lIsRotationEnabled, new IsRotationEnabledHook());
+        }
+
+        if (PreferencesHelper.resizeAllWidgets) {
+            // manipulate the widget settings to make them resizeable
+            if (Common.PACKAGE_OBFUSCATED) {
+                findAndHookMethod(Classes.CellLayout, Methods.clAddViewToCellLayout, View.class, Integer.TYPE, Integer.TYPE, Classes.CellLayoutLayoutParams,  boolean.class, new AddViewToCellLayoutHook());
+            } else {
+                XposedBridge.hookAllMethods(Classes.CellLayout, Methods.clAddViewToCellLayout, new AddViewToCellLayoutHook());
+            }
+        }
+
+        if (PreferencesHelper.longpressAllAppsButton) {
+            // add long press listener to app drawer button
+            if (Common.PACKAGE_OBFUSCATED) {
+                findAndHookMethod(Classes.CellLayout, Methods.clAddViewToCellLayout, View.class, Integer.TYPE, Integer.TYPE, Classes.CellLayoutLayoutParams, boolean.class, new AllAppsButtonHook());
+            } else {
+                XposedBridge.hookAllMethods(Classes.CellLayout, Methods.clAddViewToCellLayout, new AllAppsButtonHook());
+            }
+        }
+
+        if (PreferencesHelper.disableWallpaperScroll) {
+            // don't scroll the wallpaper
+            XposedBridge.hookAllMethods(Classes.WallpaperOffsetInterpolator, Methods.woiSyncWithScroll, new SyncWithScrollHook());
+        }
 
         // prevent dragging
 
@@ -212,12 +215,12 @@ public class GeneralHooks extends HooksBaseClass {
             } else
                 XposedBridge.hookAllMethods(Classes.LoaderTask, Methods.lmCheckItemPlacement, checkItemPlacementHook);
         }
-        
+
         if (PreferencesHelper.scrolldevider != 10) {
             XC_MethodHook snapToPageHook = new XC_MethodHook() {
-                
+
                 final int SPEED = 2;
-                
+
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     param.args[SPEED] = (int) Math.round((Integer) param.args[SPEED] / ((PreferencesHelper.scrolldevider == -1)
@@ -225,7 +228,7 @@ public class GeneralHooks extends HooksBaseClass {
                             : (PreferencesHelper.scrolldevider / 10)));
                 }
             };
-            
+
             if (Common.PACKAGE_OBFUSCATED) {
                 findAndHookMethod(Classes.PagedView, Methods.pvSnapToPage, Integer.TYPE, Integer.TYPE, Integer.TYPE, boolean.class, TimeInterpolator.class, snapToPageHook);
             } else {
@@ -250,12 +253,12 @@ public class GeneralHooks extends HooksBaseClass {
             }
         });
 
-		// hiding widgets
-		if (Common.PACKAGE_OBFUSCATED) {
-			findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvOnPackagesUpdated, ArrayList.class, new OnPackagesUpdatedHook());
-		} else {
-			XposedBridge.hookAllMethods(Classes.AppsCustomizePagedView, Methods.acpvOnPackagesUpdated, new OnPackagesUpdatedHook());
-		}
+        // hiding widgets
+        if (Common.PACKAGE_OBFUSCATED) {
+            findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvOnPackagesUpdated, ArrayList.class, new OnPackagesUpdatedHook());
+        } else {
+            XposedBridge.hookAllMethods(Classes.AppsCustomizePagedView, Methods.acpvOnPackagesUpdated, new OnPackagesUpdatedHook());
+        }
 
         findAndHookMethod(Classes.LauncherModel, Methods.lmDeleteItemFromDatabase, Context.class, Classes.ItemInfo, new XC_MethodHook() {
             @Override
@@ -297,18 +300,20 @@ public class GeneralHooks extends HooksBaseClass {
                 }
             }
         });
-	}
+    }
 
     static BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            if (intent.getAction().equals(Common.XGELS_ACTION_RELOAD_SETTINGS)) {
-                PreferencesHelper.init();
-                if (DEBUG) log("Launcher: Settings reloaded");
+            PreferencesHelper.init();
+            if (DEBUG) log("Launcher: Settings reloaded");
+            ArrayList<String> actions = new ArrayList<String>(Arrays.asList(Intent.ACTION_PACKAGE_ADDED, Intent.ACTION_PACKAGE_REMOVED, Intent.ACTION_PACKAGE_REMOVED));
+
+            if (intent.getAction().equals(Common.XGELS_ACTION_RESTART_LAUNCHER)) {
+                killLauncher();
             } else if (intent.getAction().equals(Common.XGELS_ACTION_UPDATE_FOLDER_ITEMS)) {
-                PreferencesHelper.init();
                 long folderID = intent.getLongExtra("itemid", -1);
                 View view = Common.CURRENT_FOLDER;
 
@@ -317,9 +322,8 @@ public class GeneralHooks extends HooksBaseClass {
 
                     Object mFolder = getObjectField(view, Fields.fiFolder);
                     for (String newItem : intent.getStringArrayListExtra("additems")) {
-                        ComponentName currCmp = ComponentName.unflattenFromString(newItem);
-                        PackageManager pm = Common.LAUNCHER_CONTEXT.getPackageManager();
-                        Object shortcutInfo = Utils.createShortcutInfo(pm.getLaunchIntentForPackage(currCmp.getPackageName()));
+
+                        Object shortcutInfo = Utils.createShortcutInfo(newItem);
                         callMethod(getObjectField(mFolder, Fields.fFolderInfo), Methods.fiAdd, shortcutInfo);
                     }
 
@@ -338,7 +342,40 @@ public class GeneralHooks extends HooksBaseClass {
                 }
 
                 if (DEBUG) log("Launcher: Updated folder items");
+            } else if (intent.getAction().equals(Common.XGELS_ACTION_MODIFY_TAB)) {
+                if (intent.getBooleanExtra("add", false)) {
+                    TabHelper.getInstance().addTab(new Tab(intent, true));
+                } else {
+                    TabHelper tabHelper = TabHelper.getInstance();
+                    Object mAppsCustomizePane = getObjectField(tabHelper.getTabHost(), Fields.acthAppsCustomizePane);
+                    Tab tab = tabHelper.getCurrentTabData();
+
+                    if (tab.isAppsTab()) {
+                        ArrayList allApps = (ArrayList) getObjectField(mAppsCustomizePane, Fields.acpvAllApps);
+                        for (String app : intent.getStringArrayListExtra("additems")) {
+                            allApps.add(Utils.createAppInfo(ComponentName.unflattenFromString(app)));
+                        }
+                        callMethod(mAppsCustomizePane, Methods.acpvSetApps, allApps);
+                        tabHelper.invalidate();
+                    } else {
+                        tab.initData();
+                    }
+                }
+
+                if (DEBUG) log("Launcher: Tab reloaded");
+            } else if (actions.contains(intent.getAction())) {
+                TabHelper.getInstance().updateTabs();
             }
         }
     };
+
+    static void killLauncher() {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                System.exit(0);
+            }
+        }, 5000);
+    }
 }

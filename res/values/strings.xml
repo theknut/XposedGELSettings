@@ -335,4 +335,12 @@
     <string name="pref_searchbar_style_title">Search bar style</string>
     <string name="pref_contextmenu_mode_title">Context menu mode</string>
 
+    <!-- V2.0 -->
+    <string name="alert_tab_settings_title">Tab settings</string>
+    <string name="alert_tab_hide_from_apps_title">Hide apps from main apps tab</string>
+    <string name="alert_tab_hint_text_title">Tab name</string>
+    <string name="pref_tabsandfolders_title">Tabs and folders</string>
+    <string name="pref_tab_type_title">Tab type</string>
+    <string name="toast_tab_delete">Press and hold to delete tab</string>
+
 </resources>

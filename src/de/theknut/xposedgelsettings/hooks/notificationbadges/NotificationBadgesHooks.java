@@ -143,8 +143,10 @@ public class NotificationBadgesHooks extends NotificationBadgesHelper {
 							it.remove();
 						}
 					}
-					
-					shortcutsDesktop.add(new Shortcut(param.args[CHILD]));
+
+                    try {
+                        shortcutsDesktop.add(new Shortcut(param.args[CHILD]));
+                    } catch (Exception e) {}
 				} else if (param.args[CHILD].getClass().equals(Classes.FolderIcon)) {
 					
 					for (Iterator<FolderIcon> it = folders.iterator(); it.hasNext();) {
@@ -322,7 +324,7 @@ public class NotificationBadgesHooks extends NotificationBadgesHelper {
 			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 				
 				if (DEBUG) log(param, "hide badges for folder preview");
-				
+
 				Object folderIcon = getObjectField(param.thisObject, Fields.fFolderIcon);
 				int childID = ((View) folderIcon).getId();
 				

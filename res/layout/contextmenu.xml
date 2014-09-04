@@ -51,6 +51,12 @@
             android:src="@drawable/contextmenu_action_picture" />
 
         <ImageView
+            android:id="@+id/sortapps"
+            android:layout_width="@dimen/context_menu_icon_size"
+            android:layout_height="@dimen/context_menu_icon_size"
+            android:src="@drawable/contextmenu_action_sort" />
+
+        <ImageView
             android:id="@+id/layerdown"
             android:visibility="visible"
             android:layout_width="@dimen/context_menu_icon_size"

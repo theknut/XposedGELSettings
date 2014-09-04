@@ -21,7 +21,7 @@ public final class OnPageEndMovingHook extends XC_MethodHook {
         boolean shouldShow = (page == 0 && PreferencesHelper.autoHideSearchBar) || (PreferencesHelper.searchBarOnDefaultHomescreen && page == (PreferencesHelper.defaultHomescreen - 1));
 
         // show the search bar as soon as the page has stopped moving and the GNow overlay is visible
-        if ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lHasCustomContentToLeft) && shouldShow) {
+        if ((Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE) || (Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lHasCustomContentToLeft)) && shouldShow) {
 
             GoogleSearchBarHooks.showSearchbar();
 

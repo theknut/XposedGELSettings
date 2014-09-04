@@ -2,5 +2,8 @@
 <resources>
     <dimen name="context_menu_icon_size">40dp</dimen>
     <dimen name="context_menu_padding">4dp</dimen>
+    <dimen name="tab_menu_icon_size">40dp</dimen>
+    <dimen name="tab_menu_padding">5dp</dimen>
+    <dimen name="tab_menu_add_button">25dp</dimen>
     <dimen name="context_menu_close_threshold">50dp</dimen>
 </resources>

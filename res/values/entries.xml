@@ -228,4 +228,20 @@
         <item>donationbratwurst</item>
         <item>donationschnitzel</item>
     </string-array>
+
+    <string-array name="tabcontent_values">
+        <item>User</item>
+        <item>Widgets</item>
+        <item>Xposed</item>
+        <item>Google</item>
+        <item>NewApps</item>
+        <item>NewUpdated</item>
+    </string-array>
+
+    <string-array name="tabsort_values">
+        <item>Alphabetically</item>
+        <item>LastInstall</item>
+        <item>LastUpdate</item>
+    </string-array>
+
 </resources>

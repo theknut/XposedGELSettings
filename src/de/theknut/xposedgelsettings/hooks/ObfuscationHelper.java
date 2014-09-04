@@ -354,7 +354,10 @@ public class ObfuscationHelper extends HooksBaseClass {
                 acpvIsLayoutRtl,
                 pvGetPageAt,
                 acpvEnableHwLayersOnVisiblePages,
-                lCreateAppInfo;
+                lCreateAppInfo,
+                aiMakeShortcut,
+                lmGetAppNameComparator,
+                acthSetContentTypeImmediate;
 
         public static void initMethodNames(int idx) {
 
@@ -444,6 +447,9 @@ public class ObfuscationHelper extends HooksBaseClass {
             pvGetPageAt = new String[]{"getPageAt", "at", "aJ", "aJ"}[idx];
             acpvEnableHwLayersOnVisiblePages = new String[]{"enableHwLayersOnVisiblePages", "db", "dQ", "dZ"}[idx];
             lCreateAppInfo = new String[]{"", "e", "d", "d"}[idx];
+            aiMakeShortcut = new String[]{"makeShortcut", "cE", "dt", "dC"}[idx];
+            lmGetAppNameComparator = new String[]{"getAppNameComparator", "hw", "im", "iq"}[idx]; // public static final Comparator
+            acthSetContentTypeImmediate = new String[]{"setContentTypeImmediate", "b", "b", "b"}[idx]; // setOnTabChangedListener(null)
         }
     }
 
@@ -506,7 +512,8 @@ public class ObfuscationHelper extends HooksBaseClass {
                 acpvCellCountY,
                 acpvRemoveAllViewsOnPage,
                 uIconWidth,
-                uIconHeight;
+                uIconHeight,
+                acpvAllApps;
 
         public static void initFieldNames(int idx) {
 
@@ -563,11 +570,12 @@ public class ObfuscationHelper extends HooksBaseClass {
             acthTabsContainer = new String[]{"mTabsContainer", "tA", "wA", "wF"}[idx]; // setAlpha
             acthAppsCustomizePane = new String[]{"mAppsCustomizePane", "tB", "wb", "wG"}[idx]; // setAlpha
             acpvNumAppsPages = new String[]{"mNumAppsPages", "sN", "vn", "vS"}[idx]; // Math.ceil
-            acpvCellCountX = new String[]{"mCellCountX", "NN", "Lg", "Or"}[idx]; // Math.ceil
-            acpvCellCountY = new String[]{"mCellCountY", "NO", "Lh", "Os"}[idx]; // Math.ceil
+            acpvCellCountX = new String[]{"mCellCountX", "Lg", "NN", "Or"}[idx]; // Math.ceil
+            acpvCellCountY = new String[]{"mCellCountY", "Lh", "NO", "Os"}[idx]; // Math.ceil
             acpvRemoveAllViewsOnPage = new String[]{"removeAllViewsOnPage", "cI", "dx", "dG"}[idx]; // Math.ceil
             uIconWidth = new String[]{"sIconWidth", "NC", "Qm", "QN"}[idx]; // first private static int
             uIconHeight = new String[]{"sIconHeight", "ND", "Qn", "QO"}[idx]; // second private static int
+            acpvAllApps = new String[]{"mApps", "sA", "va", "vF"}[idx]; // sort
         }
     }
 }

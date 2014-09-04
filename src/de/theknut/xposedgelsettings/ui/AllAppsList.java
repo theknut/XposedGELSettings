@@ -1,12 +1,9 @@
 package de.theknut.xposedgelsettings.ui;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -23,7 +20,6 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,28 +27,25 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.Tab;
 import de.theknut.xposedgelsettings.hooks.icon.IconPack;
 import de.theknut.xposedgelsettings.ui.ImageLoader.ViewHolder;
 
 public class AllAppsList extends ListActivity {
 
-
-    private Activity mActivity;
     private List<String> apps;
 
-    static List<String> initialItems, itemsToAdd, itemsToRemove;
-    static String appComponentName;
-    static long itemID;
-    static int mode;
+    List<String> initialItems, itemsToAdd, itemsToRemove;
+    String appComponentName;
+    long itemID;
+    int mode;
 
     private Intent responseIntent;
-
     private String tabName;
+    private String contentType;
     private boolean newTab;
 
     public static final int MODE_PICK_APPS_TO_HIDE = 1;
@@ -63,23 +56,65 @@ public class AllAppsList extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CommonUI.CONTEXT = this;
+
+        if (FragmentIcon.iconPack == null) {
+            try {
+                FragmentIcon.iconPack = new IconPack(
+                        CommonUI.CONTEXT,
+                        CommonUI.CONTEXT.getSharedPreferences(
+                                Common.PREFERENCES_NAME,
+                                Context.MODE_WORLD_READABLE
+                        ).getString("iconpack", Common.ICONPACK_DEFAULT));
+                FragmentIcon.iconPack.loadAppFilter();
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
 
         Intent intent = getIntent();
         appComponentName = intent.getStringExtra("app");
         mode = intent.getIntExtra("mode", 1);
 
-        if (mode != MODE_PICK_APPS_TO_HIDE) {
-            responseIntent = new Intent();
-            itemID = intent.getLongExtra("itemtid", 0);
-            initialItems = intent.getStringArrayListExtra("items");
+        responseIntent = new Intent();
+
+        initialItems = intent.getStringArrayListExtra("items");
+        if (initialItems == null) {
+            apps = new ArrayList<String>();
+            initialItems = new ArrayList<String>();
+        } else {
             apps = new ArrayList<String>(initialItems);
-            itemsToAdd = new ArrayList<String>();
-            itemsToRemove = new ArrayList<String>();
-            newTab = intent.getBooleanExtra("newtab", false);
-            tabName = intent.getStringExtra("tabname");
         }
 
-        CommonUI.CONTEXT = mActivity = this;
+        if (mode == MODE_PICK_APPS_TO_HIDE) {
+            initialItems = new ArrayList<String>(new ArrayList<String>(
+                    getSharedPreferences(
+                            Common.PREFERENCES_NAME,
+                            Context.MODE_WORLD_READABLE
+                    ).getStringSet(
+                            "hiddenapps",
+                            new HashSet<String>()
+                    )
+            ));
+            apps = new ArrayList<String>(initialItems);
+        }
+
+        itemsToAdd = new ArrayList<String>();
+        itemsToRemove = new ArrayList<String>();
+
+        if (mode != MODE_PICK_APPS_TO_HIDE) {
+            itemID = intent.getLongExtra("itemid", -1);
+            newTab = intent.getBooleanExtra("newtab", false);
+            tabName = intent.getStringExtra("tabname");
+            contentType = intent.getStringExtra("contenttype");
+            responseIntent.putExtra("itemid", itemID);
+        }
+
+        if (mode == MODE_SELECT_FOLDER_APPS) {
+            getActionBar().setTitle(intent.getStringExtra("foldername"));
+        } else if (mode == MODE_MANAGE_TAB) {
+            getActionBar().setTitle(tabName);
+        }
 
         getListView().setCacheColorHint(CommonUI.UIColor);
         getListView().setBackgroundColor(CommonUI.UIColor);
@@ -87,87 +122,6 @@ public class AllAppsList extends ListActivity {
 
         AppArrayAdapter adapter = new AppArrayAdapter(this, getPackageManager(), CommonUI.getAllApps());
         setListAdapter(adapter);
-
-        if (mode == MODE_MANAGE_TAB) {
-            setupManageTabAlert();
-        }
-    }
-
-    private void setupManageTabAlert() {
-        ViewGroup alertTitle = (ViewGroup) getLayoutInflater().inflate(R.layout.tab_settings_title, null);
-
-        final ImageView deleteTab = (ImageView) alertTitle.findViewById(R.id.deletetab);
-        deleteTab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    String key = "appdrawertaborder";
-                    SharedPreferences prefs = getSharedPreferences(Common.PREFERENCES_NAME, MODE_WORLD_READABLE);
-                    LinkedHashSet<String> tabOrder = new LinkedHashSet<String>(prefs.getStringSet(key, new LinkedHashSet<String>()));
-
-                    if (tabOrder.contains(tabName)) {
-                        tabOrder.remove(tabName);
-                        prefs.edit().remove(key).apply();
-                    }
-
-                    prefs.edit().remove("tab_" + tabName).apply();
-
-                    responseIntent.setAction(Common.XGELS_ACTION_MODIFY_TAB);
-                    responseIntent.putExtra("delete", true);
-                    responseIntent.putExtra("tabname", tabName);
-                    sendBroadcast(responseIntent);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                finish();
-            }
-        });
-        deleteTab.setVisibility(!newTab ? View.VISIBLE : View.GONE);
-
-        final EditText editText = (EditText) alertTitle.findViewById(R.id.tabname);
-        editText.setText(tabName);
-
-        new AlertDialog.Builder(this)
-                //.setCustomTitle(alertTitle)
-                .setTitle("Jo")
-                .setView(alertTitle)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        String key = "appdrawertaborder";
-                        String newTabName = editText.getText().toString().trim().toLowerCase(Locale.US);
-                        if (newTabName.length() != 0) {
-                            SharedPreferences prefs = getSharedPreferences(Common.PREFERENCES_NAME, MODE_WORLD_READABLE);
-                            LinkedHashSet<String> tabOrder = new LinkedHashSet<String>(prefs.getStringSet(key, new LinkedHashSet<String>()));
-
-                            if (!newTab && !tabName.equals(newTabName)) {
-                                if (tabOrder.contains(tabName)) {
-                                    tabOrder.remove(tabName);
-                                }
-                                responseIntent.putExtra("oldtabname", tabName);
-                                responseIntent.putExtra("rename", true);
-                                Set<String> tabData = prefs.getStringSet("tab_" + tabName, null);
-                                prefs.edit().remove("tab_" + tabName).apply();
-                                prefs.edit().putStringSet("tab_" + newTabName, tabData).apply();
-                            }
-
-                            tabName = newTabName;
-                            tabOrder.add(tabName);
-                            prefs.edit().remove(key).apply();
-                            prefs.edit().putStringSet(key, tabOrder).apply();
-                        } else {
-                            mActivity.finish();
-                        }
-                    }
-                })
-                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        dialog.cancel();
-                        mActivity.finish();
-                    }
-                })
-                .setCancelable(false)
-                .show();
     }
 
     @SuppressLint("WorldReadableFiles")
@@ -209,10 +163,7 @@ public class AllAppsList extends ListActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
 
-        if (mode != MODE_PICK_APPS_TO_HIDE) {
-            menu.findItem(R.id.action_refresh).setVisible(false);
-            menu.findItem(R.id.action_save).setVisible(true);
-        }
+        menu.findItem(R.id.action_refresh).setVisible(false);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -221,36 +172,60 @@ public class AllAppsList extends ListActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            // action with ID action_refresh was selected
-            case R.id.action_refresh:
-                CommonUI.CONTEXT = this;
-                CommonUI.restartLauncherOrDevice();
-                break;
             case R.id.action_save:
 
-                for (String folderItem : apps) {
-                    if (!initialItems.contains(folderItem)) {
-                        itemsToAdd.add(folderItem);
+                if (mode == MODE_PICK_APPS_TO_HIDE) {
+                    for (String folderItem : initialItems) {
+                        if (!apps.contains(folderItem)) {
+                            itemsToAdd.add(folderItem);
+                        }
                     }
-                }
 
-                for (String folderItem : initialItems) {
-                    if (!apps.contains(folderItem)) {
-                        itemsToRemove.add(folderItem);
+                    responseIntent.setAction(Common.XGELS_ACTION_MODIFY_TAB);
+                    responseIntent.putStringArrayListExtra("additems", new ArrayList<String>(itemsToAdd));
+                    SharedPreferences.Editor editor = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).edit();
+                    editor.remove("hiddenapps").commit();
+                    editor.putStringSet("hiddenapps", new HashSet<String>(apps)).commit();
+                } else if (mode == MODE_SELECT_FOLDER_APPS) {
+                    for (String folderItem : apps) {
+                        if (!initialItems.contains(folderItem)) {
+                            itemsToAdd.add(folderItem);
+                        }
                     }
-                }
 
-                if (mode == MODE_SELECT_FOLDER_APPS) {
+                    for (String folderItem : initialItems) {
+                        if (!apps.contains(folderItem)) {
+                            itemsToRemove.add(folderItem);
+                        }
+                    }
+
                     responseIntent.setAction(Common.XGELS_ACTION_UPDATE_FOLDER_ITEMS);
-                    responseIntent.putExtra("itemid", itemID);
                     responseIntent.putStringArrayListExtra("additems", new ArrayList<String>(itemsToAdd));
                     responseIntent.putStringArrayListExtra("removeitems", new ArrayList<String>(itemsToRemove));
-                } else if (mode == MODE_MANAGE_TAB) {
+
                     SharedPreferences.Editor editor = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).edit();
+                    editor.remove("hiddenapps").commit();
+                    editor.putStringSet("hiddenapps", new HashSet<String>(apps)).commit();
+                } else if (mode == MODE_MANAGE_TAB) {
+                    SharedPreferences prefs = getSharedPreferences(Common.PREFERENCES_NAME, MODE_WORLD_READABLE);
+                    SharedPreferences.Editor editor = prefs.edit();
+
                     responseIntent.setAction(Common.XGELS_ACTION_MODIFY_TAB);
                     responseIntent.putExtra("tabname", tabName);
+                    responseIntent.putExtra("contenttype", contentType);
                     responseIntent.putExtra("add", newTab);
-                    editor.putStringSet("tab_" + tabName, new HashSet<String>(apps)).commit();
+
+                    String key = "appdrawertabdata";
+                    ArrayList<String> tabOrder = new ArrayList<String>(prefs.getStringSet(key, new LinkedHashSet<String>()));
+
+                    tabOrder.add(new Tab(getIntent(), false).toString());
+                    editor.remove("tab_" + itemID)
+                            .putStringSet("tab_" + itemID, new LinkedHashSet<String>(apps))
+                            .commit();
+
+                    editor.remove(key)
+                            .putStringSet(key, new LinkedHashSet<String>(tabOrder))
+                            .commit();
                 }
 
                 sendBroadcast(new Intent(Common.XGELS_ACTION_RELOAD_SETTINGS));
@@ -313,24 +288,17 @@ public class AllAppsList extends ListActivity {
                 holder.imageView = (ImageView) rowView.findViewById(R.id.icon);
                 holder.textView = (TextView) rowView.findViewById(R.id.name);
                 holder.checkBox = (CheckBox) rowView.findViewById(R.id.checkbox);
-                holder.imageView.setImageDrawable(item.loadIcon(pm));
+                holder.imageView.setImageResource(android.R.drawable.sym_def_app_icon);
 
                 rowView.setTag(holder);
             }
 
             holder = (ViewHolder) rowView.getTag();
             holder.textView.setText(item.loadLabel(pm));
-
-            if (mode == MODE_PICK_APPS_TO_HIDE) {
-                holder.checkBox.setTag(item.activityInfo.packageName + "#" + item.loadLabel(pm));
-
-            } else if (mode == MODE_SELECT_FOLDER_APPS || mode == MODE_MANAGE_TAB) {
-                holder.checkBox.setTag(new ComponentName(item.activityInfo.packageName, item.activityInfo.name).flattenToString());
-            }
-
+            holder.checkBox.setTag(new ComponentName(item.activityInfo.packageName, item.activityInfo.name).flattenToString());
             holder.checkBox.setOnCheckedChangeListener(onCheckedChangeListener);
             holder.checkBox.setChecked(apps.contains(holder.checkBox.getTag()));
-            holder.loadImageAsync(pm, item, holder, iconPack);
+            holder.loadImageAsync(pm, item, holder);
 
             return rowView;
         }

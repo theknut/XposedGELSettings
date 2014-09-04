@@ -243,7 +243,7 @@ public class ChooseAppList extends ListActivity {
                     notifyDataSetChanged();
                 }
             });
-            holder.loadImageAsync(pm, item, holder, iconPack);
+            holder.loadImageAsync(pm, item, holder);
 
             return rowView;
         }
