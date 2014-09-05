@@ -8,7 +8,7 @@
         <item>Écran d\'accueil</item>
         <item>Drawer</item>
         <item>Gestes</item>
-        <item>Badges de notifications (Beta)</item>
+        <item>Badges de notifications (Bêta)</item>
         <item>Icônes</item> <!-- NEW -->
         <item>Intégration système</item>
         <item>Sauvegarde/Restauration</item>
@@ -35,10 +35,10 @@
         <item>Drawer</item>
         <item>Application récente</item>
         <item>Afficher les applis récentes</item>
-        <item>Paramètres systèmes</item>
+        <item>Paramètres système</item>
         <item>Mettre en veille</item>
         <item>Afficher/Masquer le dock</item>
-        <item>Ouvrir une application</item>
+        <item>Ouvrir une appli</item>
     </string-array>
 
     <string-array name="gesture_actions_entries_limited">
@@ -61,5 +61,29 @@
         <item>Widgets uniquement</item>
         <item>Raccourcis et widgets</item>
     </string-array>
+    
+    <string-array name="tabcontent_entries">
+        <item>Applis</item>
+        <item>Widgets</item>
+        <item>Modules Xposed</item>
+        <item>Applis Google</item>
+        <item>Nouvelles applis</item>
+        <item>Nouvelles/Mises à jour applis</item>
+    </string-array>
+
+    <string-array name="tabcontent_names">
+        <item>Applis</item>
+        <item>Widgets</item>
+        <item>Xposed</item>
+        <item>Google</item>
+        <item>Nouvelles applis</item>
+        <item>Nouvelles/Mises à jour</item>
+    </string-array>
+
+    <string-array name="tabsort_entries">
+        <item>Alphabétiquement</item>
+        <item>Date d\'installation</item>
+        <item>Dernière mise à jour</item>
+    </string-array>    
 
 </resources>
