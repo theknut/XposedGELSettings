@@ -74,7 +74,7 @@
     <string name="pref_app_drawer_background_color_title">Couleur de l\'arrière plan</string>
     <string name="pref_app_drawer_background_color_summary">Astuce : Laissez-le complètement transparent !</string>
     <string name="colorpicker_apply">Appliquer</string>
-    <string name="colorpicker_hex_hint">Custom hex color</string>
+    <string name="colorpicker_hex_hint">Couleur hex perso.</string>
     <string name="restart_launcher_icon_title">Redémarrer</string>
     <string name="pref_disable_wallpaper_scroll_title">Défilement du fond d\'écran</string>
     <string name="pref_disable_wallpaper_scroll_summary">Désactiver la synchro du défilement du fond d\'écran</string>
@@ -98,7 +98,7 @@
     <string name="pref_switch_gesture_swipe_down_left_summary">Ouvrir le volet des notifications</string>
     <string name="pref_switch_gesture_swipe_down_right_title">Glissement bas-droite</string>
     <string name="pref_switch_gesture_swipe_down_right_summary">Ouvrir le volet des raccourcis</string>
-    <string name="pref_switch_gesture_swipe_up_appdock_title">dock</string>
+    <string name="pref_switch_gesture_swipe_up_appdock_title">Dock</string>
     <string name="pref_switch_gesture_swipe_up_appdock_summary">Afficher - glisser vers le haut / Masquer - glisser vers le bas</string>
     <string name="pref_switch_gesture_swipe_up_app_drawer_title">Drawer</string>
     <string name="pref_switch_gesture_swipe_up_app_drawer_summary">Ouvrir le drawer par un glissement vers le haut</string>
@@ -108,10 +108,10 @@
     <!-- V1.4 -->
     <string name="pref_switch_no_all_apps_button_title">Bouton du drawer</string>
     <string name="pref_switch_no_all_apps_button_summary">Masquer le bouton du drawer. Enlever l\'icône du drawer si vous désactiver cette option !</string>    
-    <string name="drawer_open">Ouvrir le navigation drawer</string>
-    <string name="drawer_close">Fermer le navigation drawer</string>
+    <string name="drawer_open">Ouvrir le menu latéral</string>
+    <string name="drawer_close">Fermer le menu latéral</string>
     <string name="pref_systemui_explain_title">Note</string>
-    <string name="pref_systemui_explain_summary">Tous ces paramètres peuvent (ou ne peuvent pas) marcher suivant votre appareil et/ou votre ROM. De plus, ils nécessitent tous un redémarrage complet pour être activés.</string>
+    <string name="pref_systemui_explain_summary">Tous ces paramètres peuvent ou ne peuvent pas fonctionner suivant votre appareil et/ou votre ROM. De plus, ils nécessitent tous un redémarrage complet pour être activés.</string>
     <string name="pref_cat_systemui_navbar_title">Barre de navigation</string>
     <string name="pref_cat_systemui_statusbar_title">Barre d\'état</string>
     <string name="pref_dynamic_backbutton_title">Bouton Retour</string>
@@ -134,7 +134,7 @@
     <string name="pref_animate_dynamic_homebutton_title">Animer le changement d\'icônes</string>
     <string name="pref_animate_dynamic_homebutton_summary">Animation en fondu rapide lors du changement avec le bouton Home</string>
     <string name="pref_change_dynamic_homebutton_title">Icône du bouton Home dynamique</string>
-    <string name="pref_change_dynamic_homebutton_summary">Transforme l\'icône Home en l\'icône du drawer sur l\'écran d\'accueil par défaut</string>
+    <string name="pref_change_dynamic_homebutton_summary">Transforme l\'icône Home en icône du drawer sur l\'écran d\'accueil par défaut</string>
     <string name="pref_animate_dynamic_backbutton_title">Animer le changement d\'icônes</string>
     <string name="pref_animate_dynamic_backbutton_summary">Animation en fondu rapide lors du changement avec le bouton Retour</string>
     <string name="pref_change_dynamic_backbutton_title">Icône du bouton Retour dynamique</string>
@@ -145,12 +145,12 @@
     <string name="toast_getprices_fail">Quelque chose s\'est mal passé lors de la réception de la liste des prix. Vérifiez le logcat !</string>
     <string name="toast_donation_result_fail">Quelque chose s\'est mal passé. Vous devez arrêter le processus de XGELS et redémarrer l\'application. Vérifiez le logcat !</string>
     <string name="toast_donate_thanks">Ouais, vous êtes génial ! "Pat yourself on the shoulder !"</string>
-    <string name="pref_xgel_group_summary">Appuyez ici pour intégrer le groupe des donateurs de XGELS ! Ajoutez votre adresse e-mail Google pour que je vous ajoute au groupe privé.</string>
+    <string name="pref_xgel_group_summary">Appuyez ici pour intégrer le groupe des donateurs de XGELS ! Ajoutez votre adresse courriel Google+ pour que je vous ajoute au groupe privé.</string>
     <string name="pref_requires_donation_title">Non disponible</string>
     <string name="pref_requires_donation_summary">Les fonctionnalités suivantes ne sont disponibles que dans la version premium.</string>
     <string name="alert_reboot_needed_title">Redémarrage complet nécessaire !</string>
-    <string name="alert_reboot_needed_summary">Ce que vous avez modifier nécessite un redémarrage complet.</string>
-    <string name="progress_requesting_root_title">Patientez&#8230;</string>
+    <string name="alert_reboot_needed_summary">Ce que vous avez modifié nécessite un redémarrage complet.</string>
+    <string name="progress_requesting_root_title">Veuillez patienter&#8230;</string>
     <string name="progress_requesting_root_summary">Nécessite les privilèges Root&#8230;</string>
     <string name="pref_auto_blur_wallpaper_title">Arrière plan dynamique</string>
     <string name="pref_auto_blur_wallpaper_summary">Floute le fond d\'écran de l\'appareil à chaque fois qu\'il est changé et l\'utilise comme arrière plan XGELS. Cela peut vider votre batterie si vous utilisez des applications qui changent le fond d\'écran selon certains intervalles.</string>
@@ -200,9 +200,9 @@
     <string name="pref_send_bugreport">Envoyer un rapport de bug</string>
     <string name="toast_no_log_found">error.log non trouvé sur Xposed Installer</string>
     <string name="alert_debug_logging_activated_title">Journalisation activé !</string>
-    <string name="alert_debug_logging_activated_summary">La journalisation est maintenant activé. Merci de reproduire l\'erreur et d\'envoyer le debug log.</string>
+    <string name="alert_debug_logging_activated_summary">La journalisation est maintenant activé. Merci de reproduire l\'erreur et d\'envoyer le fichier log.</string>
     <string name="alert_debug_logging_not_activated_title">La journalisation n\'est pas activé !</string>
-    <string name="alert_debug_logging_not_activated_summary">La journalisation n\'est pas activé. Activez le debug logging et reproduisez l\'erreur avant d\'envoyer un fichier log.</string>
+    <string name="alert_debug_logging_not_activated_summary">La journalisation n\'est pas activé. Activez-la et reproduisez l\'erreur avant d\'envoyer le fichier log.</string>
     
     <string name="alert_autokill_title">Note</string>
     <string name="alert_autokill_summary">XGELS redémarre automatiquement GNL/Trebuchet dès que vous changez une option. Lorsque vous retournerez sur l\'accueil, GNL/Trebuchet sera lancé avec les nouvelles options.</string>
@@ -213,9 +213,9 @@
     <string name="pref_autokill_launcher_summary">Redémarre GNL/Trebuchet automatiquement une fois que les options sont changées.</string>
     
     <string name="pref_notificationbadge_premium_title">Fonctionnalités Premium</string>
-    <string name="pref_notificationbadge_premium_summary">Cette fonctionnalité est seulement disponible dans XGELS Premium. Les badges de notification requièrent MissedIt! (payant) pour recevoir le compteur de stats.</string>
+    <string name="pref_notificationbadge_premium_summary">Cette fonctionnalité est uniquement disponible dans XGELS Premium. Les badges de notification requièrent MissedIt! (payant) pour recevoir le compteur de stats.</string>
     <string name="pref_notificationbadge_missedit_missing_title">MissedIt! n\'est pas installé</string>
-   <string name="pref_notificationbadge_missedit_missing_summary">MissedIt! n\'est pas installé. XGELS demande le compteur de statistiques de cette application pour recevoir les chiffres des badges. Appuyez ici pour ouvrir/acheter MissedIt! depuis le Play Store !</string>
+    <string name="pref_notificationbadge_missedit_missing_summary">MissedIt! n\'est pas installé. XGELS demande le compteur de stats de cette application pour recevoir les chiffres des badges. Appuyez ici pour ouvrir/acheter MissedIt! depuis le Play Store !</string>
     <string name="pref_notificationbadge_open_missedit_title">Ouvrir MissedIt!</string>
     <string name="pref_notificationbadge_open_missedit_summary">Appuyez ici pour ouvrir MissedIt!</string>
     <string name="pref_notificationbadge_enable_title">Activer les badges</string>
@@ -258,7 +258,6 @@
     <string name="pref_notificationbadge_help_summary">Appuyez ici pour lire comment configurer les badges de notifications !</string>
     
     <!-- V1.7 -->
-    
     <string name="pref_switch_position_all_apps_button_title">Position du bouton du drawer</string>
     <string name="pref_switch_position_all_apps_button_summary">Choisir la position du drawer</string>
     <string name="pref_general_scroll_devider_title">Vitesse de défilement</string>
@@ -292,7 +291,7 @@
     <string name="pref_xgels_no_background_image_title">Aucune image d\'arrière plan</string>
     <string name="pref_switch_smart_folder_title">Dossier intelligents</string>
     <string name="pref_overlapping_widgets_title">Widgets chevauchants</string>
-    <string name="pref_overlapping_widgets_summary">Permer le chevauchement des widgets. Fonctionne uniquement sur GNL !\n(Beta: Actuellement la position de la couche n\'est pas sauvegardée après un redémarrage)</string>
+    <string name="pref_overlapping_widgets_summary">Permer le chevauchement des widgets. Fonctionne uniquement sur GNL !\n(Bêta: Actuellement la position de la couche n\'est pas sauvegardée après un redémarrage)</string>
 
     <string name="pref_overridesettings_button_title">Bouton des paramètres</string>
     <string name="pref_overridesettings_button_summary">Ouvre XGELS au lieu des paramètres de Google Now</string>
@@ -313,9 +312,9 @@
     <string name="pref_glow_color_summary">Couleur s\'affichant en pressant un icône</string>
     <string name="hide_app_switch_label">Masquer du drawer</string>
     <string name="default_text">Par défaut</string>
-    <string name="pref_cat_system_bars_title">Barres systèmes</string>
-    <string name="pref_transparent_system_bars_title">Barres systèmes transparentes</string>
-    <string name="pref_transparent_system_bars_summary">Utilise la transparence des barres systèmes d\'Android L (Android 4.4+)</string>
+    <string name="pref_cat_system_bars_title">Barres système</string>
+    <string name="pref_transparent_system_bars_title">Barres système transparentes</string>
+    <string name="pref_transparent_system_bars_summary">Utilise la transparence des barres système d\'Android L (nécessite Android 4.4+)</string>
     <string name="module_not_from_google_play">Module non installé depuis le Google Play Store !</string>
     <string name="module_not_from_google_play_msg">XGELS n\'a pas été installé depuis le Google Play Store ! Faîtes-le pour acheter la version Premium et recevoir automatiquement les mises à jours.</string>
     <string name="open_play_store">Ouvrir le Play Store</string>
@@ -334,5 +333,13 @@
     <!-- V1.9.1 -->
     <string name="pref_searchbar_style_title">Thème de la barre de recherche</string>
     <string name="pref_contextmenu_mode_title">Menu contextuel</string>
+    
+    <!-- V2.0 -->
+    <string name="alert_tab_settings_title">Paramètres onglet</string>
+    <string name="alert_tab_hide_from_apps_title">Masquer les applis de l\'onglet applis principal</string>
+    <string name="alert_tab_hint_text_title">Nom de l\'onglet</string>
+    <string name="pref_tabsandfolders_title">Onglets et dossiers</string>
+    <string name="pref_tab_type_title">Type d\'onglet</string>
+    <string name="toast_tab_delete">Appuyez et maintenez pour supprimer l\'onglet</string>    
     
 </resources>
