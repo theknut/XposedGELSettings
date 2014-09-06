@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,7 +15,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -309,7 +309,6 @@ public class GeneralHooks extends HooksBaseClass {
 
             PreferencesHelper.init();
             if (DEBUG) log("Launcher: Settings reloaded");
-            ArrayList<String> actions = new ArrayList<String>(Arrays.asList(Intent.ACTION_PACKAGE_ADDED, Intent.ACTION_PACKAGE_REMOVED, Intent.ACTION_PACKAGE_REMOVED));
 
             if (intent.getAction().equals(Common.XGELS_ACTION_RESTART_LAUNCHER)) {
                 killLauncher();
@@ -345,6 +344,9 @@ public class GeneralHooks extends HooksBaseClass {
             } else if (intent.getAction().equals(Common.XGELS_ACTION_MODIFY_TAB)) {
                 if (intent.getBooleanExtra("add", false)) {
                     TabHelper.getInstance().addTab(new Tab(intent, true));
+                } else if (intent.hasExtra("color")) {
+                    TabHelper.getInstance().setTabColor(intent.getIntExtra("color", Color.WHITE));
+                    TabHelper.getInstance().saveTabData();
                 } else {
                     TabHelper tabHelper = TabHelper.getInstance();
                     Object mAppsCustomizePane = getObjectField(tabHelper.getTabHost(), Fields.acthAppsCustomizePane);
@@ -363,8 +365,6 @@ public class GeneralHooks extends HooksBaseClass {
                 }
 
                 if (DEBUG) log("Launcher: Tab reloaded");
-            } else if (actions.contains(intent.getAction())) {
-                TabHelper.getInstance().updateTabs();
             }
         }
     };

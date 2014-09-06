@@ -6,6 +6,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Color;
 import android.os.AsyncTask;
 
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class Tab {
     private long id;
     private int idx;
     private boolean hideFromAppsPage;
+    private int color = Color.WHITE;
     private SortType sortType = SortType.Alphabetically;
 
     public static final int APPS_ID = 0xABB5;
@@ -63,6 +65,8 @@ public class Tab {
                 this.hideFromAppsPage = Boolean.parseBoolean(setting.split("=")[1]);
             } else if (setting.startsWith("sort=")) {
                 this.sortType = SortType.valueOf(setting.split("=")[1]);
+            } else if (setting.startsWith("color=")) {
+                this.color = Integer.parseInt(setting.split("=")[1]);
             }
         }
 
@@ -75,6 +79,7 @@ public class Tab {
         this.title = intent.getStringExtra("tabname");
         this.contentType = ContentType.valueOf(intent.getStringExtra("contenttype"));
         this.hideFromAppsPage = intent.getBooleanExtra("hide", false);
+        this.color = intent.getIntExtra("color", Color.WHITE);
 
         if (initData) initData();
     }
@@ -313,7 +318,8 @@ public class Tab {
                 + "contenttype=" + getContentType() + "|"
                 + "title=" + getTitle() + "|"
                 + "hide=" + hideFromAppsPage() + "|"
-                + "sort=" + getSortType();
+                + "sort=" + getSortType() + "|"
+                + "color=" + getColor();
     }
 
     public boolean hideFromAppsPage() {
@@ -330,5 +336,13 @@ public class Tab {
 
     public void update() {
         initData();
+    }
+
+    public int getColor() {
+        return this.color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
     }
 }

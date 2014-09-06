@@ -38,7 +38,7 @@
 
     <View
         android:layout_width="fill_parent"
-        android:layout_height="1dp"
+        android:layout_height="2dp"
         android:background="#FFFFFF"
         android:id="@+id/tab_settings_divider" />
 
@@ -62,6 +62,12 @@
             android:layout_height="@dimen/tab_menu_icon_size"
             android:id="@+id/deletetab"
             android:src="@drawable/contextmenu_action_discard"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:layout_width="@dimen/tab_menu_icon_size"
+            android:layout_height="@dimen/tab_menu_icon_size"
+            android:id="@+id/tabcolor"
             android:layout_weight="1" />
 
         <ImageView

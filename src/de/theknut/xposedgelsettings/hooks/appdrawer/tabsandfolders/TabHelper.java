@@ -11,8 +11,10 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Handler;
 import android.view.Display;
@@ -100,8 +102,16 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
     }
 
     public void invalidate() {
+        setTabColor(getCurrentTabData().getColor());
         Object mAppsCustomizePane = getObjectField(tabHost, Fields.acthAppsCustomizePane);
         callMethod(mAppsCustomizePane, Methods.acpvInvalidatePageData, PreferencesHelper.appdrawerRememberLastPosition ? Common.APPDRAWER_LAST_PAGE_POSITION : 0, true);
+    }
+
+    public void setTabColor(int color) {
+        getCurrentTabData().setColor(color);
+        addButton.setColorFilter(color, PorterDuff.Mode.MULTIPLY);
+        tabsContainer.findViewById(R.id.tab_host_divider).setBackgroundColor(color);
+        tabHost.getCurrentTabView().getBackground().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
     }
 
     public enum ContentType {
@@ -319,6 +329,11 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
         Common.LAUNCHER_CONTEXT.startActivity(intent);
     }
 
+    public void saveTabData() {
+        Intent intent = getBaseIntent(false, 0, null);
+        Common.LAUNCHER_CONTEXT.startActivity(intent);
+    }
+
     private void onTabsDataChanged() {
         syncIndexes();
     }
@@ -492,22 +507,22 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
             return;
         }
 
-        final ViewGroup alertTitle = (ViewGroup) LayoutInflater.from(XGELSContext).inflate(R.layout.tab_settings_view, null);
+        final ViewGroup tabSettingsView = (ViewGroup) LayoutInflater.from(XGELSContext).inflate(R.layout.tab_settings_view, null);
         if (newTab) {
-            alertTitle.findViewById(R.id.tab_settings_bar).setVisibility(View.GONE);
-            alertTitle.findViewById(R.id.tab_settings_additional).setVisibility(View.GONE);
+            tabSettingsView.findViewById(R.id.tab_settings_bar).setVisibility(View.GONE);
+            tabSettingsView.findViewById(R.id.tab_settings_additional).setVisibility(View.GONE);
         }
 
-        final EditText editText = (EditText) alertTitle.findViewById(R.id.tabname);
+        final EditText editText = (EditText) tabSettingsView.findViewById(R.id.tabname);
         if (!newTab) editText.setText(tab.getTitle());
 
         int padding = Math.round(XGELSContext.getResources().getDimension(R.dimen.tab_menu_padding));
         final AlertDialog alert = new AlertDialog.Builder((Activity) Common.LAUNCHER_INSTANCE).create();
-        alert.setView(alertTitle, padding, padding, padding, padding);
+        alert.setView(tabSettingsView, padding, padding, padding, padding);
 
         if (!newTab) {
 
-            ImageView save = (ImageView) alertTitle.findViewById(R.id.tab_save_settings);
+            ImageView save = (ImageView) tabSettingsView.findViewById(R.id.tab_save_settings);
             setDrawableSelector(save);
             save.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -528,7 +543,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
                 }
             });
 
-            final ImageView manageApps = (ImageView) alertTitle.findViewById(R.id.manageapps);
+            final ImageView manageApps = (ImageView) tabSettingsView.findViewById(R.id.manageapps);
             if (!tab.isDynamicTab()) {
                 manageApps.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -556,7 +571,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
                 manageApps.setVisibility(View.GONE);
             }
 
-            final ImageView deleteTab = (ImageView) alertTitle.findViewById(R.id.deletetab);
+            final ImageView deleteTab = (ImageView) tabSettingsView.findViewById(R.id.deletetab);
             if (!tab.isAppsTab()) {
                 deleteTab.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -582,7 +597,22 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
                 deleteTab.setVisibility(View.GONE);
             }
 
-            final ImageView moveLeft = (ImageView) alertTitle.findViewById(R.id.movetableft);
+            tabSettingsView.findViewById(R.id.tab_settings_divider).setBackgroundColor(tab.getColor());
+
+            final ImageView color = (ImageView) tabSettingsView.findViewById(R.id.tabcolor);
+            color.setImageDrawable(setColorPreview());
+            color.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = getBaseIntent(false, tab.getId(), tab.getTitle());
+                    intent.putExtra("keep", true);
+                    intent.putExtra("initcolor", tab.getColor());
+                    Common.LAUNCHER_CONTEXT.startActivity(intent);
+                    alert.cancel();
+                }
+            });
+
+            final ImageView moveLeft = (ImageView) tabSettingsView.findViewById(R.id.movetableft);
             moveLeft.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -591,7 +621,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
             });
             setDrawableSelector(moveLeft);
 
-            final ImageView moveRight = (ImageView) alertTitle.findViewById(R.id.movetabright);
+            final ImageView moveRight = (ImageView) tabSettingsView.findViewById(R.id.movetabright);
             moveRight.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -600,7 +630,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
             });
             setDrawableSelector(moveRight);
 
-            final CheckBox hideApps = (CheckBox) alertTitle.findViewById(R.id.tab_hide_apps);
+            final CheckBox hideApps = (CheckBox) tabSettingsView.findViewById(R.id.tab_hide_apps);
             hideApps.setChecked(tab.hideFromAppsPage());
             if (tab.isCustomTab() && !(tab.isNewUpdatedTab() || tab.isNewAppsTab())) {
                 hideApps.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -616,7 +646,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
                 hideApps.setVisibility(View.GONE);
             }
 
-            Spinner tabSort = (Spinner) alertTitle.findViewById(R.id.tabsort);
+            Spinner tabSort = (Spinner) tabSettingsView.findViewById(R.id.tabsort);
             String[] stringArray = XGELSContext.getResources().getStringArray(R.array.tabsort_values);
             final ArrayList<String> sortTypes = new ArrayList<String>(Arrays.asList(stringArray));
             tabSort.setSelection(sortTypes.indexOf(tab.getSortType().toString()));
@@ -648,7 +678,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
                 tabSort.setVisibility(View.GONE);
             }
         } else {
-            final Spinner spinner = (Spinner) alertTitle.findViewById(R.id.tabcontenttype);
+            final Spinner spinner = (Spinner) tabSettingsView.findViewById(R.id.tabcontenttype);
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -664,8 +694,8 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
             });
             spinner.setVisibility(View.VISIBLE);
 
-            alertTitle.findViewById(R.id.tab_save_settings).setVisibility(View.GONE);
-            alertTitle.findViewById(R.id.tab_settings_divider).setVisibility(View.GONE);
+            tabSettingsView.findViewById(R.id.tab_save_settings).setVisibility(View.GONE);
+            tabSettingsView.findViewById(R.id.tab_settings_divider).setVisibility(View.GONE);
 
             alert.setButton(DialogInterface.BUTTON_POSITIVE, tabHost.getContext().getString(android.R.string.ok), new DialogInterface.OnClickListener() {
                 @Override
@@ -678,7 +708,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
 
                     long itemId = getNewTabId();
 
-                    Spinner spinner = (Spinner) alertTitle.findViewById(R.id.tabcontenttype);
+                    Spinner spinner = (Spinner) tabSettingsView.findViewById(R.id.tabcontenttype);
                     ContentType contentType = ContentType.valueOf(XGELSContext.getResources().getStringArray(R.array.tabcontent_values)[spinner.getSelectedItemPosition()]);
                     Intent intent = getBaseIntent(contentType == ContentType.User, itemId, newTabName);
                     int tabindex = tabHost.getTabWidget().getTabCount();
@@ -694,7 +724,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
                     }
 
                     intent.putExtra("contenttype", contentType.toString());
-                    intent.putExtra("newtab", newTab);
+                    intent.putExtra("newtab", true);
                     intent.putExtra("tabindex", tabindex);
 
                     Common.LAUNCHER_CONTEXT.startActivity(intent);
@@ -710,6 +740,14 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
         }
 
         alert.show();
+    }
+
+    private Drawable setColorPreview() {
+        Drawable canvas = XGELSContext.getResources().getDrawable(R.drawable.tabcolorpreview_canvas);
+        canvas.setColorFilter(getCurrentTabData().getColor(), PorterDuff.Mode.MULTIPLY);
+        Drawable ring = XGELSContext.getResources().getDrawable(R.drawable.tabcolorpreview_ring);
+        ring.setColorFilter(getCurrentTabData().getColor(), PorterDuff.Mode.MULTIPLY);
+        return new LayerDrawable(new Drawable[] {canvas, ring});
     }
 
     private void setDrawableSelector(ImageView view) {

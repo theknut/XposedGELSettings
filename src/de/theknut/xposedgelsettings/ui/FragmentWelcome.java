@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.Toast;
+
+import net.margaritov.preference.colorpicker.ColorPickerDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,20 +42,7 @@ public class FragmentWelcome extends FragmentBase {
     	View rootView = inflater.inflate(R.layout.welcome, container, false);
 
         if (BuildConfig.DEBUG) {
-            rootView.findViewById(R.id.welcometext).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
 
-                    Intent galleryIntent= new Intent(Intent.ACTION_GET_CONTENT);
-                    galleryIntent.setType("image/*");
-                    galleryIntent.putExtra("crop", "true");
-                    galleryIntent.putExtra("aspectX", 1);
-                    galleryIntent.putExtra("aspectY", 1);
-                    galleryIntent.putExtra("outputX", 196);
-                    galleryIntent.putExtra("outputY", 196);
-                    startActivityForResult(galleryIntent, 0xBEEF);
-                }
-            });
         }
 
 

@@ -7,7 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
+
+import net.margaritov.preference.colorpicker.ColorPickerDialog;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -24,6 +27,9 @@ public class SaveActivity extends ListActivity {
 
     public static final int MODE_MANAGE_TAB = 3;
     public static final int CONVERT_APPSWIDGETS = 4;
+    public static final int MODE_PICK_COLOR = 5;
+
+    ColorPickerDialog colorPickerDialog;
 
     @SuppressLint("NewApi")
     @Override
@@ -95,8 +101,31 @@ public class SaveActivity extends ListActivity {
             }
         }
 
-        sendBroadcast(new Intent(Common.XGELS_ACTION_RELOAD_SETTINGS));
+        if (!getIntent().getBooleanExtra("keep", false)) {
+            sendBroadcast(new Intent(Common.XGELS_ACTION_RELOAD_SETTINGS));
+            finish();
+        }
+    }
 
-        finish();
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        colorPickerDialog = new ColorPickerDialog(this, getIntent().getIntExtra("initcolor", Color.WHITE));
+        colorPickerDialog.setOnColorChangedListener(new ColorPickerDialog.OnColorChangedListener() {
+            @Override
+            public void onColorChanged(int color) {
+                Intent intent = new Intent(Common.XGELS_ACTION_MODIFY_TAB);
+                intent.putExtra("color", color);
+                sendBroadcast(intent);
+                finish();
+            }
+        });
+        colorPickerDialog.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
     }
 }
