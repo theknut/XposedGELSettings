@@ -21,25 +21,25 @@
     <string name="pref_cat_title_general">Generali</string>
     <string name="pref_cat_title_hide_apps">Nascondi app</string>
     <string name="pref_grid_size_explain_title">Attenzione!</string>
-    <string name="pref_grid_size_explain_summary">Attenzione: Modificare la dimensione della griglia potrebbe far perdere l\' ordine delle icone. Se si riduce la dimensione alcune icone potrebbero scomparire. Per&#242; l\'aumento delle dimensioni li far&#224; ricomparire. Inoltre, se la dimensione della griglia &#232; eccessiva taglia le icone. Non aumentare troppo.</string>
+    <string name="pref_grid_size_explain_summary">Attenzione: modificare la dimensione della griglia potrebbe far perdere l\' ordine delle icone. Se si riduce la dimensione alcune icone potrebbero scomparire, ma riaumentandola compariranno nuovamente. Inoltre, se la dimensione della griglia &#232; eccessiva pu&#242; tagliare le icone, non aumentare troppo!</string>
     <string name="pref_switch_enable_grid_size_title">Abilita</string>
     <string name="pref_switch_enable_grid_size_summary">Cambia le dimensioni della griglia</string>
     <string name="pref_resize_all_widgets_title">Ridimensiona widgets</string>
     <string name="pref_resize_all_widgets_summary">Rendi tutti i widget ridimensionabili</string>
     <string name="pref_xcount_title">Colonne Homescreen</string>
     <string name="pref_xcount_summary">Modifica il numero di colonne nella homescreen</string>
-    <string name="pref_ycount_title">Rige Homescreen</string>
+    <string name="pref_ycount_title">Righe Homescreen</string>
     <string name="pref_ycount_summary">Modifica il numero di righe nella homescreen</string>
     <string name="pref_xcountallapps_title">Colonne App drawer</string>
     <string name="pref_xcountallapps_summary">Modifica il numero di colonne nell\'app drawer</string>
-    <string name="pref_ycountallapps_title">Rige App drawer</string>
+    <string name="pref_ycountallapps_title">Righe App drawer</string>
     <string name="pref_ycountallapps_summary">Modifica il numero di righe delle app</string>
     <string name="pref_cat_title_homescreen">Homescreen</string>
     <string name="pref_title_longpress_app_drawer_button">Icona App drawer</string>
     <string name="pref_summary_longpress_app_drawer_button">Apri XGELS con una pressione lunga</string>
     <string name="pref_cat_title_appicons">Impopstazioni Icone</string>
     <string name="pref_switch_appicons_title">Abilita</string>
-    <string name="pref_switch_appicons_explain_summary">Abilita changes to icons</string>
+    <string name="pref_switch_appicons_explain_summary">Abilita cambiamenti alle icone</string>
     <string name="pref_iconsize_title">Grandezza icone</string>
     <string name="pref_iconsize_summary">Seleziona una percentuale</string>
     <string name="pref_icontextsize_title">Grandezza testo icone</string>
@@ -56,22 +56,22 @@
     <string name="pref_restart_launcher_summary">Clicca per riavviare il launcher e usare le tue impostazioni.</string>
     <string name="pref_support_thread_title">Hai bisogno d\' aiuto?</string>
     <string name="pref_support_thread_summary">Si prega di mostrare un po d\'amore per il thread di supporto. Se hai bisogno di aiuto o hai un feedback clicca qui per aprire il thread.</string>
-    <string name="pref_cat_eximport_settings">XGELS Importa/Esporta Impostazioni</string>
+    <string name="pref_cat_eximport_settings">Importa/Esporta Impostazioni di XGELS</string>
     <string name="pref_settings_import_title">Importa</string>
-    <string name="pref_settings_import_summary">Importa le tue impostaznioni su\n/sdcard/XposedGELSettings</string>
+    <string name="pref_settings_import_summary">Importa le tue impostaznioni da\n/sdcard/XposedGELSettings</string>
     <string name="pref_settings_export_title">Esporta</string>
-    <string name="pref_settings_export_summary">Esporta le tue impostazione da\n/sdcard/XposedGELSettings</string>
-    <string name="pref_settings_reset_title">Reset</string>
+    <string name="pref_settings_export_summary">Esporta le tue impostazioni in\n/sdcard/XposedGELSettings</string>
+    <string name="pref_settings_reset_title">Resetta</string>
     <string name="pref_settings_reset_summary">Resetta le tue impostazioni</string>
     <string name="pref_pageindicator_title">Indicatore pagine</string>
     <string name="pref_pageindicator_summary">Nascondi l\' indicatore delle pagine dalla homescreen e app drawer</string>
-    <string name="pref_default_homescreen_title">Predefinito homescreen</string>
-    <string name="pref_default_homescreen_summary">Seleziona la homescreen di default</string>
+    <string name="pref_default_homescreen_title">Homesreen predefinita</string>
+    <string name="pref_default_homescreen_summary">Seleziona la homescreen predefinita</string>
     <string name="pref_enable_rotation_title">Rotazione</string>
     <string name="pref_enable_rotation_summary">Abilita rotazione\n(Richiede un riavvio totale)</string>
     <string name="pref_icon_label_color">Colore testo</string>
     <string name="pref_switch_icon_shadow_title">Ombra testo</string>
-    <string name="pref_app_drawer_background_color_title">Colore di background</string>
+    <string name="pref_app_drawer_background_color_title">Colore di sfondo</string>
     <string name="pref_app_drawer_background_color_summary">Suggerimento: rendila completamente trasparente!</string>
     <string name="colorpicker_apply">Applica</string>
     <string name="colorpicker_hex_hint">Colore personalizato</string>
@@ -115,16 +115,16 @@
     <string name="pref_cat_systemui_navbar_title">Barra di navigazione</string>
     <string name="pref_cat_systemui_statusbar_title">Barra di stato</string>
     <string name="pref_dynamic_backbutton_title">Pulsante indietro</string>
-    <string name="pref_dynamic_backbutton_summary">Passa al \"Pulsante di spegnimento\" nella scermata predefinita</string>
-    <string name="pref_dynamic_homebutton_title">Home button</string>
-    <string name="pref_dynamic_homebutton_summary">Passa al pulsante \"App drawer\" nella scermata predefinita</string>
+    <string name="pref_dynamic_backbutton_summary">Passa al \"Pulsante di spegnimento\" nella homescreen predefinita</string>
+    <string name="pref_dynamic_homebutton_title">Pulsante home</string>
+    <string name="pref_dynamic_homebutton_summary">Passa al pulsante \"App drawer\" nella homescreen predefinita</string>
     <string name="pref_dynamic_hideclock_title">Nascondi orologgio</string>
-    <string name="pref_dynamic_hideclock_summary">Nascondi l\' orologgio nella schermata predefinita</string>
+    <string name="pref_dynamic_hideclock_summary">Nascondi l\' orologgio nella homescreen predefinita</string>
     <string name="toast_restore_success">Ripristino layout homescreen riuscito</string>
     <string name="toast_restore_failed">Ripristino layout homescreen non riuscito</string>
     <string name="toast_backup_success">Backup layout homescreen riuscito</string>
     <string name="toast_backup_failed">Backup layout homescreen non riuscito</string>
-    <string name="pref_cat_backuprestore_homescreen_title">Layout Homescreen launcher</string>
+    <string name="pref_cat_backuprestore_homescreen_title">Layout Homescreen Launcher</string>
     <string name="pref_backuprestore_note_title">Nota</string>
     <string name="pref_backuprestore_note_summary">Questo backup ripristina le icone e le cartelle. I widget e le loro posizioni saranno persi e devono essere inseriti nuovamente! Inoltre questa funzionalit&#224; richiede anche il root!</string>
     <string name="pref_backup_homescreen_title">Backup</string>
@@ -134,14 +134,14 @@
     <string name="pref_animate_dynamic_homebutton_title">Anima il cambiamento delle icone</string>
     <string name="pref_animate_dynamic_homebutton_summary">Dissolvenza rapida in animazione quando si cambia</string>
     <string name="pref_change_dynamic_homebutton_title">Pulsante home dinamico</string>
-    <string name="pref_change_dynamic_homebutton_summary">Cambia l\' icona home a icona app drawer sulla homescreen predefinita</string>
+    <string name="pref_change_dynamic_homebutton_summary">Cambia l\' icona home a icona app drawer nella homescreen predefinita</string>
     <string name="pref_animate_dynamic_backbutton_title">Anima il cambiamento delle icone</string>
     <string name="pref_animate_dynamic_backbutton_summary">Dissolvenza rapida in animazione quando si cambia</string>
     <string name="pref_change_dynamic_backbutton_title">Pulsante indietro dinamico</string>
-    <string name="pref_change_dynamic_backbutton_summary">Cambia l\' icona indietro a icona spegnimento sulla homscreen predefinita </string>
+    <string name="pref_change_dynamic_backbutton_summary">Cambia l\' icona indietro a icona spegnimento nella homescreen predefinita </string>
     <string name="toast_full_reboot">Per rendere effettive queste modifiche occorre riavviare il dispositivo!</string>
     <string name="pref_switch_gesture_swipe_down_close_app_drawer_title">App drawer</string>
-    <string name="pref_switch_gesture_swipe_down_close_app_drawer_summary">Scorri g&#249; pre chiudere l\' app drawer</string>
+    <string name="pref_switch_gesture_swipe_down_close_app_drawer_summary">Scorri gi&#249; pre chiudere l\' app drawer</string>
     <string name="toast_getprices_fail">Qualcosa è andato storto durante il caricamendo del listino prezzi. Si prega di verificare il logcat!</string>
     <string name="toast_donation_result_fail">Qualcosa è andato storto. Si consiglia di chiudere XGELS e avviarlo nuovamente. Si prega di verificare il logcat!</string>
     <string name="toast_donate_thanks">Sei fantastico! Ti daro\' una pacca sulla spalla ;)!</string>
@@ -153,21 +153,21 @@
     <string name="progress_requesting_root_title">Attendere prego&#8230;</string>
     <string name="progress_requesting_root_summary">Richiesta dei privilegi di root&#8230;</string>
     <string name="pref_auto_blur_wallpaper_title">Sfondo dinamico</string>
-    <string name="pref_auto_blur_wallpaper_summary">Sfocatura lo sfondo ogni volta che viene cambiato e usarlo come sfondo per XGELS. Questo può consumare la batteria se si fa uso di applicazioni che cambiano lo sfondo entro determinati intervalli.</string>
-    <string name="pref_dynamic_backbuttononeveryscreen_title">Stand-by su ogni schermata</string>
-    <string name="pref_dynamic_backbuttononeveryscreen_summary">Va in stand-by in ogni schermata.Se non cliccato,va in stand-by solo sulla schermata predefinita.</string>
+    <string name="pref_auto_blur_wallpaper_summary">Sfoca lo sfondo ogni volta che viene cambiato e usalo come sfondo per XGELS. Questo può consumare la batteria se si fa uso di applicazioni che cambiano lo sfondo entro determinati intervalli.</string>
+    <string name="pref_dynamic_backbuttononeveryscreen_title">Stand-by in ogni schermata</string>
+    <string name="pref_dynamic_backbuttononeveryscreen_summary">Va in stand-by in ogni schermata. Se non cliccato, va in stand-by solo nella homescreen predefinita.</string>
 
     <!-- V1.5 -->
     <string name="pref_selectwidgetstohide_summary">Seleziona i widgets da nascondere</string>
-    <string name="pref_workspacerect_title">Margini sinistra\destra homscreen</string>
-    <string name="pref_workspacerect_summary">Scegli una dimensione per il margine destro o sinistro della homescreen</string>
+    <string name="pref_workspacerect_title">Margini sinistra/destra homscreen</string>
+    <string name="pref_workspacerect_summary">Scegli una dimensione per il margine sinistro/destro della homescreen</string>
     <string name="pref_workspacerect_dialog">Scegli dimensioni</string>
     <string name="toast_openinstaller_failed">Impossibile aprire Xposed Installer. Si prega di avviarlo manualmente!</string>
     <string name="pref_cat_homescreen_folder_title">Cartelle</string>
     <string name="pref_cat_homescreen_icon_title">Icone</string>
     <string name="pref_cat_homescreen_appdock_title">App dock</string>
     <string name="pref_switch_appdocksettings_title">Abilita</string>
-    <string name="pref_switch_appdocksettings_explain_summary">Abilita cambiamenti alle app dock</string>
+    <string name="pref_switch_appdocksettings_explain_summary">Abilita cambiamenti all\'app dock</string>
     <string name="pref_switch_autohideappdock_title">Nascondi automaticamente</string>
     <string name="pref_switch_autohideappdock_summary">Nascondi dock automaticamente</string>
     <string name="pref_switch_folder_title">Abilita</string>
@@ -179,7 +179,7 @@
 
     <string name="pref_choose_gesture_action_title">Scegliere un azione</string>
     <string name="pref_switch_gesture_appdrawer_title">App drawer</string>
-    <string name="pref_switch_gesture_appdrawer_summary">Scorri g&#249; - chiudi app drawer\nScorri s&#249; - passa tra app e widget</string>
+    <string name="pref_switch_gesture_appdrawer_summary">Scorri gi&#249; - chiudi app drawer\nScorri s&#249; - passa tra app e widget</string>
     <string name="pref_switch_gesture_double_tap_title">Doppio tocco</string>
     <string name="pref_switch_gesture_double_tap_summary">Eccetto cartelle e widget</string>
     <string name="pref_cat_gesture_down_title">Scorri gi&#249;</string>
@@ -192,7 +192,7 @@
     <string name="pref_gesture_up_right_title">Scorri s&#249; a destra</string>
     <string name="alert_hidedock_summary">Assicurati di aver attivato un\'altra opzione per accedere all\'app drawer altrimenti non riuscirai piu\' ad accedervi!</string>
     <string name="alert_hidewidgets_title">Nota</string>
-    <string name="alert_hidewidgets_summary">È possibile selezionare solo i widget in questo elenco.I tasti di scelta rapida non possono essere nascosti al momento.</string>
+    <string name="alert_hidewidgets_summary">È possibile selezionare solo i widget in questo elenco. I tasti di scelta rapida non possono essere nascosti al momento.</string>
     <string name="pref_limited_title">Limitato</string>
 
     <!-- V1.6 -->
@@ -210,15 +210,15 @@
     <string name="alert_autokill_cancel">Lo far&#242; io stesso!</string>
     <string name="alert_autokill_checkbox">Non mostrare pi&#249;</string>
     <string name="pref_autokill_launcher_title">Riavvia Launcher</string>
-    <string name="pref_autokill_launcher_summary">Riavvio GNL / Trebuchet automaticamente una volta una preferenza viene modificato. Quando si va indietro al homescreen GNL / Trebuchet sarà quindi caricato con le nuove impostazioni.</string>
+    <string name="pref_autokill_launcher_summary">Riavvio GNL/Trebuchet automaticamente una volta una preferenza viene modificato. Quando si va indietro al homescreen GNL/Trebuchet sarà quindi caricato con le nuove impostazioni.</string>
 
     <string name="pref_notificationbadge_premium_title">Caratteristica Premium</string>
-    <string name="pref_notificationbadge_premium_summary">Questa funzione è disponibile solo in XGELS Premium. Si noti che per la notifica dei badge e richiesto MissedIt! (a pagamento) per ottenere in contatore notifiche.</string>
+    <string name="pref_notificationbadge_premium_summary">Questa funzione è disponibile solo in XGELS Premium. Si noti che per i badges di notifica &#232; richiesto MissedIt! (a pagamento) per ottenere in contatore notifiche.</string>
     <string name="pref_notificationbadge_missedit_missing_title">MissedIt! non installato</string>
-    <string name="pref_notificationbadge_missedit_missing_summary">MissedIt! non è installato. XGELS richiede questa applicazione per ottenere il contatore delle notifiche. Clicca qui per aprire/acquistare MissedIt! dal Play Store!</string>
+    <string name="pref_notificationbadge_missedit_missing_summary">MissedIt! non è installato. XGELS richiede questa applicazione per ottenere i badges di notifica. Clicca qui per aprire/acquistare MissedIt! dal Play Store!</string>
     <string name="pref_notificationbadge_open_missedit_title">Apri MissedIt!</string>
-    <string name="pref_notificationbadge_open_missedit_summary">Cliccca qui per aprire MissedIt!</string>
-    <string name="pref_notificationbadge_enable_title">Abilita badge</string>
+    <string name="pref_notificationbadge_open_missedit_summary">Clicca qui per aprire MissedIt!</string>
+    <string name="pref_notificationbadge_enable_title">Abilita badges</string>
     <string name="pref_notificationbadge_backgroundcolor_title">Colore di sfondo</string>
     <string name="pref_notificationbadge_textcolor_title">Colore testo</string>
     <string name="pref_notificationbadge_textsize_title">Dimensione testo</string>
@@ -228,14 +228,14 @@
     <string name="pref_notificationbadge_presets_title">Configurazioni</string>
     <string name="pref_notificationbadge_leftright_padding_title">Grandezza orizontale</string>
     <string name="pref_notificationbadge_topbottom_padding_title">Grandezza verticale</string>
-    <string name="pref_notificationbadge_advanced">Impostazione avanzate</string>
+    <string name="pref_notificationbadge_advanced">Impostazioni avanzate</string>
     <string name="pref_notificationbadge_advanced_title">Configurazione manuale</string>
-    <string name="pref_notificationbadge_advanced_summary">Se si verificano problemi con il telefono o SMS badge si prega di configurarlo qui. Clicca qui per ripristinare le impostazioni di seguito.</string>
+    <string name="pref_notificationbadge_advanced_summary">Se si verificano problemi con le app del telefono o SMS si prega di configurarle qui. Clicca qui per ripristinare le impostazioni di seguito.</string>
     <string name="pref_notificationbadge_advanced_dialer_title">App telefono</string>
     <string name="pref_notificationbadge_advanced_sms_title">App SMS</string>
 
     <string name="pref_switch_gesture_double_tap_only_on_wallpaper_title">Solo sullo sfondo</string>
-    <string name="pref_switch_gesture_double_tap_only_on_wallpaper_summary">Selezionare questa opzione per consentire solo doppio tap sullo sfondo. Ciò elimina il ritardo per riconoscere il gesto quando si fa doppio toccando le icone.</string>
+    <string name="pref_switch_gesture_double_tap_only_on_wallpaper_summary">Selezionare questa opzione per consentire il doppio tocco solo sullo sfondo. Ciò elimina il ritardo per riconoscere il gesto quando si clicca sulle icone.</string>
 
     <string name="pref_switch_appdrawer_remember_last_position_title">Ricorda posizione</string>
     <string name="pref_switch_appdrawer_remember_last_position_summary">Ricorda la posizione dell\'app drawer dopo che e\' stato chiuso</string>
@@ -255,7 +255,7 @@
 
     <!-- V1.6.2 -->
     <string name="pref_notificationbadge_help_title">Hai bisogno di aiuto?</string>
-    <string name="pref_notificationbadge_help_summary">Clicca qui per leggere come configurare i badge di notifica!</string>
+    <string name="pref_notificationbadge_help_summary">Clicca qui per leggere come configurare i badges di notifica!</string>
 
     <!-- V1.7 -->
     <string name="pref_switch_position_all_apps_button_title">Posizione pulsante app drawer</string>
@@ -276,23 +276,23 @@
     <string name="pref_icon_support_title">Statistiche</string>
     <string name="pref_icon_support_summary">Calendario dinamico: %1$s\n%2$d of %3$d icone supportate\n%4$d icone totali</string>
     <string name="pref_icon_auto_apply_title">Applicazione automatica</string>
-    <string name="pref_icon_auto_apply_summary">Applicare automaticamente i nuovi o gli aggiornati dei pacchetti icone</string>
+    <string name="pref_icon_auto_apply_summary">Applicare automaticamente gli aggiornati o i nuovi pacchetti icone</string>
 
-    <string name="pref_show_google_search_bar_homescreen_title">Schermata iniziale preefinita</string>
+    <string name="pref_show_google_search_bar_homescreen_title">Schermata iniziale predefinita</string>
     <string name="pref_show_google_search_bar_homescreen_summary">Mostra la barra di ricerca nella schermata iniziale predefinita</string>
 
     <!-- V1.8 -->
     <string name="pref_icon_hide_icon_packs_title">Nascondi pacchetti icone</string>
-    <string name="pref_icon_hide_icon_packs_summary">Nascondere automaticamente i pacchetti di icone dal app drawer</string>
-    <string name="pref_icon_perappicon_title">Cambiare singola icona app</string>
-    <string name="pref_icon_perappicon_summary">Scegli le icone di diversi pacchetti icone per ogni singola app</string>
+    <string name="pref_icon_hide_icon_packs_summary">Nascondere automaticamente i pacchetti icone dal app drawer</string>
+    <string name="pref_icon_perappicon_title">Cambiare icona per ogni singola app</string>
+    <string name="pref_icon_perappicon_summary">Scegli le icone da diversi pacchetti per ogni singola app</string>
     <string name="pref_icon_allappsbutton_title">Bottone app drawer</string>
     <string name="pref_icon_allappsbutton_summary">Modificare icona del\' app drawer</string>
     <string name="pref_xgels_no_background_image_title">Nessuna immagine di sfondo</string>
     <string name="pref_switch_smart_folder_title">Cartella intelligente</string>
     <string name="pref_switch_smart_folder_summary">Touch - lancia la prima applicazione\nScorri s&#249; - apri cartella</string>
     <string name="pref_overlapping_widgets_title">Widget sovrapposti</string>
-    <string name="pref_overlapping_widgets_summary">Consenti di sovrapporre i widget. Questo funziona solo su GNL \ n (Beta: Attualmente la posizione di livello non viene salvata al riavvio)!</string>
+    <string name="pref_overlapping_widgets_summary">Consenti di sovrapporre i widget. Questo funziona solo su GNL\n(Beta: Attualmente la posizione di livello non viene salvata al riavvio)!</string>
 
     <string name="pref_overridesettings_button_title">Pulsante impostazioni</string>
     <string name="pref_overridesettings_button_summary">Apri XGELS invece delle impostazioni di Google Now</string>
@@ -305,7 +305,7 @@
 
     <!-- V1.9 -->
     <string name="pref_hide_workspace_shadow_title">Ombra homescreen</string>
-    <string name="pref_hide_workspace_shadow_summary">Nascondere l\'ombra homescreen (visibile in modalità mmersive mode)</string>
+    <string name="pref_hide_workspace_shadow_summary">Nascondere l\'ombra homescreen (Visibile in modalità immersive mode)</string>
     <string name="pref_switch_unlimited_folder_size_title">Dimensione illimitata cartella</string>
     <string name="pref_always_show_ok_google_title">Ok Google</string>
     <string name="pref_always_show_ok_google_summary">Mostra sempre \"Ok Google\"</string>
@@ -328,11 +328,19 @@
     <string name="quicksettings_desktop_unlocked">Desktop sbloccato</string>
     <string name="pref_cat_quicksettings_title">Quick settings tiles</string>
     <string name="pref_cat_quicksettings_lock_desktop_title">Blocca desktop tile</string>
-    <string name="pref_cat_quicksettings_lock_desktop_summary">Aggiunge una tessera per i quicksettings che consente di passare tra desktop bloccato e sbloccato rapidamente</string>
-    <string name="pref_quicksettings_explain_summary">!! Attualmente funziona solo su Stock o ROM AOSP !! I quicksettings vengono introdotti con Android 4.2 e possono o non possono funzionare insieme ad altri moduli Xposed o a delle caratteristiche si alcune ROM.</string>
+    <string name="pref_cat_quicksettings_lock_desktop_summary">Aggiunge una casella per i quicksettings, che consente di bloccare e sbloccare il desktop rapidamente</string>
+    <string name="pref_quicksettings_explain_summary">!! Attualmente funziona solo su Stock o ROM AOSP !!\nI quicksettings vengono introdotti con Android 4.2 e possono o non possono funzionare insieme ad altri moduli Xposed o a delle caratteristiche di alcune ROM.</string>
 
     <!-- V1.9.1 -->
     <string name="pref_searchbar_style_title">Stile barra di ricerca</string>
     <string name="pref_contextmenu_mode_title">Modalit&#224; menu contestuale</string>
+
+    <!-- V2.0 -->
+    <string name="alert_tab_settings_title">Impostazioni scheda</string>
+    <string name="alert_tab_hide_from_apps_title">Nascondi app dalla scheda app principale</string>
+    <string name="alert_tab_hint_text_title">Nome scheda</string>
+    <string name="pref_tabsandfolders_title">Schede e cartelle</string>
+    <string name="pref_tab_type_title">Tipo di scheda</string>
+    <string name="toast_tab_delete">Premere e tenere premuto per cancellare la scheda</string>
 
 </resources>
