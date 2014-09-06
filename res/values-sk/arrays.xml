@@ -66,4 +66,28 @@
         <item>Skratky a miniaplikácie</item>
     </string-array>
 
+    <string-array name="tabcontent_entries">
+        <item>Aplikácie</item>
+        <item>Miniaplikácie</item>
+        <item>Xposed moduly</item>
+        <item>Google aplikácie</item>
+        <item>Nové aplikácie</item>
+        <item>Nové/aktualizované aplikácie</item>
+    </string-array>
+
+    <string-array name="tabcontent_names">
+        <item>Aplikácie</item>
+        <item>Miniaplikácie</item>
+        <item>Xposed</item>
+        <item>Google</item>
+        <item>Nové aplikácie</item>
+        <item>Nové/aktualizované aplikácie</item>
+    </string-array>
+
+    <string-array name="tabsort_entries">
+        <item>Abecedne</item>
+        <item>Čas inštalácie</item>
+        <item>Posledná aktualizácia</item>
+    </string-array>
+
 </resources>
