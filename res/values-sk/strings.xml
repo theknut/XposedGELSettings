@@ -366,4 +366,13 @@
     <!-- V1.9.1 -->
     <string name="pref_searchbar_style_title">Štýl vyhľadávacieho riadku</string>
     <string name="pref_contextmenu_mode_title">Režim kontextovej ponuky</string>
+    
+    <!-- V2.0 -->
+    <string name="alert_tab_settings_title">Nastavenia kariet</string>
+    <string name="alert_tab_hide_from_apps_title">Skryť aplikácie z hlavnej karty s aplikáciami</string>
+    <string name="alert_tab_hint_text_title">Názov karty</string>
+    <string name="pref_tabsandfolders_title">Karty a priečinky</string>
+    <string name="pref_tab_type_title">Typ karty</string>
+    <string name="toast_tab_delete">Stlačte a podržte pre vymazanie karty</string>
+
 </resources>
