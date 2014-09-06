@@ -10,7 +10,7 @@
     <string name="alert_debug_logging_activated_title">Отладка активирована!</string>
     <string name="alert_debug_logging_not_activated_summary">Отладка не активирована. Убедитесь, что вы включили отладку и повторите ошибку перед отправкой logfile.</string>
     <string name="alert_debug_logging_not_activated_title">Отладка не активирована!</string>
-    <string name="alert_hidedock_summary">Пожалуйста, будьте уверены, что вы установили переключатель отображения/скрытия док-панели на жесты или активировали динамичную кнопку Домой в Твиках SustemUI. В противном случае вы на сможете запустить приложения!</string>
+    <string name="alert_hidedock_summary">Пожалуйста, будьте уверены, что вы установили переключатель отображения/скрытия док-панели на жесты или активировали динамичную кнопку Домой в Android Интеграции. В противном случае вы не сможете запустить приложения!</string>
     <string name="alert_hidewidgets_summary">Вы можете скрыть только виджеты. Ярлыки на данный момент не поддерживаются</string>
     <string name="alert_hidewidgets_title">Заметка</string>
     <string name="alert_icon_noiconpackfound_summary">У вас нету поддерживаемых пакетов иконок. Скачать?</string>
@@ -41,7 +41,7 @@
     <string name="module_not_from_google_play">Модуль установлен не из Google Play!</string>
     <string name="module_not_from_google_play_msg">XGELS установлен не из Google Play! Пожалуйста, установите XGELS из Google Play для покупки XGELS Premium и автоматического обновления</string>
     <string name="open_play_store">Открыть Play Маркет</string>
-    <string name="pref_always_show_ok_google_title">Ok Google</string>
+    <string name="pref_always_show_ok_google_title">Надпись \"Ok Google\"</string>
     <string name="pref_animate_dynamic_backbutton_summary">Быстрое изменение иконки</string>
     <string name="pref_animate_dynamic_backbutton_title">Анимированая смена значка</string>
     <string name="pref_animate_dynamic_homebutton_summary">Быстрое изменение иконки</string>
@@ -107,7 +107,7 @@
     <string name="pref_donated_button">Спасибо за покупку!</string>
     <string name="pref_dynamic_backbutton_summary">Изменяется на \"Go to sleep\" на главном экране</string>
     <string name="pref_dynamic_backbutton_title">Кнопка Назад</string>
-    <string name="pref_dynamic_backbuttononeveryscreen_summary">Кнопка выключения экрана на каждом рабочем столе. Если этот флажок не установлен, то это будет действовать отлько на главном экране.</string>
+    <string name="pref_dynamic_backbuttononeveryscreen_summary">Кнопка выключения экрана на каждом рабочем столе. Если этот флажок не установлен, то это будет действовать только на главном экране.</string>
     <string name="pref_dynamic_backbuttononeveryscreen_title">Выключение на каждом экране</string>
     <string name="pref_dynamic_hideclock_summary">Скрывает часы на главном экране</string>
     <string name="pref_dynamic_hideclock_title">Скрыть часы</string>
@@ -272,7 +272,7 @@
     <string name="pref_systemui_explain_summary">Каждая из этих опций может работать или не работать на вашем устройстве и/или прошивке</string>
     <string name="pref_systemui_explain_title">Заметка</string>
     <string name="pref_title_longpress_app_drawer_button">Кнопка Все приложения</string>
-    <string name="pref_transparent_system_bars_summary">Использовать Android L-подобную прозрачность системных панелей (требуется ≥ Android 4.4)</string>
+    <string name="pref_transparent_system_bars_summary">Использовать Android L-подобную прозрачность системных панелей\n(требуется ≥ Android 4.4)</string>
     <string name="pref_transparent_system_bars_title">Прозрачные панели</string>
     <string name="pref_workspacerect_dialog">Выберите коэффициент</string>
     <string name="pref_workspacerect_summary">Выберите величину отступов слева/справа на рабочем столе</string>
@@ -316,5 +316,12 @@
     <string name="toast_reset_failed">Так… это не работает :-S</string>
     <string name="toast_restore_failed">Так… это не работает :-S</string>
     <string name="toast_restore_success">Удачно восстановлено настройки рабочего стола</string>
-    <string name="pref_always_show_ok_google_summary"> Всегда отображать \"Ok Google\"</string>
+    <string name="pref_always_show_ok_google_summary"> Всегда отображать надпись \"Ok Google\"</string>
+    <!-- V2.0 -->
+    <string name="alert_tab_settings_title">Вкладки</string>
+    <string name="alert_tab_hide_from_apps_title">Скрыть приложения из главной вкладки</string>
+    <string name="alert_tab_hint_text_title">Имя вкладки</string>
+    <string name="pref_tabsandfolders_title">Вкладки и папки</string>
+    <string name="pref_tab_type_title">Тип вкладки</string>
+    <string name="toast_tab_delete">Нажмите и удерживайте для удаления вкладки</string>
 </resources>

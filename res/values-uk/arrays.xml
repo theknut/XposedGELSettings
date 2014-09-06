@@ -61,4 +61,25 @@
     <item>"Нажаття - відкрити першу програму
 Свайп - відкрити папку"</item>
     </string-array>
+    <string-array name="tabcontent_entries">
+        <item>Програми</item>
+        <item>Віджети</item>
+        <item>Xposed Модулі</item>
+        <item>Google Apps</item>
+        <item>Нові програми</item>
+        <item>Нові/Обновлені програми</item>
+    </string-array>
+    <string-array name="tabcontent_names">
+        <item>Програми</item>
+        <item>Віджети</item>
+        <item>Xposed</item>
+        <item>Google</item>
+        <item>Нові</item>
+        <item>Нові/Обновлені</item>
+    </string-array>
+    <string-array name="tabsort_entries">
+        <item>за алфавітом</item>
+        <item>по даті встановлення</item>
+        <item>останнє оновлення</item>
+    </string-array>
 </resources>

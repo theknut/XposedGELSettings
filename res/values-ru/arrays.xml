@@ -56,7 +56,30 @@
     </string-array>
     <string-array name="smartfoldermode_entries">
         <item>Отключено</item>
-    <item>Свайп - открыть первое приложение\nНажатие - открыть папку</item>
-    <item>Нажатие - открыть первое приложение\nСвайп - открыть папку</item>
+    <item>"Свайп - открыть первое приложение
+Нажатие - открыть папку"</item>
+    <item>"Нажатие - открыть первое приложение
+Свайп - открыть папку"</item>
+    </string-array>
+    <string-array name="tabcontent_entries">
+        <item>Приложения</item>
+        <item>Виджеты</item>
+        <item>Xposed Модули</item>
+        <item>Google Apps</item>
+        <item>Новые приложения</item>
+        <item>Новые/Обновленные приложения</item>
+    </string-array>
+    <string-array name="tabcontent_names">
+        <item>Приложения</item>
+        <item>Виджеты</item>
+        <item>Xposed</item>
+        <item>Google</item>
+        <item>Новые</item>
+        <item>Новые/Обновленные</item>
+    </string-array>
+    <string-array name="tabsort_entries">
+        <item>по алфавиту</item>
+        <item>по дате установки</item>
+        <item>последнее обновление</item>
     </string-array>
 </resources>

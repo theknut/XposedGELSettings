@@ -8,13 +8,13 @@
         <item>Homescreen</item>
         <item>App Drawer</item>
         <item>Gesti</item>
-        <item>Badge di notifica(Beta)</item>
+        <item>Badges di notifica (Beta)</item>
         <item>Icone</item>
         <item>Integrazione Android</item>
         <item>Backup/Ripristino</item>
         <item>Impostazioni</item>
         <item>Premium/Supporto</item>
-        <item>Retroingegneria</item>
+        <item>Reverse Engineering</item>
     </string-array>
 
     <string-array name="smartfoldermode_entries">
@@ -60,6 +60,30 @@
         <item>Solo scorciatoie</item>
         <item>Solo Widgets</item>
         <item>Scorciatoie &amp; Widgets</item>
+    </string-array>
+
+    <string-array name="tabcontent_entries">
+        <item>Apps</item>
+        <item>Widgets</item>
+        <item>Xposed modules</item>
+        <item>Google apps</item>
+        <item>New apps</item>
+        <item>New/Updated apps</item>
+    </string-array>
+
+    <string-array name="tabcontent_names">
+        <item>Apps</item>
+        <item>Widgets</item>
+        <item>Xposed</item>
+        <item>Google</item>
+        <item>Nuove Apps</item>
+        <item>Nuove/Aggiornate</item>
+    </string-array>
+
+    <string-array name="tabsort_entries">
+        <item>In ordine alfabetico</item>
+        <item>Data di installazione</item>
+        <item>Ultimo aggiornamento</item>
     </string-array>
 
 </resources>
