@@ -27,6 +27,17 @@
   </head>
   <body>
 
+ $ A2.0 Build 2
+   % Version A2.0 Build 2
+  _ 2014-07-09
+
+ ! Improvement:
+ * completely rewrote notification badges
+
+ ! Added:
+ * App drawer: tabs color
+ * Notification badge: set badge position
+
 $ A2.0 Build 1
   % Version A2.0 Build 1
  _ 2014-04-09
