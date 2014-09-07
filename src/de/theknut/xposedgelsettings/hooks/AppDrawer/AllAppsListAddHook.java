@@ -42,7 +42,8 @@ public final class AllAppsListAddHook extends XC_MethodHook {
         ArrayList<String> appsToHide = new ArrayList<String>(PreferencesHelper.hiddenApps);
         appsToHide.addAll(TabHelper.getInstance().getAppsToHide());
 
-        if (appsToHide.size() != 0 && appsToHide.iterator().next().contains("#")) {
+        if (PreferencesHelper.hiddenApps.size() != 0 && PreferencesHelper.hiddenApps.iterator().next().contains("#")
+                || PreferencesHelper.hiddenWidgets.size() != 0 && PreferencesHelper.hiddenWidgets.iterator().next().contains("#")) {
             Intent intent = new Intent();
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
             intent.setComponent(new ComponentName(Common.PACKAGE_NAME, SaveActivity.class.getName()));

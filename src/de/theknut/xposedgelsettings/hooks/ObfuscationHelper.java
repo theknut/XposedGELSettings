@@ -357,7 +357,8 @@ public class ObfuscationHelper extends HooksBaseClass {
                 lCreateAppInfo,
                 aiMakeShortcut,
                 lmGetAppNameComparator,
-                acthSetContentTypeImmediate;
+                acthSetContentTypeImmediate,
+                wGetWorkspaceAndHotseatCellLayouts;
 
         public static void initMethodNames(int idx) {
 
@@ -450,6 +451,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             aiMakeShortcut = new String[]{"makeShortcut", "cE", "dt", "dC"}[idx];
             lmGetAppNameComparator = new String[]{"getAppNameComparator", "hw", "im", "iq"}[idx]; // public static final Comparator
             acthSetContentTypeImmediate = new String[]{"setContentTypeImmediate", "b", "b", "b"}[idx]; // setOnTabChangedListener(null)
+            wGetWorkspaceAndHotseatCellLayouts = new String[]{"getWorkspaceAndHotseatCellLayouts", "ka", "kV", "la"}[idx]; // localArrayList.add((CellLayout)getChildAt(j));
         }
     }
 
@@ -513,7 +515,8 @@ public class ObfuscationHelper extends HooksBaseClass {
                 acpvRemoveAllViewsOnPage,
                 uIconWidth,
                 uIconHeight,
-                acpvAllApps;
+                acpvAllApps,
+                acpvAllWidgets;
 
         public static void initFieldNames(int idx) {
 
@@ -576,6 +579,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             uIconWidth = new String[]{"sIconWidth", "NC", "Qm", "QN"}[idx]; // first private static int
             uIconHeight = new String[]{"sIconHeight", "ND", "Qn", "QO"}[idx]; // second private static int
             acpvAllApps = new String[]{"mApps", "sA", "va", "vF"}[idx]; // sort
+            acpvAllWidgets = new String[]{"mWidgets", "sB", "vb", "vG"}[idx]; // 2nd "isEmpty"
         }
     }
 }

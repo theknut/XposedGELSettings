@@ -342,5 +342,6 @@
     <string name="pref_tabsandfolders_title">Tabs and folders</string>
     <string name="pref_tab_type_title">Tab type</string>
     <string name="toast_tab_delete">Press and hold to delete tab</string>
+    <!-- new --><string name="pref_notificationbadge_position_title">Position</string>
 
 </resources>

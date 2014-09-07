@@ -50,7 +50,7 @@ public class FragmentNotificationBadges extends FragmentBase {
 	int displayWidth = -1, displayHeigth = -1;
 	int measuredWidth = -1, measuredHeigth = -1;
 	int leftRightPadding, topBottomPadding;
-	int frameSize, cornerRadius;
+	int frameSize;
 	
 	public int notificationBadgeFrameSize;
 	public int notificationBadgeTextSize;
@@ -158,6 +158,7 @@ public class FragmentNotificationBadges extends FragmentBase {
         
 		List<MyListPreference> listPrefs = new ArrayList<MyListPreference>();
 		listPrefs.add((MyListPreference) this.findPreference("notificationbadgetextsize"));
+		listPrefs.add((MyListPreference) this.findPreference("notificationbadgeposition"));
 		listPrefs.add((MyListPreference) this.findPreference("notificationbadgeframesize"));
 		listPrefs.add((MyListPreference) this.findPreference("notificationbadgecornerradius"));
 		listPrefs.add((MyListPreference) this.findPreference("notificationbadgeleftrightpadding"));
@@ -193,7 +194,7 @@ public class FragmentNotificationBadges extends FragmentBase {
     		
 	        for (MyListPreference pref : listPrefs) {
 	        	pref.setOnPreferenceChangeListener(changeSummary);
-	        	pref.setSummary(pref.getValue());
+                pref.setSummary(pref.getEntries()[pref.findIndexOfValue(pref.getValue())]);
 	        }
 	        
 	        OnPreferenceClickListener opcl = new OnPreferenceClickListener() {

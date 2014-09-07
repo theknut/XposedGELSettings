@@ -297,7 +297,7 @@ public class Tab {
 
                         if (app1.lastUpdateTime < app2.lastUpdateTime) return 1;
                         if (app1.lastUpdateTime > app2.lastUpdateTime) return -1;
-                    } catch (PackageManager.NameNotFoundException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
 

@@ -36,9 +36,7 @@ import de.theknut.xposedgelsettings.ui.ImageLoader.ViewHolder;
 
 public class AllAppsList extends ListActivity {
 
-    private List<String> apps;
-
-    List<String> initialItems, itemsToAdd, itemsToRemove;
+    List<String> apps, initialItems, itemsToAdd, itemsToRemove;
     String appComponentName;
     long itemID;
     int mode;

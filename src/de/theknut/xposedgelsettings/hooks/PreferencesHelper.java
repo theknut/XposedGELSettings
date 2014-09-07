@@ -117,6 +117,7 @@ public class PreferencesHelper {
     public static int glowColor;
     public static boolean transparentSystemBars;
     public static boolean quicksettingsLockDesktop;
+    public static int notificationBadgePosition;
 
     public static void init() {
         prefs = new XSharedPreferences(Common.PACKAGE_NAME);
@@ -213,6 +214,7 @@ public class PreferencesHelper {
         notificationDialerApp = prefs.getString("notificationbadge_dialer_launch", "");
         notificationSMSApp = prefs.getString("notificationbadge_sms_launch", "");
         enableBadges = prefs.getBoolean("enablenotificationbadges", false);
+        notificationBadgePosition = Integer.parseInt(prefs.getString("notificationbadgeposition", "0"));
         notificationBadgeFrameSize = Integer.parseInt(prefs.getString("notificationbadgeframesize", "0"));
         notificationBadgeTextSize = Integer.parseInt(prefs.getString("notificationbadgetextsize", "10"));
         notificationBadgeCornerRadius = Integer.parseInt(prefs.getString("notificationbadgecornerradius", "5"));

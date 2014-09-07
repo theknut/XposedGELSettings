@@ -106,7 +106,7 @@ public class AppDrawerHooks extends HooksBaseClass {
                         Common.APPDRAWER_LAST_TAB_POSITION = lastTab;
                     }
 
-                    TabHelper.getInstance().getTabHost().setCurrentTab(Common.APPDRAWER_LAST_TAB_POSITION);
+                    TabHelper.getInstance().setCurrentTab(Common.APPDRAWER_LAST_TAB_POSITION);
                 }
 
                 if (PreferencesHelper.appdrawerRememberLastPosition) {

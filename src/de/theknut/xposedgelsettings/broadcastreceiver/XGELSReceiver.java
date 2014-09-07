@@ -17,8 +17,10 @@ import java.util.Iterator;
 import java.util.Set;
 
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.icon.IconPack;
 import de.theknut.xposedgelsettings.ui.Blur;
 import de.theknut.xposedgelsettings.ui.CommonUI;
+import de.theknut.xposedgelsettings.ui.FragmentIcon;
 
 @SuppressLint("WorldReadableFiles")
 public class XGELSReceiver extends BroadcastReceiver {
@@ -85,7 +87,17 @@ public class XGELSReceiver extends BroadcastReceiver {
                 Toast.makeText(context, "Settings couldn't be converted successfully. Please reassign the setting (" + key + ") manually!", Toast.LENGTH_LONG).show();
             }
         } else if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
-            context.sendBroadcast(new Intent(Common.XGELS_ACTION_RECEIVER_RUNNING));
+            try {
+                FragmentIcon.iconPack = new IconPack(
+                        CommonUI.CONTEXT,
+                        CommonUI.CONTEXT.getSharedPreferences(
+                                Common.PREFERENCES_NAME,
+                                Context.MODE_WORLD_READABLE
+                        ).getString("iconpack", Common.ICONPACK_DEFAULT));
+                FragmentIcon.iconPack.loadAppFilter();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

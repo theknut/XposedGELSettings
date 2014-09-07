@@ -26,6 +26,12 @@
 		android:defaultValue="1"
 		android:entries="@array/notificationbadge_presets_entries"
 		android:entryValues="@array/notificationbadge_presets_values"/>
+    <de.theknut.xposedgelsettings.ui.MyListPreference
+        android:key="notificationbadgeposition"
+        android:title="@string/pref_notificationbadge_position_title"
+        android:dependency="enablenotificationbadges"
+        android:entries="@array/notificationbadge_position_entries"
+        android:entryValues="@array/notificationbadge_position_values"/>
     <net.margaritov.preference.colorpicker.ColorPickerPreference 
 		android:key="notificationbadgebackgroundcolor"
 		android:title="@string/pref_notificationbadge_backgroundcolor_title"

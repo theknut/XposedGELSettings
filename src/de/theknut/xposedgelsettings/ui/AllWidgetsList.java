@@ -44,14 +44,6 @@ public class AllWidgetsList extends ListActivity {
     public static Set<String> hiddenWidgets;
 
     // http://androidxref.com/4.4.2_r1/xref/packages/apps/Launcher3/src/com/android/launcher3/LauncherModel.java#3089
-    public static final Comparator<AppWidgetProviderInfo> getWidgetNameComparator() {
-        final Collator collator = Collator.getInstance();
-        return new Comparator<AppWidgetProviderInfo>() {
-            public final int compare(AppWidgetProviderInfo a, AppWidgetProviderInfo b) {
-                return collator.compare(a.label.toString().trim(), b.label.toString().trim());
-            }
-        };
-    }
 
     public static class WidgetAndShortcutNameComparator implements Comparator<Object> {
         private Collator mCollator;
@@ -139,7 +131,6 @@ public class AllWidgetsList extends ListActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
-
         menu.findItem(R.id.action_refresh).setVisible(false);
 
         return super.onCreateOptionsMenu(menu);
@@ -151,13 +142,12 @@ public class AllWidgetsList extends ListActivity {
         switch (item.getItemId()) {
             case R.id.action_save:
 
-                    ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-                    List<ActivityManager.RunningAppProcessInfo> processes = am.getRunningAppProcesses();
-                    for (ActivityManager.RunningAppProcessInfo process : processes) {
-                        if (Common.PACKAGE_NAMES.contains(process.processName)) {
-                            am.killBackgroundProcesses(process.processName);
-                        }
+                ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+                for (ActivityManager.RunningAppProcessInfo process : am.getRunningAppProcesses()) {
+                    if (Common.PACKAGE_NAMES.contains(process.processName)) {
+                        am.killBackgroundProcesses(process.processName);
                     }
+                }
 
                 finish();
                 break;
@@ -226,7 +216,7 @@ public class AllWidgetsList extends ListActivity {
                     else {
                         if (hiddenWidgets.contains(buttonView.getTag())) {
                             // app is in the list but the checkbox is no longer checked, we can remove it
-                            hiddenWidgets.remove((String)buttonView.getTag());
+                            hiddenWidgets.remove(buttonView.getTag());
                         }
                     }
                 }

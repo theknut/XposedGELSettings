@@ -72,7 +72,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
         if (contentType.toString().equals("Widgets")) {
             for (Tab tab : tabs) {
                 if (tab.isWidgetsTab()) {
-                    tabHost.setCurrentTab(tab.getIndex());
+                    setCurrentTab(tab.getIndex());
                     return true;
                 }
             }
@@ -110,8 +110,8 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
     public void setTabColor(int color) {
         getCurrentTabData().setColor(color);
         addButton.setColorFilter(color, PorterDuff.Mode.MULTIPLY);
-        tabsContainer.findViewById(R.id.tab_host_divider).setBackgroundColor(color);
         tabHost.getCurrentTabView().getBackground().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
+        tabsContainer.findViewById(R.id.tab_host_divider).setBackgroundColor(color);
     }
 
     public enum ContentType {
@@ -284,7 +284,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
         tabHost.setOnTabChangedListener((TabHost.OnTabChangeListener) tabHost);
 
         int newId = tab.getIndex() - 1;
-        tabHost.setCurrentTab(newId < 0 ? 0 : newId);
+        setCurrentTab(newId < 0 ? 0 : newId);
         tabHost.getTabWidget().setCurrentTab(newId < 0 ? 0 : newId);
 
         scroll();
@@ -320,13 +320,18 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
         tabHost.getTabWidget().removeAllViews();
 
         addTabs(false);
-        tabHost.setCurrentTab(newIdx);
-        scroll();
+        setCurrentTab(newIdx);
 
         tabHost.setOnTabChangedListener((TabHost.OnTabChangeListener) tabHost);
 
         Intent intent = getBaseIntent(false, tabToMove.getId(), null);
         Common.LAUNCHER_CONTEXT.startActivity(intent);
+    }
+
+    public void setCurrentTab(int idx) {
+        tabHost.setCurrentTab(idx);
+        setTabColor(tabs.get(idx).getColor());
+        scroll();
     }
 
     public void saveTabData() {
@@ -403,7 +408,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
 
     @Override
     public boolean onLongClick(View v) {
-        tabHost.setCurrentTab(((Tab) v.getTag()).getIndex());
+        setCurrentTab(((Tab) v.getTag()).getIndex());
         setupTabSettings((Tab) v.getTag());
         return true;
     }
@@ -557,6 +562,14 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
                             intent.putExtra("contenttype", tab.getContentType().toString());
                             Common.LAUNCHER_CONTEXT.startActivity(intent);
                         } else {
+                            if (tab.isWidgetsTab()) {
+                                tabHost.setCurrentTab(0);
+                                Intent startMain = new Intent(Intent.ACTION_MAIN);
+                                startMain.addCategory(Intent.CATEGORY_HOME);
+                                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                callMethod(Common.LAUNCHER_INSTANCE, "startActivity", startMain);
+                            }
+
                             Intent intent = new Intent();
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
                             intent.putExtra("mode", AllAppsList.MODE_PICK_APPS_TO_HIDE);
@@ -690,7 +703,8 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
                 }
 
                 @Override
-                public void onNothingSelected(AdapterView<?> parent) {}
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
             });
             spinner.setVisibility(View.VISIBLE);
 

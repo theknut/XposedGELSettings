@@ -50,9 +50,10 @@ public final class Common {
 	
 	// Instances
 	public static Object LAUNCHER_INSTANCE;
+    public static Object WORKSPACE_INSTANCE;
+    public static Object HOTSEAT_INSTANCE;
+    public static Object APP_DRAWER_INSTANCE;
 	public static Object CONTENT_TYPE;
-	public static Object WORKSPACE_INSTANCE;
-	public static Object APP_DRAWER_INSTANCE;
 	
 	public static Context LAUNCHER_CONTEXT;
 		
