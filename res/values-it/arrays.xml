@@ -86,4 +86,11 @@
         <item>Ultimo aggiornamento</item>
     </string-array>
 
+    <string-array name="notificationbadge_position_entries">
+        <item>In alto a sinistra</item>
+        <item>In alto a destra</item>
+        <item>In basso a sinistra</item>
+        <item>In basso a destra</item>
+    </string-array>
+        
 </resources>
