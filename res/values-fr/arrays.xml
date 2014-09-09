@@ -81,9 +81,16 @@
     </string-array>
 
     <string-array name="tabsort_entries">
-        <item>Alphabétiquement</item>
+        <item>Alphabétique</item>
         <item>Date d\'installation</item>
         <item>Dernière mise à jour</item>
+    </string-array>
+    
+    <string-array name="notificationbadge_position_entries">
+        <item>Haut gauche</item>
+        <item>Haut droite</item>
+        <item>Bas gauche</item>
+        <item>Bas droite</item>
     </string-array>    
 
 </resources>
