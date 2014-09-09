@@ -232,7 +232,8 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
     public void addTab(Tab tab) {
         tabs.add(tab);
         addTabInternal(tab, true);
-        Toast.makeText(XGELSContext, XGELSContext.getString(R.string.toast_appdrawer_tabadded_title), Toast.LENGTH_LONG).show();
+        Toast.makeText(tabHost.getContext(), XGELSContext.getString(R.string.toast_appdrawer_tabadded_title), Toast.LENGTH_LONG).show();
+        Toast.makeText(tabHost.getContext(), XGELSContext.getString(R.string.toast_appdrawer_tabadded_title), Toast.LENGTH_LONG).show();
     }
 
     private void addTabInternal(final Tab tab, boolean focus) {
@@ -491,7 +492,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
         if (curTab.isNewAppsTab() || curTab.isNewUpdatedTab()) {
             setIntField(thisObject, Fields.acpvNumAppsPages, 1);
             return numAppPages;
-        } else if (curTab.isCustomTab()) {
+        } else if (curTab.isCustomTab() && curTab.getData() != null) {
             int mCellCountX = getIntField(thisObject, Fields.acpvCellCountX);
             int mCellCountY = getIntField(thisObject, Fields.acpvCellCountY);
             setIntField(thisObject, Fields.acpvNumAppsPages, (int) Math.ceil((float) curTab.getData().size() / (mCellCountX * mCellCountY)));

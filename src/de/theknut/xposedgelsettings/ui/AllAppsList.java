@@ -213,15 +213,29 @@ public class AllAppsList extends ListActivity {
                     responseIntent.putExtra("tabname", tabName);
                     responseIntent.putExtra("itemid", itemID);
                     responseIntent.putExtra("contenttype", contentType);
-                    responseIntent.putExtra("add", newTab);
 
                     String key = "appdrawertabdata";
                     ArrayList<String> tabOrder = new ArrayList<String>(prefs.getStringSet(key, new LinkedHashSet<String>()));
 
-                    tabOrder.add(new Tab(getIntent(), false).toString());
-                    editor.remove("tab_" + itemID)
-                            .putStringSet("tab_" + itemID, new LinkedHashSet<String>(apps))
-                            .commit();
+                    if (apps.size() == 0) {
+                        if (!newTab) {
+                            responseIntent.putExtra("remove", true);
+                            tabOrder.remove(new Tab(getIntent(), false).toString());
+                            editor.remove("tab_" + itemID).commit();
+                        } else {
+                            finish();
+                            return true;
+                        }
+                    } else {
+                        if (newTab) {
+                            responseIntent.putExtra("add", true);
+                            tabOrder.add(new Tab(getIntent(), false).toString());
+                        }
+
+                        editor.remove("tab_" + itemID)
+                                .putStringSet("tab_" + itemID, new LinkedHashSet<String>(apps))
+                                .commit();
+                    }
 
                     editor.remove(key)
                             .putStringSet(key, new LinkedHashSet<String>(tabOrder))
@@ -244,7 +258,6 @@ public class AllAppsList extends ListActivity {
         private List<ResolveInfo> values;
         private PackageManager pm;
         private LayoutInflater inflater;
-        private IconPack iconPack;
 
         OnCheckedChangeListener onCheckedChangeListener = new OnCheckedChangeListener () {
 
@@ -272,7 +285,6 @@ public class AllAppsList extends ListActivity {
             this.values = values;
             this.pm = pm;
             this.inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            this.iconPack = FragmentIcon.iconPack;
         }
 
         @Override

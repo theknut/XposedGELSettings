@@ -44,11 +44,9 @@ public class NotificationBadgesHelper extends HooksBaseClass {
 
     static BroadcastReceiver notificationReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(Context context, Intent i) {
 
-            Intent i = intent;
             String action = i.getAction();
-
             if (DEBUG) log("Received Intent: " + action);
 
             if (action.equals(Common.MISSEDIT_CALL_NOTIFICATION)) {

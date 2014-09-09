@@ -345,7 +345,9 @@ public class GeneralHooks extends HooksBaseClass {
             } else if (intent.getAction().equals(Common.XGELS_ACTION_MODIFY_TAB)) {
                 if (intent.getBooleanExtra("add", false)) {
                     TabHelper.getInstance().addTab(new Tab(intent, true));
-                } else if (intent.hasExtra("color")) {
+                } else if (intent.getBooleanExtra("remove", false)) {
+                    TabHelper.getInstance().removeTab(TabHelper.getInstance().getCurrentTabData());
+                }else if (intent.hasExtra("color")) {
                     TabHelper.getInstance().setTabColor(intent.getIntExtra("color", Color.WHITE));
                     TabHelper.getInstance().saveTabData();
                 } else {
