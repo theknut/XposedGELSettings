@@ -19,6 +19,9 @@
     <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
         android:key="enablenotificationbadges"
         android:title="@string/pref_notificationbadge_enable_title" />
+    <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+        android:key="hidenotificationbadgesappdrawer"
+        android:title="@string/pref_notificationbadge_noappdrawer_title" />
     <de.theknut.xposedgelsettings.ui.MyListPreference
 		android:key="notificationbadgepresets"
 		android:title="@string/pref_notificationbadge_presets_title"
@@ -30,6 +33,7 @@
         android:key="notificationbadgeposition"
         android:title="@string/pref_notificationbadge_position_title"
         android:dependency="enablenotificationbadges"
+        android:defaultValue="0"
         android:entries="@array/notificationbadge_position_entries"
         android:entryValues="@array/notificationbadge_position_values"/>
     <net.margaritov.preference.colorpicker.ColorPickerPreference 

@@ -174,7 +174,7 @@ public class ChooseAppList extends ListActivity {
             if (rowView == null) {
                 holder = new ViewHolder();
                 rowView = inflater.inflate(R.layout.row, parent, false);
-                holder.imageView = (ImageView) rowView.findViewById(R.id.icon);
+                holder.imageView = (ImageView) rowView.findViewById(R.id.badgepreviewicon);
                 holder.textView = (TextView) rowView.findViewById(R.id.name);
                 holder.checkBox = (CheckBox) rowView.findViewById(R.id.checkbox);
                 holder.delete = (ImageButton) rowView.findViewById(R.id.deletebutton);

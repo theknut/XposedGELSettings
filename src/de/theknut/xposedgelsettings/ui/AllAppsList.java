@@ -106,6 +106,7 @@ public class AllAppsList extends ListActivity {
             tabName = intent.getStringExtra("tabname");
             contentType = intent.getStringExtra("contenttype");
             responseIntent.putExtra("itemid", itemID);
+            responseIntent.putExtra("tabindex", intent.getIntExtra("tabindex", -1));
         }
 
         if (mode == MODE_SELECT_FOLDER_APPS) {
@@ -210,6 +211,7 @@ public class AllAppsList extends ListActivity {
 
                     responseIntent.setAction(Common.XGELS_ACTION_MODIFY_TAB);
                     responseIntent.putExtra("tabname", tabName);
+                    responseIntent.putExtra("itemid", itemID);
                     responseIntent.putExtra("contenttype", contentType);
                     responseIntent.putExtra("add", newTab);
 
@@ -283,7 +285,7 @@ public class AllAppsList extends ListActivity {
             if (rowView == null) {
                 holder = new ViewHolder();
                 rowView = inflater.inflate(R.layout.row, parent, false);
-                holder.imageView = (ImageView) rowView.findViewById(R.id.icon);
+                holder.imageView = (ImageView) rowView.findViewById(R.id.badgepreviewicon);
                 holder.textView = (TextView) rowView.findViewById(R.id.name);
                 holder.checkBox = (CheckBox) rowView.findViewById(R.id.checkbox);
                 holder.imageView.setImageResource(android.R.drawable.sym_def_app_icon);

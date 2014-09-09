@@ -1,5 +1,6 @@
 package de.theknut.xposedgelsettings.hooks;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 
@@ -49,7 +50,7 @@ public final class Common {
 	public static String HOOKED_PACKAGE;
 	
 	// Instances
-	public static Object LAUNCHER_INSTANCE;
+	public static Activity LAUNCHER_INSTANCE;
     public static Object WORKSPACE_INSTANCE;
     public static Object HOTSEAT_INSTANCE;
     public static Object APP_DRAWER_INSTANCE;

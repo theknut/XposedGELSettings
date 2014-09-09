@@ -27,34 +27,26 @@
   </head>
   <body>
 
- $ A2.0 Build 2
-   % Version A2.0 Build 2
-  _ 2014-07-09
+ $ B2.0 Build 2
+   % Version B2.0 Build 2
+  _ 2014-09-09
 
  ! Improvement:
  * completely rewrote notification badges
+ * you can now hide widget shortcuts
 
  ! Added:
- * App drawer: tabs color
- * Notification badge: set badge position
-
-$ A2.0 Build 1
-  % Version A2.0 Build 1
- _ 2014-04-09
-
- ! Added:
- * App drawer tabs
-
-$ 2.0 Build 1
-  % Version B2.0 Build 1
- _ 2014-19-08
-
- ! Added:
+ * App drawer: Add tabs [Premium]
  * Context menu: manage apps in folders
  * Context menu: choose a folder icon
+ * Notification badge: set badge position
+ * Notification badge: hide badge in app drawer
 
- ! Improvement:
- * you can now hide widget shortcuts
+ ! Fixed:
+ * XGELS crash when changing the icon pack
+
+ ! XGELS UI:
+ * updated translations
 
 $ 1.9.3
   % Version 1.9.3

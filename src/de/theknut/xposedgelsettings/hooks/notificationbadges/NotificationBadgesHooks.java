@@ -132,17 +132,19 @@ public class NotificationBadgesHooks extends NotificationBadgesHelper {
                 if (PreferencesHelper.notificationBadgePosition == 0
                         || PreferencesHelper.notificationBadgePosition == 1) {
                     return v.getScrollY()
-                            + v.getCompoundDrawablePadding() * 2;
+                            + v.getPaddingTop();
                 }
 
                 return v.getScrollY()
-                        + (v.getCompoundDrawablePadding() * 2)
+                        + v.getPaddingTop()
                         + v.getCompoundDrawables()[1].getIntrinsicHeight()
                         - d.getIntrinsicHeight();
             }
         };
 
-        findAndHookMethod(Classes.PagedViewIcon, "draw", Canvas.class, drawHook);
+        if (!PreferencesHelper.hideBadgesFromAppDrawer) {
+            findAndHookMethod(Classes.PagedViewIcon, "draw", Canvas.class, drawHook);
+        }
         findAndHookMethod(Classes.BubbleTextView, "draw", Canvas.class, drawHook);
 
         findAndHookMethod(Classes.FolderIcon, "dispatchDraw", Canvas.class, new XC_MethodHook() {

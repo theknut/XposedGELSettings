@@ -1,6 +1,7 @@
 package de.theknut.xposedgelsettings.hooks.general;
 
 import android.animation.TimeInterpolator;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -50,7 +51,7 @@ public class GeneralHooks extends HooksBaseClass {
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 
                 // save the launcher instance and the context
-                Common.LAUNCHER_INSTANCE = param.thisObject;
+                Common.LAUNCHER_INSTANCE = (Activity) param.thisObject;
                 Common.LAUNCHER_CONTEXT = (Context) callMethod(Common.LAUNCHER_INSTANCE, Methods.lGetApplicationContext);
 
                 IntentFilter filter = new IntentFilter();

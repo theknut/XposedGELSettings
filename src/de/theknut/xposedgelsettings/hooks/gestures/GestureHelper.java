@@ -43,7 +43,6 @@ public class GestureHelper extends HooksBaseClass {
 	static float gestureDistance = 50.0f;
 	static int animateDuration = 300;
 	static boolean isAnimating = false;
-	static boolean autoHideAppDock = PreferencesHelper.hideAppDock && PreferencesHelper.autoHideAppDock;
 	static ViewPropertyAnimator hideAnimation;
 	static AnimatorListener hideListener;
 	static ViewPropertyAnimator showAnimation;
@@ -69,7 +68,7 @@ public class GestureHelper extends HooksBaseClass {
 		width = size.x;
 		height = size.y;
 		
-		sector = (Integer) (width / 3);
+		sector = width / 3;
 		
 		if (PreferencesHelper.appdockSettingsSwitch && PreferencesHelper.hideAppDock) {
 			

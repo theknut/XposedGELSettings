@@ -74,6 +74,7 @@ public class NotificationBadgesHelper extends HooksBaseClass {
                     );
                 }
             } else if (action.equals(Common.MISSEDIT_COUNTERS_STATUS)) {
+                pendingNotifications.clear();
                 Bundle bundles = i.getBundleExtra("MISSED_CALLS");
 
                 if (bundles != null) {
@@ -249,14 +250,14 @@ public class NotificationBadgesHelper extends HooksBaseClass {
             int idx = pendingNotifications.indexOf(pn);
             if (idx != -1) {
                 if (pn.getCount() == 0) {
-                    log("remove " + pn);
+                    if (DEBUG) log("remove " + pn);
                     pendingNotifications.remove(idx);
                 } else {
-                    log("update " + pn);
+                    if (DEBUG) log("update " + pn);
                     pendingNotifications.get(idx).setCount(pn.getCount());
                 }
             } else {
-                log("add " + pn);
+                if (DEBUG) log("add " + pn);
                 pendingNotifications.add(pn);
             }
         }

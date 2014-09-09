@@ -51,6 +51,7 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import de.theknut.xposedgelsettings.hooks.Utils;
 import de.theknut.xposedgelsettings.ui.AllAppsList;
 import de.theknut.xposedgelsettings.ui.AllWidgetsList;
 import de.theknut.xposedgelsettings.ui.CommonUI;
@@ -67,52 +68,6 @@ import static de.robv.android.xposed.XposedHelpers.setObjectField;
  * Created by Alexander Schulz on 21.08.2014.
  */
 public final class TabHelper extends HooksBaseClass implements View.OnClickListener, View.OnLongClickListener {
-
-    public boolean setContentTypeImmediate(Object contentType) {
-        if (contentType.toString().equals("Widgets")) {
-            for (Tab tab : tabs) {
-                if (tab.isWidgetsTab()) {
-                    setCurrentTab(tab.getIndex());
-                    return true;
-                }
-            }
-
-            hideTabBar();
-            tmpWidgetTab = new Tab("idx=" + tabHost.getTabWidget().getTabCount() + "|id=" + Tab.WIDGETS_ID + "|contenttype=" + ContentType.Widgets + "|title=" + "Widgets", false);
-            addTabInternal(tmpWidgetTab, true);
-            return true;
-        }
-
-        if (tmpWidgetTab != null) {
-            removeTab(tmpWidgetTab);
-        }
-
-        showTabBar();
-        invalidate();
-        return false;
-    }
-
-    public void updateTabs() {
-
-        for (Tab tab : tabs) {
-            tab.update();
-        }
-
-        invalidate();
-    }
-
-    public void invalidate() {
-        setTabColor(getCurrentTabData().getColor());
-        Object mAppsCustomizePane = getObjectField(tabHost, Fields.acthAppsCustomizePane);
-        callMethod(mAppsCustomizePane, Methods.acpvInvalidatePageData, PreferencesHelper.appdrawerRememberLastPosition ? Common.APPDRAWER_LAST_PAGE_POSITION : 0, true);
-    }
-
-    public void setTabColor(int color) {
-        getCurrentTabData().setColor(color);
-        addButton.setColorFilter(color, PorterDuff.Mode.MULTIPLY);
-        tabHost.getCurrentTabView().getBackground().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
-        tabsContainer.findViewById(R.id.tab_host_divider).setBackgroundColor(color);
-    }
 
     public enum ContentType {
         Applications,
@@ -142,6 +97,8 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
     HorizontalScrollView hsv;
     ImageView addButton;
     FrameLayout tabsContainer;
+    View progressBar;
+    View tabHostDivider;
 
     public static TabHelper getInstance() {
         return INSTANCE;
@@ -152,11 +109,22 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
     }
 
     public void init(TabHost tabhost) {
+        try {
+            XGELSContext = Common.LAUNCHER_CONTEXT.createPackageContext(Common.PACKAGE_NAME, Context.CONTEXT_IGNORE_SECURITY);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return;
+        }
+
         this.tabHost = tabhost;
         this.tabs = new ArrayList<Tab>();
 
         addHorizontalScrollView();
-        showTabBar();
+        addProgressBar();
+
+        if (PreferencesHelper.enableAppDrawerTabs) {
+            showTabBar();
+        }
 
         tabHost.setOnTabChangedListener(null);
         initTabs();
@@ -182,12 +150,6 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
         LayoutParams lptw = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         lptw.gravity = Gravity.CENTER | Gravity.START;
 
-        try {
-            XGELSContext = Common.LAUNCHER_CONTEXT.createPackageContext(Common.PACKAGE_NAME, Context.CONTEXT_IGNORE_SECURITY);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
         RelativeLayout relativeLayout = (RelativeLayout) LayoutInflater.from(XGELSContext).inflate(R.layout.tab_widget, null, false);
         hsv = (HorizontalScrollView) relativeLayout.findViewById(R.id.horizontalscrollview);
         hsv.setMinimumWidth(size.x);
@@ -197,7 +159,24 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
         addButton = (ImageView) relativeLayout.findViewById(R.id.addbutton);
         addButton.setOnClickListener(this);
 
+        tabHostDivider = relativeLayout.findViewById(R.id.tab_host_divider);
+
         tabsContainer.addView(relativeLayout);
+    }
+
+    private void addProgressBar() {
+
+        FrameLayout tabContent = (FrameLayout) tabHost.findViewById(android.R.id.tabcontent);
+        ViewGroup parent = (ViewGroup) tabContent.getParent();
+        parent.removeView(tabContent);
+
+        RelativeLayout tabContentWithProgressBar = (RelativeLayout) LayoutInflater.from(XGELSContext).inflate(R.layout.tab_content_progressbar, null, false);
+        tabContentWithProgressBar.addView(tabContent);
+
+        progressBar = tabContentWithProgressBar.findViewById(R.id.tab_progressbar);
+        progressBar.bringToFront();
+
+        parent.addView(tabContentWithProgressBar);
     }
 
     public void showTabBar() {
@@ -209,6 +188,13 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
     }
 
     public void initTabs() {
+
+        if (!PreferencesHelper.enableAppDrawerTabs) {
+            tabs.add(new Tab("idx=" + 0 + "|id=" + Tab.APPS_ID + "|contenttype=" + ContentType.Applications + "|title=" + tabHost.getTabWidget().getChildTabViewAt(0).getContentDescription().toString() + "|hide=" + false, false));
+            tabs.add(new Tab("idx=" + 1 + "|id=" + Tab.WIDGETS_ID + "|contenttype=" + ContentType.Widgets + "|title=" + tabHost.getTabWidget().getChildTabViewAt(1).getContentDescription().toString() + "|hide=" + false, false));
+            tabHost.getTabWidget().removeAllViews();
+            return;
+        }
 
         Tab appsTab = new Tab("idx=" + 0 + "|id=" + Tab.APPS_ID + "|contenttype=" + ContentType.Applications + "|title=" + tabHost.getTabWidget().getChildTabViewAt(0).getContentDescription().toString() + "|hide=" + false, false);
         tabHost.getTabWidget().removeAllViews();
@@ -246,10 +232,11 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
     public void addTab(Tab tab) {
         tabs.add(tab);
         addTabInternal(tab, true);
+        Toast.makeText(XGELSContext, XGELSContext.getString(R.string.toast_appdrawer_tabadded_title), Toast.LENGTH_LONG).show();
     }
 
     private void addTabInternal(final Tab tab, boolean focus) {
-        log("Add tab " + tab.toString());
+        if (DEBUG) log("Add tab " + tab.toString());
         TabHost.TabContentFactory contentFactory = new TabHost.TabContentFactory() {
             public View createTabContent(String tag) {
                 return (View) getObjectField(tabHost, Fields.acthAppsCustomizePane);
@@ -265,8 +252,13 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
         tabView.setTag(tab);
         tabView.setContentDescription(tab.getTitle());
         tabView.setOnLongClickListener(this);
+        tabView.getBackground().setColorFilter(tab.getColor(), PorterDuff.Mode.MULTIPLY);
         tabHost.addTab(tabHost.newTabSpec(tab.isWidgetsTab() ? "WIDGETS" : "APPS").setIndicator(tabView).setContent(contentFactory));
-        if (focus) tabHost.setCurrentTab(tabHost.getTabWidget().getTabCount() - 1);
+
+        if (focus) {
+            tabHost.setCurrentTab(tabHost.getTabWidget().getTabCount() - 1);
+            scroll();
+        }
     }
 
     public void removeTab(Tab tab) {
@@ -328,6 +320,49 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
         Common.LAUNCHER_CONTEXT.startActivity(intent);
     }
 
+    public boolean setContentTypeImmediate(Object contentType) {
+        if (contentType.toString().equals("Widgets")) {
+            for (Tab tab : tabs) {
+                if (tab.isWidgetsTab()) {
+                    setCurrentTab(tab.getIndex());
+                    return true;
+                }
+            }
+
+            hideTabBar();
+            tmpWidgetTab = new Tab("idx=" + tabHost.getTabWidget().getTabCount() + "|id=" + Tab.WIDGETS_ID + "|contenttype=" + ContentType.Widgets + "|title=" + "Widgets", false);
+            addTabInternal(tmpWidgetTab, true);
+            return true;
+        }
+
+        if (tmpWidgetTab != null) {
+            removeTab(tmpWidgetTab);
+        }
+
+        showTabBar();
+        invalidate();
+        return false;
+    }
+
+    public void updateTabs() {
+        for (Tab tab : tabs) {
+            tab.update();
+        }
+    }
+
+    public void invalidate() {
+        setTabColor(getCurrentTabData().getColor());
+        Object mAppsCustomizePane = getObjectField(tabHost, Fields.acthAppsCustomizePane);
+        callMethod(mAppsCustomizePane, Methods.acpvInvalidatePageData, PreferencesHelper.appdrawerRememberLastPosition ? Common.APPDRAWER_LAST_PAGE_POSITION : 0, true);
+    }
+
+    public void setTabColor(int color) {
+        getCurrentTabData().setColor(color);
+        tabHostDivider.setBackgroundColor(color);
+        tabHost.getCurrentTabView().getBackground().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
+        addButton.setColorFilter(color, PorterDuff.Mode.MULTIPLY);
+    }
+
     public void setCurrentTab(int idx) {
         tabHost.setCurrentTab(idx);
         setTabColor(tabs.get(idx).getColor());
@@ -369,6 +404,32 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
         });
     }
 
+    public void showProgressBar() {
+        if (!TabHelper.getInstance().isProgressBarVisible()) {
+            Common.LAUNCHER_INSTANCE.runOnUiThread(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar.setVisibility(View.VISIBLE);
+                            progressBar.bringToFront();
+                        }
+                    });
+        }
+    }
+
+    public void hideProgressBar() {
+        Common.LAUNCHER_INSTANCE.runOnUiThread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(View.GONE);
+                    }
+                });
+    }
+
+    public boolean isProgressBarVisible() {
+        return progressBar.getVisibility() == View.VISIBLE;
+    }
 
     public Tab getTabById(long tabId) {
         for (Tab tab : tabs) {
@@ -403,14 +464,23 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        setupTabSettings(null);
+        if (checkPremium()) {
+            setupTabSettings(null);
+        } else {
+            Utils.showPremiumOnly();
+        }
     }
 
     @Override
     public boolean onLongClick(View v) {
-        setCurrentTab(((Tab) v.getTag()).getIndex());
-        setupTabSettings((Tab) v.getTag());
-        return true;
+        if (checkPremium()) {
+            setCurrentTab(((Tab) v.getTag()).getIndex());
+            setupTabSettings((Tab) v.getTag());
+            return true;
+        }
+
+        Utils.showPremiumOnly();
+        return false;
     }
 
     public int setNumberOfPages(Object thisObject) {
@@ -439,7 +509,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
         Tab curTab = getCurrentTabData();
         if (curTab == null) return false;
 
-        if (curTab.isCustomTab()) {
+        if (curTab.isCustomTab() && curTab.getData() != null) {
             syncAppsPageItems(thisObject, curTab.getData(), page);
             return true;
         }
@@ -652,6 +722,13 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
                         tab.setHideFromAppsPage(isChecked);
                         Intent intent = getBaseIntent(false, tab.getId(), tab.getTitle());
                         Common.LAUNCHER_CONTEXT.startActivity(intent);
+
+                        Object mAppsCustomizePane = getObjectField(getTabHost(), Fields.acthAppsCustomizePane);
+                        ArrayList allApps = (ArrayList) getObjectField(mAppsCustomizePane, Fields.acpvAllApps);
+                        allApps.addAll(tab.getData());
+
+                        callMethod(mAppsCustomizePane, Methods.acpvSetApps, allApps);
+                        invalidate();
                     }
                 });
             } else {

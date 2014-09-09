@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -17,6 +18,8 @@ import java.util.List;
 
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.Utils;
 import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelper.ContentType;
@@ -87,6 +90,13 @@ public class Tab {
     public void initData() {
         new AsyncTask<Void, Void, Void>() {
             @Override
+            protected void onPreExecute() {
+                if (TabHelper.getInstance().getTabHost().getCurrentTab() == getIndex()) {
+                    TabHelper.getInstance().showProgressBar();
+                }
+            }
+
+            @Override
             protected Void doInBackground(Void... params) {
                 if (isUserTab()) {
                     parseData();
@@ -106,12 +116,17 @@ public class Tab {
 
             @Override
             protected void onPostExecute(Void aVoid) {
+                TabHelper tabHelper = TabHelper.getInstance();
                 if (!isAppsTab()) {
-                    Object mAppsCustomizePane = getObjectField(TabHelper.getInstance().getTabHost(), ObfuscationHelper.Fields.acthAppsCustomizePane);
-                    ArrayList allApps = (ArrayList) getObjectField(mAppsCustomizePane, ObfuscationHelper.Fields.acpvAllApps);
-                    callMethod(mAppsCustomizePane, ObfuscationHelper.Methods.acpvSetApps, allApps);
+                    Object mAppsCustomizePane = getObjectField(tabHelper.getTabHost(), Fields.acthAppsCustomizePane);
+                    ArrayList allApps = (ArrayList) getObjectField(mAppsCustomizePane, Fields.acpvAllApps);
+                    callMethod(mAppsCustomizePane, Methods.acpvSetApps, allApps);
                 }
-                TabHelper.getInstance().invalidate();
+                tabHelper.invalidate();
+
+                if (tabHelper.getTabHost().getCurrentTab() == getIndex()) {
+                    tabHelper.hideProgressBar();
+                }
             }
         }.execute();
     }
@@ -207,7 +222,7 @@ public class Tab {
     }
 
     public void setSortType(SortType type) {
-        sortType = type;
+        this.sortType = type;
         if (isCustomTab()) sort(getData());
     }
 
@@ -232,12 +247,14 @@ public class Tab {
     }
 
     private ArrayList getGoogleApps() {
+        ArrayList<String> google = new ArrayList<String> (Arrays.asList("com.android.vending", "com.quickoffice.android", "com.android.chrome"));
         ArrayList modules = new ArrayList();
         this.rawData = new ArrayList();
 
         for (ResolveInfo app : Utils.getAllApps()) {
-            if (app.activityInfo.packageName.contains("com.google.android.")) {
-                ComponentName cmp = new ComponentName(app.activityInfo.packageName, app.activityInfo.name);
+            String pkg = app.activityInfo.packageName;
+            if (pkg.contains("com.google.android.") || google.contains(pkg)) {
+                ComponentName cmp = new ComponentName(pkg, app.activityInfo.name);
                 modules.add(Utils.createAppInfo(cmp));
                 rawData.add(cmp.flattenToString());
             }
@@ -273,8 +290,10 @@ public class Tab {
         return apps;
     }
 
-    private void sort(ArrayList apps) {
+    private void sort(final ArrayList apps) {
+        TabHelper.getInstance().showProgressBar();
         Collections.sort(apps, getSortComparator());
+        TabHelper.getInstance().hideProgressBar();
     }
 
     public Comparator getSortComparator() {

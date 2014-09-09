@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   -->
-  
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/options_fragment"
@@ -32,26 +32,58 @@
         android:scaleType="centerCrop" />
 
     <TextView
-        android:id="@+id/iconwithbadge"
-        android:layout_width="match_parent"
+        android:id="@+id/badgepreviewicon"
+        android:drawableTop="@drawable/ic_launcher_mail"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:gravity="center"
-        android:layout_margin="8dp" />
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/badgetopleft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@+id/badgepreviewicon"
+        android:layout_alignTop="@+id/badgepreviewicon" />
+
+    <TextView
+        android:id="@+id/badgetopright"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/badgepreviewicon"
+        android:layout_alignTop="@+id/badgepreviewicon" />
+
+    <TextView
+        android:id="@+id/badgebottomleft"
+        android:layout_marginBottom="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@+id/badgepreviewicon"
+        android:layout_alignBottom="@+id/badgepreviewicon" />
+
+    <TextView
+        android:id="@+id/badgebottomright"
+        android:layout_marginBottom="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/badgepreviewicon"
+        android:layout_alignBottom="@+id/badgepreviewicon" />
 
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/iconwithbadge"
+        android:layout_below="@+id/badgepreviewicon"
         android:background="#FFFFFF"
         android:id="@+id/view" />
-    
+
     <ListView
         android:id="@android:id/list"
         android:fadeScrollbars="false"
         android:layout_alignParentBottom="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-		android:dividerHeight="1dp"
+        android:dividerHeight="1dp"
         android:layout_below="@+id/view" />
 
 </RelativeLayout>

@@ -8,6 +8,7 @@ import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
+import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.setIntField;
@@ -23,6 +24,8 @@ public class AddTabsAndFolders extends HooksBaseClass {
                 TabHelper.getInstance().init((TabHost) param.thisObject);
             }
         });
+
+        if (!PreferencesHelper.enableAppDrawerTabs) return;
 
         findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvSyncAppsPageItems, Integer.TYPE, new XC_MethodHook() {
             final int PAGE = 0;

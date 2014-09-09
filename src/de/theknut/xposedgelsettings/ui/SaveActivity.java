@@ -89,8 +89,8 @@ public class SaveActivity extends ListActivity {
                     }
                 }
 
-                prefs.edit().remove(key).apply();
-                prefs.edit().putStringSet(key, tmp).apply();
+                prefs.edit().remove(key).commit();
+                prefs.edit().putStringSet(key, tmp).commit();
             }
 
             ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
@@ -122,10 +122,5 @@ public class SaveActivity extends ListActivity {
             }
         });
         colorPickerDialog.show();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
     }
 }

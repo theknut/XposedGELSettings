@@ -8,13 +8,10 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -155,10 +152,11 @@ public class FragmentNotificationBadges extends FragmentBase {
 				return true;
 			}
 		};
-        
+
+        MyListPreference badgePosition = (MyListPreference) this.findPreference("notificationbadgeposition");
 		List<MyListPreference> listPrefs = new ArrayList<MyListPreference>();
+        listPrefs.add(badgePosition);
 		listPrefs.add((MyListPreference) this.findPreference("notificationbadgetextsize"));
-		listPrefs.add((MyListPreference) this.findPreference("notificationbadgeposition"));
 		listPrefs.add((MyListPreference) this.findPreference("notificationbadgeframesize"));
 		listPrefs.add((MyListPreference) this.findPreference("notificationbadgecornerradius"));
 		listPrefs.add((MyListPreference) this.findPreference("notificationbadgeleftrightpadding"));
@@ -194,8 +192,10 @@ public class FragmentNotificationBadges extends FragmentBase {
     		
 	        for (MyListPreference pref : listPrefs) {
 	        	pref.setOnPreferenceChangeListener(changeSummary);
-                pref.setSummary(pref.getEntries()[pref.findIndexOfValue(pref.getValue())]);
+                pref.setSummary(pref.getValue());
 	        }
+
+            badgePosition.setSummary(badgePosition.getEntries()[badgePosition.findIndexOfValue(badgePosition.getValue())]);
 	        
 	        OnPreferenceClickListener opcl = new OnPreferenceClickListener() {
 				
@@ -310,7 +310,7 @@ public class FragmentNotificationBadges extends FragmentBase {
     	
     	initPrefs();
     	
-    	badgePreview = (TextView) rootView.findViewById(R.id.iconwithbadge);
+    	badgePreview = (TextView) rootView.findViewById(R.id.badgepreviewicon);
     	badgePreview.setDrawingCacheEnabled(true);
     	badgePreview.setTextColor(Color.WHITE);
     	badgePreview.setShadowLayer(2.0f, 0.0f, 0.0f, Color.BLACK);
@@ -369,40 +369,25 @@ public class FragmentNotificationBadges extends FragmentBase {
     }
     
     public void setBadge() {
-    	
-    	layers[0] = badgePreview.getCompoundDrawables()[1];		
-		layers[1] = textToDrawable(5, layers[0]);
-		LayerDrawable ld = new LayerDrawable(layers);
-		
-		 ld.setLayerInset(1, 0, 0, layers[0].getIntrinsicWidth() - layers[1].getIntrinsicWidth(), layers[0].getIntrinsicHeight() - layers[1].getIntrinsicHeight()); // left-top
-		// left += l top += t; right -= r; bottom -= b;
-		//ld.setLayerInset(0, layers[0].getIntrinsicWidth(),0,layers[0].getIntrinsicWidth(),0); // left-top
-		//ld.setLayerInset(1, layers[0].getIntrinsicWidth() + layers[1].getIntrinsicWidth(), 0, layers[0].getIntrinsicWidth(), layers[0].getIntrinsicHeight() - layers[1].getIntrinsicHeight()); // left-top
-		 
-		badgePreview.setCompoundDrawablesWithIntrinsicBounds(null, ld, null, null);
+
+        TextView badge = null;
+        int position = Integer.parseInt(mContext.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).getString("notificationbadgeposition", "0"));
+        int[] ids = new int[] {R.id.badgetopleft, R.id.badgetopright, R.id.badgebottomright, R.id.badgebottomleft};
+        for (int i = 0; i < ids.length; i++) {
+            badge = (TextView) rootView.findViewById(ids[i]);
+            if (i == position) {
+                badge.setVisibility(View.VISIBLE);
+                initBadge(badge);
+            } else {
+                badge.setVisibility(View.GONE);
+            }
+        }
     }
-    
-    public Drawable textToDrawable(int currCnt, Drawable icon) {
-    	
-    	TextView badge = null;
-    	badge = initBadge(badge);
-		
-		badge.setText("" + currCnt);		
-		badge.measure(measuredWidth, measuredHeigth);
-		
-		Bitmap badgeBitmap = Bitmap.createBitmap(badge.getMeasuredWidth(), badge.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
-		Canvas c = new Canvas(badgeBitmap);
-		badge.layout(0, 0, badge.getMeasuredWidth(), badge.getMeasuredHeight());
-		badge.draw(c);
-		
-		return new BitmapDrawable(mContext.getResources(), badgeBitmap);
-    }
-	
-	private TextView initBadge(TextView badge) {
+	private void initBadge(TextView badge) {
 		
 		initMeasures();
-		
-		badge = new TextView(mContext);
+
+        badge.setText("" + 5);
 		badge.setTextColor(Color.parseColor(ColorPickerPreference.convertToARGB(notificationBadgeTextColor)));
 		badge.setTextSize(TypedValue.COMPLEX_UNIT_DIP, notificationBadgeTextSize);
 		badge.setGravity(Gravity.CENTER);
@@ -426,8 +411,6 @@ public class FragmentNotificationBadges extends FragmentBase {
 		
 		badge.setBackground(gdDefault);
 		badge.setDrawingCacheEnabled(true);
-		
-		return badge;
 	}
     
     public void initMeasures() {

@@ -186,7 +186,7 @@ public class AllWidgetsList extends ListActivity {
             }
 
             // setup app icon to row
-            ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
+            ImageView imageView = (ImageView) rowView.findViewById(R.id.badgepreviewicon);
 
             try {
                 imageView.setImageDrawable(context.getPackageManager().getApplicationIcon(pkg));

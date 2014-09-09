@@ -1,5 +1,6 @@
 package de.theknut.xposedgelsettings.ui;
 
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -91,7 +92,15 @@ public class FragmentGeneral extends FragmentBase {
         } else {
             getPreferenceScreen().removePreference(this.findPreference("needsDonate"));
         }
-        
+
+        findPreference("hidewidgets").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                getActivity().startActivity(new Intent(getActivity(), AllWidgetsList.class));
+                return true;
+            }
+        });
+
         rootView = CommonUI.setBackground(rootView, R.id.prefbackground);
         
         return rootView;

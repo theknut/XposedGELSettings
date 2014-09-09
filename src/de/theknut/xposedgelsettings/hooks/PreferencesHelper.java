@@ -100,6 +100,7 @@ public class PreferencesHelper {
     public static String notificationDialerApp;
     public static String notificationSMSApp;
     public static boolean enableBadges;
+    public static boolean hideBadgesFromAppDrawer;
     public static int notificationBadgeFrameSize;
     public static int notificationBadgeTextSize;
     public static int notificationBadgeCornerRadius;
@@ -118,6 +119,7 @@ public class PreferencesHelper {
     public static boolean transparentSystemBars;
     public static boolean quicksettingsLockDesktop;
     public static int notificationBadgePosition;
+    public static boolean enableAppDrawerTabs;
 
     public static void init() {
         prefs = new XSharedPreferences(Common.PACKAGE_NAME);
@@ -214,6 +216,7 @@ public class PreferencesHelper {
         notificationDialerApp = prefs.getString("notificationbadge_dialer_launch", "");
         notificationSMSApp = prefs.getString("notificationbadge_sms_launch", "");
         enableBadges = prefs.getBoolean("enablenotificationbadges", false);
+        hideBadgesFromAppDrawer = prefs.getBoolean("hidenotificationbadgesappdrawer", false);
         notificationBadgePosition = Integer.parseInt(prefs.getString("notificationbadgeposition", "0"));
         notificationBadgeFrameSize = Integer.parseInt(prefs.getString("notificationbadgeframesize", "0"));
         notificationBadgeTextSize = Integer.parseInt(prefs.getString("notificationbadgetextsize", "10"));
@@ -232,5 +235,6 @@ public class PreferencesHelper {
         glowColor = prefs.getInt("glowcolor", Color.argb(0xFF, 0xFF, 0xFF, 0xFF));
         transparentSystemBars = prefs.getBoolean("transparentsystembars", false);
         quicksettingsLockDesktop = prefs.getBoolean("quicksettingslockdesktop", false);
+        enableAppDrawerTabs = prefs.getBoolean("enableappdrawertabs", false);
     }
 }
