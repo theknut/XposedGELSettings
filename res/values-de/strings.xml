@@ -328,7 +328,7 @@
 
     <!-- V2.0 -->
     <string name="alert_tab_settings_title">Tab Einstellungen</string>
-    <string name="alert_tab_hide_from_apps_title">Apps von Hauptappstab verbergen</string>
+    <string name="alert_tab_hide_from_apps_title">Apps von Appstab verbergen</string>
     <string name="alert_tab_hint_text_title">Tabname</string>
     <string name="pref_tabsandfolders_title">Tabs und Ordner</string>
     <string name="pref_tab_type_title">Tabtyp</string>
