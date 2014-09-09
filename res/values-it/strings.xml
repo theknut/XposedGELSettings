@@ -358,6 +358,6 @@
     <string name="toast_appdrawer_tabadded_title">Premere a lungo una scheda per aprire le impostazioni</string>
     
     <string name="pref_reverseengineering_rate_title">Vota XGELS!</string>
-    <string name="pref_reverseengineering_rate_summary">Mostrate il vostro sostegno e lasciatemi un voto su Google Play. Una buona reputazione pu motivare gli altri a provare XGELS. Clicca qui per votare XGELS su Google Play!</string>
+    <string name="pref_reverseengineering_rate_summary">Mostrate il vostro sostegno e lasciatemi un voto su Google Play. Una buona reputazione può motivare gli altri a provare XGELS. Clicca qui per votare XGELS su Google Play!</string>
 
 </resources>
