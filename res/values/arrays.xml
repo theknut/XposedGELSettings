@@ -8,8 +8,8 @@
         <item>Homescreen</item>
         <item>App Drawer</item>
         <item>Gestures</item>
-        <item>Notification Badges (Beta)</item>
-        <item>Icon</item> <!-- NEW -->
+        <item>Notification Badges</item>
+        <item>Icon</item>
         <item>Android Integration</item>
         <item>Backup/Restore</item>
         <item>Settings</item>

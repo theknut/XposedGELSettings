@@ -325,5 +325,27 @@
     <!-- V1.9.1 -->
     <string name="pref_searchbar_style_title">Search bar style</string>
     <string name="pref_contextmenu_mode_title">Context menu mode</string>
+
+    <!-- V2.0 -->
+    <string name="alert_tab_settings_title">Tab Einstellungen</string>
+    <string name="alert_tab_hide_from_apps_title">Apps von Hauptappstab verbergen</string>
+    <string name="alert_tab_hint_text_title">Tabname</string>
+    <string name="pref_tabsandfolders_title">Tabs und Ordner</string>
+    <string name="pref_tab_type_title">Tabtyp</string>
+    <string name="toast_tab_delete">Zum Löschen drücken und halten</string>
+    <string name="pref_notificationbadge_position_title">Position</string>
+    <string name="pref_cat_tabs_and_folders_title">Tabs und Ordner</string>
+    <string name="pref_cat_app_drawer_settings_title">Einstellungen</string>
+    <string name="pref_switch_enable_tabs_title">Aktivieren</string>
+    <string name="pref_appdrawer_folders_title">Ordner</string>
+    <string name="pref_appdrawer_folders_summary">Bald verfügbar!</string>
+    <string name="pref_appdrawer_clear_tabs_title">Tabdaten löschen</string>
+    <string name="pref_appdrawer_clear_tabs_summary">Hier klicken um alle Tabdaten zu löschen. Alle benutzerdefinierten Tabs werden gelöscht!</string>
+    <string name="alert_appdrawer_clear_tabs_title">Achtung!</string>
+    <string name="alert_appdrawer_clear_tabs_summary">Sie sind dabei alle Tabdaten zu löschen. Fortfahren?</string>
+    <string name="alert_appdrawer_clear_tabs_success">Tabdaten gelöscht!</string>
+    <string name="pref_appdrawer_tabs_instructions_summary">Tabs können direkt in der App-Übersicht hinzugefügt werden. Langes Drücken eines Tabs öffnet die Tabeinstellungen.</string>
+    <string name="pref_notificationbadge_noappdrawer_title">In App-Übersicht verbergen</string>
+    <string name="toast_appdrawer_tabadded_title">Tabeinstellungen können durch langes Drücken eines Tabs geöffnet werden</string>
    
 </resources>

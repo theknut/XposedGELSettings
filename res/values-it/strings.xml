@@ -342,19 +342,19 @@
     <string name="pref_tabsandfolders_title">Schede e cartelle</string>
     <string name="pref_tab_type_title">Tipo di scheda</string>
     <string name="toast_tab_delete">Premere e tenere premuto per cancellare la scheda</string>
-    <!-- new --><string name="pref_notificationbadge_position_title">Posizione</string>
-    <!-- new --><string name="pref_cat_tabs_and_folders_title">Schede e cartelle</string>
-    <!-- new --><string name="pref_cat_app_drawer_settings_title">Impostazioni</string>
-    <!-- new --><string name="pref_switch_enable_tabs_title">Abilita</string>
-    <!-- new --><string name="pref_appdrawer_folders_title">Cartelle</string>
-    <!-- new --><string name="pref_appdrawer_folders_summary">In arrivo!</string>
-    <!-- new --><string name="pref_appdrawer_clear_tabs_title">Cancella dati scheda</string>
-    <!-- new --><string name="pref_appdrawer_clear_tabs_summary">Tocca qui per resettare tutti i dati della scheda. Tutte le schede personalizzate saranno cancellate!</string>
-    <!-- new --><string name="alert_appdrawer_clear_tabs_title">Attenzione!</string>
-    <!-- new --><string name="alert_appdrawer_clear_tabs_summary">Stai per eliminare tutte le schede app drawer che hai fatto! Continua?</string>
-    <!-- new --><string name="alert_appdrawer_clear_tabs_success">Dati schede app drawer cancellati!</string>
-    <!-- new --><string name="pref_appdrawer_tabs_instructions_summary">Le schede dell\'app drawer possono essere aggiunti direttamente dal app drawer. Le impostazioni della scheda possono essere aperte tenendo premuta a lungo una scheda.</string>
-    <!-- new --><string name="pref_notificationbadge_noappdrawer_title">Nascondi dal app drawer</string>
-    <!-- new --><string name="toast_appdrawer_tabadded_title">Premere a lungo una scheda per aprire le impostazioni</string>
+    <string name="pref_notificationbadge_position_title">Posizione</string>
+    <string name="pref_cat_tabs_and_folders_title">Schede e cartelle</string>
+    <string name="pref_cat_app_drawer_settings_title">Impostazioni</string>
+    <string name="pref_switch_enable_tabs_title">Abilita</string>
+    <string name="pref_appdrawer_folders_title">Cartelle</string>
+    <string name="pref_appdrawer_folders_summary">In arrivo!</string>
+    <string name="pref_appdrawer_clear_tabs_title">Cancella dati scheda</string>
+    <string name="pref_appdrawer_clear_tabs_summary">Tocca qui per resettare tutti i dati della scheda. Tutte le schede personalizzate saranno cancellate!</string>
+    <string name="alert_appdrawer_clear_tabs_title">Attenzione!</string>
+    <string name="alert_appdrawer_clear_tabs_summary">Stai per eliminare tutte le schede app drawer che hai fatto! Continua?</string>
+    <string name="alert_appdrawer_clear_tabs_success">Dati schede app drawer cancellati!</string>
+    <string name="pref_appdrawer_tabs_instructions_summary">Le schede dell\'app drawer possono essere aggiunti direttamente dal app drawer. Le impostazioni della scheda possono essere aperte tenendo premuta a lungo una scheda.</string>
+    <string name="pref_notificationbadge_noappdrawer_title">Nascondi dal app drawer</string>
+    <string name="toast_appdrawer_tabadded_title">Premere a lungo una scheda per aprire le impostazioni</string>
 
 </resources>

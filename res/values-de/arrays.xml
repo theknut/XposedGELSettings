@@ -8,7 +8,7 @@
         <item>Homescreen</item>
         <item>App-Übersicht</item>
         <item>Gesten</item>
-        <item>Notification Badges (Beta)</item>
+        <item>Notification Badges</item>
         <item>Icon</item>
         <item>Android Integration</item>
         <item>Sichern/Wiederherstellen</item>
@@ -52,6 +52,37 @@
         <item>Nur Shortcuts</item>
         <item>Nur Widgets</item>
         <item>Shortcuts &amp; Widgets</item>
+    </string-array>
+
+    <string-array name="tabcontent_entries">
+        <item>Apps</item>
+        <item>Widgets</item>
+        <item>Xposed Module</item>
+        <item>Google Apps</item>
+        <item>Neue Apps</item>
+        <item>Neue/Aktualisierte Apps</item>
+    </string-array>
+
+    <string-array name="tabcontent_names">
+        <item>Apps</item>
+        <item>Widgets</item>
+        <item>Xposed</item>
+        <item>Google</item>
+        <item>Neue Apps</item>
+        <item>Neu/Aktualisiert</item>
+    </string-array>
+
+    <string-array name="tabsort_entries">
+        <item>Alphabetisch</item>
+        <item>Installationsdatum</item>
+        <item>Letztes Update</item>
+    </string-array>
+
+    <string-array name="notificationbadge_position_entries">
+        <item>Oben links</item>
+        <item>Oben rechts</item>
+        <item>Unten links</item>
+        <item>Unten rechts</item>
     </string-array>
 
 </resources>
