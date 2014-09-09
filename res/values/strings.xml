@@ -357,4 +357,7 @@
     <!-- new --><string name="pref_notificationbadge_noappdrawer_title">Hide from app drawer</string>
     <!-- new --><string name="toast_appdrawer_tabadded_title">Long press a tab to open it\'s settings</string>
 
+    <string name="pref_reverseengineering_rate_title">Rate XGELS!</string>
+    <string name="pref_reverseengineering_rate_summary">Show your support and leave me a rating on Google Play. A good reputation will motivate others to try XGELS, too. Click here to rate XGELS on Google Play!</string>
+
 </resources>

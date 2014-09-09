@@ -347,5 +347,7 @@
     <string name="pref_appdrawer_tabs_instructions_summary">Tabs können direkt in der App-Übersicht hinzugefügt werden. Langes Drücken eines Tabs öffnet die Tabeinstellungen.</string>
     <string name="pref_notificationbadge_noappdrawer_title">In App-Übersicht verbergen</string>
     <string name="toast_appdrawer_tabadded_title">Tabeinstellungen können durch langes Drücken eines Tabs geöffnet werden</string>
+    <string name="pref_reverseengineering_rate_title">Bewerte XGELS!</string>
+    <string name="pref_reverseengineering_rate_summary">Zeigen Sie Ihre Unterstützung und bewerten Sie XGELS im Play Store. Eine gute Bewertung motiviert andere es auch auszuprobieren. Hier klicken um XGELS im Play Store zu öffnen!</string>
    
 </resources>
