@@ -3,13 +3,16 @@ package de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders;
 import android.widget.TabHost;
 
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
+import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 
+import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.setIntField;
 
@@ -94,6 +97,27 @@ public class AddTabsAndFolders extends HooksBaseClass {
                 Tab tab = TabHelper.getInstance().getCurrentTabData();
                 if (tab != null && tab.isCustomTab()) {
                     param.setResult(null);
+                }
+            }
+        });
+
+        XposedBridge.hookAllMethods(Classes.Launcher, "onNewIntent", new XC_MethodHook() {
+
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                if (TabHelper.getInstance().isTabSettingsOpen()) {
+                    TabHelper.getInstance().closeTabSettings();
+                }
+            }
+        });
+
+        XposedBridge.hookAllMethods(Classes.Launcher, "onResume", new XC_MethodHook() {
+
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                if (TabHelper.getInstance().isTabSettingsOpen()
+                        && !(Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lIsAllAppsVisible)) {
+                    TabHelper.getInstance().closeTabSettings();
                 }
             }
         });

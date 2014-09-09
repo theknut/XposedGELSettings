@@ -1,6 +1,5 @@
 package de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
@@ -99,6 +98,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
     FrameLayout tabsContainer;
     View progressBar;
     View tabHostDivider;
+    AlertDialog tabSettingsDialog;
 
     public static TabHelper getInstance() {
         return INSTANCE;
@@ -572,6 +572,14 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
         return apps;
     }
 
+    public boolean isTabSettingsOpen() {
+        return tabSettingsDialog.isShowing();
+    }
+
+    public void closeTabSettings() {
+        tabSettingsDialog.cancel();
+    }
+
     private void setupTabSettings(final Tab tab) {
 
         final boolean newTab = tab == null;
@@ -593,8 +601,8 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
         if (!newTab) editText.setText(tab.getTitle());
 
         int padding = Math.round(XGELSContext.getResources().getDimension(R.dimen.tab_menu_padding));
-        final AlertDialog alert = new AlertDialog.Builder((Activity) Common.LAUNCHER_INSTANCE).create();
-        alert.setView(tabSettingsView, padding, padding, padding, padding);
+        tabSettingsDialog = new AlertDialog.Builder(Common.LAUNCHER_INSTANCE).create();
+        tabSettingsDialog.setView(tabSettingsView, padding, padding, padding, padding);
 
         if (!newTab) {
 
@@ -605,7 +613,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
                 public void onClick(View v) {
                     String newTabName = editText.getText().toString().trim();
                     if (newTabName.length() == 0) {
-                        alert.dismiss();
+                        tabSettingsDialog.dismiss();
                         return;
                     }
 
@@ -615,7 +623,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
                         Common.LAUNCHER_CONTEXT.startActivity(intent);
                     }
 
-                    alert.dismiss();
+                    tabSettingsDialog.dismiss();
                 }
             });
 
@@ -624,7 +632,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
                 manageApps.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        alert.dismiss();
+                        tabSettingsDialog.dismiss();
 
                         if (tab.isUserTab()) {
                             Intent intent = getBaseIntent(true, tab.getId(), editText.getText().toString().trim());
@@ -666,7 +674,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
                 deleteTab.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        alert.dismiss();
+                        tabSettingsDialog.dismiss();
                         long itemid = tab.getId();
 
                         removeTab(tab);
@@ -692,7 +700,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
                     intent.putExtra("keep", true);
                     intent.putExtra("initcolor", tab.getColor());
                     Common.LAUNCHER_CONTEXT.startActivity(intent);
-                    alert.cancel();
+                    tabSettingsDialog.cancel();
                 }
             });
 
@@ -789,12 +797,12 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
             tabSettingsView.findViewById(R.id.tab_save_settings).setVisibility(View.GONE);
             tabSettingsView.findViewById(R.id.tab_settings_divider).setVisibility(View.GONE);
 
-            alert.setButton(DialogInterface.BUTTON_POSITIVE, tabHost.getContext().getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+            tabSettingsDialog.setButton(DialogInterface.BUTTON_POSITIVE, tabHost.getContext().getString(android.R.string.ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     String newTabName = editText.getText().toString().trim();
                     if (newTabName.length() == 0) {
-                        alert.dismiss();
+                        tabSettingsDialog.dismiss();
                         return;
                     }
 
@@ -823,15 +831,15 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
                 }
             });
 
-            alert.setButton(DialogInterface.BUTTON_NEGATIVE, tabHost.getContext().getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
+            tabSettingsDialog.setButton(DialogInterface.BUTTON_NEGATIVE, tabHost.getContext().getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    alert.dismiss();
+                    tabSettingsDialog.dismiss();
                 }
             });
         }
 
-        alert.show();
+        tabSettingsDialog.show();
     }
 
     private Drawable setColorPreview() {
