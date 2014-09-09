@@ -573,7 +573,10 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
     }
 
     public boolean isTabSettingsOpen() {
-        return tabSettingsDialog.isShowing();
+        if (tabSettingsDialog != null) {
+            return tabSettingsDialog.isShowing();
+        }
+        return false;
     }
 
     public void closeTabSettings() {
