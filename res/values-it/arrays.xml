@@ -20,7 +20,7 @@
     <string-array name="smartfoldermode_entries">
         <item>Off</item>
         <item>Scorri - apre la prima applicazione\nTouch - apre la cartella</item>
-        <item>Touch - apre la prima applicazione\nStriscia - apre la cartella</item>
+        <item>Touch - apre la prima applicazione\nScorri - apre la cartella</item>
     </string-array>
 
     <string-array name="searchbarstyle_entries">
