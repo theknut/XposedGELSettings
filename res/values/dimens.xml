@@ -8,4 +8,6 @@
     <dimen name="tab_color_preview_stroke">5dp</dimen>
     <dimen name="tab_color_preview_corner">30dp</dimen>
     <dimen name="context_menu_close_threshold">50dp</dimen>
+    <dimen name="notificationbadgemarginleftright">6dp</dimen>
+    <dimen name="notificationbadgemargintopbottom">3dp</dimen>
 </resources>

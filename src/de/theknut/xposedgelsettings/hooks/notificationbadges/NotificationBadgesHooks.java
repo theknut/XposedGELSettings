@@ -173,24 +173,28 @@ public class NotificationBadgesHooks extends NotificationBadgesHelper {
             private float getTranslationX(View bg, Drawable d) {
                 if (PreferencesHelper.notificationBadgePosition == 0
                         || PreferencesHelper.notificationBadgePosition == 3) {
-                    return bg.getX();
+                    return bg.getX()
+                            + folderMarginLeftRight;
                 }
 
                 return bg.getX()
                         + bg.getWidth()
-                        - d.getIntrinsicWidth();
+                        - d.getIntrinsicWidth()
+                        - folderMarginLeftRight;
             }
 
             private float getTranslationY(View bg, Drawable d) {
                 if (PreferencesHelper.notificationBadgePosition == 0
                         || PreferencesHelper.notificationBadgePosition == 1) {
                     return bg.getY()
-                            + d.getIntrinsicHeight() / 2;
+                            + d.getIntrinsicHeight() / 2
+                            + folderMarginTopBottom;
                 }
 
                 return bg.getY()
                         + bg.getHeight()
-                        - d.getIntrinsicHeight();
+                        - d.getIntrinsicHeight()
+                        - folderMarginTopBottom;
             }
         });
 

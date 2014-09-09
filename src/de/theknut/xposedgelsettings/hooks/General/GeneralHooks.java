@@ -59,6 +59,10 @@ public class GeneralHooks extends HooksBaseClass {
                 filter.addAction(Common.XGELS_ACTION_UPDATE_FOLDER_ITEMS);
                 filter.addAction(Common.XGELS_ACTION_MODIFY_TAB);
                 Common.LAUNCHER_CONTEXT.registerReceiver(broadcastReceiver, filter);
+
+                try {
+                    Common.XGELSCONTEXT = Common.LAUNCHER_CONTEXT.createPackageContext(Common.PACKAGE_NAME, Context.CONTEXT_IGNORE_SECURITY);
+                } catch (Exception e) { }
             }
         });
 

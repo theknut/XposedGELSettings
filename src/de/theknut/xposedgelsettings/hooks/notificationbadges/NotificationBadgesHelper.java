@@ -23,6 +23,7 @@ import android.view.WindowManager;
 
 import java.util.ArrayList;
 
+import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
@@ -38,6 +39,7 @@ public class NotificationBadgesHelper extends HooksBaseClass {
     public static int displayWidth = -1, displayHeigth = -1;
     public static int measuredWidth = -1, measuredHeigth = -1;
     public static int leftRightPadding, topBottomPadding;
+    public static int folderMarginLeftRight, folderMarginTopBottom;
     public static int frameSize;
 
     static ArrayList<PendingNotification> pendingNotifications = new ArrayList<PendingNotification>();
@@ -283,6 +285,9 @@ public class NotificationBadgesHelper extends HooksBaseClass {
 
         leftRightPadding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, PreferencesHelper.notificationBadgeLeftRightPadding, displayMetrics));
         topBottomPadding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, PreferencesHelper.notificationBadgeTopBottomPadding, displayMetrics));
+
+        folderMarginLeftRight = Math.round(Common.XGELSCONTEXT.getResources().getDimension(R.dimen.notificationbadgemarginleftright));
+        folderMarginTopBottom = Math.round(Common.XGELSCONTEXT.getResources().getDimension(R.dimen.notificationbadgemargintopbottom));
 
         frameSize = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, PreferencesHelper.notificationBadgeFrameSize, displayMetrics));
 

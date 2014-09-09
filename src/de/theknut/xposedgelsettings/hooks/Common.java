@@ -57,7 +57,8 @@ public final class Common {
 	public static Object CONTENT_TYPE;
 	
 	public static Context LAUNCHER_CONTEXT;
-		
+	public static Context XGELSCONTEXT;
+
 	// saved messures of the search bar
 	public static int SEARCH_BAR_SPACE_HEIGHT = -1;
 	public static int HOTSEAT_BAR_HEIGHT;
