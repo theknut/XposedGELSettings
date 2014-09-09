@@ -242,6 +242,12 @@ public class Tab {
             }
         }
 
+        Intent i = pm.getLaunchIntentForPackage("de.robv.android.xposed.installer");
+        if (i != null) {
+            modules.add(Utils.createAppInfo(i.getComponent()));
+            rawData.add(i.getComponent().flattenToString());
+        }
+
         sort(modules);
         return modules;
     }
