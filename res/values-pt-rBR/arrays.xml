@@ -19,7 +19,7 @@
         <item>Desativado</item>
         <item>Apenas Atalhos</item>
         <item>Apenas Widgets</item>
-        <item>Atalhos &amp; Widgets</item>
+        <item>Atalhos &amp;amp; Widgets</item>
     </string-array>
     <string-array name="fragmenttitles_array">
         <item>Bem-Vindo</item>
@@ -81,4 +81,26 @@ Toque - pasta aberta"</item>
         <item>"Toque - inicar o primeiro aplicativo
 Deslizar - abrir pasta"</item>
     </string-array>
+    <string-array name="tabcontent_entries">
+        <item>Apps</item>
+        <item>Widgets</item>
+        <item>Módulos Xposed</item>
+        <item>Google apps</item>
+        <item>Novo apps</item>
+        <item>Novo/Atualizado apps</item>
+    </string-array>
+    <string-array name="tabcontent_names">
+        <item>Apps</item>
+        <item>Widgets</item>
+        <item>Xposed</item>
+        <item>Google</item>
+        <item>Novo Apps</item>
+        <item>Novo/Atualizado</item>
+    </string-array>
+    <string-array name="tabsort_entries">
+        <item>Em ordem alfabética</item>
+        <item>Data de instalação</item>
+        <item>Últimas atualizações</item>
+    </string-array>
+
 </resources>

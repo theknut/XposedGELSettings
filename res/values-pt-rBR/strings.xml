@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="active_manually">"Isso não funcionou. Por favor, abra Xposed Framework manualmente e ative o módulo. Reinicie o seu dispositivo!"</string>
+    <string name="active_manually">Isso não funcionou. Por favor, abra Xposed Framework manualmente e ative o módulo. Reinicie o seu dispositivo!</string>
+    <string name="alert_appdrawer_clear_tabs_success">App, abas, restaurado!</string>
+    <string name="alert_appdrawer_clear_tabs_summary">Você está prestes a excluir todas as abas da tela aplicativos que você fez! Deseja continuar?</string>
+    <string name="alert_appdrawer_clear_tabs_title">Cuidado!</string>
     <string name="alert_autokill_cancel">Irei fazer manualmente!</string>
     <string name="alert_autokill_checkbox">Não mostrar novamente</string>
     <string name="alert_autokill_ok">Entendi!</string>
@@ -21,6 +24,9 @@
     <string name="alert_launcher_not_installed_title">Lançador não encontrado!</string>
     <string name="alert_reboot_needed_summary">Você fez alterações que exigem, pelo menos, um reboot completo (requer root).</string>
     <string name="alert_reboot_needed_title">Reinicialização requerido!</string>
+    <string name="alert_tab_hide_from_apps_title">Esconder aplicativos da principal aba</string>
+    <string name="alert_tab_hint_text_title">Título da aba</string>
+    <string name="alert_tab_settings_title">Configurações da aba</string>
     <string name="alert_xgels_updated_cancel">mais tarde</string>
     <string name="alert_xgels_updated_summary">Uma reinicialização é necessária para ativar a atualização. Deseja reiniciar agora?</string>
     <string name="alert_xgels_updated_title">XGELS foi atualizado!</string>
@@ -33,7 +39,7 @@
     <string name="colorpicker_hex_hint">Cor hexadecimal personalizada</string>
     <string name="continue_text">Continuar</string>
     <string name="default_text">Padrão</string>
-    <string name="dont_show_again">"Não exibir novamente"</string>
+    <string name="dont_show_again">Não exibir novamente</string>
     <string name="drawer_close">Fechar Tela Aplicativo</string>
     <string name="drawer_open">Abrir Tela Aplicativos</string>
     <string name="error_root_shell">Erro no comando de root: exitCode</string>
@@ -54,8 +60,8 @@
     <string name="module_not_from_google_play_msg">XGELS não é instalado do Google Play! Por favor, instale XGELS do Google Play para obter o aplicativo Premium e atualizações automaticamente!</string>
     <string name="open_play_store">Abrir Google Play</string>
     <string name="open_xposed_installer">Abrir Xposed Installer</string>
-    <string name="pref_always_show_ok_google_title">Ok Google</string>
     <string name="pref_always_show_ok_google_summary">Sempre mostrar \"Ok Google\"</string>
+    <string name="pref_always_show_ok_google_title">Ok Google</string>
     <string name="pref_animate_dynamic_backbutton_summary">Esmaecer rápida em quando muda</string>
     <string name="pref_animate_dynamic_backbutton_title">Animar ícone de mudança</string>
     <string name="pref_animate_dynamic_homebutton_summary">Esmaecer rápida em quando muda</string>
@@ -68,6 +74,11 @@
     <string name="pref_appdock_count_title">Total de ícones na Bandeja</string>
     <string name="pref_appdockiconsize_summary">Selecione uma porcentagem</string>
     <string name="pref_appdockiconsize_title">Tamanho dos ícones na Bandeja</string>
+    <string name="pref_appdrawer_clear_tabs_summary">Restaurar todos os dados. Todas as abas personalizadas serão apagadas!</string>
+    <string name="pref_appdrawer_clear_tabs_title">Excluir abas</string>
+    <string name="pref_appdrawer_folders_summary">Vindo logo!</string>
+    <string name="pref_appdrawer_folders_title">Pastas</string>
+    <string name="pref_appdrawer_tabs_instructions_summary">Abas podem ser adicionados diretamente da tela aplicativos. As configurações de abas pode ser aberto por um toque longo.</string>
     <string name="pref_auto_blur_wallpaper_summary">Desfocar o papel de parede do dispositivo cada vez que fica alterado e usá-lo como XGELS fundo. Pode drenar bateria se usar aplicativos que mudaram o wallpaper dentro determinados intervalos.</string>
     <string name="pref_auto_blur_wallpaper_title">Fundo dinâmico</string>
     <string name="pref_autohide_google_search_bar_summary">Mostrar automaticamente na página Google Now</string>
@@ -79,6 +90,7 @@
     <string name="pref_backup_homescreen_title">Backup</string>
     <string name="pref_backuprestore_note_summary">Backup restaura apenas seus ícones e pastas. Widgets e suas posições serão perdidos e precisam ser colocados de novo! As características deste também exigem root!</string>
     <string name="pref_backuprestore_note_title">Nota</string>
+    <string name="pref_cat_app_drawer_settings_title">Configurações</string>
     <string name="pref_cat_backuprestore_homescreen_title">Iniciador da Tela Inicial</string>
     <string name="pref_cat_eximport_settings">XGELS Configurações de Importação / Exportação</string>
     <string name="pref_cat_gesture_down_title">Deslizar para baixo</string>
@@ -88,11 +100,12 @@
     <string name="pref_cat_homescreen_folder_title">Pastas</string>
     <string name="pref_cat_homescreen_icon_title">Ícones</string>
     <string name="pref_cat_quicksettings_lock_desktop_summary">Adicionar um bloco para as definições rápidas que permitem alternar entre tela inicial bloqueado e desbloqueado</string>
-    <string name="pref_cat_quicksettings_lock_desktop_title">Bloquear bloco de tela inicial </string>
+    <string name="pref_cat_quicksettings_lock_desktop_title">Bloquear bloco de tela inicial</string>
     <string name="pref_cat_quicksettings_title">Definições rápidas de blocos</string>
     <string name="pref_cat_system_bars_title">Barra do sistema</string>
     <string name="pref_cat_systemui_navbar_title">Barra de Navegação</string>
     <string name="pref_cat_systemui_statusbar_title">Barra de Status</string>
+    <string name="pref_cat_tabs_and_folders_title">Aba e Pastas</string>
     <string name="pref_cat_title_app_drawer">Tela Aplicativos</string>
     <string name="pref_cat_title_appicons">Configurações de ícone</string>
     <string name="pref_cat_title_general">Geral</string>
@@ -134,7 +147,7 @@
     <string name="pref_enable_rotation_title">Rotação</string>
     <string name="pref_folder_applabel_color">Cor do título do ícone</string>
     <string name="pref_folder_background_color">Cor de fundo</string>
-    <string name="pref_folder_namelabel_color">Cor do título do nome da pasta </string>
+    <string name="pref_folder_namelabel_color">Cor do título do nome da pasta</string>
     <string name="pref_folder_preview_color">Cor de visualização de pastas</string>
     <string name="pref_force_english_locale_title">Mudar idioma para inglês</string>
     <string name="pref_general_scroll_devider_summary">Defina uma velocidade global</string>
@@ -200,8 +213,10 @@
     <string name="pref_notificationbadge_leftright_padding_title">Esquerda/Direita espaçamento</string>
     <string name="pref_notificationbadge_missedit_missing_summary">MissedIt! Não instalado. XGELS solicita estatísticas de contador a partir deste aplicativo para receber a contagem. Clique para abrir/comprar MissedIt! do Google Play!</string>
     <string name="pref_notificationbadge_missedit_missing_title">MissedIt! Não instalado</string>
+    <string name="pref_notificationbadge_noappdrawer_title">Ocultar da tela aplicativos</string>
     <string name="pref_notificationbadge_open_missedit_summary">Clique aqui para abrir MissedIt!</string>
     <string name="pref_notificationbadge_open_missedit_title">Abrir MissedIt!</string>
+    <string name="pref_notificationbadge_position_title">Posição</string>
     <string name="pref_notificationbadge_premium_summary">Esta funcionalidade só está disponível em XGELS Premium.</string>
     <string name="pref_notificationbadge_premium_title">Recurso Premium</string>
     <string name="pref_notificationbadge_presets_title">Predefinições</string>
@@ -215,7 +230,7 @@
     <string name="pref_overridesettings_button_title">Botão Configurações Google Now</string>
     <string name="pref_pageindicator_summary">Ocultar o indicador de página na Tela Inicial e Tela Aplicativos</string>
     <string name="pref_pageindicator_title">Indicador de página</string>
-	<string name="pref_quicksettings_explain_summary">Definições rápidas são introduzidos com Android 4.2 e pode ou não pode trabalhar em conjunto com outros módulos ou funcionalidades Xposed ROM.</string>
+    <string name="pref_quicksettings_explain_summary">Definições rápidas são introduzidos com Android 4.2 e pode ou não pode trabalhar em conjunto com outros módulos ou funcionalidades Xposed ROM.</string>
     <string name="pref_requires_donation_summary">Os seguintes recursos estão disponíveis somente na versão doação.</string>
     <string name="pref_requires_donation_title">Não disponível</string>
     <string name="pref_resize_all_widgets_summary">Faça todos os widgets redimensionáveis</string>
@@ -234,8 +249,8 @@
     <string name="pref_reverseengineering_rate_summary">Mostre seu apoio e me deixar uma classificação no Google Play. Uma boa reputação vai motivar os outros para tentar XGELS também. Clique aqui para avaliar XGELS no Google Play!</string>
     <string name="pref_reverseengineering_rate_title">Avaliar XGELS!</string>
     <string name="pref_reverseengineering_support_cat">Eu preciso do seu apoio!</string>
-    <string name="pref_reverseengineering_support_summary">É uma incrível quantidade de trabalho para me manter XGELS e dar um bom suporte para vocês. 
-Se você sentir vontade de doar para mim, clique aqui!</string>
+    <string name="pref_reverseengineering_support_summary">É uma incrível quantidade de trabalho para me manter XGELS
+e dar um bom suporte para vocês. Se você sentir vontade de doar para mim, clique aqui!</string>
     <string name="pref_reverseengineering_support_title">Doe!</string>
     <string name="pref_reverseengineering_what_to_do_summary">Se você não quer GNL / Google Search para quebrar XGELS você pode ir para o Google Play Store e desativar as atualizações automáticas. GNL/Google Search usos encenado lançamentos, o que significa, em alguns casos XGELS é atualizado antes mesmo de receber o GNL / Google atualização oficial Search. Você pode clicar aqui para abrir a loja Play e desativar a atualização automática agora mesmo!</string>
     <string name="pref_reverseengineering_what_to_do_title">O que posso fazer?</string>
@@ -270,11 +285,12 @@ Se você sentir vontade de doar para mim, clique aqui!</string>
     <string name="pref_switch_close_app_drawer_after_app_started_title">Fechar Tela Aplicativos</string>
     <string name="pref_switch_enable_grid_size_summary">Ativar mudanças para o tamanho da grade</string>
     <string name="pref_switch_enable_grid_size_title">Habilitar</string>
+    <string name="pref_switch_enable_tabs_title">Habilitar</string>
     <string name="pref_switch_folder_hide_label">Ocultar títulos de ícone</string>
     <string name="pref_switch_folder_summary">Habilitar alterações em pastas</string>
     <string name="pref_switch_folder_title">Habilitar</string>
-    <string name="pref_switch_gesture_appdrawer_summary">Deslize - Tela Aplicativos, Para Cima -
-alternância entre todos os apps e widgets</string>
+    <string name="pref_switch_gesture_appdrawer_summary">Deslize para baixo - Tela Aplicativos
+Para Cima - alternância entre todos os apps e widgets</string>
     <string name="pref_switch_gesture_appdrawer_title">Tela Aplicativos</string>
     <string name="pref_switch_gesture_double_tap_only_on_wallpaper_summary">Marque esta opção para permitir que apenas tocar duas vezes no papel de parede. Isto irá eliminar a demora para reconhecer o gesto de tocar duas vezes quando tocando duas vezes ícones.</string>
     <string name="pref_switch_gesture_double_tap_only_on_wallpaper_title">Só no papel de parede</string>
@@ -301,6 +317,8 @@ Deslize para cima - pasta aberta"</string>
     <string name="pref_switch_unlimited_folder_size_title">Espaço em pasta ilimitado</string>
     <string name="pref_systemui_explain_summary">Todas essas configurações podem ou não funcionar, dependendo do dispositivo e/ou na ROM instalado. Além disso todas essas configurações requer um reinício completo.</string>
     <string name="pref_systemui_explain_title">Nota</string>
+    <string name="pref_tab_type_title">Tipo de aba</string>
+    <string name="pref_tabsandfolders_title">Aba e Pastas</string>
     <string name="pref_title_longpress_app_drawer_button">Botão aplicativos Tela Inicial</string>
     <string name="pref_transparent_system_bars_summary">Use Android L - como bares sistema transparente (requer ≥ Android 4.4)</string>
     <string name="pref_transparent_system_bars_title">Barras do sistema transparentes</string>
@@ -323,6 +341,7 @@ Deslize para cima - pasta aberta"</string>
     <string name="quicksettings_desktop_unlocked">Tela desbloqueado</string>
     <string name="restart_launcher_icon_title">Reiniciar</string>
     <string name="success">Sucesso</string>
+    <string name="toast_appdrawer_tabadded_title">"Toque longo em uma aba, para abrir suas configurações"</string>
     <string name="toast_backup_failed">Não foi possível aplicar as alterações!</string>
     <string name="toast_backup_success">Tela Inicial restaurada com sucesso!</string>
     <string name="toast_desktop_locked">Tela Inicial bloqueada!</string>
@@ -346,4 +365,5 @@ Por favor, veja o log!"</string>
     <string name="toast_reset_failed">Não foi possível aplicar as alterações!</string>
     <string name="toast_restore_failed">Não foi possível aplicar as alterações!</string>
     <string name="toast_restore_success">Tela Inicial restaurada com sucesso!</string>
+    <string name="toast_tab_delete">Mantenha pressionado para excluir aba</string>
 </resources>
