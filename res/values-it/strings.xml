@@ -31,9 +31,9 @@
     <string name="pref_ycount_title">Righe Homescreen</string>
     <string name="pref_ycount_summary">Modifica il numero di righe nella homescreen</string>
     <string name="pref_xcountallapps_title">Colonne App drawer</string>
-    <string name="pref_xcountallapps_summary">Modifica il numero di colonne nell\'app drawer</string>
+    <string name="pref_xcountallapps_summary">Modifica il numero di colonne app</string>
     <string name="pref_ycountallapps_title">Righe App drawer</string>
-    <string name="pref_ycountallapps_summary">Modifica il numero di righe delle app</string>
+    <string name="pref_ycountallapps_summary">Modifica il numero di righe app</string>
     <string name="pref_cat_title_homescreen">Homescreen</string>
     <string name="pref_title_longpress_app_drawer_button">Icona App drawer</string>
     <string name="pref_summary_longpress_app_drawer_button">Apri XGELS con una pressione lunga</string>
@@ -111,7 +111,7 @@
     <string name="drawer_open">Apri navigation drawer</string>
     <string name="drawer_close">Chiudi navigation drawer</string>
     <string name="pref_systemui_explain_title">Nota</string>
-    <string name="pref_systemui_explain_summary">Tutte queste impostazioni possono o non possono funzionare a seconda del dispositivo e/o sulla ROM installata. Inoltre, tutte queste impostazioni richiedono un riavvio completo per avere effetto.</string>
+    <string name="pref_systemui_explain_summary">Tutte queste impostazioni possono o non possono funzionare a seconda del dispositivo e/o della ROM installata. Inoltre, tutte queste impostazioni richiedono un riavvio completo per avere effetto.</string>
     <string name="pref_cat_systemui_navbar_title">Barra di navigazione</string>
     <string name="pref_cat_systemui_statusbar_title">Barra di stato</string>
     <string name="pref_dynamic_backbutton_title">Pulsante indietro</string>
@@ -159,7 +159,7 @@
 
     <!-- V1.5 -->
     <string name="pref_selectwidgetstohide_summary">Seleziona i widgets da nascondere</string>
-    <string name="pref_workspacerect_title">Margini sinistra/destra homscreen</string>
+    <string name="pref_workspacerect_title">Margini sinistra/destra homescreen</string>
     <string name="pref_workspacerect_summary">Scegli una dimensione per il margine sinistro/destro della homescreen</string>
     <string name="pref_workspacerect_dialog">Scegli dimensioni</string>
     <string name="toast_openinstaller_failed">Impossibile aprire Xposed Installer. Si prega di avviarlo manualmente!</string>
@@ -205,12 +205,12 @@
     <string name="alert_debug_logging_not_activated_summary">La registrazione di debug non è attivato. Assicurarsi di abilitare la registrazione di debug e riprodurre l\'errore prima di inviare un file di log.</string>
 
     <string name="alert_autokill_title">Nota</string>
-    <string name="alert_autokill_summary">XGELS riavvia automaticamente GNL / Trebuchet non appena viene apportata una modifica. Quando si ritorna alla schermata iniziale GNL / Trebuchet sarà lanciato con le nuove impostazioni.</string>
+    <string name="alert_autokill_summary">XGELS riavvia automaticamente GNL/Trebuchet non appena viene apportata una modifica. Quando si ritorna alla schermata iniziale GNL/Trebuchet sarà lanciato con le nuove impostazioni.</string>
     <string name="alert_autokill_ok">Eseguito!</string>
     <string name="alert_autokill_cancel">Lo far&#242; io stesso!</string>
     <string name="alert_autokill_checkbox">Non mostrare pi&#249;</string>
     <string name="pref_autokill_launcher_title">Riavvia Launcher</string>
-    <string name="pref_autokill_launcher_summary">Riavvio GNL/Trebuchet automaticamente una volta una preferenza viene modificato. Quando si va indietro al homescreen GNL/Trebuchet sarà quindi caricato con le nuove impostazioni.</string>
+    <string name="pref_autokill_launcher_summary">Riavvia GNL/Trebuchet automaticamente quando viene modificata una preferenza. Quando si ritorna alla schermata iniziale GNL/Trebuchet sarà lanciato con le nuove impostazioni</string>
 
     <string name="pref_notificationbadge_premium_title">Caratteristica Premium</string>
     <string name="pref_notificationbadge_premium_summary">Questa funzione è disponibile solo in XGELS Premium. Si noti che per i badges di notifica &#232; richiesto MissedIt! (a pagamento) per ottenere in contatore notifiche.</string>
@@ -284,7 +284,7 @@
     <!-- V1.8 -->
     <string name="pref_icon_hide_icon_packs_title">Nascondi pacchetti icone</string>
     <string name="pref_icon_hide_icon_packs_summary">Nascondere automaticamente i pacchetti icone dal app drawer</string>
-    <string name="pref_icon_perappicon_title">Cambiare icona per ogni singola app</string>
+    <string name="pref_icon_perappicon_title">Cambiare l\' icona per ogni singola app</string>
     <string name="pref_icon_perappicon_summary">Scegli le icone da diversi pacchetti per ogni singola app</string>
     <string name="pref_icon_allappsbutton_title">Bottone app drawer</string>
     <string name="pref_icon_allappsbutton_summary">Modificare icona del\' app drawer</string>
@@ -315,7 +315,7 @@
     <string name="default_text">Predefinito</string>
     <string name="pref_cat_system_bars_title">Barre di sistema</string>
     <string name="pref_transparent_system_bars_title">Barre di sistema trasparenti</string>
-    <string name="pref_transparent_system_bars_summary">Utilizare barre trasparenti come Android L (richiede ≥ Android 4.4)</string>
+    <string name="pref_transparent_system_bars_summary">Utilizzare barre trasparenti come Android L (richiede ≥ Android 4.4)</string>
     <string name="module_not_from_google_play">Modulo non installato da Google Play!</string>
     <string name="module_not_from_google_play_msg">XGELS non &#232; installato da Google Play! Si prega di installare XGELS dal Play Store per poter acquistare XGELS Premium e per ottenere automaticamente gli aggiornamenti!</string>
     <string name="open_play_store">Apri Play Store</string>
@@ -353,8 +353,11 @@
     <string name="alert_appdrawer_clear_tabs_title">Attenzione!</string>
     <string name="alert_appdrawer_clear_tabs_summary">Stai per eliminare tutte le schede app drawer che hai fatto! Continua?</string>
     <string name="alert_appdrawer_clear_tabs_success">Dati schede app drawer cancellati!</string>
-    <string name="pref_appdrawer_tabs_instructions_summary">Le schede dell\'app drawer possono essere aggiunti direttamente dal app drawer. Le impostazioni della scheda possono essere aperte tenendo premuta a lungo una scheda.</string>
+    <string name="pref_appdrawer_tabs_instructions_summary">Le schede dell\'app drawer possono essere aggiunte direttamente dal app drawer. Le impostazioni della scheda possono essere aperte tenendo premuta a lungo una scheda.</string>
     <string name="pref_notificationbadge_noappdrawer_title">Nascondi dal app drawer</string>
     <string name="toast_appdrawer_tabadded_title">Premere a lungo una scheda per aprire le impostazioni</string>
+    
+    <string name="pref_reverseengineering_rate_title">Vota XGELS!</string>
+    <string name="pref_reverseengineering_rate_summary">Mostrate il vostro sostegno e lasciatemi un voto su Google Play. Una buona reputazione pu motivare gli altri a provare XGELS. Clicca qui per votare XGELS su Google Play!</string>
 
 </resources>
