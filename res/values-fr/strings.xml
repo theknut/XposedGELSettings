@@ -184,7 +184,7 @@
     <string name="pref_switch_gesture_double_tap_summary">Exclure les dossiers et les widgets</string>
     <string name="pref_cat_gesture_down_title">Glissement vers le bas</string>
     <string name="pref_cat_gesture_up_title">Glissement vers le haut</string>
-    <string name="pref_gesture_down_left_title">Glisssement bas-gauche</string>
+    <string name="pref_gesture_down_left_title">Glissement bas-gauche</string>
     <string name="pref_gesture_down_middle_title">Glissement milieu-bas</string>
     <string name="pref_gesture_down_right_title">Glissement bas-droit</string>
     <string name="pref_gesture_up_left_title">Glissement haut-gauche</string>
@@ -289,14 +289,14 @@
     <string name="pref_icon_allappsbutton_title">Icône du drawer</string>
     <string name="pref_icon_allappsbutton_summary">Change l\'icône du drawer</string>
     <string name="pref_xgels_no_background_image_title">Aucune image d\'arrière plan</string>
-    <string name="pref_switch_smart_folder_title">Dossier intelligents</string>
+    <string name="pref_switch_smart_folder_title">Dossier intelligent</string>
     <string name="pref_overlapping_widgets_title">Widgets chevauchants</string>
-    <string name="pref_overlapping_widgets_summary">Permer le chevauchement des widgets. Fonctionne uniquement sur GNL !\n(Bêta: Actuellement la position de la couche n\'est pas sauvegardée après un redémarrage)</string>
+    <string name="pref_overlapping_widgets_summary">Permet le chevauchement des widgets. Fonctionne uniquement sur GNL !\n(Bêta: Actuellement la position de la couche n\'est pas sauvegardée après un redémarrage)</string>
 
     <string name="pref_overridesettings_button_title">Bouton des paramètres</string>
     <string name="pref_overridesettings_button_summary">Ouvre XGELS au lieu des paramètres de Google Now</string>
 
-    <string name="pref_icon_reset_all">Réinitialiser tout</string>
+    <string name="pref_icon_reset_all">Tout réinitialiser</string>
     
     <!-- V1.8.4 -->
     <string name="pref_enable_l_launcher_title">Thème Android L</string>
@@ -310,7 +310,7 @@
     <string name="pref_always_show_ok_google_summary">Toujours afficher \"Ok Google\"</string>
     <string name="pref_glow_color_title">Couleur de pression</string>
     <string name="pref_glow_color_summary">Couleur s\'affichant en pressant un icône</string>
-    <string name="hide_app_switch_label">Masquer du drawer</string>
+    <string name="hide_app_switch_label">Masquer dans le drawer</string>
     <string name="default_text">Par défaut</string>
     <string name="pref_cat_system_bars_title">Barres système</string>
     <string name="pref_transparent_system_bars_title">Barres système transparentes</string>
@@ -340,6 +340,20 @@
     <string name="alert_tab_hint_text_title">Nom de l\'onglet</string>
     <string name="pref_tabsandfolders_title">Onglets et dossiers</string>
     <string name="pref_tab_type_title">Type d\'onglet</string>
-    <string name="toast_tab_delete">Appuyez et maintenez pour supprimer l\'onglet</string>    
+    <string name="toast_tab_delete">Appuyez et maintenez pour supprimer l\'onglet</string>
+    <string name="pref_notificationbadge_position_title">Position</string>
+    <string name="pref_cat_tabs_and_folders_title">Onglets et dossiers</string>
+    <string name="pref_cat_app_drawer_settings_title">Paramètres</string>
+    <string name="pref_switch_enable_tabs_title">Activer</string>
+    <string name="pref_appdrawer_folders_title">Dossiers</string>
+    <string name="pref_appdrawer_folders_summary">Bientôt !</string>
+    <string name="pref_appdrawer_clear_tabs_title">Effacer les données des onglets</string>
+    <string name="pref_appdrawer_clear_tabs_summary">Appuyez ici pour réinitialiser toutes les données des onglets. Tous les onglets personnalisés seront supprimés !</string>
+    <string name="alert_appdrawer_clear_tabs_title">Attention !</string>
+    <string name="alert_appdrawer_clear_tabs_summary">Vous êtes sur le point de supprimer tous les onglets que vous avez fait ! Continuer ?</string>
+    <string name="alert_appdrawer_clear_tabs_success">Données des onglets du drawer effacées !</string>
+    <string name="pref_appdrawer_tabs_instructions_summary">Des onglets peuvent être ajoutés directement depuis le drawer. Les paramètres de l\'onglet peuvent être ouverts via un appui long sur un onglet.</string>
+    <string name="pref_notificationbadge_noappdrawer_title">Masquer dans le drawer</string>
+    <string name="toast_appdrawer_tabadded_title">Appui long sur un onglet pour ouvrir ses paramètres</string>    
     
 </resources>
