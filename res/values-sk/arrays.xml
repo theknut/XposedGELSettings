@@ -89,5 +89,12 @@
         <item>Čas inštalácie</item>
         <item>Posledná aktualizácia</item>
     </string-array>
+    
+    <string-array name="notificationbadge_position_entries">
+        <item>Vľavo hore</item>
+        <item>Vpravo hore</item>
+        <item>Vľavo dole</item>
+        <item>Vpravo dole</item>
+    </string-array>
 
 </resources>
