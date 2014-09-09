@@ -536,7 +536,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
         for (int i = startIndex; i < endIndex; ++i) {
             Object info = apps.get(i);
             View icon = mLayoutInflater.inflate(apps_customize_application, appsCustomizeCellLayout, false);
-            callMethod(icon, Methods.applyFromApplicationInfo, info, thisObject);
+            callMethod(icon, Methods.pviApplyFromApplicationInfo, info, thisObject);
             icon.setOnClickListener((View.OnClickListener) thisObject);
             icon.setOnLongClickListener((View.OnLongClickListener) thisObject);
             icon.setOnTouchListener((View.OnTouchListener) thisObject);

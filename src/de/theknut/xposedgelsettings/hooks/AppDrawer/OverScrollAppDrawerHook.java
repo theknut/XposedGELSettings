@@ -31,7 +31,7 @@ public class OverScrollAppDrawerHook extends XC_MethodHook {
 					}
 				}
 				else {					
-					callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherShowWorkspace, true, null);
+					callMethod(Common.LAUNCHER_INSTANCE, Methods.lShowWorkspace, true, null);
 				}
 			}
 
@@ -39,7 +39,7 @@ public class OverScrollAppDrawerHook extends XC_MethodHook {
 				GoogleSearchBarHooks.hideSearchbar();
 			}
 			
-			callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherShowWorkspace, true, null);
+			callMethod(Common.LAUNCHER_INSTANCE, Methods.lShowWorkspace, true, null);
 		}
 		else if (overscroll < -50.0) {
 			
@@ -56,7 +56,7 @@ public class OverScrollAppDrawerHook extends XC_MethodHook {
 				GoogleSearchBarHooks.hideSearchbar();
 			}
 			
-			callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherShowWorkspace, true, null);			
+			callMethod(Common.LAUNCHER_INSTANCE, Methods.lShowWorkspace, true, null);
 		}
 	}
 }

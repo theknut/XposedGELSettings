@@ -300,7 +300,7 @@ public class SystemUIHooks extends HooksBaseClass {
             }
         });
 
-        findAndHookMethod(Classes.Launcher, Methods.launcherShowWorkspace, boolean.class, Runnable.class, new XC_MethodHook() {
+        findAndHookMethod(Classes.Launcher, Methods.lShowWorkspace, boolean.class, Runnable.class, new XC_MethodHook() {
 
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {

@@ -28,7 +28,7 @@ public class OnClickHook  extends XC_MethodHook {
 	protected void afterHookedMethod(final MethodHookParam param) throws Throwable
 	{
 		if (!Common.PACKAGE_OBFUSCATED) {
-			callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherShowWorkspace, true);
+			callMethod(Common.LAUNCHER_INSTANCE, Methods.lShowWorkspace, true);
 		}
 	}
 }

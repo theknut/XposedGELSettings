@@ -269,7 +269,7 @@ public class ObfuscationHelper extends HooksBaseClass {
 
     public static class Methods {
 
-        public static String applyFromApplicationInfo,
+        public static String pviApplyFromApplicationInfo,
                 lGetApplicationContext,
                 lIsRotationEnabled,
                 clAddViewToCellLayout,
@@ -283,12 +283,11 @@ public class ObfuscationHelper extends HooksBaseClass {
                 sdtbOnDragStart,
                 sdtbOnDragEnd,
                 lHasCustomContentToLeft,
-                hideAppsCustomizeHelper,
-                launcherShowWorkspace,
-                launcherShowAllApps,
-                workspaceMoveToDefaultScreen,
+                lHideAppsCustomizeHelper,
+                lShowWorkspace,
+                wMoveToDefaultScreen,
                 btvSetShadowsEnabled,
-                wsOverScroll,
+                wOverScroll,
                 lFinishBindingItems,
                 dpGetWorkspacePadding,
                 lIsAllAppsVisible,
@@ -299,7 +298,6 @@ public class ObfuscationHelper extends HooksBaseClass {
                 pvSnapToPage,
                 lOpenFolder,
                 wOnDragEnd,
-                wOnDragStart,
                 lCloseFolder,
                 acthOnTabChanged,
                 wSetCurrentPage,
@@ -311,11 +309,8 @@ public class ObfuscationHelper extends HooksBaseClass {
                 soiSetSearchStarted,
                 noOnShow,
                 wOnLauncherTransitionEnd,
-                fOnRemove,
-                fOnAdd,
                 fiAdd,
                 fiRemove,
-                fReplaceFolderWithFinalItem,
                 fGetItemsInReadingOrder,
                 clGetShortcutsAndWidgets,
                 acthGetContentTypeForTabTag,
@@ -346,7 +341,6 @@ public class ObfuscationHelper extends HooksBaseClass {
                 tmSetTransitionsEnabled,
                 uIsL,
                 lasIsDisableAllApps,
-                acpvGetTabHost,
                 acpvSyncAppsPageItems,
                 acpvSetContentType,
                 acpvInvalidatePageData,
@@ -361,97 +355,96 @@ public class ObfuscationHelper extends HooksBaseClass {
                 wGetWorkspaceAndHotseatCellLayouts;
 
         public static void initMethodNames(int idx) {
-
-            applyFromApplicationInfo = new String[]{"applyFromApplicationInfo", "a", "a", "a"}[idx];
             lGetApplicationContext = new String[]{"getApplicationContext", "getApplicationContext", "getApplicationContext", "getApplicationContext"}[idx];
             lIsRotationEnabled = new String[]{"isRotationEnabled", "gC", "hr", "hA"}[idx]; // getBoolean - single line method
-            clAddViewToCellLayout = new String[]{"addViewToCellLayout", "a", "a", "a"}[idx]; // View paramView, int paramInt1, int paramInt2, CellLayout.LayoutParams paramLayoutParams, boolean paramBoolean
-            woiSyncWithScroll = new String[]{"syncWithScroll", "kf", "la", "lf"}[idx]; // computeScroll in Workspace
-            wStartDrag = new String[]{"startDrag", "a", "a", "a"}[idx]; // isInTouchMode
-            acpvOnPackagesUpdated = new String[]{"onPackagesUpdated", "a", "a", "a"}[idx]; // "can not fit on this device"
             lGetSearchbar = new String[]{"getSearchBar", "fZ", "gO", "gX"}[idx]; // return SearchDropTargetBar in Launcher
             lGetQsbBar = new String[]{"getQsbBar", "gw", "hl", "hu"}[idx]; // public View
-            pvPageBeginMoving = new String[]{"pageBeginMoving", "ii", "iY", "jb"}[idx]; // above "awakenScrollBars"
-            pvPageEndMoving = new String[]{"pageEndMoving", "ij", "iZ", "jc"}[idx]; // method above "accessibility"
-            sdtbOnDragStart = new String[]{"onDragStart", "a", "a", "a"}[idx]; // twice .start in the method
-            sdtbOnDragEnd = new String[]{"onDragEnd", "dt", "ei", "er"}[idx]; // twice .reverse
             lHasCustomContentToLeft = new String[]{"hasCustomContentToLeft", "fL", "gA", "gJ"}[idx]; // "()) || (!" under isEmpty
-            hideAppsCustomizeHelper = new String[]{"hideAppsCustomizeHelper", "a", "a", "a"}[idx];
-            launcherShowWorkspace = new String[]{"showWorkspace", "a", "a", "a"}[idx]; // boolean paramBoolean, Runnable paramRunnable
-            launcherShowAllApps = new String[]{"showAllApps", "a", "a", "a"}[idx];
-            workspaceMoveToDefaultScreen = new String[]{"moveToDefaultScreen", "ao", "at", "at"}[idx]; // Launcher onNewIntent method call of workspace member with (true)
-            btvSetShadowsEnabled = new String[]{"setShadowsEnabled", "w", "z", "z"}[idx]; // invalidate
-            wsOverScroll = new String[]{"overScroll", "g", "g", "g"}[idx]; // (float paramFloat)
-            acpvOverScroll = new String[]{"overScroll", "g", "g", "g"}[idx]; // (float paramFloat)
-            lFinishBindingItems = new String[]{"finishBindingItems", "U", "Z", "Z"}[idx]; // hasFocus()
-            dpGetWorkspacePadding = new String[]{"getWorkspacePadding", "aC", "aS", "aS"}[idx]; // second method with (int paramInt)
+            lHideAppsCustomizeHelper = new String[]{"hideAppsCustomizeHelper", "a", "a", "a"}[idx];
+            lShowWorkspace = new String[]{"showWorkspace", "a", "a", "a"}[idx]; // boolean paramBoolean, Runnable paramRunnable
+            //lShowAllApps = new String[]{"showAllApps", "a", "a", "a"}[idx];
             lIsAllAppsVisible = new String[]{"isAllAppsVisible", "gs", "hh", "hq"}[idx]; // onBackPressed first method call
+            lFinishBindingItems = new String[]{"finishBindingItems", "U", "Z", "Z"}[idx]; // hasFocus()
+            lOpenFolder = new String[]{"openFolder", "i", "i", "i"}[idx]; // "Opening folder ("
+            lCloseFolder = new String[]{"closeFolder", "gr", "hg", "hq"}[idx]; // localFolder != new String[]null
+            lBindAppsUpdated = new String[]{"bindAppsUpdated", "l", "l", "l"}[idx]; // "(this, paramArrayList), false));"
+            lSetWorkspaceBackground = new String[]{"setWorkspaceBackground", "N", "S", "S"}[idx]; // setBackground
+            lGetDragLayer = new String[]{"getDragLayer", "fV", "gK", "gT"}[idx]; // public final DragLayer
+            lCreateAppInfo = new String[]{"", "e", "d", "d"}[idx];
+            clAttemptPushInDirection = new String[]{"attemptPushInDirection", "b", "b", "b"}[idx]; // "if (Math.abs(paramArrayOfInt[0]) + Math.abs(paramArrayOfInt[1]) > 1)"
+            clMarkCellsForView = new String[]{"markCellsForView", "a", "a", "a"}[idx]; // int paramInt1, int paramInt2, int paramInt3, int paramInt4, boolean[][] paramArrayOfBoolean, boolean paramBoolean
+            clGetShortcutsAndWidgets = new String[]{"getShortcutsAndWidgets", "dH", "ew", "eF"}[idx]; // getChildCount() > 0
+            clAddViewToCellLayout = new String[]{"addViewToCellLayout", "a", "a", "a"}[idx]; // View paramView, int paramInt1, int paramInt2, CellLayout.LayoutParams paramLayoutParams, boolean paramBoolean
+            wStartDrag = new String[]{"startDrag", "a", "a", "a"}[idx]; // isInTouchMode
+            wMoveToDefaultScreen = new String[]{"moveToDefaultScreen", "ao", "at", "at"}[idx]; // Launcher onNewIntent method call of workspace member with (true)
+            wOverScroll = new String[]{"overScroll", "g", "g", "g"}[idx]; // (float paramFloat)
             wGetOpenFolder = new String[]{"getOpenFolder", "jp", "kj", "kn"}[idx]; // localDragLayer.getChildCount();
             wIsOnOrMovingToCustomContent = new String[]{"isOnOrMovingToCustomContent", "jJ", "kE", "kI"}[idx]; // last if-clause in Launcher onResume
             wEnterOverviewMode = new String[]{"enterOverviewMode", "jO", "kJ", "kN"}[idx]; // "()) || (!this."
             wMoveToCustomContentScreen = new String[]{"moveToCustomContentScreen", "ap", "au", "au"}[idx]; // Workspace "View localView = new String[]getChildAt"
-            pvSnapToPage = new String[]{"snapToPage", "a", "a", "a"}[idx]; // int paramInt1, int paramInt2, int paramInt3, boolean paramBoolean, TimeInterpolator paramTimeInterpolator
-            lOpenFolder = new String[]{"openFolder", "i", "i", "i"}[idx]; // "Opening folder ("
-            lCloseFolder = new String[]{"closeFolder", "gr", "hg", "hq"}[idx]; // localFolder != new String[]null
-            acthOnTabChanged = new String[]{"onTabChanged", "c", "c", "c"}[idx]; // setBackgroundColor
             wSetCurrentPage = new String[]{"setCurrentPage", "aV", "bl", "bm"}[idx];
-            acpvSetCurrentPage = new String[]{"setCurrentPage", "aV", "bl", "bm"}[idx];
-            dpUpdateFromConfiguration = new String[]{"updateFromConfiguration", "a", "a", "a"}[idx]; // float paramFloat, int paramInt, Resources paramResources, DisplayMetrics paramDisplayMetrics
-            acthSetInsets = new String[]{"setInsets", "c", "c", "c"}[idx]; // (Rect
             wSnapToPage = new String[]{"snapToPage", "bc", "bs", "bt"}[idx]; // in PagedView requestChildFocus
-            soiSetSearchStarted = new String[]{"setSearchStarted", "cs", "cI", "cI"}[idx]; // onResume before cancel()
-            noOnShow = new String[]{"onShow", "p", "u", "v"}[idx]; // boolean paramBoolean1, boolean paramBoolean2
             wOnDragEnd = new String[]{"onDragEnd", "dt", "ei", "er"}[idx]; // only method without interface parameters with InstallShortcutReceiver
-            wOnDragStart = new String[]{"onDragStart", "a", "a", "a"}[idx]; // only method with interface parameters with InstallShortcutReceiver
+            //wOnDragStart = new String[]{"onDragStart", "a", "a", "a"}[idx]; // only method with interface parameters with InstallShortcutReceiver
             wOnLauncherTransitionEnd = new String[]{"onLauncherTransitionEnd", "a", "a", "a"}[idx]; // (Launcher paramLauncher, boolean paramBoolean1, boolean paramBoolean2)
-            fOnRemove = new String[]{"onRemove", "g", "g", "g"}[idx]; // removeView(localView)
-            fOnAdd = new String[]{"onAdd", "f", "f", "f"}[idx]; // (1 + getItemCount()); - first line  = new String[]true
-            fiAdd = new String[]{"add", "j", "j", "j"}[idx]; // FolderInfo - .add
-            fiRemove = new String[]{"remove", "k", "k", "k"}[idx]; // FolderInfo - .remove
-            fReplaceFolderWithFinalItem = new String[]{"replaceFolderWithFinalItem", "ge", "ge", "gn"}[idx]; // if (localView != new String[]null)
-            fGetItemsInReadingOrder = new String[]{"getItemsInReadingOrder", "fr", "gh", "gq"}[idx]; // public final ArrayList
-            clGetShortcutsAndWidgets = new String[]{"getShortcutsAndWidgets", "dH", "ew", "eF"}[idx]; // getChildCount() > 0
-            acthGetContentTypeForTabTag = new String[]{"getContentTypeForTabTag", "j", "r", "r"}[idx]; // (String paramString)
             wOnTransitionPrepare = new String[]{"onTransitionPrepare", "jR", "kM", "kR"}[idx]; // "if ((bool) && ("
-            siGetIntent = new String[]{"getIntent", "getIntent", "getIntent", "getIntent"}[idx];
-            icGetFullResIcon = new String[]{"getFullResIcon", "a", "a", "a"}[idx]; // (Resources paramResources, int paramInt)
-            uCreateIconBitmap = new String[]{"createIconBitmap", "a", "a", "a"}[idx]; // (Drawable paramDrawable, Context paramContext)
-            icCacheLocked = new String[]{"cacheLocked", "b", "a", "a"}[idx];
-            clMarkCellsForView = new String[]{"markCellsForView", "a", "a", "a"}[idx]; // int paramInt1, int paramInt2, int paramInt3, int paramInt4, boolean[][] paramArrayOfBoolean, boolean paramBoolean
-            lmCheckItemPlacement = new String[]{"checkItemPlacement", "a", "a", "a"}[idx]; // "Error loading shortcut into "
-            acpvBeginDragging = new String[]{"beginDragging", "n", "n", "n"}[idx]; // "instanceof PagedViewIcon" in AppsCustomizePagedView
-            lBindAppsUpdated = new String[]{"bindAppsUpdated", "l", "l", "l"}[idx]; // "(this, paramArrayList), false));"
-            lmIsShortcutInfoUpdateable = new String[]{"isShortcutInfoUpdateable", "e", "e", "e"}[idx]; // "android.intent.action.MAIN"
-            clAttemptPushInDirection = new String[]{"attemptPushInDirection", "b", "b", "b"}[idx]; // "if (Math.abs(paramArrayOfInt[0]) + Math.abs(paramArrayOfInt[1]) > 1)"
+            wGetWorkspaceAndHotseatCellLayouts = new String[]{"getWorkspaceAndHotseatCellLayouts", "ka", "kV", "la"}[idx]; // localArrayList.add((CellLayout)getChildAt(j));
+            pvPageBeginMoving = new String[]{"pageBeginMoving", "ii", "iY", "jb"}[idx]; // above "awakenScrollBars"
+            pvPageEndMoving = new String[]{"pageEndMoving", "ij", "iZ", "jc"}[idx]; // method above "accessibility"
+            pvSnapToPage = new String[]{"snapToPage", "a", "a", "a"}[idx]; // int paramInt1, int paramInt2, int paramInt3, boolean paramBoolean, TimeInterpolator paramTimeInterpolator
+            pvGetPageAt = new String[]{"getPageAt", "at", "aJ", "aJ"}[idx];
+            pviApplyFromApplicationInfo = new String[]{"applyFromApplicationInfo", "a", "a", "a"}[idx];
+            sdtbOnDragStart = new String[]{"onDragStart", "a", "a", "a"}[idx]; // twice .start in the method
+            sdtbOnDragEnd = new String[]{"onDragEnd", "dt", "ei", "er"}[idx]; // twice .reverse
+            btvSetShadowsEnabled = new String[]{"setShadowsEnabled", "w", "z", "z"}[idx]; // invalidate
+            btvCreateGlowingOutline = new String[]{"createGlowingOutline", "a", "a", "a"}[idx]; // setBitmap
+            acpvOnPackagesUpdated = new String[]{"onPackagesUpdated", "a", "a", "a"}[idx]; // "can not fit on this device"
+            acpvOverScroll = new String[]{"overScroll", "g", "g", "g"}[idx]; // (float paramFloat)
+            acpvSetCurrentPage = new String[]{"setCurrentPage", "aV", "bl", "bm"}[idx];
             acpvSetApps = new String[]{"setApps", "b", "b", "b"}[idx]; // Collections.sort
             acpvUpdateApps = new String[]{"updateApps", "g", "g", "g"}[idx]; // in BindAppsUpdated in Launcher
             acpvRemoveApps = new String[]{"removeApps", "f", "f", "f"}[idx]; // in Launcher removeApps."(paramArrayList2)"
-            lSetWorkspaceBackground = new String[]{"setWorkspaceBackground", "N", "S", "S"}[idx]; // setBackground
-            lGetDragLayer = new String[]{"getDragLayer", "fV", "gK", "gT"}[idx]; // public final DragLayer
-            dlAddResizeFrame = new String[]{"addResizeFrame", "a", "a", "a"}[idx]; // (-1, -1)
-            gsaShouldAlwaysShowHotwordHint = new String[]{"shouldAlwaysShowHotwordHint", "uK", "xE", "yB"}[idx]; // always_show_hotword_hint
-            btvCreateGlowingOutline = new String[]{"createGlowingOutline", "a", "a", "a"}[idx]; // setBitmap
-            lmDeleteItemFromDatabase = new String[]{"deleteItemFromDatabase", "b", "b", "b"}[idx]; // (Context paramContext, ItemInfo paramta) - link to "deleting a folder"
-            siGetIcon = new String[]{"getIcon", "a", "a", "a"}[idx]; // public final Bitmap
-            lmDeleteFolderContentsFromDatabase = new String[]{"deleteFolderContentsFromDatabase", "a", "a", "a"}[idx]; // (Context paramContext, FolderInfo paramsh)
-            rvCanShowHotwordAnimation = new String[]{"canShowHotwordAnimation", "NH", "Se", "UC"}[idx]; // == new String[]5
-            spSetProximityToNow = new String[]{"setProximityToNow", "x", "x", "x"}[idx]; // (float paramFloat) with RecognizerView
-            tmSetTransitionsEnabled = new String[]{"setTransitionsEnabled", "cG", "cY", "cZ"}[idx]; // (4)
-            uIsL = new String[]{"", "", "jO", "jS"}[idx];
-            lasIsDisableAllApps = new String[]{"isDisableAllApps", "ha", "hS", "hW"}[idx];
-            acpvGetTabHost = new String[]{"getTabHost", "de", "dt", "ec"}[idx];
+            acpvEnableHwLayersOnVisiblePages = new String[]{"enableHwLayersOnVisiblePages", "db", "dQ", "dZ"}[idx];
+            //acpvGetTabHost = new String[]{"getTabHost", "de", "dt", "ec"}[idx];
             acpvSyncAppsPageItems = new String[]{"syncAppsPageItems", "aq", "aG", "aG"}[idx];
             acpvSetContentType = new String[]{"setContentType", "a", "a", "a"}[idx];
             acpvInvalidatePageData = new String[]{"invalidatePageData", "j", "k", "k"}[idx];
             acpvSyncPages = new String[]{"syncPages", "da", "dP", "dY"}[idx]; // removeAllViews
             acpvIsLayoutRtl = new String[]{"isLayoutRtl", "hX", "iN", "iQ"}[idx];
-            pvGetPageAt = new String[]{"getPageAt", "at", "aJ", "aJ"}[idx];
-            acpvEnableHwLayersOnVisiblePages = new String[]{"enableHwLayersOnVisiblePages", "db", "dQ", "dZ"}[idx];
-            lCreateAppInfo = new String[]{"", "e", "d", "d"}[idx];
-            aiMakeShortcut = new String[]{"makeShortcut", "cE", "dt", "dC"}[idx];
-            lmGetAppNameComparator = new String[]{"getAppNameComparator", "hw", "im", "iq"}[idx]; // public static final Comparator
+            acpvBeginDragging = new String[]{"beginDragging", "n", "n", "n"}[idx]; // "instanceof PagedViewIcon" in AppsCustomizePagedView
+            acthOnTabChanged = new String[]{"onTabChanged", "c", "c", "c"}[idx]; // setBackgroundColor
+            acthSetInsets = new String[]{"setInsets", "c", "c", "c"}[idx]; // (Rect
+            acthGetContentTypeForTabTag = new String[]{"getContentTypeForTabTag", "j", "r", "r"}[idx]; // (String paramString)
             acthSetContentTypeImmediate = new String[]{"setContentTypeImmediate", "b", "b", "b"}[idx]; // setOnTabChangedListener(null)
-            wGetWorkspaceAndHotseatCellLayouts = new String[]{"getWorkspaceAndHotseatCellLayouts", "ka", "kV", "la"}[idx]; // localArrayList.add((CellLayout)getChildAt(j));
+            dpGetWorkspacePadding = new String[]{"getWorkspacePadding", "aC", "aS", "aS"}[idx]; // second method with (int paramInt)
+            dpUpdateFromConfiguration = new String[]{"updateFromConfiguration", "a", "a", "a"}[idx]; // float paramFloat, int paramInt, Resources paramResources, DisplayMetrics paramDisplayMetrics
+            //fOnRemove = new String[]{"onRemove", "g", "g", "g"}[idx]; // removeView(localView)
+            //fOnAdd = new String[]{"onAdd", "f", "f", "f"}[idx]; // (1 + getItemCount()); - first line  = new String[]true
+            //fReplaceFolderWithFinalItem = new String[]{"replaceFolderWithFinalItem", "ge", "ge", "gn"}[idx]; // if (localView != new String[]null)
+            fGetItemsInReadingOrder = new String[]{"getItemsInReadingOrder", "fr", "gh", "gq"}[idx]; // public final ArrayList
+            fiAdd = new String[]{"add", "j", "j", "j"}[idx]; // FolderInfo - .add
+            fiRemove = new String[]{"remove", "k", "k", "k"}[idx]; // FolderInfo - .remove
+            siGetIntent = new String[]{"getIntent", "getIntent", "getIntent", "getIntent"}[idx];
+            siGetIcon = new String[]{"getIcon", "a", "a", "a"}[idx]; // public final Bitmap
+            aiMakeShortcut = new String[]{"makeShortcut", "cE", "dt", "dC"}[idx];
+            icGetFullResIcon = new String[]{"getFullResIcon", "a", "a", "a"}[idx]; // (Resources paramResources, int paramInt)
+            icCacheLocked = new String[]{"cacheLocked", "b", "a", "a"}[idx];
+            uCreateIconBitmap = new String[]{"createIconBitmap", "a", "a", "a"}[idx]; // (Drawable paramDrawable, Context paramContext)
+            lmCheckItemPlacement = new String[]{"checkItemPlacement", "a", "a", "a"}[idx]; // "Error loading shortcut into "
+            lmIsShortcutInfoUpdateable = new String[]{"isShortcutInfoUpdateable", "e", "e", "e"}[idx]; // "android.intent.action.MAIN"
+            lmDeleteItemFromDatabase = new String[]{"deleteItemFromDatabase", "b", "b", "b"}[idx]; // (Context paramContext, ItemInfo paramta) - link to "deleting a folder"
+            lmDeleteFolderContentsFromDatabase = new String[]{"deleteFolderContentsFromDatabase", "a", "a", "a"}[idx]; // (Context paramContext, FolderInfo paramsh)
+            lmGetAppNameComparator = new String[]{"getAppNameComparator", "hw", "im", "iq"}[idx]; // public static final Comparator
+            dlAddResizeFrame = new String[]{"addResizeFrame", "a", "a", "a"}[idx]; // (-1, -1)
+            gsaShouldAlwaysShowHotwordHint = new String[]{"shouldAlwaysShowHotwordHint", "uK", "xE", "yB"}[idx]; // always_show_hotword_hint
+            soiSetSearchStarted = new String[]{"setSearchStarted", "cs", "cI", "cI"}[idx]; // onResume before cancel()
+            noOnShow = new String[]{"onShow", "p", "u", "v"}[idx]; // boolean paramBoolean1, boolean paramBoolean2
+            woiSyncWithScroll = new String[]{"syncWithScroll", "kf", "la", "lf"}[idx]; // computeScroll in Workspace
+            rvCanShowHotwordAnimation = new String[]{"canShowHotwordAnimation", "NH", "Se", "UC"}[idx]; // == new String[]5
+            spSetProximityToNow = new String[]{"setProximityToNow", "x", "x", "x"}[idx]; // (float paramFloat) with RecognizerView
+            tmSetTransitionsEnabled = new String[]{"setTransitionsEnabled", "cG", "cY", "cZ"}[idx]; // (4)
+            uIsL = new String[]{"", "", "jO", "jS"}[idx];
+            lasIsDisableAllApps = new String[]{"isDisableAllApps", "ha", "hS", "hW"}[idx];
         }
     }
 
@@ -476,7 +469,6 @@ public class ObfuscationHelper extends HooksBaseClass {
                 fFolderInfo,
                 fiFolder,
                 fiContents,
-                fFolderIcon,
                 acpvContentType,
                 pvIsPageMoving,
                 wIsSwitchingState,
@@ -494,20 +486,16 @@ public class ObfuscationHelper extends HooksBaseClass {
                 pvPageIndicator,
                 acthContent,
                 dpPageIndicatorHeightPx,
-                fContent,
                 lAppsCustomizePagedView,
                 iiID,
                 ceIcon,
                 ceTitle,
                 lIconCache,
-                iiTitle,
                 fiLongPressHelper,
                 clphHasPerformedLongPress,
                 lawiProviderName,
                 fMaxCountY,
-                fMaxCountX,
                 fMaxNumItems,
-                acthTabsContainer,
                 acthAppsCustomizePane,
                 acpvNumAppsPages,
                 acpvCellCountX,
@@ -515,71 +503,69 @@ public class ObfuscationHelper extends HooksBaseClass {
                 acpvRemoveAllViewsOnPage,
                 uIconWidth,
                 uIconHeight,
-                acpvAllApps,
-                acpvAllWidgets;
+                acpvAllApps;
 
         public static void initFieldNames(int idx) {
-
             hotseatAllAppsRank = new String[]{"hotseatAllAppsRank", "zp", "BQ", "Cv"}[idx]; // only / 2 operation
             dpNumHotseatIcons = new String[]{"numHotseatIcons", "yz", "AY", "BD"}[idx]; // toString of DynamicGrid
+            dpHotseatBarHeightPx = new String[]{"hotseatBarHeightPx", "zo", "BP", "Cu"}[idx]; // 4 * ...
+            dpPageIndicatorHeightPx = new String[]{"pageIndicatorHeightPx", "zw", "BX", "CC"}[idx]; // last parameter in .set
+            clphHasPerformedLongPress = new String[]{"mHasPerformedLongPress", "wG", "zf", "zK"}[idx]; // only boolean member
             cllpCanReorder = new String[]{"canReorder", "wf", "yE", "zj"}[idx]; // second member with = new String[]true
             sdtbIsSearchBarHidden = new String[]{"mIsSearchBarHidden", "MV", "PF", "Qg"}[idx]; // above Qsb member
             sdtbQsbBar = new String[]{"mQSBSearchBar", "MW", "PG", "Qh"}[idx];
             wCustomContentShowing = new String[]{"mCustomContentShowing", "PV", "SH", "Ti"}[idx]; // "() == new String[]0) || (!this."
             wCurrentPage = new String[]{"mCurrentPage", "KF", "Nm", "NQ"}[idx]; // in OnTouch -> "indexOfChild(paramView) != new String[]this."
-            acpvCurrentPage = new String[]{"mCurrentPage", "KF", "Nm", "NQ"}[idx]; // == new String[]_wCurrentPage
-            lHotseat = new String[]{"mHotseat", "EO", "Hu", "HZ"}[idx];
-            lAppsCustomizeTabHost = new String[]{"mAppsCustomizeTabHost", "ER", "Hx", "Ic"}[idx];
-            acthInTransition = new String[]{"mInTransition", "tf", "vF", "wk"}[idx]; // onInterceptTouchEvent first member in if-clause
             wState = new String[]{"mState", "Qj", "SV", "Tw"}[idx]; // WorkspaceState member
             wDefaultPage = new String[]{"mDefaultPage", "PI", "Su", "SV"}[idx];  // "Expected custom content", member gets decreased by one // " = new String[](-1 + this."
+            wTouchState = new String[]{"mTouchState", "KY", "NF", "Oj"}[idx]; // onInterceptTouchEvent while clause
+            wIsSwitchingState = new String[]{"mIsSwitchingState", "Qk", "SW", "Tx"}[idx]; // start from onTouch, second method call in if-clause
+            lHotseat = new String[]{"mHotseat", "EO", "Hu", "HZ"}[idx];
+            lAppsCustomizeTabHost = new String[]{"mAppsCustomizeTabHost", "ER", "Hx", "Ic"}[idx];
+            lIconCache = new String[]{"mIconCache", "rF", "uf", "uK"}[idx]; // IconCache member in Launcher
+            lState = new String[]{"mState", "Et", "GZ", "HE"}[idx]; // onNewIntent - "if ((i != new String[]0) && (this."
+            lHasFocus = new String[]{"mHasFocus", "Fj", "HP", "It"}[idx]; // onWindowFocusChanged
+            lPaused = new String[]{"mPaused", "EZ", "HF", "Ik"}[idx]; // only boolean assignement in onPause()
+            lAppsCustomizePagedView = new String[]{"mAppsCustomizeContent", "ES", "Hy", "Id"}[idx]; // AppsCustomizePagedView in Launcher
             btvShadowsEnabled = new String[]{"mShadowsEnabled", "ue", "wF", "xk"}[idx]; // only boolean member = new String[]true
             fiPreviewBackground = new String[]{"mPreviewBackground", "CE", "Fh", "FM"}[idx]; // FOLDERICON - only ImageView member
             fiFolderName = new String[]{"mFolderName", "CF", "Fi", "FN"}[idx]; // FOLDERICON - only BubbleTextView
             fiFolder = new String[]{"mFolder", "CB", "Fe", "FJ"}[idx]; // FOLDERICON - only Folder member
+            fiLongPressHelper = new String[]{"mLongPressHelper", "ui", "wJ", "xo"}[idx]; // cancelLongPress
             fFolderInfo = new String[]{"mInfo", "BF", "Ej", "EO"}[idx]; // <mInfo>.title))
             fiContents = new String[]{"contents", "Dt", "FW", "GB"}[idx]; // first ArrayList in FolderInfo
-            fFolderIcon = new String[]{"mFolderIcon", "BL", "Ep", "EU"}[idx]; // only FolderIcon member
+            //fFolderIcon = new String[]{"mFolderIcon", "BL", "Ep", "EU"}[idx]; // only FolderIcon member
             fFolderEditText = new String[]{"mFolderName", "Cf", "EJ", "Fo"}[idx]; // only FolderEditText member
-            acpvContentType = new String[]{"mContentType", "sw", "uW", "vB"}[idx]; // private oo uW = new String[]oo.vW;
-            pvIsPageMoving = new String[]{"mIsPageMoving", "Lv", "Oc", "OG"}[idx];  // "while (!this."
-            dpHotseatBarHeightPx = new String[]{"hotseatBarHeightPx", "zo", "BP", "Cu"}[idx]; // 4 * ...
-            lState = new String[]{"mState", "Et", "GZ", "HE"}[idx]; // onNewIntent - "if ((i != new String[]0) && (this."
-            wTouchState = new String[]{"mTouchState", "KY", "NF", "Oj"}[idx]; // onInterceptTouchEvent while clause
-            pvNextPage = new String[]{"mNextPage", "KI", "Np", "NT"}[idx]; // first protected int = new String[]-1
-            lHasFocus = new String[]{"mHasFocus", "Fj", "HP", "It"}[idx]; // onWindowFocusChanged
-            lPaused = new String[]{"mPaused", "EZ", "HF", "Ik"}[idx]; // only boolean assignement in onPause()
-            iiItemType = new String[]{"itemType", "En", "GT", "Hy"}[idx]; // Item(id=
-            aiComponentName = new String[]{"componentName", "rJ", "uj", "uO"}[idx]; // only ComponentName member
-            acpvAllAppsNumCols = new String[]{"allAppsNumCols", "zr", "BS", "Cx"}[idx]; // onMeasure localDeviceProfile
-            acpvAllAppsNumRows = new String[]{"allAppsNumRows", "zq", "BR", "Cw"}[idx]; // onMeasure localDeviceProfile
-            pvPageIndicator = new String[]{"mPageIndicator", "Lz", "Og", "OK"}[idx]; // setContentDescription
-            acthContent = new String[]{"mContent", "tD", "wd", "wI"}[idx]; // .getLayoutParams in setInsets
-            dpPageIndicatorHeightPx = new String[]{"pageIndicatorHeightPx", "zw", "BX", "CC"}[idx]; // last parameter in .set
-            wIsSwitchingState = new String[]{"mIsSwitchingState", "Qk", "SW", "Tx"}[idx]; // start from onTouch, second method call in if-clause
-            fContent = new String[]{"mContent", "BH", "El", "EQ"}[idx]; // only CellLayout member
-            lAppsCustomizePagedView = new String[]{"mAppsCustomizeContent", "ES", "Hy", "Id"}[idx]; // AppsCustomizePagedView in Launcher
-            iiID = new String[]{"id", "id", "id", "id"}[idx];
-            iiTitle = new String[]{"title", "title", "title", "title"}[idx];
-            ceIcon = new String[]{"icon", "DZ", "GE", "Hj"}[idx];
-            ceTitle = new String[]{"title", "title", "title", "title"}[idx];
-            lIconCache = new String[]{"mIconCache", "rF", "uf", "uK"}[idx]; // IconCache member in Launcher
-            fiLongPressHelper = new String[]{"mLongPressHelper", "ui", "wJ", "xo"}[idx]; // cancelLongPress
-            clphHasPerformedLongPress = new String[]{"mHasPerformedLongPress", "wG", "zf", "zK"}[idx]; // only boolean member
-            lawiProviderName = new String[]{"providerName", "GX", "JF", "Kj"}[idx]; // only ComponentName member
-            fMaxCountX = new String[]{"mMaxCountX", "BM", "Eq", "EV"}[idx]; // Folder constructor, last line - maxNumItems = new String[]X * Y;
+            //fMaxCountX = new String[]{"mMaxCountX", "BM", "Eq", "EV"}[idx]; // Folder constructor, last line - maxNumItems = new String[]X * Y;
             fMaxCountY = new String[]{"mMaxCountY", "BN", "Er", "EW"}[idx]; // Folder constructor, last line - maxNumItems = new String[]X * Y;
             fMaxNumItems = new String[]{"mMaxNumItems", "BO", "Es", "EX"}[idx]; // Folder constructor, last line - maxNumItems = new String[]X * Y;
-            acthTabsContainer = new String[]{"mTabsContainer", "tA", "wA", "wF"}[idx]; // setAlpha
+            //fContent = new String[]{"mContent", "BH", "El", "EQ"}[idx]; // only CellLayout member
+            pvIsPageMoving = new String[]{"mIsPageMoving", "Lv", "Oc", "OG"}[idx];  // "while (!this."
+            pvNextPage = new String[]{"mNextPage", "KI", "Np", "NT"}[idx]; // first protected int = new String[]-1
+            pvPageIndicator = new String[]{"mPageIndicator", "Lz", "Og", "OK"}[idx]; // setContentDescription
+            aiComponentName = new String[]{"componentName", "rJ", "uj", "uO"}[idx]; // only ComponentName member
+            iiItemType = new String[]{"itemType", "En", "GT", "Hy"}[idx]; // Item(id=
+            iiID = new String[]{"id", "id", "id", "id"}[idx];
+            //iiTitle = new String[]{"title", "title", "title", "title"}[idx];
+            ceIcon = new String[]{"icon", "DZ", "GE", "Hj"}[idx];
+            ceTitle = new String[]{"title", "title", "title", "title"}[idx];
+            lawiProviderName = new String[]{"providerName", "GX", "JF", "Kj"}[idx]; // only ComponentName member
+            acthInTransition = new String[]{"mInTransition", "tf", "vF", "wk"}[idx]; // onInterceptTouchEvent first member in if-clause
+            acthContent = new String[]{"mContent", "tD", "wd", "wI"}[idx]; // .getLayoutParams in setInsets
+            //acthTabsContainer = new String[]{"mTabsContainer", "tA", "wA", "wF"}[idx]; // setAlpha
             acthAppsCustomizePane = new String[]{"mAppsCustomizePane", "tB", "wb", "wG"}[idx]; // setAlpha
+            uIconWidth = new String[]{"sIconWidth", "NC", "Qm", "QN"}[idx]; // first private static int
+            uIconHeight = new String[]{"sIconHeight", "ND", "Qn", "QO"}[idx]; // second private static int
+            acpvAllAppsNumCols = new String[]{"allAppsNumCols", "zr", "BS", "Cx"}[idx]; // onMeasure localDeviceProfile
+            acpvAllAppsNumRows = new String[]{"allAppsNumRows", "zq", "BR", "Cw"}[idx]; // onMeasure localDeviceProfile
+            acpvCurrentPage = new String[]{"mCurrentPage", "KF", "Nm", "NQ"}[idx]; // == new String[]_wCurrentPage
+            acpvAllApps = new String[]{"mApps", "sA", "va", "vF"}[idx]; // sort
+            //acpvAllWidgets = new String[]{"mWidgets", "sB", "vb", "vG"}[idx]; // 2nd "isEmpty"
             acpvNumAppsPages = new String[]{"mNumAppsPages", "sN", "vn", "vS"}[idx]; // Math.ceil
             acpvCellCountX = new String[]{"mCellCountX", "Lg", "NN", "Or"}[idx]; // Math.ceil
             acpvCellCountY = new String[]{"mCellCountY", "Lh", "NO", "Os"}[idx]; // Math.ceil
             acpvRemoveAllViewsOnPage = new String[]{"removeAllViewsOnPage", "cI", "dx", "dG"}[idx]; // Math.ceil
-            uIconWidth = new String[]{"sIconWidth", "NC", "Qm", "QN"}[idx]; // first private static int
-            uIconHeight = new String[]{"sIconHeight", "ND", "Qn", "QO"}[idx]; // second private static int
-            acpvAllApps = new String[]{"mApps", "sA", "va", "vF"}[idx]; // sort
-            acpvAllWidgets = new String[]{"mWidgets", "sB", "vb", "vG"}[idx]; // 2nd "isEmpty"
+            acpvContentType = new String[]{"mContentType", "sw", "uW", "vB"}[idx]; // private oo uW = new String[]oo.vW;
         }
     }
 }

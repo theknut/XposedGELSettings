@@ -75,16 +75,16 @@ public class GestureHooks extends GestureHelper {
 
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    if (DEBUG) log("GestureHooks: hideAppsCustomizeHelper");
+                    if (DEBUG) log("GestureHooks: lHideAppsCustomizeHelper");
 
                     hideAppdock(FORCEHIDE);
                 }
             };
 
             if (Common.PACKAGE_OBFUSCATED) {
-                findAndHookMethod(Classes.Launcher, Methods.hideAppsCustomizeHelper, Classes.WorkspaceState, boolean.class, Runnable.class, hideAppsCustomizeHelper);
+                findAndHookMethod(Classes.Launcher, Methods.lHideAppsCustomizeHelper, Classes.WorkspaceState, boolean.class, Runnable.class, hideAppsCustomizeHelper);
             } else {
-                XposedBridge.hookAllMethods(Classes.Launcher, Methods.hideAppsCustomizeHelper, hideAppsCustomizeHelper);
+                XposedBridge.hookAllMethods(Classes.Launcher, Methods.lHideAppsCustomizeHelper, hideAppsCustomizeHelper);
             }
 
             XposedBridge.hookAllMethods(Classes.Workspace, "onWindowVisibilityChanged", new XC_MethodHook() {
@@ -312,7 +312,7 @@ public class GestureHooks extends GestureHelper {
                             if (getBooleanField(Common.APP_DRAWER_INSTANCE, Fields.pvIsPageMoving)) return;
 
                             if ((ev.getRawY() - downY) > (height / 6)) {
-                                callMethod(Common.LAUNCHER_INSTANCE, Methods.launcherShowWorkspace, true, null);
+                                callMethod(Common.LAUNCHER_INSTANCE, Methods.lShowWorkspace, true, null);
                             } else if ((ev.getRawY() - downY) < -(height / 6)) {
 
                                 if (Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE)) {

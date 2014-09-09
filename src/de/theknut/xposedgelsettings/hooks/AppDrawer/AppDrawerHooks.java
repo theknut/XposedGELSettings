@@ -32,7 +32,7 @@ public class AppDrawerHooks extends HooksBaseClass {
 
         if (PreferencesHelper.iconSettingsSwitchApps) {
             // changing the appearence of the icons in the app drawer
-            XposedBridge.hookAllMethods(Classes.PagedViewIcon, Methods.applyFromApplicationInfo, new ApplyFromApplicationInfoHook());
+            XposedBridge.hookAllMethods(Classes.PagedViewIcon, Methods.pviApplyFromApplicationInfo, new ApplyFromApplicationInfoHook());
         }
 
         if (PreferencesHelper.changeGridSizeApps) {

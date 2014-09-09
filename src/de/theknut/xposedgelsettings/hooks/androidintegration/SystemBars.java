@@ -69,7 +69,7 @@ public class SystemBars extends HooksBaseClass {
                 }
             });
 
-            findAndHookMethod(Classes.Workspace, Methods.workspaceMoveToDefaultScreen, boolean.class, new XC_MethodHook() {
+            findAndHookMethod(Classes.Workspace, Methods.wMoveToDefaultScreen, boolean.class, new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 
