@@ -58,7 +58,7 @@ public class HomescreenHooks extends HooksBaseClass {
 			}
 		}
 		
-		if (Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE)) {
+		if (Common.IS_TREBUCHET) {
 			// move to default homescreen after workspace has finished loading
 			XposedBridge.hookAllMethods(Classes.Launcher, "onFinishBindingItems", new FinishBindingItemsHook());
 		}
@@ -81,7 +81,7 @@ public class HomescreenHooks extends HooksBaseClass {
             });
 
             // very dirty hack :(
-            if (!Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE)) {
+            if (!Common.IS_TREBUCHET) {
                 findAndHookMethod(Classes.Folder, "onMeasure", Integer.TYPE, Integer.TYPE, new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {

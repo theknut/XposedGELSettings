@@ -86,6 +86,7 @@ Deslizar - abrir pasta"</item>
         <item>Widgets</item>
         <item>Módulos Xposed</item>
         <item>Google apps</item>
+        <item>Icon Packs</item>
         <item>Novo apps</item>
         <item>Novo/Atualizado apps</item>
     </string-array>
@@ -94,6 +95,7 @@ Deslizar - abrir pasta"</item>
         <item>Widgets</item>
         <item>Xposed</item>
         <item>Google</item>
+        <item>Icon Packs</item>
         <item>Novo Apps</item>
         <item>Novo/Atualizado</item>
     </string-array>

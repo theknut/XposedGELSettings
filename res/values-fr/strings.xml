@@ -352,7 +352,7 @@
     <string name="alert_appdrawer_clear_tabs_title">Attention !</string>
     <string name="alert_appdrawer_clear_tabs_summary">Vous êtes sur le point de supprimer tous les onglets que vous avez fait ! Continuer ?</string>
     <string name="alert_appdrawer_clear_tabs_success">Données des onglets du drawer effacées !</string>
-    <string name="pref_appdrawer_tabs_instructions_summary">Des onglets peuvent être ajoutés directement depuis le drawer. Les paramètres de l\'onglet peuvent être ouverts via un appui long sur un onglet.</string>
+    <string name="pref_appdrawer_tabs_instructions_summary">!!Google Now Launcher only!!\nDes onglets peuvent être ajoutés directement depuis le drawer. Les paramètres de l\'onglet peuvent être ouverts via un appui long sur un onglet.</string>
     <string name="pref_notificationbadge_noappdrawer_title">Masquer dans le drawer</string>
     <string name="toast_appdrawer_tabadded_title">Appui long sur un onglet pour ouvrir ses paramètres</string>    
     

@@ -210,7 +210,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             DeviceProfile = findClass(ClassNames.DEVICE_PROFILE, lpparam.classLoader);
             AppInfo = findClass(ClassNames.APP_INFO, lpparam.classLoader);
 
-            if (Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE)) {
+            if (Common.IS_TREBUCHET) {
                 AppsCustomizeLayout = findClass(ClassNames.APPS_CUSTOMIZE_LAYOUT, lpparam.classLoader);
             } else {
                 AppsCustomizeTabHost = findClass(ClassNames.APPS_CUSTOMIZE_TAB_HOST, lpparam.classLoader);

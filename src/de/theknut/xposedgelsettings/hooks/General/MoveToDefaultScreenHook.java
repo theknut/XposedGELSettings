@@ -21,7 +21,7 @@ public class MoveToDefaultScreenHook extends XC_MethodHook {
 		int newDefaultPageNumber = ((PreferencesHelper.defaultHomescreen == 0) ? 0 : PreferencesHelper.defaultHomescreen) - 1;
 		
 		// move to our default homescreen
-		if (Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE)) {
+		if (Common.IS_TREBUCHET) {
 			setIntField(param.thisObject, "mDefaultPage", newDefaultPageNumber);
 			callMethod(param.thisObject, "moveToScreen", newDefaultPageNumber, param.args[0]);
 			param.setResult(null);

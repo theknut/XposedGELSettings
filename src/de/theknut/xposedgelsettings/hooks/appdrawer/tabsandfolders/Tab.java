@@ -104,6 +104,9 @@ public class Tab {
                     data = getGoogleApps();
                 } else if (isXposedTab()) {
                     data = getXposedModules();
+                } else if (isIconPacksTab()) {
+                    data = getIconPacks();
+                    sort(data);
                 } else if (isNewUpdatedTab()) {
                     data = getNewUpdatedApps();
                     setSortType(SortType.LastUpdate);
@@ -183,6 +186,10 @@ public class Tab {
         return contentType.equals(ContentType.NewApps);
     }
 
+    private boolean isIconPacksTab() {
+        return this.contentType.equals(ContentType.IconPacks);
+    }
+
     public boolean isAppsTab() {
         return getId() == APPS_ID;
     }
@@ -192,7 +199,7 @@ public class Tab {
     }
 
     public boolean isDynamicTab() {
-        return isGoogleTab() || isXposedTab() || isNewUpdatedTab() || isNewAppsTab();
+        return isGoogleTab() || isXposedTab() || isNewUpdatedTab() || isNewAppsTab() || isIconPacksTab();
     }
 
     private void parseData() {
@@ -291,6 +298,52 @@ public class Tab {
             ComponentName cmp = new ComponentName(app.activityInfo.packageName, app.activityInfo.name);
             apps.add(Utils.createAppInfo(cmp));
             rawData.add(cmp.flattenToString());
+        }
+
+        return apps;
+    }
+
+    private ArrayList getIconPacks() {
+        PackageManager packageManager = Common.LAUNCHER_CONTEXT.getPackageManager();
+        List<String> packages = new ArrayList<String>();
+        ArrayList apps = new ArrayList();
+        this.rawData = new ArrayList();
+        Intent i = new Intent();
+
+        String[] sIconPackCategories = new String[] {
+                "com.fede.launcher.THEME_ICONPACK",
+                "com.anddoes.launcher.THEME",
+                "com.teslacoilsw.launcher.THEME"
+        };
+        String[] sIconPackActions = new String[] {
+                "org.adw.launcher.THEMES",
+                "com.gau.go.launcherex.theme"
+        };
+
+        for (String action : sIconPackActions) {
+            i.setAction(action);
+            for (ResolveInfo r : packageManager.queryIntentActivities(i, 0)) {
+                if (!packages.contains(r.activityInfo.packageName))
+                    packages.add(r.activityInfo.packageName);
+            }
+        }
+
+        i = new Intent(Intent.ACTION_MAIN);
+        for (String category : sIconPackCategories) {
+            i.addCategory(category);
+            for (ResolveInfo r : packageManager.queryIntentActivities(i, 0)) {
+                if (!packages.contains(r.activityInfo.packageName))
+                    packages.add(r.activityInfo.packageName);
+            }
+            i.removeCategory(category);
+        }
+
+        for (String pkg : packages) {
+            Intent li = packageManager.getLaunchIntentForPackage(pkg);
+            if (li != null) {
+                apps.add(Utils.createAppInfo(li.getComponent()));
+                rawData.add(li.getComponent().flattenToString());
+            }
         }
 
         return apps;

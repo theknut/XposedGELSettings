@@ -13,7 +13,7 @@
             android:selectable="false" />
         <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
             android:key="enableappdrawertabs"
-            android:title="@string/pref_switch_enable_tabs_title" />
+            android:title="@string/pref_switch_enable_tabs_title"
             android:summary="@string/pref_cat_tabs_and_folders_title" />
         <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
             android:title="@string/pref_appdrawer_folders_title"

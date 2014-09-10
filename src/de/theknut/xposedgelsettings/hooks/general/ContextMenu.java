@@ -108,7 +108,7 @@ public class ContextMenu extends HooksBaseClass{
                 final View longPressedItem = (View) param.args[0];
                 if (longPressedItem.getClass().equals(Classes.CellLayout)) return;
 
-                if (Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE)) {
+                if (Common.IS_TREBUCHET) {
                     try {
                         // alls apps button
                         if (getIntField(longPressedItem.getTag(), Fields.iiItemType) == 5) {

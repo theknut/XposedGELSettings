@@ -74,6 +74,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
         Xposed,
         Google,
         Widgets,
+        IconPacks,
         NewUpdated,
         NewApps
     }
@@ -345,7 +346,20 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
         return false;
     }
 
+    public void handleOverscroll(Float overscroll) {
+        if(overscroll > 50.0) {
+            int newId = getCurrentTabData().getIndex() + 1;
+            setCurrentTab(newId >= tabHost.getChildCount() ? 0 : newId);
+        }
+        else if (overscroll < -50.0) {
+            int newId = getCurrentTabData().getIndex() - 1;
+            setCurrentTab(newId < 0 ? (tabHost.getChildCount() - 1) : newId);
+        }
+    }
+
     public void updateTabs() {
+        if (Common.IS_TREBUCHET) return;
+
         for (Tab tab : tabs) {
             tab.update();
         }
@@ -433,6 +447,8 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
     }
 
     public Tab getTabById(long tabId) {
+        if (tabs == null) return null;
+
         for (Tab tab : tabs) {
             if (tab.getId() == tabId) {
                 return tab;
@@ -564,6 +580,8 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
 
     public ArrayList<String> getAppsToHide() {
         ArrayList apps = new ArrayList();
+        if (Common.IS_TREBUCHET) return apps;
+
         for (Tab tab : tabs) {
             if (tab.hideFromAppsPage()) {
                 apps.addAll(tab.getRawData());

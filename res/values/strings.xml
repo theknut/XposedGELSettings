@@ -353,7 +353,7 @@
     <string name="alert_appdrawer_clear_tabs_title">Caution!</string>
     <string name="alert_appdrawer_clear_tabs_summary">You are about to delete all app drawer tabs you have made! Continue?</string>
     <string name="alert_appdrawer_clear_tabs_success">App drawer tabs data wiped!</string>
-    <string name="pref_appdrawer_tabs_instructions_summary">App drawer tabs can be added directly from the app drawer. Tab settings can be opened by longpressing a tab.</string>
+    <string name="pref_appdrawer_tabs_instructions_summary">!!Google Now Launcher only!!\nApp drawer tabs can be added directly from the app drawer. Tab settings can be opened by longpressing a tab.</string>
     <string name="pref_notificationbadge_noappdrawer_title">Hide from app drawer</string>
     <string name="toast_appdrawer_tabadded_title">Long press a tab to open its settings</string>
 

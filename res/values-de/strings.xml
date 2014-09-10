@@ -344,7 +344,7 @@
     <string name="alert_appdrawer_clear_tabs_title">Achtung!</string>
     <string name="alert_appdrawer_clear_tabs_summary">Sie sind dabei alle Tabdaten zu löschen. Fortfahren?</string>
     <string name="alert_appdrawer_clear_tabs_success">Tabdaten gelöscht!</string>
-    <string name="pref_appdrawer_tabs_instructions_summary">Tabs können direkt in der App-Übersicht hinzugefügt werden. Langes Drücken eines Tabs öffnet die Tabeinstellungen.</string>
+    <string name="pref_appdrawer_tabs_instructions_summary">!!Nur für Google Now Launcher!!\nTabs können direkt in der App-Übersicht hinzugefügt werden. Langes Drücken eines Tabs öffnet die Tabeinstellungen.</string>
     <string name="pref_notificationbadge_noappdrawer_title">In App-Übersicht verbergen</string>
     <string name="toast_appdrawer_tabadded_title">Tabeinstellungen können durch langes Drücken eines Tabs geöffnet werden</string>
     <string name="pref_reverseengineering_rate_title">Bewerte XGELS!</string>

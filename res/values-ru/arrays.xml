@@ -66,6 +66,7 @@
         <item>Виджеты</item>
         <item>Xposed Модули</item>
         <item>Google Apps</item>
+        <item>Icon Packs</item>
         <item>Новые приложения</item>
         <item>Новые/Обновленные приложения</item>
     </string-array>
@@ -74,6 +75,7 @@
         <item>Виджеты</item>
         <item>Xposed</item>
         <item>Google</item>
+        <item>Icon Packs</item>
         <item>Новые</item>
         <item>Новые/Обновленные</item>
     </string-array>

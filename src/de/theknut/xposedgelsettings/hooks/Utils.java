@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -27,6 +28,8 @@ import de.theknut.xposedgelsettings.hooks.icon.IconPack;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.getLongField;
+import static de.robv.android.xposed.XposedHelpers.getObjectField;
+import static de.robv.android.xposed.XposedHelpers.newInstance;
 
 /**
  * Created by Alexander Schulz on 04.08.2014.
@@ -83,12 +86,11 @@ public class Utils extends HooksBaseClass {
     }
 
     public static void showPremiumOnly() {
-        try {
-            Context XGELSContext = Common.LAUNCHER_CONTEXT.createPackageContext(Common.PACKAGE_NAME, Context.CONTEXT_IGNORE_SECURITY);
-            Toast.makeText(Common.LAUNCHER_CONTEXT, XGELSContext.getResources().getString(R.string.toast_donate_only), Toast.LENGTH_LONG).show();
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
+        Toast.makeText(
+                Common.LAUNCHER_CONTEXT,
+                Common.XGELSCONTEXT.getResources().getString(R.string.toast_donate_only),
+                Toast.LENGTH_LONG
+        ).show();
     }
 
     public static void saveToSettings(Context context, String key, Object setting) {
@@ -124,7 +126,20 @@ public class Utils extends HooksBaseClass {
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         intent.setComponent(ComponentName.unflattenFromString(componentName));
-        return callMethod(callMethod(Common.LAUNCHER_INSTANCE, Methods.lCreateAppInfo, intent), Methods.aiMakeShortcut);
+
+        if (Common.PACKAGE_OBFUSCATED) {
+            return callMethod(callMethod(Common.LAUNCHER_INSTANCE, Methods.lCreateAppInfo, intent), Methods.aiMakeShortcut);
+        }
+
+        PackageManager pm = Common.LAUNCHER_CONTEXT.getPackageManager();
+        Object appInfo = newInstance(
+                ObfuscationHelper.Classes.AppInfo,
+                pm,
+                pm.resolveActivity(intent, 0),
+                getObjectField(Common.LAUNCHER_INSTANCE, Fields.lIconCache),
+                new HashMap<Object, CharSequence>()
+        );
+        return callMethod(appInfo, Methods.aiMakeShortcut);
     }
 
     public static List<ResolveInfo> getAllApps() {

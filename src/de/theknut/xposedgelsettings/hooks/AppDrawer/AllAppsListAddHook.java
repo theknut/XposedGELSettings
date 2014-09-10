@@ -68,6 +68,7 @@ public final class AllAppsListAddHook extends XC_MethodHook {
 
     @Override
     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+        if (Common.IS_TREBUCHET) return;
         Tab tab = TabHelper.getInstance().getTabById(Tab.APPS_ID);
         Collections.sort((ArrayList) param.args[APPINFOLIST], tab.getSortComparator());
     }

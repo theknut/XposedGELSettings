@@ -47,7 +47,7 @@ public class AllAppsButtonHook extends HooksBaseClass {
                 }
             });
 
-            if (Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE) && PreferencesHelper.noAllAppsButton) {
+            if (Common.IS_TREBUCHET && PreferencesHelper.noAllAppsButton) {
                 if (DEBUG) log(param, "Removing AllAppsButton");
                 param.setResult(false);
             }

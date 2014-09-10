@@ -20,6 +20,8 @@ public class AddTabsAndFolders extends HooksBaseClass {
 
     public static void initAllHooks(LoadPackageParam lpparam) {
 
+        if (Common.IS_TREBUCHET) return;
+
         findAndHookMethod(Classes.AppsCustomizeTabHost, "onFinishInflate", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(final MethodHookParam param) throws Throwable {
@@ -79,8 +81,18 @@ public class AddTabsAndFolders extends HooksBaseClass {
             }
         });
 
-        findAndHookMethod(Classes.AppsCustomizeTabHost, "reset", new XC_MethodHook() {
+        if (false && !PreferencesHelper.continuousScrollWithAppDrawer) {
+            // open app drawer on overscroll of last page
+            findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvOverScroll, float.class, new XC_MethodHook() {
+                final int OVERSCROLL = 0;
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    TabHelper.getInstance().handleOverscroll((Float) param.args[OVERSCROLL]);
+                }
+            });
+        }
 
+        XC_MethodHook resetHook = new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 Tab tab = TabHelper.getInstance().getCurrentTabData();
@@ -88,18 +100,10 @@ public class AddTabsAndFolders extends HooksBaseClass {
                     param.setResult(null);
                 }
             }
-        });
+        };
 
-        findAndHookMethod(Classes.AppsCustomizePagedView, "reset", new XC_MethodHook() {
-
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                Tab tab = TabHelper.getInstance().getCurrentTabData();
-                if (tab != null && tab.isCustomTab()) {
-                    param.setResult(null);
-                }
-            }
-        });
+        findAndHookMethod(Classes.AppsCustomizeTabHost, "reset", resetHook);
+        findAndHookMethod(Classes.AppsCustomizePagedView, "reset", resetHook);
 
         XposedBridge.hookAllMethods(Classes.Launcher, "onNewIntent", new XC_MethodHook() {
 

@@ -12,6 +12,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -442,7 +443,6 @@ public class IconPack {
             }
         } catch (Exception e) {
             e.printStackTrace();
-
             return null;
         }
 
@@ -453,20 +453,28 @@ public class IconPack {
         try {
             parser.require(XmlPullParser.START_TAG, null, "item");
 
-
             String drawableName = parser.getAttributeValue(null, "drawable");
+            if (TextUtils.isEmpty(drawableName)) {
+                drawableName = parser.getAttributeValue(null, "image");
+            }
+
             String componentName = parser.getAttributeValue(null, "component");
             if (componentName == null) {
                 componentName = parser.getAttributeValue(null, "Component");
             }
             componentName = componentName.replace("ComponentInfo{", "").replace("}", "");
-            appFilter.add(new IconInfo(componentName, drawableName));
+
+            if (!TextUtils.isEmpty(componentName) && !TextUtils.isEmpty(drawableName)) {
+                appFilter.add(new IconInfo(componentName, drawableName));
+            }
 
             parser.nextTag();
             parser.require(XmlPullParser.END_TAG, null, "item");
         } catch (XmlPullParserException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

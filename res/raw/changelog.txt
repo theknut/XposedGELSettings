@@ -27,9 +27,11 @@
   </head>
   <body>
 
- $ B2.0 Build 2
-   % Version B2.0 Build 2
-  _ 2014-09-09
+ $ 2.0
+   % Version 2.0
+  _ 2014-10-09
+
+  Video: <a href="http://youtu.be/dq4Y2Jaq-bs">Whats new?</a>
 
  ! Improvement:
  * completely rewrote notification badges
@@ -44,6 +46,8 @@
 
  ! Fixed:
  * XGELS crash when changing the icon pack
+ * fixed compatibility issues with some icon packs
+ * fixed problems with CM
 
  ! XGELS UI:
  * updated translations

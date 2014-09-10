@@ -240,6 +240,7 @@
         <item>Widgets</item>
         <item>Xposed</item>
         <item>Google</item>
+        <item>IconPacks</item>
         <item>NewApps</item>
         <item>NewUpdated</item>
     </string-array>

@@ -23,7 +23,7 @@ public class PageIndicatorHooks {
 			XposedBridge.hookAllConstructors(Classes.DeviceProfile, new DeviceProfileConstructorHook());
 			
 			// reduce the bottom margin height in app drawer
-			if (Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE)) {				
+			if (Common.IS_TREBUCHET) {
 				findAndHookMethod(Classes.AppsCustomizeLayout, Methods.acthSetInsets, Rect.class, new SetInsetsHook(true));
 			}
 			else {				

@@ -315,7 +315,7 @@ public class GestureHooks extends GestureHelper {
                                 callMethod(Common.LAUNCHER_INSTANCE, Methods.lShowWorkspace, true, null);
                             } else if ((ev.getRawY() - downY) < -(height / 6)) {
 
-                                if (Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE)) {
+                                if (Common.IS_TREBUCHET) {
                                     Toast.makeText(Common.LAUNCHER_CONTEXT, "XGELS: Unfortunately swipe up to toggle apps/widgets doesn't work on Trebuchet", Toast.LENGTH_LONG).show();
                                     return;
                                 }
@@ -335,17 +335,13 @@ public class GestureHooks extends GestureHelper {
                 }
             };
 
-            if (Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE)) {
-
+            if (Common.IS_TREBUCHET) {
                 XposedBridge.hookAllMethods(Classes.PagedViewWithDraggableItems, "onTouchEvent", gestureHook);
                 XposedBridge.hookAllMethods(Classes.PagedViewWithDraggableItems, "onInterceptTouchEvent", gestureHook);
-
             }
             else if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE)) {
-
                 XposedBridge.hookAllMethods(Classes.PagedViewWithDraggableItems, "onTouchEvent", gestureHook);
                 XposedBridge.hookAllMethods(Classes.PagedViewWithDraggableItems, "onInterceptTouchEvent", gestureHook);
-
             }
         }
 

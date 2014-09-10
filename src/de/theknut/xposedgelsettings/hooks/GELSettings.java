@@ -79,6 +79,7 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
                 return;
             }
         } else {
+            Common.IS_TREBUCHET = Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE);
             versionIdx = 0;
         }
 

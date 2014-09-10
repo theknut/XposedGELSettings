@@ -44,7 +44,7 @@ public class AppDrawerHooks extends HooksBaseClass {
             }
         }
 
-        if (Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE)) {
+        if (Common.IS_TREBUCHET) {
             // set the background pref_color of the app drawer
             XposedBridge.hookAllConstructors(Classes.AppsCustomizeLayout, new AppsCustomizeLayoutConstructorHook());
         }
@@ -85,7 +85,7 @@ public class AppDrawerHooks extends HooksBaseClass {
                             log(param, "AppDrawerHooks: get current position - " + Common.APPDRAWER_LAST_PAGE_POSITION);
                     }
 
-                    if (!Common.OVERSCROLLED && !TabHelper.getInstance().getCurrentTabData().isWidgetsTab()) {
+                    if (!Common.OVERSCROLLED && !Common.IS_TREBUCHET && !TabHelper.getInstance().getCurrentTabData().isWidgetsTab()) {
                         Common.APPDRAWER_LAST_TAB_POSITION = TabHelper.getInstance().getTabHost().getCurrentTab();
                     }
 
@@ -100,7 +100,7 @@ public class AppDrawerHooks extends HooksBaseClass {
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 if (Common.OVERSCROLLED) return;
 
-                if (!TabHelper.getInstance().getCurrentTabData().isWidgetsTab()) {
+                if (!Common.IS_TREBUCHET && !TabHelper.getInstance().getCurrentTabData().isWidgetsTab()) {
                     int lastTab = TabHelper.getInstance().getTabHost().getTabWidget().getTabCount() - 1;
                     if (Common.APPDRAWER_LAST_TAB_POSITION > lastTab) {
                         Common.APPDRAWER_LAST_TAB_POSITION = lastTab;

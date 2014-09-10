@@ -59,6 +59,7 @@
         <item>Widgets</item>
         <item>Xposed Module</item>
         <item>Google Apps</item>
+        <item>Icon Packs</item>
         <item>Neue Apps</item>
         <item>Neue/Aktualisierte Apps</item>
     </string-array>
@@ -68,6 +69,7 @@
         <item>Widgets</item>
         <item>Xposed</item>
         <item>Google</item>
+        <item>Icon Packs</item>
         <item>Neue Apps</item>
         <item>Neu/Aktualisiert</item>
     </string-array>
