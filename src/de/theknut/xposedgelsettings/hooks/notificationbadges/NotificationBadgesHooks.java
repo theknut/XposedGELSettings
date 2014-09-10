@@ -187,8 +187,7 @@ public class NotificationBadgesHooks extends NotificationBadgesHelper {
                 if (PreferencesHelper.notificationBadgePosition == 0
                         || PreferencesHelper.notificationBadgePosition == 1) {
                     return bg.getY()
-                            + d.getIntrinsicHeight() / 2
-                            + folderMarginTopBottom;
+                            + d.getIntrinsicHeight() / 2;
                 }
 
                 return bg.getY()
