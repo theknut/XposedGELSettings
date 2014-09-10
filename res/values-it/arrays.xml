@@ -63,22 +63,22 @@
     </string-array>
 
     <string-array name="tabcontent_entries">
-        <item>Apps</item>
-        <item>Widgets</item>
-        <item>Xposed modules</item>
-        <item>Google apps</item>
-        <item>Icon Packs</item>
-        <item>New apps</item>
-        <item>New/Updated apps</item>
+        <item>App</item>
+        <item>Widget</item>
+        <item>Moduli Xposed</item>
+        <item>Google app</item>
+        <item>Pacchetti icone</item>
+        <item>Nuove app</item>
+        <item>App nuove/aggiornate</item>
     </string-array>
 
     <string-array name="tabcontent_names">
-        <item>Apps</item>
-        <item>Widgets</item>
+        <item>App</item>
+        <item>Widget</item>
         <item>Xposed</item>
         <item>Google</item>
-        <item>Icon Packs</item>
-        <item>Nuove Apps</item>
+        <item>Pacchetti icone</item>
+        <item>Nuove app</item>
         <item>Nuove/Aggiornate</item>
     </string-array>
 
