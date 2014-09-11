@@ -78,7 +78,7 @@
     <string name="pref_appdrawer_clear_tabs_title">Excluir abas</string>
     <string name="pref_appdrawer_folders_summary">Vindo logo!</string>
     <string name="pref_appdrawer_folders_title">Pastas</string>
-    <string name="pref_appdrawer_tabs_instructions_summary">Abas podem ser adicionados diretamente da tela aplicativos. As configurações de abas pode ser aberto por um toque longo.</string>
+    <string name="pref_appdrawer_tabs_instructions_summary">!!Google Now Launcher and ≥ Android 4.2 only!!\nAbas podem ser adicionados diretamente da tela aplicativos. As configurações de abas pode ser aberto por um toque longo.</string>
     <string name="pref_auto_blur_wallpaper_summary">Desfocar o papel de parede do dispositivo cada vez que fica alterado e usá-lo como XGELS fundo. Pode drenar bateria se usar aplicativos que mudaram o wallpaper dentro determinados intervalos.</string>
     <string name="pref_auto_blur_wallpaper_title">Fundo dinâmico</string>
     <string name="pref_autohide_google_search_bar_summary">Mostrar automaticamente na página Google Now</string>

@@ -385,7 +385,7 @@
     <string name="alert_appdrawer_clear_tabs_title">Upozornenie!</string>
     <string name="alert_appdrawer_clear_tabs_summary">Chystáte sa vymazať všetky karty v ponuke aplikácií! Pokračovať?</string>
     <string name="alert_appdrawer_clear_tabs_success">Údaje kariet v ponuke aplikácií boli vymazané!</string>
-    <string name="pref_appdrawer_tabs_instructions_summary">!!Google Now Launcher only!!\nKarty v ponuke aplikácií môžete pridať priamo z ponuky aplikácií . Nastavenia karty možete otvoriť jej dlhým stlačením.</string>
+    <string name="pref_appdrawer_tabs_instructions_summary">!!Google Now Launcher and ≥ Android 4.2 only!!\nKarty v ponuke aplikácií môžete pridať priamo z ponuky aplikácií . Nastavenia karty možete otvoriť jej dlhým stlačením.</string>
     <string name="pref_notificationbadge_noappdrawer_title">Skryť z ponuky aplikácií</string>
     <string name="toast_appdrawer_tabadded_title">Dlho stlačte kartu pre otvorenie jej nastavení</string>
 
