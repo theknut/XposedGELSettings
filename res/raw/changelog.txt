@@ -27,11 +27,25 @@
   </head>
   <body>
 
+ $ 2.0.1
+   % Version 2.0.1
+  _ 2014-11-09
+
+  Video: <a href="http://youtu.be/dq4Y2Jaq-bs">Whats new in V2.0?</a>
+
+ ! Fixed:
+ * blank app drawer page
+ * remember last tab position
+ * IAP problem after purchasing
+
+ ! XGELS UI:
+ * updated translations
+
  $ 2.0
    % Version 2.0
   _ 2014-10-09
 
-  Video: <a href="http://youtu.be/dq4Y2Jaq-bs">Whats new?</a>
+  Video: <a href="http://youtu.be/dq4Y2Jaq-bs">Whats new in V2.0?</a>
 
  ! Improvement:
  * completely rewrote notification badges
