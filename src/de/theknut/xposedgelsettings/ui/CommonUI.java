@@ -118,7 +118,8 @@ public class CommonUI {
         try {
             ImageView background = (ImageView) rootView.findViewById(layout);
             background.setImageResource(R.drawable.wall);
-        } catch (Exception e) { }
+        } catch (RuntimeException e) { }
+        catch (Exception e) { }
 
         rootView.setOnTouchListener(new OnTouchListener() {
 
