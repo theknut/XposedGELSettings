@@ -27,6 +27,19 @@
   </head>
   <body>
 
+ $ 2.0.2
+    % Version 2.0.2
+   _ 2014-12-09
+
+   Video: <a href="http://youtu.be/dq4Y2Jaq-bs">Whats new in V2.0?</a><br><br>
+   App drawer tabs seem not to work on Android 4.1. Please contact me if you are facing this issue!<br><br>
+  ! Fixed:
+  * minor bug fixes
+  * add Chrome beta to Google tab
+
+  ! XGELS UI:
+  * updated translations
+
  $ 2.0.1
    % Version 2.0.1
   _ 2014-11-09
