@@ -329,7 +329,7 @@ public class CommonUI {
             sendRootCommand(command);
         } else {
             // We're creating a progress dialog here because we want the user to wait.
-            final ProgressDialog dialog = new ProgressDialog(CONTEXT);
+            final ProgressDialog dialog = new ProgressDialog(CommonUI.ACTIVITY);
             dialog.setTitle(R.string.progress_requesting_root_title);
             dialog.setMessage(CONTEXT.getString(R.string.progress_requesting_root_summary));
             dialog.setIndeterminate(true);
