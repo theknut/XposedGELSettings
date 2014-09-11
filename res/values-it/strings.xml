@@ -118,8 +118,8 @@
     <string name="pref_dynamic_backbutton_summary">Passa al \"Pulsante di spegnimento\" nella homescreen predefinita</string>
     <string name="pref_dynamic_homebutton_title">Pulsante home</string>
     <string name="pref_dynamic_homebutton_summary">Passa al pulsante \"App drawer\" nella homescreen predefinita</string>
-    <string name="pref_dynamic_hideclock_title">Nascondi orologgio</string>
-    <string name="pref_dynamic_hideclock_summary">Nascondi l\' orologgio nella homescreen predefinita</string>
+    <string name="pref_dynamic_hideclock_title">Nascondi orologio</string>
+    <string name="pref_dynamic_hideclock_summary">Nascondi l\' orologio nella homescreen predefinita</string>
     <string name="toast_restore_success">Ripristino layout homescreen riuscito</string>
     <string name="toast_restore_failed">Ripristino layout homescreen non riuscito</string>
     <string name="toast_backup_success">Backup layout homescreen riuscito</string>
