@@ -19,7 +19,7 @@
         <item>Desativado</item>
         <item>Apenas Atalhos</item>
         <item>Apenas Widgets</item>
-        <item>Atalhos &amp;amp; Widgets</item>
+        <item>Atalhos e Widgets</item>
     </string-array>
     <string-array name="fragmenttitles_array">
         <item>Bem-Vindo</item>
@@ -60,6 +60,12 @@
         <item>Tela Aplicativos</item>
         <item>Aplicativos da Bandeja</item>
     </string-array>
+    <string-array name="notificationbadge_position_entries">
+        <item>Topo à esquerda</item>
+        <item>Topo à direita</item>
+        <item>Rodapé à esquerda</item>
+        <item>Rodapé à direita</item>
+    </string-array>
     <string-array name="notificationbadge_presets_entries">
         <item>Personalizado</item>
         <item>Estilo G+</item>
@@ -86,18 +92,18 @@ Deslizar - abrir pasta"</item>
         <item>Widgets</item>
         <item>Módulos Xposed</item>
         <item>Google apps</item>
-        <item>Icon Packs</item>
-        <item>Novo apps</item>
-        <item>Novo/Atualizado apps</item>
+        <item>Pacotes de ícones</item>
+        <item>Novos apps</item>
+        <item>Novos/Atualizados apps</item>
     </string-array>
     <string-array name="tabcontent_names">
         <item>Apps</item>
         <item>Widgets</item>
         <item>Xposed</item>
         <item>Google</item>
-        <item>Icon Packs</item>
-        <item>Novo Apps</item>
-        <item>Novo/Atualizado</item>
+        <item>Pacotes de ícones</item>
+        <item>Novos Apps</item>
+        <item>Novos/Atualizados</item>
     </string-array>
     <string-array name="tabsort_entries">
         <item>Em ordem alfabética</item>
