@@ -81,12 +81,12 @@ public class AppDrawerHooks extends HooksBaseClass {
                             Common.APPDRAWER_LAST_PAGE_POSITION = getIntField(acpv, Fields.acpvCurrentPage);
                         }
 
+                        if (!Common.OVERSCROLLED && !Common.IS_TREBUCHET && !TabHelper.getInstance().getCurrentTabData().isWidgetsTab()) {
+                            Common.APPDRAWER_LAST_TAB_POSITION = TabHelper.getInstance().getTabHost().getCurrentTab();
+                        }
+
                         if (DEBUG)
                             log(param, "AppDrawerHooks: get current position - " + Common.APPDRAWER_LAST_PAGE_POSITION);
-                    }
-
-                    if (!Common.OVERSCROLLED && !Common.IS_TREBUCHET && !TabHelper.getInstance().getCurrentTabData().isWidgetsTab()) {
-                        Common.APPDRAWER_LAST_TAB_POSITION = TabHelper.getInstance().getTabHost().getCurrentTab();
                     }
 
                     Common.OVERSCROLLED = false;
@@ -100,16 +100,15 @@ public class AppDrawerHooks extends HooksBaseClass {
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 if (Common.OVERSCROLLED) return;
 
-                if (!Common.IS_TREBUCHET && !TabHelper.getInstance().getCurrentTabData().isWidgetsTab()) {
-                    int lastTab = TabHelper.getInstance().getTabHost().getTabWidget().getTabCount() - 1;
-                    if (Common.APPDRAWER_LAST_TAB_POSITION > lastTab) {
-                        Common.APPDRAWER_LAST_TAB_POSITION = lastTab;
-                    }
-
-                    TabHelper.getInstance().setCurrentTab(Common.APPDRAWER_LAST_TAB_POSITION);
-                }
-
                 if (PreferencesHelper.appdrawerRememberLastPosition) {
+                    if (!Common.IS_TREBUCHET && !TabHelper.getInstance().getCurrentTabData().isWidgetsTab()) {
+                        int lastTab = TabHelper.getInstance().getTabHost().getTabWidget().getTabCount() - 1;
+                        if (Common.APPDRAWER_LAST_TAB_POSITION > lastTab) {
+                            Common.APPDRAWER_LAST_TAB_POSITION = lastTab;
+                        }
+
+                        TabHelper.getInstance().setCurrentTab(Common.APPDRAWER_LAST_TAB_POSITION);
+                    }
 
                     Object acpv = getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizePagedView);
 

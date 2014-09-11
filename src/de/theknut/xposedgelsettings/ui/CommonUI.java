@@ -44,39 +44,39 @@ public class CommonUI {
     public static boolean LOADING_ICONPACK;
     public static Activity ACTIVITY;
     public static Bitmap bluredBackground = null;
-	public static Context CONTEXT;
-	
-	public static int UIColor = Color.parseColor("#222222");
+    public static Context CONTEXT;
+
+    public static int UIColor = Color.parseColor("#222222");
     public static int TextColor = -1;
-	
-	public static boolean AUTO_BLUR_IMAGE;
-	public static boolean needFullReboot = false;
-	private static Shell.Interactive rootSession;
+
+    public static boolean AUTO_BLUR_IMAGE;
+    public static boolean needFullReboot = false;
+    private static Shell.Interactive rootSession;
     public static boolean NO_BACKGROUND_IMAGE;
 
     public static List<String> getIconPacks(Context context) {
-	    String[] sIconPackCategories = new String[] {
-	            "com.fede.launcher.THEME_ICONPACK",
-	            "com.anddoes.launcher.THEME",
-	            "com.teslacoilsw.launcher.THEME"
-	    };
-	    String[] sIconPackActions = new String[] {
-	            "org.adw.launcher.THEMES",
-	            "com.gau.go.launcherex.theme"
-	    };
-	    
-	    Intent i = new Intent();
+        String[] sIconPackCategories = new String[] {
+                "com.fede.launcher.THEME_ICONPACK",
+                "com.anddoes.launcher.THEME",
+                "com.teslacoilsw.launcher.THEME"
+        };
+        String[] sIconPackActions = new String[] {
+                "org.adw.launcher.THEMES",
+                "com.gau.go.launcherex.theme"
+        };
+
+        Intent i = new Intent();
         List<String> packages = new ArrayList<String>();
         PackageManager packageManager = context.getPackageManager();
         for (String action : sIconPackActions) {
             i.setAction(action);
             for (ResolveInfo r : packageManager.queryIntentActivities(i, 0)) {
-                
+
                 if (!packages.contains(r.activityInfo.packageName))
                     packages.add(r.activityInfo.packageName);
             }
         }
-        
+
         i = new Intent(Intent.ACTION_MAIN);
         for (String category : sIconPackCategories) {
             i.addCategory(category);
@@ -86,7 +86,7 @@ public class CommonUI {
             }
             i.removeCategory(category);
         }
-	    
+
         return packages;
     }
 
@@ -105,188 +105,190 @@ public class CommonUI {
 
         return bitmap;
     }
-	
-	public static View setBackground(View rootView, int layout) {
+
+    public static View setBackground(View rootView, int layout) {
         if (CommonUI.NO_BACKGROUND_IMAGE && (layout != R.id.welcomebackground)) {
             return rootView;
         }
-        
-    	if (CommonUI.AUTO_BLUR_IMAGE && CommonUI.setBluredBackground(CONTEXT, rootView, layout)) {
-    		return rootView;
-    	}
 
-    	ImageView background = (ImageView) rootView.findViewById(layout);
-    	background.setImageResource(R.drawable.wall);
-    	
-    	rootView.setOnTouchListener(new OnTouchListener() {
-            
-    	    float downX;
-    	    
+        if (CommonUI.AUTO_BLUR_IMAGE && CommonUI.setBluredBackground(CONTEXT, rootView, layout)) {
+            return rootView;
+        }
+
+        try {
+            ImageView background = (ImageView) rootView.findViewById(layout);
+            background.setImageResource(R.drawable.wall);
+        } catch (Exception e) { }
+
+        rootView.setOnTouchListener(new OnTouchListener() {
+
+            float downX;
+
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                
+
                 switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                case MotionEvent.ACTION_DOWN:
-                    downX = event.getRawX();
-                    
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    
-                    if ((event.getRawX() - downX) > 100.0f) {
-                        MainActivity.openDrawer();
-                        return true;
-                    } 
-                    
-                    break;
-                default:
-                    break;
+                    case MotionEvent.ACTION_DOWN:
+                        downX = event.getRawX();
+
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+
+                        if ((event.getRawX() - downX) > 100.0f) {
+                            MainActivity.openDrawer();
+                            return true;
+                        }
+
+                        break;
+                    default:
+                        break;
                 }
-                
+
                 return false;
             }
         });
-    	
-    	return rootView;
-	}
-	
-	public static boolean setBluredBackground (Context context, View v, int imageViewId) {
-		
-		ImageView background = (ImageView) v.findViewById(imageViewId);
-		
-		if (CommonUI.bluredBackground == null) {
-			
-			String pathBackground = Environment.getExternalStorageDirectory().getPath() + "/XposedGELSettings/bluredbackground.png";			
-			File fileBackground = new File(pathBackground);			
-			
-			if (fileBackground.exists()) {
-				CommonUI.bluredBackground = BitmapFactory.decodeFile(pathBackground);
-				background.setImageBitmap(CommonUI.bluredBackground);
-			}
-			else {
-				return false;
-			}
-		}
-		else {
-	    	background.setImageBitmap(CommonUI.bluredBackground);
-		}
-		
-		return true;
-	}
-	
-	public static void setCustomStyle(View view, boolean setTitle, boolean setSummary) {
-		
-		if (setTitle) {
-			TextView title = ((TextView) view.findViewById(android.R.id.title));
-	        title.setTextColor(Color.WHITE);
-	        title.setTextAppearance(CommonUI.CONTEXT, R.style.ShadowText);
-		}
-        
-        if (setSummary) {
-	        TextView summary = ((TextView) view.findViewById(android.R.id.summary));
-	        summary.setTextColor(Color.WHITE);
-	        summary.setTextAppearance(CommonUI.CONTEXT, R.style.ShadowText);
+
+        return rootView;
+    }
+
+    public static boolean setBluredBackground (Context context, View v, int imageViewId) {
+
+        ImageView background = (ImageView) v.findViewById(imageViewId);
+
+        if (CommonUI.bluredBackground == null) {
+
+            String pathBackground = Environment.getExternalStorageDirectory().getPath() + "/XposedGELSettings/bluredbackground.png";
+            File fileBackground = new File(pathBackground);
+
+            if (fileBackground.exists()) {
+                CommonUI.bluredBackground = BitmapFactory.decodeFile(pathBackground);
+                background.setImageBitmap(CommonUI.bluredBackground);
+            }
+            else {
+                return false;
+            }
         }
-	}
-	
-	public static List<ResolveInfo> getAllApps() {
-	    // load all apps which are listed in the app drawer
-	    
-	    PackageManager pm = CONTEXT.getPackageManager();        
+        else {
+            background.setImageBitmap(CommonUI.bluredBackground);
+        }
+
+        return true;
+    }
+
+    public static void setCustomStyle(View view, boolean setTitle, boolean setSummary) {
+
+        if (setTitle) {
+            TextView title = ((TextView) view.findViewById(android.R.id.title));
+            title.setTextColor(Color.WHITE);
+            title.setTextAppearance(CommonUI.CONTEXT, R.style.ShadowText);
+        }
+
+        if (setSummary) {
+            TextView summary = ((TextView) view.findViewById(android.R.id.summary));
+            summary.setTextColor(Color.WHITE);
+            summary.setTextAppearance(CommonUI.CONTEXT, R.style.ShadowText);
+        }
+    }
+
+    public static List<ResolveInfo> getAllApps() {
+        // load all apps which are listed in the app drawer
+
+        PackageManager pm = CONTEXT.getPackageManager();
         final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         final List<ResolveInfo> apps = pm.queryIntentActivities(mainIntent, 0);
         Collections.sort(apps, new ResolveInfo.DisplayNameComparator(pm));
-        
+
         return apps;
-	}
-	
-	public static void restartLauncherOrDevice() {
-    	
-    	if (needFullReboot) {
-    		
-    		new AlertDialog.Builder(CONTEXT)
-    	    .setTitle(R.string.alert_reboot_needed_title)
-    	    .setMessage(R.string.alert_reboot_needed_summary)
-    	    .setPositiveButton(R.string.full_reboot, new DialogInterface.OnClickListener() {
-    	        public void onClick(DialogInterface dialog, int which) {
-    	        	if (!InAppPurchase.isPremium) {
-    	    			Toast.makeText(CONTEXT, CONTEXT.getString(R.string.toast_donate_only), Toast.LENGTH_SHORT).show();
-    	    			return;
-    	    		}
-    	        	
-    	        	openRootShell(new String[]{"su", "-c", "reboot now"});
-    	        }
-	        }
-    	     )
-    	     .setNeutralButton(R.string.hot_reboot, new DialogInterface.OnClickListener() {
-
-			      public void onClick(DialogInterface dialog, int id) {
-			    	if (!InAppPurchase.isPremium) {
-			  			Toast.makeText(CONTEXT, CONTEXT.getString(R.string.toast_donate_only), Toast.LENGTH_SHORT).show();
-			  			return;
-			  		}
-			    	  
-			    	openRootShell(new String[]{ "su", "-c", "killall system_server"});			
-			    }})
-    	    .setNegativeButton(R.string.launcher_reboot, new DialogInterface.OnClickListener() {
-    	        public void onClick(DialogInterface dialog, int which) { 
-    	            restartLauncher();
-    	        }
-    	     })
-    	     .show();
-    	}
-    	else {
-    		restartLauncher();
-    	}
     }
-    
-    public static boolean restartLauncher(boolean showToast) {   	
-    	
-		 ActivityManager am = (ActivityManager) CONTEXT.getSystemService(Context.ACTIVITY_SERVICE);
-	   	 String msg = CONTEXT.getString(R.string.killed);
-	   	 boolean neededRoot = false;
-	   	 
-	   	 List<RunningAppProcessInfo> processes = am.getRunningAppProcesses();
-	   	 for (RunningAppProcessInfo process : processes) {
-	   	     if (Common.PACKAGE_NAMES.contains(process.processName)) {  
 
-	   	         am.killBackgroundProcesses(process.processName);
-	   	         List<RunningAppProcessInfo> processesAfterKill = am.getRunningAppProcesses();
-	   	         for (RunningAppProcessInfo processAfterKill : processesAfterKill) {
-	   	             if (processAfterKill.pid == process.pid) {
-	   	                 // process wasn't killed for some reason
-	   	                 // kill it with fire
-	   	                 neededRoot = true;
-	   	                 CommonUI.openRootShell(new String[]{"su","kill -9 " + processAfterKill.pid});
-	   	             }
-	   	         }
+    public static void restartLauncherOrDevice() {
 
-	   	         if (!neededRoot) {
-	   	             msg += process.processName + "\n";
-	   	         }
-	   	     }                        			 
-	   	 }
-	   	 
-	   	 if (!neededRoot) {
-	   		 
-		   	 if (msg.equals(CONTEXT.getString(R.string.killed))) {
-		   		 msg = msg.substring(0, msg.lastIndexOf('\n')) + " " + CONTEXT.getString(R.string.toast_reboot_failed_nothing_msg) + "... :(\n" + CONTEXT.getString(R.string.toast_reboot_failed);
-		   	 } else {
-		   		 msg = msg.substring(0, msg.lastIndexOf('\n'));
-		   	 }
-		   	 
-		   	if (showToast) {
-		   		Toast.makeText(CONTEXT, msg, Toast.LENGTH_LONG).show();
-		   	}
-	   	 }
-	   	 
-	   	 return true;
-	}
-    
-    public static boolean restartLauncher() {		 
-	   	 
-	   	 return restartLauncher(true);
-	}
+        if (needFullReboot) {
+
+            new AlertDialog.Builder(CONTEXT)
+                    .setTitle(R.string.alert_reboot_needed_title)
+                    .setMessage(R.string.alert_reboot_needed_summary)
+                    .setPositiveButton(R.string.full_reboot, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (!InAppPurchase.isPremium) {
+                                        Toast.makeText(CONTEXT, CONTEXT.getString(R.string.toast_donate_only), Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+
+                                    openRootShell(new String[]{"su", "-c", "reboot now"});
+                                }
+                            }
+                    )
+                    .setNeutralButton(R.string.hot_reboot, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int id) {
+                            if (!InAppPurchase.isPremium) {
+                                Toast.makeText(CONTEXT, CONTEXT.getString(R.string.toast_donate_only), Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                            openRootShell(new String[]{ "su", "-c", "killall system_server"});
+                        }})
+                    .setNegativeButton(R.string.launcher_reboot, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            restartLauncher();
+                        }
+                    })
+                    .show();
+        }
+        else {
+            restartLauncher();
+        }
+    }
+
+    public static boolean restartLauncher(boolean showToast) {
+
+        ActivityManager am = (ActivityManager) CONTEXT.getSystemService(Context.ACTIVITY_SERVICE);
+        String msg = CONTEXT.getString(R.string.killed);
+        boolean neededRoot = false;
+
+        List<RunningAppProcessInfo> processes = am.getRunningAppProcesses();
+        for (RunningAppProcessInfo process : processes) {
+            if (Common.PACKAGE_NAMES.contains(process.processName)) {
+
+                am.killBackgroundProcesses(process.processName);
+                List<RunningAppProcessInfo> processesAfterKill = am.getRunningAppProcesses();
+                for (RunningAppProcessInfo processAfterKill : processesAfterKill) {
+                    if (processAfterKill.pid == process.pid) {
+                        // process wasn't killed for some reason
+                        // kill it with fire
+                        neededRoot = true;
+                        CommonUI.openRootShell(new String[]{"su","kill -9 " + processAfterKill.pid});
+                    }
+                }
+
+                if (!neededRoot) {
+                    msg += process.processName + "\n";
+                }
+            }
+        }
+
+        if (!neededRoot) {
+
+            if (msg.equals(CONTEXT.getString(R.string.killed))) {
+                msg = msg.substring(0, msg.lastIndexOf('\n')) + " " + CONTEXT.getString(R.string.toast_reboot_failed_nothing_msg) + "... :(\n" + CONTEXT.getString(R.string.toast_reboot_failed);
+            } else {
+                msg = msg.substring(0, msg.lastIndexOf('\n'));
+            }
+
+            if (showToast) {
+                Toast.makeText(CONTEXT, msg, Toast.LENGTH_LONG).show();
+            }
+        }
+
+        return true;
+    }
+
+    public static boolean restartLauncher() {
+
+        return restartLauncher(true);
+    }
 
     public static void restartActivity() {
         Intent mStartActivity = new Intent(CONTEXT, MainActivity.class);
@@ -296,7 +298,7 @@ public class CommonUI {
         mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 500, mPendingIntent);
         System.exit(0);
     }
-    
+
     static boolean isPackageInstalled(String packagename, Context context) {
         PackageManager pm = context.getPackageManager();
         try {
@@ -306,73 +308,73 @@ public class CommonUI {
             return false;
         }
     }
-    
+
     @SuppressWarnings("deprecation")
     static String getAppName(String prefKey) {
-    	final PackageManager pm = CONTEXT.getPackageManager();
-    	String app = CONTEXT.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).getString(prefKey + "_launch", "");
-    	
-    	ApplicationInfo ai;
-    	try {
-    	    ai = pm.getApplicationInfo(app, 0);
-    	} catch (final NameNotFoundException e) {
-    	    ai = null;
-    	}
-    	
-    	return (String) (ai != null ? pm.getApplicationLabel(ai) : "");
+        final PackageManager pm = CONTEXT.getPackageManager();
+        String app = CONTEXT.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).getString(prefKey + "_launch", "");
+
+        ApplicationInfo ai;
+        try {
+            ai = pm.getApplicationInfo(app, 0);
+        } catch (final NameNotFoundException e) {
+            ai = null;
+        }
+
+        return (String) (ai != null ? pm.getApplicationLabel(ai) : "");
     }
-    
-	public static void openRootShell(final String[] command) {
-	    if (rootSession != null) {
-	        sendRootCommand(command);
-	    } else {
-	        // We're creating a progress dialog here because we want the user to wait.
-	        final ProgressDialog dialog = new ProgressDialog(CONTEXT);
-	        dialog.setTitle(R.string.progress_requesting_root_title);
-	        dialog.setMessage(CONTEXT.getString(R.string.progress_requesting_root_summary));
-	        dialog.setIndeterminate(true);
-	        dialog.setCancelable(false);
-	        dialog.show();
-	
-	        // start the shell in the background and keep it alive as long as the app is running
-	        rootSession = new Shell.Builder().
-	                useSU().
-	                setWantSTDERR(true).
-	                setWatchdogTimeout(5).
-	                setMinimalLogging(true).
-	                open(new Shell.OnCommandResultListener() {
-	
-	                    // Callback to report whether the shell was successfully started up 
-	                    @Override
-	                    public void onCommandResult(int commandCode, int exitCode, List<String> output) {
-	                        // note: this will FC if you rotate the phone while the dialog is up
-	                        dialog.dismiss();
-	
-	                        if (exitCode != Shell.OnCommandResultListener.SHELL_RUNNING) {
-	                            Toast.makeText(CONTEXT, CONTEXT.getString(R.string.error_root_shell) + " " + exitCode, Toast.LENGTH_LONG).show();
-	                        } else {
-	                            // Shell is up: send our first request 
-	                            sendRootCommand(command);
-	                        }
-	                    }
-	                });
-	    }
+
+    public static void openRootShell(final String[] command) {
+        if (rootSession != null) {
+            sendRootCommand(command);
+        } else {
+            // We're creating a progress dialog here because we want the user to wait.
+            final ProgressDialog dialog = new ProgressDialog(CONTEXT);
+            dialog.setTitle(R.string.progress_requesting_root_title);
+            dialog.setMessage(CONTEXT.getString(R.string.progress_requesting_root_summary));
+            dialog.setIndeterminate(true);
+            dialog.setCancelable(false);
+            dialog.show();
+
+            // start the shell in the background and keep it alive as long as the app is running
+            rootSession = new Shell.Builder().
+                    useSU().
+                    setWantSTDERR(true).
+                    setWatchdogTimeout(5).
+                    setMinimalLogging(true).
+                    open(new Shell.OnCommandResultListener() {
+
+                        // Callback to report whether the shell was successfully started up
+                        @Override
+                        public void onCommandResult(int commandCode, int exitCode, List<String> output) {
+                            // note: this will FC if you rotate the phone while the dialog is up
+                            dialog.dismiss();
+
+                            if (exitCode != Shell.OnCommandResultListener.SHELL_RUNNING) {
+                                Toast.makeText(CONTEXT, CONTEXT.getString(R.string.error_root_shell) + " " + exitCode, Toast.LENGTH_LONG).show();
+                            } else {
+                                // Shell is up: send our first request
+                                sendRootCommand(command);
+                            }
+                        }
+                    });
+        }
     }
-    	
-	private static void sendRootCommand(String[] command) {
+
+    private static void sendRootCommand(String[] command) {
         rootSession.addCommand(command, 0,
                 new Shell.OnCommandResultListener() {
-		            public void onCommandResult(int commandCode, int exitCode, List<String> output) {
-		                if (exitCode < 0) {
-		                	Toast.makeText(CONTEXT, CONTEXT.getString(R.string.error_root_shell) + " " + exitCode, Toast.LENGTH_LONG).show();
-		                } else {
-		                	if (output.size() == 0) {
-		                		Toast.makeText(CONTEXT, CONTEXT.getString(R.string.success), Toast.LENGTH_LONG).show();
-		                	} else {
-		                		Toast.makeText(CONTEXT, CONTEXT.getString(R.string.failed) + ": " + output, Toast.LENGTH_LONG).show();
-		                	}
-		                }
-		            }
-		        });
+                    public void onCommandResult(int commandCode, int exitCode, List<String> output) {
+                        if (exitCode < 0) {
+                            Toast.makeText(CONTEXT, CONTEXT.getString(R.string.error_root_shell) + " " + exitCode, Toast.LENGTH_LONG).show();
+                        } else {
+                            if (output.size() == 0) {
+                                Toast.makeText(CONTEXT, CONTEXT.getString(R.string.success), Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(CONTEXT, CONTEXT.getString(R.string.failed) + ": " + output, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+                });
     }
 }

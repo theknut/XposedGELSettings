@@ -82,7 +82,7 @@ public class FragmentWelcome extends FragmentBase {
     	    if (cl.firstRun()) {
     	    	CommonUI.needFullReboot = true;
     	        alerts.add(cl.getFullLogDialog());
-    	        getFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentReverseEngineering()).commit();
+    	        //getFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentReverseEngineering()).commit();
     	    }
     	    
     	    if (alerts.size() != 0) {

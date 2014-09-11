@@ -335,6 +335,10 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
             tmpWidgetTab = new Tab("idx=" + tabHost.getTabWidget().getTabCount() + "|id=" + Tab.WIDGETS_ID + "|contenttype=" + ContentType.Widgets + "|title=" + "Widgets", false);
             addTabInternal(tmpWidgetTab, true);
             return true;
+        } else {
+            if (!PreferencesHelper.appdrawerRememberLastPosition) {
+                setCurrentTab(getTabById(Tab.APPS_ID).getIndex());
+            }
         }
 
         if (tmpWidgetTab != null) {
@@ -574,7 +578,9 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
     public void setContentType(Object thisObject) {
         Tab tab = getCurrentTabData();
         setObjectField(thisObject, Fields.acpvContentType, callMethod(tabHost, Methods.acthGetContentTypeForTabTag, tab.isWidgetsTab() ? "WIDGETS" : "APPS"));
-        invalidate();
+        setTabColor(getCurrentTabData().getColor());
+        Object mAppsCustomizePane = getObjectField(tabHost, Fields.acthAppsCustomizePane);
+        callMethod(mAppsCustomizePane, Methods.acpvInvalidatePageData, 0, true);
         scroll();
     }
 
