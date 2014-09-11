@@ -260,7 +260,7 @@ public class Tab {
     }
 
     private ArrayList getGoogleApps() {
-        ArrayList<String> google = new ArrayList<String> (Arrays.asList("com.android.vending", "com.quickoffice.android", "com.android.chrome"));
+        ArrayList<String> google = new ArrayList<String> (Arrays.asList("com.android.vending", "com.quickoffice.android", "com.android.chrome", "com.chrome.beta"));
         ArrayList modules = new ArrayList();
         this.rawData = new ArrayList();
 
