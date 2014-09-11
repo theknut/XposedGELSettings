@@ -353,7 +353,7 @@
     <string name="alert_appdrawer_clear_tabs_title">Attenzione!</string>
     <string name="alert_appdrawer_clear_tabs_summary">Stai per eliminare tutte le schede app drawer che hai fatto! Continua?</string>
     <string name="alert_appdrawer_clear_tabs_success">Dati schede app drawer cancellati!</string>
-    <string name="pref_appdrawer_tabs_instructions_summary">!!Google Now Launcher only!!\nLe schede dell\'app drawer possono essere aggiunte direttamente dal app drawer. Le impostazioni della scheda possono essere aperte tenendo premuta a lungo una scheda.</string>
+    <string name="pref_appdrawer_tabs_instructions_summary">!!Soltanto Google Now Launcher!!\nLe schede dell\'app drawer possono essere aggiunte direttamente dal app drawer. Le impostazioni della scheda possono essere aperte tenendo premuta a lungo una scheda.</string>
     <string name="pref_notificationbadge_noappdrawer_title">Nascondi dal app drawer</string>
     <string name="toast_appdrawer_tabadded_title">Premere a lungo una scheda per aprire le impostazioni</string>
     
