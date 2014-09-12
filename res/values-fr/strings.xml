@@ -290,6 +290,7 @@
     <string name="pref_icon_allappsbutton_summary">Change l\'icône du drawer</string>
     <string name="pref_xgels_no_background_image_title">Aucune image d\'arrière plan</string>
     <string name="pref_switch_smart_folder_title">Dossier intelligent</string>
+    <string name="pref_switch_smart_folder_summary">Appuyer - lancer la première appli\nGlisser - ouvrir le dossier</string>    
     <string name="pref_overlapping_widgets_title">Widgets chevauchants</string>
     <string name="pref_overlapping_widgets_summary">Permet le chevauchement des widgets. Fonctionne uniquement sur GNL !\n(Bêta: Actuellement la position de la couche n\'est pas sauvegardée après un redémarrage)</string>
 
@@ -309,7 +310,7 @@
     <string name="pref_always_show_ok_google_title">Ok Google</string>
     <string name="pref_always_show_ok_google_summary">Toujours afficher \"Ok Google\"</string>
     <string name="pref_glow_color_title">Couleur de pression</string>
-    <string name="pref_glow_color_summary">Couleur s\'affichant en pressant un icône</string>
+    <string name="pref_glow_color_summary">Couleur s\'affichant en pressant une icône</string>
     <string name="hide_app_switch_label">Masquer dans le drawer</string>
     <string name="default_text">Par défaut</string>
     <string name="pref_cat_system_bars_title">Barres système</string>
@@ -352,8 +353,11 @@
     <string name="alert_appdrawer_clear_tabs_title">Attention !</string>
     <string name="alert_appdrawer_clear_tabs_summary">Vous êtes sur le point de supprimer tous les onglets que vous avez fait ! Continuer ?</string>
     <string name="alert_appdrawer_clear_tabs_success">Données des onglets du drawer effacées !</string>
-    <string name="pref_appdrawer_tabs_instructions_summary">!!Google Now Launcher and ≥ Android 4.2 only!!\nDes onglets peuvent être ajoutés directement depuis le drawer. Les paramètres de l\'onglet peuvent être ouverts via un appui long sur un onglet.</string>
+    <string name="pref_appdrawer_tabs_instructions_summary">!!Uniquement pour Google Now Launcher et ≥ Android 4.2!!\nDes onglets peuvent être ajoutés directement depuis le drawer. Les paramètres de l\'onglet peuvent être ouverts via un appui long sur un onglet.</string>
     <string name="pref_notificationbadge_noappdrawer_title">Masquer dans le drawer</string>
-    <string name="toast_appdrawer_tabadded_title">Appui long sur un onglet pour ouvrir ses paramètres</string>    
+    <string name="toast_appdrawer_tabadded_title">Appui long sur un onglet pour ouvrir ses paramètres</string>
+    
+    <string name="pref_reverseengineering_rate_title">Notez XGELS !</string>
+    <string name="pref_reverseengineering_rate_summary">Affichez votre soutien et mettez une note sur le Play Store. Une bonne réputation incitera d\'autres personnes d\'essayer XGELS. Appuyez ici pour noter XGELS sur le Play Store !</string>    
     
 </resources>
