@@ -18,7 +18,7 @@
     </string-array>
 
     <string-array name="smartfoldermode_entries">
-        <item>Désactivés</item>
+        <item>Désactivé</item>
         <item>Glisser - lancer la première appli\nAppuyer - ouvrir le dossier</item>
         <item>Appuyer - lancer la première appli\nGlisser - ouvrir le dossier</item>
     </string-array>
