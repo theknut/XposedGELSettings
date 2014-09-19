@@ -360,4 +360,8 @@
     <string name="pref_reverseengineering_rate_title">Rate XGELS!</string>
     <string name="pref_reverseengineering_rate_summary">Show your support and leave me a rating on Google Play. A good reputation will motivate others to try XGELS, too. Click here to rate XGELS on Google Play!</string>
 
+    <!-- V2.0.3 -->
+    <string name="pref_notificationbadge_keepsize_title">Keep badge size</string>
+    <string name="pref_notificationbadge_keepsize_summary">Decrease the left/right padding when the badge count is two digits wide</string>
+
 </resources>
