@@ -19,7 +19,6 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.util.DisplayMetrics;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +34,7 @@ import java.util.List;
 
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.Utils;
 import de.theknut.xposedgelsettings.hooks.icon.Icon;
 import de.theknut.xposedgelsettings.hooks.icon.IconPack;
 
@@ -345,8 +345,8 @@ public class FragmentIcon extends FragmentBase {
             mContext = mIconPack.getContext();
 
             DisplayMetrics dm = mContext.getResources().getDisplayMetrics();
-            iconSize = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 64, dm));
-            paddingSize = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, dm));
+            iconSize = Utils.dpToPx(64, dm);
+            paddingSize = Utils.dpToPx(5, dm);
 
             apps = CommonUI.getAllApps();
         }
