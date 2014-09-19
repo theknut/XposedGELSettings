@@ -198,7 +198,7 @@ public class FragmentWelcome extends FragmentBase {
 	        }
         }
 	     )
-	    .setNegativeButton(getString(R.string.continue_next), new DialogInterface.OnClickListener() {
+	    .setNegativeButton(getString(R.string.continue_text), new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) { 
 	            dialog.dismiss();
 	        }
@@ -234,7 +234,7 @@ public class FragmentWelcome extends FragmentBase {
 	        	}
 	        }
         });
-	    adb.setNegativeButton(getString(R.string.continue_next), new DialogInterface.OnClickListener() {
+	    adb.setNegativeButton(getString(R.string.continue_text), new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) {
 	        	
 	        	if (dontShowAgain.isChecked()) {

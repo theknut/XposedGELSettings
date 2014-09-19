@@ -213,10 +213,10 @@
     <string name="pref_notificationbadge_premium_title">Premium Funktion</string>
     <string name="pref_notificationbadge_premium_summary">Diese Funktion ist nur in XGELS Premium vorhanden. Außerdem wird MissedIt! (kostenpflichtig) benötigt, um die Nachrichtenzähler zu empfangen.</string>
     <string name="pref_notificationbadge_missedit_missing_title">MissedIt! nicht installiert</string>
-    <string name="pref_notificationbadge_missedit_missing_summary">MissedIt! ist nicht installiert. XGELS fordert von dieser App Nachrichtenzähler an, um die Badges anzuzeigen. Hier klicken um MissedIt! im Play Store zu öffnen/kaufen!</string>
+    <string name="pref_notificationbadge_missedit_missing_summary">MissedIt! ist nicht installiert. XGELS fordert von dieser App Nachrichtenzähler an, um die Ungelesenzähler anzuzeigen. Hier klicken um MissedIt! im Play Store zu öffnen/kaufen!</string>
     <string name="pref_notificationbadge_open_missedit_title">MissedIt! öffnen</string>
     <string name="pref_notificationbadge_open_missedit_summary">Hier klicken um MissedIt! zu öffnen</string>
-    <string name="pref_notificationbadge_enable_title">Badges aktivieren</string>
+    <string name="pref_notificationbadge_enable_title">Zähler aktivieren</string>
     <string name="pref_notificationbadge_backgroundcolor_title">Hintergrundfarbe</string>
     <string name="pref_notificationbadge_textcolor_title">Textfarbe</string>
     <string name="pref_notificationbadge_textsize_title">Textgröße</string>
@@ -228,7 +228,7 @@
     <string name="pref_notificationbadge_topbottom_padding_title">Oben/Unten Abstände</string>
     <string name="pref_notificationbadge_advanced">Erweiterte Einstellungen</string>
     <string name="pref_notificationbadge_advanced_title">Manuell konfigurieren</string>
-    <string name="pref_notificationbadge_advanced_summary">Falls Sie irgendwelche Probleme mit den Badges für Telefon oder SMS haben, bitte die Einstellungen hier erneut vornehmen. Außerdem können Sie hier klicken, um die nachfolgenden Einstellungen zurückzusetzen.</string>
+    <string name="pref_notificationbadge_advanced_summary">Falls Sie Probleme mit den Ungelesenzähler für Telefon oder SMS haben, bitte die Einstellungen hier erneut vornehmen. Außerdem können Sie hier klicken, um die nachfolgenden Einstellungen zurückzusetzen.</string>
     <string name="pref_notificationbadge_advanced_dialer_title">Telefon App</string>
     <string name="pref_notificationbadge_advanced_sms_title">SMS App</string>
     
@@ -248,7 +248,7 @@
     
     <!-- V1.6.2 -->
     <string name="pref_notificationbadge_help_title">Brauchen Sie Hilfe?</string>
-    <string name="pref_notificationbadge_help_summary">Klicken Sie hier, um zu lesen, wie man Notification Badges einrichtet!</string>
+    <string name="pref_notificationbadge_help_summary">Klicken Sie hier, um zu lesen, wie man den Ungelesenzähler einrichtet!</string>
     
     <!-- V1.7 -->
     <string name="pref_switch_position_all_apps_button_title">Position des App-Übersicht Buttons</string>
@@ -349,5 +349,9 @@
     <string name="toast_appdrawer_tabadded_title">Tabeinstellungen können durch langes Drücken eines Tabs geöffnet werden</string>
     <string name="pref_reverseengineering_rate_title">Bewerte XGELS!</string>
     <string name="pref_reverseengineering_rate_summary">Zeigen Sie Ihre Unterstützung und bewerten Sie XGELS im Play Store. Eine gute Bewertung motiviert andere es auch auszuprobieren. Hier klicken um XGELS im Play Store zu öffnen!</string>
+
+    <!-- V2.0.3 -->
+    <string name="pref_notificationbadge_keepsize_title">Zählergröße beibehalten</string>
+    <string name="pref_notificationbadge_keepsize_summary">Links/Rechts Abstände verkleinern, wenn der Ungelesenzähler zwei Ziffern weit wird</string>
    
 </resources>
