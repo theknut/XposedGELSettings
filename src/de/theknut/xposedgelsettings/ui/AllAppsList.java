@@ -54,7 +54,7 @@ public class AllAppsList extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUI.CONTEXT = this;
+        CommonUI.CONTEXT = CommonUI.ACTIVITY = this;
 
         if (FragmentIcon.iconPack == null) {
             try {

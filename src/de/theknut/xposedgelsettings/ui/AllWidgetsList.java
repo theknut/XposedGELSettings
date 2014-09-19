@@ -80,6 +80,7 @@ public class AllWidgetsList extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CommonUI.CONTEXT = CommonUI.ACTIVITY = this;
 
         getListView().setCacheColorHint(CommonUI.UIColor);
         getListView().setBackgroundColor(CommonUI.UIColor);
