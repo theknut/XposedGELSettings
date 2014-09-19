@@ -22,7 +22,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
-import android.util.TypedValue;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -48,6 +47,7 @@ import java.util.TreeSet;
 
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.Utils;
 import de.theknut.xposedgelsettings.hooks.icon.IconPack;
 import de.theknut.xposedgelsettings.hooks.icon.IconPreview;
 
@@ -83,13 +83,17 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
             itemID = intent.getLongExtra("itemtid", 0);
         }
 
-        CommonUI.CONTEXT = mActivity = this;
+        CommonUI.CONTEXT = CommonUI.ACTIVITY = mActivity = this;
 
         mAppSectionsPagerAdapter = new AppSectionsPagerAdapter(getSupportFragmentManager());
         final ActionBar actionBar = getActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(CommonUI.UIColor));
         actionBar.setHomeButtonEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+        if (intent.hasExtra("name")) {
+            actionBar.setTitle(intent.getStringExtra("name"));
+        }
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mAppSectionsPagerAdapter);
@@ -121,9 +125,9 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
         tags = new ArrayList<String>();
         Resources resources = getApplicationContext().getResources();
         DisplayMetrics displayMetrics = resources.getDisplayMetrics();
-        int outerSize = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 32, displayMetrics));
-        int innerSize = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, displayMetrics));
-        int distance = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, displayMetrics));
+        int outerSize = Utils.dpToPx(32, displayMetrics);
+        int innerSize = Utils.dpToPx(24, displayMetrics);
+        int distance = Utils.dpToPx(4, displayMetrics);
 
         int startingPosition = 0;
         for (String key : new TreeSet<String>(iconPacks.keySet())) {
@@ -476,8 +480,8 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
                     ela = new ExpandableListAdapter();
                     Resources resources = mContext.getResources();
                     DisplayMetrics displayMetrics = resources.getDisplayMetrics();
-                    int requestedColumnWidth = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, displayMetrics));
-                    int requestedHorizontalSpacing = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, displayMetrics));
+                    int requestedColumnWidth = Utils.dpToPx(50, displayMetrics);
+                    int requestedHorizontalSpacing = Utils.dpToPx(8, displayMetrics);
                     int gridWidth = elv.getWidth();
                     if (gridWidth == 0) {
                         WindowManager wm = (WindowManager) Common.LAUNCHER_CONTEXT.getSystemService(Context.WINDOW_SERVICE);
@@ -513,8 +517,8 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
             mContext = c;
 
             DisplayMetrics dm = mContext.getResources().getDisplayMetrics();
-            iconSize = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 64, dm));
-            paddingSize = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, dm));
+            iconSize = Utils.dpToPx(64, dm);
+            paddingSize = Utils.dpToPx(5, dm);
         }
 
         public int getCount() {

@@ -150,6 +150,7 @@ public class ChooseAppList extends ListActivity {
 
                 Intent i = new Intent(ChooseAppList.this, FragmentSelectiveIcon.class);
                 i.putExtra("app", ((ViewHolder) v.getTag()).cmpName);
+                i.putExtra("name", ((ViewHolder) v.getTag()).textView.getText());
                 i.putExtra("mode", FragmentSelectiveIcon.MODE_PICK_GLOBAL_ICON);
                 startActivityForResult(i, 0);
             }

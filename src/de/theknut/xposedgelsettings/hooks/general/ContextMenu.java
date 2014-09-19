@@ -376,6 +376,7 @@ public class ContextMenu extends HooksBaseClass{
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
                 intent.setComponent(new ComponentName(Common.PACKAGE_NAME, FragmentSelectiveIcon.class.getName()));
                 intent.putExtra("mode", isFolder ? FragmentSelectiveIcon.MODE_PICK_FOLDER_ICON : FragmentSelectiveIcon.MODE_PICK_SHORTCUT_ICON);
+                intent.putExtra("name", getObjectField(tag, "title").toString());
                 intent.putExtra("itemtid", getLongField(tag, Fields.iiID));
                 Common.LAUNCHER_CONTEXT.startActivity(intent);
             }
