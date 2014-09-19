@@ -24,7 +24,7 @@
     <string name="pref_grid_size_explain_summary">Attenzione: modificare la dimensione della griglia potrebbe far perdere l\' ordine delle icone. Se si riduce la dimensione alcune icone potrebbero scomparire, ma riaumentandola compariranno nuovamente. Inoltre, se la dimensione della griglia &#232; eccessiva pu&#242; tagliare le icone, non aumentare troppo!</string>
     <string name="pref_switch_enable_grid_size_title">Abilita</string>
     <string name="pref_switch_enable_grid_size_summary">Cambia le dimensioni della griglia</string>
-    <string name="pref_resize_all_widgets_title">Ridimensiona widgets</string>
+    <string name="pref_resize_all_widgets_title">Ridimensiona widget</string>
     <string name="pref_resize_all_widgets_summary">Rendi tutti i widget ridimensionabili</string>
     <string name="pref_xcount_title">Colonne Homescreen</string>
     <string name="pref_xcount_summary">Modifica il numero di colonne nella homescreen</string>
@@ -55,7 +55,7 @@
     <string name="pref_cat_title_restart_launcher">Riavvia launcher</string>
     <string name="pref_restart_launcher_summary">Clicca per riavviare il launcher e usare le tue impostazioni.</string>
     <string name="pref_support_thread_title">Hai bisogno d\' aiuto?</string>
-    <string name="pref_support_thread_summary">Si prega di mostrare un po d\'amore per il thread di supporto. Se hai bisogno di aiuto o hai un feedback clicca qui per aprire il thread.</string>
+    <string name="pref_support_thread_summary">Per favore mostra un po d\'amore per il thread di supporto. Se hai bisogno di aiuto o hai un feedback clicca qui per aprire il thread.</string>
     <string name="pref_cat_eximport_settings">Importa/Esporta Impostazioni di XGELS</string>
     <string name="pref_settings_import_title">Importa</string>
     <string name="pref_settings_import_summary">Importa le tue impostaznioni da\n/sdcard/XposedGELSettings</string>
@@ -64,7 +64,7 @@
     <string name="pref_settings_reset_title">Resetta</string>
     <string name="pref_settings_reset_summary">Resetta le tue impostazioni</string>
     <string name="pref_pageindicator_title">Indicatore pagine</string>
-    <string name="pref_pageindicator_summary">Nascondi l\' indicatore delle pagine dalla homescreen e app drawer</string>
+    <string name="pref_pageindicator_summary">Nascondi l\'indicatore delle pagine dalla homescreen e dall\'app drawer</string>
     <string name="pref_default_homescreen_title">Homesreen predefinita</string>
     <string name="pref_default_homescreen_summary">Seleziona la homescreen predefinita</string>
     <string name="pref_enable_rotation_title">Rotazione</string>
@@ -77,7 +77,7 @@
     <string name="colorpicker_hex_hint">Colore personalizato</string>
     <string name="restart_launcher_icon_title">Riavvia</string>
     <string name="pref_disable_wallpaper_scroll_title">Sfondo scorrevole</string>
-    <string name="pref_disable_wallpaper_scroll_summary">Disabilita lo scorrimento dello sfondo sincronizato</string>
+    <string name="pref_disable_wallpaper_scroll_summary">Disabilita lo scorrimento sincronizato dello sfondo</string>
     <!-- V1.3 -->
     <string name="toast_desktop_locked">Desktop bloccato!</string>
     <string name="toast_fail">Riscontrato un errore\nControlla il logcat!</string>
@@ -158,7 +158,7 @@
     <string name="pref_dynamic_backbuttononeveryscreen_summary">Va in stand-by in ogni schermata. Se non cliccato, va in stand-by solo nella homescreen predefinita.</string>
 
     <!-- V1.5 -->
-    <string name="pref_selectwidgetstohide_summary">Seleziona i widgets da nascondere</string>
+    <string name="pref_selectwidgetstohide_summary">Seleziona i widget da nascondere</string>
     <string name="pref_workspacerect_title">Margini sinistra/destra homescreen</string>
     <string name="pref_workspacerect_summary">Scegli una dimensione per il margine sinistro/destro della homescreen</string>
     <string name="pref_workspacerect_dialog">Scegli dimensioni</string>
@@ -259,7 +259,7 @@
 
     <!-- V1.7 -->
     <string name="pref_switch_position_all_apps_button_title">Posizione pulsante app drawer</string>
-    <string name="pref_switch_position_all_apps_button_summary">Scegliere la posizione del\' app drawer</string>
+    <string name="pref_switch_position_all_apps_button_summary">Scegliere la posizione dell\'app drawer</string>
     <string name="pref_general_scroll_devider_title">Velocit&#224; di scorrimento</string>
     <string name="pref_general_scroll_devider_summary">Impostare una velocit&#224; di scorrimento globale</string>
 
@@ -283,16 +283,16 @@
 
     <!-- V1.8 -->
     <string name="pref_icon_hide_icon_packs_title">Nascondi pacchetti icone</string>
-    <string name="pref_icon_hide_icon_packs_summary">Nascondere automaticamente i pacchetti icone dal app drawer</string>
+    <string name="pref_icon_hide_icon_packs_summary">Nascondere automaticamente i pacchetti icone dall\'app drawer</string>
     <string name="pref_icon_perappicon_title">Cambiare l\' icona per ogni singola app</string>
     <string name="pref_icon_perappicon_summary">Scegli le icone da diversi pacchetti per ogni singola app</string>
     <string name="pref_icon_allappsbutton_title">Bottone app drawer</string>
-    <string name="pref_icon_allappsbutton_summary">Modificare icona del\' app drawer</string>
+    <string name="pref_icon_allappsbutton_summary">Modificare icona dell\'app drawer</string>
     <string name="pref_xgels_no_background_image_title">Nessuna immagine di sfondo</string>
     <string name="pref_switch_smart_folder_title">Cartella intelligente</string>
     <string name="pref_switch_smart_folder_summary">Touch - lancia la prima applicazione\nScorri s&#249; - apri cartella</string>
     <string name="pref_overlapping_widgets_title">Widget sovrapposti</string>
-    <string name="pref_overlapping_widgets_summary">Consenti di sovrapporre i widget. Questo funziona solo su GNL\n(Beta: Attualmente la posizione di livello non viene salvata al riavvio)!</string>
+    <string name="pref_overlapping_widgets_summary">Consenti di sovrapporre i widget. Questo funziona solo su GNL!\n(Beta: Attualmente la posizione di livello non viene salvata al riavvio)</string>
 
     <string name="pref_overridesettings_button_title">Pulsante impostazioni</string>
     <string name="pref_overridesettings_button_summary">Apri XGELS invece delle impostazioni di Google Now</string>
@@ -311,7 +311,7 @@
     <string name="pref_always_show_ok_google_summary">Mostra sempre \"Ok Google\"</string>
     <string name="pref_glow_color_title">Colore bordo icone</string>
     <string name="pref_glow_color_summary">Colore quando si preme un\'icona</string>
-    <string name="hide_app_switch_label">Nascondi nell\' app drawer</string>
+    <string name="hide_app_switch_label">Nascondi nell\'app drawer</string>
     <string name="default_text">Predefinito</string>
     <string name="pref_cat_system_bars_title">Barre di sistema</string>
     <string name="pref_transparent_system_bars_title">Barre di sistema trasparenti</string>
@@ -337,11 +337,11 @@
 
     <!-- V2.0 -->
     <string name="alert_tab_settings_title">Impostazioni scheda</string>
-    <string name="alert_tab_hide_from_apps_title">Nascondi app dalla scheda app principale</string>
+    <string name="alert_tab_hide_from_apps_title">Nascondi app dalla scheda\napp principale</string>
     <string name="alert_tab_hint_text_title">Nome scheda</string>
     <string name="pref_tabsandfolders_title">Schede e cartelle</string>
     <string name="pref_tab_type_title">Tipo di scheda</string>
-    <string name="toast_tab_delete">Premere e tenere premuto per cancellare la scheda</string>
+    <string name="toast_tab_delete">Tenere premuto per cancellare la scheda</string>
     <string name="pref_notificationbadge_position_title">Posizione</string>
     <string name="pref_cat_tabs_and_folders_title">Schede e cartelle</string>
     <string name="pref_cat_app_drawer_settings_title">Impostazioni</string>
@@ -351,9 +351,9 @@
     <string name="pref_appdrawer_clear_tabs_title">Cancella dati scheda</string>
     <string name="pref_appdrawer_clear_tabs_summary">Tocca qui per resettare tutti i dati della scheda. Tutte le schede personalizzate saranno cancellate!</string>
     <string name="alert_appdrawer_clear_tabs_title">Attenzione!</string>
-    <string name="alert_appdrawer_clear_tabs_summary">Stai per eliminare tutte le schede app drawer che hai fatto! Continua?</string>
+    <string name="alert_appdrawer_clear_tabs_summary">Stai per eliminare tutte le schede dell'app drawer che hai fatto!\nContinua?</string>
     <string name="alert_appdrawer_clear_tabs_success">Dati schede app drawer cancellati!</string>
-    <string name="pref_appdrawer_tabs_instructions_summary">!!Google Now Launcher and ≥ Android 4.2 only!!\nLe schede dell\'app drawer possono essere aggiunte direttamente dal app drawer. Le impostazioni della scheda possono essere aperte tenendo premuta a lungo una scheda.</string>
+    <string name="pref_appdrawer_tabs_instructions_summary">!!Soltanto con Google Now Launcher e ≥ Android 4.2!!\nLe schede dell\'app drawer possono essere aggiunte direttamente dal app drawer. Le impostazioni della scheda possono essere aperte tenendo premuta a lungo una scheda.</string>
     <string name="pref_notificationbadge_noappdrawer_title">Nascondi dal app drawer</string>
     <string name="toast_appdrawer_tabadded_title">Premere a lungo una scheda per aprire le impostazioni</string>
     
