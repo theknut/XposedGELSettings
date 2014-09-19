@@ -18,7 +18,7 @@
     </string-array>
 
     <string-array name="smartfoldermode_entries">
-        <item>Désactivés</item>
+        <item>Désactivé</item>
         <item>Glisser - lancer la première appli\nAppuyer - ouvrir le dossier</item>
         <item>Appuyer - lancer la première appli\nGlisser - ouvrir le dossier</item>
     </string-array>
@@ -67,7 +67,7 @@
         <item>Widgets</item>
         <item>Modules Xposed</item>
         <item>Applis Google</item>
-        <item>Icon Packs</item>
+        <item>Packs d\'icônes</item>
         <item>Nouvelles applis</item>
         <item>Nouvelles/Mises à jour applis</item>
     </string-array>
@@ -77,7 +77,7 @@
         <item>Widgets</item>
         <item>Xposed</item>
         <item>Google</item>
-        <item>Icon Packs</item>
+        <item>Packs d\'icônes</item>
         <item>Nouvelles applis</item>
         <item>Nouvelles/Mises à jour</item>
     </string-array>
