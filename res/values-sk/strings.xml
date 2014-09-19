@@ -260,7 +260,7 @@
     <string name="pref_reverseengineering_bugs_title">Chyby</string>
     <string name="pref_reverseengineering_bugs_summary">Vzhľadom k potrebe reverzného inžinierstva, je možné, že sa vyskytnú nejaké chyby. Prosím, buďte trochu zhovievavejší a neudeľujte nízke hodnotenie pre túto aplikácia v Obchode Play. Použite funkciu \"Poslať hlásenie o chybe\" v Nastaveniach. Ďakujeme vám!</string>
     <string name="pref_reverseengineering_support_cat">Potrebujeme vašu podporu!</string>
-    <string name="pref_reverseengineering_support_title">Prispieť!</string>
+    <string name="pref_reverseengineering_support_title">Podporiť vývojára!</string>
     <string name="pref_reverseengineering_support_summary">Toto neodomkne Prémium!\nNeuveriteľné možnostvo mojej práce je potrebné pre vývoj XGELS. Ak sa vám táto aplikácia páči, prosím, kliknite sem pre prispenie!</string>
     <string name="pref_reverseengineering_rate_title">Ohodnotiť XGELS!</string>
     <string name="pref_reverseengineering_rate_summary">Ukážte vašu podporu a ohodnoťte aplikáciu v Obchode Play. Dobré hodnotenie bude motivovať ostatných, aby sa skúsili XGELS. Kliknite sem pre ohodnotenie XGELS v Obchode Play!</string>
@@ -346,7 +346,7 @@
     <string name="full_reboot">Úplný reštart</string>
     <string name="hot_reboot">Rýchly reštart</string>
     <string name="launcher_reboot">Reštart spúšťača</string>
-    <string name="killed">Ukončené:\n</string>
+    <string name="killed">Zastavené:\n</string>
     <string name="missing_framework">Chýbajúci framework!</string>
     <string name="missing_framework_msg">Xposed framework nie je nainštalovaný. Táto aplikácia nebude fungovať bez Xposed frameworku!</string>
     <string name="go_to_framework">Prejsť do Xposed frameworku</string>
@@ -385,7 +385,7 @@
     <string name="alert_appdrawer_clear_tabs_title">Upozornenie!</string>
     <string name="alert_appdrawer_clear_tabs_summary">Chystáte sa vymazať všetky karty v ponuke aplikácií! Pokračovať?</string>
     <string name="alert_appdrawer_clear_tabs_success">Údaje kariet v ponuke aplikácií boli vymazané!</string>
-    <string name="pref_appdrawer_tabs_instructions_summary">!!Google Now Launcher and ≥ Android 4.2 only!!\nKarty v ponuke aplikácií môžete pridať priamo z ponuky aplikácií . Nastavenia karty možete otvoriť jej dlhým stlačením.</string>
+    <string name="pref_appdrawer_tabs_instructions_summary">!!Len pre Google Now Launcher a ≥ Android 4.2!!\nKarty v ponuke aplikácií môžete pridať priamo z ponuky aplikácií . Nastavenia karty možete otvoriť jej dlhým stlačením.</string>
     <string name="pref_notificationbadge_noappdrawer_title">Skryť z ponuky aplikácií</string>
     <string name="toast_appdrawer_tabadded_title">Dlho stlačte kartu pre otvorenie jej nastavení</string>
 
