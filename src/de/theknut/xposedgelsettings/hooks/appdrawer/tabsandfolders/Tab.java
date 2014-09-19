@@ -92,7 +92,7 @@ public class Tab {
             @Override
             protected void onPreExecute() {
                 if (TabHelper.getInstance().getTabHost().getCurrentTab() == getIndex()) {
-                    TabHelper.getInstance().showProgressBar();
+                    //TabHelper.getInstance().showProgressBar();
                 }
             }
 
@@ -128,7 +128,7 @@ public class Tab {
                 tabHelper.invalidate();
 
                 if (tabHelper.getTabHost().getCurrentTab() == getIndex()) {
-                    tabHelper.hideProgressBar();
+                    //tabHelper.hideProgressBar();
                 }
             }
         }.execute();
@@ -260,13 +260,14 @@ public class Tab {
     }
 
     private ArrayList getGoogleApps() {
-        ArrayList<String> google = new ArrayList<String> (Arrays.asList("com.android.vending", "com.quickoffice.android", "com.android.chrome", "com.chrome.beta"));
+        ArrayList<String> google = new ArrayList<String> (Arrays.asList("com.android.vending", "com.quickoffice.android", "com.android.chrome", "com.chrome.beta", "com.google.earth", "com.google.chromeremotedesktop"));
+        ArrayList<String> exclude = new ArrayList<String> (Arrays.asList("com.google.android.diskusage"));
         ArrayList modules = new ArrayList();
         this.rawData = new ArrayList();
 
         for (ResolveInfo app : Utils.getAllApps()) {
             String pkg = app.activityInfo.packageName;
-            if (pkg.contains("com.google.android.") || google.contains(pkg)) {
+            if (pkg.contains("com.google.android.") || google.contains(pkg) && !exclude.contains(pkg)) {
                 ComponentName cmp = new ComponentName(pkg, app.activityInfo.name);
                 modules.add(Utils.createAppInfo(cmp));
                 rawData.add(cmp.flattenToString());
@@ -350,9 +351,9 @@ public class Tab {
     }
 
     private void sort(final ArrayList apps) {
-        TabHelper.getInstance().showProgressBar();
+        //TabHelper.getInstance().showProgressBar();
         Collections.sort(apps, getSortComparator());
-        TabHelper.getInstance().hideProgressBar();
+        //TabHelper.getInstance().hideProgressBar();
     }
 
     public Comparator getSortComparator() {

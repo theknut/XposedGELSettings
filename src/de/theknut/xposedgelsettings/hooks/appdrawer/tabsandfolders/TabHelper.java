@@ -121,7 +121,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
         this.tabs = new ArrayList<Tab>();
 
         addHorizontalScrollView();
-        addProgressBar();
+        //addProgressBar();
 
         if (PreferencesHelper.enableAppDrawerTabs) {
             showTabBar();
@@ -134,7 +134,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
         tabHost.setCurrentTab(0);
         tabhost.getTabWidget().setCurrentTab(0);
 
-        int id = tabhost.getContext().getResources().getIdentifier("market_button", "id", Common.GEL_PACKAGE);
+        int id = tabhost.getContext().getResources().getIdentifier("market_button", "id", Common.HOOKED_PACKAGE);
         tabhost.removeView(tabhost.findViewById(id));
     }
 
@@ -246,7 +246,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
         };
 
         LayoutInflater mLayoutInflater = (LayoutInflater) getObjectField(tabHost, "mLayoutInflater");
-        int tab_widget_indicator = Common.LAUNCHER_CONTEXT.getResources().getIdentifier("tab_widget_indicator", "layout", Common.GEL_PACKAGE);
+        int tab_widget_indicator = Common.LAUNCHER_CONTEXT.getResources().getIdentifier("tab_widget_indicator", "layout", Common.HOOKED_PACKAGE);
 
         TextView tabView = (TextView) mLayoutInflater.inflate(tab_widget_indicator, tabHost.getTabWidget(), false);
         tabView.setBackground(XGELSContext.getResources().getDrawable(R.drawable.tab_indicator));
@@ -542,10 +542,11 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
 
         final boolean isRtl = (Boolean) callMethod(thisObject, Methods.acpvIsLayoutRtl);
         LayoutInflater mLayoutInflater = (LayoutInflater) getObjectField(thisObject, "mLayoutInflater");
+        log("isRtl " + isRtl);
 
         int mCellCountX = getIntField(thisObject, Fields.acpvCellCountX);
         int mCellCountY = getIntField(thisObject, Fields.acpvCellCountY);
-        int apps_customize_application = Common.LAUNCHER_CONTEXT.getResources().getIdentifier("apps_customize_application", "layout", Common.GEL_PACKAGE);
+        int apps_customize_application = Common.LAUNCHER_CONTEXT.getResources().getIdentifier("apps_customize_application", "layout", Common.HOOKED_PACKAGE);
 
         int numCells = mCellCountX * mCellCountY;
         int startIndex = page * numCells;

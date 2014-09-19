@@ -410,7 +410,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             acpvSetContentType = new String[]{"setContentType", "a", "a", "a"}[idx];
             acpvInvalidatePageData = new String[]{"invalidatePageData", "j", "k", "k"}[idx];
             acpvSyncPages = new String[]{"syncPages", "da", "dP", "dY"}[idx]; // removeAllViews
-            acpvIsLayoutRtl = new String[]{"isLayoutRtl", "hX", "iN", "iQ"}[idx];
+            acpvIsLayoutRtl = new String[]{"isLayoutRtl", "hX", "iN", "iQ"}[idx]; // getLayoutDirection
             acpvBeginDragging = new String[]{"beginDragging", "n", "n", "n"}[idx]; // "instanceof PagedViewIcon" in AppsCustomizePagedView
             acthOnTabChanged = new String[]{"onTabChanged", "c", "c", "c"}[idx]; // setBackgroundColor
             acthSetInsets = new String[]{"setInsets", "c", "c", "c"}[idx]; // (Rect
