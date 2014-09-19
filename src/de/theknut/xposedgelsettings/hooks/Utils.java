@@ -9,6 +9,7 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -34,7 +35,7 @@ import static de.robv.android.xposed.XposedHelpers.newInstance;
 /**
  * Created by Alexander Schulz on 04.08.2014.
  */
-public class Utils extends HooksBaseClass {
+public class Utils {
 
     public static boolean isIntersecting(View item) {
         long id = getLongField(item.getTag(), Fields.iiID);
@@ -171,5 +172,9 @@ public class Utils extends HooksBaseClass {
         String[] data = Utils.getDataByTag(preference, tag);
         if (data == null) return null;
         return iconPack.loadSingleIconFromIconPack(data[1], null, data[2], false);
+    }
+
+    public static int dpToPx(int px, DisplayMetrics displayMetrics) {
+        return Math.round(px * displayMetrics.density);
     }
 }

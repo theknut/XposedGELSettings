@@ -22,6 +22,11 @@
     <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
         android:key="hidenotificationbadgesappdrawer"
         android:title="@string/pref_notificationbadge_noappdrawer_title" />
+    <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+        android:key="notificationbadgekeepsize"
+        android:title="@string/pref_notificationbadge_keepsize_title"
+        android:defaultValue="true"
+        android:summary="@string/pref_notificationbadge_keepsize_summary" />
     <de.theknut.xposedgelsettings.ui.MyListPreference
 		android:key="notificationbadgepresets"
 		android:title="@string/pref_notificationbadge_presets_title"

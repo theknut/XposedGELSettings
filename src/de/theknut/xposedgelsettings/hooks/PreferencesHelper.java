@@ -109,7 +109,7 @@ public class PreferencesHelper {
     public static int notificationBadgeBackgroundColor;
     public static int notificationBadgeTextColor;
     public static int notificationBadgeFrameColor;
-    public static boolean overrideSettingsButton;
+    public static boolean notificationBadgeKeepSize;
 
     public static boolean enableLLauncher;
     public static boolean hideWorkspaceShadow;
@@ -120,6 +120,7 @@ public class PreferencesHelper {
     public static boolean quicksettingsLockDesktop;
     public static int notificationBadgePosition;
     public static boolean enableAppDrawerTabs;
+    public static boolean overrideSettingsButton;
 
     public static void init() {
         prefs = new XSharedPreferences(Common.PACKAGE_NAME);
@@ -226,6 +227,7 @@ public class PreferencesHelper {
         notificationBadgeBackgroundColor = prefs.getInt("notificationbadgebackgroundcolor", Color.argb(0xA0, 0xD4, 0x49, 0x37));
         notificationBadgeTextColor = prefs.getInt("notificationbadgetextcolor", Color.argb(0xFF, 0xFF, 0xFF, 0xFF));
         notificationBadgeFrameColor = prefs.getInt("notificationbadgeframecolor", Color.argb(0xFF, 0xFF, 0xFF, 0xFF));
+        notificationBadgeKeepSize = prefs.getBoolean("notificationbadgekeepsize", true);
         overrideSettingsButton = prefs.getBoolean("overridesettingsbutton", false);
 
         enableLLauncher = prefs.getBoolean("enablellauncher", false);

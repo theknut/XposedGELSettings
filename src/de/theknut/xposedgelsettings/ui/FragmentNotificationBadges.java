@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
@@ -39,6 +40,7 @@ import java.util.List;
 
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.Utils;
 
 @SuppressLint("WorldReadableFiles")
 public class FragmentNotificationBadges extends FragmentBase {
@@ -227,6 +229,7 @@ public class FragmentNotificationBadges extends FragmentBase {
 					editor.putString(dialerPref.getKey() + "_launch", "").commit();
 					editor.remove(smsPref.getKey() + "_launch").commit();
 					editor.putString(smsPref.getKey() + "_launch", "").commit();
+                    getFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentNotificationBadges()).commit();
 					
 					return true;
 				}
@@ -414,10 +417,10 @@ public class FragmentNotificationBadges extends FragmentBase {
 	}
     
     public void initMeasures() {
-    	
-    	frameSize = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, notificationBadgeFrameSize, mContext.getResources().getDisplayMetrics()));
-    	leftRightPadding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, notificationBadgeLeftRightPadding, mContext.getResources().getDisplayMetrics()));
-		topBottomPadding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, notificationBadgeTopBottomPadding, mContext.getResources().getDisplayMetrics()));
+        DisplayMetrics displayMetrics = mContext.getResources().getDisplayMetrics();
+        frameSize = Utils.dpToPx(notificationBadgeFrameSize, displayMetrics);
+    	leftRightPadding = Utils.dpToPx(notificationBadgeLeftRightPadding, displayMetrics);
+		topBottomPadding = Utils.dpToPx(notificationBadgeTopBottomPadding, displayMetrics);
 		
 		if (displayWidth == -1) {
 			

@@ -15,7 +15,6 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.TypedValue;
 import android.view.Display;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
@@ -28,6 +27,7 @@ import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import de.theknut.xposedgelsettings.hooks.Utils;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 
@@ -283,13 +283,13 @@ public class NotificationBadgesHelper extends HooksBaseClass {
         measuredWidth = MeasureSpec.makeMeasureSpec(displayWidth, MeasureSpec.AT_MOST);
         measuredHeigth = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
 
-        leftRightPadding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, PreferencesHelper.notificationBadgeLeftRightPadding, displayMetrics));
-        topBottomPadding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, PreferencesHelper.notificationBadgeTopBottomPadding, displayMetrics));
+        leftRightPadding = Utils.dpToPx(PreferencesHelper.notificationBadgeLeftRightPadding, displayMetrics);
+        topBottomPadding = Utils.dpToPx(PreferencesHelper.notificationBadgeTopBottomPadding, displayMetrics);
 
         folderMarginLeftRight = Math.round(Common.XGELSCONTEXT.getResources().getDimension(R.dimen.notificationbadgemarginleftright));
         folderMarginTopBottom = Math.round(Common.XGELSCONTEXT.getResources().getDimension(R.dimen.notificationbadgemargintopbottom));
 
-        frameSize = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, PreferencesHelper.notificationBadgeFrameSize, displayMetrics));
+        frameSize = Utils.dpToPx(PreferencesHelper.notificationBadgeFrameSize, displayMetrics);
 
         if (DEBUG) log("InitMeasures - width: " + displayWidth +" height: " + displayHeigth + " took " + (System.currentTimeMillis() - time) + "ms");
     }
