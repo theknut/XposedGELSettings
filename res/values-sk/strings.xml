@@ -388,5 +388,9 @@
     <string name="pref_appdrawer_tabs_instructions_summary">!!Len pre Google Now Launcher a ≥ Android 4.2!!\nKarty v ponuke aplikácií môžete pridať priamo z ponuky aplikácií . Nastavenia karty možete otvoriť jej dlhým stlačením.</string>
     <string name="pref_notificationbadge_noappdrawer_title">Skryť z ponuky aplikácií</string>
     <string name="toast_appdrawer_tabadded_title">Dlho stlačte kartu pre otvorenie jej nastavení</string>
+    
+        <!-- V2.0.3 -->
+    <string name="pref_notificationbadge_keepsize_title">Udržiavať veľkosť symbolu</string>
+    <string name="pref_notificationbadge_keepsize_summary">Znížiť odsadenie zľava/sprava, ak je počítadlo v symbole obsahuje dve číslice</string>
 
 </resources>
