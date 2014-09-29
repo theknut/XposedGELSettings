@@ -226,8 +226,8 @@
     <string name="pref_notificationbadge_framesize_title">Dimesione frame</string>
     <string name="pref_notificationbadge_corner_title">Smussamento bordi</string>
     <string name="pref_notificationbadge_presets_title">Configurazioni</string>
-    <string name="pref_notificationbadge_leftright_padding_title">Grandezza orizontale</string>
-    <string name="pref_notificationbadge_topbottom_padding_title">Grandezza verticale</string>
+    <string name="pref_notificationbadge_leftright_padding_title">Dimensione orizontale</string>
+    <string name="pref_notificationbadge_topbottom_padding_title">Dimensione verticale</string>
     <string name="pref_notificationbadge_advanced">Impostazioni avanzate</string>
     <string name="pref_notificationbadge_advanced_title">Configurazione manuale</string>
     <string name="pref_notificationbadge_advanced_summary">Se si verificano problemi con le app del telefono o SMS si prega di configurarle qui. Clicca qui per ripristinare le impostazioni di seguito.</string>
@@ -359,5 +359,9 @@
     
     <string name="pref_reverseengineering_rate_title">Vota XGELS!</string>
     <string name="pref_reverseengineering_rate_summary">Mostrate il vostro sostegno e lasciatemi un voto su Google Play. Una buona reputazione può motivare gli altri a provare XGELS. Clicca qui per votare XGELS su Google Play!</string>
-
+    
+    <!-- V2.0.3 -->
+    <string name="pref_notificationbadge_keepsize_title">Mantenere dimensioni badge/string>
+    <string name="pref_notificationbadge_keepsize_summary">Diminuisci lo spazio sinistro/destro quando il badge contiene un numero a due cifre</string>
+    
 </resources>
