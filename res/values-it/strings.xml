@@ -358,8 +358,17 @@
     <string name="pref_reverseengineering_rate_title">Vota XGELS!</string>
     <string name="pref_reverseengineering_rate_summary">Mostrate il vostro sostegno e lasciatemi un voto su Google Play. Una buona reputazione può motivare gli altri a provare XGELS. Clicca qui per votare XGELS su Google Play!</string>
     
-    <!-- V2.0.3 -->
+    <!-- V2.1 -->
     <string name="pref_notificationbadge_keepsize_title">Mantenere dimensioni badge</string>
     <string name="pref_notificationbadge_keepsize_summary">Diminuisci lo spazio sinistro/destro quando il badge contiene un numero a due cifre</string>
-    
+    <string name="pref_pageindicator_color_title">Colore indicatore pagina</string>
+    <string name="pref_pageindicator_color_summary">Scegli un colore dell\'indicatore della pagina</string>
+    <string name="pref_tabs_bottom_title">Schede in basso</string>
+    <string name="pref_tabs_bottom_summary">Sposta le schede da cima a fondo dello schermo</string>
+    <string name="toast_appdrawer_folderadded_title">Premere a lungo una cartella per aprire le impostazioni</string>
+    <string name="alert_folder_hint_text_title">Nome cartella</string>
+    <string name="pref_appdrawer_folders_title">Cartelle</string>
+    <string name="pref_appdrawer_folders_summary">Toccare per aggiungere una cartella alla scheda app principale</string>
+    <string name="toast_appdrawer_folder_minimum_app">Una cartella deve contenere almeno due elementi</string>
+
 </resources>
