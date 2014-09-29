@@ -3,7 +3,6 @@ package de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Color;
@@ -11,42 +10,28 @@ import android.os.AsyncTask;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 
 import de.theknut.xposedgelsettings.hooks.Common;
-import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
-import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.Utils;
 import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelper.ContentType;
-import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelper.SortType;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
-import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
-import static de.robv.android.xposed.XposedHelpers.getLongField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
 /**
  * Created by Alexander Schulz on 21.08.2014.
  */
-public class Tab {
+public class Tab extends AppDrawerItem {
 
-    private ContentType contentType = ContentType.User;
-    private String title;
-    private ArrayList data;
-    private ArrayList rawData;
-    private long id;
-    private int idx;
-    private boolean hideFromAppsPage;
-    private int color = Color.WHITE;
-    private SortType sortType = SortType.Alphabetically;
-
+    public static final String KEY_PREFIX= "tab";
     public static final int APPS_ID = 0xABB5;
     public static final int WIDGETS_ID = 0xBEEF;
+
+    private ContentType contentType = ContentType.User;
+    private int color = Color.WHITE;
 
     public Tab(String tabCfg) {
         this(tabCfg, true);
@@ -78,8 +63,8 @@ public class Tab {
 
     public Tab(Intent intent, boolean initData) {
         this.id = intent.getLongExtra("itemid", -1);
-        this.idx = intent.getIntExtra("tabindex", -1);
-        this.title = intent.getStringExtra("tabname");
+        this.idx = intent.getIntExtra("index", -1);
+        this.title = intent.getStringExtra("name");
         this.contentType = ContentType.valueOf(intent.getStringExtra("contenttype"));
         this.hideFromAppsPage = intent.getBooleanExtra("hide", false);
         this.color = intent.getIntExtra("color", Color.WHITE);
@@ -134,32 +119,16 @@ public class Tab {
         }.execute();
     }
 
-    public ArrayList getData() {
-        return data;
-    }
-
-    public int getIndex() {
-        return idx;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
     public ContentType getContentType() {
         return contentType;
     }
 
-    public SortType getSortType() {
-        return sortType;
+    public int getColor() {
+        return this.color;
     }
 
-    public void setIndex(int newIdx) {
-        this.idx = newIdx;
+    public void setColor(int color) {
+        this.color = color;
     }
 
     public boolean isUserTab() {
@@ -203,33 +172,16 @@ public class Tab {
     }
 
     private void parseData() {
-        PreferencesHelper.prefs.reload();
-        data = new ArrayList();
-        ArrayList<String> tabData = new ArrayList<String>(PreferencesHelper.prefs.getStringSet("tab_" + getId(), null));
-        for (String tab : tabData) {
-            try {
-                Object app = Utils.createAppInfo(ComponentName.unflattenFromString(tab));
-                if (app != null) data.add(app);
-            } catch (Exception e) { }
-        }
-        sort(data);
+        parseData(KEY_PREFIX);
     }
 
     public ArrayList getRawData() {
-        if (this.rawData == null) {
-            PreferencesHelper.prefs.reload();
-            return new ArrayList<String>(PreferencesHelper.prefs.getStringSet("tab_" + getId(), new HashSet<String>()));
-        }
-
-        return this.rawData;
+        return getRawData(KEY_PREFIX);
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
+    @Override
     public void setSortType(SortType type) {
-        this.sortType = type;
+        super.setSortType(type);
         if (isCustomTab()) sort(getData());
     }
 
@@ -350,78 +302,14 @@ public class Tab {
         return apps;
     }
 
-    private void sort(final ArrayList apps) {
-        //TabHelper.getInstance().showProgressBar();
-        Collections.sort(apps, getSortComparator());
-        //TabHelper.getInstance().hideProgressBar();
-    }
-
-    public Comparator getSortComparator() {
-        Comparator comparator;
-
-        if (getSortType() == SortType.LastInstall) {
-            comparator = new Comparator<Object>() {
-                public final int compare(Object a, Object b) {
-                    if (getLongField(a, "firstInstallTime") < getLongField(b, "firstInstallTime")) return 1;
-                    if (getLongField(a, "firstInstallTime") > getLongField(b, "firstInstallTime")) return -1;
-                    return 0;
-                }
-            };
-        } else if (getSortType() == SortType.LastUpdate) {
-            comparator = new Comparator<Object>() {
-                public final int compare(Object a, Object b) {
-                    try {
-                        PackageInfo app1 = Common.LAUNCHER_CONTEXT.getPackageManager().getPackageInfo(((ComponentName) getObjectField(a, ObfuscationHelper.Fields.aiComponentName)).getPackageName(), 0);
-                        PackageInfo app2 = Common.LAUNCHER_CONTEXT.getPackageManager().getPackageInfo(((ComponentName) getObjectField(b, ObfuscationHelper.Fields.aiComponentName)).getPackageName(), 0);
-
-                        if (app1.lastUpdateTime < app2.lastUpdateTime) return 1;
-                        if (app1.lastUpdateTime > app2.lastUpdateTime) return -1;
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                    return 0;
-                }
-            };
-        } else {
-            comparator = (Comparator) callStaticMethod(ObfuscationHelper.Classes.LauncherModel, ObfuscationHelper.Methods.lmGetAppNameComparator);
-        }
-
-        return comparator;
-    }
-
-    @Override
-    public String toString() {
-        return    "idx=" + getIndex() + "|"
-                + "id=" + getId() + "|"
-                + "contenttype=" + getContentType() + "|"
-                + "title=" + getTitle() + "|"
-                + "hide=" + hideFromAppsPage() + "|"
-                + "sort=" + getSortType() + "|"
-                + "color=" + getColor();
-    }
-
-    public boolean hideFromAppsPage() {
-        return this.hideFromAppsPage;
-    }
-
-    public void setHideFromAppsPage(boolean hide) {
-        this.hideFromAppsPage = hide;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public void update() {
         initData();
     }
 
-    public int getColor() {
-        return this.color;
-    }
-
-    public void setColor(int color) {
-        this.color = color;
+    @Override
+    public String toString() {
+        return super.toString() + "|"
+                + "contenttype=" + getContentType() + "|"
+                + "color=" + getColor();
     }
 }

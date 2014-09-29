@@ -378,8 +378,6 @@
     <string name="pref_cat_tabs_and_folders_title">Karty a priečinky</string>
     <string name="pref_cat_app_drawer_settings_title">Nastavenia</string>
     <string name="pref_switch_enable_tabs_title">Povoliť</string>
-    <string name="pref_appdrawer_folders_title">Priečinky</string>
-    <string name="pref_appdrawer_folders_summary">Už čoskoro!</string>
     <string name="pref_appdrawer_clear_tabs_title">Vymazať údaje kariet</string>
     <string name="pref_appdrawer_clear_tabs_summary">Dotykom sem vymažete údaje všetkých kariet. Všetky vlastné karty budú vymazané!</string>
     <string name="alert_appdrawer_clear_tabs_title">Upozornenie!</string>

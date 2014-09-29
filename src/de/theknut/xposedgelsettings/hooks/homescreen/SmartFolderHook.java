@@ -23,6 +23,10 @@ public class SmartFolderHook extends HooksBaseClass {
 
 	@Override
 	protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+        if ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lIsAllAppsVisible)) {
+            return;
+        }
+
         MotionEvent ev = (MotionEvent) param.args[0];
         switch (ev.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:

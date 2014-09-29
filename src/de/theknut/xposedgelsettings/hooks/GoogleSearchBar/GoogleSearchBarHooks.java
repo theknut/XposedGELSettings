@@ -111,7 +111,7 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
             }
 			
 			// show DropDeleteTarget on dragging items
-			if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE)) {
+			if (Common.PACKAGE_OBFUSCATED) {
 				// this is actually not DragSource but the parameter type is unknown as of now
 				findAndHookMethod(Classes.SearchDropTargetBar, Methods.sdtbOnDragStart, Classes.DragSource, Object.class, new OnDragStart());
 			} else {

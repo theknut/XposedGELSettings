@@ -346,8 +346,6 @@
     <string name="pref_cat_tabs_and_folders_title">Tabs and folders</string>
     <string name="pref_cat_app_drawer_settings_title">Settings</string>
     <string name="pref_switch_enable_tabs_title">Enable</string>
-    <string name="pref_appdrawer_folders_title">Folders</string>
-    <string name="pref_appdrawer_folders_summary">Coming soon!</string>
     <string name="pref_appdrawer_clear_tabs_title">Clear tab data</string>
     <string name="pref_appdrawer_clear_tabs_summary">Touch here to reset all tab data. All custom tabs will be deleted!</string>
     <string name="alert_appdrawer_clear_tabs_title">Caution!</string>
@@ -360,8 +358,17 @@
     <string name="pref_reverseengineering_rate_title">Rate XGELS!</string>
     <string name="pref_reverseengineering_rate_summary">Show your support and leave me a rating on Google Play. A good reputation will motivate others to try XGELS, too. Click here to rate XGELS on Google Play!</string>
 
-    <!-- V2.0.3 -->
+    <!-- V2.1 -->
     <string name="pref_notificationbadge_keepsize_title">Keep badge size</string>
     <string name="pref_notificationbadge_keepsize_summary">Decrease the left/right padding when the badge count is two digits wide</string>
+    <string name="pref_pageindicator_color_title">Page indicator color</string>
+    <string name="pref_pageindicator_color_summary">Choose a page indicator color</string>
+    <string name="pref_tabs_bottom_title">Tabs at the bottom</string>
+    <string name="pref_tabs_bottom_summary">Move tabs from top to the bottom of the screen</string>
+    <string name="toast_appdrawer_folderadded_title">Long press a folder to open its settings</string>
+    <string name="alert_folder_hint_text_title">Folder name</string>
+    <string name="pref_appdrawer_folders_title">Folders</string>
+    <string name="pref_appdrawer_folders_summary">Touch to add a folder to the main apps tab</string>
+    <string name="toast_appdrawer_folder_minimum_app">A folder must at least contain of two items</string>
 
 </resources>

@@ -346,8 +346,6 @@
     <string name="pref_cat_tabs_and_folders_title">Onglets et dossiers</string>
     <string name="pref_cat_app_drawer_settings_title">Paramètres</string>
     <string name="pref_switch_enable_tabs_title">Activer</string>
-    <string name="pref_appdrawer_folders_title">Dossiers</string>
-    <string name="pref_appdrawer_folders_summary">Bientôt !</string>
     <string name="pref_appdrawer_clear_tabs_title">Effacer les données des onglets</string>
     <string name="pref_appdrawer_clear_tabs_summary">Appuyez ici pour réinitialiser toutes les données des onglets. Tous les onglets personnalisés seront supprimés !</string>
     <string name="alert_appdrawer_clear_tabs_title">Attention !</string>

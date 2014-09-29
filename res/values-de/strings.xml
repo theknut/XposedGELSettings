@@ -337,8 +337,6 @@
     <string name="pref_cat_tabs_and_folders_title">Tabs und Ordner</string>
     <string name="pref_cat_app_drawer_settings_title">Einstellungen</string>
     <string name="pref_switch_enable_tabs_title">Aktivieren</string>
-    <string name="pref_appdrawer_folders_title">Ordner</string>
-    <string name="pref_appdrawer_folders_summary">Bald verfügbar!</string>
     <string name="pref_appdrawer_clear_tabs_title">Tabdaten löschen</string>
     <string name="pref_appdrawer_clear_tabs_summary">Hier klicken um alle Tabdaten zu löschen. Alle benutzerdefinierten Tabs werden gelöscht!</string>
     <string name="alert_appdrawer_clear_tabs_title">Achtung!</string>
@@ -350,8 +348,16 @@
     <string name="pref_reverseengineering_rate_title">Bewerte XGELS!</string>
     <string name="pref_reverseengineering_rate_summary">Zeigen Sie Ihre Unterstützung und bewerten Sie XGELS im Play Store. Eine gute Bewertung motiviert andere es auch auszuprobieren. Hier klicken um XGELS im Play Store zu öffnen!</string>
 
-    <!-- V2.0.3 -->
+    <!-- V2.1 -->
     <string name="pref_notificationbadge_keepsize_title">Zählergröße beibehalten</string>
     <string name="pref_notificationbadge_keepsize_summary">Links/Rechts Abstände verkleinern, wenn der Ungelesenzähler zwei Ziffern weit wird</string>
+    <string name="pref_pageindicator_color_title">Seitenanzeigenfarbe</string>
+    <string name="pref_pageindicator_color_summary">Wähle die Farbe der Seitenanzeige</string>
+    <string name="pref_tabs_bottom_title">Tabs am unteren Rand</string>
+    <string name="pref_tabs_bottom_summary">Tabs am unteren anstatt am oberen Rand</string>
+    <string name="toast_appdrawer_folderadded_title">Ordnereinstellungen können durch langes Drücken eines Ordners geöffnet werden</string>
+    <string name="alert_folder_hint_text_title">Ordnername</string>
+    <string name="pref_appdrawer_folders_title">Ordner</string>
+    <string name="pref_appdrawer_folders_summary">Hier klicken, um einen Ordner zum Appstab hinzuzufügen</string>
    
 </resources>

@@ -19,6 +19,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.Folder;
 import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.Tab;
 
 public class SaveActivity extends ListActivity {
@@ -26,6 +27,7 @@ public class SaveActivity extends ListActivity {
     int mode;
 
     public static final int MODE_MANAGE_TAB = 3;
+    public static final int MODE_MANAGE_FOLDER = 7;
     public static final int CONVERT_APPSWIDGETS = 4;
     public static final int MODE_PICK_COLOR = 5;
 
@@ -42,18 +44,22 @@ public class SaveActivity extends ListActivity {
         SharedPreferences prefs = getSharedPreferences(Common.PREFERENCES_NAME, MODE_WORLD_READABLE);
         SharedPreferences.Editor editor = prefs.edit();
 
-        if (mode == MODE_MANAGE_TAB) {
-            String key = "appdrawertabdata";
-            ArrayList<String> tabOrder = new ArrayList<String>(prefs.getStringSet(key, new LinkedHashSet<String>()));
+        if (mode == MODE_MANAGE_TAB || mode == MODE_MANAGE_FOLDER) {
+            String key = mode == MODE_MANAGE_TAB ? "appdrawertabdata" : "appdrawerfolderdata";
+            ArrayList<String> order = new ArrayList<String>(prefs.getStringSet(key, new LinkedHashSet<String>()));
 
-            if (intent.getBooleanExtra("newtab", false)) {
-                tabOrder.add(new Tab(intent, false).toString());
+            if (intent.getBooleanExtra("new", false)) {
+                if (mode == MODE_MANAGE_TAB) {
+                    order.add(new Tab(intent, false).toString());
+                } else if(mode == MODE_MANAGE_FOLDER) {
+                    order.add(new Folder(intent, false).toString());
+                }
             } else {
-                tabOrder = intent.getStringArrayListExtra("tabsdata");
+                order = intent.getStringArrayListExtra(mode == MODE_MANAGE_TAB ? "tabsdata" : "folderdata");
             }
 
             editor.remove(key)
-                    .putStringSet(key, new LinkedHashSet<String>(tabOrder))
+                    .putStringSet(key, new LinkedHashSet<String>(order))
                     .commit();
         } else if (mode == CONVERT_APPSWIDGETS) {
             String key = "hiddenwidgets";

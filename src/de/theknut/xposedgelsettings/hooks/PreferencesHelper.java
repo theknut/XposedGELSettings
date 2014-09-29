@@ -92,6 +92,7 @@ public class PreferencesHelper {
     public static Set<String> hiddenWidgets;
     public static Set<String> layerPositions;
     public static Set<String> appdrawerTabData;
+    public static Set<String> appdrawerFolderData;
 
     public static String iconpack;
     public static boolean iconPackAutoApply;
@@ -121,6 +122,8 @@ public class PreferencesHelper {
     public static int notificationBadgePosition;
     public static boolean enableAppDrawerTabs;
     public static boolean overrideSettingsButton;
+    public static int pageIndicatorColor;
+    public static boolean moveTabHostBottom;
 
     public static void init() {
         prefs = new XSharedPreferences(Common.PACKAGE_NAME);
@@ -185,6 +188,7 @@ public class PreferencesHelper {
         homescreenFolderAppTextColor = prefs.getInt("homescreenfolderapptextcolor", Color.argb(0xFF, 0xFF, 0xFF, 0xFF));
         homescreenFolderNameTextColor = prefs.getInt("homescreenfoldernametextcolor", Color.argb(0xFF, 0x77, 0x77, 0x77));
         homescreenFolderPreviewColor = prefs.getInt("homescreenfolderpreviewcolor", Color.argb(0xFF, 0xFF, 0xFF, 0xFF));
+        pageIndicatorColor = prefs.getInt("pageindicatorcolor", Color.argb(0xFF, 0xFF, 0xFF, 0xFF));
         defaultHomescreen = Integer.parseInt(prefs.getString("defaulthomescreen", "-1"));
         workspaceRect = Integer.parseInt(prefs.getString("workspacerect", "1"));
         homescreenAllAppsPosition = Integer.parseInt(prefs.getString("positionallappsbutton", "-1"));
@@ -209,6 +213,7 @@ public class PreferencesHelper {
         hiddenWidgets = prefs.getStringSet("hiddenwidgets", new HashSet<String>());
         layerPositions = prefs.getStringSet("layerpositions", new HashSet<String>());
         appdrawerTabData = prefs.getStringSet("appdrawertabdata", new HashSet<String>());
+        appdrawerFolderData = prefs.getStringSet("appdrawerfolderdata", new HashSet<String>());
 
         iconpack = prefs.getString("iconpack", Common.ICONPACK_DEFAULT);
         iconPackAutoApply = prefs.getBoolean("autoupdateapplyiconpack", false);
@@ -238,5 +243,6 @@ public class PreferencesHelper {
         transparentSystemBars = prefs.getBoolean("transparentsystembars", false);
         quicksettingsLockDesktop = prefs.getBoolean("quicksettingslockdesktop", false);
         enableAppDrawerTabs = prefs.getBoolean("enableappdrawertabs", false);
+        moveTabHostBottom = prefs.getBoolean("movetabhostbottom", false);
     }
 }

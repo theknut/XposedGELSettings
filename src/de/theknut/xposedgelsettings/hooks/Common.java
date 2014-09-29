@@ -27,7 +27,9 @@ public final class Common {
     public static final String XGELS_ACTION_RELOAD_SETTINGS = XGELS_INTENT + ".RELOAD_SETTINGS";
     public static final String XGELS_ACTION_RESTART_LAUNCHER = XGELS_INTENT + ".RESTART_LAUNCHER";
     public static final String XGELS_ACTION_UPDATE_FOLDER_ITEMS = XGELS_INTENT + ".UPDATE_FOLDER_ITEMS";
-    public static final String XGELS_ACTION_MODIFY_TAB = XGELS_INTENT + ".MODIFY_TAG";
+    public static final String XGELS_ACTION_MODIFY_TAB = XGELS_INTENT + ".MODIFY_TAB";
+    public static final String XGELS_ACTION_MODIFY_FOLDER = XGELS_INTENT + ".MODIFY_FOLDER";
+    public static final String XGELS_ACTION_UPDATE_ICON = XGELS_INTENT + ".UPDATE_ICON";
     public static final String XGELS_ACTION_CONVERT_SETTING = XGELS_INTENT + ".CONVERT_SETTING";
     public static final String XGELS_ACTION_RECEIVER_RUNNING = XGELS_INTENT + ".RECEIVER_RUNNING";
 

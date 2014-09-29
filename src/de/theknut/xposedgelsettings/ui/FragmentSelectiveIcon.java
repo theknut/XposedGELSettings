@@ -228,6 +228,10 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
 
     public static void finishActivity() {
         if (mode == MODE_PICK_SHORTCUT_ICON || mode == MODE_PICK_FOLDER_ICON) {
+            Intent intent = new Intent(Common.XGELS_ACTION_UPDATE_ICON);
+            intent.putExtra("mode", mode);
+            intent.putExtra("itemid", itemID);
+            mActivity.sendBroadcast(intent);
             System.exit(0);
         } else {
             mActivity.finish();
@@ -324,12 +328,16 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
     @Override
     public void onResume() {
         super.onResume();
-        getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
+        if (mode == MODE_PICK_APPDRAWER_ICON || mode == MODE_PICK_GLOBAL_ICON) {
+            getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
+        }
     }
 
     @Override
     public void onPause() {
-        getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).unregisterOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
+        if (mode == MODE_PICK_APPDRAWER_ICON || mode == MODE_PICK_GLOBAL_ICON) {
+            getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).unregisterOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
+        }
         super.onPause();
     }
 

@@ -346,8 +346,6 @@
     <string name="pref_cat_tabs_and_folders_title">Schede e cartelle</string>
     <string name="pref_cat_app_drawer_settings_title">Impostazioni</string>
     <string name="pref_switch_enable_tabs_title">Abilita</string>
-    <string name="pref_appdrawer_folders_title">Cartelle</string>
-    <string name="pref_appdrawer_folders_summary">In arrivo!</string>
     <string name="pref_appdrawer_clear_tabs_title">Cancella dati scheda</string>
     <string name="pref_appdrawer_clear_tabs_summary">Tocca qui per resettare tutti i dati della scheda. Tutte le schede personalizzate saranno cancellate!</string>
     <string name="alert_appdrawer_clear_tabs_title">Attenzione!</string>
@@ -361,7 +359,7 @@
     <string name="pref_reverseengineering_rate_summary">Mostrate il vostro sostegno e lasciatemi un voto su Google Play. Una buona reputazione può motivare gli altri a provare XGELS. Clicca qui per votare XGELS su Google Play!</string>
     
     <!-- V2.0.3 -->
-    <string name="pref_notificationbadge_keepsize_title">Mantenere dimensioni badge/string>
+    <string name="pref_notificationbadge_keepsize_title">Mantenere dimensioni badge</string>
     <string name="pref_notificationbadge_keepsize_summary">Diminuisci lo spazio sinistro/destro quando il badge contiene un numero a due cifre</string>
     
 </resources>

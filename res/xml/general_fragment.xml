@@ -19,6 +19,12 @@
 	    android:key="hidepageindicator"
 	    android:title="@string/pref_pageindicator_title"
 	    android:summary="@string/pref_pageindicator_summary"/>
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+        android:key="pageindicatorcolor"
+        android:title="@string/pref_pageindicator_color_title"
+        android:summary="@string/pref_pageindicator_color_summary"
+        android:defaultValue="0xffffffff"
+        alphaSlider="true" />
 	<de.theknut.xposedgelsettings.ui.CustomSwitchPreference
 		android:key="longpressallappsbutton"
 		android:title="@string/pref_title_longpress_app_drawer_button"

@@ -7,11 +7,17 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -26,6 +32,7 @@ import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.icon.IconPack;
+import de.theknut.xposedgelsettings.ui.CommonUI;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.getLongField;
@@ -120,7 +127,18 @@ public class Utils {
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         intent.setComponent(cmp);
-        return callMethod(Common.LAUNCHER_INSTANCE, Methods.lCreateAppInfo, intent);
+
+        if (Common.PACKAGE_OBFUSCATED) {
+            return callMethod(Common.LAUNCHER_INSTANCE, Methods.lCreateAppInfo, intent);
+        }
+
+        PackageManager pm = Common.LAUNCHER_CONTEXT.getPackageManager();
+        return newInstance(
+                ObfuscationHelper.Classes.AppInfo,
+                pm,
+                pm.resolveActivity(intent, 0),
+                getObjectField(Common.LAUNCHER_INSTANCE, Fields.lIconCache),
+                new HashMap<Object, CharSequence>());
     }
 
     public static Object createShortcutInfo(String componentName) {
@@ -174,7 +192,31 @@ public class Utils {
         return iconPack.loadSingleIconFromIconPack(data[1], null, data[2], false);
     }
 
-    public static int dpToPx(int px, DisplayMetrics displayMetrics) {
-        return Math.round(px * displayMetrics.density);
+    public static int dpToPx(int dp) {
+        return dpToPx(dp, Resources.getSystem().getDisplayMetrics());
+    }
+
+    public static int dpToPx(int dp, DisplayMetrics displayMetrics) {
+        return Math.round(dp * displayMetrics.density);
+    }
+
+    public static void setDrawableSelector(ImageView view) {
+
+        Drawable icon = view.getDrawable();
+        Bitmap tmpIcon = CommonUI.drawableToBitmap(icon);
+        Bitmap iconPressed = Bitmap.createBitmap(tmpIcon.getWidth(), tmpIcon.getHeight(), Bitmap.Config.ARGB_8888);
+
+        Canvas c = new Canvas(iconPressed);
+        Paint p = new Paint();
+        p.setAlpha(0x80);
+        c.drawBitmap(tmpIcon, 0, 0, p);
+
+        Drawable pressedIcon = new BitmapDrawable(iconPressed);
+        StateListDrawable states = new StateListDrawable();
+        states.addState(new int[] {android.R.attr.state_pressed}, pressedIcon);
+        states.addState(new int[] {android.R.attr.state_focused}, pressedIcon);
+        states.addState(new int[] { }, icon);
+
+        view.setImageDrawable(states);
     }
 }

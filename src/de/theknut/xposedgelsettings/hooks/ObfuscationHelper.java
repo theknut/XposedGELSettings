@@ -298,7 +298,11 @@ public class ObfuscationHelper extends HooksBaseClass {
                 pvSnapToPage,
                 lOpenFolder,
                 wOnDragEnd,
+                wGetViewForTag,
+                wGetScreenWithId,
+                wGetFolderForTag,
                 lCloseFolder,
+                lCloseFolderWParam,
                 acthOnTabChanged,
                 wSetCurrentPage,
                 acpvOverScroll,
@@ -310,8 +314,11 @@ public class ObfuscationHelper extends HooksBaseClass {
                 noOnShow,
                 wOnLauncherTransitionEnd,
                 fiAdd,
+                fiAddItem,
                 fiRemove,
+                sawMeasureChild,
                 fGetItemsInReadingOrder,
+                fBind,
                 clGetShortcutsAndWidgets,
                 acthGetContentTypeForTabTag,
                 wOnTransitionPrepare,
@@ -352,7 +359,8 @@ public class ObfuscationHelper extends HooksBaseClass {
                 aiMakeShortcut,
                 lmGetAppNameComparator,
                 acthSetContentTypeImmediate,
-                wGetWorkspaceAndHotseatCellLayouts;
+                wGetWorkspaceAndHotseatCellLayouts,
+                fiFromXml;
 
         public static void initMethodNames(int idx) {
             lGetApplicationContext = new String[]{"getApplicationContext", "getApplicationContext", "getApplicationContext", "getApplicationContext"}[idx];
@@ -366,7 +374,8 @@ public class ObfuscationHelper extends HooksBaseClass {
             lIsAllAppsVisible = new String[]{"isAllAppsVisible", "gs", "hh", "hq"}[idx]; // onBackPressed first method call
             lFinishBindingItems = new String[]{"finishBindingItems", "U", "Z", "Z"}[idx]; // hasFocus()
             lOpenFolder = new String[]{"openFolder", "i", "i", "i"}[idx]; // "Opening folder ("
-            lCloseFolder = new String[]{"closeFolder", "gr", "hg", "hq"}[idx]; // localFolder != new String[]null
+            lCloseFolder = new String[]{"closeFolder", "gr", "hg", "hp"}[idx]; // if (localFolder != null)
+            lCloseFolderWParam = new String[]{"closeFolder", "h", "h", "h"}[idx]; // if ((ViewGroup)paramFolder.getParent().getParent() != null)
             lBindAppsUpdated = new String[]{"bindAppsUpdated", "l", "l", "l"}[idx]; // "(this, paramArrayList), false));"
             lSetWorkspaceBackground = new String[]{"setWorkspaceBackground", "N", "S", "S"}[idx]; // setBackground
             lGetDragLayer = new String[]{"getDragLayer", "fV", "gK", "gT"}[idx]; // public final DragLayer
@@ -389,6 +398,9 @@ public class ObfuscationHelper extends HooksBaseClass {
             wOnLauncherTransitionEnd = new String[]{"onLauncherTransitionEnd", "a", "a", "a"}[idx]; // (Launcher paramLauncher, boolean paramBoolean1, boolean paramBoolean2)
             wOnTransitionPrepare = new String[]{"onTransitionPrepare", "jR", "kM", "kR"}[idx]; // "if ((bool) && ("
             wGetWorkspaceAndHotseatCellLayouts = new String[]{"getWorkspaceAndHotseatCellLayouts", "ka", "kV", "la"}[idx]; // localArrayList.add((CellLayout)getChildAt(j));
+            wGetViewForTag = new String[]{"getViewForTag", "I", "V", "V"}[idx]; // View[] arrayOfView = new View[1];
+            wGetScreenWithId = new String[]{"getScreenWithId", "j", "j", "j"}[idx]; // public final CellLayout
+            wGetFolderForTag = new String[]{"getFolderForTag", "H", "U", "U"}[idx]; // Folder[] arrayOfFolder = new Folder[1];
             pvPageBeginMoving = new String[]{"pageBeginMoving", "ii", "iY", "jb"}[idx]; // above "awakenScrollBars"
             pvPageEndMoving = new String[]{"pageEndMoving", "ij", "iZ", "jc"}[idx]; // method above "accessibility"
             pvSnapToPage = new String[]{"snapToPage", "a", "a", "a"}[idx]; // int paramInt1, int paramInt2, int paramInt3, boolean paramBoolean, TimeInterpolator paramTimeInterpolator
@@ -422,8 +434,12 @@ public class ObfuscationHelper extends HooksBaseClass {
             //fOnAdd = new String[]{"onAdd", "f", "f", "f"}[idx]; // (1 + getItemCount()); - first line  = new String[]true
             //fReplaceFolderWithFinalItem = new String[]{"replaceFolderWithFinalItem", "ge", "ge", "gn"}[idx]; // if (localView != new String[]null)
             fGetItemsInReadingOrder = new String[]{"getItemsInReadingOrder", "fr", "gh", "gq"}[idx]; // public final ArrayList
+            fBind = new String[]{"bind", "a", "a", "a"}[idx]; // ", boolean paramBoolean1, boolean paramBoolean2)"
             fiAdd = new String[]{"add", "j", "j", "j"}[idx]; // FolderInfo - .add
+            fiAddItem = new String[]{"addItem", "i", "i", "i"}[idx]; // FolderIcon - below "getVisibility() == 0;" with interface parameter ShortcutInfo
             fiRemove = new String[]{"remove", "k", "k", "k"}[idx]; // FolderInfo - .remove
+            fiFromXml = new String[]{"fromXml", "a", "a", "a"}[idx]; // FolderIcon - method with ".topMargin" in it
+            sawMeasureChild = new String[]{"measureChild", "M", "M", "M"}[idx]; // in Launcher above "return localFolderIcon"
             siGetIntent = new String[]{"getIntent", "getIntent", "getIntent", "getIntent"}[idx];
             siGetIcon = new String[]{"getIcon", "a", "a", "a"}[idx]; // public final Bitmap
             aiMakeShortcut = new String[]{"makeShortcut", "cE", "dt", "dC"}[idx];
@@ -467,8 +483,10 @@ public class ObfuscationHelper extends HooksBaseClass {
                 fiFolderName,
                 fFolderEditText,
                 fFolderInfo,
+                fiFolderInfo,
                 fiFolder,
                 fiContents,
+                fiOpened,
                 acpvContentType,
                 pvIsPageMoving,
                 wIsSwitchingState,
@@ -478,7 +496,6 @@ public class ObfuscationHelper extends HooksBaseClass {
                 pvNextPage,
                 lHasFocus,
                 lPaused,
-                iiItemType,
                 aiComponentName,
                 acpvCurrentPage,
                 acpvAllAppsNumCols,
@@ -488,8 +505,10 @@ public class ObfuscationHelper extends HooksBaseClass {
                 dpPageIndicatorHeightPx,
                 lAppsCustomizePagedView,
                 iiID,
+                iiItemType,
+                iiScreenId,
+                iiContainer,
                 ceIcon,
-                ceTitle,
                 lIconCache,
                 fiLongPressHelper,
                 clphHasPerformedLongPress,
@@ -533,7 +552,9 @@ public class ObfuscationHelper extends HooksBaseClass {
             fiFolder = new String[]{"mFolder", "CB", "Fe", "FJ"}[idx]; // FOLDERICON - only Folder member
             fiLongPressHelper = new String[]{"mLongPressHelper", "ui", "wJ", "xo"}[idx]; // cancelLongPress
             fFolderInfo = new String[]{"mInfo", "BF", "Ej", "EO"}[idx]; // <mInfo>.title))
+            fiFolderInfo = fFolderInfo; // FolderIcon - same as fFolderInfo
             fiContents = new String[]{"contents", "Dt", "FW", "GB"}[idx]; // first ArrayList in FolderInfo
+            fiOpened = new String[]{"opened", "Ds", "FV", "GA"}[idx]; // only boolean member
             //fFolderIcon = new String[]{"mFolderIcon", "BL", "Ep", "EU"}[idx]; // only FolderIcon member
             fFolderEditText = new String[]{"mFolderName", "Cf", "EJ", "Fo"}[idx]; // only FolderEditText member
             //fMaxCountX = new String[]{"mMaxCountX", "BM", "Eq", "EV"}[idx]; // Folder constructor, last line - maxNumItems = new String[]X * Y;
@@ -546,9 +567,10 @@ public class ObfuscationHelper extends HooksBaseClass {
             aiComponentName = new String[]{"componentName", "rJ", "uj", "uO"}[idx]; // only ComponentName member
             iiItemType = new String[]{"itemType", "En", "GT", "Hy"}[idx]; // Item(id=
             iiID = new String[]{"id", "id", "id", "id"}[idx];
+            iiScreenId = new String[]{"screenId", "vO", "yn", "yS"}[idx];
+            iiContainer = new String[]{"container", "Eo", "GU", "Hz"}[idx];
             //iiTitle = new String[]{"title", "title", "title", "title"}[idx];
             ceIcon = new String[]{"icon", "DZ", "GE", "Hj"}[idx];
-            ceTitle = new String[]{"title", "title", "title", "title"}[idx];
             lawiProviderName = new String[]{"providerName", "GX", "JF", "Kj"}[idx]; // only ComponentName member
             acthInTransition = new String[]{"mInTransition", "tf", "vF", "wk"}[idx]; // onInterceptTouchEvent first member in if-clause
             acthContent = new String[]{"mContent", "tD", "wd", "wI"}[idx]; // .getLayoutParams in setInsets

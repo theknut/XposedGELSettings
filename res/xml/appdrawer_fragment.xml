@@ -15,10 +15,15 @@
             android:key="enableappdrawertabs"
             android:title="@string/pref_switch_enable_tabs_title"
             android:summary="@string/pref_cat_tabs_and_folders_title" />
+        <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+            android:key="movetabhostbottom"
+            android:title="@string/pref_tabs_bottom_title"
+            android:summary="@string/pref_tabs_bottom_summary"
+            android:dependency="enableappdrawertabs" />
         <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+            android:key="addfolder"
             android:title="@string/pref_appdrawer_folders_title"
-            android:summary="@string/pref_appdrawer_folders_summary"
-            android:enabled="false" />
+            android:summary="@string/pref_appdrawer_folders_summary" />
         <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
             android:key="cleartabdata"
             android:title="@string/pref_appdrawer_clear_tabs_title"

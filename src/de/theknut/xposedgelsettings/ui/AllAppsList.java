@@ -22,6 +22,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -30,6 +31,7 @@ import java.util.List;
 
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.Folder;
 import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.Tab;
 import de.theknut.xposedgelsettings.hooks.icon.IconPack;
 import de.theknut.xposedgelsettings.ui.ImageLoader.ViewHolder;
@@ -42,13 +44,14 @@ public class AllAppsList extends ListActivity {
     int mode;
 
     private Intent responseIntent;
-    private String tabName;
+    private String itemName;
     private String contentType;
-    private boolean newTab;
+    private boolean newItem;
 
     public static final int MODE_PICK_APPS_TO_HIDE = 1;
     public static final int MODE_SELECT_FOLDER_APPS = 2;
     public static final int MODE_MANAGE_TAB = 3;
+    public static final int MODE_MANAGE_FOLDER = 7;
 
     @SuppressLint("NewApi")
     @Override
@@ -102,17 +105,17 @@ public class AllAppsList extends ListActivity {
 
         if (mode != MODE_PICK_APPS_TO_HIDE) {
             itemID = intent.getLongExtra("itemid", -1);
-            newTab = intent.getBooleanExtra("newtab", false);
-            tabName = intent.getStringExtra("tabname");
+            newItem = intent.getBooleanExtra("new", false);
+            itemName = intent.getStringExtra("name");
             contentType = intent.getStringExtra("contenttype");
             responseIntent.putExtra("itemid", itemID);
-            responseIntent.putExtra("tabindex", intent.getIntExtra("tabindex", -1));
+            responseIntent.putExtra("index", intent.getIntExtra("index", -1));
         }
 
         if (mode == MODE_SELECT_FOLDER_APPS) {
             getActionBar().setTitle(intent.getStringExtra("foldername"));
-        } else if (mode == MODE_MANAGE_TAB) {
-            getActionBar().setTitle(tabName);
+        } else if (mode == MODE_MANAGE_TAB || mode == MODE_MANAGE_FOLDER) {
+            getActionBar().setTitle(itemName);
         }
 
         getListView().setCacheColorHint(CommonUI.UIColor);
@@ -198,47 +201,68 @@ public class AllAppsList extends ListActivity {
                         }
                     }
 
+                    if (apps.size() < 2) {
+                        Toast.makeText(this, R.string.toast_appdrawer_folder_minimum_app, Toast.LENGTH_LONG).show();
+                        return true;
+                    }
+
                     responseIntent.setAction(Common.XGELS_ACTION_UPDATE_FOLDER_ITEMS);
                     responseIntent.putStringArrayListExtra("additems", new ArrayList<String>(itemsToAdd));
                     responseIntent.putStringArrayListExtra("removeitems", new ArrayList<String>(itemsToRemove));
 
-                    SharedPreferences.Editor editor = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).edit();
-                    editor.remove("hiddenapps").commit();
-                    editor.putStringSet("hiddenapps", new HashSet<String>(apps)).commit();
-                } else if (mode == MODE_MANAGE_TAB) {
+                    if (getIntent().getBooleanExtra("save", false)) {
+                        SharedPreferences.Editor editor = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).edit();
+                        editor.remove("folder_" + itemID).commit();
+                        editor.putStringSet("folder_" + itemID, new HashSet<String>(apps)).commit();
+                    }
+                } else if (mode == MODE_MANAGE_TAB || mode == MODE_MANAGE_FOLDER) {
+                    if (mode == MODE_MANAGE_FOLDER && apps.size() < 2) {
+                        Toast.makeText(this, R.string.toast_appdrawer_folder_minimum_app, Toast.LENGTH_LONG).show();
+                        return true;
+                    }
+
                     SharedPreferences prefs = getSharedPreferences(Common.PREFERENCES_NAME, MODE_WORLD_READABLE);
                     SharedPreferences.Editor editor = prefs.edit();
 
-                    responseIntent.setAction(Common.XGELS_ACTION_MODIFY_TAB);
-                    responseIntent.putExtra("tabname", tabName);
+                    responseIntent.setAction(mode == MODE_MANAGE_TAB ? Common.XGELS_ACTION_MODIFY_TAB : Common.XGELS_ACTION_MODIFY_FOLDER);
+                    responseIntent.putExtra("name", itemName);
                     responseIntent.putExtra("itemid", itemID);
                     responseIntent.putExtra("contenttype", contentType);
 
-                    String key = "appdrawertabdata";
-                    ArrayList<String> tabOrder = new ArrayList<String>(prefs.getStringSet(key, new LinkedHashSet<String>()));
+                    String key = mode == MODE_MANAGE_TAB ? "appdrawertabdata" : "appdrawerfolderdata";
+                    String prefix = mode == MODE_MANAGE_TAB ? "tab_" : "folder_";
+                    ArrayList<String> order = new ArrayList<String>(prefs.getStringSet(key, new LinkedHashSet<String>()));
 
                     if (apps.size() == 0) {
-                        if (!newTab) {
+                        if (!newItem) {
                             responseIntent.putExtra("remove", true);
-                            tabOrder.remove(new Tab(getIntent(), false).toString());
-                            editor.remove("tab_" + itemID).commit();
+                            if (mode == MODE_MANAGE_TAB) {
+                                order.remove(new Tab(getIntent(), false).toString());
+                            } else if (mode == MODE_MANAGE_TAB) {
+                                order.remove(new Folder(getIntent(), false).toString());
+                            }
+                            editor.remove(prefix + itemID).commit();
                         } else {
                             finish();
                             return true;
                         }
                     } else {
-                        if (newTab) {
+                        if (newItem) {
                             responseIntent.putExtra("add", true);
-                            tabOrder.add(new Tab(getIntent(), false).toString());
+                            if (mode == MODE_MANAGE_TAB) {
+                                order.add(new Tab(getIntent(), false).toString());
+                            } else if (mode == MODE_MANAGE_FOLDER) {
+                                order.add(new Folder(getIntent(), false).toString());
+                            }
                         }
 
-                        editor.remove("tab_" + itemID)
-                                .putStringSet("tab_" + itemID, new LinkedHashSet<String>(apps))
+                        editor.remove(prefix + itemID)
+                                .putStringSet(prefix + itemID, new LinkedHashSet<String>(apps))
                                 .commit();
                     }
 
                     editor.remove(key)
-                            .putStringSet(key, new LinkedHashSet<String>(tabOrder))
+                            .putStringSet(key, new LinkedHashSet<String>(order))
                             .commit();
                 }
 

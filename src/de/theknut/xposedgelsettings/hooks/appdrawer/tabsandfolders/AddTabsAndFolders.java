@@ -14,6 +14,8 @@ import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
+import static de.robv.android.xposed.XposedHelpers.getLongField;
+import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setIntField;
 
 public class AddTabsAndFolders extends HooksBaseClass {
@@ -25,14 +27,12 @@ public class AddTabsAndFolders extends HooksBaseClass {
         findAndHookMethod(Classes.AppsCustomizeTabHost, "onFinishInflate", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(final MethodHookParam param) throws Throwable {
-
                 TabHelper.getInstance().init((TabHost) param.thisObject);
+                FolderHelper.getInstance().init();
             }
         });
 
-        if (!PreferencesHelper.enableAppDrawerTabs) return;
-
-        findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvSyncAppsPageItems, Integer.TYPE, new XC_MethodHook() {
+        XC_MethodHook syncAppsPageItemsHook = new XC_MethodHook() {
             final int PAGE = 0;
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
@@ -41,7 +41,13 @@ public class AddTabsAndFolders extends HooksBaseClass {
                     param.setResult(null);
                 }
             }
-        });
+        };
+
+        if (Common.PACKAGE_OBFUSCATED) {
+            findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvSyncAppsPageItems, Integer.TYPE, syncAppsPageItemsHook);
+        } else {
+            findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvSyncAppsPageItems, Integer.TYPE, boolean.class, syncAppsPageItemsHook);
+        }
 
         findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvSetContentType, Classes.AppsCustomizeContentType, new XC_MethodHook() {
             @Override
@@ -49,24 +55,6 @@ public class AddTabsAndFolders extends HooksBaseClass {
 
                 TabHelper.getInstance().setContentType(param.thisObject);
                 param.setResult(null);
-            }
-        });
-
-        findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvSyncPages, new XC_MethodHook() {
-
-            int numAppPages;
-
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                numAppPages = TabHelper.getInstance().setNumberOfPages(param.thisObject);
-            }
-
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-
-                if (numAppPages != -1) {
-                    setIntField(param.thisObject, Fields.acpvNumAppsPages, numAppPages);
-                }
             }
         });
 
@@ -85,9 +73,22 @@ public class AddTabsAndFolders extends HooksBaseClass {
             // open app drawer on overscroll of last page
             findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvOverScroll, float.class, new XC_MethodHook() {
                 final int OVERSCROLL = 0;
+                float overscroll;
+                boolean overscrolled;
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    TabHelper.getInstance().handleOverscroll((Float) param.args[OVERSCROLL]);
+                    overscroll = (Float) param.args[OVERSCROLL];
+                    log("Overscroll " + overscroll);
+
+                    if (overscrolled && overscroll < 100.0) {
+                        overscrolled = false;
+                        log("Reset Overscrolled");
+                    }
+
+                    if (!overscrolled && TabHelper.getInstance().handleScroll(overscroll)) {
+                        log("Overscrolled " + overscroll);
+                        overscrolled = true;
+                    }
                 }
             });
         }
@@ -122,6 +123,77 @@ public class AddTabsAndFolders extends HooksBaseClass {
                 if (TabHelper.getInstance().isTabSettingsOpen()
                         && !(Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lIsAllAppsVisible)) {
                     TabHelper.getInstance().closeTabSettings();
+                }
+            }
+        });
+
+        findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvSyncPages, new XC_MethodHook() {
+
+            int numAppPages;
+
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                numAppPages = TabHelper.getInstance().setNumberOfPages(param.thisObject);
+            }
+
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+
+                if (numAppPages != -1) {
+                    setIntField(param.thisObject, Fields.acpvNumAppsPages, numAppPages);
+                }
+            }
+        });
+
+        XC_MethodHook closeHook = new XC_MethodHook() {
+
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                if ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lIsAllAppsVisible)) {
+                    Folder folder = FolderHelper.getInstance().findOpenFolder();
+                    if (folder != null) {
+                        folder.closeFolder();
+                        param.setResult(null);
+                    }
+                }
+            }
+        };
+
+        XposedBridge.hookAllMethods(Classes.Launcher, "onNewIntent", closeHook);
+        XposedBridge.hookAllMethods(Classes.Launcher, "onBackPressed", closeHook);
+
+        findAndHookMethod(Classes.Workspace, Methods.wGetScreenWithId, long.class, new XC_MethodHook() {
+
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                if ((Long) param.args[0] == -1) {
+                    param.setResult(callMethod(getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizePagedView), Methods.pvGetPageAt, 0));
+                }
+            }
+        });
+
+        findAndHookMethod(Classes.Workspace, Methods.wGetViewForTag, Object.class, new XC_MethodHook() {
+
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                if(getLongField(param.args[0], Fields.iiScreenId) == Folder.FOLDER_ID) {
+                    Folder folder = FolderHelper.getInstance().findOpenFolder();
+                    if (folder != null) {
+                        param.setResult(folder.getFolderIcon());
+                    }
+                }
+            }
+        });
+
+        findAndHookMethod(Classes.Workspace, Methods.wGetFolderForTag, Object.class, new XC_MethodHook() {
+
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                if(getLongField(param.args[0], Fields.iiScreenId) == Folder.FOLDER_ID) {
+                    Folder folder = FolderHelper.getInstance().findOpenFolder();
+                    if (folder != null) {
+                        param.setResult(getObjectField(folder.getFolderIcon(), Fields.fiFolder));
+                    }
                 }
             }
         });

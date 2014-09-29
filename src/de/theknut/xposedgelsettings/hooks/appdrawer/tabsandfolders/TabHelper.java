@@ -5,23 +5,14 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.StateListDrawable;
 import android.os.Handler;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -30,6 +21,7 @@ import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TabHost;
@@ -51,9 +43,9 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.Utils;
+import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.AppDrawerItem.SortType;
 import de.theknut.xposedgelsettings.ui.AllAppsList;
 import de.theknut.xposedgelsettings.ui.AllWidgetsList;
-import de.theknut.xposedgelsettings.ui.CommonUI;
 import de.theknut.xposedgelsettings.ui.SaveActivity;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
@@ -77,12 +69,6 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
         IconPacks,
         NewUpdated,
         NewApps
-    }
-
-    public enum SortType {
-        Alphabetically,
-        LastUpdate,
-        LastInstall
     }
 
     private static final TabHelper INSTANCE = new TabHelper();
@@ -110,22 +96,16 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
     }
 
     public void init(TabHost tabhost) {
-        try {
-            XGELSContext = Common.LAUNCHER_CONTEXT.createPackageContext(Common.PACKAGE_NAME, Context.CONTEXT_IGNORE_SECURITY);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
+
+        XGELSContext = Common.XGELSCONTEXT;
 
         this.tabHost = tabhost;
         this.tabs = new ArrayList<Tab>();
 
-        addHorizontalScrollView();
+        addHorizontalScrollView(PreferencesHelper.moveTabHostBottom);
         //addProgressBar();
 
-        if (PreferencesHelper.enableAppDrawerTabs) {
-            showTabBar();
-        }
+        showTabBar();
 
         tabHost.setOnTabChangedListener(null);
         initTabs();
@@ -138,29 +118,40 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
         tabhost.removeView(tabhost.findViewById(id));
     }
 
-    private void addHorizontalScrollView() {
-        WindowManager wm = (WindowManager) Common.LAUNCHER_CONTEXT.getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-
+    private void addHorizontalScrollView(boolean alignBottom) {
         TabWidget tabWidget = tabHost.getTabWidget();
         tabsContainer = (FrameLayout) tabWidget.getParent();
         tabsContainer.removeView(tabWidget);
 
-        LayoutParams lptw = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-        lptw.gravity = Gravity.CENTER | Gravity.START;
+        LayoutParams lptw = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+        lptw.gravity = Gravity.START;
 
         RelativeLayout relativeLayout = (RelativeLayout) LayoutInflater.from(XGELSContext).inflate(R.layout.tab_widget, null, false);
         hsv = (HorizontalScrollView) relativeLayout.findViewById(R.id.horizontalscrollview);
-        hsv.setMinimumWidth(size.x);
         hsv.setSmoothScrollingEnabled(true);
+
         hsv.addView(tabWidget, lptw);
 
         addButton = (ImageView) relativeLayout.findViewById(R.id.addbutton);
         addButton.setOnClickListener(this);
 
         tabHostDivider = relativeLayout.findViewById(R.id.tab_host_divider);
+
+        if (alignBottom) {
+            ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) hsv.getLayoutParams();
+            layoutParams.setMargins(0, 0, 0, Utils.dpToPx(-2));
+            hsv.requestLayout();
+
+            FrameLayout tabContent = (FrameLayout) tabHost.findViewById(android.R.id.tabcontent);
+            ViewGroup parent = (ViewGroup) tabContent.getParent();
+            parent.removeView(tabContent);
+            parent.addView(tabContent, 0, new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1f));
+        } else {
+            relativeLayout.removeView(tabHostDivider);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(tabHostDivider.getLayoutParams());
+            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, relativeLayout.getId());
+            relativeLayout.addView(tabHostDivider, params);
+        }
 
         tabsContainer.addView(relativeLayout);
     }
@@ -181,7 +172,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
     }
 
     public void showTabBar() {
-        tabsContainer.setVisibility(View.VISIBLE);
+        tabsContainer.setVisibility(PreferencesHelper.enableAppDrawerTabs ? View.VISIBLE : View.GONE);
     }
 
     public void hideTabBar() {
@@ -201,8 +192,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
         tabHost.getTabWidget().removeAllViews();
 
         for (String item : PreferencesHelper.appdrawerTabData) {
-            Tab tab = new Tab(item);
-            tabs.add(tab);
+            tabs.add(new Tab(item));
         }
 
         boolean hasApps = false;
@@ -281,6 +271,13 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
         setCurrentTab(newId < 0 ? 0 : newId);
         tabHost.getTabWidget().setCurrentTab(newId < 0 ? 0 : newId);
 
+        if (tab.hideFromAppsPage()) {
+            Object mAppsCustomizePane = getObjectField(getTabHost(), Fields.acthAppsCustomizePane);
+            ArrayList allApps = (ArrayList) getObjectField(mAppsCustomizePane, Fields.acpvAllApps);
+            allApps.addAll(tab.getData());
+            callMethod(mAppsCustomizePane, Methods.acpvSetApps, allApps);
+        }
+
         scroll();
     }
 
@@ -350,15 +347,17 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
         return false;
     }
 
-    public void handleOverscroll(Float overscroll) {
-        if(overscroll > 50.0) {
+    public boolean handleScroll(float overscroll) {
+        if (overscroll > 100.0) {
             int newId = getCurrentTabData().getIndex() + 1;
-            setCurrentTab(newId >= tabHost.getChildCount() ? 0 : newId);
-        }
-        else if (overscroll < -50.0) {
+            setCurrentTab(newId >= tabHost.getTabWidget().getChildCount() ? 0 : newId, true);
+            return true;
+        } else if (overscroll < -100.0) {
             int newId = getCurrentTabData().getIndex() - 1;
-            setCurrentTab(newId < 0 ? (tabHost.getChildCount() - 1) : newId);
+            setCurrentTab(newId < 0 ? (tabHost.getTabWidget().getChildCount() - 1) : newId, true);
+            return true;
         }
+        return false;
     }
 
     public void updateTabs() {
@@ -383,7 +382,14 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
     }
 
     public void setCurrentTab(int idx) {
+        setCurrentTab(idx, false);
+    }
+
+    public void setCurrentTab(int idx, boolean resetToZero) {
         tabHost.setCurrentTab(idx);
+        if (resetToZero) {
+            callMethod(getObjectField(tabHost, Fields.acthAppsCustomizePane), Methods.wSetCurrentPage, 0);
+        }
         setTabColor(tabs.get(idx).getColor());
         scroll();
     }
@@ -509,14 +515,20 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
         if (curTab == null) return -1;
 
         int numAppPages = getIntField(thisObject, Fields.acpvNumAppsPages);
-        if (curTab.isNewAppsTab() || curTab.isNewUpdatedTab()) {
-            setIntField(thisObject, Fields.acpvNumAppsPages, 1);
+        if (curTab.isAppsTab() && FolderHelper.getInstance().hasFolder()) {
+            int mCellCountX = getIntField(thisObject, Fields.acpvCellCountX);
+            int mCellCountY = getIntField(thisObject, Fields.acpvCellCountY);
+            int itemCnt = FolderHelper.getInstance().getAllApps().size() + FolderHelper.getInstance().getFolders().size();
+            setIntField(thisObject, Fields.acpvNumAppsPages, (int) Math.ceil((float) itemCnt / (mCellCountX * mCellCountY)));
             return numAppPages;
         } else if (curTab.isCustomTab() && curTab.getData() != null) {
             int mCellCountX = getIntField(thisObject, Fields.acpvCellCountX);
             int mCellCountY = getIntField(thisObject, Fields.acpvCellCountY);
             setIntField(thisObject, Fields.acpvNumAppsPages, (int) Math.ceil((float) curTab.getData().size() / (mCellCountX * mCellCountY)));
             return numAppPages;
+        } else if (curTab.isNewAppsTab() || curTab.isNewUpdatedTab()) {
+            setIntField(thisObject, Fields.acpvNumAppsPages, 1);
+            return 1;
         }
 
         return -1;
@@ -530,7 +542,12 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
         Tab curTab = getCurrentTabData();
         if (curTab == null) return false;
 
-        if (curTab.isCustomTab() && curTab.getData() != null) {
+        if (curTab.isAppsTab() && FolderHelper.getInstance().hasFolder()) {
+            ArrayList items = new ArrayList(FolderHelper.getInstance().getAllApps());
+            items.addAll(0, FolderHelper.getInstance().getFolders());
+            syncAppsPageItems(thisObject, items, page);
+            return true;
+        } else if (curTab.isCustomTab() && curTab.getData() != null) {
             syncAppsPageItems(thisObject, curTab.getData(), page);
             return true;
         }
@@ -539,10 +556,8 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
     }
 
     private void syncAppsPageItems(Object thisObject, ArrayList apps, int page) {
-
         final boolean isRtl = (Boolean) callMethod(thisObject, Methods.acpvIsLayoutRtl);
         LayoutInflater mLayoutInflater = (LayoutInflater) getObjectField(thisObject, "mLayoutInflater");
-        log("isRtl " + isRtl);
 
         int mCellCountX = getIntField(thisObject, Fields.acpvCellCountX);
         int mCellCountY = getIntField(thisObject, Fields.acpvCellCountY);
@@ -556,18 +571,29 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
         callMethod(appsCustomizeCellLayout, Fields.acpvRemoveAllViewsOnPage);
         for (int i = startIndex; i < endIndex; ++i) {
             Object info = apps.get(i);
-            View icon = mLayoutInflater.inflate(apps_customize_application, appsCustomizeCellLayout, false);
-            callMethod(icon, Methods.pviApplyFromApplicationInfo, info, thisObject);
-            icon.setOnClickListener((View.OnClickListener) thisObject);
-            icon.setOnLongClickListener((View.OnLongClickListener) thisObject);
-            icon.setOnTouchListener((View.OnTouchListener) thisObject);
-            icon.setOnKeyListener((View.OnKeyListener) thisObject);
+            View icon;
 
             int index = i - startIndex;
             int x = index % mCellCountX;
             int y = index / mCellCountX;
             if (isRtl) {
                 x = mCellCountX - x - 1;
+            }
+
+            if (info instanceof Folder) {
+                icon = ((Folder) info).makeFolderIcon(appsCustomizeCellLayout);
+                if (icon == null) continue;
+            } else {
+                icon = mLayoutInflater.inflate(apps_customize_application, appsCustomizeCellLayout, false);
+                if (Common.PACKAGE_OBFUSCATED) {
+                    callMethod(icon, Methods.pviApplyFromApplicationInfo, info, thisObject);
+                } else {
+                    callMethod(icon, Methods.pviApplyFromApplicationInfo, info, true, thisObject);
+                }
+                icon.setOnClickListener((View.OnClickListener) thisObject);
+                icon.setOnLongClickListener((View.OnLongClickListener) thisObject);
+                icon.setOnTouchListener((View.OnTouchListener) thisObject);
+                icon.setOnKeyListener((View.OnKeyListener) thisObject);
             }
 
             callMethod(appsCustomizeCellLayout, Methods.clAddViewToCellLayout, icon, -1, i, newInstance(Classes.CellLayoutLayoutParams, x, y, 1, 1), false);
@@ -612,13 +638,6 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
 
         final boolean newTab = tab == null;
 
-        try {
-            XGELSContext = Common.LAUNCHER_CONTEXT.createPackageContext(Common.PACKAGE_NAME, Context.CONTEXT_IGNORE_SECURITY);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
-
         final ViewGroup tabSettingsView = (ViewGroup) LayoutInflater.from(XGELSContext).inflate(R.layout.tab_settings_view, null);
         if (newTab) {
             tabSettingsView.findViewById(R.id.tab_settings_bar).setVisibility(View.GONE);
@@ -635,7 +654,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
         if (!newTab) {
 
             ImageView save = (ImageView) tabSettingsView.findViewById(R.id.tab_save_settings);
-            setDrawableSelector(save);
+            Utils.setDrawableSelector(save);
             save.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -655,6 +674,20 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
                 }
             });
 
+            final ImageView addfolder = (ImageView) tabSettingsView.findViewById(R.id.addfolder);
+            if (tab.isAppsTab()) {
+                addfolder.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        tabSettingsDialog.dismiss();
+                        FolderHelper.getInstance().setupFolderSettings(null);
+                    }
+                });
+                Utils.setDrawableSelector(addfolder);
+            } else {
+                addfolder.setVisibility(View.GONE);
+            }
+
             final ImageView manageApps = (ImageView) tabSettingsView.findViewById(R.id.manageapps);
             if (!tab.isDynamicTab()) {
                 manageApps.setOnClickListener(new View.OnClickListener() {
@@ -665,7 +698,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
                         if (tab.isUserTab()) {
                             Intent intent = getBaseIntent(true, tab.getId(), editText.getText().toString().trim());
                             intent.putStringArrayListExtra("items", tab.getRawData());
-                            intent.putExtra("tabindex", tab.getIndex());
+                            intent.putExtra("index", tab.getIndex());
                             intent.putExtra("contenttype", tab.getContentType().toString());
                             Common.LAUNCHER_CONTEXT.startActivity(intent);
                         } else {
@@ -686,7 +719,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
                         }
                     }
                 });
-                setDrawableSelector(manageApps);
+                Utils.setDrawableSelector(manageApps);
             } else {
                 manageApps.setVisibility(View.GONE);
             }
@@ -712,7 +745,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
                         return true;
                     }
                 });
-                setDrawableSelector(deleteTab);
+                Utils.setDrawableSelector(deleteTab);
             } else {
                 deleteTab.setVisibility(View.GONE);
             }
@@ -739,7 +772,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
                     moveTab(tab, MOVE_LEFT);
                 }
             });
-            setDrawableSelector(moveLeft);
+            Utils.setDrawableSelector(moveLeft);
 
             final ImageView moveRight = (ImageView) tabSettingsView.findViewById(R.id.movetabright);
             moveRight.setOnClickListener(new View.OnClickListener() {
@@ -748,7 +781,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
                     moveTab(tab, MOVE_RIGHT);
                 }
             });
-            setDrawableSelector(moveRight);
+            Utils.setDrawableSelector(moveRight);
 
             final CheckBox hideApps = (CheckBox) tabSettingsView.findViewById(R.id.tab_hide_apps);
             hideApps.setChecked(tab.hideFromAppsPage());
@@ -852,8 +885,8 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
                     }
 
                     intent.putExtra("contenttype", contentType.toString());
-                    intent.putExtra("newtab", true);
-                    intent.putExtra("tabindex", tabindex);
+                    intent.putExtra("new", true);
+                    intent.putExtra("index", tabindex);
 
                     Common.LAUNCHER_CONTEXT.startActivity(intent);
                 }
@@ -878,33 +911,13 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
         return new LayerDrawable(new Drawable[] {canvas, ring});
     }
 
-    private void setDrawableSelector(ImageView view) {
-
-        Drawable icon = view.getDrawable();
-        Bitmap tmpIcon = CommonUI.drawableToBitmap(icon);
-        Bitmap iconPressed = Bitmap.createBitmap(tmpIcon.getWidth(), tmpIcon.getHeight(), Bitmap.Config.ARGB_8888);
-
-        Canvas c = new Canvas(iconPressed);
-        Paint p = new Paint();
-        p.setAlpha(0x80);
-        c.drawBitmap(tmpIcon, 0, 0, p);
-
-        Drawable pressedIcon = new BitmapDrawable(iconPressed);
-        StateListDrawable states = new StateListDrawable();
-        states.addState(new int[] {android.R.attr.state_pressed}, pressedIcon);
-        states.addState(new int[] {android.R.attr.state_focused}, pressedIcon);
-        states.addState(new int[] { }, icon);
-
-        view.setImageDrawable(states);
-    }
-
     private Intent getBaseIntent(boolean openVisible, long itemid, String tabname) {
         Intent intent = new Intent();
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
         intent.setComponent(new ComponentName(Common.PACKAGE_NAME, openVisible ? AllAppsList.class.getName() : SaveActivity.class.getName()));
         intent.putExtra("mode", AllAppsList.MODE_MANAGE_TAB);
         intent.putExtra("itemid", itemid);
-        intent.putExtra("tabname", tabname);
+        intent.putExtra("name", tabname);
         ArrayList<String> data = new ArrayList<String>(tabs.size());
         for (Tab tab : tabs) {
             data.add(tab.toString());

@@ -16,6 +16,7 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.FolderHelper;
 import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.Tab;
 import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelper;
 import de.theknut.xposedgelsettings.ui.CommonUI;
@@ -41,6 +42,7 @@ public final class AllAppsListAddHook extends XC_MethodHook {
 
         ArrayList<String> appsToHide = new ArrayList<String>(PreferencesHelper.hiddenApps);
         appsToHide.addAll(TabHelper.getInstance().getAppsToHide());
+        appsToHide.addAll(FolderHelper.getInstance().getAppsToHide());
 
         if (PreferencesHelper.hiddenApps.size() != 0 && PreferencesHelper.hiddenApps.iterator().next().contains("#")
                 || PreferencesHelper.hiddenWidgets.size() != 0 && PreferencesHelper.hiddenWidgets.iterator().next().contains("#")) {

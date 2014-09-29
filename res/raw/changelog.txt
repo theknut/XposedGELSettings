@@ -27,6 +27,30 @@
   </head>
   <body>
 
+$ B2.1 Build 1
+    % Version B2.1 Build 1
+   _ 2014-29-09
+
+   Video: <a href="http://youtu.be/dq4Y2Jaq-bs">Whats new in V2.1?</a><br><br>
+
+  ! Added:
+  * App drawer: Folders
+  * App drawer: move tab bar to the bottom
+  * General: Page indicator color
+  * option to keep notification badge size when count is ≥ 10
+
+  ! Improvement:
+  * set folder or shortcut icons without restarting the launcher
+
+  ! Fixed:
+  * added missing Google apps to Google tab
+  * added hidden apps back to main app tab after deleting tab
+  * RTL layout was not respected
+  * fixed Launcher3 crash
+
+  ! XGELS UI:
+  * updated translations
+
  $ 2.0.2
     % Version 2.0.2
    _ 2014-12-09

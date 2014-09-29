@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:weightSum="1">
+    android:orientation="vertical" >
 
     <TabHost
         android:layout_width="match_parent"
@@ -15,50 +14,80 @@
             android:layout_height="fill_parent"
             android:orientation="vertical">
 
-            <TabWidget
-                android:id="@android:id/tabs"
+            <FrameLayout
+                android:id="@android:id/tabcontent"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"></TabWidget>
+                android:layout_height="wrap_content">
 
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
-
-                <FrameLayout
-                    android:id="@android:id/tabcontent"
+                <LinearLayout
+                    android:id="@+id/tab1"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent">
 
-                    <LinearLayout
-                        android:id="@+id/tab1"
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/imageView"
+                        android:src="@drawable/contextmenu_action_about" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tab2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"></LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tab3"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"></LinearLayout>
+            </FrameLayout>
+
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/xgels_tab_widget"
+                android:orientation="horizontal"
+                android:layout_weight="0" >
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/horizontalscrollview"
+                    android:scrollbars="none"
+                    android:overScrollMode="ifContentScrolls"
+                    android:fillViewport="true"
+                    android:layout_toStartOf="@+id/addbutton"
+                    android:layout_toLeftOf="@+id/addbutton">
+                    <TabWidget
+                        android:id="@android:id/tabs"
                         android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"></LinearLayout>
+                        android:layout_height="wrap_content"
+                        android:tabStripEnabled="false"
+                        android:layout_weight="0" >
 
-                    <LinearLayout
-                        android:id="@+id/tab2"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"></LinearLayout>
+                    </TabWidget>
+                    </HorizontalScrollView>
 
-                    <LinearLayout
-                        android:id="@+id/tab3"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"></LinearLayout>
-
-                </FrameLayout>
-
-                <ProgressBar
-                    style="?android:attr/progressBarStyleSmall"
+                <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/progressBartest"
-                    android:background="#FF0000"
-                    android:indeterminate="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentStart="true"
+                    android:layout_height="52.0dp"
+                    android:id="@+id/addbutton"
+                    android:layout_gravity="center"
+                    android:src="@drawable/tab_add_button"
+                    android:background="@drawable/tab_indicator"
+                    android:scaleType="centerCrop"
                     android:layout_alignParentEnd="true" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dp"
+                    android:background="#FFF"
+                    android:id="@+id/tab_host_divider"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true" />
+
             </RelativeLayout>
         </LinearLayout>
     </TabHost>

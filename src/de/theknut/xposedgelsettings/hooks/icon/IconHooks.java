@@ -204,16 +204,16 @@ public class IconHooks extends HooksBaseClass {
                 }
 
                 if (labelCache != null && labelCache.containsKey(cmpName)) {
-                    setObjectField(cacheEntry, Fields.ceTitle, labelCache.get(cmpName).toString());
+                    setObjectField(cacheEntry, "title", labelCache.get(cmpName).toString());
                 } else {
                     String title = info.loadLabel(pkgMgr).toString();
-                    setObjectField(cacheEntry, Fields.ceTitle, title);
+                    setObjectField(cacheEntry, "title", title);
                     if (labelCache != null) {
                         labelCache.put(cmpName, title);
                     }
                 }
-                if (getObjectField(cacheEntry, Fields.ceTitle) == null) {
-                    setObjectField(cacheEntry, Fields.ceTitle, info.loadLabel(pkgMgr));
+                if (getObjectField(cacheEntry, "title") == null) {
+                    setObjectField(cacheEntry, "title", info.loadLabel(pkgMgr));
                 }
                 return cacheEntry;
             }
@@ -333,24 +333,7 @@ public class IconHooks extends HooksBaseClass {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 if (param.args[0].getClass().equals(Classes.FolderIcon)) {
-                    Drawable icon = Utils.loadIconByTag(iconPack, PreferencesHelper.folderIcons, ((View) param.args[0]).getTag());
-                    if (icon == null) return;
-
-                    ImageView prevBackground = (ImageView) getObjectField(param.args[0], Fields.fiPreviewBackground);
-                    Bitmap bitmap = ((BitmapDrawable) icon).getBitmap();
-                    icon = new BitmapDrawable(
-                            Common.LAUNCHER_CONTEXT.getResources(),
-                            Bitmap.createScaledBitmap(
-                                    bitmap,
-                                    getStaticIntField(Classes.Utilities, Fields.uIconWidth),
-                                    getStaticIntField(Classes.Utilities, Fields.uIconHeight),
-                                    true
-                            )
-                    );
-
-                    prevBackground.setScaleType(ImageView.ScaleType.CENTER);
-                    prevBackground.setImageDrawable(icon);
-                    prevBackground.clearColorFilter();
+                    setFolderIcon((View) param.args[0]);
                 }
             }
         });
@@ -426,7 +409,6 @@ public class IconHooks extends HooksBaseClass {
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 Drawable d = Utils.loadIconByTag(iconPack, PreferencesHelper.shortcutIcons, param.thisObject);
                 if (d == null) return;
-
                 param.setResult(CommonUI.drawableToBitmap(d));
             }
         });
@@ -503,6 +485,29 @@ public class IconHooks extends HooksBaseClass {
             Common.LAUNCHER_CONTEXT.registerReceiver(updateCalendarReceiver, intentFilter);
             if (DEBUG) log("Has Calendar app");
         }
+    }
+
+    public static void setFolderIcon(View folderIcon) {
+        ImageView prevBackground = (ImageView) getObjectField(folderIcon, Fields.fiPreviewBackground);
+        Drawable icon = Utils.loadIconByTag(iconPack, PreferencesHelper.folderIcons, folderIcon.getTag());
+        if (icon == null) {
+            return;
+        }
+
+        Bitmap bitmap = ((BitmapDrawable) icon).getBitmap();
+        icon = new BitmapDrawable(
+                Common.LAUNCHER_CONTEXT.getResources(),
+                Bitmap.createScaledBitmap(
+                        bitmap,
+                        getStaticIntField(ObfuscationHelper.Classes.Utilities, Fields.uIconWidth),
+                        getStaticIntField(ObfuscationHelper.Classes.Utilities, Fields.uIconHeight),
+                        true
+                )
+        );
+
+        prevBackground.setScaleType(ImageView.ScaleType.CENTER);
+        prevBackground.setImageDrawable(icon);
+        prevBackground.clearColorFilter();
     }
 
     static void killLauncher() {
