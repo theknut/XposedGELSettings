@@ -231,8 +231,8 @@
     <string name="pref_notificationbadge_advanced">Paramètres avancés</string>
     <string name="pref_notificationbadge_advanced_title">Configurer manuellement</string>
     <string name="pref_notificationbadge_advanced_summary">Si vous rencontrer des problèmes avec les badges Téléphone ou SMS, configurez-les ici. Cela permet également de remettre à zéro les paramètres en dessous.</string>
-    <string name="pref_notificationbadge_advanced_dialer_title">Téléphone</string>
-    <string name="pref_notificationbadge_advanced_sms_title">Application SMS</string>
+    <string name="pref_notificationbadge_advanced_dialer_title">Appli Téléphone</string>
+    <string name="pref_notificationbadge_advanced_sms_title">Appli SMS</string>
     
     <string name="pref_switch_gesture_double_tap_only_on_wallpaper_title">Uniquement sur le fond d\'écran</string>
     <string name="pref_switch_gesture_double_tap_only_on_wallpaper_summary">Cochez cette option pour autoriser l\'appui double uniquement sur le fond d\'écran. Cela supprimera le délai de reconnaissance des gestes d\'appui double lorsqu\'on fait un appui double sur un icône.</string>
@@ -276,7 +276,7 @@
     <string name="pref_icon_support_title">Statistiques</string>
     <string name="pref_icon_support_summary">Calendrier dynamique : %1$s\n%2$d icône(s) sur %3$d supportés\n%4$d icônes au total</string>
     <string name="pref_icon_auto_apply_title">Appliquer automatiquement</string>
-    <string name="pref_icon_auto_apply_summary">Appliquer un nouveau pack/une mise à jour d\'un pack automatiquement</string>
+    <string name="pref_icon_auto_apply_summary">Appliquer un nouveau ou une mise à jour d\'un pack automatiquement</string>
     
     <string name="pref_show_google_search_bar_homescreen_title">Écran d\'accueil par défaut</string>
     <string name="pref_show_google_search_bar_homescreen_summary">Affiche la barre de recherche sur l\'écran d\'accueil par défaut</string>
@@ -357,5 +357,18 @@
     
     <string name="pref_reverseengineering_rate_title">Notez XGELS !</string>
     <string name="pref_reverseengineering_rate_summary">Affichez votre soutien et mettez une note sur le Play Store. Une bonne réputation incitera d\'autres personnes d\'essayer XGELS. Appuyez ici pour noter XGELS sur le Play Store !</string>    
+
+     <!-- V2.1 -->
+    <string name="pref_notificationbadge_keepsize_title">Garder la taille de badge</string>
+    <string name="pref_notificationbadge_keepsize_summary">Diminuer l\'espace gauche/droite quand le badge contient un nombre à deux chiffres</string>
+    <string name="pref_pageindicator_color_title">Couleur de l\'indicateur de page</string>
+    <string name="pref_pageindicator_color_summary">Choisir une couleur de l\'indicateur de page</string>
+    <string name="pref_tabs_bottom_title">Onglets en bas</string>
+    <string name="pref_tabs_bottom_summary">Déplacer les onglets du haut vers le bas de l\'écran</string>
+    <string name="toast_appdrawer_folderadded_title">Appui long sur un dossier pour ouvrir ses paramètres</string>
+    <string name="alert_folder_hint_text_title">Nom du dossier</string>
+    <string name="pref_appdrawer_folders_title">Dossiers</string>
+    <string name="pref_appdrawer_folders_summary">Appuyez pour ajouter un dossier à l\'onglet applis principal</string>
+    <string name="toast_appdrawer_folder_minimum_app">Un dossier doit contenir minimum deux éléments</string>
     
 </resources>
