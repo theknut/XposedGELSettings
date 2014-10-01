@@ -387,8 +387,17 @@
     <string name="pref_notificationbadge_noappdrawer_title">Skryť z ponuky aplikácií</string>
     <string name="toast_appdrawer_tabadded_title">Dlho stlačte kartu pre otvorenie jej nastavení</string>
     
-        <!-- V2.0.3 -->
+    <!-- V2.1 -->
     <string name="pref_notificationbadge_keepsize_title">Udržiavať veľkosť symbolu</string>
     <string name="pref_notificationbadge_keepsize_summary">Znížiť odsadenie zľava/sprava, ak je počítadlo v symbole obsahuje dve číslice</string>
+    <string name="pref_pageindicator_color_title">Farba ukazovateľa strán</string>
+    <string name="pref_pageindicator_color_summary">Zvoliť farbu ukazovateľa strán</string>
+    <string name="pref_tabs_bottom_title">Karty v dolnej časti</string>
+    <string name="pref_tabs_bottom_summary">Presunúť karty z hornej do dolnej časti obrazovky</string>
+    <string name="toast_appdrawer_folderadded_title">Dlho stlačte priečinok pre otvorenie jeho nastavení</string>
+    <string name="alert_folder_hint_text_title">Názov priečinka</string>
+    <string name="pref_appdrawer_folders_title">Priečinky</string>
+    <string name="pref_appdrawer_folders_summary">Dotykom pridáte priečinok do hlavnej karty s aplikáciami</string>
+    <string name="toast_appdrawer_folder_minimum_app">Priečinok musí obsahovať aspoň dve položky</string>
 
 </resources>
