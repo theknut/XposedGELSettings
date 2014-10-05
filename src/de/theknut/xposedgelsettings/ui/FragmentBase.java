@@ -27,6 +27,7 @@ import de.theknut.xposedgelsettings.hooks.Common;
 public class FragmentBase extends PreferenceFragment {
 	
 	public static Context mContext;	
+	public static Activity mActivity;
 	public static boolean toastShown = false;
 	public static boolean alertShown = false;
 	public static boolean alertAnswerKill = false;
@@ -132,7 +133,7 @@ public class FragmentBase extends PreferenceFragment {
     @Override
     public void onAttach(Activity activity) {
     	super.onAttach(activity);
-    	mContext = activity;
+    	mContext = mActivity = activity;
     }
     
     @Override

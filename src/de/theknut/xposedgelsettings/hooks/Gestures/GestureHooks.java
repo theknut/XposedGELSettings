@@ -302,6 +302,8 @@ public class GestureHooks extends GestureHelper {
                             downY = ev.getRawY();
                             downX = ev.getRawX();
                             isDown = true;
+                            Common.APP_DRAWER_PAGE_SWITCHED = false;
+
                             break;
                         case MotionEvent.ACTION_UP:
                             if (DEBUG) log("UP: " + ev.getRawY());

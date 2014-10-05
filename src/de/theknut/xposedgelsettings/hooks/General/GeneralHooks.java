@@ -61,6 +61,8 @@ import static de.robv.android.xposed.XposedHelpers.newInstance;
 
 public class GeneralHooks extends HooksBaseClass {
 
+    static Unhook unhook;
+
     public static void initAllHooks(final LoadPackageParam lpparam) {
 
         findAndHookMethod(Classes.Launcher, "onCreate", Bundle.class, new XC_MethodHook() {
@@ -83,6 +85,14 @@ public class GeneralHooks extends HooksBaseClass {
                 try {
                     Common.XGELSCONTEXT = Common.LAUNCHER_CONTEXT.createPackageContext(Common.PACKAGE_NAME, Context.CONTEXT_IGNORE_SECURITY);
                 } catch (Exception e) { }
+            }
+        });
+
+        unhook = findAndHookMethod(Classes.DynamicGrid, Methods.dgGetDeviceProfile, new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                Common.DEVICE_PROFIL = param.getResult();
+                unhook.unhook();
             }
         });
 
@@ -395,7 +405,7 @@ public class GeneralHooks extends HooksBaseClass {
                     TabHelper.getInstance().saveTabData();
                 } else {
                     TabHelper tabHelper = TabHelper.getInstance();
-                    Object mAppsCustomizePane = getObjectField(tabHelper.getTabHost(), Fields.acthAppsCustomizePane);
+                    Object mAppsCustomizePane = getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizePagedView);
                     Tab tab = tabHelper.getCurrentTabData();
 
                     if (tab.isAppsTab()) {
@@ -415,7 +425,7 @@ public class GeneralHooks extends HooksBaseClass {
                 if (intent.getBooleanExtra("add", false)) {
                     FolderHelper.getInstance().addFolder(new Folder(intent, true));
                 } else if (intent.getBooleanExtra("setup", false)) {
-                    FolderHelper.getInstance().setupFolderSettings(null);
+                    FolderHelper.getInstance().setupFolderSettings(null, Tab.APPS_ID);
                 }
 
                 if (DEBUG) log("Launcher: Folder reloaded");

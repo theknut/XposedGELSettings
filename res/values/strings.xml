@@ -371,4 +371,9 @@
     <string name="pref_appdrawer_folders_summary">Touch to add a folder to the main apps tab</string>
     <string name="toast_appdrawer_folder_minimum_app">A folder must at least contain of two items</string>
 
+    <!-- new -->
+    <string name="pref_appdock_show_labels_title">Show icon labels</string>
+    <string name="pref_appdockrect_title">App dock left/right margin</string>
+    <string name="pref_appdockrect_summary">Choose a margin multiplier for left and right side of the app dock</string>
+
 </resources>

@@ -54,8 +54,7 @@ public class FragmentAppDrawer extends FragmentBase {
             @Override
             public boolean onPreferenceClick(Preference preference) {
 
-                final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
+                new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         Intent intent = new Intent(Common.XGELS_ACTION_MODIFY_FOLDER);

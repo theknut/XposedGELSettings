@@ -27,11 +27,28 @@
   </head>
   <body>
 
-$ B2.1 Build 1
+$ B2.1 Build 2
+    % Version B2.1 Build 2
+   _ 2014-05-10
+
+  ! Added:
+  * Homescreen: show icon labels in app dock
+  * Homescreen: app dock left/right margin
+  * App drawer: overscroll to next tab ("Continuous scroll with app drawer" must be disabled)
+  * App drawer: add folders to custom tab (non dynamic tabs)
+  * App drawer: icon size
+
+  ! Fixed:
+  * nav bar overlapping tab bar when at the bottom
+  * app drawer folder missing label
+  * horizontal app drawer layout
+  * cut widget preview
+  * app info checkbox
+  * Trebuchet crash when hiding apps
+
+ $ B2.1 Build 1
     % Version B2.1 Build 1
    _ 2014-29-09
-
-   Video: <a href="http://youtu.be/dq4Y2Jaq-bs">Whats new in V2.1?</a><br><br>
 
   ! Added:
   * App drawer: Folders

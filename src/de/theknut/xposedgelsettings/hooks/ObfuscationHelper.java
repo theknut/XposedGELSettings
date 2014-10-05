@@ -44,6 +44,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 WORKSPACE,
                 WORKSPACE_STATE,
                 DEVICE_PROFILE,
+                DYNAMIC_GRID,
                 CELL_LAYOUT,
                 CELL_LAYOUT_CELL_INFO,
                 CELL_LAYOUT_LAYOUT_PARAMS,
@@ -101,6 +102,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             WORKSPACE = new String[]{launcherPackage + "Workspace", launcherPackage + "Workspace", launcherPackage + "Workspace", launcherPackage + "Workspace"}[idx];
             WORKSPACE_STATE = new String[]{WORKSPACE + "$State", "zc", "aco", "adq"}[idx];
             DEVICE_PROFILE = new String[]{launcherPackage + "DeviceProfile", "mz", "qi", "rj"}[idx]; // All Device Profiles must have
+            DYNAMIC_GRID = new String[]{launcherPackage + "DynamicGrid", "nw", "rf", "sg"}[idx]; // All Device Profiles must have
             CELL_LAYOUT = new String[]{launcherPackage + "CellLayout", launcherPackage + "CellLayout", launcherPackage + "CellLayout", launcherPackage + "CellLayout"}[idx];
             CELL_LAYOUT_CELL_INFO = new String[]{CELL_LAYOUT + "$CellInfo", "lz", "pi", "qj"}[idx]; // Cell[=view
             CELL_LAYOUT_LAYOUT_PARAMS = new String[]{CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams"}[idx];
@@ -197,7 +199,8 @@ public class ObfuscationHelper extends HooksBaseClass {
                 GelSearchPlateContainer,
                 TransitionsManager,
                 BubbleTextView,
-                LauncherAppState;
+                LauncherAppState,
+                DynamicGrid;
 
         public static void hookAllClasses(LoadPackageParam lpparam) {
             Launcher = findClass(ClassNames.LAUNCHER, lpparam.classLoader);
@@ -208,6 +211,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             WallpaperOffsetInterpolator = findClass(ClassNames.WALLPAPER_OFFSET_INTERPOLATOR, lpparam.classLoader);
             PagedViewIcon = findClass(ClassNames.PAGED_VIEW_ICON, lpparam.classLoader);
             DeviceProfile = findClass(ClassNames.DEVICE_PROFILE, lpparam.classLoader);
+            DynamicGrid = findClass(ClassNames.DYNAMIC_GRID, lpparam.classLoader);
             AppInfo = findClass(ClassNames.APP_INFO, lpparam.classLoader);
 
             if (Common.IS_TREBUCHET) {
@@ -273,6 +277,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 lGetApplicationContext,
                 lIsRotationEnabled,
                 clAddViewToCellLayout,
+                clSetIsHotseat,
                 woiSyncWithScroll,
                 wStartDrag,
                 acpvOnPackagesUpdated,
@@ -308,6 +313,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 acpvOverScroll,
                 acpvSetCurrentPage,
                 dpUpdateFromConfiguration,
+                dgGetDeviceProfile,
                 acthSetInsets,
                 wSnapToPage,
                 soiSetSearchStarted,
@@ -329,6 +335,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 clMarkCellsForView,
                 lmCheckItemPlacement,
                 acpvBeginDragging,
+                acpvUpdatePageCounts,
                 lBindAppsUpdated,
                 lmIsShortcutInfoUpdateable,
                 clAttemptPushInDirection,
@@ -384,6 +391,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             clMarkCellsForView = new String[]{"markCellsForView", "a", "a", "a"}[idx]; // int paramInt1, int paramInt2, int paramInt3, int paramInt4, boolean[][] paramArrayOfBoolean, boolean paramBoolean
             clGetShortcutsAndWidgets = new String[]{"getShortcutsAndWidgets", "dH", "ew", "eF"}[idx]; // getChildCount() > 0
             clAddViewToCellLayout = new String[]{"addViewToCellLayout", "a", "a", "a"}[idx]; // View paramView, int paramInt1, int paramInt2, CellLayout.LayoutParams paramLayoutParams, boolean paramBoolean
+            clSetIsHotseat= new String[]{"setIsHotseat", "D", "G", "G"}[idx]; // View paramView, int paramInt1, int paramInt2, CellLayout.LayoutParams paramLayoutParams, boolean paramBoolean
             wStartDrag = new String[]{"startDrag", "a", "a", "a"}[idx]; // isInTouchMode
             wMoveToDefaultScreen = new String[]{"moveToDefaultScreen", "ao", "at", "at"}[idx]; // Launcher onNewIntent method call of workspace member with (true)
             wOverScroll = new String[]{"overScroll", "g", "g", "g"}[idx]; // (float paramFloat)
@@ -424,12 +432,14 @@ public class ObfuscationHelper extends HooksBaseClass {
             acpvSyncPages = new String[]{"syncPages", "da", "dP", "dY"}[idx]; // removeAllViews
             acpvIsLayoutRtl = new String[]{"isLayoutRtl", "hX", "iN", "iQ"}[idx]; // getLayoutDirection
             acpvBeginDragging = new String[]{"beginDragging", "n", "n", "n"}[idx]; // "instanceof PagedViewIcon" in AppsCustomizePagedView
+            acpvUpdatePageCounts = new String[]{"updatePageCounts", "cO", "dD", "dM"}[idx]; // (int)Math.ceil
             acthOnTabChanged = new String[]{"onTabChanged", "c", "c", "c"}[idx]; // setBackgroundColor
             acthSetInsets = new String[]{"setInsets", "c", "c", "c"}[idx]; // (Rect
             acthGetContentTypeForTabTag = new String[]{"getContentTypeForTabTag", "j", "r", "r"}[idx]; // (String paramString)
             acthSetContentTypeImmediate = new String[]{"setContentTypeImmediate", "b", "b", "b"}[idx]; // setOnTabChangedListener(null)
             dpGetWorkspacePadding = new String[]{"getWorkspacePadding", "aC", "aS", "aS"}[idx]; // second method with (int paramInt)
             dpUpdateFromConfiguration = new String[]{"updateFromConfiguration", "a", "a", "a"}[idx]; // float paramFloat, int paramInt, Resources paramResources, DisplayMetrics paramDisplayMetrics
+            dgGetDeviceProfile = new String[]{"getDeviceProfile", "eV", "fK", "fT"}[idx]; // public final
             //fOnRemove = new String[]{"onRemove", "g", "g", "g"}[idx]; // removeView(localView)
             //fOnAdd = new String[]{"onAdd", "f", "f", "f"}[idx]; // (1 + getItemCount()); - first line  = new String[]true
             //fReplaceFolderWithFinalItem = new String[]{"replaceFolderWithFinalItem", "ge", "ge", "gn"}[idx]; // if (localView != new String[]null)
@@ -522,15 +532,27 @@ public class ObfuscationHelper extends HooksBaseClass {
                 acpvRemoveAllViewsOnPage,
                 uIconWidth,
                 uIconHeight,
-                acpvAllApps;
+                acpvAllApps,
+                clIsHotseat,
+                clShortcutsAndWidgets,
+                sawIsHotseat,
+                dpIconTextSize,
+                acpvContentHeight,
+                dpAllAppsIconSize,
+                fContent;
 
         public static void initFieldNames(int idx) {
             hotseatAllAppsRank = new String[]{"hotseatAllAppsRank", "zp", "BQ", "Cv"}[idx]; // only / 2 operation
             dpNumHotseatIcons = new String[]{"numHotseatIcons", "yz", "AY", "BD"}[idx]; // toString of DynamicGrid
             dpHotseatBarHeightPx = new String[]{"hotseatBarHeightPx", "zo", "BP", "Cu"}[idx]; // 4 * ...
             dpPageIndicatorHeightPx = new String[]{"pageIndicatorHeightPx", "zw", "BX", "CC"}[idx]; // last parameter in .set
+            dpIconTextSize = new String[]{"allAppsIconTextSizePx", "zd", "BE", "Cj"}[idx]; // PagedViewIcon setTextSize
+            dpAllAppsIconSize = new String[]{"allAppsIconSizePx", "zc", "BD", "Ci"}[idx]; // first in public final float
             clphHasPerformedLongPress = new String[]{"mHasPerformedLongPress", "wG", "zf", "zK"}[idx]; // only boolean member
             cllpCanReorder = new String[]{"canReorder", "wf", "yE", "zj"}[idx]; // second member with = new String[]true
+            clIsHotseat = new String[]{"mIsHotseat", "vq", "xP", "yu"}[idx];
+            clShortcutsAndWidgets = new String[]{"mShortcutsAndWidgets", "vp", "xO", "yt"}[idx];
+            sawIsHotseat = new String[]{"mIsHotseatLayout", "Ng", "PQ", "Qr"}[idx];
             sdtbIsSearchBarHidden = new String[]{"mIsSearchBarHidden", "MV", "PF", "Qg"}[idx]; // above Qsb member
             sdtbQsbBar = new String[]{"mQSBSearchBar", "MW", "PG", "Qh"}[idx];
             wCustomContentShowing = new String[]{"mCustomContentShowing", "PV", "SH", "Ti"}[idx]; // "() == new String[]0) || (!this."
@@ -560,7 +582,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             //fMaxCountX = new String[]{"mMaxCountX", "BM", "Eq", "EV"}[idx]; // Folder constructor, last line - maxNumItems = new String[]X * Y;
             fMaxCountY = new String[]{"mMaxCountY", "BN", "Er", "EW"}[idx]; // Folder constructor, last line - maxNumItems = new String[]X * Y;
             fMaxNumItems = new String[]{"mMaxNumItems", "BO", "Es", "EX"}[idx]; // Folder constructor, last line - maxNumItems = new String[]X * Y;
-            //fContent = new String[]{"mContent", "BH", "El", "EQ"}[idx]; // only CellLayout member
+            fContent = new String[]{"mContent", "BH", "El", "EQ"}[idx]; // only CellLayout member
             pvIsPageMoving = new String[]{"mIsPageMoving", "Lv", "Oc", "OG"}[idx];  // "while (!this."
             pvNextPage = new String[]{"mNextPage", "KI", "Np", "NT"}[idx]; // first protected int = new String[]-1
             pvPageIndicator = new String[]{"mPageIndicator", "Lz", "Og", "OK"}[idx]; // setContentDescription
@@ -588,6 +610,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             acpvCellCountY = new String[]{"mCellCountY", "Lh", "NO", "Os"}[idx]; // Math.ceil
             acpvRemoveAllViewsOnPage = new String[]{"removeAllViewsOnPage", "cI", "dx", "dG"}[idx]; // Math.ceil
             acpvContentType = new String[]{"mContentType", "sw", "uW", "vB"}[idx]; // private oo uW = new String[]oo.vW;
+            acpvContentHeight = new String[]{"mContentHeight", "sH", "vh", "vM"}[idx]; // second View.MeasureSpec.makeMeasureSpec(this.
         }
     }
 }

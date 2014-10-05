@@ -160,10 +160,11 @@ public class NotificationBadgesHooks extends NotificationBadgesHelper {
                     }
                 }
 
+
                 if (count != 0) {
                     View bg = (View) getObjectField(param.thisObject, Fields.fiPreviewBackground);
-                    Canvas c = (Canvas) param.args[0];
                     Drawable d = new Badge(count).getDrawable();
+                    Canvas c = (Canvas) param.args[0];
                     c.translate(getTranslationX(bg, d), getTranslationY(bg, d));
                     d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
                     d.draw(c);

@@ -75,6 +75,13 @@
             android:key="iconsettingsswitchapps"
             android:title="@string/pref_switch_appicons_title"
             android:summary="@string/pref_switch_appicons_explain_summary" />
+        <de.theknut.xposedgelsettings.ui.MyListPreference
+            android:key="iconsizeappdrawer"
+            android:title="@string/pref_iconsize_title"
+            android:summary="@string/pref_iconsize_summary"
+            android:dependency="iconsettingsswitchapps"
+            android:entries="@array/iconsize_entries"
+            android:entryValues="@array/iconsize_entries" />
         <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
             android:key="hideiconappdrawer"
             android:title="@string/pref_hide_icon_label_on_app_drawer_title"

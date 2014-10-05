@@ -66,7 +66,7 @@ public class AppInfo extends HooksBaseClass {
 
                 RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.androidsettingscheckbox, null, false);
                 CheckBox checkbox = (CheckBox) view.findViewById(R.id.hide_app_switch);
-                checkbox.setTag(info.packageName + "#" + getObjectField(mAppEntry, "label"));
+                checkbox.setTag(SettingsContext.getPackageManager().getLaunchIntentForPackage(info.packageName).getComponent().flattenToString());
                 checkbox.setChecked(hiddenApps.contains(checkbox.getTag()));
                 checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -75,7 +75,6 @@ public class AppInfo extends HooksBaseClass {
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                         hiddenApps = prefs.getStringSet(key, new HashSet<String>());
-                        log("" + buttonView.getTag());
                         if (isChecked) {
                             if (!hiddenApps.contains(buttonView.getTag())) {
                                 // app is not in the list, so lets add it

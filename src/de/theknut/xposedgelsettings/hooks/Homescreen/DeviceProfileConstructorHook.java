@@ -30,12 +30,16 @@ public final class DeviceProfileConstructorHook extends HooksBaseClass {
 		// making sure to only hook to the appropriate constructor
 		if (!(param.args[NAME] instanceof Context)) {
 			
-			if (PreferencesHelper.changeGridSizeHome) {				
-				// set custom row count
-				param.args[NUMROWS] = PreferencesHelper.yCountHomescreen;
-				
-				// set custom column count
-				param.args[NUMCOLUMNS] = PreferencesHelper.xCountHomescreen;
+			if (PreferencesHelper.changeGridSizeHome) {
+                if (PreferencesHelper.yCountHomescreen != -1) {
+                    // set custom row count
+                    param.args[NUMROWS] = PreferencesHelper.yCountHomescreen;
+                }
+
+                if (PreferencesHelper.xCountHomescreen != -1) {
+                    // set custom column count
+                    param.args[NUMCOLUMNS] = PreferencesHelper.xCountHomescreen;
+                }
 			}
 			
 			if (PreferencesHelper.iconSettingsSwitchHome) {	
@@ -72,7 +76,7 @@ public final class DeviceProfileConstructorHook extends HooksBaseClass {
 					log("Didn't change hotseat icon size! Value was " + newHotseatIconSize);
 				}
 				
-				int hotseatBarHeight = (Math.round((Float)param.args[ICONSIZE]) + 24);
+				int hotseatBarHeight = Math.round((Float)param.args[ICONSIZE]) + 24;
 				setIntField(param.thisObject, Fields.dpHotseatBarHeightPx, hotseatBarHeight);
 			}
 		}
@@ -88,7 +92,9 @@ public final class DeviceProfileConstructorHook extends HooksBaseClass {
 		        setIntField(param.thisObject, Fields.hotseatAllAppsRank, PreferencesHelper.homescreenAllAppsPosition - 1);
 		    }
 		}
-		
-		setIntField(param.thisObject, Fields.dpNumHotseatIcons, PreferencesHelper.appDockCount);
+
+        if (PreferencesHelper.appDockCount != -1) {
+            setIntField(param.thisObject, Fields.dpNumHotseatIcons, PreferencesHelper.appDockCount);
+        }
 	}
 }

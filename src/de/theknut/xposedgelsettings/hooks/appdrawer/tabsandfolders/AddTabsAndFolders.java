@@ -11,9 +11,11 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import de.theknut.xposedgelsettings.hooks.Utils;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
+import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getLongField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setIntField;
@@ -69,25 +71,16 @@ public class AddTabsAndFolders extends HooksBaseClass {
             }
         });
 
-        if (false && !PreferencesHelper.continuousScrollWithAppDrawer) {
+        if (!PreferencesHelper.continuousScrollWithAppDrawer) {
             // open app drawer on overscroll of last page
             findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvOverScroll, float.class, new XC_MethodHook() {
                 final int OVERSCROLL = 0;
-                float overscroll;
-                boolean overscrolled;
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    overscroll = (Float) param.args[OVERSCROLL];
-                    log("Overscroll " + overscroll);
 
-                    if (overscrolled && overscroll < 100.0) {
-                        overscrolled = false;
-                        log("Reset Overscrolled");
-                    }
-
-                    if (!overscrolled && TabHelper.getInstance().handleScroll(overscroll)) {
-                        log("Overscrolled " + overscroll);
-                        overscrolled = true;
+                    if (!Common.APP_DRAWER_PAGE_SWITCHED
+                            && TabHelper.getInstance().handleScroll((Float) param.args[OVERSCROLL])) {
+                        Common.APP_DRAWER_PAGE_SWITCHED = true;
                     }
                 }
             });
@@ -130,9 +123,19 @@ public class AddTabsAndFolders extends HooksBaseClass {
         findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvSyncPages, new XC_MethodHook() {
 
             int numAppPages;
+            int contentHeight = -1;
+            int orientation;
 
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                if (PreferencesHelper.enableAppDrawerTabs && PreferencesHelper.moveTabHostBottom) {
+                    int currOrientation = Common.LAUNCHER_CONTEXT.getResources().getConfiguration().orientation;
+                    if (contentHeight == -1 || orientation != currOrientation) {
+                        orientation = currOrientation;
+                        contentHeight = getIntField(param.thisObject, Fields.acpvContentHeight);
+                    }
+                    setIntField(param.thisObject, Fields.acpvContentHeight, contentHeight - Utils.dpToPx(52));
+                }
                 numAppPages = TabHelper.getInstance().setNumberOfPages(param.thisObject);
             }
 

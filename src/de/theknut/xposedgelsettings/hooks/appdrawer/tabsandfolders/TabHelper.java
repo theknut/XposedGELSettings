@@ -515,10 +515,11 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
         if (curTab == null) return -1;
 
         int numAppPages = getIntField(thisObject, Fields.acpvNumAppsPages);
-        if (curTab.isAppsTab() && FolderHelper.getInstance().hasFolder()) {
+        if ((curTab.isAppsTab() || curTab.isUserTab()) && FolderHelper.getInstance().hasFolder()) {
             int mCellCountX = getIntField(thisObject, Fields.acpvCellCountX);
             int mCellCountY = getIntField(thisObject, Fields.acpvCellCountY);
-            int itemCnt = FolderHelper.getInstance().getAllApps().size() + FolderHelper.getInstance().getFolders().size();
+            int itemCnt = FolderHelper.getInstance().getFoldersForTab(curTab.getId()).size();
+            itemCnt += curTab.isAppsTab() ? FolderHelper.getInstance().getAllApps().size() : curTab.getData().size();
             setIntField(thisObject, Fields.acpvNumAppsPages, (int) Math.ceil((float) itemCnt / (mCellCountX * mCellCountY)));
             return numAppPages;
         } else if (curTab.isCustomTab() && curTab.getData() != null) {
@@ -542,9 +543,17 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
         Tab curTab = getCurrentTabData();
         if (curTab == null) return false;
 
-        if (curTab.isAppsTab() && FolderHelper.getInstance().hasFolder()) {
-            ArrayList items = new ArrayList(FolderHelper.getInstance().getAllApps());
-            items.addAll(0, FolderHelper.getInstance().getFolders());
+        if ((curTab.isAppsTab() || curTab.isUserTab()) && FolderHelper.getInstance().hasFolder()) {
+            ArrayList items;
+            if (curTab.isAppsTab()) {
+                items = new ArrayList(FolderHelper.getInstance().getAllApps());
+            } else if (curTab.isUserTab() && curTab.getData() != null) {
+                items = new ArrayList(curTab.getData());
+            } else {
+                return false;
+            }
+
+            items.addAll(0, FolderHelper.getInstance().getFoldersForTab(curTab.getId()));
             syncAppsPageItems(thisObject, items, page);
             return true;
         } else if (curTab.isCustomTab() && curTab.getData() != null) {
@@ -675,12 +684,12 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
             });
 
             final ImageView addfolder = (ImageView) tabSettingsView.findViewById(R.id.addfolder);
-            if (tab.isAppsTab()) {
+            if (tab.isAppsTab() || tab.isUserTab()) {
                 addfolder.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         tabSettingsDialog.dismiss();
-                        FolderHelper.getInstance().setupFolderSettings(null);
+                        FolderHelper.getInstance().setupFolderSettings(null, tab.getId());
                     }
                 });
                 Utils.setDrawableSelector(addfolder);
@@ -739,6 +748,10 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
                         long itemid = tab.getId();
 
                         removeTab(tab);
+                        ArrayList<Folder> folders = FolderHelper.getInstance().getFoldersForTab(tab.getId());
+                        if (folders.size() != 0) {
+                            FolderHelper.getInstance().removeFolders(folders);
+                        }
 
                         Intent intent = getBaseIntent(false, itemid, null);
                         Common.LAUNCHER_CONTEXT.startActivity(intent);

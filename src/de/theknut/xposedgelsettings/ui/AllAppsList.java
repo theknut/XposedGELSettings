@@ -110,6 +110,7 @@ public class AllAppsList extends ListActivity {
             contentType = intent.getStringExtra("contenttype");
             responseIntent.putExtra("itemid", itemID);
             responseIntent.putExtra("index", intent.getIntExtra("index", -1));
+            responseIntent.putExtra("tabid", intent.getLongExtra("tabid", Tab.APPS_ID)); // Tab id of the a Folder
         }
 
         if (mode == MODE_SELECT_FOLDER_APPS) {
@@ -266,8 +267,16 @@ public class AllAppsList extends ListActivity {
                             .commit();
                 }
 
-                sendBroadcast(new Intent(Common.XGELS_ACTION_RELOAD_SETTINGS));
-                sendBroadcast(responseIntent);
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                ResolveInfo resolveInfo = getPackageManager().resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
+
+                if (resolveInfo.activityInfo.packageName.equals(Common.TREBUCHET_PACKAGE)) {
+                    CommonUI.restartLauncher(false);
+                } else {
+                    sendBroadcast(new Intent(Common.XGELS_ACTION_RELOAD_SETTINGS));
+                    sendBroadcast(responseIntent);
+                }
 
                 finish();
             default:

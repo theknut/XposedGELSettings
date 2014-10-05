@@ -9,7 +9,9 @@ import java.util.Comparator;
 import java.util.HashSet;
 
 import de.theknut.xposedgelsettings.hooks.Common;
-import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.Utils;
 
@@ -125,8 +127,8 @@ public class AppDrawerItem {
             return new Comparator<Object>() {
                 public final int compare(Object a, Object b) {
                     try {
-                        PackageInfo app1 = Common.LAUNCHER_CONTEXT.getPackageManager().getPackageInfo(((ComponentName) getObjectField(a, ObfuscationHelper.Fields.aiComponentName)).getPackageName(), 0);
-                        PackageInfo app2 = Common.LAUNCHER_CONTEXT.getPackageManager().getPackageInfo(((ComponentName) getObjectField(b, ObfuscationHelper.Fields.aiComponentName)).getPackageName(), 0);
+                        PackageInfo app1 = Common.LAUNCHER_CONTEXT.getPackageManager().getPackageInfo(((ComponentName) getObjectField(a, Fields.aiComponentName)).getPackageName(), 0);
+                        PackageInfo app2 = Common.LAUNCHER_CONTEXT.getPackageManager().getPackageInfo(((ComponentName) getObjectField(b, Fields.aiComponentName)).getPackageName(), 0);
 
                         if (app1.lastUpdateTime < app2.lastUpdateTime) return 1;
                         if (app1.lastUpdateTime > app2.lastUpdateTime) return -1;
@@ -138,7 +140,7 @@ public class AppDrawerItem {
                 }
             };
         } else {
-            return (Comparator) callStaticMethod(ObfuscationHelper.Classes.LauncherModel, ObfuscationHelper.Methods.lmGetAppNameComparator);
+            return (Comparator) callStaticMethod(Classes.LauncherModel, Methods.lmGetAppNameComparator);
         }
     }
 

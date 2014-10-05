@@ -27,7 +27,7 @@ public class SetInsetsHook extends XC_MethodHook {
 		Object mContent = getObjectField(param.thisObject, Fields.acthContent);
 		Rect insets = (Rect) param.args[0];
 		
-		if (mContent != null) {
+		if (mContent != null && !PreferencesHelper.moveTabHostBottom) {
 			FrameLayout.LayoutParams flp = (LayoutParams) callMethod(mContent, "getLayoutParams");
 			flp.topMargin = insets.top;
 			

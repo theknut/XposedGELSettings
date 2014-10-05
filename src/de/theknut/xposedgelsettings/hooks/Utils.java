@@ -196,6 +196,10 @@ public class Utils {
         return dpToPx(dp, Resources.getSystem().getDisplayMetrics());
     }
 
+    public static double dpToPxExact(int dp) {
+        return dp * Resources.getSystem().getDisplayMetrics().density;
+    }
+
     public static int dpToPx(int dp, DisplayMetrics displayMetrics) {
         return Math.round(dp * displayMetrics.density);
     }

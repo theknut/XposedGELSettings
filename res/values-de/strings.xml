@@ -359,5 +359,8 @@
     <string name="alert_folder_hint_text_title">Ordnername</string>
     <string name="pref_appdrawer_folders_title">Ordner</string>
     <string name="pref_appdrawer_folders_summary">Hier klicken, um einen Ordner zum Appstab hinzuzufügen</string>
+    <string name="pref_appdock_show_labels_title">Zeige Iconnamen</string>
+    <string name="pref_appdockrect_title">Dock Links/Rechts-Abstand</string>
+    <string name="pref_appdockrect_summary">Wähle einen Multiplikator für die linken und rechten Dock-Abstände aus</string>
    
 </resources>

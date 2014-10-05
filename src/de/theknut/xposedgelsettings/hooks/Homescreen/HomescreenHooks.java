@@ -1,7 +1,9 @@
 package de.theknut.xposedgelsettings.hooks.homescreen;
 
+import android.content.res.Configuration;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
@@ -17,55 +19,83 @@ import de.theknut.xposedgelsettings.hooks.general.MoveToDefaultScreenHook;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
+import static de.robv.android.xposed.XposedHelpers.setBooleanField;
 import static de.robv.android.xposed.XposedHelpers.setIntField;
 
 public class HomescreenHooks extends HooksBaseClass {
 
-	public static void initAllHooks(LoadPackageParam lpparam) {
-		
-		// change the default homescreen
-		findAndHookMethod(Classes.Workspace, Methods.wMoveToDefaultScreen, boolean.class, new MoveToDefaultScreenHook());
-			
-		// modify homescreen grid
-		XposedBridge.hookAllConstructors(Classes.DeviceProfile, new DeviceProfileConstructorHook());
-		
-		if (PreferencesHelper.iconSettingsSwitchHome || PreferencesHelper.homescreenFolderSwitch || PreferencesHelper.appdockSettingsSwitch) {			
-			// changing the appearence of the icons on the homescreen
-			findAndHookMethod(Classes.CellLayout, Methods.clAddViewToCellLayout, View.class, Integer.TYPE, Integer.TYPE, Classes.CellLayoutLayoutParams, boolean.class, new AddViewToCellLayoutHook());
-		}
-		
-		XposedBridge.hookAllConstructors(Classes.AppsCustomizePagedView, new XC_MethodHook() {
-			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-				// saving the content type
-				Common.CONTENT_TYPE = getObjectField(param.thisObject, Fields.acpvContentType);
-			};
-		});
-		
-		if (PreferencesHelper.continuousScroll) {
-			
-			// over scroll to app drawer or first page
-			findAndHookMethod(Classes.Workspace, Methods.wOverScroll, float.class, new OverScrollWorkspaceHook());
-			//findAndHookMethod(Classes.Launcher, Methods.lShowWorkspace, boolean.class, Runnable.class, new OnWorkspaceShownHook());
-		}
-		
-		if (PreferencesHelper.appdockSettingsSwitch || PreferencesHelper.changeGridSizeHome) {
-			
-			// hide the app dock
-			findAndHookMethod(Classes.DeviceProfile, Methods.dpGetWorkspacePadding, Integer.TYPE, new GetWorkspacePaddingHook());
-			
-			if (PreferencesHelper.appdockSettingsSwitch) {
-				XposedBridge.hookAllConstructors(Classes.Hotseat, new HotseatConstructorHook());
-			}
-		}
-		
-		if (Common.IS_TREBUCHET) {
-			// move to default homescreen after workspace has finished loading
-			XposedBridge.hookAllMethods(Classes.Launcher, "onFinishBindingItems", new FinishBindingItemsHook());
-		}
-		else {
-			// move to default homescreen after workspace has finished loading
-			findAndHookMethod(Classes.Launcher, Methods.lFinishBindingItems, boolean.class, new FinishBindingItemsHook());
-		}
+    public static void initAllHooks(LoadPackageParam lpparam) {
+
+        // change the default homescreen
+        findAndHookMethod(Classes.Workspace, Methods.wMoveToDefaultScreen, boolean.class, new MoveToDefaultScreenHook());
+
+        // modify homescreen grid
+        XposedBridge.hookAllConstructors(Classes.DeviceProfile, new DeviceProfileConstructorHook());
+
+        if (PreferencesHelper.iconSettingsSwitchHome || PreferencesHelper.homescreenFolderSwitch || PreferencesHelper.appdockSettingsSwitch) {
+            // changing the appearence of the icons on the homescreen
+            findAndHookMethod(Classes.CellLayout, Methods.clAddViewToCellLayout, View.class, Integer.TYPE, Integer.TYPE, Classes.CellLayoutLayoutParams, boolean.class, new AddViewToCellLayoutHook());
+        }
+
+        XposedBridge.hookAllConstructors(Classes.AppsCustomizePagedView, new XC_MethodHook() {
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                // saving the content type
+                Common.CONTENT_TYPE = getObjectField(param.thisObject, Fields.acpvContentType);
+            };
+        });
+
+        if (PreferencesHelper.continuousScroll) {
+
+            // over scroll to app drawer or first page
+            findAndHookMethod(Classes.Workspace, Methods.wOverScroll, float.class, new OverScrollWorkspaceHook());
+        }
+
+        if (PreferencesHelper.appdockSettingsSwitch || PreferencesHelper.changeGridSizeHome) {
+
+            // hide the app dock
+            findAndHookMethod(Classes.DeviceProfile, Methods.dpGetWorkspacePadding, Integer.TYPE, new GetWorkspacePaddingHook());
+
+            if (PreferencesHelper.appdockSettingsSwitch) {
+                XposedBridge.hookAllConstructors(Classes.Hotseat, new HotseatConstructorHook());
+
+                if (PreferencesHelper.appdockShowLabels) {
+                    findAndHookMethod(Classes.CellLayout, Methods.clSetIsHotseat, boolean.class, new XC_MethodHook() {
+                        @Override
+                        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                            setBooleanField(param.thisObject, Fields.clIsHotseat, false);
+                            setBooleanField(getObjectField(param.thisObject, Fields.clShortcutsAndWidgets), Fields.sawIsHotseat, false);
+                        }
+                    });
+                }
+
+                findAndHookMethod(Classes.Hotseat, "onFinishInflate", new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        if (Common.LAUNCHER_CONTEXT.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                            FrameLayout hotseat = (FrameLayout) param.thisObject;
+
+                            int padding = hotseat.getPaddingLeft();
+                            padding = padding == 0 && PreferencesHelper.appdockRect != 1 ? 12 : 0;
+                            hotseat.setPadding(
+                                    padding * PreferencesHelper.appdockRect,
+                                    hotseat.getPaddingTop(),
+                                    padding * PreferencesHelper.appdockRect,
+                                    hotseat.getPaddingBottom()
+                            );
+                        }
+                    }
+                });
+            }
+        }
+
+        if (Common.IS_TREBUCHET) {
+            // move to default homescreen after workspace has finished loading
+            XposedBridge.hookAllMethods(Classes.Launcher, "onFinishBindingItems", new FinishBindingItemsHook());
+        }
+        else {
+            // move to default homescreen after workspace has finished loading
+            findAndHookMethod(Classes.Launcher, Methods.lFinishBindingItems, boolean.class, new FinishBindingItemsHook());
+        }
 
         if (PreferencesHelper.smartFolderMode != 0) {
             findAndHookMethod(Classes.FolderIcon, "onTouchEvent", MotionEvent.class, new SmartFolderHook());
@@ -102,5 +132,5 @@ public class HomescreenHooks extends HooksBaseClass {
                 });
             }
         }
-	}
+    }
 }

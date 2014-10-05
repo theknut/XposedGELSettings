@@ -6,17 +6,21 @@ import android.os.AsyncTask;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import de.robv.android.xposed.XposedBridge;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
+import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import de.theknut.xposedgelsettings.hooks.Utils;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
+import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getLongField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.newInstance;
@@ -30,8 +34,8 @@ public class Folder extends AppDrawerItem implements View.OnLongClickListener {
     public static final String KEY_PREFIX= "folder";
     public static final long FOLDER_ID = 0xABCDEF;
 
-    private int x, y;
     private View folderIcon;
+    private long tabId = Tab.APPS_ID;
 
     public Folder(String folderCfg) {
         this(folderCfg, true);
@@ -49,6 +53,8 @@ public class Folder extends AppDrawerItem implements View.OnLongClickListener {
                 this.title = setting.split("=")[1];
             } else if (setting.startsWith("hide=")) {
                 this.hideFromAppsPage = Boolean.parseBoolean(setting.split("=")[1]);
+            } else if (setting.startsWith("tabid=")) {
+                this.tabId = Long.parseLong(setting.split("=")[1]);
             }
         }
 
@@ -59,6 +65,7 @@ public class Folder extends AppDrawerItem implements View.OnLongClickListener {
         this.id = intent.getLongExtra("itemid", -1);
         this.idx = intent.getIntExtra("index", -1);
         this.title = intent.getStringExtra("name");
+        this.tabId = intent.getLongExtra("tabid", Tab.APPS_ID);
         this.hideFromAppsPage = intent.getBooleanExtra("hide", false);
 
         if (initData) initData();
@@ -106,8 +113,20 @@ public class Folder extends AppDrawerItem implements View.OnLongClickListener {
             });
 
             folderIcon.setOnLongClickListener(this);
-            addItems();
+
+            ImageView background = (ImageView) getObjectField(folderIcon, Fields.fiPreviewBackground);
+            ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) background.getLayoutParams();
+
+            double tmp = Utils.dpToPxExact(9) * (PreferencesHelper.iconSizeAppDrawer / 100.0);
+            double folderSize = Common.APP_DRAWER_ICON_SIZE + tmp;
+            layoutParams.height = layoutParams.width = (int) Math.ceil(folderSize);
+
             callMethod(callMethod(appsCustomizeCellLayout, Methods.clGetShortcutsAndWidgets), Methods.sawMeasureChild, folderIcon);
+            TextView t = ((TextView) getObjectField(folderIcon, Fields.fiFolderName));
+            t.setTextSize(0, getIntField(Common.DEVICE_PROFIL, Fields.dpIconTextSize));
+            ((ViewGroup.MarginLayoutParams) t.getLayoutParams()).setMargins(0, (int) Math.ceil(folderSize - tmp / 2), 0, 0);
+
+            addItems();
         }
     }
 
@@ -130,14 +149,15 @@ public class Folder extends AppDrawerItem implements View.OnLongClickListener {
 
                     @Override
                     protected Void doInBackground(Void... params) {
-                        ViewGroup contents = (ViewGroup) callMethod(getObjectField(getObjectField(folderIcon, Fields.fiFolder), "EQ"), Methods.clGetShortcutsAndWidgets);
+                        ViewGroup contents = (ViewGroup) callMethod(getObjectField(getObjectField(folderIcon, Fields.fiFolder), Fields.fContent), Methods.clGetShortcutsAndWidgets);
                         Object appsCustomizePagedView = getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizePagedView);
                         for (int i = 0; i < contents.getChildCount(); i++) {
-                            View app = contents.getChildAt(i);
+                            TextView app = (TextView) contents.getChildAt(i);
                             app.setOnTouchListener((View.OnTouchListener) appsCustomizePagedView);
                             app.setOnLongClickListener((View.OnLongClickListener) appsCustomizePagedView);
                             app.setOnKeyListener((View.OnKeyListener) appsCustomizePagedView);
                         }
+
                         return null;
                     }
                 }.execute();
@@ -146,7 +166,9 @@ public class Folder extends AppDrawerItem implements View.OnLongClickListener {
     }
 
     public void addItem(Object shortcutInfo) {
-        callMethod(folderIcon, Methods.fiAddItem, shortcutInfo);
+        if (folderIcon != null || shortcutInfo != null) {
+            callMethod(folderIcon, Methods.fiAddItem, shortcutInfo);
+        }
     }
 
     @Override
@@ -188,27 +210,17 @@ public class Folder extends AppDrawerItem implements View.OnLongClickListener {
         return false;
     }
 
-    public float getX() {
-        View folder = (View) getObjectField(folderIcon, Fields.fiFolder);
-        View tmpFolderIcon = (View) getObjectField(folder, "EU");
-        int folderWidth = folder.getPaddingLeft() + folder.getPaddingRight() + (Integer) callMethod(getObjectField(folder, "EQ"), "eN");
-        float x = tmpFolderIcon.getX() - folderWidth / 2;
-        if (x < 0.0) {
-            XposedBridge.log("X1 " + tmpFolderIcon.getX());
-            return tmpFolderIcon.getX();
-        }
-        XposedBridge.log("X2 " + x);
-        return x;
-    }
-
-    public float getY() {
-        View folder = (View) getObjectField(folderIcon, Fields.fiFolder);
-        View tmpFolderIcon = (View) getObjectField(folder, "EU");
-        XposedBridge.log("Y " + tmpFolderIcon.getY() + tmpFolderIcon.getPaddingTop());
-        return tmpFolderIcon.getY() + tmpFolderIcon.getPaddingTop();
+    public long getTabId() {
+        return tabId;
     }
 
     public void closeFolder() {
         callMethod(Common.LAUNCHER_INSTANCE, Methods.lCloseFolder);
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "|"
+                + "tabid=" + tabId;
     }
 }

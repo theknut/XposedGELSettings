@@ -90,4 +90,10 @@ public final class Common {
     public static boolean ON_MEASURE;
     public static View CURRENT_FOLDER;
     public static boolean IS_TREBUCHET;
+    public static boolean APP_DRAWER_PAGE_SWITCHED;
+    public static int ORIENTATION;
+    public static int ALL_APPS_X_COUNT;
+    public static int ALL_APPS_Y_COUNT;
+    public static int APP_DRAWER_ICON_SIZE = -1;
+    public static Object DEVICE_PROFIL;
 }

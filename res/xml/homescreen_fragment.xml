@@ -69,6 +69,10 @@
             android:dependency="appdocksettingsswitch"
             android:defaultValue="0x00000000"
             alphaSlider="true" />
+        <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+            android:key="appdockshowlabels"
+            android:title="@string/pref_appdock_show_labels_title"
+            android:dependency="appdocksettingsswitch" />
         <de.theknut.xposedgelsettings.ui.MyListPreference
             android:key="appdockiconsize"
             android:title="@string/pref_appdockiconsize_title"
@@ -83,6 +87,14 @@
             android:dependency="appdocksettingsswitch"
             android:entries="@array/appdock_entries"
             android:entryValues="@array/appdock_entries"/>
+        <de.theknut.xposedgelsettings.ui.MyListPreference
+            android:key="appdockrect"
+            android:title="@string/pref_appdockrect_title"
+            android:summary="@string/pref_appdockrect_summary"
+            android:dialogTitle="@string/pref_workspacerect_dialog"
+            android:entries="@array/workspacerect"
+            android:entryValues="@array/workspacerect"
+            android:dependency="appdocksettingsswitch"/>
     </de.theknut.xposedgelsettings.ui.MyPreferenceCategory>
     <de.theknut.xposedgelsettings.ui.MyPreferenceCategory
         android:title="@string/pref_cat_homescreen_icon_title">

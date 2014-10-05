@@ -74,7 +74,13 @@ public final class FolderHelper {
         return folders.size() != 0;
     }
 
-    public ArrayList<Folder> getFolders() {
+    public ArrayList<Folder> getFoldersForTab(long tabId) {
+        ArrayList<Folder> folders = new ArrayList<Folder>();
+        for (Folder folder : this.folders) {
+            if (folder.getTabId() == tabId) {
+                folders.add(folder);
+            }
+        }
         return folders;
     }
 
@@ -115,6 +121,10 @@ public final class FolderHelper {
     }
 
     public void setupFolderSettings(final Folder folder) {
+        setupFolderSettings(folder, folder.getTabId());
+    }
+
+    public void setupFolderSettings(final Folder folder, final long tabId) {
         boolean newFolder = folder == null;
         final ViewGroup folderSettingsView = (ViewGroup) LayoutInflater.from(Common.XGELSCONTEXT).inflate(R.layout.folder_settings_view, null);
         final EditText editText = (EditText) folderSettingsView.findViewById(R.id.foldername);
@@ -198,6 +208,7 @@ public final class FolderHelper {
                     long itemid = folder.getId();
 
                     removeFolder(folder);
+                    TabHelper.getInstance().invalidate();
 
                     Intent intent = getBaseIntent(false, itemid, null);
                     Common.LAUNCHER_CONTEXT.startActivity(intent);
@@ -239,7 +250,8 @@ public final class FolderHelper {
 
                     Intent intent = getBaseIntent(true, getNewFolderId(), newTabName);
                     intent.putExtra("new", true);
-                    intent.putExtra("index", folders.size());
+                    intent.putExtra("index", getFoldersForTab(tabId).size());
+                    intent.putExtra("tabid", tabId);
 
                     Common.LAUNCHER_CONTEXT.startActivity(intent);
                 }
@@ -256,6 +268,12 @@ public final class FolderHelper {
         folderSettingsDialog.show();
     }
 
+    public void removeFolders(ArrayList<Folder> folders) {
+        for (Folder folder : folders) {
+            removeFolder(folder);
+        }
+    }
+
     public void removeFolder(Folder folder) {
         if (folders.contains(folder)) {
             folders.remove(folder);
@@ -270,7 +288,6 @@ public final class FolderHelper {
                 callMethod(mAppsCustomizePane, Methods.acpvSetApps, allApps);
             }
         }
-        TabHelper.getInstance().invalidate();
     }
 
     public ArrayList<String> getAppsToHide() {

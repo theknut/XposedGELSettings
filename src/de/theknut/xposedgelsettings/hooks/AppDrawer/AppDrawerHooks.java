@@ -1,5 +1,6 @@
 package de.theknut.xposedgelsettings.hooks.appdrawer;
 
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -22,6 +23,7 @@ import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
+import static de.robv.android.xposed.XposedHelpers.setIntField;
 
 public class AppDrawerHooks extends HooksBaseClass {
 
@@ -35,13 +37,11 @@ public class AppDrawerHooks extends HooksBaseClass {
             XposedBridge.hookAllMethods(Classes.PagedViewIcon, Methods.pviApplyFromApplicationInfo, new ApplyFromApplicationInfoHook());
         }
 
-        if (PreferencesHelper.changeGridSizeApps) {
-            // modify app drawer grid
-            if (Common.PACKAGE_OBFUSCATED) {
-                findAndHookMethod(Classes.DeviceProfile, Methods.dpUpdateFromConfiguration, float.class, Integer.TYPE, Resources.class, DisplayMetrics.class, new UpdateFromConfigurationHook());
-            } else {
-                XposedBridge.hookAllMethods(Classes.DeviceProfile, Methods.dpUpdateFromConfiguration, new UpdateFromConfigurationHook());
-            }
+        // modify app drawer grid
+        if (Common.PACKAGE_OBFUSCATED) {
+            findAndHookMethod(Classes.DeviceProfile, Methods.dpUpdateFromConfiguration, float.class, Integer.TYPE, Resources.class, DisplayMetrics.class, new UpdateFromConfigurationHook());
+        } else {
+            XposedBridge.hookAllMethods(Classes.DeviceProfile, Methods.dpUpdateFromConfiguration, new UpdateFromConfigurationHook());
         }
 
         if (Common.IS_TREBUCHET) {
@@ -90,6 +90,8 @@ public class AppDrawerHooks extends HooksBaseClass {
                     }
 
                     Common.OVERSCROLLED = false;
+                } else {
+                    Common.ORIENTATION = Common.LAUNCHER_CONTEXT.getResources().getConfiguration().orientation;
                 }
             }
         });
@@ -125,73 +127,24 @@ public class AppDrawerHooks extends HooksBaseClass {
             }
         });
 
+        XposedBridge.hookAllMethods(Classes.AppsCustomizePagedView, Methods.acpvUpdatePageCounts, new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                if (Common.LAUNCHER_CONTEXT.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    setIntField(param.thisObject, Fields.acpvCellCountY, Common.ALL_APPS_X_COUNT - 1);
+                    setIntField(param.thisObject, Fields.acpvCellCountX, Common.ALL_APPS_Y_COUNT + 1);
+                } else {
+                    setIntField(param.thisObject, Fields.acpvCellCountY, Common.ALL_APPS_Y_COUNT);
+                    setIntField(param.thisObject, Fields.acpvCellCountX, Common.ALL_APPS_X_COUNT);
+                }
+            }
+        });
+
         // hiding apps from the app drawer
         findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvSetApps, ArrayList.class, new AllAppsListAddHook());
         findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvUpdateApps, ArrayList.class, new AllAppsListAddHook());
         findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvRemoveApps, ArrayList.class, new AllAppsListAddHook());
 
         AddTabsAndFolders.initAllHooks(lpparam);
-
-//		final Class<?> CellLayoutClass = findClass(Common.CELL_LAYOUT, lpparam.classLoader);
-//		XposedBridge.hookAllMethods(CellLayoutClass, "onLayout", new XC_MethodHook() {
-//			@Override
-//			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-//				//XposedBridge.log("XGELS onLayout ############### " + param.args[0]);
-//				
-//				ViewGroup grid = (ViewGroup) param.thisObject;
-//				grid.setPadding(0, 0, 0, 0);
-//			}
-//		});
-//		
-//		final Class<?> APPS_CUSTOMIZE_PAGED_VIEW = findClass(Common.APPS_CUSTOMIZE_PAGED_VIEW, lpparam.classLoader);
-//		XposedBridge.hookAllMethods(APPS_CUSTOMIZE_PAGED_VIEW, "onFinishInflate", new XC_MethodHook() {
-//			@Override
-//			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-//				XposedBridge.log("XGELS onFinishInflate ############### ");
-//				
-//				if (Common.LAUNCHER_CONTEXT.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//					ViewGroup grid = (ViewGroup) param.thisObject;
-//					grid.setPadding(0, 0, 0, 0);
-//				}
-//			}
-//		});
-//				
-//		XposedBridge.hookAllMethods(Classes.AppsCustomizePagedView, "dY", new XC_MethodHook() {
-//                    @Override
-//                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-//log("Width " + ((View) callMethod(param.thisObject, Methods.pvGetPageAt, 0)).getWidth());
-//                        log("Width " + ((View) ((View) callMethod(param.thisObject, Methods.pvGetPageAt, 0)).getParent()).getWidth());
-//                        log("Width " + ((View) ((View) ((View) callMethod(param.thisObject, Methods.pvGetPageAt, 0)).getParent()).getParent()).getWidth());
-//                        log("lol");
-//                    }
-//                });
-//
-//        XposedBridge.hookAllMethods(Classes.AppsCustomizePagedView, "onMeasure", new XC_MethodHook() {
-//            @Override
-//            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-//                XposedBridge.log("XGELS updatePageCounts");
-//
-//                if (Common.LAUNCHER_CONTEXT.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//                    Object tmp = param.args[0];
-//                    param.args[0] = param.args[1];
-//                    param.args[1] = tmp;
-//                }
-//            }
-//        });
-//
-//		XposedBridge.hookAllMethods(Classes.AppsCustomizePagedView, "updatePageCounts", new XC_MethodHook() {
-//			@Override
-//			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-//				XposedBridge.log("XGELS updatePageCounts");
-//
-//				if (Common.LAUNCHER_CONTEXT.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//					setIntField(param.thisObject, Fields.acpvCellCountY, PreferencesHelper.xCountAllApps);
-//					setIntField(param.thisObject, Fields.acpvCellCountX, PreferencesHelper.yCountAllApps);
-//				} else {
-//					setIntField(param.thisObject, Fields.acpvCellCountY, PreferencesHelper.yCountAllApps);
-//					setIntField(param.thisObject, Fields.acpvCellCountX, PreferencesHelper.xCountAllApps);
-//				}
-//			}
-//		});
     }
 }

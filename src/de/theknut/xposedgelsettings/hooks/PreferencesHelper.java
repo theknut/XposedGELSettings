@@ -70,6 +70,7 @@ public class PreferencesHelper {
     public static int homescreenFolderPreviewColor;
     public static int defaultHomescreen;
     public static int workspaceRect;
+    public static int appdockRect;
     public static int homescreenAllAppsPosition;
     public static int smartFolderMode;
     public static int searchbarStyle;
@@ -124,6 +125,8 @@ public class PreferencesHelper {
     public static boolean overrideSettingsButton;
     public static int pageIndicatorColor;
     public static boolean moveTabHostBottom;
+    public static boolean appdockShowLabels;
+    public static int iconSizeAppDrawer;
 
     public static void init() {
         prefs = new XSharedPreferences(Common.PACKAGE_NAME);
@@ -140,6 +143,7 @@ public class PreferencesHelper {
         iconSettingsSwitchHome = prefs.getBoolean("iconsettingsswitchhome", false);
         iconSettingsSwitchApps = prefs.getBoolean("iconsettingsswitchapps", false);
         appdockSettingsSwitch = prefs.getBoolean("appdocksettingsswitch", false);
+        appdockShowLabels = prefs.getBoolean("appdockshowlabels", false);
         hidePageIndicator = prefs.getBoolean("hidepageindicator", false);
         enableRotation = prefs.getBoolean("enablerotation", false);
         resizeAllWidgets = prefs.getBoolean("resizeallwidgets", false);
@@ -172,12 +176,13 @@ public class PreferencesHelper {
         homescreenFolderNoLabel = prefs.getBoolean("homescreenfoldernolabel", false);
         gesture_appdrawer = prefs.getBoolean("gesture_appdrawer", false);
         appdrawerRememberLastPosition = prefs.getBoolean("appdrawerrememberlastposition", false);
-        xCountHomescreen = Integer.parseInt(prefs.getString("xcounthomescreen", "4"));
-        yCountHomescreen = Integer.parseInt(prefs.getString("ycounthomescreen", "5"));
-        xCountAllApps = Integer.parseInt(prefs.getString("xcountallapps", "4"));
-        yCountAllApps = Integer.parseInt(prefs.getString("ycountallapps", "6"));
-        appDockCount = Integer.parseInt(prefs.getString("appdockcount", "5"));
+        xCountHomescreen = Integer.parseInt(prefs.getString("xcounthomescreen", "-1"));
+        yCountHomescreen = Integer.parseInt(prefs.getString("ycounthomescreen", "-1"));
+        xCountAllApps = Integer.parseInt(prefs.getString("xcountallapps", "-1"));
+        yCountAllApps = Integer.parseInt(prefs.getString("ycountallapps", "-1"));
+        appDockCount = Integer.parseInt(prefs.getString("appdockcount", "-1"));
         iconSize = Integer.parseInt(prefs.getString("iconsize", "100"));
+        iconSizeAppDrawer = Integer.parseInt(prefs.getString("iconsizeappdrawer", "100"));
         appdockIconSize = Integer.parseInt(prefs.getString("appdockiconsize", "100"));
         iconTextSize = Integer.parseInt(prefs.getString("icontextsize", "100"));
         homescreenIconLabelColor = prefs.getInt("homescreeniconlabelcolor", Color.WHITE);
@@ -191,6 +196,7 @@ public class PreferencesHelper {
         pageIndicatorColor = prefs.getInt("pageindicatorcolor", Color.argb(0xFF, 0xFF, 0xFF, 0xFF));
         defaultHomescreen = Integer.parseInt(prefs.getString("defaulthomescreen", "-1"));
         workspaceRect = Integer.parseInt(prefs.getString("workspacerect", "1"));
+        appdockRect = Integer.parseInt(prefs.getString("appdockrect", "1"));
         homescreenAllAppsPosition = Integer.parseInt(prefs.getString("positionallappsbutton", "-1"));
         smartFolderMode = Integer.parseInt(prefs.getString("smartfoldermode", "0"));
         scrolldevider = Integer.parseInt(prefs.getString("scrolldevider", "10"));

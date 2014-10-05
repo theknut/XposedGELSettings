@@ -12,6 +12,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
         android:scaleType="centerCrop" />
+
     <TextView
         android:id="@+id/welcometext"
         android:layout_width="wrap_content"
@@ -25,5 +26,18 @@
         android:textColor="#FFFFFF"
         android:textSize="30sp"
         android:textStyle="bold" />
-    
+
+    <TextView
+        android:id="@+id/madeingermany"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="Made in Germany"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
