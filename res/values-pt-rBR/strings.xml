@@ -370,5 +370,10 @@
     <string name="pref_appdrawer_folders_title">Pastas</string>
     <string name="pref_appdrawer_folders_summary">Toque para adicionar uma pasta para a aba aplicativos principal</string>
     <string name="toast_appdrawer_folder_minimum_app">A pasta deve conter, no mínimo de dois itens</string>
+    
+    <!-- new -->
+    <string name="pref_appdock_show_labels_title">Exibir títulos dos ícone</string>
+    <string name="pref_appdockrect_title">Margem esquerda/direita dos app da bandeja</string>
+    <string name="pref_appdockrect_summary">Escolha um multiplicador de margem esquerda e direita para os app da bandeja</string>
 
 </resources>
