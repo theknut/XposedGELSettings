@@ -36,11 +36,12 @@ public class UpdateFromConfigurationHook extends XC_MethodHook {
 			setObjectField(param.thisObject, Fields.acpvAllAppsNumRows, PreferencesHelper.yCountAllApps);
 		}
 
-        if (PreferencesHelper.iconSettingsSwitchApps) {
-            if (Common.APP_DRAWER_ICON_SIZE == -1) {
-                Common.APP_DRAWER_ICON_SIZE = (int) Math.round(getIntField(param.thisObject, Fields.dpAllAppsIconSize) * (PreferencesHelper.iconSizeAppDrawer / 100.0));
-            }
 
+        if (Common.APP_DRAWER_ICON_SIZE == -1) {
+            Common.APP_DRAWER_ICON_SIZE = (int) Math.round(getIntField(param.thisObject, Fields.dpAllAppsIconSize) * (PreferencesHelper.iconSizeAppDrawer / 100.0));
+        }
+
+        if (PreferencesHelper.iconSettingsSwitchApps) {
             setIntField(param.thisObject, Fields.dpAllAppsIconSize, Common.APP_DRAWER_ICON_SIZE);
         }
 	}

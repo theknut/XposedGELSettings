@@ -27,7 +27,18 @@
   </head>
   <body>
 
-$ B2.1 Build 2
+ $ B2.1 Build 2
+     % Version B2.1 Build 3
+    _ 2014-06-10
+
+   ! Fixed:
+   * folder icon not showing
+   * tab overscroll
+
+   ! XGELS UI:
+   * updated translations
+
+ $ B2.1 Build 2
     % Version B2.1 Build 2
    _ 2014-05-10
 

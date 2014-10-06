@@ -71,7 +71,7 @@ public class AddTabsAndFolders extends HooksBaseClass {
             }
         });
 
-        if (!PreferencesHelper.continuousScrollWithAppDrawer) {
+        if (PreferencesHelper.gesture_appdrawer && !PreferencesHelper.continuousScrollWithAppDrawer) {
             // open app drawer on overscroll of last page
             findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvOverScroll, float.class, new XC_MethodHook() {
                 final int OVERSCROLL = 0;
