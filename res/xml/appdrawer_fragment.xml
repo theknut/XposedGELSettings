@@ -43,20 +43,11 @@
             android:key="changegridsizeapps"
             android:title="@string/pref_switch_enable_grid_size_title"
             android:summary="@string/pref_switch_enable_grid_size_summary" />
-        <de.theknut.xposedgelsettings.ui.MyListPreference
-            android:key="xcountallapps"
-            android:title="@string/pref_xcountallapps_title"
-            android:summary="@string/pref_xcountallapps_summary"
-            android:dependency="changegridsizeapps"
-            android:entries="@array/allapps_grid_size_entries"
-            android:entryValues="@array/allapps_grid_size_entries"/>
-        <de.theknut.xposedgelsettings.ui.MyListPreference
-            android:key="ycountallapps"
-            android:title="@string/pref_ycountallapps_title"
-            android:summary="@string/pref_ycountallapps_summary"
-            android:dependency="changegridsizeapps"
-            android:entries="@array/allapps_grid_size_entries"
-            android:entryValues="@array/allapps_grid_size_entries"/>
+        <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+            android:key="gridsize"
+            android:title="@string/pref_grid_size_title"
+            android:summary="@string/pref_grid_size_summary"
+            android:dependency="changegridsizeapps" />
         <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
             android:key="closeappdrawerafterappstarted"
             android:title="@string/pref_switch_close_app_drawer_after_app_started_title"

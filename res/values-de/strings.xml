@@ -363,5 +363,7 @@
     <string name="pref_appdock_show_labels_title">Zeige Iconnamen</string>
     <string name="pref_appdockrect_title">Dock Links/Rechts-Abstand</string>
     <string name="pref_appdockrect_summary">Wähle einen Multiplikator für die linken und rechten Dock-Abstände aus</string>
+    <string name="pref_grid_size_title">Rastergröße</string>
+    <string name="pref_grid_size_summary">Wähle Sie eine vertikale und horizontal Rastergröße</string>
    
 </resources>

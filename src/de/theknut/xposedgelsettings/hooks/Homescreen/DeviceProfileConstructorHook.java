@@ -31,14 +31,14 @@ public final class DeviceProfileConstructorHook extends HooksBaseClass {
 		if (!(param.args[NAME] instanceof Context)) {
 			
 			if (PreferencesHelper.changeGridSizeHome) {
-                if (PreferencesHelper.yCountHomescreen != -1) {
+                if (PreferencesHelper.yCountHomescreenVertical != -1) {
                     // set custom row count
-                    param.args[NUMROWS] = PreferencesHelper.yCountHomescreen;
+                    param.args[NUMROWS] = PreferencesHelper.yCountHomescreenVertical;
                 }
 
-                if (PreferencesHelper.xCountHomescreen != -1) {
+                if (PreferencesHelper.xCountHomescreenVertical != -1) {
                     // set custom column count
-                    param.args[NUMCOLUMNS] = PreferencesHelper.xCountHomescreen;
+                    param.args[NUMCOLUMNS] = PreferencesHelper.xCountHomescreenVertical;
                 }
 			}
 			

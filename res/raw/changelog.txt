@@ -27,16 +27,30 @@
   </head>
   <body>
 
- $ B2.1 Build 2
-     % Version B2.1 Build 3
-    _ 2014-06-10
+ $ B2.1 Build 4
+  % Version B2.1 Build 4
+  _ 2014-06-10
 
-   ! Fixed:
-   * folder icon not showing
-   * tab overscroll
+  ! Added:
+  * App drawer: vertical grid size
 
-   ! XGELS UI:
-   * updated translations
+  ! Fixed:
+  * launcher crash
+  * tab overscroll gesture
+
+  ! XGELS UI:
+  * updated translations
+
+ $ B2.1 Build 3
+  % Version B2.1 Build 3
+  _ 2014-06-10
+
+  ! Fixed:
+  * folder icon not showing
+  * tab overscroll
+
+  ! XGELS UI:
+  * updated translations
 
  $ B2.1 Build 2
     % Version B2.1 Build 2

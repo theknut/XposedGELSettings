@@ -56,7 +56,6 @@ public final class Common {
     public static Object WORKSPACE_INSTANCE;
     public static Object HOTSEAT_INSTANCE;
     public static Object APP_DRAWER_INSTANCE;
-	public static Object CONTENT_TYPE;
 	
 	public static Context LAUNCHER_CONTEXT;
 	public static Context XGELSCONTEXT;
@@ -92,8 +91,10 @@ public final class Common {
     public static boolean IS_TREBUCHET;
     public static boolean APP_DRAWER_PAGE_SWITCHED;
     public static int ORIENTATION;
-    public static int ALL_APPS_X_COUNT;
-    public static int ALL_APPS_Y_COUNT;
+    public static int ALL_APPS_X_COUNT_VERTICAL;
+    public static int ALL_APPS_Y_COUNT_VERTICAL;
+    public static int ALL_APPS_X_COUNT_HORIZONTAL;
+    public static int ALL_APPS_Y_COUNT_HORIZONTAL;
     public static int APP_DRAWER_ICON_SIZE = -1;
     public static Object DEVICE_PROFIL;
 }

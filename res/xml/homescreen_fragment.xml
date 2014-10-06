@@ -8,20 +8,11 @@
         android:key="changegridsizehome"
         android:title="@string/pref_switch_enable_grid_size_title"
         android:summary="@string/pref_switch_enable_grid_size_summary" />
-    <de.theknut.xposedgelsettings.ui.MyListPreference
-        android:key="xcounthomescreen"
-        android:title="@string/pref_xcount_title"
-        android:summary="@string/pref_xcount_summary"
-        android:dependency="changegridsizehome"
-        android:entries="@array/homescreen_grid_size_entries"
-        android:entryValues="@array/homescreen_grid_size_entries"/>
-    <de.theknut.xposedgelsettings.ui.MyListPreference
-        android:key="ycounthomescreen"
-        android:title="@string/pref_ycount_title"
-        android:summary="@string/pref_ycount_summary"
-        android:dependency="changegridsizehome"
-        android:entries="@array/homescreen_grid_size_entries"
-        android:entryValues="@array/homescreen_grid_size_entries"/>
+    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+        android:key="gridsize"
+        android:title="@string/pref_grid_size_title"
+        android:summary="@string/pref_grid_size_summary"
+        android:dependency="changegridsizehome" />
     <de.theknut.xposedgelsettings.ui.MyListPreference
         android:key="workspacerect"
         android:title="@string/pref_workspacerect_title"

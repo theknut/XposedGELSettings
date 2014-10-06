@@ -131,11 +131,11 @@ public class AppDrawerHooks extends HooksBaseClass {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 if (Common.LAUNCHER_CONTEXT.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    setIntField(param.thisObject, Fields.acpvCellCountY, Common.ALL_APPS_X_COUNT - 1);
-                    setIntField(param.thisObject, Fields.acpvCellCountX, Common.ALL_APPS_Y_COUNT + 1);
+                    setIntField(param.thisObject, Fields.acpvCellCountY, Common.ALL_APPS_Y_COUNT_HORIZONTAL);
+                    setIntField(param.thisObject, Fields.acpvCellCountX, Common.ALL_APPS_X_COUNT_HORIZONTAL);
                 } else {
-                    setIntField(param.thisObject, Fields.acpvCellCountY, Common.ALL_APPS_Y_COUNT);
-                    setIntField(param.thisObject, Fields.acpvCellCountX, Common.ALL_APPS_X_COUNT);
+                    setIntField(param.thisObject, Fields.acpvCellCountY, Common.ALL_APPS_Y_COUNT_VERTICAL);
+                    setIntField(param.thisObject, Fields.acpvCellCountX, Common.ALL_APPS_X_COUNT_VERTICAL);
                 }
             }
         });

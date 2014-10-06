@@ -1,6 +1,7 @@
 package de.theknut.xposedgelsettings.ui;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +11,7 @@ import android.preference.Preference;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import de.theknut.xposedgelsettings.R;
@@ -25,6 +27,65 @@ public class FragmentAppDrawer extends FragmentBase {
 
         View rootView = inflater.inflate(R.layout.options_fragment, container, false);
         addPreferencesFromResource(R.xml.appdrawer_fragment);
+
+        findPreference("gridsize").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                final ViewGroup numberPickerView = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.number_picker, null);
+                int padding = Math.round(mContext.getResources().getDimension(R.dimen.tab_menu_padding));
+                final AlertDialog numberPickerDialog = new AlertDialog.Builder(mActivity).create();
+                numberPickerDialog.setView(numberPickerView, padding, padding, padding, padding);
+
+                final SharedPreferences prefs = mContext.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
+
+                int minValue = 4, maxValue = 15;
+                final NumberPicker nphc = (NumberPicker) numberPickerView.findViewById(R.id.numberPickerHorizontalColumn);
+                nphc.setMinValue(minValue);
+                nphc.setMaxValue(maxValue);
+                nphc.setValue(Integer.parseInt(prefs.getString("xcountallappshorizontal", "" + nphc.getMinValue())));
+
+                final NumberPicker nphr = (NumberPicker) numberPickerView.findViewById(R.id.numberPickerHorizontalRow);
+                nphr.setMinValue(minValue);
+                nphr.setMaxValue(maxValue);
+                nphr.setValue(Integer.parseInt(prefs.getString("ycountallappshorizontal", "" + nphr.getMinValue())));
+
+                final NumberPicker npvc = (NumberPicker) numberPickerView.findViewById(R.id.numberPickerVerticalColumn);
+                npvc.setMinValue(minValue);
+                npvc.setMaxValue(maxValue);
+                npvc.setValue(Integer.parseInt(prefs.getString("xcountallapps", "" + npvc.getMinValue())));
+
+                final NumberPicker npvr = (NumberPicker) numberPickerView.findViewById(R.id.numberPickerVerticalRow);
+                npvr.setMinValue(minValue);
+                npvr.setMaxValue(maxValue);
+                npvr.setValue(Integer.parseInt(prefs.getString("ycountallapps", "" + npvr.getMinValue())));
+
+                numberPickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, mContext.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        // due to legacy reasons we need to save them as strings.........
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("ycountallapps", "" + npvr.getValue())
+                                .putString("xcountallapps", "" + npvc.getValue())
+                                .putString("ycountallappshorizontal", "" + nphr.getValue())
+                                .putString("xcountallappshorizontal", "" + nphc.getValue())
+                                .commit();
+
+                        numberPickerDialog.dismiss();
+                    }
+                });
+
+                numberPickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, mContext.getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        numberPickerDialog.dismiss();
+                    }
+                });
+
+                numberPickerDialog.show();
+                return true;
+            }
+        });
 
         findPreference("cleartabdata").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override

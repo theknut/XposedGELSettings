@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.theknut.xposedgelsettings"
-    android:versionCode="79"
-    android:versionName="B2.1 Build 3" >
+    android:versionCode="80"
+    android:versionName="B2.1 Build 4" >
 
     <uses-sdk
         android:minSdkVersion="16"

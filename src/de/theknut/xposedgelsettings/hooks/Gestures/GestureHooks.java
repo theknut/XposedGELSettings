@@ -244,107 +244,107 @@ public class GestureHooks extends GestureHelper {
             });
         }
 
-        if (PreferencesHelper.gesture_appdrawer) {
-            XC_MethodHook gestureHook = new XC_MethodHook() {
+        XC_MethodHook gestureHook = new XC_MethodHook() {
 
-                void init() throws IOException {
-                    wm = (WindowManager) Common.LAUNCHER_CONTEXT.getSystemService(Context.WINDOW_SERVICE);
-                    display = wm.getDefaultDisplay();
-                    size = new Point();
-                    display.getSize(size);
-                    width = size.x;
-                    height = size.y;
+            void init() throws IOException {
+                wm = (WindowManager) Common.LAUNCHER_CONTEXT.getSystemService(Context.WINDOW_SERVICE);
+                display = wm.getDefaultDisplay();
+                size = new Point();
+                display.getSize(size);
+                width = size.x;
+                height = size.y;
+            }
+
+            float downY, downX;
+            boolean isDown = false;
+
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+
+                if (wm == null) init();
+
+                MotionEvent ev = (MotionEvent) param.args[0];
+
+                int rotation = Common.LAUNCHER_CONTEXT.getResources().getConfiguration().orientation;
+                switch (rotation) {
+                    case Configuration.ORIENTATION_PORTRAIT:
+                        if (isLandscape) {
+                            init();
+                        }
+
+                        isLandscape = false;
+                        break;
+                    case Configuration.ORIENTATION_LANDSCAPE:
+                        if (!isLandscape) {
+                            init();
+                        }
+
+                        isLandscape = true;
+                        break;
+                    default: break;
                 }
 
-                float downY, downX;
-                boolean isDown = false;
+                switch (ev.getAction() & MotionEvent.ACTION_MASK) {
 
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    case MotionEvent.ACTION_MOVE:
+                        if (DEBUG) log("MOVE: " + ev.getRawY());
 
-                    if (wm == null) init();
-
-                    MotionEvent ev = (MotionEvent) param.args[0];
-
-                    int rotation = Common.LAUNCHER_CONTEXT.getResources().getConfiguration().orientation;
-                    switch (rotation) {
-                        case Configuration.ORIENTATION_PORTRAIT:
-                            if (isLandscape) {
-                                init();
-                            }
-
-                            isLandscape = false;
-                            break;
-                        case Configuration.ORIENTATION_LANDSCAPE:
-                            if (!isLandscape) {
-                                init();
-                            }
-
-                            isLandscape = true;
-                            break;
-                        default: break;
-                    }
-
-                    switch (ev.getAction() & MotionEvent.ACTION_MASK) {
-
-                        case MotionEvent.ACTION_MOVE:
-                            if (DEBUG) log("MOVE: " + ev.getRawY());
-
-                            if (!isDown) {
-                                downY = ev.getRawY();
-                                downX = ev.getRawX();
-                            }
-
-                            break;
-                        case MotionEvent.ACTION_DOWN:
-                            if (DEBUG) log("DOWN: " + ev.getRawY());
-
+                        if (!isDown) {
                             downY = ev.getRawY();
                             downX = ev.getRawX();
-                            isDown = true;
-                            Common.APP_DRAWER_PAGE_SWITCHED = false;
+                        }
 
-                            break;
-                        case MotionEvent.ACTION_UP:
-                            if (DEBUG) log("UP: " + ev.getRawY());
+                        break;
+                    case MotionEvent.ACTION_DOWN:
+                        if (DEBUG) log("DOWN: " + ev.getRawY());
 
-                            isDown = false;
+                        downY = ev.getRawY();
+                        downX = ev.getRawX();
+                        isDown = true;
+                        Common.APP_DRAWER_PAGE_SWITCHED = false;
 
-                            // user probably switched pages
-                            if (getBooleanField(Common.APP_DRAWER_INSTANCE, Fields.pvIsPageMoving)) return;
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if (DEBUG) log("UP: " + ev.getRawY());
 
-                            if ((ev.getRawY() - downY) > (height / 6)) {
-                                callMethod(Common.LAUNCHER_INSTANCE, Methods.lShowWorkspace, true, null);
-                            } else if ((ev.getRawY() - downY) < -(height / 6)) {
+                        isDown = false;
 
-                                if (Common.IS_TREBUCHET) {
-                                    Toast.makeText(Common.LAUNCHER_CONTEXT, "XGELS: Unfortunately swipe up to toggle apps/widgets doesn't work on Trebuchet", Toast.LENGTH_LONG).show();
-                                    return;
-                                }
+                        if (!PreferencesHelper.gesture_appdrawer) return;
 
-                                TabHost tabhost = (TabHost) getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizeTabHost);
+                        // user probably switched pages
+                        if (getBooleanField(Common.APP_DRAWER_INSTANCE, Fields.pvIsPageMoving)) return;
 
-                                if (!getBooleanField(tabhost, Fields.acthInTransition)) {
-                                    int tabIdx = tabhost.getCurrentTab() + 1;
-                                    tabhost.setCurrentTab(tabIdx == tabhost.getTabWidget().getTabCount() ? 0 : tabIdx);
-                                }
+                        if ((ev.getRawY() - downY) > (height / 6)) {
+                            callMethod(Common.LAUNCHER_INSTANCE, Methods.lShowWorkspace, true, null);
+                        } else if ((ev.getRawY() - downY) < -(height / 6)) {
+
+                            if (Common.IS_TREBUCHET) {
+                                Toast.makeText(Common.LAUNCHER_CONTEXT, "XGELS: Unfortunately swipe up to toggle apps/widgets doesn't work on Trebuchet", Toast.LENGTH_LONG).show();
+                                return;
                             }
 
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            };
+                            TabHost tabhost = (TabHost) getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizeTabHost);
 
-            if (Common.IS_TREBUCHET) {
-                XposedBridge.hookAllMethods(Classes.PagedViewWithDraggableItems, "onTouchEvent", gestureHook);
-                XposedBridge.hookAllMethods(Classes.PagedViewWithDraggableItems, "onInterceptTouchEvent", gestureHook);
+                            if (!getBooleanField(tabhost, Fields.acthInTransition)) {
+                                int tabIdx = tabhost.getCurrentTab() + 1;
+                                tabhost.setCurrentTab(tabIdx == tabhost.getTabWidget().getTabCount() ? 0 : tabIdx);
+                            }
+                        }
+
+                        break;
+                    default:
+                        break;
+                }
             }
-            else if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE)) {
-                XposedBridge.hookAllMethods(Classes.PagedViewWithDraggableItems, "onTouchEvent", gestureHook);
-                XposedBridge.hookAllMethods(Classes.PagedViewWithDraggableItems, "onInterceptTouchEvent", gestureHook);
-            }
+        };
+
+        if (Common.IS_TREBUCHET) {
+            XposedBridge.hookAllMethods(Classes.PagedViewWithDraggableItems, "onTouchEvent", gestureHook);
+            XposedBridge.hookAllMethods(Classes.PagedViewWithDraggableItems, "onInterceptTouchEvent", gestureHook);
+        }
+        else if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE)) {
+            XposedBridge.hookAllMethods(Classes.PagedViewWithDraggableItems, "onTouchEvent", gestureHook);
+            XposedBridge.hookAllMethods(Classes.PagedViewWithDraggableItems, "onInterceptTouchEvent", gestureHook);
         }
 
         if (!PreferencesHelper.gesture_double_tap.equals("NONE")) {

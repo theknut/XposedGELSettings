@@ -37,13 +37,6 @@ public class HomescreenHooks extends HooksBaseClass {
             findAndHookMethod(Classes.CellLayout, Methods.clAddViewToCellLayout, View.class, Integer.TYPE, Integer.TYPE, Classes.CellLayoutLayoutParams, boolean.class, new AddViewToCellLayoutHook());
         }
 
-        XposedBridge.hookAllConstructors(Classes.AppsCustomizePagedView, new XC_MethodHook() {
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                // saving the content type
-                Common.CONTENT_TYPE = getObjectField(param.thisObject, Fields.acpvContentType);
-            };
-        });
-
         if (PreferencesHelper.continuousScroll) {
 
             // over scroll to app drawer or first page
