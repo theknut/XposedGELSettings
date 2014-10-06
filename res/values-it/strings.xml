@@ -370,10 +370,8 @@
     <string name="pref_appdrawer_folders_title">Cartelle</string>
     <string name="pref_appdrawer_folders_summary">Toccare per aggiungere una cartella alla scheda app principale</string>
     <string name="toast_appdrawer_folder_minimum_app">Una cartella deve contenere almeno due elementi</string>
-    
-    <!-- new -->
+
     <string name="pref_appdock_show_labels_title">Mostra le etichette delle icone</string>
     <string name="pref_appdockrect_title">App dock left/right margin</string>
     <string name="pref_appdockrect_summary">Scegli la dimensione del margine per il lato sinistro e destro dell\'app dock</string>
-    
 </resources>
