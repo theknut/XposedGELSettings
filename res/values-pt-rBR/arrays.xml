@@ -1,26 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="allappsbuttonposition_entries">
-        <item>Padrão</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-        <item>10</item>
-        <item>11</item>
-        <item>12</item>
-    </string-array>
-    <string-array name="contextmenu_mode_entries">
-        <item>Desativado</item>
-        <item>Apenas Atalhos</item>
-        <item>Apenas Widgets</item>
-        <item>Atalhos e Widgets</item>
-    </string-array>
+
     <string-array name="fragmenttitles_array">
         <item>Bem-Vindo</item>
         <item>Geral</item>
@@ -36,13 +16,18 @@
         <item>Suporte</item>
         <item>Engenharia Reversa</item>
     </string-array>
-    <string-array name="general_scroll_devider_entries">
-        <item>Padrão</item>
-        <item>Médio</item>
-        <item>Rápido</item>
-        <item>Vmax</item>
-        <item>Sem animação</item>
+
+    <string-array name="smartfoldermode_entries">
+        <item>Nenhuma</item>
+        <item>"Deslizar - inciar o primeiro aplicativo\nToque - pasta aberta"</item>
+        <item>"Toque - inicar o primeiro aplicativo\nDeslizar - abrir pasta"</item>
     </string-array>
+
+    <string-array name="searchbarstyle_entries">
+        <item>Padrão</item>
+        <item>Estilo Android L</item>
+    </string-array>
+
     <string-array name="gesture_actions_entries">
         <item>Nenhum</item>
         <item>Barra de Notificação</item>
@@ -55,17 +40,77 @@
         <item>Alternar Barra de Aplicativos</item>
         <item>Abrir Aplicativo</item>
     </string-array>
+
     <string-array name="gesture_actions_entries_limited">
         <item>Nenhum</item>
         <item>Tela Aplicativos</item>
         <item>Aplicativos da Bandeja</item>
     </string-array>
+
+    <string-array name="general_scroll_devider_entries">
+        <item>Padrão</item>
+        <item>Médio</item>
+        <item>Rápido</item>
+        <item>Vmax</item>
+        <item>Sem animação</item>
+    </string-array>
+
+    <string-array name="contextmenu_mode_entries">
+        <item>Desativado</item>
+        <item>Apenas Atalhos</item>
+        <item>Apenas Widgets</item>
+        <item>Atalhos e Widgets</item>
+    </string-array>
+
+    <string-array name="tabcontent_entries">
+        <item>Apps</item>
+        <item>Widgets</item>
+        <item>Módulos Xposed</item>
+        <item>Google apps</item>
+        <item>Pacotes de ícones</item>
+        <item>Novos apps</item>
+        <item>Novos/Atualizados apps</item>
+    </string-array>
+
+    <string-array name="tabcontent_names">
+        <item>Apps</item>
+        <item>Widgets</item>
+        <item>Xposed</item>
+        <item>Google</item>
+        <item>Pacotes de ícones</item>
+        <item>Novos Apps</item>
+        <item>Novos/Atualizados</item>
+    </string-array>
+
+    <string-array name="tabsort_entries">
+        <item>Em ordem alfabética</item>
+        <item>Data de instalação</item>
+        <item>Últimas atualizações</item>
+    </string-array>
+
     <string-array name="notificationbadge_position_entries">
         <item>Topo à esquerda</item>
         <item>Topo à direita</item>
         <item>Rodapé à esquerda</item>
         <item>Rodapé à direita</item>
     </string-array>
+	
+	<string-array name="allappsbuttonposition_entries">
+        <item>Padrão</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+
     <string-array name="notificationbadge_presets_entries">
         <item>Personalizado</item>
         <item>Estilo G+</item>
@@ -76,39 +121,5 @@
         <item>Round clean</item>
         <item>Round glass</item>
     </string-array>
-    <string-array name="searchbarstyle_entries">
-        <item>Padrão</item>
-        <item>Estilo Android L</item>
-    </string-array>
-    <string-array name="smartfoldermode_entries">
-        <item>Nenhuma</item>
-        <item>"Deslizar - inciar o primeiro aplicativo
-Toque - pasta aberta"</item>
-        <item>"Toque - inicar o primeiro aplicativo
-Deslizar - abrir pasta"</item>
-    </string-array>
-    <string-array name="tabcontent_entries">
-        <item>Apps</item>
-        <item>Widgets</item>
-        <item>Módulos Xposed</item>
-        <item>Google apps</item>
-        <item>Pacotes de ícones</item>
-        <item>Novos apps</item>
-        <item>Novos/Atualizados apps</item>
-    </string-array>
-    <string-array name="tabcontent_names">
-        <item>Apps</item>
-        <item>Widgets</item>
-        <item>Xposed</item>
-        <item>Google</item>
-        <item>Pacotes de ícones</item>
-        <item>Novos Apps</item>
-        <item>Novos/Atualizados</item>
-    </string-array>
-    <string-array name="tabsort_entries">
-        <item>Em ordem alfabética</item>
-        <item>Data de instalação</item>
-        <item>Últimas atualizações</item>
-    </string-array>
-
+	
 </resources>
