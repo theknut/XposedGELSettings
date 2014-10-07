@@ -52,7 +52,7 @@ public class ContextMenu extends HooksBaseClass{
     static Context XGELSContext;
     static final String HOLDER_TAG = "XGELS_CONTEXT_MENU_HOLDER";
     static final String CONTEXT_MENU_TAG = "XGELS_CONTEXT_MENU";
-    static float contextMenuWidth, contextMenuHeight, contextMenuItemWidth, padding, downX, downY;
+    static float contextMenuWidth, contextMenuHeight, contextMenuItemWidth, padding, downX = -1, downY = -1;
     static int animatingDuration = 150;
     static boolean isAnimating;
     static int closeThreshold;
@@ -189,35 +189,39 @@ public class ContextMenu extends HooksBaseClass{
         findAndHookMethod(Classes.Folder, "onLongClick", View.class, longClickHook);
 
         findAndHookMethod(Classes.DragLayer, "onTouchEvent", MotionEvent.class, new XC_MethodHook() {
-
+            final int INVALID = -1;
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 MotionEvent ev = (MotionEvent) param.args[0];
-
                 if ((ev.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_MOVE) {
-                    if (Math.abs(ev.getRawX() - downX) > closeThreshold
+                    if (downX == INVALID || downY == INVALID) {
+                        downX = ev.getRawX();
+                        downY = ev.getRawY();
+                    } else if (Math.abs(ev.getRawX() - downX) > closeThreshold
                             || Math.abs(ev.getRawY() - downY) > closeThreshold) {
                         closeAndRemove();
                     }
+                } else if ((ev.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+                    downX = downY = INVALID;
                 }
             }
         });
 
-        XC_MethodHook handleTouch = new XC_MethodHook() {
-
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                MotionEvent ev = (MotionEvent) param.args[0];
-                if ((ev.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_DOWN) {
-                    closeAndRemove();
-                    downX = ev.getRawX();
-                    downY = ev.getRawY();
-                }
-            }
-        };
-
-        findAndHookMethod(Classes.Workspace, "onInterceptTouchEvent", MotionEvent.class, handleTouch);
-        findAndHookMethod(Classes.Hotseat, "onInterceptTouchEvent", MotionEvent.class, handleTouch);
+//        XC_MethodHook handleTouch = new XC_MethodHook() {
+//
+//            @Override
+//            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+//                MotionEvent ev = (MotionEvent) param.args[0];
+//                if ((ev.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_DOWN) {
+//                    closeAndRemove();
+//                    downX = ev.getX();
+//                    downY = ev.getY();
+//                }
+//            }
+//        };
+//
+//        findAndHookMethod(Classes.Workspace, "onInterceptTouchEvent", MotionEvent.class, handleTouch);
+//        findAndHookMethod(Classes.Hotseat, "onInterceptTouchEvent", MotionEvent.class, handleTouch);
     }
 
     public static int getStatusBarHeight() {
@@ -303,10 +307,13 @@ public class ContextMenu extends HooksBaseClass{
             public void onClick(View v) {
                 closeAndRemove();
 
-                ((ViewGroup) longPressedItem.getParent()).removeView(longPressedItem);
-                callStaticMethod(Classes.LauncherModel, Methods.lmDeleteItemFromDatabase, Common.LAUNCHER_INSTANCE, longPressedItem.getTag());
+                try {
+                    ((ViewGroup) longPressedItem.getParent()).removeView(longPressedItem);
+                    callStaticMethod(Classes.LauncherModel, Methods.lmDeleteItemFromDatabase, Common.LAUNCHER_INSTANCE, longPressedItem.getTag());
+                } catch(Exception e) { }
             }
         });
+
         // TODO: widgets need more than deleteItemFromDatabase, defer this for later
         // http://androidxref.com/4.4.2_r1/xref/packages/apps/Launcher3/src/com/android/launcher3/DeleteDropTarget.java#327
         show = isWidget || isFolder;
@@ -597,7 +604,7 @@ public class ContextMenu extends HooksBaseClass{
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                menu.bringToFront();
+                contextMenu.bringToFront();
             }
 
             @Override

@@ -134,115 +134,113 @@ public class GestureHooks extends GestureHelper {
             });
         }
 
-        if (true) {
-            XposedBridge.hookAllMethods(Classes.DragLayer, "onInterceptTouchEvent", new XC_MethodHook() {
+        XposedBridge.hookAllMethods(Classes.DragLayer, "onInterceptTouchEvent", new XC_MethodHook() {
 
-                boolean gnow = true;
-                float downY = 0, downX = 0;
+            boolean gnow = true;
+            float downY = 0, downX = 0;
 
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    if (Common.FOLDER_GESTURE_ACTIVE || ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lIsAllAppsVisible))) {
-                        return;
-                    }
-
-                    if (wm == null) {
-                        init();
-                        gnow = (Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lHasCustomContentToLeft);
-                    }
-
-                    final int currentPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage);
-                    if (currentPage == 0 && gnow) return;
-
-                    MotionEvent ev = (MotionEvent) param.args[0];
-
-                    int rotation = Common.LAUNCHER_CONTEXT.getResources().getConfiguration().orientation;
-                    switch (rotation) {
-                        case Configuration.ORIENTATION_PORTRAIT:
-                            if (isLandscape) {
-                                if (PreferencesHelper.appdockSettingsSwitch && PreferencesHelper.hideAppDock) {
-                                    hideAppdock(0);
-                                }
-
-                                init();
-                            }
-
-                            isLandscape = false;
-                            break;
-                        case Configuration.ORIENTATION_LANDSCAPE:
-                            if (!isLandscape) {
-                                if (PreferencesHelper.appdockSettingsSwitch && PreferencesHelper.hideAppDock) {
-                                    hideAppdock(0);
-                                }
-
-                                init();
-                            }
-
-                            isLandscape = true;
-                            break;
-                        default: break;
-                    }
-
-                    switch (ev.getAction() & MotionEvent.ACTION_MASK) {
-                        case MotionEvent.ACTION_DOWN:
-                            downY = ev.getRawY();
-                            downX = ev.getRawX();
-
-                            break;
-                        case MotionEvent.ACTION_UP:
-
-                            mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, Fields.lHotseat);
-
-                            if (PreferencesHelper.appdockSettingsSwitch && PreferencesHelper.hideAppDock) {
-                                FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mHotseat.getLayoutParams();
-                                if (mHotseat.getAlpha() == 1.0f
-                                        && (lp.width == 0 || lp.height == 0)) {
-
-                                    mHotseat.setAlpha(0.0f);
-                                    lp.width = lp.height = 0;
-                                    mHotseat.setLayoutParams(lp);
-
-                                } else if (autoHideAppDock) {
-
-                                    hideAppdock(animateDuration);
-                                }
-                            }
-
-                            // user probably switched pages
-                            if (getBooleanField(Common.WORKSPACE_INSTANCE, Fields.pvIsPageMoving)) return;
-
-                            switch (identifyGesture(ev.getRawX(), ev.getRawY(), downX, downY)) {
-                                case DOWN_LEFT:
-                                    handleGesture(getGestureKey(Gestures.DOWN_LEFT), PreferencesHelper.gesture_one_down_left);
-                                    break;
-                                case DOWN_MIDDLE:
-                                    handleGesture(getGestureKey(Gestures.DOWN_MIDDLE), PreferencesHelper.gesture_one_down_middle);
-                                    break;
-                                case DOWN_RIGHT:
-                                    handleGesture(getGestureKey(Gestures.DOWN_RIGHT), PreferencesHelper.gesture_one_down_right);
-                                    break;
-                                case UP_LEFT:
-                                    handleGesture(getGestureKey(Gestures.UP_LEFT), PreferencesHelper.gesture_one_up_left);
-                                    break;
-                                case UP_MIDDLE:
-                                    handleGesture(getGestureKey(Gestures.UP_MIDDLE), PreferencesHelper.gesture_one_up_middle);
-                                    break;
-                                case UP_RIGHT:
-                                    handleGesture(getGestureKey(Gestures.UP_RIGHT), PreferencesHelper.gesture_one_up_right);
-                                    break;
-                                default:
-                                    break;
-                            }
-
-                            break;
-                        case MotionEvent.ACTION_MOVE:
-                            break;
-                        default:
-                            break;
-                    }
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                if (Common.FOLDER_GESTURE_ACTIVE || ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lIsAllAppsVisible))) {
+                    return;
                 }
-            });
-        }
+
+                if (wm == null) {
+                    init();
+                    gnow = (Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lHasCustomContentToLeft);
+                }
+
+                final int currentPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage);
+                if (currentPage == 0 && gnow) return;
+
+                MotionEvent ev = (MotionEvent) param.args[0];
+
+                int rotation = Common.LAUNCHER_CONTEXT.getResources().getConfiguration().orientation;
+                switch (rotation) {
+                    case Configuration.ORIENTATION_PORTRAIT:
+                        if (isLandscape) {
+                            if (PreferencesHelper.appdockSettingsSwitch && PreferencesHelper.hideAppDock) {
+                                hideAppdock(0);
+                            }
+
+                            init();
+                        }
+
+                        isLandscape = false;
+                        break;
+                    case Configuration.ORIENTATION_LANDSCAPE:
+                        if (!isLandscape) {
+                            if (PreferencesHelper.appdockSettingsSwitch && PreferencesHelper.hideAppDock) {
+                                hideAppdock(0);
+                            }
+
+                            init();
+                        }
+
+                        isLandscape = true;
+                        break;
+                    default: break;
+                }
+
+                switch (ev.getAction() & MotionEvent.ACTION_MASK) {
+                    case MotionEvent.ACTION_DOWN:
+                        downY = ev.getRawY();
+                        downX = ev.getRawX();
+
+                        break;
+                    case MotionEvent.ACTION_UP:
+
+                        mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, Fields.lHotseat);
+
+                        if (PreferencesHelper.appdockSettingsSwitch && PreferencesHelper.hideAppDock) {
+                            FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mHotseat.getLayoutParams();
+                            if (mHotseat.getAlpha() == 1.0f
+                                    && (lp.width == 0 || lp.height == 0)) {
+
+                                mHotseat.setAlpha(0.0f);
+                                lp.width = lp.height = 0;
+                                mHotseat.setLayoutParams(lp);
+
+                            } else if (autoHideAppDock) {
+
+                                hideAppdock(animateDuration);
+                            }
+                        }
+
+                        // user probably switched pages
+                        if (getBooleanField(Common.WORKSPACE_INSTANCE, Fields.pvIsPageMoving)) return;
+
+                        switch (identifyGesture(ev.getRawX(), ev.getRawY(), downX, downY)) {
+                            case DOWN_LEFT:
+                                handleGesture(getGestureKey(Gestures.DOWN_LEFT), PreferencesHelper.gesture_one_down_left);
+                                break;
+                            case DOWN_MIDDLE:
+                                handleGesture(getGestureKey(Gestures.DOWN_MIDDLE), PreferencesHelper.gesture_one_down_middle);
+                                break;
+                            case DOWN_RIGHT:
+                                handleGesture(getGestureKey(Gestures.DOWN_RIGHT), PreferencesHelper.gesture_one_down_right);
+                                break;
+                            case UP_LEFT:
+                                handleGesture(getGestureKey(Gestures.UP_LEFT), PreferencesHelper.gesture_one_up_left);
+                                break;
+                            case UP_MIDDLE:
+                                handleGesture(getGestureKey(Gestures.UP_MIDDLE), PreferencesHelper.gesture_one_up_middle);
+                                break;
+                            case UP_RIGHT:
+                                handleGesture(getGestureKey(Gestures.UP_RIGHT), PreferencesHelper.gesture_one_up_right);
+                                break;
+                            default:
+                                break;
+                        }
+
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
 
         XC_MethodHook gestureHook = new XC_MethodHook() {
 
@@ -309,6 +307,11 @@ public class GestureHooks extends GestureHelper {
 
                         isDown = false;
 
+                        if (Common.APP_DRAWER_PAGE_SWITCHED) {
+                            callMethod(param.thisObject, Methods.wSnapToPage, 0);
+                            param.setResult(false);
+                        }
+
                         if (!PreferencesHelper.gesture_appdrawer) return;
 
                         // user probably switched pages
@@ -339,12 +342,12 @@ public class GestureHooks extends GestureHelper {
         };
 
         if (Common.IS_TREBUCHET) {
-            XposedBridge.hookAllMethods(Classes.PagedViewWithDraggableItems, "onTouchEvent", gestureHook);
-            XposedBridge.hookAllMethods(Classes.PagedViewWithDraggableItems, "onInterceptTouchEvent", gestureHook);
+            XposedBridge.hookAllMethods(Classes.PagedView, "onTouchEvent", gestureHook);
+            XposedBridge.hookAllMethods(Classes.PagedView, "onInterceptTouchEvent", gestureHook);
         }
         else if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE)) {
-            XposedBridge.hookAllMethods(Classes.PagedViewWithDraggableItems, "onTouchEvent", gestureHook);
-            XposedBridge.hookAllMethods(Classes.PagedViewWithDraggableItems, "onInterceptTouchEvent", gestureHook);
+            XposedBridge.hookAllMethods(Classes.PagedView, "onTouchEvent", gestureHook);
+            XposedBridge.hookAllMethods(Classes.PagedView, "onInterceptTouchEvent", gestureHook);
         }
 
         if (!PreferencesHelper.gesture_double_tap.equals("NONE")) {

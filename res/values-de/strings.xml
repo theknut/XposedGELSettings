@@ -365,5 +365,7 @@
     <string name="pref_appdockrect_summary">Wähle einen Multiplikator für die linken und rechten Dock-Abstände aus</string>
     <string name="pref_grid_size_title">Rastergröße</string>
     <string name="pref_grid_size_summary">Wähle Sie eine vertikale und horizontal Rastergröße</string>
+    <string name="pref_switch_swipe_tabs_title">Durch Tabs wischen</string>
+    <string name="pref_switch_swipe_tabs_summary">Zum nächsten Tab wechseln, wenn man auf der letzten Tabseite wischt</string>
    
 </resources>

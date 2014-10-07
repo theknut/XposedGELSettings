@@ -27,6 +27,20 @@
   </head>
   <body>
 
+ $ B2.1 Build 5
+  % Version B2.1 Build 5
+  _ 2014-08-10
+
+  ! Added:
+  * App drawer: swipe through tabs toggleable
+
+  ! Fixed:
+  * launcher crash
+  * horizontal app drawer padding
+  * tab overscroll gesture swiping to the second page
+  * app drawer grid applied even if turned off
+  * fixed contextmenu in folders
+
  $ B2.1 Build 4
   % Version B2.1 Build 4
   _ 2014-06-10

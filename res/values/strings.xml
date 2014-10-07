@@ -380,5 +380,8 @@
     <string name="pref_grid_size_title">Grid size</string>
     <string name="pref_grid_size_summary">Choose a horizontal and vertical grid size</string>
 
+    <!-- new -->
+    <string name="pref_switch_swipe_tabs_title">Swipe through tabs</string>
+    <string name="pref_switch_swipe_tabs_summary">Switch to the next tab when swiping on the last tabs page</string>
 
 </resources>

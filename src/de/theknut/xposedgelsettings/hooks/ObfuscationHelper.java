@@ -200,12 +200,14 @@ public class ObfuscationHelper extends HooksBaseClass {
                 TransitionsManager,
                 BubbleTextView,
                 LauncherAppState,
-                DynamicGrid;
+                DynamicGrid,
+                AppsCustomizeCellLayout;
 
         public static void hookAllClasses(LoadPackageParam lpparam) {
             Launcher = findClass(ClassNames.LAUNCHER, lpparam.classLoader);
             Workspace = findClass(ClassNames.WORKSPACE, lpparam.classLoader);
             AppsCustomizePagedView = findClass(ClassNames.APPS_CUSTOMIZE_PAGED_VIEW, lpparam.classLoader);
+            AppsCustomizeCellLayout = findClass(ClassNames.APPS_CUSTOMIZE_CELL_LAYOUT, lpparam.classLoader);
             CellLayout = findClass(ClassNames.CELL_LAYOUT, lpparam.classLoader);
             CellLayoutLayoutParams = findClass(ClassNames.CELL_LAYOUT_LAYOUT_PARAMS, lpparam.classLoader);
             WallpaperOffsetInterpolator = findClass(ClassNames.WALLPAPER_OFFSET_INTERPOLATOR, lpparam.classLoader);
@@ -367,7 +369,8 @@ public class ObfuscationHelper extends HooksBaseClass {
                 lmGetAppNameComparator,
                 acthSetContentTypeImmediate,
                 wGetWorkspaceAndHotseatCellLayouts,
-                fiFromXml;
+                fiFromXml,
+                acpvSetAllAppsPadding;
 
         public static void initMethodNames(int idx) {
             lGetApplicationContext = new String[]{"getApplicationContext", "getApplicationContext", "getApplicationContext", "getApplicationContext"}[idx];
@@ -433,6 +436,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             acpvIsLayoutRtl = new String[]{"isLayoutRtl", "hX", "iN", "iQ"}[idx]; // getLayoutDirection
             acpvBeginDragging = new String[]{"beginDragging", "n", "n", "n"}[idx]; // "instanceof PagedViewIcon" in AppsCustomizePagedView
             acpvUpdatePageCounts = new String[]{"updatePageCounts", "cO", "dD", "dM"}[idx]; // (int)Math.ceil
+            acpvSetAllAppsPadding = new String[]{"setAllAppsPadding", "b", "b", "b"}[idx]; // (int)Math.ceil
             acthOnTabChanged = new String[]{"onTabChanged", "c", "c", "c"}[idx]; // setBackgroundColor
             acthSetInsets = new String[]{"setInsets", "c", "c", "c"}[idx]; // (Rect
             acthGetContentTypeForTabTag = new String[]{"getContentTypeForTabTag", "j", "r", "r"}[idx]; // (String paramString)

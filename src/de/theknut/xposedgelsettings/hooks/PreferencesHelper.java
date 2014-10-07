@@ -131,6 +131,7 @@ public class PreferencesHelper {
     public static boolean moveTabHostBottom;
     public static boolean appdockShowLabels;
     public static int iconSizeAppDrawer;
+    public static boolean appdrawerSwipeTabs;
 
     public static void init() {
         prefs = new XSharedPreferences(Common.PACKAGE_NAME);
@@ -257,6 +258,7 @@ public class PreferencesHelper {
         transparentSystemBars = prefs.getBoolean("transparentsystembars", false);
         quicksettingsLockDesktop = prefs.getBoolean("quicksettingslockdesktop", false);
         enableAppDrawerTabs = prefs.getBoolean("enableappdrawertabs", false);
+        appdrawerSwipeTabs = prefs.getBoolean("appdrawerswipetabs", false);
         moveTabHostBottom = prefs.getBoolean("movetabhostbottom", false);
     }
 }

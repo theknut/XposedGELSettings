@@ -24,6 +24,10 @@
             android:key="addfolder"
             android:title="@string/pref_appdrawer_folders_title"
             android:summary="@string/pref_appdrawer_folders_summary" />
+        <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+            android:key="appdrawerswipetabs"
+            android:title="@string/pref_switch_swipe_tabs_title"
+            android:summary="@string/pref_switch_swipe_tabs_summary" />
         <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
             android:key="cleartabdata"
             android:title="@string/pref_appdrawer_clear_tabs_title"
