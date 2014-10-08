@@ -379,4 +379,8 @@
     <!-- new -->
     <string name="pref_grid_size_title">Definições de grade</string>
     <string name="pref_grid_size_summary">Escolha um tamanho na horizontal e vertical</string>
+    
+    <!-- new -->
+    <string name="pref_switch_swipe_tabs_title">Deslize por abas</string>
+    <string name="pref_switch_swipe_tabs_summary">Mude para próxima aba deslizando entre as mesmas</string>
 </resources>
