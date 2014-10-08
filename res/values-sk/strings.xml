@@ -399,5 +399,17 @@
     <string name="pref_appdrawer_folders_title">Priečinky</string>
     <string name="pref_appdrawer_folders_summary">Dotykom pridáte priečinok do hlavnej karty s aplikáciami</string>
     <string name="toast_appdrawer_folder_minimum_app">Priečinok musí obsahovať aspoň dve položky</string>
+    
+    <string name="pref_appdock_show_labels_title">Zobraziť menovky ikon</string>
+    <string name="pref_appdockrect_title">Ľavý/pravý okraj doku aplikácií</string>
+    <string name="pref_appdockrect_summary">Zvoliť násobiteľa okraja pre ľavú a pravú stranu doku aplikácií</string>
+
+    <!-- new -->
+    <string name="pref_grid_size_title">Veľkosť mriežky</string>
+    <string name="pref_grid_size_summary">Zvoliť vodorovnú a zvislú veľkosť mriežky</string>
+
+    <!-- new -->
+    <string name="pref_switch_swipe_tabs_title">Potiahnúť po kartách</string>
+    <string name="pref_switch_swipe_tabs_summary">Prepnúť na ďalšiu kartu pri potiahnutí na poslednej stránke s kartami</string>
 
 </resources>
