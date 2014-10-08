@@ -44,7 +44,7 @@
     <string name="pref_iconsize_summary">Sélectionner un pourcentage</string>
     <string name="pref_icontextsize_title">Taille du nom des icônes</string>
     <string name="pref_icontextsize_summary">Sélectionner un pourcentage</string>
-    <string name="pref_icontextcolor_homescreen_title">Couleur des noms des icônes</string>
+    <string name="pref_icontextcolor_homescreen_title">Couleur du nom des icônes</string>
     <string name="pref_icontextcolor_appdrawer_title">Couleur du drawer</string>
     <string name="pref_appdockiconsize_title">Taille des icônes du dock</string>
     <string name="pref_appdockiconsize_summary">Sélectionner un pourcentage</string>
@@ -69,18 +69,18 @@
     <string name="pref_default_homescreen_summary">Sélectionner l\'écran d\'accueil par défaut</string>
     <string name="pref_enable_rotation_title">Rotation</string>
     <string name="pref_enable_rotation_summary">Activer la rotation\n(Nécessite un redémarrage complet)</string>
-    <string name="pref_icon_label_color">Couleur du nom des icônes</string>
-    <string name="pref_switch_icon_shadow_title">Ombre des noms</string>
+    <string name="pref_icon_label_color">Couleur du nom</string>
+    <string name="pref_switch_icon_shadow_title">Ombre du nom</string>
     <string name="pref_app_drawer_background_color_title">Couleur de l\'arrière plan</string>
     <string name="pref_app_drawer_background_color_summary">Astuce : Laissez-le complètement transparent !</string>
     <string name="colorpicker_apply">Appliquer</string>
-    <string name="colorpicker_hex_hint">Couleur hex perso.</string>
+    <string name="colorpicker_hex_hint">Couleur hex perso</string>
     <string name="restart_launcher_icon_title">Redémarrer</string>
     <string name="pref_disable_wallpaper_scroll_title">Défilement du fond d\'écran</string>
     <string name="pref_disable_wallpaper_scroll_summary">Désactiver la synchro du défilement du fond d\'écran</string>
     <!-- V1.3 -->
     <string name="toast_desktop_locked">L\'écran d\'accueil est verrouillé !</string>
-    <string name="toast_fail">Oh !&#8230; cela n\'a pas fonctionné :-S\nVérifiez le logcat!</string>
+    <string name="toast_fail">Oh !&#8230; cela n\'a pas fonctionné :-S\nVérifiez le logcat !</string>
     <string name="pref_switch_appdock_title">Masquer le dock</string>
     <string name="pref_switch_appdock_summary">Masquer le dock automatiquement</string>
     <string name="pref_lock_desktop_title">Verrouiller l\'écran d\'accueil</string>
@@ -173,8 +173,8 @@
     <string name="pref_switch_folder_title">Activer</string>
     <string name="pref_switch_folder_summary">Active les modifications des dossiers</string>
     <string name="pref_folder_background_color">Couleur d\'arrière plan</string>
-    <string name="pref_folder_applabel_color">Couleur des noms des icônes</string>
-    <string name="pref_folder_namelabel_color">Couleur des noms des dossiers</string>
+    <string name="pref_folder_applabel_color">Couleur du nom des icônes</string>
+    <string name="pref_folder_namelabel_color">Couleur du nom des dossiers</string>
     <string name="pref_folder_preview_color">Aperçu de la couleur des dossiers</string>
     
     <string name="pref_choose_gesture_action_title">Choisir une action gestuelle</string>
@@ -370,5 +370,18 @@
     <string name="pref_appdrawer_folders_title">Dossiers</string>
     <string name="pref_appdrawer_folders_summary">Appuyez pour ajouter un dossier à l\'onglet applis principal</string>
     <string name="toast_appdrawer_folder_minimum_app">Un dossier doit contenir minimum deux éléments</string>
+    
+    <!-- new -->
+    <string name="pref_appdock_show_labels_title">Afficher le nom des icônes</string>
+    <string name="pref_appdockrect_title">Marge gauche/droite</string>
+    <string name="pref_appdockrect_summary">Choisir un multiplicateur de marge pour les côtés du dock</string>
+
+    <!-- new -->
+    <string name="pref_grid_size_title">Taille de la grille</string>
+    <string name="pref_grid_size_summary">Choisir une taille horizontale et verticale pour la grille</string>
+
+    <!-- new -->
+    <string name="pref_switch_swipe_tabs_title">Défilement des onglets</string>
+    <string name="pref_switch_swipe_tabs_summary">Aller à l\'onglet suivant lorsque vous glissez sur le dernier onglet</string>
     
 </resources>
