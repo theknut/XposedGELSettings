@@ -379,6 +379,6 @@
     <string name="pref_grid_size_summary">Scegliere la dimensione della griglia orizzontale e verticale</string>
     
     <string name="pref_switch_swipe_tabs_title">Scorri attraverso le schede</string>
-    <string name="pref_switch_swipe_tabs_summary">Passa alla scheda successiva, quando si scorre nell'ultima pagina</string>
+    <string name="pref_switch_swipe_tabs_summary">Passa alla scheda successiva, quando si scorre nell\'ultima pagina</string>
 
 </resources>
