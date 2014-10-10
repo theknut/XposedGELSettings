@@ -24,6 +24,7 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import de.theknut.xposedgelsettings.hooks.general.ContextMenu;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
@@ -162,7 +163,6 @@ public class GestureHooks extends GestureHelper {
                             if (PreferencesHelper.appdockSettingsSwitch && PreferencesHelper.hideAppDock) {
                                 hideAppdock(0);
                             }
-
                             init();
                         }
 
@@ -173,7 +173,6 @@ public class GestureHooks extends GestureHelper {
                             if (PreferencesHelper.appdockSettingsSwitch && PreferencesHelper.hideAppDock) {
                                 hideAppdock(0);
                             }
-
                             init();
                         }
 
@@ -189,7 +188,6 @@ public class GestureHooks extends GestureHelper {
 
                         break;
                     case MotionEvent.ACTION_UP:
-
                         mHotseat = (View) getObjectField(Common.LAUNCHER_INSTANCE, Fields.lHotseat);
 
                         if (PreferencesHelper.appdockSettingsSwitch && PreferencesHelper.hideAppDock) {
@@ -301,6 +299,10 @@ public class GestureHooks extends GestureHelper {
                         isDown = true;
                         Common.APP_DRAWER_PAGE_SWITCHED = false;
 
+                        if (ContextMenu.isOpen()) {
+                            ContextMenu.closeAndRemove();
+                        }
+
                         break;
                     case MotionEvent.ACTION_UP:
                         if (DEBUG) log("UP: " + ev.getRawY());
@@ -367,11 +369,8 @@ public class GestureHooks extends GestureHelper {
                         if (DEBUG) log("Doubletap: " + currTouchTime + " " + lastTouchTime + " " + (currTouchTime == lastTouchTime) + " " + (currTouchTime - lastTouchTime));
 
                         if (currTouchTime == lastTouchTime) {
-
                             callMethod(Common.LAUNCHER_INSTANCE, "onClick", lastTouchView);
-
                         } else if ((currTouchTime - lastTouchTime) < 400) {
-
                             handleGesture(getGestureKey(Gestures.DOUBLE_TAP), PreferencesHelper.gesture_double_tap);
                         }
                     }

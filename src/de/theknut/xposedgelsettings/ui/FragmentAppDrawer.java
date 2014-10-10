@@ -38,26 +38,26 @@ public class FragmentAppDrawer extends FragmentBase {
 
                 final SharedPreferences prefs = mContext.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
 
-                int minValue = 4, maxValue = 15;
+                int minValue = 3, maxValue = 15;
                 final NumberPicker nphc = (NumberPicker) numberPickerView.findViewById(R.id.numberPickerHorizontalColumn);
                 nphc.setMinValue(minValue);
                 nphc.setMaxValue(maxValue);
-                nphc.setValue(Integer.parseInt(prefs.getString("xcountallappshorizontal", "" + nphc.getMinValue())));
+                nphc.setValue(Integer.parseInt(prefs.getString("xcountallappshorizontal", "" + 6)));
 
                 final NumberPicker nphr = (NumberPicker) numberPickerView.findViewById(R.id.numberPickerHorizontalRow);
                 nphr.setMinValue(minValue);
                 nphr.setMaxValue(maxValue);
-                nphr.setValue(Integer.parseInt(prefs.getString("ycountallappshorizontal", "" + nphr.getMinValue())));
+                nphr.setValue(Integer.parseInt(prefs.getString("ycountallappshorizontal", "" + 4)));
 
                 final NumberPicker npvc = (NumberPicker) numberPickerView.findViewById(R.id.numberPickerVerticalColumn);
                 npvc.setMinValue(minValue);
                 npvc.setMaxValue(maxValue);
-                npvc.setValue(Integer.parseInt(prefs.getString("xcountallapps", "" + npvc.getMinValue())));
+                npvc.setValue(Integer.parseInt(prefs.getString("xcountallapps", "" + 4)));
 
                 final NumberPicker npvr = (NumberPicker) numberPickerView.findViewById(R.id.numberPickerVerticalRow);
                 npvr.setMinValue(minValue);
                 npvr.setMaxValue(maxValue);
-                npvr.setValue(Integer.parseInt(prefs.getString("ycountallapps", "" + npvr.getMinValue())));
+                npvr.setValue(Integer.parseInt(prefs.getString("ycountallapps", "" + 5)));
 
                 numberPickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, mContext.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
@@ -75,13 +75,7 @@ public class FragmentAppDrawer extends FragmentBase {
                     }
                 });
 
-                numberPickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, mContext.getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        numberPickerDialog.dismiss();
-                    }
-                });
-
+                numberPickerDialog.setCancelable(false);
                 numberPickerDialog.show();
                 return true;
             }
@@ -129,6 +123,17 @@ public class FragmentAppDrawer extends FragmentBase {
                 startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(startMain);
 
+                return true;
+            }
+        });
+
+        findPreference("appdrawerswipetabs").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                if ((Boolean) newValue) {
+                    SharedPreferences.Editor editor = mContext.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).edit();
+                    editor.remove("continuousscrollwithappdrawer").commit();
+                }
                 return true;
             }
         });

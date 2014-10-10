@@ -27,78 +27,29 @@
   </head>
   <body>
 
- $ B2.1 Build 5
-  % Version B2.1 Build 5
-  _ 2014-08-10
+ $ 2.1
+  % Version 2.1
+  _ 2014-08-11
 
   ! Added:
-  * App drawer: swipe through tabs toggleable
-
-  ! Fixed:
-  * launcher crash
-  * horizontal app drawer padding
-  * tab overscroll gesture swiping to the second page
-  * app drawer grid applied even if turned off
-  * fixed contextmenu in folders
-
- $ B2.1 Build 4
-  % Version B2.1 Build 4
-  _ 2014-06-10
-
-  ! Added:
-  * App drawer: vertical grid size
-
-  ! Fixed:
-  * launcher crash
-  * tab overscroll gesture
-
-  ! XGELS UI:
-  * updated translations
-
- $ B2.1 Build 3
-  % Version B2.1 Build 3
-  _ 2014-06-10
-
-  ! Fixed:
-  * folder icon not showing
-  * tab overscroll
-
-  ! XGELS UI:
-  * updated translations
-
- $ B2.1 Build 2
-    % Version B2.1 Build 2
-   _ 2014-05-10
-
-  ! Added:
-  * Homescreen: show icon labels in app dock
-  * Homescreen: app dock left/right margin
-  * App drawer: overscroll to next tab ("Continuous scroll with app drawer" must be disabled)
-  * App drawer: add folders to custom tab (non dynamic tabs)
-  * App drawer: icon size
-
-  ! Fixed:
-  * nav bar overlapping tab bar when at the bottom
-  * app drawer folder missing label
-  * horizontal app drawer layout
-  * cut widget preview
-  * app info checkbox
-  * Trebuchet crash when hiding apps
-
- $ B2.1 Build 1
-    % Version B2.1 Build 1
-   _ 2014-29-09
-
-  ! Added:
-  * App drawer: Folders
-  * App drawer: move tab bar to the bottom
-  * General: Page indicator color
-  * option to keep notification badge size when count is ≥ 10
+  * <b>App drawer:</b> Folders (Premium, GNL only)
+  * <b>App drawer:</b> move tab bar to the bottom
+  * <b>App drawer:</b> overscroll to next tab
+  * <b>App drawer:</b> add folders to custom tab (non dynamic tabs)
+  * <b>App drawer:</b> vertical grid size
+  * <b>App drawer:</b> icon size
+  * <b>Homescreen:</b> show icon labels in app dock
+  * <b>Homescreen:</b> app dock left/right margin
+  * <b>General:</b> Page indicator color
+  * <b>Notification badges:</b> option to keep badge size when count is ≥ 10
 
   ! Improvement:
   * set folder or shortcut icons without restarting the launcher
 
   ! Fixed:
+  * horizontal app drawer layout
+  * app info checkbox
+  * Trebuchet crash when hiding apps
   * added missing Google apps to Google tab
   * added hidden apps back to main app tab after deleting tab
   * RTL layout was not respected

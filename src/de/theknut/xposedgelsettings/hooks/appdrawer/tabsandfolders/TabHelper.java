@@ -350,11 +350,11 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
     public boolean handleScroll(float overscroll) {
         if (overscroll > 100.0) {
             int newId = getCurrentTabData().getIndex() + 1;
-            setCurrentTab(newId >= tabHost.getTabWidget().getChildCount() ? 0 : newId, true);
+            setCurrentTab(newId >= tabHost.getTabWidget().getChildCount() ? 0 : newId);
             return true;
         } else if (overscroll < -100.0) {
             int newId = getCurrentTabData().getIndex() - 1;
-            setCurrentTab(newId < 0 ? (tabHost.getTabWidget().getChildCount() - 1) : newId, true);
+            setCurrentTab(newId < 0 ? (tabHost.getTabWidget().getChildCount() - 1) : newId);
             return true;
         }
         return false;
@@ -382,14 +382,12 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
     }
 
     public void setCurrentTab(int idx) {
-        setCurrentTab(idx, false);
+        setCurrentTab(idx, 0);
     }
 
-    public void setCurrentTab(int idx, boolean resetToZero) {
+    public void setCurrentTab(int idx, int page) {
         tabHost.setCurrentTab(idx);
-        if (resetToZero) {
-            callMethod(getObjectField(tabHost, Fields.acthAppsCustomizePane), Methods.wSetCurrentPage, 0);
-        }
+        callMethod(getObjectField(tabHost, Fields.acthAppsCustomizePane), Methods.wSetCurrentPage, page);
         setTabColor(tabs.get(idx).getColor());
         scroll();
     }

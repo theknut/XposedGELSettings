@@ -42,12 +42,22 @@ public class FragmentHomescreen extends FragmentBase {
                 final NumberPicker npvc = (NumberPicker) numberPickerView.findViewById(R.id.numberPickerVerticalColumn);
                 npvc.setMinValue(minValue);
                 npvc.setMaxValue(maxValue);
-                npvc.setValue(Integer.parseInt(prefs.getString("xcounthomescreen", "" + npvc.getMinValue())));
+                npvc.setValue(Integer.parseInt(prefs.getString("xcounthomescreen", "" + 4)));
 
                 final NumberPicker npvr = (NumberPicker) numberPickerView.findViewById(R.id.numberPickerVerticalRow);
                 npvr.setMinValue(minValue);
                 npvr.setMaxValue(maxValue);
-                npvr.setValue(Integer.parseInt(prefs.getString("ycounthomescreen", "" + npvr.getMinValue())));
+                npvr.setValue(Integer.parseInt(prefs.getString("ycounthomescreen", "" + 4)));
+
+//                final NumberPicker nphc = (NumberPicker) numberPickerView.findViewById(R.id.numberPickerHorizontalColumn);
+//                nphc.setMinValue(minValue);
+//                nphc.setMaxValue(maxValue);
+//                nphc.setValue(Integer.parseInt(prefs.getString("xcounthomescreenhorizontal", "" + 6)));
+//
+//                final NumberPicker nphr = (NumberPicker) numberPickerView.findViewById(R.id.numberPickerHorizontalRow);
+//                nphr.setMinValue(minValue);
+//                nphr.setMaxValue(maxValue);
+//                nphr.setValue(Integer.parseInt(prefs.getString("ycounthomescreenhorizontal", "" + 3)));
 
                 numberPickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, mContext.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
@@ -57,19 +67,15 @@ public class FragmentHomescreen extends FragmentBase {
                         SharedPreferences.Editor editor = prefs.edit();
                         editor.putString("ycounthomescreen", "" + npvr.getValue())
                                 .putString("xcounthomescreen", "" + npvc.getValue())
+                                //.putString("ycounthomescreenhorizontal", "" + nphr.getValue())
+                                //.putString("xcounthomescreenhorizontal", "" + nphc.getValue())
                                 .commit();
 
                         numberPickerDialog.dismiss();
                     }
                 });
 
-                numberPickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, mContext.getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        numberPickerDialog.dismiss();
-                    }
-                });
-
+                numberPickerDialog.setCancelable(false);
                 numberPickerDialog.show();
                 return true;
             }

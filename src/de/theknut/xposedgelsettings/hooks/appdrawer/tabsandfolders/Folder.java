@@ -29,7 +29,7 @@ import static de.robv.android.xposed.XposedHelpers.setObjectField;
 /**
  * Created by Alexander Schulz on 22.09.2014.
  */
-public class Folder extends AppDrawerItem implements View.OnLongClickListener {
+public class Folder extends AppDrawerItem implements View.OnLongClickListener, View.OnClickListener {
 
     public static final String KEY_PREFIX= "folder";
     public static final long FOLDER_ID = 0xABCDEF;
@@ -113,6 +113,7 @@ public class Folder extends AppDrawerItem implements View.OnLongClickListener {
             });
 
             folderIcon.setOnLongClickListener(this);
+            folderIcon.setOnClickListener(this);
 
             ImageView background = (ImageView) getObjectField(folderIcon, Fields.fiPreviewBackground);
             ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) background.getLayoutParams();
@@ -192,6 +193,11 @@ public class Folder extends AppDrawerItem implements View.OnLongClickListener {
         return getRawData(KEY_PREFIX);
     }
 
+    public void invalidate() {
+        ((ViewGroup) folderIcon.getParent()).removeView(folderIcon);
+        folderIcon = null;
+    }
+
     public Context getContext() {
         if (folderIcon != null) {
             return folderIcon.getContext();
@@ -222,5 +228,17 @@ public class Folder extends AppDrawerItem implements View.OnLongClickListener {
     public String toString() {
         return super.toString() + "|"
                 + "tabid=" + tabId;
+    }
+
+    @Override
+    public void onClick(View v) {
+        callMethod(Common.LAUNCHER_INSTANCE, Methods.lOpenFolder, folderIcon);
+    }
+
+    public boolean contains(String o) {
+        for (String cmp : getRawData()) {
+            if (cmp.contains(o)) return true;
+        }
+        return false;
     }
 }

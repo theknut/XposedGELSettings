@@ -115,7 +115,6 @@ public class AppDrawerHooks extends HooksBaseClass {
                     }
 
                     Object acpv = getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizePagedView);
-
                     int lastPage = (Integer) callMethod(acpv, "getChildCount") - 1;
 
                     if (Common.APPDRAWER_LAST_PAGE_POSITION > lastPage) {

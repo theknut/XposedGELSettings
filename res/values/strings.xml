@@ -370,17 +370,11 @@
     <string name="pref_appdrawer_folders_title">Folders</string>
     <string name="pref_appdrawer_folders_summary">Touch to add a folder to the main apps tab</string>
     <string name="toast_appdrawer_folder_minimum_app">A folder must at least contain of two items</string>
-
-    <!-- new -->
     <string name="pref_appdock_show_labels_title">Show icon labels</string>
     <string name="pref_appdockrect_title">App dock left/right margin</string>
     <string name="pref_appdockrect_summary">Choose a margin multiplier for left and right side of the app dock</string>
-
-    <!-- new -->
     <string name="pref_grid_size_title">Grid size</string>
     <string name="pref_grid_size_summary">Choose a horizontal and vertical grid size</string>
-
-    <!-- new -->
     <string name="pref_switch_swipe_tabs_title">Swipe through tabs</string>
     <string name="pref_switch_swipe_tabs_summary">Switch to the next tab when swiping on the last tabs page</string>
 

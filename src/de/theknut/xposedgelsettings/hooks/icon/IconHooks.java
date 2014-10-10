@@ -39,6 +39,7 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.Utils;
+import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.FolderHelper;
 import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelper;
 import de.theknut.xposedgelsettings.ui.Blur;
 import de.theknut.xposedgelsettings.ui.CommonUI;
@@ -82,9 +83,13 @@ public class IconHooks extends HooksBaseClass {
                     killLauncher();
                 }
             } else if (intent.getAction().equals(Intent.ACTION_PACKAGE_REMOVED)) {
-                if (PreferencesHelper.iconpack.equals(pkg) && !intent.getBooleanExtra(Intent.EXTRA_REPLACING, false)) {
-                    savePackageName(Common.ICONPACK_DEFAULT, context);
-                    killLauncher();
+                if (!intent.getBooleanExtra(Intent.EXTRA_REPLACING, false)) {
+                    FolderHelper.getInstance().updateFolders(pkg);
+
+                    if (PreferencesHelper.iconpack.equals(pkg)) {
+                        savePackageName(Common.ICONPACK_DEFAULT, context);
+                        killLauncher();
+                    }
                 }
             }
         }

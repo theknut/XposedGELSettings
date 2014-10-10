@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +52,6 @@ public final class FolderHelper {
     }
 
     public void init() {
-
         this.XGELSContext = Common.XGELSCONTEXT;
         this.folders = new ArrayList<Folder>();
         initFolders();
@@ -155,6 +155,7 @@ public final class FolderHelper {
                                 folder1.setTitle(title);
 
                                 ((TextView) getObjectField(folder.getFolderIcon(), Fields.fiFolderName)).setText(folder.getTitle());
+                                ((EditText) getObjectField(getObjectField(folder.getFolderIcon(), Fields.fiFolder), Fields.fFolderEditText)).setText(folder.getTitle());
 
                                 Intent intent = getBaseIntent(false, folder.getId(), folder.getTitle());
                                 Common.LAUNCHER_CONTEXT.startActivity(intent);
@@ -272,6 +273,19 @@ public final class FolderHelper {
         for (Folder folder : folders) {
             removeFolder(folder);
         }
+
+        Common.LAUNCHER_INSTANCE.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = getBaseIntent(false, 0, null);
+                        Common.LAUNCHER_CONTEXT.startActivity(intent);
+                    }
+                }, 500);
+            }
+        });
     }
 
     public void removeFolder(Folder folder) {
@@ -349,5 +363,13 @@ public final class FolderHelper {
             }
         }
         return null;
+    }
+
+    public void updateFolders(String pkg) {
+        for (Folder folder : folders) {
+            if (folder.contains(pkg)) {
+                folder.invalidate();
+            }
+        }
     }
 }

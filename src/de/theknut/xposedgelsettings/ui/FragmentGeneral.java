@@ -1,6 +1,8 @@
 package de.theknut.xposedgelsettings.ui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -86,6 +88,17 @@ public class FragmentGeneral extends FragmentBase {
             }
         });
         contextmenuMode.setSummary(contextmenuMode.getEntry());
+
+        findPreference("continuousscrollwithappdrawer").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                if ((Boolean) newValue) {
+                    SharedPreferences.Editor editor = mContext.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).edit();
+                    editor.remove("appdrawerswipetabs").commit();
+                }
+                return true;
+            }
+        });
 
         if (!InAppPurchase.isPremium) {
             findPreference("overlappingwidgets").setEnabled(false);

@@ -131,7 +131,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             LAUNCHER_MODEL = new String[]{launcherPackage + "LauncherModel", "sg", "vq", "ws"}[idx]; // Error: ItemInfo passed to checkItemInfo doesn't match original
             LOADER_TASK = new String[]{LAUNCHER_MODEL + "$LoaderTask", "tb", "wl", "xn"}[idx]; // Should not call runBindSynchronousPage
             FOLDER_INFO = new String[]{launcherPackage + "FolderInfo", "oz", "sh", "ti"}[idx]; // FolderInfo(id=
-            LAUNCHER_APP_STATE = new String[]{launcherPackage + "LauncherAppState", "rr", "vb", "wd"}[idx]; // Folder onMeasure
+            LAUNCHER_APP_STATE = new String[]{launcherPackage + "LauncherAppState", "rr", "vb", "wd"}[idx]; // "setLauncher() called before init()"
             APP_WIDGET_RESIZE_FRAME = new String[]{launcherPackage + "AppWidgetResizeFrame", "ks", "oc", "pd"}[idx]; // in AppsCustomizePagedView search for Bundle its below if (....17)
             ITEM_CONFIGURATION = new String[]{CELL_LAYOUT + "$ItemConfiguration", "ma", "pj", "qk"}[idx]; // in CellLayout Math.abs(paramArrayOfInt[0])
             LAUNCHER_APPWIDGET_INFO = new String[]{launcherPackage + "LauncherAppWidgetInfo", "rv", "vf", "wh"}[idx]; // AppWidget(id=

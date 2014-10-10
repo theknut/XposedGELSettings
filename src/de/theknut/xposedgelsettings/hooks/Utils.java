@@ -123,11 +123,19 @@ public class Utils {
         context.sendBroadcast(saveIntent);
     }
 
+    public static Object createAppInfo(String pkg) {
+        return createAppInfo(Common.LAUNCHER_CONTEXT.getPackageManager().getLaunchIntentForPackage(pkg));
+    }
+
     public static Object createAppInfo(ComponentName cmp) {
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         intent.setComponent(cmp);
 
+        return createAppInfo(intent);
+    }
+
+    public static Object createAppInfo(Intent intent) {
         if (Common.PACKAGE_OBFUSCATED) {
             return callMethod(Common.LAUNCHER_INSTANCE, Methods.lCreateAppInfo, intent);
         }

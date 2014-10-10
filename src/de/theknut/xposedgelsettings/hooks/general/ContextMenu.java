@@ -34,6 +34,7 @@ import de.theknut.xposedgelsettings.hooks.Utils;
 import de.theknut.xposedgelsettings.ui.AllAppsList;
 import de.theknut.xposedgelsettings.ui.FragmentSelectiveIcon;
 
+import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
@@ -55,6 +56,7 @@ public class ContextMenu extends HooksBaseClass{
     static float contextMenuWidth, contextMenuHeight, contextMenuItemWidth, padding, downX = -1, downY = -1;
     static int animatingDuration = 150;
     static boolean isAnimating;
+    static boolean isOpen;
     static int closeThreshold;
 
     static final int DISABLED = 0;
@@ -207,21 +209,14 @@ public class ContextMenu extends HooksBaseClass{
             }
         });
 
-//        XC_MethodHook handleTouch = new XC_MethodHook() {
-//
-//            @Override
-//            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-//                MotionEvent ev = (MotionEvent) param.args[0];
-//                if ((ev.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_DOWN) {
-//                    closeAndRemove();
-//                    downX = ev.getX();
-//                    downY = ev.getY();
-//                }
-//            }
-//        };
-//
-//        findAndHookMethod(Classes.Workspace, "onInterceptTouchEvent", MotionEvent.class, handleTouch);
-//        findAndHookMethod(Classes.Hotseat, "onInterceptTouchEvent", MotionEvent.class, handleTouch);
+        hookAllMethods(Classes.PagedView, Methods.pvPageBeginMoving, new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                if (isOpen) {
+                    closeAndRemove();
+                }
+            }
+        });
     }
 
     public static int getStatusBarHeight() {
@@ -605,6 +600,7 @@ public class ContextMenu extends HooksBaseClass{
             @Override
             public void onAnimationEnd(Animation animation) {
                 contextMenu.bringToFront();
+                isOpen = true;
             }
 
             @Override
@@ -631,14 +627,13 @@ public class ContextMenu extends HooksBaseClass{
                 @Override
                 public void onAnimationEnd(Animation animation) {
                     removeContextMenu();
-                    isAnimating = false;
+                    isAnimating = isOpen = false;
                 }
 
                 @Override
                 public void onAnimationRepeat(Animation animation) { }
             });
             menu.startAnimation(scale);
-
             contextMenuHolder.invalidate();
         }
     }

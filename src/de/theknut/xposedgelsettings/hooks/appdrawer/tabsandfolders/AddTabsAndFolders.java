@@ -64,20 +64,19 @@ public class AddTabsAndFolders extends HooksBaseClass {
             final int CONTENTTYPE = 0;
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-
                 if (TabHelper.getInstance().setContentTypeImmediate(param.args[CONTENTTYPE])) {
                     param.setResult(null);
                 }
             }
         });
 
-        if (PreferencesHelper.appdrawerSwipeTabs && !PreferencesHelper.continuousScrollWithAppDrawer) {
+        if (PreferencesHelper.appdrawerSwipeTabs
+                && (!PreferencesHelper.continuousScroll || !PreferencesHelper.continuousScrollWithAppDrawer)) {
             // open app drawer on overscroll of last page
             findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvOverScroll, float.class, new XC_MethodHook() {
                 final int OVERSCROLL = 0;
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-
                     if (!Common.APP_DRAWER_PAGE_SWITCHED
                             && TabHelper.getInstance().handleScroll((Float) param.args[OVERSCROLL])) {
                         Common.APP_DRAWER_PAGE_SWITCHED = true;
