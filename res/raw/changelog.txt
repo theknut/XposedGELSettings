@@ -27,15 +27,29 @@
   </head>
   <body>
 
+$ 2.1.1
+  % Version 2.1.1
+  _ 2014-12-10
+
+  ! Added:
+  * support for Google Search 3.9
+
+  ! Fixed:
+  * folder sporadically not opening completely
+  * folder label missing in app dock
+  * all apps button label missing in app dock
+
+  ! XGELS UI:
+  * added Japanese translation (thanks to black on Github)
+
  $ 2.1
   % Version 2.1
-  _ 2014-08-11
+  _ 2014-11-10
 
   ! Added:
   * <b>App drawer:</b> Folders (Premium, GNL only)
   * <b>App drawer:</b> move tab bar to the bottom
   * <b>App drawer:</b> overscroll to next tab
-  * <b>App drawer:</b> add folders to custom tab (non dynamic tabs)
   * <b>App drawer:</b> vertical grid size
   * <b>App drawer:</b> icon size
   * <b>Homescreen:</b> show icon labels in app dock
