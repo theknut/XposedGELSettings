@@ -151,7 +151,7 @@ public class GestureHooks extends GestureHelper {
                     gnow = (Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lHasCustomContentToLeft);
                 }
 
-                final int currentPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage);
+                final int currentPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage);
                 if (currentPage == 0 && gnow) return;
 
                 MotionEvent ev = (MotionEvent) param.args[0];

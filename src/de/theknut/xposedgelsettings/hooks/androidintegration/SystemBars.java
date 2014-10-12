@@ -30,7 +30,7 @@ public class SystemBars extends HooksBaseClass {
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 
                     boolean show = ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lHasCustomContentToLeft)
-                            && getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage) == 0);
+                            && getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage) == 0);
 
                     setGradientVisbility(show);
                 }
@@ -63,7 +63,7 @@ public class SystemBars extends HooksBaseClass {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     boolean show = ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lHasCustomContentToLeft)
-                            && getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage) == 0);
+                            && getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage) == 0);
 
                     setGradientVisbility(show);
                 }

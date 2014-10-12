@@ -387,7 +387,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
 
     public void setCurrentTab(int idx, int page) {
         tabHost.setCurrentTab(idx);
-        callMethod(getObjectField(tabHost, Fields.acthAppsCustomizePane), Methods.wSetCurrentPage, page);
+        callMethod(getObjectField(tabHost, Fields.acthAppsCustomizePane), Methods.pvSetCurrentPage, page);
         setTabColor(tabs.get(idx).getColor());
         scroll();
     }
@@ -563,7 +563,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
     }
 
     private void syncAppsPageItems(Object thisObject, ArrayList apps, int page) {
-        final boolean isRtl = (Boolean) callMethod(thisObject, Methods.acpvIsLayoutRtl);
+        final boolean isRtl = (Boolean) callMethod(thisObject, Methods.pvIsLayoutRtl);
         LayoutInflater mLayoutInflater = (LayoutInflater) getObjectField(thisObject, "mLayoutInflater");
 
         int mCellCountX = getIntField(thisObject, Fields.acpvCellCountX);

@@ -37,7 +37,7 @@ public class SystemUIHooks extends HooksBaseClass {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 
-                boolean isDefaultHomescreen = (getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage) == (PreferencesHelper.defaultHomescreen - 1))
+                boolean isDefaultHomescreen = (getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage) == (PreferencesHelper.defaultHomescreen - 1))
                         || (getIntField(Common.WORKSPACE_INSTANCE, Fields.pvNextPage) == (PreferencesHelper.defaultHomescreen - 1));
 
                 if (DEBUG) log("SystemUIHooks: onBackPressed " + (PreferencesHelper.defaultHomescreen - 1) + " : " + isDefaultHomescreen);
@@ -72,7 +72,7 @@ public class SystemUIHooks extends HooksBaseClass {
                         && !((Boolean) callMethod(param.thisObject, Methods.lIsAllAppsVisible))
                         && callMethod(Common.WORKSPACE_INSTANCE, Methods.wGetOpenFolder) == null) {
 
-                    int currentPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage);
+                    int currentPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage);
 
                     if ((currentPage == (PreferencesHelper.defaultHomescreen - 1)
                             || getIntField(Common.WORKSPACE_INSTANCE, Fields.pvNextPage) == (PreferencesHelper.defaultHomescreen - 1))
@@ -145,7 +145,7 @@ public class SystemUIHooks extends HooksBaseClass {
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 if (DEBUG) log("SystemUIHooks: onPageBeginMoving TouchState " + getObjectField(Common.WORKSPACE_INSTANCE, Fields.wTouchState));
 
-                int currentPage = getIntField(param.thisObject, Fields.wCurrentPage);
+                int currentPage = getIntField(param.thisObject, Fields.pvCurrentPage);
 
                 if (!((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lIsAllAppsVisible))
                         && getObjectField(Common.WORKSPACE_INSTANCE, Fields.wState).toString().equals("NORMAL")
@@ -175,12 +175,12 @@ public class SystemUIHooks extends HooksBaseClass {
 
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                if (DEBUG) log("SystemUIHooks: onPageEndMoving TouchState " + getObjectField(Common.WORKSPACE_INSTANCE, Fields.wTouchState) + " " + getIntField(param.thisObject, Fields.wCurrentPage) + " " + getObjectField(Common.WORKSPACE_INSTANCE, Fields.wState));
+                if (DEBUG) log("SystemUIHooks: onPageEndMoving TouchState " + getObjectField(Common.WORKSPACE_INSTANCE, Fields.wTouchState) + " " + getIntField(param.thisObject, Fields.pvCurrentPage) + " " + getObjectField(Common.WORKSPACE_INSTANCE, Fields.wState));
 
                 if (!((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lIsAllAppsVisible))
                         && getObjectField(Common.WORKSPACE_INSTANCE, Fields.wState).toString().equals("NORMAL")) {
 
-                    int currPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage);
+                    int currPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage);
                     Intent myIntent = new Intent();
                     myIntent.setAction(Common.XGELS_INTENT);
                     myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_NAVBAR);
@@ -254,7 +254,7 @@ public class SystemUIHooks extends HooksBaseClass {
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 if (DEBUG) log("SystemUIHooks: onStart");
 
-                boolean isDefaultHomescreen = getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage) == (PreferencesHelper.defaultHomescreen - 1);
+                boolean isDefaultHomescreen = getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage) == (PreferencesHelper.defaultHomescreen - 1);
 
                 if (activityManager == null) {
                     activityManager = (ActivityManager) Common.LAUNCHER_CONTEXT.getSystemService(Context.ACTIVITY_SERVICE);
@@ -280,13 +280,13 @@ public class SystemUIHooks extends HooksBaseClass {
 
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                if (DEBUG) log("SystemUIHooks: onResume currentPage" + getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage));
+                if (DEBUG) log("SystemUIHooks: onResume currentPage" + getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage));
 
                 if (!((Boolean) callMethod(param.thisObject, Methods.lIsAllAppsVisible))
                         && !(Boolean) callMethod(Common.WORKSPACE_INSTANCE, Methods.wIsOnOrMovingToCustomContent)
                         && getObjectField(Common.WORKSPACE_INSTANCE, Fields.wState).toString().equals("NORMAL")) {
 
-                    int currentPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage);
+                    int currentPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage);
 
                     if (currentPage == (PreferencesHelper.defaultHomescreen - 1)) {
 
@@ -306,7 +306,7 @@ public class SystemUIHooks extends HooksBaseClass {
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 if (DEBUG) log("SystemUIHooks: onWorkspaceShown");
 
-                int currentPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage);
+                int currentPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage);
 
                 if (activityManager == null) {
                     activityManager = (ActivityManager) Common.LAUNCHER_CONTEXT.getSystemService(Context.ACTIVITY_SERVICE);
@@ -357,7 +357,7 @@ public class SystemUIHooks extends HooksBaseClass {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 
-                int currPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage);
+                int currPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage);
 
                 if ((Boolean) param.args[TOWORKSPACE]) {
                     if (DEBUG) log(param, "Transitioning to Workspace " + currPage + " " + (PreferencesHelper.defaultHomescreen - 1));
@@ -382,7 +382,7 @@ public class SystemUIHooks extends HooksBaseClass {
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     if (DEBUG) log("SystemUIHooks: openFolder");
 
-                    int currentPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage);
+                    int currentPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage);
 
                     if (currentPage == (PreferencesHelper.defaultHomescreen - 1)
                             || PreferencesHelper.dynamicBackButtonOnEveryScreen) {
@@ -401,7 +401,7 @@ public class SystemUIHooks extends HooksBaseClass {
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     if (DEBUG) log("SystemUIHooks: closeFolder");
 
-                    int currentPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage);
+                    int currentPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage);
 
                     if (callMethod(Common.WORKSPACE_INSTANCE, Methods.wGetOpenFolder) != null
                             && (currentPage == (PreferencesHelper.defaultHomescreen - 1) || PreferencesHelper.dynamicBackButtonOnEveryScreen)

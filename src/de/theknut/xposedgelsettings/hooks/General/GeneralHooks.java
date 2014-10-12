@@ -63,8 +63,27 @@ public class GeneralHooks extends HooksBaseClass {
 
     static Unhook unhook;
 
-    public static void initAllHooks(final LoadPackageParam lpparam) {
 
+    public static class Stat {
+        String pkg = null;
+        int count;
+
+        public Stat(String intent, int count) {
+            this.count = count;
+            String[] split = intent.split(";");
+            for (int i = split.length - 1; i >= 0; i--) {
+                if (split[i].contains("component") || split[i].contains("package")) {
+                    this.pkg = split[i];
+                }
+            }
+            if (pkg == null) {
+                this.pkg = "Unknown";
+            }
+        }
+    }
+
+    public static void initAllHooks(final LoadPackageParam lpparam) {
+        //final ArrayList<Stat> stats = new ArrayList<Stat>();
         findAndHookMethod(Classes.Launcher, "onCreate", Bundle.class, new XC_MethodHook() {
 
             @Override
@@ -86,6 +105,28 @@ public class GeneralHooks extends HooksBaseClass {
                     Common.XGELSCONTEXT = Common.LAUNCHER_CONTEXT.createPackageContext(Common.PACKAGE_NAME, Context.CONTEXT_IGNORE_SECURITY);
                 } catch (Exception e) { }
             }
+
+//            @Override
+//            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+//                Object mStats = getObjectField(param.thisObject, "IS");
+//                ArrayList<String> mIntents = (ArrayList<String>) getObjectField(mStats, "QG");
+//                ArrayList<Integer> mHistogram = (ArrayList<Integer>) getObjectField(mStats, "QH");
+//
+//                for (int i = 0; i < mIntents.size(); i++) {
+//                    stats.add(new Stat(mIntents.get(i), mHistogram.get(i)));
+//                }
+//
+//                Collections.sort(stats, new Comparator<Stat>() {
+//                    @Override
+//                    public int compare(Stat lhs, Stat rhs) {
+//                        return rhs.count-lhs.count;
+//                    }
+//                });
+//
+//                for (Stat stat : stats) {
+//                    log(stat.pkg + " " + stat.count);
+//                }
+//            }
         });
 
         unhook = findAndHookMethod(Classes.DynamicGrid, Methods.dgGetDeviceProfile, new XC_MethodHook() {
@@ -151,11 +192,6 @@ public class GeneralHooks extends HooksBaseClass {
                     findAndHookMethod(Classes.Launcher, "startSettings", overriderSettingsHook);
                 }
             }
-        }
-
-        if (PreferencesHelper.enableRotation) {
-            // enable rotation
-            XposedBridge.hookAllMethods(Classes.Launcher, Methods.lIsRotationEnabled, new IsRotationEnabledHook());
         }
 
         if (PreferencesHelper.resizeAllWidgets) {

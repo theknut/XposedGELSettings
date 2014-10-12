@@ -93,7 +93,7 @@ public class AppDrawerHooks extends HooksBaseClass {
                     if (PreferencesHelper.appdrawerRememberLastPosition) {
                         if (!Common.OVERSCROLLED) {
                             Object acpv = getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizePagedView);
-                            Common.APPDRAWER_LAST_PAGE_POSITION = getIntField(acpv, Fields.acpvCurrentPage);
+                            Common.APPDRAWER_LAST_PAGE_POSITION = getIntField(acpv, Fields.pvCurrentPage);
                         }
 
                         if (!Common.OVERSCROLLED && !Common.IS_TREBUCHET && !TabHelper.getInstance().getCurrentTabData().isWidgetsTab()) {
@@ -136,7 +136,7 @@ public class AppDrawerHooks extends HooksBaseClass {
 
                     if (DEBUG)
                         log(param, "AppDrawerHooks: set to last position " + Common.APPDRAWER_LAST_PAGE_POSITION);
-                    callMethod(acpv, Methods.acpvSetCurrentPage, Common.APPDRAWER_LAST_PAGE_POSITION);
+                    callMethod(acpv, Methods.pvSetCurrentPage, Common.APPDRAWER_LAST_PAGE_POSITION);
                 }
             }
         });

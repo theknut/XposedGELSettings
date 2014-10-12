@@ -24,7 +24,7 @@ public class SetSearchStarted extends XC_MethodHook {
 			GoogleSearchBarHooks.showSearchbar();
 		} else {
 			boolean hasGNowEnabled = (Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lHasCustomContentToLeft);
-			int page = getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage);
+			int page = getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage);
 			if ((hasGNowEnabled && page != 0)
 				|| !hasGNowEnabled) {
 

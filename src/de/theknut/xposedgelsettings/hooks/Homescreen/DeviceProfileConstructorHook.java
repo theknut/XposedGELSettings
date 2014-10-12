@@ -86,10 +86,10 @@ public final class DeviceProfileConstructorHook extends HooksBaseClass {
     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 
         if (PreferencesHelper.noAllAppsButton) {
-            setIntField(param.thisObject, Fields.hotseatAllAppsRank, 50);
+            setIntField(param.thisObject, Fields.dpHotseatAllAppsRank, 50);
         } else {
             if (PreferencesHelper.homescreenAllAppsPosition != -1) {
-                setIntField(param.thisObject, Fields.hotseatAllAppsRank, PreferencesHelper.homescreenAllAppsPosition - 1);
+                setIntField(param.thisObject, Fields.dpHotseatAllAppsRank, PreferencesHelper.homescreenAllAppsPosition - 1);
             }
         }
 

@@ -33,7 +33,7 @@ public class FinishBindingItemsHook extends HooksBaseClass {
 			callMethod(Common.WORKSPACE_INSTANCE, Methods.wMoveToDefaultScreen, true);
 			Common.MOVED_TO_DEFAULTHOMESCREEN = true;
 		} else {
-			int currPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage);
+			int currPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage);
 			
 			Intent myIntent = new Intent();
 			myIntent.setAction(Common.XGELS_INTENT);

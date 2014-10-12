@@ -18,7 +18,7 @@ public final class LauncherOnResumeHook extends HooksBaseClass {
                 && !(Boolean) callMethod(Common.WORKSPACE_INSTANCE, Methods.wIsOnOrMovingToCustomContent)
                 && getObjectField(Common.WORKSPACE_INSTANCE, Fields.wState).toString().equals("NORMAL")) {
 
-            int currentPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage);
+            int currentPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage);
             if (currentPage == (PreferencesHelper.defaultHomescreen - 1)) {
 
                 GoogleSearchBarHooks.showSearchbar();

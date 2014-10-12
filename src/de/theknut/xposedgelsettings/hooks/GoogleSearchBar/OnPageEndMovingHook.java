@@ -17,7 +17,7 @@ public final class OnPageEndMovingHook extends XC_MethodHook {
     @Override
     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
         if (Common.LAUNCHER_INSTANCE == null) return;
-        int page = getIntField(Common.WORKSPACE_INSTANCE, Fields.wCurrentPage);
+        int page = getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage);
         boolean shouldShow = (page == 0 && PreferencesHelper.autoHideSearchBar) || (PreferencesHelper.searchBarOnDefaultHomescreen && page == (PreferencesHelper.defaultHomescreen - 1));
 
         // show the search bar as soon as the page has stopped moving and the GNow overlay is visible
