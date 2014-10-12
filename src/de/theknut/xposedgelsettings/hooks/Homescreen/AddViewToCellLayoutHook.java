@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import net.margaritov.preference.colorpicker.ColorPickerPreference;
 
@@ -20,6 +21,7 @@ import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.getBooleanField;
+import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
 public final class AddViewToCellLayoutHook extends HooksBaseClass {
@@ -33,6 +35,7 @@ public final class AddViewToCellLayoutHook extends HooksBaseClass {
     private static int newFolderBackgroundColor = Color.parseColor(ColorPickerPreference.convertToARGB(PreferencesHelper.homescreenFolderColor));
     private static int newFolderPreviewBackgroundColor = Color.parseColor(ColorPickerPreference.convertToARGB(PreferencesHelper.homescreenFolderPreviewColor));
     private static int newAppLabelColorAppDrawer = Color.parseColor(ColorPickerPreference.convertToARGB(PreferencesHelper.appdrawerIconLabelColor));;
+    private static int iconPadding;
 
     @Override
     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
@@ -65,6 +68,8 @@ public final class AddViewToCellLayoutHook extends HooksBaseClass {
                         callMethod(param.args[0], "setTextColor", newAppLabelColor);
                     }
                 }
+
+                iconPadding = ((TextView) param.args[0]).getCompoundDrawablePadding();
             }
 
             if (PreferencesHelper.appdockSettingsSwitch) {
@@ -97,6 +102,10 @@ public final class AddViewToCellLayoutHook extends HooksBaseClass {
 
                     callMethod(folderName, "setTextColor", newAppLabelColor);
 
+                    if (PreferencesHelper.appdockShowLabels) {
+                        ((View) folderName).setVisibility(View.VISIBLE);
+                    }
+
                     if (PreferencesHelper.hideIconLabelHome) {
                         callMethod(folderName, Methods.btvSetShadowsEnabled, false);
                         callMethod(folderName, "setTextColor", Color.TRANSPARENT);
@@ -121,6 +130,26 @@ public final class AddViewToCellLayoutHook extends HooksBaseClass {
                 Drawable i = prevBackground.getDrawable();
                 i.setColorFilter(newFolderPreviewBackgroundColor, Mode.MULTIPLY);
                 prevBackground.setImageDrawable(i);
+            }
+        } else if (PreferencesHelper.appdockShowLabels && param.args[0].getClass().equals(TextView.class)) {
+            // all apps button
+            TextView allAppsButton = ((TextView) param.args[0]);
+            allAppsButton.setVisibility(View.VISIBLE);
+            int id = Common.LAUNCHER_CONTEXT.getResources().getIdentifier("all_apps_button_label", "string", Common.HOOKED_PACKAGE);
+            if (id != 0) {
+                allAppsButton.setText(Common.LAUNCHER_CONTEXT.getResources().getString(id));
+            } else {
+                allAppsButton.setText("Apps");
+            }
+
+            try {
+                allAppsButton.setCompoundDrawablePadding(getIntField(Common.DEVICE_PROFIL, Fields.dpIconDrawablePaddingPx));
+            } catch (Exception e) {
+                if (DEBUG) log("Execption: Set padding alternatively");
+                allAppsButton.setCompoundDrawablePadding(iconPadding);
+            } catch (Error e) {
+                if (DEBUG) log("Error: Set padding alternatively");
+                allAppsButton.setCompoundDrawablePadding(iconPadding);
             }
         }
     }
