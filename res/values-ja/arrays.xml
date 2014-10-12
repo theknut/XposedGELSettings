@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="fragmenttitles_array">
+        <item>ようこそ</item>
+        <item>全般</item>
+        <item>Google検索バー</item>
+        <item>ホーム画面</item>
+        <item>アプリドロワー</item>
+        <item>ジェスチャー</item>
+        <item>通知バッジ</item>
+        <item>アイコン</item>
+        <item>Androidの調整</item>
+        <item>バックアップ/復元</item>
+        <item>設定</item>
+        <item>プレミアム/サポート</item>
+        <item>リバースエンジニアリング</item>
+    </string-array>
+
+    <string-array name="smartfoldermode_entries">
+        <item>OFF</item>
+        <item>スワイプ - 最初のアプリを起動\nタップ - フォルダを開く</item>
+        <item>タップ - 最初のアプリを起動\nスワイプ - フォルダを開く</item>
+    </string-array>
+
+    <string-array name="searchbarstyle_entries">
+        <item>デフォルト</item>
+        <item>Android Lスタイル</item>
+    </string-array>
+
+    <string-array name="gesture_actions_entries">
+        <item>なし</item>
+        <item>通知バー</item>
+        <item>クイック設定</item>
+        <item>アプリドロワー</item>
+        <item>前回使ったアプリ</item>
+        <item>最近使ったアプリ一覧を表示</item>
+        <item>Androidの設定</item>
+        <item>スリープ</item>
+        <item>ドックを切り替える</item>
+        <item>アプリを開く</item>
+    </string-array>
+
+    <string-array name="gesture_actions_entries_limited">
+        <item>なし</item>
+        <item>アプリドロワー</item>
+        <item>ドックを切り替える</item>
+    </string-array>
+
+    <string-array name="general_scroll_devider_entries">
+        <item>デフォルト</item>
+        <item>中</item>
+        <item>速い</item>
+        <item>Vmax</item>
+        <item>アニメーションなし</item>
+    </string-array>
+
+    <string-array name="contextmenu_mode_entries">
+        <item>無効</item>
+        <item>ショートカットのみ</item>
+        <item>ウィジェットのみ</item>
+        <item>ショートカットとウィジェット</item>
+    </string-array>
+
+    <string-array name="tabcontent_entries">
+        <item>アプリ</item>
+        <item>ウィジェット</item>
+        <item>Xposedモジュール</item>
+        <item>Googleアプリ</item>
+        <item>アイコンパック</item>
+        <item>新しいアプリ</item>
+        <item>新しい/更新されたアプリ</item>
+    </string-array>
+
+    <string-array name="tabcontent_names">
+        <item>アプリ</item>
+        <item>ウィジェット</item>
+        <item>Xposed</item>
+        <item>Google</item>
+        <item>アイコンパック</item>
+        <item>新しいアプリ</item>
+        <item>新しい/更新されたアプリ</item>
+    </string-array>
+
+    <string-array name="tabsort_entries">
+        <item>アルファベット順</item>
+        <item>インストール日時</item>
+        <item>最終アップデート</item>
+    </string-array>
+
+    <string-array name="notificationbadge_position_entries">
+        <item>左上</item>
+        <item>右上</item>
+        <item>左下</item>
+        <item>右下</item>
+    </string-array>
+
+</resources>
