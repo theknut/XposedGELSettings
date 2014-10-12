@@ -59,6 +59,19 @@ public class AppDrawerHooks extends HooksBaseClass {
             }
         }
 
+        if (Common.PACKAGE_OBFUSCATED) {
+            // possible fix for folder not completely opening
+            findAndHookMethod(Classes.Folder, "b", Classes.Folder, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    View folder = (View) param.args[0];
+                    folder.setScaleX(1.0f);
+                    folder.setScaleY(1.0f);
+                    folder.setAlpha(1.0f);
+                }
+            });
+        }
+
         if (PreferencesHelper.continuousScroll) {
             // open app drawer on overscroll of last page
             findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvOverScroll, float.class, new OverScrollAppDrawerHook());
