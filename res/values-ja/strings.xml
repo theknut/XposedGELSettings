@@ -275,7 +275,7 @@
     <string name="pref_icon_premium_title">プレミアム機能</string>
     <string name="pref_icon_premium_summary">この機能はXGELSプレミアムでのみ利用できます。</string>
     <string name="pref_icon_support_title">統計</string>
-    <string name="pref_icon_support_summary">ダイナミックカレンダー: %1$s\n%3$d個のうち%2$d個のアイコンがサポートされています\n%4合計$d個のアイコン</string>
+    <string name="pref_icon_support_summary">ダイナミックカレンダー: %1$s\n%2$d個のうち%3$d個のアイコンがサポートされています\n%4$d合計$d個のアイコン</string>
     <string name="pref_icon_auto_apply_title">自動適用</string>
     <string name="pref_icon_auto_apply_summary">新しいアイコンやアップデートされたアイコンを自動で適用する</string>
     
