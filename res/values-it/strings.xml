@@ -380,5 +380,9 @@
     
     <string name="pref_switch_swipe_tabs_title">Scorri attraverso le schede</string>
     <string name="pref_switch_swipe_tabs_summary">Passa alla scheda successiva, quando si scorre nell\'ultima pagina</string>
+    
+    <!-- 2.1.2. -->
+    <string name="pref_searchbar_weather_widget_title">Widget Meteo</string>
+    <string name="pref_searchbar_weather_widget_summary">Mostra la posizione e il meteo corrente sotto la barra di ricerca (solo GNL)</string>
 
 </resources>
