@@ -378,4 +378,8 @@
     <string name="pref_switch_swipe_tabs_title">Swipe through tabs</string>
     <string name="pref_switch_swipe_tabs_summary">Switch to the next tab when swiping on the last tabs page</string>
 
+    <!-- 2.1.2. -->
+    <string name="pref_searchbar_weather_widget_title">Weather widget</string>
+    <string name="pref_searchbar_weather_widget_summary">Show current location and weather below the search bar (GNL only)</string>
+
 </resources>

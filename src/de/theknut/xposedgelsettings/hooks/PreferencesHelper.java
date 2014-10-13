@@ -132,6 +132,7 @@ public class PreferencesHelper {
     public static boolean appdockShowLabels;
     public static int iconSizeAppDrawer;
     public static boolean appdrawerSwipeTabs;
+    public static boolean searchBarWeatherWidget;
 
     public static void init() {
         prefs = new XSharedPreferences(Common.PACKAGE_NAME);
@@ -141,6 +142,7 @@ public class PreferencesHelper {
         hideSearchBar = prefs.getBoolean("hidesearchbar", false);
         searchBarOnDefaultHomescreen = prefs.getBoolean("searchbarondefaulthomescreen", false);
         autoHideSearchBar = prefs.getBoolean("autohidehidesearchbar", false);
+        searchBarWeatherWidget = prefs.getBoolean("searchbarweatherwidget", false);
         hideIconLabelHome = prefs.getBoolean("hideiconhomescreen", false);
         hideIconLabelApps = prefs.getBoolean("hideiconappdrawer", false);
         changeGridSizeHome = prefs.getBoolean("changegridsizehome", false);

@@ -1,15 +1,21 @@
 package de.theknut.xposedgelsettings.hooks.googlesearchbar;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
+import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
@@ -17,6 +23,7 @@ import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
+import static de.robv.android.xposed.XposedHelpers.getIntField;
 
 public class GoogleSearchBarHooks extends HooksBaseClass {
 	
@@ -123,6 +130,77 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
 
         if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE)) {
 
+            if (Common.PACKAGE_OBFUSCATED && PreferencesHelper.searchBarWeatherWidget && !PreferencesHelper.hideSearchBar) {
+                findAndHookMethod(Classes.WeatherEntryAdapter, Methods.weaAddCurrentConditions, Context.class, Classes.UriLoader, Classes.WeatherPoint, View.class, new XC_MethodHook() {
+
+                    int card_title_id = -1;
+                    int temperature_id = -1;
+                    int current_weather_description_id = -1;
+
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        ViewGroup view = (ViewGroup) param.args[3];
+
+                        if (card_title_id == -1) {
+                            card_title_id = Common.LAUNCHER_CONTEXT.getResources().getIdentifier("card_title", "id", Common.GEL_PACKAGE);
+                        }
+                        if (temperature_id == -1) {
+                            temperature_id = Common.LAUNCHER_CONTEXT.getResources().getIdentifier("temperature", "id", Common.GEL_PACKAGE);
+                        }
+                        if (current_weather_description_id == -1) {
+                            current_weather_description_id = Common.LAUNCHER_CONTEXT.getResources().getIdentifier("current_weather_description", "id", Common.GEL_PACKAGE);
+                        }
+
+                        ViewGroup parent = (ViewGroup) ((ViewGroup) callMethod(Common.LAUNCHER_INSTANCE, Methods.lGetSearchbar)).getParent();
+                        if (parent.getTag() != null) {
+                            parent.removeView((View) parent.getTag());
+                        }
+
+                        LayoutInflater inflater = (LayoutInflater) Common.XGELSCONTEXT.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        ViewGroup widget = (ViewGroup) inflater.inflate(R.layout.qsb_weather_widget, null, true);
+                        ((TextView) widget.findViewById(R.id.city)).setText(((TextView) view.findViewById(card_title_id)).getText());
+                        ((TextView) widget.findViewById(R.id.temperature)).setText(((TextView) view.findViewById(temperature_id)).getText());
+                        ((TextView) widget.findViewById(R.id.weatherdescription)).setText(((TextView) view.findViewById(current_weather_description_id)).getText());
+                        widget.setAlpha(getIntField(Common.WORKSPACE_INSTANCE, ObfuscationHelper.Fields.pvCurrentPage) == 0 ? 0 : 1);
+                        parent.setTag(widget);
+
+                        parent.addView(widget);
+                    }
+                });
+
+                findAndHookMethod(Classes.DeviceProfile, Methods.dpGetWorkspacePadding, Integer.TYPE, new GetWorkspacePaddingHook());
+
+                XC_MethodHook hook = new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        ViewGroup parent = (ViewGroup) ((ViewGroup) callMethod(Common.LAUNCHER_INSTANCE, Methods.lGetSearchbar)).getParent();
+                        if (parent.getTag() != null) {
+                            ViewGroup widget = (ViewGroup) parent.getTag();
+                            widget.animate().alpha(0f).setDuration(175).start();
+                        }
+                    }
+                };
+
+                // show DropDeleteTarget on dragging items
+                if (Common.PACKAGE_OBFUSCATED) {
+                    // this is actually not DragSource but the parameter type is unknown as of now
+                    findAndHookMethod(Classes.SearchDropTargetBar, Methods.sdtbOnDragStart, Classes.DragSource, Object.class, hook);
+                } else {
+                    hookAllMethods(Classes.SearchDropTargetBar, Methods.sdtbOnDragStart, hook);
+                }
+
+                hookAllMethods(Classes.SearchDropTargetBar, Methods.sdtbOnDragEnd, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        ViewGroup parent = (ViewGroup) ((ViewGroup) callMethod(Common.LAUNCHER_INSTANCE, Methods.lGetSearchbar)).getParent();
+                        if (parent.getTag() != null) {
+                            ViewGroup widget = (ViewGroup) parent.getTag();
+                            widget.animate().alpha(1f).setDuration(200).start();
+                        }
+                    }
+                });
+            }
+
             if (PreferencesHelper.alwaysShowSayOKGoogle) {
                 findAndHookMethod(Classes.GSAConfigFlags, Methods.gsaShouldAlwaysShowHotwordHint, XC_MethodReplacement.returnConstant(true));
                 findAndHookMethod(Classes.RecognizerView, Methods.rvCanShowHotwordAnimation, XC_MethodReplacement.returnConstant(false));
@@ -130,11 +208,22 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
 
             // 0 - Default
             // 1 - Android L
-            if (PreferencesHelper.searchbarStyle == 1) {
+            if (PreferencesHelper.searchbarStyle == 1 || PreferencesHelper.searchBarWeatherWidget) {
                 XC_MethodHook proximityToNowHook = new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                        param.args[0] = 1.0f;
+
+                        if (PreferencesHelper.searchBarWeatherWidget) {
+                            ViewGroup parent = (ViewGroup) ((ViewGroup) callMethod(Common.LAUNCHER_INSTANCE, Methods.lGetSearchbar)).getParent();
+                            if (parent.getTag() != null) {
+                                ViewGroup widget = (ViewGroup) parent.getTag();
+                                widget.setAlpha(1 - (Float) param.args[0]);
+                            }
+                        }
+
+                        if (PreferencesHelper.searchbarStyle == 1) {
+                            param.args[0] = 1.0f;
+                        }
                     }
                 };
 

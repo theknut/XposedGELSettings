@@ -3,6 +3,8 @@ package de.theknut.xposedgelsettings.hooks.googlesearchbar;
 import android.graphics.Rect;
 
 import de.robv.android.xposed.XC_MethodHook;
+import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import de.theknut.xposedgelsettings.hooks.Utils;
 
 public class GetWorkspacePaddingHook extends XC_MethodHook {
 	
@@ -24,12 +26,23 @@ public class GetWorkspacePaddingHook extends XC_MethodHook {
         boolean isLandscape = orientation == 0;
         
         Rect padding = (Rect) param.getResult();
-        padding.set(
-            isLandscape ? 0 : padding.left,
-            isLandscape ? padding.top : 0,
-            padding.right,
-            padding.bottom
-        );
+
+        if (PreferencesHelper.hideSearchBar) {
+            padding.set(
+                    isLandscape ? 0 : padding.left,
+                    isLandscape ? padding.top : 0,
+                    padding.right,
+                    padding.bottom
+            );
+        } else if (PreferencesHelper.searchBarWeatherWidget) {
+
+            padding.set(
+                    isLandscape ? padding.left + Utils.dpToPx(12) : padding.left,
+                    isLandscape ? padding.top : padding.top + Utils.dpToPx(12),
+                    padding.right,
+                    padding.bottom
+            );
+        }
 
         param.setResult(padding);
 	}

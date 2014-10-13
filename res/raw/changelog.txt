@@ -27,6 +27,16 @@
   </head>
   <body>
 
+$ 2.1.2
+  % Version 2.1.2
+  _ 2014-13-10
+
+  ! Added:
+  * Google weather widget
+
+  ! XGELS UI:
+  * updated Japanese translation
+
 $ 2.1.1
   % Version 2.1.1
   _ 2014-12-10
@@ -41,6 +51,7 @@ $ 2.1.1
 
   ! XGELS UI:
   * added Japanese translation (thanks to black on Github)
+
 
  $ 2.1
   % Version 2.1

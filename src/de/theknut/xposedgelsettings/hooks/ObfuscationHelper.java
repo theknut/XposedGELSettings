@@ -92,6 +92,9 @@ public class ObfuscationHelper extends HooksBaseClass {
                 SEARCH_PLATE,
                 GEL_SEARCH_PLATE_CONTAINER,
                 TRANSITIONS_MANAGER,
+                WEATHER_ENTRY_ADAPTER,
+                URI_LOADER,
+                WEATHER_POINT,
                 LAUNCHER_APP_STATE;
 
         public static void initNames(int idx) {
@@ -151,6 +154,9 @@ public class ObfuscationHelper extends HooksBaseClass {
             SEARCH_PLATE = new String[]{"com.google.android.search.shared.ui.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate"}[idx];
             TRANSITIONS_MANAGER = new String[]{"com.google.android.search.shared.ui.SearchPlate$TransitionsManager", "cen", "cog", "cwb", "cwb"}[idx]; // in SearchPlate: "(this, this);"
             GEL_SEARCH_PLATE_CONTAINER = new String[]{"com.google.android.search.gel.GelSearchPlateContainer", "com.google.android.search.gel.GelSearchPlateContainer", "com.google.android.search.gel.GelSearchPlateContainer", "com.google.android.search.gel.GelSearchPlateContainer", "com.google.android.search.gel.GelSearchPlateContainer"}[idx];
+            WEATHER_ENTRY_ADAPTER = new String[]{"com.google.android.sidekick.shared.cards.WeatherEntryAdapter", "dye", "elt", "euo", "euo"}[idx];
+            URI_LOADER = new String[]{"com.google.android.shared.util.UriLoader", "cxw", "eno", "dtb", "dtb"}[idx];
+            WEATHER_POINT = new String[]{"com.google.geo.sidekick.Sidekick.WeatherEntry.WeatherPoint", "him", "ich", "ilp", "ilp"}[idx];
         }
     }
 
@@ -204,7 +210,10 @@ public class ObfuscationHelper extends HooksBaseClass {
                 BubbleTextView,
                 LauncherAppState,
                 DynamicGrid,
-                AppsCustomizeCellLayout;
+                AppsCustomizeCellLayout,
+                WeatherEntryAdapter,
+                WeatherPoint,
+                UriLoader;
 
         public static void hookAllClasses(LoadPackageParam lpparam) {
             Launcher = findClass(ClassNames.LAUNCHER, lpparam.classLoader);
@@ -262,6 +271,9 @@ public class ObfuscationHelper extends HooksBaseClass {
 
                 if (Common.PACKAGE_OBFUSCATED) {
                     WorkspaceState = findClass(ClassNames.WORKSPACE_STATE, lpparam.classLoader);
+                    WeatherEntryAdapter = findClass(ClassNames.WEATHER_ENTRY_ADAPTER, lpparam.classLoader);
+                    UriLoader = findClass(ClassNames.URI_LOADER, lpparam.classLoader);
+                    WeatherPoint = findClass(ClassNames.WEATHER_POINT, lpparam.classLoader);
 
                     if (Common.GNL_VERSION >= ObfuscationHelper.GNL_3_5_14) {
                         UserHandle = findClass(ClassNames.USER_HANDLE, lpparam.classLoader);
@@ -372,7 +384,8 @@ public class ObfuscationHelper extends HooksBaseClass {
                 acthSetContentTypeImmediate,
                 wGetWorkspaceAndHotseatCellLayouts,
                 fiFromXml,
-                acpvSetAllAppsPadding;
+                acpvSetAllAppsPadding,
+                weaAddCurrentConditions;
 
         public static void initMethodNames(int idx) {
             lGetApplicationContext = new String[]{"getApplicationContext", "getApplicationContext", "getApplicationContext", "getApplicationContext", "getApplicationContext"}[idx];
@@ -474,6 +487,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             rvCanShowHotwordAnimation = new String[]{"canShowHotwordAnimation", "NH", "Se", "UC", "UH"}[idx]; // == new String[]5
             spSetProximityToNow = new String[]{"setProximityToNow", "x", "x", "x", "x"}[idx]; // (float paramFloat) with RecognizerView
             tmSetTransitionsEnabled = new String[]{"setTransitionsEnabled", "cG", "cY", "cZ", "cZ"}[idx]; // (4)
+            weaAddCurrentConditions = new String[]{"addCurrentConditions", "a", "a", "a", "a"}[idx];
             uIsL = new String[]{"", "", "jO", "jS", "jV"}[idx];
             lasIsDisableAllApps = new String[]{"isDisableAllApps", "ha", "hS", "hW", "hX"}[idx]; // launcher_noallapps
         }

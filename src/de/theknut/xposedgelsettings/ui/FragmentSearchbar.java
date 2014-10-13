@@ -30,6 +30,29 @@ public class FragmentSearchbar extends FragmentBase {
             }
         });
         searchbarStyle.setSummary(searchbarStyle.getEntry());
+
+        final CustomSwitchPreference hideSearchbar = (CustomSwitchPreference) findPreference("hidesearchbar");
+        final CustomSwitchPreference weatherWidget = (CustomSwitchPreference) findPreference("searchbarweatherwidget");
+
+        weatherWidget.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                if ((Boolean) newValue) {
+                    hideSearchbar.setChecked(false);
+                }
+                return true;
+            }
+        });
+
+        hideSearchbar.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                if ((Boolean) newValue) {
+                    weatherWidget.setChecked(false);
+                }
+                return true;
+            }
+        });
         
         rootView = CommonUI.setBackground(rootView, R.id.prefbackground);
         
