@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Xposed GEL Settings</string>
-    <string name="app_description">Google検索バーを非表示にする、ランチャーからアプリを非表示にする、ホーム画面とアプリドロワーのグリッドサイズを変更する、アイコンサイズを変更する、テキストサイズを変更するアプリドックの数を変更する、アイコンラベルを削除する等</string>
+    <string name="app_description">Google検索バーを非表示にする、ランチャーからアプリを非表示にする、ホーム画面とアプリドロワーのグリッドサイズを変更する、アイコンサイズを変更する、テキストサイズを変更するアプリドックの数を変更する、アイコンラベルを削除するなど</string>
     <string name="pref_hide_google_search_bar_title">非表示</string>
     <string name="pref_autohide_google_search_bar_title">自動非表示</string>
     <string name="pref_autohide_google_search_bar_summary">Google Nowのページで自動で表示する</string>
@@ -21,7 +21,7 @@
     <string name="pref_cat_title_general">全般</string>
     <string name="pref_cat_title_hide_apps">アプリを非表示</string>
     <string name="pref_grid_size_explain_title">注意！</string>
-    <string name="pref_grid_size_explain_summary">グリッドサイズを変更するとアイコンの配置が崩れます。グリッドサイズを小さくするとアイコンが消える可能性がありますが、グリッドサイズを大きくすれば元に戻ります。グリッドサイズが大きすぎるとアイコンの一部がカットされますので、大きくしすぎないように注意してください。</string>
+    <string name="pref_grid_size_explain_summary">グリッドサイズを変更するとアイコンの配置が崩れます。グリッドサイズを小さくするとアイコンが消える可能性がありますが、グリッドサイズを大きくすれば元に戻ります。グリッドサイズが大きすぎるとアイコンの一部分がカットされますので、大きくしすぎないように注意してください。</string>
     <string name="pref_switch_enable_grid_size_title">有効化</string>
     <string name="pref_switch_enable_grid_size_summary">グリッドサイズの変更を有効にする</string>
     <string name="pref_resize_all_widgets_title">ウィジェットをリサイズ</string>
@@ -41,20 +41,20 @@
     <string name="pref_switch_appicons_title">有効化</string>
     <string name="pref_switch_appicons_explain_summary">アイコンの変更を有効にする</string>
     <string name="pref_iconsize_title">アイコンサイズ</string>
-    <string name="pref_iconsize_summary">パーセンテージを選択する</string>
+    <string name="pref_iconsize_summary">パーセントを選択する</string>
     <string name="pref_icontextsize_title">アイコンテキストサイズ</string>
-    <string name="pref_icontextsize_summary">パーセンテージを選択する</string>
+    <string name="pref_icontextsize_summary">パーセントを選択する</string>
     <string name="pref_icontextcolor_homescreen_title">ホーム画面の文字色</string>
     <string name="pref_icontextcolor_appdrawer_title">アプリドロワーの色</string>
     <string name="pref_appdockiconsize_title">ドックアイコンサイズ</string>
-    <string name="pref_appdockiconsize_summary">パーセンテージを選択する</string>
+    <string name="pref_appdockiconsize_summary">パーセントを選択する</string>
     <string name="pref_cat_title_app_drawer">アプリドロワー</string>
     <string name="pref_appdock_count_title">ドックアイコンの数</string>
     <string name="pref_appdock_count_summary">ドックアイコンの数を変更する</string>
     <string name="pref_selectappstohide_summary">非表示にするアプリを選択する</string>
     <string name="pref_cat_title_restart_launcher">ランチャーを再起動</string>
     <string name="pref_restart_launcher_summary">ここをクリックするとランチャーを再起動して設定を反映します。</string>
-    <string name="pref_support_thread_title">助けが必要ですか？Need help?</string>
+    <string name="pref_support_thread_title">助けが必要ですか？</string>
     <string name="pref_support_thread_summary">サポートスレッドを利用してください。助けが必要であったりフィードバックがあればここをクリックしてスレッドを開いてください。</string>
     <string name="pref_cat_eximport_settings">XGELSの設定をインポート/エクスポート</string>
     <string name="pref_settings_import_title">インポート</string>
@@ -87,7 +87,7 @@
     <string name="pref_lock_desktop_title">デスクトップをロック</string>
     <string name="pref_lock_desktop_summary">デスクトップをロックして誤操作を防止する</string>
     <string name="pref_continuous_scroll_title">無限スクロール</string>
-    <string name="pref_continuous_scroll_summary">最初のページに飛んでスクロールする\n（実験的）</string>
+    <string name="pref_continuous_scroll_summary">最初のページに飛んでスクロールする（実験的）</string>
     <string name="pref_continuous_scroll_with_app_drawer_title">アプリドロワーを含める</string>
     <string name="pref_continuous_scroll_with_app_drawer_summary">無限スクロールにアプリドロワーも含める</string>
     <string name="pref_switch_close_app_drawer_after_app_started_title">アプリドロワーを閉じる</string>
@@ -132,7 +132,7 @@
     <string name="pref_backup_homescreen_summary">/sdcard/XposedGELSettings\nにホーム画面のレイアウト（アイコンとフォルダのみ）をバックアップする</string>
     <string name="pref_restore_homescreen_title">復元</string>
     <string name="pref_restore_homescreen_summary">/sdcard/XposedGELSettings\nからホーム画面のレイアウト（アイコンとフォルダのみ）を復元する</string>
-    <string name="pref_animate_dynamic_homebutton_title">アイコンの切り替えをアニメーション化</string>
+    <string name="pref_animate_dynamic_homebutton_title">アイコンの切り替えをアニメーション</string>
     <string name="pref_animate_dynamic_homebutton_summary">アイコン変更時にアニメーションでクイックフェードさせる</string>
     <string name="pref_change_dynamic_homebutton_title">ダイナミックホームボタンアイコン</string>
     <string name="pref_change_dynamic_homebutton_summary">デフォルトのホーム画面でホームアイコンをアプリドロワーアイコンに変更する</string>
@@ -180,7 +180,7 @@
     
     <string name="pref_choose_gesture_action_title">ジェスチャーの動作を選択</string>
     <string name="pref_switch_gesture_appdrawer_title">アプリドロワー</string>
-    <string name="pref_switch_gesture_appdrawer_summary">下スワイプ - アプリドロワーを閉じる\n上スワイプ - すべてのアプリとすべてのウィジェットを切り替える</string>
+    <string name="pref_switch_gesture_appdrawer_summary">下スワイプ - アプリドロワーを閉じる\n上スワイプ - すべてのアプリとすべてのウィジェットとの間を切り替える</string>
     <string name="pref_switch_gesture_double_tap_title">ダブルタップ</string>
     <string name="pref_switch_gesture_double_tap_summary">フォルダとウィジェットを除く</string>
     <string name="pref_cat_gesture_down_title">下スワイプジェスチャー</string>
@@ -247,7 +247,7 @@
     
     <string name="alert_launcher_not_installed_title">サポートされているランチャーが見つかりませんでした</string>
     <string name="alert_launcher_not_installed_summary">Google NowランチャーもTrebuchetもインストールしていないようです。このモジュールはそれら2つのランチャーに合わせて設計されているのでどちらかがインストールされていないと動作しません。このアプリを使用する前にGNLかTrebuchetがインストールされていることを確認してください。</string>
-    <string name="alert_launcher_not_installed_get_gnl">Get GNL</string>
+    <string name="alert_launcher_not_installed_get_gnl">GNLを入手</string>
     
     <string name="toast_donate_only">この機能はXGELSプレミアムが必要です</string>
     <string name="pref_donate_button">プレミアムを購入して開発者を支援</string>
@@ -275,7 +275,7 @@
     <string name="pref_icon_premium_title">プレミアム機能</string>
     <string name="pref_icon_premium_summary">この機能はXGELSプレミアムでのみ利用できます。</string>
     <string name="pref_icon_support_title">統計</string>
-    <string name="pref_icon_support_summary">ダイナミックカレンダー: %1$s\n%2$d個のうち%3$d個のアイコンがサポートされています\n%4$d合計$d個のアイコン</string>
+    <string name="pref_icon_support_summary">ダイナミックカレンダー: %1$s\n%3$d個のうち%2$d個のアイコンがサポートされています\n合計%4$d個のアイコン</string>
     <string name="pref_icon_auto_apply_title">自動適用</string>
     <string name="pref_icon_auto_apply_summary">新しいアイコンやアップデートされたアイコンを自動で適用する</string>
     
@@ -289,7 +289,7 @@
     <string name="pref_icon_perappicon_summary">アプリごとに違うアイコンパックからアイコンを選択する</string>
     <string name="pref_icon_allappsbutton_title">アプリドロワーボタン</string>
     <string name="pref_icon_allappsbutton_summary">アプリドロワーボタンのアイコンを変更する</string>
-    <string name="pref_xgels_no_background_image_title">背景画像がありません</string>
+    <string name="pref_xgels_no_background_image_title">背景画像なし</string>
     <string name="pref_switch_smart_folder_title">スマートフォルダ</string>
     <string name="pref_switch_smart_folder_summary">タップ - 最初のアプリを起動\n上スワイプ - フォルダを開く</string>
     <string name="pref_overlapping_widgets_title">ウィジェットの重複</string>
@@ -302,7 +302,7 @@
 
     <!-- V1.8.4 -->
     <string name="pref_enable_l_launcher_title">Lランチャーデザイン</string>
-    <string name="pref_enable_l_launcher_summary">Google検索3.5から利用できる新しいLランチャーのテーマを使用します。ナビゲーションバーはランチャーの一部ではないのでテーマは適用しません。</string>
+    <string name="pref_enable_l_launcher_summary">Google検索3.5から利用できる新しいLランチャーのテーマを使用します。ナビゲーションバーはランチャーの一部ではないのでテーマは適用されません。</string>
 
     <!-- V1.9 -->
     <string name="pref_hide_workspace_shadow_title">ホーム画面の影</string>
@@ -376,7 +376,7 @@
     <string name="pref_appdockrect_summary">アプリドックの左右のマージン倍率を選択する</string>
     <string name="pref_grid_size_title">グリッドサイズ</string>
     <string name="pref_grid_size_summary">縦と横のグリッドサイズを選択する</string>
-    <string name="pref_switch_swipe_tabs_title">タブを超えてスワイプSwipe through tabs</string>
+    <string name="pref_switch_swipe_tabs_title">タブを超えてスワイプ</string>
     <string name="pref_switch_swipe_tabs_summary">最後のタブのページでスワイプした時に次のタブに切り替える</string>
 
 </resources>
