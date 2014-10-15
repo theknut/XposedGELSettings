@@ -351,8 +351,8 @@
     <string name="alert_appdrawer_clear_tabs_title">Attenzione!</string>
     <string name="alert_appdrawer_clear_tabs_summary">Stai per eliminare tutte le schede dell\'app drawer che hai fatto!\nContinua?</string>
     <string name="alert_appdrawer_clear_tabs_success">Dati schede app drawer cancellati!</string>
-    <string name="pref_appdrawer_tabs_instructions_summary">!!Soltanto con Google Now Launcher e ≥ Android 4.2!!\nLe schede dell\'app drawer possono essere aggiunte direttamente dal app drawer. Le impostazioni della scheda possono essere aperte tenendo premuta a lungo una scheda.</string>
-    <string name="pref_notificationbadge_noappdrawer_title">Nascondi dal app drawer</string>
+    <string name="pref_appdrawer_tabs_instructions_summary">!!Soltanto con Google Now Launcher e ≥ Android 4.2!!\nLe schede dell\'app drawer possono essere aggiunte direttamente dall\'app drawer. Le impostazioni della scheda possono essere aperte tenendo premuta a lungo una scheda.</string>
+    <string name="pref_notificationbadge_noappdrawer_title">Nascondi dall\'app drawer</string>
     <string name="toast_appdrawer_tabadded_title">Premere a lungo una scheda per aprire le impostazioni</string>
     
     <string name="pref_reverseengineering_rate_title">Vota XGELS!</string>
@@ -370,14 +370,11 @@
     <string name="pref_appdrawer_folders_title">Cartelle</string>
     <string name="pref_appdrawer_folders_summary">Toccare per aggiungere una cartella alla scheda app principale</string>
     <string name="toast_appdrawer_folder_minimum_app">Una cartella deve contenere almeno due elementi</string>
-    
     <string name="pref_appdock_show_labels_title">Mostra le etichette delle icone</string>
     <string name="pref_appdockrect_title">Margine sinistro/destro app dock</string>
     <string name="pref_appdockrect_summary">Scegli la dimensione del margine per il lato sinistro e destro dell\'app dock</string>
-    
     <string name="pref_grid_size_title">Dimensione griglia</string>
     <string name="pref_grid_size_summary">Scegliere la dimensione della griglia orizzontale e verticale</string>
-    
     <string name="pref_switch_swipe_tabs_title">Scorri attraverso le schede</string>
     <string name="pref_switch_swipe_tabs_summary">Passa alla scheda successiva, quando si scorre nell\'ultima pagina</string>
     
