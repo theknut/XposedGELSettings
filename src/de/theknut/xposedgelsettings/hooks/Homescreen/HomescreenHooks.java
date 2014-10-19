@@ -18,6 +18,7 @@ import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.general.MoveToDefaultScreenHook;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
+import static de.robv.android.xposed.XposedHelpers.getFloatField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setBooleanField;
 import static de.robv.android.xposed.XposedHelpers.setIntField;
@@ -40,7 +41,7 @@ public class HomescreenHooks extends HooksBaseClass {
         if (PreferencesHelper.continuousScroll) {
 
             // over scroll to app drawer or first page
-            findAndHookMethod(Classes.Workspace, Methods.wOverScroll, float.class, new OverScrollWorkspaceHook());
+            findAndHookMethod(Classes.Workspace, Methods.pvOverScroll, float.class, new OverScrollWorkspaceHook());
         }
 
         if (PreferencesHelper.appdockSettingsSwitch || PreferencesHelper.changeGridSizeHome) {
@@ -67,13 +68,15 @@ public class HomescreenHooks extends HooksBaseClass {
                         if (Common.LAUNCHER_CONTEXT.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
                             FrameLayout hotseat = (FrameLayout) param.thisObject;
 
-                            int padding = hotseat.getPaddingLeft();
-                            padding = padding == 0 && PreferencesHelper.appdockRect != 1 ? 12 : 0;
+                            int paddingLeftRight = hotseat.getPaddingLeft();
+                            int paddingBottom = hotseat.getPaddingBottom();
+                            log("Bottom " + paddingBottom);
+                            paddingLeftRight = paddingLeftRight == 0 && PreferencesHelper.appdockRect != 1 ? 12 : 0;
                             hotseat.setPadding(
-                                    padding * PreferencesHelper.appdockRect,
+                                    paddingLeftRight * PreferencesHelper.appdockRect,
                                     hotseat.getPaddingTop(),
-                                    padding * PreferencesHelper.appdockRect,
-                                    hotseat.getPaddingBottom()
+                                    paddingLeftRight * PreferencesHelper.appdockRect,
+                                    paddingBottom
                             );
                         }
                     }
@@ -98,6 +101,8 @@ public class HomescreenHooks extends HooksBaseClass {
             XposedBridge.hookAllConstructors(Classes.Folder, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+
+                    setIntField(param.thisObject, Fields.fMaxCountX, Math.round(getFloatField(Common.DEVICE_PROFIL, Fields.dpNumCols)));
                     setIntField(param.thisObject, Fields.fMaxCountY, Integer.MAX_VALUE);
                     setIntField(param.thisObject, Fields.fMaxNumItems, Integer.MAX_VALUE);
                 }

@@ -328,11 +328,12 @@ public class GestureHooks extends GestureHelper {
                                 return;
                             }
 
-                            TabHost tabhost = (TabHost) getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizeTabHost);
-
-                            if (!getBooleanField(tabhost, Fields.acthInTransition)) {
-                                int tabIdx = tabhost.getCurrentTab() + 1;
-                                tabhost.setCurrentTab(tabIdx == tabhost.getTabWidget().getTabCount() ? 0 : tabIdx);
+                            if (Common.IS_PRE_GNL_4) {
+                                TabHost tabhost = (TabHost) getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizeTabHost);
+                                if (!getBooleanField(tabhost, Fields.acthInTransition)) {
+                                    int tabIdx = tabhost.getCurrentTab() + 1;
+                                    tabhost.setCurrentTab(tabIdx == tabhost.getTabWidget().getTabCount() ? 0 : tabIdx);
+                                }
                             }
                         }
 
@@ -344,6 +345,7 @@ public class GestureHooks extends GestureHelper {
         };
 
         if (Common.IS_TREBUCHET) {
+            /////////
             XposedBridge.hookAllMethods(Classes.PagedView, "onTouchEvent", gestureHook);
             XposedBridge.hookAllMethods(Classes.PagedView, "onInterceptTouchEvent", gestureHook);
         }

@@ -66,7 +66,9 @@ public class IconHooks extends HooksBaseClass {
             String pkg = intent.getDataString().replace("package:", "");
             List<String> packages = CommonUI.getIconPacks(context);
 
-            TabHelper.getInstance().updateTabs();
+            if (Common.IS_PRE_GNL_4) {
+                TabHelper.getInstance().updateTabs();
+            }
 
             if (intent.getAction().equals(Intent.ACTION_PACKAGE_ADDED)) {
                 if (!packages.contains(pkg)) return;
@@ -224,7 +226,9 @@ public class IconHooks extends HooksBaseClass {
             }
         };
 
-        if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION >= ObfuscationHelper.GNL_3_5_14) {
+        if (!Common.IS_PRE_GNL_4) {
+            findAndHookMethod(Classes.IconCache, Methods.icCacheLocked, ComponentName.class, Classes.Adb, HashMap.class, Classes.UserHandle, boolean.class, cacheLockedHook);
+        } else if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION >= ObfuscationHelper.GNL_3_5_14) {
             findAndHookMethod(Classes.IconCache, Methods.icCacheLocked, ComponentName.class, Classes.Adb, HashMap.class, Classes.UserHandle, cacheLockedHook);
         } else {
             findAndHookMethod(Classes.IconCache, Methods.icCacheLocked, ComponentName.class, ResolveInfo.class, HashMap.class, cacheLockedHook);

@@ -176,7 +176,7 @@ public final class FolderHelper {
                     ArrayList<View> folderItems = (ArrayList<View>) callMethod(mFolder, Methods.fGetItemsInReadingOrder);
 
                     for (View item : folderItems) {
-                        items.add(((Intent) callMethod(item.getTag(), Methods.siGetIntent)).getComponent().flattenToString());
+                        items.add(((Intent) callMethod(item.getTag(), "getIntent")).getComponent().flattenToString());
                     }
 
                     Intent intent = new Intent();
@@ -306,7 +306,7 @@ public final class FolderHelper {
 
     public ArrayList<String> getAppsToHide() {
         ArrayList apps = new ArrayList();
-        if (Common.IS_TREBUCHET) return apps;
+        if (Common.IS_TREBUCHET || !Common.IS_PRE_GNL_4) return apps;
 
         for (Folder folder : folders) {
             if (folder.hideFromAppsPage()) {

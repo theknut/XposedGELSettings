@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -63,9 +64,10 @@ public class ContextMenu extends HooksBaseClass{
     static final int SHORTCUT_ONLY = 1;
     static final int WIDGET_ONLY = 2;
     static final int SHORTCUT_WIDGET = 3;
+    static ClassLoader classLoader;
 
     public static void initAllHooks(final LoadPackageParam lpparam) {
-
+classLoader = lpparam.classLoader;
         if (isMode(DISABLED)) return;
 
         if (isMode(WIDGET_ONLY) || isMode(SHORTCUT_WIDGET)) {
@@ -303,8 +305,32 @@ public class ContextMenu extends HooksBaseClass{
                 closeAndRemove();
 
                 try {
-                    ((ViewGroup) longPressedItem.getParent()).removeView(longPressedItem);
-                    callStaticMethod(Classes.LauncherModel, Methods.lmDeleteItemFromDatabase, Common.LAUNCHER_INSTANCE, longPressedItem.getTag());
+                    Animation animation = AnimationUtils.loadAnimation(Common.XGELSCONTEXT, R.anim.delete_item_anim);
+                    animation.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) { }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            ((ViewGroup) longPressedItem.getParent()).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ((ViewGroup) longPressedItem.getParent()).removeView(longPressedItem);
+                                    if (Common.IS_PRE_GNL_4) {
+                                        callStaticMethod(Classes.LauncherModel, Methods.lmDeleteItemFromDatabase, Common.LAUNCHER_INSTANCE, longPressedItem.getTag());
+                                    } else {
+                                        ArrayList array = new ArrayList();
+                                        array.add(longPressedItem.getTag());
+                                        callStaticMethod(Classes.LauncherModel, Methods.lmDeleteItemFromDatabase, Common.LAUNCHER_CONTEXT, array);
+                                    }
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) { }
+                    });
+                    longPressedItem.startAnimation(animation);
                 } catch(Exception e) { }
             }
         });
@@ -325,7 +351,7 @@ public class ContextMenu extends HooksBaseClass{
                 ArrayList<View> folderItems = (ArrayList<View>) callMethod(mFolder, Methods.fGetItemsInReadingOrder);
 
                 for (View item : folderItems) {
-                    items.add(((Intent) callMethod(item.getTag(), Methods.siGetIntent)).getComponent().flattenToString());
+                    items.add(((Intent) callMethod(item.getTag(), "getIntent")).getComponent().flattenToString());
                 }
 
                 Intent intent = new Intent();
@@ -524,7 +550,7 @@ public class ContextMenu extends HooksBaseClass{
             if (isWidget(tag)) {
                 return ((ComponentName) getObjectField(tag, Fields.lawiProviderName));
             } else {
-                Intent i = (Intent) callMethod(tag, Methods.siGetIntent);
+                Intent i = (Intent) callMethod(tag, "getIntent");
                 return i.getComponent();
             }
         } catch (Error e) {

@@ -24,7 +24,7 @@ public class AddTabsAndFolders extends HooksBaseClass {
 
     public static void initAllHooks(LoadPackageParam lpparam) {
 
-        if (Common.IS_TREBUCHET) return;
+        if (Common.IS_TREBUCHET || !Common.IS_PRE_GNL_4) return;
 
         findAndHookMethod(Classes.AppsCustomizeTabHost, "onFinishInflate", new XC_MethodHook() {
             @Override
@@ -73,7 +73,7 @@ public class AddTabsAndFolders extends HooksBaseClass {
         if (PreferencesHelper.appdrawerSwipeTabs
                 && (!PreferencesHelper.continuousScroll || !PreferencesHelper.continuousScrollWithAppDrawer)) {
             // open app drawer on overscroll of last page
-            findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvOverScroll, float.class, new XC_MethodHook() {
+            findAndHookMethod(Classes.AppsCustomizePagedView, Methods.pvOverScroll, float.class, new XC_MethodHook() {
                 final int OVERSCROLL = 0;
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {

@@ -620,7 +620,7 @@ public final class TabHelper extends HooksBaseClass implements View.OnClickListe
 
     public ArrayList<String> getAppsToHide() {
         ArrayList apps = new ArrayList();
-        if (Common.IS_TREBUCHET) return apps;
+        if (Common.IS_TREBUCHET || !Common.IS_PRE_GNL_4) return apps;
 
         for (Tab tab : tabs) {
             if (tab.hideFromAppsPage()) {

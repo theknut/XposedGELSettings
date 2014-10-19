@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:anim/anticipate_interpolator"
+    android:duration="@android:integer/config_shortAnimTime"
+    android:startOffset="350"
+    android:fillAfter="true" >
+
+    <translate
+        android:fromYDelta="0"
+        android:toYDelta="-400" />
+
+</set>

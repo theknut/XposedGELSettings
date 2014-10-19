@@ -18,11 +18,14 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import de.theknut.xposedgelsettings.hooks.appdrawer.ApplyFromApplicationInfoHook;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.getBooleanField;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
+import static de.robv.android.xposed.XposedHelpers.getLongField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
+import static de.robv.android.xposed.XposedHelpers.setBooleanField;
 
 public final class AddViewToCellLayoutHook extends HooksBaseClass {
 
@@ -39,37 +42,65 @@ public final class AddViewToCellLayoutHook extends HooksBaseClass {
 
     @Override
     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+        View child = (View) param.args[0];
+        Object tag = child.getTag();
+        long containerType = -1;
 
-        if (param.args[0].getClass().equals(Classes.BubbleTextView)) {
+        if (tag != null) {
+            try {
+                containerType = getLongField(tag, Fields.iiContainer);
+            } catch (Exception e) {}
+        }
 
-            // apps in folders don't have a shadow so we can filter that for future customization
-            if (!getBooleanField(param.args[0], Fields.btvShadowsEnabled)) {
+        boolean showInDock = containerType == -101 && PreferencesHelper.appdockShowLabels;
+        boolean isAppDrawerItem = param.thisObject.getClass().equals(Classes.AppsCustomizeCellLayout);
+
+        if (child.getClass().equals(Classes.BubbleTextView)) {
+
+            if (isAppDrawerItem) {
+                if (PreferencesHelper.hideIconLabelApps) {
+                    callMethod(child, "setTextColor", Color.TRANSPARENT);
+                }
+                else {
+                    callMethod(child, "setTextColor", ApplyFromApplicationInfoHook.newColor);
+
+                    if (!PreferencesHelper.appdrawerIconLabelShadow) {
+                        ((TextView) child).getPaint().clearShadowLayer();
+                    }
+                }
+            } else if (!getBooleanField(child, Fields.btvShadowsEnabled)) {
+                // apps in folders don't have a shadow so we can filter that for future customization
                 if (PreferencesHelper.homescreenFolderSwitch) {
                     if (PreferencesHelper.homescreenFolderNoLabel) {
-                        callMethod(param.args[0], "setTextColor", Color.TRANSPARENT);
+                        ((TextView) child).getPaint().clearShadowLayer();
+                        callMethod(child, "setTextColor", Color.TRANSPARENT);
                     } else {
-                        callMethod(param.args[0], "setTextColor", newFolderAppLabelColor);
+                        callMethod(child, "setTextColor", newFolderAppLabelColor);
                     }
                 }
             } else {
                 if (PreferencesHelper.iconSettingsSwitchHome) {
                     if (Common.PACKAGE_OBFUSCATED) {
-                        if (!PreferencesHelper.homescreenIconLabelShadow) {
-                            callMethod(param.args[0], Methods.btvSetShadowsEnabled, PreferencesHelper.homescreenIconLabelShadow);
+                        if (Common.IS_PRE_GNL_4) {
+                            if (!PreferencesHelper.homescreenIconLabelShadow) {
+                                callMethod(child, Methods.btvSetShadowsEnabled, PreferencesHelper.homescreenIconLabelShadow);
+                            }
+                        } else {
+                            setBooleanField(child, Fields.btvShadowsEnabled, PreferencesHelper.homescreenIconLabelShadow);
                         }
                     } else {
-                        callMethod(param.args[0], Methods.btvSetShadowsEnabled, PreferencesHelper.homescreenIconLabelShadow);
+                        callMethod(child, Methods.btvSetShadowsEnabled, PreferencesHelper.homescreenIconLabelShadow);
                     }
 
-                    if (PreferencesHelper.hideIconLabelHome) {
-                        callMethod(param.args[0], Methods.btvSetShadowsEnabled, false);
-                        callMethod(param.args[0], "setTextColor", Color.TRANSPARENT);
+                    if (PreferencesHelper.hideIconLabelHome && !showInDock) {
+                        ((TextView) child).getPaint().clearShadowLayer();
+                        callMethod(child, "setTextColor", Color.TRANSPARENT);
                     } else {
-                        callMethod(param.args[0], "setTextColor", newAppLabelColor);
+                        callMethod(child, "setTextColor", newAppLabelColor);
                     }
                 }
 
-                iconPadding = ((TextView) param.args[0]).getCompoundDrawablePadding();
+                iconPadding = ((TextView) child).getCompoundDrawablePadding();
             }
 
             if (PreferencesHelper.appdockSettingsSwitch) {
@@ -79,22 +110,26 @@ public final class AddViewToCellLayoutHook extends HooksBaseClass {
                 }
             }
 
-        } else if (param.args[0].getClass().equals(Classes.FolderIcon)) {
+        } else if (child.getClass().equals(Classes.FolderIcon)) {
             boolean isAppDrawerFolder = ((View) param.thisObject).getParent().getClass().equals(Classes.AppsCustomizePagedView);
-            Object folderName = getObjectField(param.args[0], Fields.fiFolderName);
+            Object folderName = getObjectField(child, Fields.fiFolderName);
             if (isAppDrawerFolder) {
                 if (PreferencesHelper.iconSettingsSwitchApps) {
                     callMethod(folderName, "setTextColor", newAppLabelColorAppDrawer);
                     if (PreferencesHelper.hideIconLabelApps) {
-                        callMethod(folderName, Methods.btvSetShadowsEnabled, false);
+                        ((TextView) folderName).getPaint().clearShadowLayer();
                         callMethod(folderName, "setTextColor", Color.TRANSPARENT);
                     }
                 }
             } else {
                 if (PreferencesHelper.iconSettingsSwitchHome) {
                     if (Common.PACKAGE_OBFUSCATED) {
-                        if (!PreferencesHelper.homescreenIconLabelShadow) {
-                            callMethod(folderName, Methods.btvSetShadowsEnabled, PreferencesHelper.homescreenIconLabelShadow);
+                        if (Common.IS_PRE_GNL_4) {
+                            if (!PreferencesHelper.homescreenIconLabelShadow) {
+                                callMethod(folderName, Methods.btvSetShadowsEnabled, PreferencesHelper.homescreenIconLabelShadow);
+                            }
+                        } else {
+                            setBooleanField(folderName, Fields.btvShadowsEnabled, PreferencesHelper.homescreenIconLabelShadow);
                         }
                     } else {
                         callMethod(folderName, Methods.btvSetShadowsEnabled, PreferencesHelper.homescreenIconLabelShadow);
@@ -106,8 +141,8 @@ public final class AddViewToCellLayoutHook extends HooksBaseClass {
                         ((View) folderName).setVisibility(View.VISIBLE);
                     }
 
-                    if (PreferencesHelper.hideIconLabelHome) {
-                        callMethod(folderName, Methods.btvSetShadowsEnabled, false);
+                    if (PreferencesHelper.hideIconLabelHome && !showInDock) {
+                        ((TextView) folderName).getPaint().clearShadowLayer();
                         callMethod(folderName, "setTextColor", Color.TRANSPARENT);
                     }
                 }
@@ -115,7 +150,7 @@ public final class AddViewToCellLayoutHook extends HooksBaseClass {
 
             if (PreferencesHelper.homescreenFolderSwitch ||
                     (isAppDrawerFolder && PreferencesHelper.iconSettingsSwitchApps)) {
-                Object mFolder = getObjectField(param.args[0], Fields.fiFolder);
+                Object mFolder = getObjectField(child, Fields.fiFolder);
 
                 LinearLayout ll = (LinearLayout) mFolder;
                 Drawable d = ll.getBackground();
@@ -125,15 +160,15 @@ public final class AddViewToCellLayoutHook extends HooksBaseClass {
                 EditText mFolderName = (EditText) getObjectField(mFolder, Fields.fFolderEditText);
                 mFolderName.setTextColor(newFolderNameColor);
 
-                ImageView prevBackground = (ImageView) getObjectField(param.args[0], Fields.fiPreviewBackground);
+                ImageView prevBackground = (ImageView) getObjectField(child, Fields.fiPreviewBackground);
                 prevBackground.setVisibility(View.VISIBLE);
                 Drawable i = prevBackground.getDrawable();
                 i.setColorFilter(newFolderPreviewBackgroundColor, Mode.MULTIPLY);
                 prevBackground.setImageDrawable(i);
             }
-        } else if (PreferencesHelper.appdockShowLabels && param.args[0].getClass().equals(TextView.class)) {
+        } else if (PreferencesHelper.appdockShowLabels && child.getClass().equals(TextView.class)) {
             // all apps button
-            TextView allAppsButton = ((TextView) param.args[0]);
+            TextView allAppsButton = ((TextView) child);
             allAppsButton.setVisibility(View.VISIBLE);
             int id = Common.LAUNCHER_CONTEXT.getResources().getIdentifier("all_apps_button_label", "string", Common.HOOKED_PACKAGE);
             if (id != 0) {

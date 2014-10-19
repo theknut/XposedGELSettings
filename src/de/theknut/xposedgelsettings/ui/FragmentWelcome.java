@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
@@ -31,12 +32,15 @@ public class FragmentWelcome extends FragmentBase {
     List<AlertDialog> alerts;
     int alertToShow = 0;
     boolean cancel;
+    View rootView;
+
+
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View rootView = inflater.inflate(R.layout.welcome, container, false);
+        rootView = inflater.inflate(R.layout.welcome, container, false);
 
         rootView.findViewById(R.id.madeingermany).setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -46,7 +50,8 @@ public class FragmentWelcome extends FragmentBase {
 
                     try {
                         InAppPurchase.purchaseSpecialOffer();
-                    } catch (Exception e) { }
+                    } catch (Exception e) {
+                    }
                 }
                 return true;
             }
@@ -90,7 +95,7 @@ public class FragmentWelcome extends FragmentBase {
             Changelog cl = new Changelog(mContext);
             if (cl.firstRun()) {
                 CommonUI.needFullReboot = true;
-                alerts.add(cl.getFullLogDialog());
+                //alerts.add(cl.getFullLogDialog());
                 //getFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentReverseEngineering()).commit();
             }
 
@@ -98,6 +103,7 @@ public class FragmentWelcome extends FragmentBase {
                 new ShowAlertsAsyncTask().execute();
             }
         }
+        rootView.findViewById(R.id.welcometext).startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.welcome_anim));
     }
 
     // this method gets replaced by the module and returns true

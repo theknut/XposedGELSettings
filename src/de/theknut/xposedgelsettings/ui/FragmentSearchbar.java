@@ -1,5 +1,6 @@
 package de.theknut.xposedgelsettings.ui;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.view.LayoutInflater;
@@ -7,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import de.theknut.xposedgelsettings.R;
+import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
 
 public class FragmentSearchbar extends FragmentBase {
      
@@ -53,6 +56,14 @@ public class FragmentSearchbar extends FragmentBase {
                 return true;
             }
         });
+
+        try {
+            if (mContext.getPackageManager().getPackageInfo(Common.GEL_PACKAGE, 0).versionCode >= ObfuscationHelper.GNL_4_0_26) {
+                getPreferenceScreen().removePreference(this.findPreference("searchbarstyle"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         
         rootView = CommonUI.setBackground(rootView, R.id.prefbackground);
         

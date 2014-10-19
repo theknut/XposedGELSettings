@@ -34,7 +34,7 @@ public class AppDrawerHooks extends HooksBaseClass {
         // save an instance of the app drawer object
         XposedBridge.hookAllConstructors(Classes.AppsCustomizePagedView, new AppsCustomizePagedViewConstructorHook());
 
-        if (PreferencesHelper.iconSettingsSwitchApps) {
+        if (PreferencesHelper.iconSettingsSwitchApps && Common.IS_PRE_GNL_4) {
             // changing the appearence of the icons in the app drawer
             XposedBridge.hookAllMethods(Classes.PagedViewIcon, Methods.pviApplyFromApplicationInfo, new ApplyFromApplicationInfoHook());
         }
@@ -53,7 +53,9 @@ public class AppDrawerHooks extends HooksBaseClass {
         else {
             // set the background pref_color of the app drawer
             if (Common.PACKAGE_OBFUSCATED) {
-                findAndHookMethod(Classes.AppsCustomizeTabHost, Methods.acthOnTabChanged, Classes.AppsCustomizeContentType, new OnTabChangedHook());
+                if (Common.IS_PRE_GNL_4) {
+                    findAndHookMethod(Classes.AppsCustomizeTabHost, Methods.acthOnTabChanged, Classes.AppsCustomizeContentType, new OnTabChangedHook());
+                }
             } else {
                 findAndHookMethod(Classes.AppsCustomizeTabHost, Methods.acthOnTabChanged, String.class, new OnTabChangedHook());
             }
@@ -74,11 +76,11 @@ public class AppDrawerHooks extends HooksBaseClass {
 
         if (PreferencesHelper.continuousScroll) {
             // open app drawer on overscroll of last page
-            findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvOverScroll, float.class, new OverScrollAppDrawerHook());
+            findAndHookMethod(Classes.AppsCustomizePagedView, Methods.pvOverScroll, float.class, new OverScrollAppDrawerHook());
         }
 
         if (PreferencesHelper.closeAppdrawerAfterAppStarted) {
-            findAndHookMethod(Classes.AppsCustomizePagedView, "onClick", View.class, new OnClickHook());
+            findAndHookMethod(Common.IS_PRE_GNL_4 ? Classes.AppsCustomizePagedView : Classes.Launcher, "onClick", View.class, new OnClickHook());
         }
 
         findAndHookMethod(Classes.Workspace, Methods.wOnLauncherTransitionEnd, Classes.Launcher, boolean.class, boolean.class, new XC_MethodHook() {
@@ -96,8 +98,10 @@ public class AppDrawerHooks extends HooksBaseClass {
                             Common.APPDRAWER_LAST_PAGE_POSITION = getIntField(acpv, Fields.pvCurrentPage);
                         }
 
-                        if (!Common.OVERSCROLLED && !Common.IS_TREBUCHET && !TabHelper.getInstance().getCurrentTabData().isWidgetsTab()) {
-                            Common.APPDRAWER_LAST_TAB_POSITION = TabHelper.getInstance().getTabHost().getCurrentTab();
+                        if (Common.IS_PRE_GNL_4) {
+                            if (!Common.OVERSCROLLED && !Common.IS_TREBUCHET && !TabHelper.getInstance().getCurrentTabData().isWidgetsTab()) {
+                                Common.APPDRAWER_LAST_TAB_POSITION = TabHelper.getInstance().getTabHost().getCurrentTab();
+                            }
                         }
 
                         if (DEBUG)
@@ -117,8 +121,9 @@ public class AppDrawerHooks extends HooksBaseClass {
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 if (Common.OVERSCROLLED) return;
 
+                Object acpv = getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizePagedView);
                 if (PreferencesHelper.appdrawerRememberLastPosition) {
-                    if (!Common.IS_TREBUCHET && !TabHelper.getInstance().getCurrentTabData().isWidgetsTab()) {
+                    if ((!Common.IS_TREBUCHET && Common.IS_PRE_GNL_4) && !TabHelper.getInstance().getCurrentTabData().isWidgetsTab()) {
                         int lastTab = TabHelper.getInstance().getTabHost().getTabWidget().getTabCount() - 1;
                         if (Common.APPDRAWER_LAST_TAB_POSITION > lastTab) {
                             Common.APPDRAWER_LAST_TAB_POSITION = lastTab;
@@ -127,16 +132,16 @@ public class AppDrawerHooks extends HooksBaseClass {
                         TabHelper.getInstance().setCurrentTab(Common.APPDRAWER_LAST_TAB_POSITION);
                     }
 
-                    Object acpv = getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizePagedView);
                     int lastPage = (Integer) callMethod(acpv, "getChildCount") - 1;
-
                     if (Common.APPDRAWER_LAST_PAGE_POSITION > lastPage) {
                         Common.APPDRAWER_LAST_PAGE_POSITION = lastPage;
                     }
 
                     if (DEBUG)
-                        log(param, "AppDrawerHooks: set to last position " + Common.APPDRAWER_LAST_PAGE_POSITION);
+                        log(param, "AppDrawer: set to last position " + Common.APPDRAWER_LAST_PAGE_POSITION);
                     callMethod(acpv, Methods.pvSetCurrentPage, Common.APPDRAWER_LAST_PAGE_POSITION);
+                } else {
+                    callMethod(acpv, Methods.pvSetCurrentPage, 0);
                 }
             }
         });
@@ -157,14 +162,16 @@ public class AppDrawerHooks extends HooksBaseClass {
         }
 
         if (Common.PACKAGE_OBFUSCATED) {
-            findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvSetAllAppsPadding, Rect.class, new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    Rect r = (Rect) param.args[0];
-                    r.left = 0;
-                    r.right = 0;
-                }
-            });
+            if (Common.IS_PRE_GNL_4) {
+                findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvSetAllAppsPadding, Rect.class, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        Rect r = (Rect) param.args[0];
+                        r.left = 0;
+                        r.right = 0;
+                    }
+                });
+            }
         } else {
             findAndHookMethod(Classes.AppsCustomizePagedView, "setupPage", Classes.AppsCustomizeCellLayout, new XC_MethodHook() {
                 @Override

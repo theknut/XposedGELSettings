@@ -16,7 +16,7 @@ public class OnClickHook  extends XC_MethodHook {
 	@Override
 	protected void beforeHookedMethod(final MethodHookParam param) throws Throwable
 	{
-		if (Common.PACKAGE_OBFUSCATED) {
+		if (Common.PACKAGE_OBFUSCATED && (Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lIsAllAppsVisible)) {
 			Intent startMain = new Intent(Intent.ACTION_MAIN);
 			startMain.addCategory(Intent.CATEGORY_HOME);
 			startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

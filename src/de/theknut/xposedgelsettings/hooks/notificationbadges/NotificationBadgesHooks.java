@@ -94,6 +94,10 @@ public class NotificationBadgesHooks extends NotificationBadgesHelper {
 
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                if (PreferencesHelper.hideBadgesFromAppDrawer
+                        && ((View) param.thisObject).getParent().getParent().getClass().equals(Classes.AppsCustomizeCellLayout)) {
+                    return;
+                }
 
                 ComponentName cmp = getComponentName(param.thisObject);
                 if (cmp == null) return;
@@ -142,7 +146,7 @@ public class NotificationBadgesHooks extends NotificationBadgesHelper {
             }
         };
 
-        if (!PreferencesHelper.hideBadgesFromAppDrawer) {
+        if (!PreferencesHelper.hideBadgesFromAppDrawer && Common.IS_PRE_GNL_4) {
             findAndHookMethod(Classes.PagedViewIcon, "draw", Canvas.class, drawHook);
         }
         findAndHookMethod(Classes.BubbleTextView, "draw", Canvas.class, drawHook);
@@ -219,7 +223,7 @@ public class NotificationBadgesHooks extends NotificationBadgesHelper {
 
     private static ComponentName getComponentName(Object o) {
         try {
-            return ((Intent) callMethod(((View) o).getTag(), Methods.siGetIntent)).getComponent();
+            return ((Intent) callMethod(((View) o).getTag(), "getIntent")).getComponent();
         } catch (Exception ex) {
             return null;
         } catch (Error ex) {

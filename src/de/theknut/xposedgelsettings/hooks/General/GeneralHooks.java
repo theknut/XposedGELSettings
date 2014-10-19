@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
@@ -32,6 +31,7 @@ import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers.ClassNotFoundError;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
@@ -91,7 +91,7 @@ public class GeneralHooks extends HooksBaseClass {
 
                 // save the launcher instance and the context
                 Common.LAUNCHER_INSTANCE = (Activity) param.thisObject;
-                Common.LAUNCHER_CONTEXT = (Context) callMethod(Common.LAUNCHER_INSTANCE, Methods.lGetApplicationContext);
+                Common.LAUNCHER_CONTEXT = (Context) callMethod(Common.LAUNCHER_INSTANCE, "getApplicationContext");
 
                 IntentFilter filter = new IntentFilter();
                 filter.addAction(Common.XGELS_ACTION_RELOAD_SETTINGS);
@@ -138,7 +138,7 @@ public class GeneralHooks extends HooksBaseClass {
         });
 
         try {
-            if (PreferencesHelper.enableLLauncher) {
+            if (PreferencesHelper.enableLLauncher && Common.IS_PRE_GNL_4) {
                 findAndHookMethod(Classes.Utilities, Methods.uIsL, new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
@@ -319,12 +319,12 @@ public class GeneralHooks extends HooksBaseClass {
             });
         }
 
-        findAndHookMethod(Classes.BubbleTextView, Methods.btvCreateGlowingOutline, Canvas.class, Integer.TYPE, Integer.TYPE, new XC_MethodHook() {
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                param.args[1] = param.args[2] = PreferencesHelper.glowColor;
-            }
-        });
+//        findAndHookMethod(Classes.BubbleTextView, Methods.btvCreateGlowingOutline, Canvas.class, Integer.TYPE, Integer.TYPE, new XC_MethodHook() {
+//            @Override
+//            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+//                param.args[1] = param.args[2] = PreferencesHelper.glowColor;
+//            }
+//        });
 
         // hiding widgets
         if (Common.PACKAGE_OBFUSCATED) {
@@ -333,21 +333,34 @@ public class GeneralHooks extends HooksBaseClass {
             XposedBridge.hookAllMethods(Classes.AppsCustomizePagedView, Methods.acpvOnPackagesUpdated, new OnPackagesUpdatedHook());
         }
 
-        findAndHookMethod(Classes.LauncherModel, Methods.lmDeleteItemFromDatabase, Context.class, Classes.ItemInfo, new XC_MethodHook() {
+        XC_MethodHook hook = new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-
-                Iterator it = PreferencesHelper.shortcutIcons.iterator();
-                while (it.hasNext()) {
-                    String[] name = it.next().toString().split("\\|");
-                    if (name[0].equals("" + getLongField(param.args[1], Fields.iiID))) {
-                        it.remove();
-                        Utils.saveToSettings(Common.LAUNCHER_CONTEXT, "shortcuticons", PreferencesHelper.shortcutIcons);
-                        return;
+                ArrayList items;
+                if (param.args[1] instanceof ArrayList) {
+                    items = ((ArrayList) param.args[1]);
+                } else {
+                    items = (ArrayList) Arrays.asList(param.args[1]);
+                }
+                for (Object item : items) {
+                    Iterator it = PreferencesHelper.shortcutIcons.iterator();
+                    while (it.hasNext()) {
+                        String[] name = it.next().toString().split("\\|");
+                        if (name[0].equals("" + getLongField(item, Fields.iiID))) {
+                            it.remove();
+                            Utils.saveToSettings(Common.LAUNCHER_CONTEXT, "shortcuticons", PreferencesHelper.shortcutIcons);
+                            return;
+                        }
                     }
                 }
             }
-        });
+        };
+
+        if (Common.IS_PRE_GNL_4) {
+            findAndHookMethod(Classes.LauncherModel, Methods.lmDeleteItemFromDatabase, Context.class, Classes.ItemInfo, hook);
+        } else {
+            findAndHookMethod(Classes.LauncherModel, Methods.lmDeleteItemFromDatabase, Context.class, ArrayList.class, hook);
+        }
 
         findAndHookMethod(Classes.LauncherModel, Methods.lmDeleteFolderContentsFromDatabase, Context.class, Classes.FolderInfo, new XC_MethodHook() {
             @Override
@@ -373,6 +386,9 @@ public class GeneralHooks extends HooksBaseClass {
                 }
             }
         });
+
+        // onSetAlpha is blocking alpha animations and doesn't have any usage anyways
+        XposedBridge.hookAllMethods(Classes.BubbleTextView, "onSetAlpha", XC_MethodReplacement.returnConstant(false));
     }
 
     static BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -405,7 +421,7 @@ public class GeneralHooks extends HooksBaseClass {
                             Iterator<View> it = folderItems.iterator();
                             while (it.hasNext()) {
                                 View item = it.next();
-                                if (currCmp.equals(((Intent) callMethod(item.getTag(), Methods.siGetIntent)).getComponent())) {
+                                if (currCmp.equals(((Intent) callMethod(item.getTag(), "getIntent")).getComponent())) {
                                     callMethod(getObjectField(mFolder, Fields.fFolderInfo), Methods.fiRemove, item.getTag());
                                 }
                             }

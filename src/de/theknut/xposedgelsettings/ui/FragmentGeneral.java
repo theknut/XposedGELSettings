@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
 
 public class FragmentGeneral extends FragmentBase {
 	
@@ -88,7 +89,7 @@ public class FragmentGeneral extends FragmentBase {
             }
         });
         contextmenuMode.setSummary(contextmenuMode.getEntry());
-
+//////
         findPreference("continuousscrollwithappdrawer").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -113,6 +114,14 @@ public class FragmentGeneral extends FragmentBase {
                 return true;
             }
         });
+
+        try {
+            if (mContext.getPackageManager().getPackageInfo(Common.GEL_PACKAGE, 0).versionCode >= ObfuscationHelper.GNL_4_0_26) {
+                getPreferenceScreen().removePreference(this.findPreference("enablellauncher"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         rootView = CommonUI.setBackground(rootView, R.id.prefbackground);
         
