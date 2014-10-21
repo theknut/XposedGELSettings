@@ -66,6 +66,12 @@
             android:summary="@string/pref_app_drawer_background_color_summary"
             android:defaultValue="0xA5000000"
             alphaSlider="true" />
+        <net.margaritov.preference.colorpicker.ColorPickerPreference
+            android:key="appdrawerfolderstylebackgroundcolor"
+            android:title="@string/pref_app_drawer_folderstyle_background_color_title"
+            android:summary="@string/pref_app_drawer_folderstyle_background_color_summary"
+            android:defaultValue="0xFFFFFFFF"
+            alphaSlider="true" />
         <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
             android:key="iconsettingsswitchapps"
             android:title="@string/pref_switch_appicons_title"

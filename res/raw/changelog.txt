@@ -29,13 +29,24 @@
 
 $ 2.1.2
   % Version 2.1.2
-  _ 2014-13-10
+  _ 2014-21-10
 
-  ! Added:
-  * Google weather widget
+  !!!!PLEASE READ THIS MESSAGE!!!<br><br>
+  Even though XGELS now supports Google Search 4.0 I do NOT advise sideloading it. I wasn't able to restore all of XGELS functionality due to massive changes made by Google. I've worked for the last 4 days to make it work again. Thanks to everyone who didn't downrate XGELS for not being compatible, yet. To the ones who did: [insert swearword]!!
+<br><br>
+  THESE FEATURES ARE BROKEN IN 4.0
+  * App drawer tabs and folders
+  * L toggles are now removed
+  * App drawer swipe up gesture
+  * GS4.0 broke the icon glow effect, it's not an XGELS issue
+<br>
+  All of these bugs are not present in the current official rollout (Google Search 3.6.14). Therefore I do not advise updating your Google Search. Of course I'll work in fixing it.
+<br><br>
+  !Added:
+  * support for Google Search 4.0
 
-  ! XGELS UI:
-  * updated Japanese translation
+  !XGELS UI:
+  * new awesome icon designed by Eduardo Pratti
 
 $ 2.1.1
   % Version 2.1.1

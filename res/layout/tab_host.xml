@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="40dp"
+    android:id="@+id/xgels_tab_host"
+    android:orientation="vertical" >
+
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:id="@+id/horizontalScrollView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="41dp"
+                android:background="@drawable/chrome"
+                android:gravity="center"
+                android:textColor="#fff"
+                android:text="Apps"
+                android:id="@+id/textView2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:background="@drawable/chrome"
+                android:gravity="center"
+                android:layout_marginLeft="-50dp"
+                android:textColor="#fff"
+                android:text="Games"
+                android:includeFontPadding="false"
+                android:id="@+id/textView1" />
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/appdrawer_contents"
+        android:layout_below="@+id/horizontalScrollView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>

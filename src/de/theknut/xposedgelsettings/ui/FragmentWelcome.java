@@ -95,8 +95,8 @@ public class FragmentWelcome extends FragmentBase {
             Changelog cl = new Changelog(mContext);
             if (cl.firstRun()) {
                 CommonUI.needFullReboot = true;
-                //alerts.add(cl.getFullLogDialog());
-                //getFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentReverseEngineering()).commit();
+                alerts.add(cl.getFullLogDialog());
+                getFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentReverseEngineering()).commit();
             }
 
             if (alerts.size() != 0) {

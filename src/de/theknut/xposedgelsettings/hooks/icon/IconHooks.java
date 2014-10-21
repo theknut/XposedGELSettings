@@ -86,7 +86,10 @@ public class IconHooks extends HooksBaseClass {
                 }
             } else if (intent.getAction().equals(Intent.ACTION_PACKAGE_REMOVED)) {
                 if (!intent.getBooleanExtra(Intent.EXTRA_REPLACING, false)) {
-                    FolderHelper.getInstance().updateFolders(pkg);
+
+                    if (Common.IS_PRE_GNL_4) {
+                        FolderHelper.getInstance().updateFolders(pkg);
+                    }
 
                     if (PreferencesHelper.iconpack.equals(pkg)) {
                         savePackageName(Common.ICONPACK_DEFAULT, context);

@@ -96,10 +96,10 @@ public class ObfuscationHelper extends HooksBaseClass {
                 SEARCH_PLATE,
                 GEL_SEARCH_PLATE_CONTAINER,
                 TRANSITIONS_MANAGER,
-        //WEATHER_ENTRY_ADAPTER,
-        //URI_LOADER,
-        //WEATHER_POINT,
-        LAUNCHER_APP_STATE;
+                WEATHER_ENTRY_ADAPTER,
+                URI_LOADER,
+                WEATHER_POINT,
+                LAUNCHER_APP_STATE;
 
         public static void initNames(int idx) {
 
@@ -158,9 +158,9 @@ public class ObfuscationHelper extends HooksBaseClass {
             SEARCH_OVERLAY_IMPL = new String[]{"com.google.android.search.gel.SearchOverlayImpl", "ccu", "cmh", "cuc", "cuc", "ebj"}[idx]; // search_overlay_impl:search_box_stats
             GSA_CONFIG_FLAGS = new String[]{"com.google.android.search.core.GsaConfigFlags", "ayc", "bgr", "bnj", "bnj", "chh"}[idx]; // Unknown string array encoding
             TRANSITIONS_MANAGER = new String[]{"com.google.android.search.shared.ui.SearchPlate$TransitionsManager", "cen", "cog", "cwb", "cwb", "dsi"}[idx]; // in SearchPlate: "(this, this);"
-            //WEATHER_ENTRY_ADAPTER = new String[]{"com.google.android.sidekick.shared.cards.WeatherEntryAdapter", "dye", "elt", "euo", "euo"}[idx]; // tripdestination
-            //URI_LOADER = new String[]{"com.google.android.shared.util.UriLoader", "cxw", "eno", "dtb", "dtb"}[idx];
-            //WEATHER_POINT = new String[]{"com.google.geo.sidekick.Sidekick.WeatherEntry.WeatherPoint", "him", "ich", "ilp", "ilp"}[idx];
+            WEATHER_ENTRY_ADAPTER = new String[]{"com.google.android.sidekick.shared.cards.WeatherEntryAdapter", "dye", "elt", "euo", "euo", ""}[idx]; // tripdestination
+            URI_LOADER = new String[]{"com.google.android.shared.util.UriLoader", "cxw", "eno", "dtb", "dtb", ""}[idx];
+            WEATHER_POINT = new String[]{"com.google.geo.sidekick.Sidekick.WeatherEntry.WeatherPoint", "him", "ich", "ilp", "ilp", ""}[idx];
         }
     }
 
@@ -279,13 +279,13 @@ public class ObfuscationHelper extends HooksBaseClass {
 
                 if (Common.PACKAGE_OBFUSCATED) {
                     WorkspaceState = findClass(ClassNames.WORKSPACE_STATE, lpparam.classLoader);
-                    //WeatherEntryAdapter = findClass(ClassNames.WEATHER_ENTRY_ADAPTER, lpparam.classLoader);
-                    //UriLoader = findClass(ClassNames.URI_LOADER, lpparam.classLoader);
-                    //WeatherPoint = findClass(ClassNames.WEATHER_POINT, lpparam.classLoader);
 
                     if (Common.IS_PRE_GNL_4) {
                         // GelSearchPlateContainer was removed in Google Search 4.0
                         GelSearchPlateContainer = findClass(ClassNames.GEL_SEARCH_PLATE_CONTAINER, lpparam.classLoader);
+                        WeatherEntryAdapter = findClass(ClassNames.WEATHER_ENTRY_ADAPTER, lpparam.classLoader);
+                        UriLoader = findClass(ClassNames.URI_LOADER, lpparam.classLoader);
+                        WeatherPoint = findClass(ClassNames.WEATHER_POINT, lpparam.classLoader);
                     }
 
                     if (Common.GNL_VERSION >= ObfuscationHelper.GNL_3_5_14) {
@@ -391,8 +391,8 @@ public class ObfuscationHelper extends HooksBaseClass {
                 acthSetContentTypeImmediate,
                 wGetWorkspaceAndHotseatCellLayouts,
                 fiFromXml,
-                acpvSetAllAppsPadding;
-        //////weaAddCurrentConditions;
+                acpvSetAllAppsPadding,
+                weaAddCurrentConditions;
 
         public static void initMethodNames(int idx) {
             lOpenFolder = new String[]{"openFolder", "i", "i", "i", "i", "i"}[idx]; // "Opening folder ("
@@ -489,7 +489,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             /////////rvCanShowHotwordAnimation = new String[]{"canShowHotwordAnimation", "NH", "Se", "UC", "UH"}[idx]; //  == 5);
             spSetProximityToNow = new String[]{"setProximityToNow", "x", "x", "x", "x", ""}[idx]; // (float paramFloat) with RecognizerView
             tmSetTransitionsEnabled = new String[]{"setTransitionsEnabled", "cG", "cY", "cZ", "cZ", "ea"}[idx]; // (4)
-            ////////weaAddCurrentConditions = new String[]{"addCurrentConditions", "a", "a", "a", "a"}[idx];
+            weaAddCurrentConditions = new String[]{"addCurrentConditions", "a", "a", "a", "a", ""}[idx];
             uIsL = new String[]{"", "", "jO", "jS", "jV", ""}[idx];
             lasIsDisableAllApps = new String[]{"isDisableAllApps", "ha", "hS", "hW", "hX", "im"}[idx]; // launcher_noallapps
         }
@@ -587,7 +587,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             wTouchState = new String[]{"mTouchState", "KY", "NF", "Oj", "On", "Qt"}[idx]; // onInterceptTouchEvent while clause
             wIsSwitchingState = new String[]{"mIsSwitchingState", "Qk", "SW", "Tx", "Tx", "VU"}[idx]; // start from onTouch, second method call in if-clause
             lHotseat = new String[]{"mHotseat", "EO", "Hu", "HZ", "Id", "Ka"}[idx];
-            lSearchDropTargetBar = new String[]{"mSearchDropTargetBar", "EO", "Hu", "HZ", "Id", "zD"}[idx];
+            lSearchDropTargetBar = new String[]{"mSearchDropTargetBar", "um", "wN", "xs", "xr", "zD"}[idx];
             lAppsCustomizeTabHost = new String[]{"mAppsCustomizeTabHost", "ER", "Hx", "Ic", "Ig", "Kd"}[idx];
             lIconCache = new String[]{"mIconCache", "rF", "uf", "uK", "uK", "xn"}[idx]; // IconCache member in Launcher
             lState = new String[]{"mState", "Et", "GZ", "HE", "HH", "JF"}[idx]; // onNewIntent - "if ((i != 0) && (this."

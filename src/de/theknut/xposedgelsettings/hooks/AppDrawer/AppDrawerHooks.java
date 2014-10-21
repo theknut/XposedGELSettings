@@ -2,22 +2,31 @@ package de.theknut.xposedgelsettings.hooks.appdrawer;
 
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
+
+import net.margaritov.preference.colorpicker.ColorPickerPreference;
 
 import java.util.ArrayList;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
+import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import de.theknut.xposedgelsettings.hooks.Utils;
 import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.AddTabsAndFolders;
 import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelper;
 
@@ -55,6 +64,37 @@ public class AppDrawerHooks extends HooksBaseClass {
             if (Common.PACKAGE_OBFUSCATED) {
                 if (Common.IS_PRE_GNL_4) {
                     findAndHookMethod(Classes.AppsCustomizeTabHost, Methods.acthOnTabChanged, Classes.AppsCustomizeContentType, new OnTabChangedHook());
+                } else {
+                    if (false) {
+                        findAndHookMethod(Classes.AppsCustomizeTabHost, "onFinishInflate", new XC_MethodHook() {
+                            @Override
+                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                                ((View) param.thisObject).setBackgroundColor(Color.parseColor(ColorPickerPreference.convertToARGB(PreferencesHelper.appdrawerBackgroundColor)));
+
+                                LayoutInflater inflater = LayoutInflater.from(Common.XGELSCONTEXT);
+                                RelativeLayout rl = (RelativeLayout) inflater.inflate(R.layout.tab_host, null, true);
+
+                                View content = (View) getObjectField(param.thisObject, "yV");
+                                FrameLayout tabHost = ((FrameLayout) param.thisObject);
+                                tabHost.removeView(content);
+                                tabHost.removeView(content);
+                                ((ViewGroup) rl.findViewById(R.id.appdrawer_contents)).addView(content);
+                                tabHost.addView(rl);
+
+                                rl.findViewById(R.id.textView1).getBackground().setColorFilter(Color.parseColor(ColorPickerPreference.convertToARGB(PreferencesHelper.appdrawerFolderStyleBackgroundColor)), PorterDuff.Mode.MULTIPLY);
+                                rl.findViewById(R.id.textView2).getBackground().setColorFilter(Color.parseColor(ColorPickerPreference.convertToARGB(PreferencesHelper.appdrawerFolderStyleBackgroundColor)), PorterDuff.Mode.MULTIPLY);
+
+                                rl.findViewById(R.id.textView1).bringToFront();
+                            }
+                        });
+
+                        findAndHookMethod(Classes.AppsCustomizeTabHost, "b", Rect.class, new XC_MethodHook() {
+                            @Override
+                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                                ((FrameLayout.LayoutParams) ((View) getObjectField(param.thisObject, "yV")).getLayoutParams()).topMargin = Utils.dpToPx(-6);
+                            }
+                        });
+                    }
                 }
             } else {
                 findAndHookMethod(Classes.AppsCustomizeTabHost, Methods.acthOnTabChanged, String.class, new OnTabChangedHook());

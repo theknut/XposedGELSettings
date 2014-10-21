@@ -51,38 +51,38 @@ public class WeatherWidget extends HooksBaseClass {
 
             if (PreferencesHelper.searchBarWeatherWidget) {
 
-                findAndHookMethod(Classes.NowOverlay, Methods.noOnShow, boolean.class, boolean.class, new XC_MethodHook() {
-                    @Override
-                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                        log("#############");
-                        log("dSi getDescription " + callMethod(getObjectField(weatherEntry, "dSi"), "getDescription"));
-                        log("dSi getLabel " + callMethod(getObjectField(weatherEntry, "dSi"), "getLabel"));
-                        log("dSi abT" + getObjectField(getObjectField(weatherEntry, "dSi"), "abT"));
-                        log("dSi dSm" + getObjectField(getObjectField(weatherEntry, "dSi"), "dSm"));
-                        log("dSi dSn" + getObjectField(getObjectField(weatherEntry, "dSi"), "dSn"));
-                        log("dSi dSo" + getObjectField(getObjectField(weatherEntry, "dSi"), "dSo"));
-                        log("dSi dSp" + getObjectField(getObjectField(weatherEntry, "dSi"), "dSp"));
-                        log("dSi dSq" + getObjectField(getObjectField(weatherEntry, "dSi"), "dSq"));
-                        log("dSi dmR" + getObjectField(getObjectField(weatherEntry, "dSi"), "dmR"));
-                        log("dSi dzE" + getObjectField(getObjectField(weatherEntry, "dSi"), "dzE"));
-                        log("dSi dzt" + getObjectField(getObjectField(weatherEntry, "dSi"), "dzt"));
-                        log("dSi dSs" + getObjectField(getObjectField(weatherEntry, "dSi"), "dSs"));
-                        log("dSi dSr" + getObjectField(getObjectField(weatherEntry, "dSi"), "dSr"));
-                        log("abV Addr " + callMethod(getObjectField(weatherEntry, "abV"), "getAddress"));
-                        log("abV Name " + callMethod(getObjectField(weatherEntry, "abV"), "getName"));
-                        log("#############");
-                    }
-                });
+//                findAndHookMethod(Classes.NowOverlay, Methods.noOnShow, boolean.class, boolean.class, new XC_MethodHook() {
+//                    @Override
+//                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+//                        log("#############");
+//                        log("dSi getDescription " + callMethod(getObjectField(weatherEntry, "dSi"), "getDescription"));
+//                        log("dSi getLabel " + callMethod(getObjectField(weatherEntry, "dSi"), "getLabel"));
+//                        log("dSi abT" + getObjectField(getObjectField(weatherEntry, "dSi"), "abT"));
+//                        log("dSi dSm" + getObjectField(getObjectField(weatherEntry, "dSi"), "dSm"));
+//                        log("dSi dSn" + getObjectField(getObjectField(weatherEntry, "dSi"), "dSn"));
+//                        log("dSi dSo" + getObjectField(getObjectField(weatherEntry, "dSi"), "dSo"));
+//                        log("dSi dSp" + getObjectField(getObjectField(weatherEntry, "dSi"), "dSp"));
+//                        log("dSi dSq" + getObjectField(getObjectField(weatherEntry, "dSi"), "dSq"));
+//                        log("dSi dmR" + getObjectField(getObjectField(weatherEntry, "dSi"), "dmR"));
+//                        log("dSi dzE" + getObjectField(getObjectField(weatherEntry, "dSi"), "dzE"));
+//                        log("dSi dzt" + getObjectField(getObjectField(weatherEntry, "dSi"), "dzt"));
+//                        log("dSi dSs" + getObjectField(getObjectField(weatherEntry, "dSi"), "dSs"));
+//                        log("dSi dSr" + getObjectField(getObjectField(weatherEntry, "dSi"), "dSr"));
+//                        log("abV Addr " + callMethod(getObjectField(weatherEntry, "abV"), "getAddress"));
+//                        log("abV Name " + callMethod(getObjectField(weatherEntry, "abV"), "getName"));
+//                        log("#############");
+//                    }
+//                });
 
                 hookAllConstructors(findClass("euo", lpparam.classLoader), new XC_MethodHook() {
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                        log("get " + getObjectField(param.thisObject, "bXY").getClass().getName());
+                        //log("get " + getObjectField(param.thisObject, "bXY").getClass().getName());
                         weatherEntry = getObjectField(getObjectField(param.thisObject, "bXY"), "dwH");
                     }
                 });
 
-                findAndHookMethod(Classes.WeatherEntryAdapter, "" /*Methods.weaAddCurrentConditions*/, Context.class, Classes.UriLoader, Classes.WeatherPoint, View.class, new XC_MethodHook() {
+                findAndHookMethod(Classes.WeatherEntryAdapter, Methods.weaAddCurrentConditions, Context.class, Classes.UriLoader, Classes.WeatherPoint, View.class, new XC_MethodHook() {
 
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
@@ -98,15 +98,11 @@ public class WeatherWidget extends HooksBaseClass {
 
                                 for (int i = 0; i < widgetContentHolder.getChildCount(); i++) {
                                     View item = widgetContentHolder.getChildAt(i);
-                                    log("child " + item);
                                     if (isCity(item)) {
-                                        log("set " + getCity());
                                         ((TextView) item).setText(getCity());
                                     } else if (isTemperature(item)) {
-                                        log("set " + getTemperatur());
                                         ((TextView) item).setText(getTemperatur());
                                     } else if (isWeatherDescription(item)) {
-                                        log("set " + getWeatherDescription());
                                         ((TextView) item).setText(getWeatherDescription());
                                     }
                                 }

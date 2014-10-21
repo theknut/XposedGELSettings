@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.Preference;
@@ -139,6 +138,19 @@ public class FragmentAppDrawer extends FragmentBase {
                 return true;
             }
         });
+
+        try {
+            if (mContext.getPackageManager().getPackageInfo(Common.GEL_PACKAGE, 0).versionCode >= ObfuscationHelper.GNL_4_0_26) {
+                getPreferenceScreen().removePreference(this.findPreference("appdrawerfolderstylebackgroundcolor"));
+
+                findPreference("enableappdrawertabs").setEnabled(false);
+                findPreference("addfolder").setEnabled(false);
+                findPreference("appdrawerswipetabs").setEnabled(false);
+                findPreference("tabsinstructions").setSummary("!!!BROKEN IN GOOGLE SEARCH 4.0!!!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         if (!InAppPurchase.isPremium) {
             findPreference("enableappdrawertabs").setEnabled(false);

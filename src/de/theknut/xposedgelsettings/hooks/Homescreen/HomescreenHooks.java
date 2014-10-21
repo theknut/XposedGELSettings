@@ -70,7 +70,6 @@ public class HomescreenHooks extends HooksBaseClass {
 
                             int paddingLeftRight = hotseat.getPaddingLeft();
                             int paddingBottom = hotseat.getPaddingBottom();
-                            log("Bottom " + paddingBottom);
                             paddingLeftRight = paddingLeftRight == 0 && PreferencesHelper.appdockRect != 1 ? 12 : 0;
                             hotseat.setPadding(
                                     paddingLeftRight * PreferencesHelper.appdockRect,
