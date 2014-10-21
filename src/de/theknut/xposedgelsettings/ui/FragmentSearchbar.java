@@ -1,6 +1,5 @@
 package de.theknut.xposedgelsettings.ui;
 
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.view.LayoutInflater;
@@ -61,6 +60,7 @@ public class FragmentSearchbar extends FragmentBase {
             if (mContext.getPackageManager().getPackageInfo(Common.GEL_PACKAGE, 0).versionCode >= ObfuscationHelper.GNL_4_0_26) {
                 getPreferenceScreen().removePreference(this.findPreference("searchbarstyle"));
             }
+            getPreferenceScreen().removePreference(findPreference("searchbarweatherwidget"));
         } catch (Exception e) {
             e.printStackTrace();
         }

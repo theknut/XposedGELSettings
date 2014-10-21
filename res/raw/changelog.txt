@@ -27,8 +27,8 @@
   </head>
   <body>
 
-$ 2.1.2
-  % Version 2.1.2
+$ 2.1.3
+  % Version 2.1.3
   _ 2014-21-10
 
   !!!!PLEASE READ THIS MESSAGE!!!<br><br>
@@ -44,6 +44,10 @@ $ 2.1.2
 <br><br>
   !Added:
   * support for Google Search 4.0
+
+  !Fixed:
+  * XGELS crash when opening Search bar settings
+  * Folder background color
 
   !XGELS UI:
   * new awesome icon designed by Eduardo Pratti

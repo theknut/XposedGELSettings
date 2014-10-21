@@ -9,6 +9,7 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
+import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
@@ -32,6 +33,15 @@ public class HomescreenHooks extends HooksBaseClass {
 
         // modify homescreen grid
         XposedBridge.hookAllConstructors(Classes.DeviceProfile, new DeviceProfileConstructorHook());
+
+        if (!Common.IS_PRE_GNL_4) {
+            findAndHookMethod(Classes.Folder, "onFinishInflate", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    ((View) param.thisObject).setBackground(Common.XGELSCONTEXT.getResources().getDrawable(R.drawable.quantum_panel));
+                }
+            });
+        }
 
         if (PreferencesHelper.iconSettingsSwitchHome || PreferencesHelper.homescreenFolderSwitch || PreferencesHelper.appdockSettingsSwitch) {
             // changing the appearence of the icons on the homescreen
