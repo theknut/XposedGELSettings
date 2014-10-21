@@ -309,8 +309,8 @@
     <string name="pref_switch_unlimited_folder_size_title">Dimensione illimitata cartella</string>
     <string name="pref_always_show_ok_google_title">Ok Google</string>
     <string name="pref_always_show_ok_google_summary">Mostra sempre \"Ok Google\"</string>
-    <string name="pref_glow_color_title">Colore bordo icone</string>
-    <string name="pref_glow_color_summary">Colore quando si preme un\'icona</string>
+    <string name="pref_glow_color_title">Colore bagliore</string>
+    <string name="pref_glow_color_summary">Colore quando viene premuta un\'icona</string>
     <string name="hide_app_switch_label">Nascondi nell\'app drawer</string>
     <string name="default_text">Predefinito</string>
     <string name="pref_cat_system_bars_title">Barre di sistema</string>
@@ -381,5 +381,7 @@
     <!-- 2.1.2. -->
     <string name="pref_searchbar_weather_widget_title">Widget Meteo</string>
     <string name="pref_searchbar_weather_widget_summary">Mostra la posizione e il meteo corrente sotto la barra di ricerca (solo GNL)</string>
+    <string name="pref_app_drawer_folderstyle_background_color_title">Colore sfondo cartella</string>
+    <string name="pref_app_drawer_folderstyle_background_color_summary">Colore di sfondo App drawer stile cartella (Ricerca Google ≥ 4.0)</string>
 
 </resources>
