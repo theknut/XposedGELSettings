@@ -19,7 +19,7 @@
     <string name="pref_cat_title_icon_labels">Visibilidade dos títulos de ícones</string>
     <string name="pref_cat_title_searchbar">Barra de pesquisa do Google</string>
     <string name="pref_cat_title_general">Geral</string>
-    <string name="pref_cat_title_hide_apps">Ocultar aplicativos</string>
+    <string name="pref_cat_title_hide_apps">Ocultar Aplicativos</string>
     <string name="pref_grid_size_explain_title">Atenção!</string>
     <string name="pref_grid_size_explain_summary">Alterar o tamanho da grade ocorrerá alterações nos ícones. Se você diminuir o tamanho alguns ícones podem ser perdidos.</string>
     <string name="pref_switch_enable_grid_size_title">Habilitar</string>
@@ -381,5 +381,9 @@
     <!-- 2.1.2. -->
     <string name="pref_searchbar_weather_widget_title">Widget do tempo</string>
     <string name="pref_searchbar_weather_widget_summary">Mostrar a localização e tempo real abaixo da barra de pesquisa (somente GNL)</string>
-
+    
+    <!-- new -->
+    <string name="pref_app_drawer_folderstyle_background_color_title">Cor do fundo da pasta</string>
+    <string name="pref_app_drawer_folderstyle_background_color_summary">Cor do fundo das pastas na tela aplicativos (Google Search ≥ 4.0)</string>
+    
 </resources>
