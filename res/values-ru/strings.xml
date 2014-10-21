@@ -317,11 +317,47 @@
     <string name="toast_restore_failed">Так… это не работает :-S</string>
     <string name="toast_restore_success">Удачно восстановлено настройки рабочего стола</string>
     <string name="pref_always_show_ok_google_summary"> Всегда отображать надпись \"Ok Google\"</string>
-    <!-- V2.0 -->
     <string name="alert_tab_settings_title">Вкладки</string>
     <string name="alert_tab_hide_from_apps_title">Скрыть приложения из главной вкладки</string>
     <string name="alert_tab_hint_text_title">Имя вкладки</string>
     <string name="pref_tabsandfolders_title">Вкладки и папки</string>
     <string name="pref_tab_type_title">Тип вкладки</string>
     <string name="toast_tab_delete">Нажмите и удерживайте для удаления вкладки</string>
+    <string name="pref_notificationbadge_position_title">Позиция</string>
+    <string name="pref_cat_app_drawer_settings_title">Настройки</string>
+    <string name="pref_switch_enable_tabs_title">Включить</string>
+    <string name="pref_appdrawer_clear_tabs_title">Стереть данные вкладок</string>
+    <string name="pref_appdrawer_clear_tabs_summary">Нажмите здесь для удаления данных вкладок. Все созданные вкладки будут удалены.</string>
+    <string name="alert_appdrawer_clear_tabs_title">Внимание!</string>
+    <string name="alert_appdrawer_clear_tabs_summary">Вы действительно хотите удалить все вкладки меню приложений?</string>
+    <string name="alert_appdrawer_clear_tabs_success">Настройки вкладок удалены!</string>
+    <string name="pref_appdrawer_tabs_instructions_summary">!!Google Старт и ≥ Android 4.2 только!!\nВкладки приложений могут быть добавлены из меню приложений. Настройки вкладок осуществляется по длинному нажатию</string>
+    <string name="pref_notificationbadge_noappdrawer_title">Скрыть из меню приложений</string>
+    <string name="toast_appdrawer_tabadded_title">Длинное нажатие на вкладке для открытия настроек</string>
+    <string name="pref_reverseengineering_rate_title">Оценить XGELS!</string>
+    <string name="pref_reverseengineering_rate_summary">Покажите вашу поддержку и оставьте мне отзыв в Google Play. Хорошая репутация будет мотивировать других пользователей тоже испытать XGELS. Нажмите здесь для оценки XGELS в Google Play!</string>
+  <!-- V2.1 -->
+  <string name="pref_notificationbadge_keepsize_title">Сохранить размер</string>
+  <string name="pref_notificationbadge_keepsize_summary">Не изменять размер нотификаций, когда присутствует две цифры</string>
+  <string name="pref_pageindicator_color_title">Цвет индикатора страниц</string>
+  <string name="pref_pageindicator_color_summary">Выберите цвет индикатора страниц</string>
+  <string name="pref_tabs_bottom_title">Вкладки снизу</string>
+  <string name="pref_tabs_bottom_summary">Переместить вкладки на низ экрана</string>
+  <string name="toast_appdrawer_folderadded_title">Длинное нажатие на папке для настроек</string>
+  <string name="alert_folder_hint_text_title">Имя папки</string>
+  <string name="pref_appdrawer_folders_title">Папки</string>
+  <string name="pref_appdrawer_folders_summary">Нажмите чтобы добавить папку в меню приложений</string>
+  <string name="toast_appdrawer_folder_minimum_app">Папка должна содержать как минимум два элемента</string>
+  <string name="pref_appdock_show_labels_title">Показывать подписи</string>
+  <string name="pref_appdockrect_title">Отступы слева/справа в док-панели</string>
+  <string name="pref_appdockrect_summary">Выберите величину отступов слева и справа в док-панели</string>
+  <string name="pref_grid_size_title">Размер сетки</string>
+  <string name="pref_grid_size_summary">Выберите количество строк и стопок</string>
+  <string name="pref_switch_swipe_tabs_title">Свайп между вкладками</string>
+  <string name="pref_switch_swipe_tabs_summary">Переключение на следующую вкладку при прокручивании меню прилржений</string>
+  <!-- 2.1.2. -->
+  <string name="pref_searchbar_weather_widget_title">Виджет погоды</string>
+  <string name="pref_searchbar_weather_widget_summary">Отобразить текущее местоположение и погоду под строкой Google Поиска (только Google Старт)</string>
+  <string name="pref_app_drawer_folderstyle_background_color_title">Фоновый цвет папки</string>
+  <string name="pref_app_drawer_folderstyle_background_color_summary">Фон меню приложений в стиле папки (Google Поиск ≥ 4.0)</string>
 </resources>
