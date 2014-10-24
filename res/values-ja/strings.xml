@@ -21,7 +21,7 @@
     <string name="pref_cat_title_general">全般</string>
     <string name="pref_cat_title_hide_apps">アプリを非表示</string>
     <string name="pref_grid_size_explain_title">注意！</string>
-    <string name="pref_grid_size_explain_summary">グリッドサイズを変更するとアイコンの配置が崩れます。グリッドサイズを小さくするとアイコンが消える可能性がありますが、グリッドサイズを大きくすれば元に戻ります。グリッドサイズが大きすぎるとアイコンの一部分がカットされますので、大きくしすぎないように注意してください。</string>
+    <string name="pref_grid_size_explain_summary">グリッドサイズを変更するとアイコンの配置が崩れます。グリッドサイズを小さくするとアイコンが消える可能性がありますが、グリッドサイズを大きくすれば元に戻ります。グリッドサイズが大きすぎるとアイコンの一部が切り取られますので、大きくしすぎないように注意してください。</string>
     <string name="pref_switch_enable_grid_size_title">有効化</string>
     <string name="pref_switch_enable_grid_size_summary">グリッドサイズの変更を有効にする</string>
     <string name="pref_resize_all_widgets_title">ウィジェットをリサイズ</string>
@@ -85,7 +85,7 @@
     <string name="pref_switch_appdock_title">ドックを非表示</string>
     <string name="pref_switch_appdock_summary">ドックを非表示にする</string>
     <string name="pref_lock_desktop_title">デスクトップをロック</string>
-    <string name="pref_lock_desktop_summary">デスクトップをロックして誤操作を防止する</string>
+    <string name="pref_lock_desktop_summary">デスクトップをロックして誤移動を防止する</string>
     <string name="pref_continuous_scroll_title">無限スクロール</string>
     <string name="pref_continuous_scroll_summary">最初のページに飛んでスクロールする\n（実験的）</string>
     <string name="pref_continuous_scroll_with_app_drawer_title">アプリドロワーを含める</string>
@@ -112,7 +112,7 @@
     <string name="drawer_open">ナビゲーションドロワーを開く</string>
     <string name="drawer_close">ナビゲーションドロワーを閉じる</string>
     <string name="pref_systemui_explain_title">注意</string>
-    <string name="pref_systemui_explain_summary">これらすべての設定の端末やROMによっては動作しない可能性があります。さらにこれらすべての設定は反映するために完全な再起動が必要です。</string>
+    <string name="pref_systemui_explain_summary">これらすべての設定の端末やROMによっては動作しない可能性があります。さらに、これらすべての設定は反映するために完全な再起動が必要です。</string>
     <string name="pref_cat_systemui_navbar_title">ナビゲーションバー</string>
     <string name="pref_cat_systemui_statusbar_title">ステータスバー</string>
     <string name="pref_dynamic_backbutton_title">戻るボタン</string>
@@ -134,11 +134,11 @@
     <string name="pref_restore_homescreen_summary">/sdcard/XposedGELSettings\nからホーム画面のレイアウト（アイコンとフォルダのみ）を復元する</string>
     <string name="pref_animate_dynamic_homebutton_title">アイコンの切り替えをアニメーション</string>
     <string name="pref_animate_dynamic_homebutton_summary">アイコン変更時にアニメーションでクイックフェードさせる</string>
-    <string name="pref_change_dynamic_homebutton_title">ダイナミックホームボタンアイコン</string>
+    <string name="pref_change_dynamic_homebutton_title">ホームボタンアイコンの連動</string>
     <string name="pref_change_dynamic_homebutton_summary">デフォルトのホーム画面でホームアイコンをアプリドロワーアイコンに変更する</string>
     <string name="pref_animate_dynamic_backbutton_title">アイコンの切り替えをアニメーション化</string>
     <string name="pref_animate_dynamic_backbutton_summary">アイコン変更時にアニメーションでクイックフェードさせる</string>
-    <string name="pref_change_dynamic_backbutton_title">ダイナミックバックボタンアイコン</string>
+    <string name="pref_change_dynamic_backbutton_title">バックボタンアイコンの連動</string>
     <string name="pref_change_dynamic_backbutton_summary">デフォルトのホーム画面でバックアイコンを電源OFFアイコンに変更する</string>
     <string name="toast_full_reboot">この変更を反映するには完全な再起動を実行してください。</string>
     <string name="pref_switch_gesture_swipe_down_close_app_drawer_title">アプリドロワー</string>
@@ -146,14 +146,14 @@
     <string name="toast_getprices_fail">価格リストの受信中に問題が発生しました。logcatを確認してください。</string>
     <string name="toast_donation_result_fail">問題が発生しました。XGELSを強制終了して再起動しても大丈夫です。logcatを確認してください。!</string>
     <string name="toast_donate_thanks">寄付ありがとうございます</string>
-    <string name="pref_xgel_group_summary">XGELSプレミアムグループへの参加を申し込むにはここをクリックしてください。あなたをプライベートグループに追加できるようにGoogle+のメールアドレスを含めて書いてください。</string>
+    <string name="pref_xgel_group_summary">XGELS Premium Groupへの参加を申し込むにはここをクリックしてください。あなたをプライベートグループに追加できるようにGoogle+のメールアドレスを含めてください。</string>
     <string name="pref_requires_donation_title">利用できません</string>
     <string name="pref_requires_donation_summary">以下の機能はプレミアムバージョンでのみ利用できます。</string>
     <string name="alert_reboot_needed_title">完全な再起動が必要です</string>
     <string name="alert_reboot_needed_summary">完全な再起動が必要な変更をしました（要ルート）。方法を選択してください。</string>
     <string name="progress_requesting_root_title">お待ちください&#8230;</string>
     <string name="progress_requesting_root_summary">ルート権限をリクエスト中&#8230;</string>
-    <string name="pref_auto_blur_wallpaper_title">ダイナミック背景</string>
+    <string name="pref_auto_blur_wallpaper_title">背景の連動</string>
     <string name="pref_auto_blur_wallpaper_summary">端末の壁紙が変更された時はそれをぼかしてXGELSの背景として使用します。一定の間隔で壁紙を変えるアプリを使用している場合は電池を浪費する可能性があります。</string>
     <string name="pref_dynamic_backbuttononeveryscreen_title">すべての画面でスリープ</string>
     <string name="pref_dynamic_backbuttononeveryscreen_summary">すべての画面でスリープします。このチェックボックスがチェックされていないと、デフォルトのホーム画面でのみスリープします。</string>
@@ -191,7 +191,7 @@
     <string name="pref_gesture_up_left_title">左側を上スワイプ</string>
     <string name="pref_gesture_up_middle_title">中央を上スワイプ</string>
     <string name="pref_gesture_up_right_title">右側を上スワイプ</string>
-    <string name="alert_hidedock_summary">ジェスチャーメニューで表示/非表示の切り替えを設定しているか、またはシステムUIの調整でダイナミックホームボタンを有効にしているか確認してください。そうしないとアプリドロワーを開けなくなります。</string>
+    <string name="alert_hidedock_summary">ジェスチャーメニューで表示/非表示の切り替えを設定しているか、またはシステムUIの調整でホームボタンの連動を有効にしているか確認してください。そうしないとアプリドロワーを開けなくなります。</string>
     <string name="alert_hidewidgets_title">注意</string>
     <string name="alert_hidewidgets_summary">このリストのウィジェットのみ選択できます。ショートカットは今のところ非表示にできません。</string>
     <string name="pref_limited_title">制限中</string>
@@ -214,11 +214,11 @@
     <string name="pref_autokill_launcher_summary">設定が変更されるとGNL/Trebuchetを自動で強制終了します。ホーム画面に戻ったときにGNL/Trebuchetは新しい設定で開始します。</string>
     
     <string name="pref_notificationbadge_premium_title">プレミアム機能</string>
-    <string name="pref_notificationbadge_premium_summary">この機能はXGELSプレミアムでのみ利用できます。通知バッジにはカウンターの統計を受信するためにMissedIt!（有料）が必要なので注意してください。</string>
-    <string name="pref_notificationbadge_missedit_missing_title">MissedIt!がインストールされていません</string>
-    <string name="pref_notificationbadge_missedit_missing_summary">MissedIt!がインストールされていません。XGELSはバッジの数を受信するためにこのアプリからのカウンターの統計をリクエストします。MissedIt!を開く/Playストアから購入するにはここをクリックしてください。</string>
-    <string name="pref_notificationbadge_open_missedit_title">MissedIt!を開く</string>
-    <string name="pref_notificationbadge_open_missedit_summary">MissedIt!を開くにはここをクリックする</string>
+    <string name="pref_notificationbadge_premium_summary">この機能はXGELSプレミアムでのみ利用できます。通知バッジにはカウンターの統計を受信するためにMissed It!（有料）が必要なので注意してください。</string>
+    <string name="pref_notificationbadge_missedit_missing_title">Missed It!がインストールされていません</string>
+    <string name="pref_notificationbadge_missedit_missing_summary">Missed It!がインストールされていません。XGELSはバッジの数を受信するためにこのアプリからのカウンターの統計をリクエストします。MissedIt!を開く/Playストアから購入するにはここをクリックしてください。</string>
+    <string name="pref_notificationbadge_open_missedit_title">Missed It!を開く</string>
+    <string name="pref_notificationbadge_open_missedit_summary">Missed It!を開くにはここをクリックする</string>
     <string name="pref_notificationbadge_enable_title">バッジを有効化</string>
     <string name="pref_notificationbadge_backgroundcolor_title">背景色</string>
     <string name="pref_notificationbadge_textcolor_title">文字色</string>
@@ -274,8 +274,8 @@
     
     <string name="pref_icon_premium_title">プレミアム機能</string>
     <string name="pref_icon_premium_summary">この機能はXGELSプレミアムでのみ利用できます。</string>
-    <string name="pref_icon_support_title">統計</string>
-    <string name="pref_icon_support_summary">ダイナミックカレンダー: %1$s\n%3$d個のうち%2$d個のアイコンがサポートされています\n合計%4$d個のアイコン</string>
+    <string name="pref_icon_support_title">固定アイコン</string>
+    <string name="pref_icon_support_summary">カレンダーの連動: %1$s\n%3$d個のうち%2$d個のアイコンがサポートされています\n合計%4$d個のアイコン</string>
     <string name="pref_icon_auto_apply_title">自動適用</string>
     <string name="pref_icon_auto_apply_summary">新しいアイコンやアップデートされたアイコンを自動で適用する</string>
     
@@ -293,7 +293,7 @@
     <string name="pref_switch_smart_folder_title">スマートフォルダ</string>
     <string name="pref_switch_smart_folder_summary">タップ - 最初のアプリを起動\n上スワイプ - フォルダを開く</string>
     <string name="pref_overlapping_widgets_title">ウィジェットの重複</string>
-    <string name="pref_overlapping_widgets_summary">ウィジェットの重複を許可します。この機能はGNLでのみ動作します。\n（ベータ: レイヤーの位置は再起動時に保存されません）</string>
+    <string name="pref_overlapping_widgets_summary">ウィジェットの重複を許可します。この機能はGNLでのみ動作します。\n（ベータ: 現段階ではレイヤーの位置が再起動時にリセットされます）</string>
 
     <string name="pref_overridesettings_button_title">設定ボタン</string>
     <string name="pref_overridesettings_button_summary">Google Nowの設定の代わりにXGELSを開く</string>
@@ -307,7 +307,7 @@
     <!-- V1.9 -->
     <string name="pref_hide_workspace_shadow_title">ホーム画面の影</string>
     <string name="pref_hide_workspace_shadow_summary">没入モードで見えるホームスクリーンの影を非表示にする</string>
-    <string name="pref_switch_unlimited_folder_size_title">無制限のフォルダサイズ</string>
+    <string name="pref_switch_unlimited_folder_size_title">フォルダサイズを無制限化</string>
     <string name="pref_always_show_ok_google_title">OK Google</string>
     <string name="pref_always_show_ok_google_summary">「OK Google」を常に表示する</string>
     <string name="pref_glow_color_title">発光色</string>
@@ -363,7 +363,7 @@
     <string name="pref_notificationbadge_keepsize_title">バッジサイズを維持</string>
     <string name="pref_notificationbadge_keepsize_summary">バッジの数が2桁になった時に左右のパディングを減少させる</string>
     <string name="pref_pageindicator_color_title">ページドットの色</string>
-    <string name="pref_pageindicator_color_summary">ページドットの色を選択</string>
+    <string name="pref_pageindicator_color_summary">ページドットの色を選択する</string>
     <string name="pref_tabs_bottom_title">タブを下側に配置</string>
     <string name="pref_tabs_bottom_summary">タブを画面の上側から下側に移動する</string>
     <string name="toast_appdrawer_folderadded_title">フォルダを長押しして設定を開く</string>
@@ -382,5 +382,9 @@
     <!-- 2.1.2. -->
     <string name="pref_searchbar_weather_widget_title">天気ウィジェット</string>
     <string name="pref_searchbar_weather_widget_summary">検索バーの下に現在地と天気を表示する（GNLのみ）</string>
+
+    <!-- new -->
+    <string name="pref_app_drawer_folderstyle_background_color_title">フォルダの背景色</string>
+    <string name="pref_app_drawer_folderstyle_background_color_summary">アプリドロワーのフォルダスタイルの背景色（Google検索4.0以上）</string>
 
 </resources>
