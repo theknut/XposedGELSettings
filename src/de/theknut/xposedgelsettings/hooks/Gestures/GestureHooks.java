@@ -206,7 +206,9 @@ public class GestureHooks extends GestureHelper {
                         }
 
                         // user probably switched pages
-                        if (getBooleanField(Common.WORKSPACE_INSTANCE, Fields.pvIsPageMoving)) return;
+                        if (getBooleanField(Common.WORKSPACE_INSTANCE, Fields.pvIsPageMoving)) {
+                            return;
+                        }
 
                         switch (identifyGesture(ev.getRawX(), ev.getRawY(), downX, downY)) {
                             case DOWN_LEFT:
@@ -317,7 +319,10 @@ public class GestureHooks extends GestureHelper {
                         if (!PreferencesHelper.gesture_appdrawer) return;
 
                         // user probably switched pages
-                        if (getBooleanField(Common.APP_DRAWER_INSTANCE, Fields.pvIsPageMoving)) return;
+                        if (getBooleanField(getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizeTabHost), Fields.acthInTransition)
+                                || getBooleanField(Common.APP_DRAWER_INSTANCE, Fields.pvIsPageMoving)) {
+                            return;
+                        }
 
                         if ((ev.getRawY() - downY) > (height / 6)) {
                             callMethod(Common.LAUNCHER_INSTANCE, Methods.lShowWorkspace, true, null);
