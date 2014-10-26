@@ -40,7 +40,7 @@ public class GestureHelper extends HooksBaseClass {
 		NONE
 	}
 	
-	static float gestureDistance = 50.0f;
+	static float gestureDistance = Utils.dpToPx(50);
 	static int animateDuration = 300;
 	static boolean isAnimating = false;
 	static ViewPropertyAnimator hideAnimation;
@@ -193,7 +193,7 @@ public class GestureHelper extends HooksBaseClass {
 			
 		} else if (action.equals("OPEN_APPDRAWER")) {
 			
-			((Activity) Common.LAUNCHER_INSTANCE).runOnUiThread(new Runnable() {
+			Common.LAUNCHER_INSTANCE.runOnUiThread(new Runnable() {
 			     @Override
 			     public void run() {
 			    	 
