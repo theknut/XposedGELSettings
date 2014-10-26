@@ -43,6 +43,7 @@ import static de.robv.android.xposed.XposedHelpers.getStaticObjectField;
 
 public class SystemUIReceiver extends HooksBaseClass {
 
+    private static boolean errorMsgShown = false;
     private static boolean IS_CLOCK_VISIBLE = true;
     public static View CLOCK_VIEW;
 	public static ImageView HOME_BUTTON;
@@ -349,11 +350,17 @@ public class SystemUIReceiver extends HooksBaseClass {
 	                        	}
 	                        }
                     	} catch (NoSuchMethodError nsme) {
-                    		log("Something went wrong. Show this to the dev!");
-                    		log(nsme.toString());
+                            if (!errorMsgShown) {
+                                errorMsgShown = true;
+                                log("Something went wrong. Show this to the dev!");
+                                log(nsme.toString());
+                            }
                     	} catch (Exception ex) {
-                    		log("Something went wrong. Show this to the dev!");
-                    		log(ex.toString());
+                            if (!errorMsgShown) {
+                                errorMsgShown = true;
+                                log("Something went wrong. Show this to the dev!");
+                                log(ex.toString());
+                            }
                     	}
                     }
 
