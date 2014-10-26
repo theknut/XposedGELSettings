@@ -492,7 +492,7 @@ public class FragmentSelectiveIcon extends FragmentActivity implements ActionBar
                     int requestedHorizontalSpacing = Utils.dpToPx(8, displayMetrics);
                     int gridWidth = elv.getWidth();
                     if (gridWidth == 0) {
-                        WindowManager wm = (WindowManager) Common.LAUNCHER_CONTEXT.getSystemService(Context.WINDOW_SERVICE);
+                        WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
                         Display display = wm.getDefaultDisplay();
                         Point size = new Point();
                         display.getSize(size);
