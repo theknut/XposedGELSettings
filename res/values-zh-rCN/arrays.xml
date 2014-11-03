@@ -15,12 +15,12 @@
         <item>应用抽屉</item>
         <item>手势</item>
         <item>通知标记</item>
-        <item>Icon</item>
-        <item>Android Integration</item>
+        <item>图标</item>
+        <item>Android综合</item>
         <item>备份/还原</item>
         <item>设置</item>
         <item>高级版/支持</item>
-        <item>Reverse Engineering</item>
+        <item>逆向工程</item>
     </string-array>
 
     <string-array name="gesture_actions_entries">
