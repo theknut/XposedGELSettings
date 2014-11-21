@@ -2,97 +2,97 @@
 <resources>
 
     <string-array name="fragmenttitles_array">
-        <item>Welcome</item>
+        <item>Bienvenido</item>
         <item>General</item>
-        <item>Google Search Bar</item>
-        <item>Homescreen</item>
-        <item>App Drawer</item>
-        <item>Gestures</item>
-        <item>Notification Badges</item>
-        <item>Icon</item>
-        <item>Android Integration</item>
-        <item>Backup/Restore</item>
-        <item>Settings</item>
-        <item>Premium/Support</item>
-        <item>Reverse Engineering</item>
+        <item>Barra Google Search</item>
+        <item>Pantalla de Inicio</item>
+        <item>Cajón de Aplicaciones</item>
+        <item>Gestos</item>
+        <item>Símbolos de Notificación</item>
+        <item>Iconos</item>
+        <item>Integración en Android</item>
+        <item>Backup/Restablecer</item>
+        <item>Ajustes</item>
+        <item>Premium/Apoyo</item>
+        <item>Ingeniería inversa</item>
     </string-array>
 
     <string-array name="smartfoldermode_entries">
         <item>Off</item>
-        <item>Swipe - launch first app\nTouch - open folder</item>
-        <item>Touch - launch first app\nSwipe - open folder</item>
+        <item>Deslizar - lanza la primera app\nTocar - abre la carpeta</item>
+        <item>Tocar - lanza la primera app\nDeslizar - abre la carpeta</item>
     </string-array>
 
     <string-array name="searchbarstyle_entries">
-        <item>Default</item>
-        <item>Android L style</item>
+        <item>Defecto</item>
+        <item>Estilo Android L</item>
     </string-array>
 
     <string-array name="gesture_actions_entries">
-        <item>None</item>
-        <item>Notification bar</item>
-        <item>Quick settings</item>
-        <item>App drawer</item>
-        <item>Recent app</item>
-        <item>Show recents</item>
-        <item>Android settings</item>
-        <item>Go to sleep</item>
-        <item>Toggle dock</item>
-        <item>Open app</item>
+        <item>Ninguno</item>
+        <item>Barra de Notificación</item>
+        <item>Ajustes Rápidos</item>
+        <item>Cajón de Aplicaciones</item>
+        <item>Aplicación reciente</item>
+        <item>Mostrar recientes</item>
+        <item>Ajustes Android</item>
+        <item>Apagar la pantalla</item>
+        <item>Cambio en la base</item>
+        <item>Abrir app</item>
     </string-array>
 
     <string-array name="gesture_actions_entries_limited">
-        <item>None</item>
-        <item>App drawer</item>
-        <item>Toggle dock</item>
+        <item>Ninguno</item>
+        <item>Cajón de Aplicaciones</item>
+        <item>Cambio en la base</item>
     </string-array>
 
     <string-array name="general_scroll_devider_entries">
-        <item>Default</item>
-        <item>Medium</item>
-        <item>Fast</item>
-        <item>Vmax</item>
-        <item>No animation</item>
+        <item>Defecto</item>
+        <item>Medio</item>
+        <item>Rápido</item>
+        <item>Muy rápido</item>
+        <item>Sin animación</item>
     </string-array>
 
     <string-array name="contextmenu_mode_entries">
-        <item>Disabled</item>
-        <item>Shortcuts only</item>
-        <item>Widgets only</item>
-        <item>Shortcuts &amp; Widgets</item>
+        <item>Deshabilitado</item>
+        <item>Sólo AtajosShortcuts only</item>
+        <item>Sólo Widgets</item>
+        <item>Atajos &amp; Widgets</item>
     </string-array>
 
     <string-array name="tabcontent_entries">
-        <item>Apps</item>
+        <item>Aplicaciones</item>
         <item>Widgets</item>
-        <item>Xposed modules</item>
-        <item>Google apps</item>
-        <item>Icon packs</item>
-        <item>New apps</item>
-        <item>New/Updated apps</item>
+        <item>Módulos de Xposed</item>
+        <item>Aplicaciones de Google</item>
+        <item>Pack de íconos</item>
+        <item>Nuevas aplicaciones</item>
+        <item>Nueva/Actualizada</item>
     </string-array>
 
     <string-array name="tabcontent_names">
-        <item>Apps</item>
+        <item>Aplicaciones</item>
         <item>Widgets</item>
         <item>Xposed</item>
         <item>Google</item>
-        <item>Icon packs</item>
-        <item>New Apps</item>
-        <item>New/Updated</item>
+        <item>Pack de íconos</item>
+        <item>Nuevas aplicaciones</item>
+        <item>Nueva/Actualizada</item>
     </string-array>
 
     <string-array name="tabsort_entries">
-        <item>Alphabetically</item>
-        <item>Install date</item>
-        <item>Last update</item>
+        <item>Alfabéticamente</item>
+        <item>Fecha de instalación</item>
+        <item>Ultima actualización</item>
     </string-array>
 
     <string-array name="notificationbadge_position_entries">
-        <item>Top left</item>
-        <item>Top right</item>
-        <item>Bottom left</item>
-        <item>Bottom right</item>
+        <item>Arriba izquierda</item>
+        <item>Arriba derecha</item>
+        <item>Abajo izquierda</item>
+        <item>Abajo derecha</item>
     </string-array>
 
 </resources>
