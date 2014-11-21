@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_description">Skryť vyhľadávací riadok Google, skryť aplikácie z spúšťača, zmeniť veľkosť mriežky domovskej obrazovky a ponuky aplikácií, zmeniť veľkosť ikon, zmeniť veľkosť textu, zmeniť počet aplikácií doku, odstrániť menovky ikony a ďalšie</string>
+    <string name="app_description">Google Now Launcher the way you want it to be</string>
     <string name="pref_hide_google_search_bar_title">Skryť</string>
     <string name="pref_autohide_google_search_bar_title">Automaticky skryť</string>
     <string name="pref_autohide_google_search_bar_summary">Automaticky zobraziť na stránke Asistenta Google</string>

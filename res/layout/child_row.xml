@@ -3,7 +3,7 @@
     android:layout_height="fill_parent"
     android:padding="6dip" >
 
-    <de.theknut.xposedgelsettings.ui.MyGridView
+    <de.theknut.xposedgelsettings.ui.preferences.MyGridView
         android:id="@+id/gridview"
         android:clickable="true"
         android:layout_width="fill_parent"

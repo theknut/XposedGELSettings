@@ -1,14 +1,12 @@
 package de.theknut.xposedgelsettings.ui;
 
 import android.annotation.SuppressLint;
-import android.app.ListActivity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,12 +26,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import de.theknut.xposedgelsettings.R;
-import de.theknut.xposedgelsettings.ui.ImageLoader.ViewHolder;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.icon.IconPack;
+import de.theknut.xposedgelsettings.ui.ImageLoader.ViewHolder;
 
 @SuppressLint("WorldReadableFiles")
-public class ChooseAppList extends ListActivity {
+public class ChooseAppList extends ActionBarListActivity {
 
     AppArrayAdapter adapter;
     String prefKey;
@@ -43,10 +41,6 @@ public class ChooseAppList extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        getListView().setCacheColorHint(CommonUI.UIColor);
-        getListView().setBackgroundColor(CommonUI.UIColor);
-        getActionBar().setBackgroundDrawable(new ColorDrawable(CommonUI.UIColor));
 
         // retrieve the preference key so that we can save an app linked with the gesture
         intent = getIntent();

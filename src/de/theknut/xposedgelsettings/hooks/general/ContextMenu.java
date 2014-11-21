@@ -346,6 +346,7 @@ classLoader = lpparam.classLoader;
             public void onClick(View v) {
                 removeContextMenu();
 
+                Common.CURRENT_CONTEXT_MENU_ITEM = longPressedItem;
                 ArrayList<String> items = new ArrayList<String>();
                 Object mFolder = getObjectField(longPressedItem, Fields.fiFolder);
                 ArrayList<View> folderItems = (ArrayList<View>) callMethod(mFolder, Methods.fGetItemsInReadingOrder);
@@ -362,8 +363,6 @@ classLoader = lpparam.classLoader;
                 intent.putExtra("itemid", getLongField(tag, Fields.iiID));
                 intent.putStringArrayListExtra("items", items);
                 Common.LAUNCHER_CONTEXT.startActivity(intent);
-
-                Common.CURRENT_FOLDER = longPressedItem;
             }
         });
         show = isFolder;
@@ -394,6 +393,7 @@ classLoader = lpparam.classLoader;
             @Override
             public void onClick(View v) {
                 removeContextMenu();
+                Common.CURRENT_CONTEXT_MENU_ITEM = longPressedItem;
 
                 if (!isPremium) {
                     Utils.showPremiumOnly();

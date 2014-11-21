@@ -1,4 +1,4 @@
-package de.theknut.xposedgelsettings.ui;
+package de.theknut.xposedgelsettings.ui.preferences;
 
 import android.content.Context;
 import android.util.AttributeSet;

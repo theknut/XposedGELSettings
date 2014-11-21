@@ -19,8 +19,6 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import de.theknut.xposedgelsettings.hooks.Common;
-import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.Folder;
-import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.Tab;
 
 public class SaveActivity extends ListActivity {
 
@@ -46,18 +44,7 @@ public class SaveActivity extends ListActivity {
 
         if (mode == MODE_MANAGE_TAB || mode == MODE_MANAGE_FOLDER) {
             String key = mode == MODE_MANAGE_TAB ? "appdrawertabdata" : "appdrawerfolderdata";
-            ArrayList<String> order = new ArrayList<String>(prefs.getStringSet(key, new LinkedHashSet<String>()));
-
-            if (intent.getBooleanExtra("new", false)) {
-                if (mode == MODE_MANAGE_TAB) {
-                    order.add(new Tab(intent, false).toString());
-                } else if(mode == MODE_MANAGE_FOLDER) {
-                    order.add(new Folder(intent, false).toString());
-                }
-            } else {
-                order = intent.getStringArrayListExtra(mode == MODE_MANAGE_TAB ? "tabsdata" : "folderdata");
-            }
-
+            ArrayList<String> order = intent.getStringArrayListExtra(mode == MODE_MANAGE_TAB ? "tabsdata" : "folderdata");
             editor.remove(key)
                     .putStringSet(key, new LinkedHashSet<String>(order))
                     .commit();
@@ -118,6 +105,7 @@ public class SaveActivity extends ListActivity {
         super.onResume();
 
         colorPickerDialog = new ColorPickerDialog(this, getIntent().getIntExtra("initcolor", Color.WHITE));
+        colorPickerDialog.setDefaultColor(Color.WHITE);
         colorPickerDialog.setOnColorChangedListener(new ColorPickerDialog.OnColorChangedListener() {
             @Override
             public void onColorChanged(int color) {

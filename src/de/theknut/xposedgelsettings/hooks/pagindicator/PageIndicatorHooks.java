@@ -9,6 +9,7 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import de.theknut.xposedgelsettings.hooks.common.CommonHooks;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
@@ -21,7 +22,7 @@ public class PageIndicatorHooks {
             XposedBridge.hookAllMethods(Classes.PagedView, "onAttachedToWindow", new OnAttachedToWindowHook());
 
             // sets the height of the page indicator to 0
-            XposedBridge.hookAllConstructors(Classes.DeviceProfile, new DeviceProfileConstructorHook());
+            CommonHooks.DeviceProfileConstructorListeners.add(new DeviceProfileConstructorHook());
 
             // reduce the bottom margin height in app drawer
             if (Common.IS_TREBUCHET) {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Xposed GEL Settings</string>
+    <string name="app_description">Google Now Launcher the way you want it to be</string>
     <string name="pref_hide_google_search_bar_title">Ausblenden</string>
     <string name="pref_autohide_google_search_bar_title">Dynamisch</string>
     <string name="pref_autohide_google_search_bar_summary">Automatisch auf Google Now anzeigen</string>

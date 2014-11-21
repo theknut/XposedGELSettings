@@ -12,9 +12,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.Theme;
+
+import java.util.Arrays;
+import java.util.List;
+
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
+import de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen;
+import de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference;
 
 public class FragmentGeneral extends FragmentBase {
 	
@@ -53,8 +61,8 @@ public class FragmentGeneral extends FragmentBase {
 
         findPreference("enablerotation").setOnPreferenceChangeListener(onChangeListenerFullReboot);
 
-        final CustomSwitchPreference resizeallwidgets = (CustomSwitchPreference) findPreference("resizeallwidgets");
-        final CustomSwitchPreference overlappingWidgets = (CustomSwitchPreference) findPreference("overlappingwidgets");
+        final SwitchCompatPreference resizeallwidgets = (SwitchCompatPreference) findPreference("resizeallwidgets");
+        final SwitchCompatPreference overlappingWidgets = (SwitchCompatPreference) findPreference("overlappingwidgets");
 
         resizeallwidgets.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -76,26 +84,64 @@ public class FragmentGeneral extends FragmentBase {
             }
         });
 
-        final MyListPreference contextmenuMode = (MyListPreference) findPreference("contextmenumode");
-        contextmenuMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-
+        final MyPreferenceScreen contextmenuMode = (MyPreferenceScreen) findPreference("contextmenumode");
+        final int modeIdx = Integer.parseInt(sharedPrefs.getString("contextmenumode", "3"));
+        contextmenuMode.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-
-                MyListPreference pref = (MyListPreference) preference;
-                pref.setSummary(pref.getEntries()[pref.findIndexOfValue((String) newValue)]);
-
-                return true;
+            public boolean onPreferenceClick(Preference preference) {
+                new MaterialDialog.Builder(mActivity)
+                        .theme(Theme.DARK)
+                        .title(R.string.pref_contextmenu_mode_title)
+                        .items(getResources().getStringArray(R.array.contextmenu_mode_entries))
+                        .itemsCallbackSingleChoice(Integer.parseInt(sharedPrefs.getString("contextmenumode", "3")), new MaterialDialog.ListCallback() {
+                            @Override
+                            public void onSelection(MaterialDialog dialog, View view, int which, String text) {
+                                // due to legacy reasons we need to save it as string
+                                sharedPrefs.edit().putString("contextmenumode", "" + which).apply();
+                                contextmenuMode.setSummary(text);
+                                dialog.dismiss();
+                            }
+                        })
+                        .build()
+                        .show();
+                return false;
             }
         });
-        contextmenuMode.setSummary(contextmenuMode.getEntry());
-//////
+        contextmenuMode.setSummary(getResources().getStringArray(R.array.contextmenu_mode_entries)[modeIdx]);
+
+        final MyPreferenceScreen scrollSpeed = (MyPreferenceScreen) findPreference("scrolldevider");
+        final List<String> values = Arrays.asList(getResources().getStringArray(R.array.general_scroll_devider_values));
+        final int currSelection = Integer.parseInt(sharedPrefs.getString("scrolldevider", "10"));
+        final int speedIdx = values.indexOf("" + currSelection);
+        scrollSpeed.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                new MaterialDialog.Builder(mActivity)
+                        .theme(Theme.DARK)
+                        .title(R.string.pref_general_scroll_devider_title)
+                        .items(getResources().getStringArray(R.array.general_scroll_devider_entries))
+                        .itemsCallbackSingleChoice(values.indexOf("" + Integer.parseInt(sharedPrefs.getString("scrolldevider", "10"))), new MaterialDialog.ListCallback() {
+                            @Override
+                            public void onSelection(MaterialDialog dialog, View view, int which, String text) {
+                                // due to legacy reasons we need to save it as string
+                                sharedPrefs.edit().putString("scrolldevider", getResources().getStringArray(R.array.general_scroll_devider_values)[which]).apply();
+                                scrollSpeed.setSummary(text);
+                                dialog.dismiss();
+                            }
+                        })
+                        .build()
+                        .show();
+                return false;
+            }
+        });
+        scrollSpeed.setSummary(getResources().getStringArray(R.array.general_scroll_devider_entries)[speedIdx]);
+
         findPreference("continuousscrollwithappdrawer").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 if ((Boolean) newValue) {
                     SharedPreferences.Editor editor = mContext.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).edit();
-                    editor.remove("appdrawerswipetabs").commit();
+                    editor.remove("appdrawerswipetabs").apply();
                 }
                 return true;
             }

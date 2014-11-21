@@ -2,19 +2,16 @@ package de.theknut.xposedgelsettings.hooks.androidintegration;
 
 import android.content.Intent;
 
-import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
-
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
-import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import de.theknut.xposedgelsettings.hooks.common.CommonHooks;
+import de.theknut.xposedgelsettings.hooks.common.XGELSCallback;
 
-import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
-import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
 
 /**
@@ -25,9 +22,9 @@ public class SystemBars extends HooksBaseClass {
     public static void initAllHooks(LoadPackageParam lpparam) {
 
         if (PreferencesHelper.transparentSystemBars) {
-            findAndHookMethod(Classes.Launcher, "onResume", new XC_MethodHook() {
+            CommonHooks.LauncherOnResumeListeners.add(new XGELSCallback() {
                 @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
 
                     boolean show = ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lHasCustomContentToLeft)
                             && getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage) == 0);
@@ -36,32 +33,32 @@ public class SystemBars extends HooksBaseClass {
                 }
             });
 
-            findAndHookMethod(Classes.Launcher, "onPause", new XC_MethodHook() {
+            CommonHooks.LauncherOnPauseListeners.add(new XGELSCallback() {
                 @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
                     setGradientVisbility(true);
                 }
             });
 
             if (Common.PACKAGE_OBFUSCATED) {
-                findAndHookMethod(Classes.NowOverlay, Methods.noOnShow, boolean.class, boolean.class, new XC_MethodHook() {
+                CommonHooks.OnNowShowListeners.add(new XGELSCallback() {
                     @Override
-                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
                         setGradientVisbility(true);
                     }
                 });
             }
 
-            hookAllMethods(Classes.PagedView, Methods.pvPageBeginMoving, new XC_MethodHook() {
+            CommonHooks.PageBeginMovingListeners.add(new XGELSCallback() {
                 @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
                     setGradientVisbility(false);
                 }
             });
 
-            hookAllMethods(Classes.PagedView, Methods.pvPageEndMoving, new XC_MethodHook() {
+            CommonHooks.PageEndMovingListeners.add(new XGELSCallback() {
                 @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
                     boolean show = ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lHasCustomContentToLeft)
                             && getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage) == 0);
 
@@ -69,10 +66,9 @@ public class SystemBars extends HooksBaseClass {
                 }
             });
 
-            findAndHookMethod(Classes.Workspace, Methods.wMoveToDefaultScreen, boolean.class, new XC_MethodHook() {
+            CommonHooks.MoveToDefaultScreenListeners.add(new XGELSCallback() {
                 @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-
+                public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
                     setGradientVisbility(false);
                 }
             });

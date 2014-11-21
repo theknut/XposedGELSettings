@@ -41,6 +41,8 @@ import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.Utils;
 import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.FolderHelper;
 import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelper;
+import de.theknut.xposedgelsettings.hooks.common.CommonHooks;
+import de.theknut.xposedgelsettings.hooks.common.XGELSCallback;
 import de.theknut.xposedgelsettings.ui.Blur;
 import de.theknut.xposedgelsettings.ui.CommonUI;
 
@@ -66,9 +68,7 @@ public class IconHooks extends HooksBaseClass {
             String pkg = intent.getDataString().replace("package:", "");
             List<String> packages = CommonUI.getIconPacks(context);
 
-            if (Common.IS_PRE_GNL_4) {
-                TabHelper.getInstance().updateTabs();
-            }
+            TabHelper.getInstance().updateTabs();
 
             if (intent.getAction().equals(Intent.ACTION_PACKAGE_ADDED)) {
                 if (!packages.contains(pkg)) return;
@@ -87,9 +87,7 @@ public class IconHooks extends HooksBaseClass {
             } else if (intent.getAction().equals(Intent.ACTION_PACKAGE_REMOVED)) {
                 if (!intent.getBooleanExtra(Intent.EXTRA_REPLACING, false)) {
 
-                    if (Common.IS_PRE_GNL_4) {
-                        FolderHelper.getInstance().updateFolders(pkg);
-                    }
+                    FolderHelper.getInstance().updateFolders(pkg);
 
                     if (PreferencesHelper.iconpack.equals(pkg)) {
                         savePackageName(Common.ICONPACK_DEFAULT, context);
@@ -126,7 +124,7 @@ public class IconHooks extends HooksBaseClass {
 
     public static void initAllHooks(LoadPackageParam lpparam) {
 
-        if (PreferencesHelper.iconpack == Common.ICONPACK_DEFAULT) {
+        if (PreferencesHelper.iconpack.equals(Common.ICONPACK_DEFAULT)) {
 
             for (ResolveInfo r : getCalendars()) {
                 if (r.activityInfo.metaData != null) {
@@ -150,9 +148,9 @@ public class IconHooks extends HooksBaseClass {
             }
         });
 
-        findAndHookMethod(Classes.Launcher, "onStart", new XC_MethodHook() {
+        CommonHooks.LauncherOnStartListeners.add(new XGELSCallback() {
             @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+            public void onAfterHookedMethod(MethodHookParam param) throws Throwable {
                 if ((IconPack.getDayOfMonth()) != Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) {
                     iconPack.onDateChanged();
                     checkCalendarApps();
@@ -341,19 +339,20 @@ public class IconHooks extends HooksBaseClass {
             }
         });
 
-        findAndHookMethod(Classes.CellLayout, Methods.clAddViewToCellLayout, View.class, Integer.TYPE, Integer.TYPE, Classes.CellLayoutLayoutParams, boolean.class, new XC_MethodHook(PRIORITY_LOWEST) {
+        CommonHooks.AddViewToCellLayoutListeners.add(0, new XGELSCallback() {
             @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+            public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
                 if (param.args[0].getClass().equals(Classes.FolderIcon)) {
                     setFolderIcon((View) param.args[0]);
                 }
             }
         });
 
-        findAndHookMethod(Classes.FolderIcon, "dispatchDraw", Canvas.class, new XC_MethodHook() {
+        CommonHooks.FolderIconDispatchDrawListeners.add(0, new XGELSCallback() {
             Object mFolder = null;
             @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+            public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
+                mFolder = null;
                 if (null != Utils.getDataByTag(PreferencesHelper.folderIcons, ((View) param.thisObject).getTag())) {
                     mFolder = getObjectField(param.thisObject, Fields.fiFolder);
                     setObjectField(param.thisObject, Fields.fiFolder, null);
@@ -361,7 +360,7 @@ public class IconHooks extends HooksBaseClass {
             }
 
             @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+            public void onAfterHookedMethod(MethodHookParam param) throws Throwable {
                 if (mFolder != null) {
                     setObjectField(param.thisObject, Fields.fiFolder, mFolder);
                     mFolder = null;
@@ -374,12 +373,12 @@ public class IconHooks extends HooksBaseClass {
             for (String selectedIcon : PreferencesHelper.selectedIcons) {
                 if (selectedIcon.split("\\|")[0].equals("all_apps_button_icon")) {
 
-                    findAndHookMethod(Classes.CellLayout, Methods.clAddViewToCellLayout, View.class, Integer.TYPE, Integer.TYPE, Classes.CellLayoutLayoutParams, boolean.class, new XC_MethodHook() {
+                    CommonHooks.AddViewToCellLayoutListeners.add(new XGELSCallback() {
 
                         final int ITEM_TYPE_ALLAPPS = 5; // Trebuchet
 
                         @Override
-                        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
                             Object tag = ((View) param.args[0]).getTag();
                             if (param.args[0] instanceof TextView
                                     && (!getBooleanField(param.args[3], Fields.cllpCanReorder) || (tag != null && getIntField(tag, Fields.iiItemType) == ITEM_TYPE_ALLAPPS))) {
@@ -558,9 +557,9 @@ public class IconHooks extends HooksBaseClass {
     }
 
     public static List<ResolveInfo> getCalendars() {
-        if (Common.LAUNCHER_CONTEXT == null) return new ArrayList<ResolveInfo>();
+        if (Common.XGELSCONTEXT == null) return new ArrayList<ResolveInfo>();
 
-        PackageManager packageManager = Common.LAUNCHER_CONTEXT.getPackageManager();
+        PackageManager packageManager = Common.XGELSCONTEXT.getPackageManager();
         Intent calendarIntent = new Intent(Intent.ACTION_MAIN);
         calendarIntent.addCategory("android.intent.category.LAUNCHER");
         calendarIntent.addCategory("android.intent.category.APP_CALENDAR");

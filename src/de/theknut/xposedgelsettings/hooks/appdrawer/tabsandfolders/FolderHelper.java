@@ -189,7 +189,7 @@ public final class FolderHelper {
                     intent.putStringArrayListExtra("items", items);
                     Common.LAUNCHER_CONTEXT.startActivity(intent);
 
-                    Common.CURRENT_FOLDER = folder.getFolderIcon();
+                    Common.CURRENT_CONTEXT_MENU_ITEM = folder.getFolderIcon();
                 }
             });
 
@@ -209,6 +209,7 @@ public final class FolderHelper {
                     long itemid = folder.getId();
 
                     removeFolder(folder);
+
                     TabHelper.getInstance().invalidate();
 
                     Intent intent = getBaseIntent(false, itemid, null);
@@ -227,13 +228,12 @@ public final class FolderHelper {
                     Intent intent = getBaseIntent(false, folder.getId(), folder.getTitle());
                     Common.LAUNCHER_CONTEXT.startActivity(intent);
 
-                    Object mAppsCustomizePane = getObjectField(TabHelper.getInstance().getTabHost(), Fields.acthAppsCustomizePane);
-                    ArrayList allApps = (ArrayList) getObjectField(mAppsCustomizePane, Fields.acpvAllApps);
+                    ArrayList allApps = (ArrayList) getObjectField(Common.APP_DRAWER_INSTANCE, Fields.acpvAllApps);
                     for (String app : folder.getRawData()) {
                         allApps.add(Utils.createAppInfo(ComponentName.unflattenFromString(app)));
                     }
 
-                    callMethod(mAppsCustomizePane, Methods.acpvSetApps, allApps);
+                    callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSetApps, allApps);
                     TabHelper.getInstance().invalidate();
                 }
             });
@@ -293,20 +293,19 @@ public final class FolderHelper {
             folders.remove(folder);
 
             if (folder.hideFromAppsPage()) {
-                Object mAppsCustomizePane = getObjectField(TabHelper.getInstance().getTabHost(), Fields.acthAppsCustomizePane);
-                ArrayList allApps = (ArrayList) getObjectField(mAppsCustomizePane, Fields.acpvAllApps);
+                ArrayList allApps = (ArrayList) getObjectField(Common.APP_DRAWER_INSTANCE, Fields.acpvAllApps);
                 for (String app : folder.getRawData()) {
                     allApps.add(Utils.createAppInfo(ComponentName.unflattenFromString(app)));
                 }
 
-                callMethod(mAppsCustomizePane, Methods.acpvSetApps, allApps);
+                callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSetApps, allApps);
             }
         }
     }
 
     public ArrayList<String> getAppsToHide() {
         ArrayList apps = new ArrayList();
-        if (Common.IS_TREBUCHET || !Common.IS_PRE_GNL_4) return apps;
+        if (Common.IS_TREBUCHET) return apps;
 
         for (Folder folder : folders) {
             if (folder.hideFromAppsPage()) {

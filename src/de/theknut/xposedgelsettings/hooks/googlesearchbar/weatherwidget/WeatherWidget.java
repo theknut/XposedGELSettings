@@ -1,6 +1,6 @@
 package de.theknut.xposedgelsettings.hooks.googlesearchbar.weatherwidget;
 
-import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -13,17 +13,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.Utils;
+import de.theknut.xposedgelsettings.hooks.common.CommonHooks;
+import de.theknut.xposedgelsettings.hooks.common.XGELSCallback;
 import de.theknut.xposedgelsettings.hooks.googlesearchbar.GetWorkspacePaddingHook;
 
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
@@ -31,6 +36,7 @@ import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
+import static de.robv.android.xposed.XposedHelpers.getFloatField;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
@@ -42,47 +48,24 @@ public class WeatherWidget extends HooksBaseClass {
     static Object weatherEntry;
     private static LinearLayout widget;
     private static LinearLayout widgetContentHolder;
+    static View ospc;
 
     static WidgetSettings widgetSettings = new WidgetSettings();
 
     public static void initAllHooks(final LoadPackageParam lpparam) {
 
-        if (!PreferencesHelper.hideSearchBar && Common.PACKAGE_OBFUSCATED && Common.IS_PRE_GNL_4) {
+        if (!PreferencesHelper.hideSearchBar && Common.PACKAGE_OBFUSCATED) {
 
             if (PreferencesHelper.searchBarWeatherWidget) {
 
-//                findAndHookMethod(Classes.NowOverlay, Methods.noOnShow, boolean.class, boolean.class, new XC_MethodHook() {
-//                    @Override
-//                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-//                        log("#############");
-//                        log("dSi getDescription " + callMethod(getObjectField(weatherEntry, "dSi"), "getDescription"));
-//                        log("dSi getLabel " + callMethod(getObjectField(weatherEntry, "dSi"), "getLabel"));
-//                        log("dSi abT" + getObjectField(getObjectField(weatherEntry, "dSi"), "abT"));
-//                        log("dSi dSm" + getObjectField(getObjectField(weatherEntry, "dSi"), "dSm"));
-//                        log("dSi dSn" + getObjectField(getObjectField(weatherEntry, "dSi"), "dSn"));
-//                        log("dSi dSo" + getObjectField(getObjectField(weatherEntry, "dSi"), "dSo"));
-//                        log("dSi dSp" + getObjectField(getObjectField(weatherEntry, "dSi"), "dSp"));
-//                        log("dSi dSq" + getObjectField(getObjectField(weatherEntry, "dSi"), "dSq"));
-//                        log("dSi dmR" + getObjectField(getObjectField(weatherEntry, "dSi"), "dmR"));
-//                        log("dSi dzE" + getObjectField(getObjectField(weatherEntry, "dSi"), "dzE"));
-//                        log("dSi dzt" + getObjectField(getObjectField(weatherEntry, "dSi"), "dzt"));
-//                        log("dSi dSs" + getObjectField(getObjectField(weatherEntry, "dSi"), "dSs"));
-//                        log("dSi dSr" + getObjectField(getObjectField(weatherEntry, "dSi"), "dSr"));
-//                        log("abV Addr " + callMethod(getObjectField(weatherEntry, "abV"), "getAddress"));
-//                        log("abV Name " + callMethod(getObjectField(weatherEntry, "abV"), "getName"));
-//                        log("#############");
-//                    }
-//                });
-
-                hookAllConstructors(findClass("euo", lpparam.classLoader), new XC_MethodHook() {
+                hookAllConstructors(Classes.WeatherPoint, new XC_MethodHook() {
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                        //log("get " + getObjectField(param.thisObject, "bXY").getClass().getName());
-                        weatherEntry = getObjectField(getObjectField(param.thisObject, "bXY"), "dwH");
+                        weatherEntry = param.thisObject;
                     }
                 });
 
-                findAndHookMethod(Classes.WeatherEntryAdapter, Methods.weaAddCurrentConditions, Context.class, Classes.UriLoader, Classes.WeatherPoint, View.class, new XC_MethodHook() {
+                findAndHookMethod(Classes.WeatherEntryAdapter, Methods.weaUpdateWeather, new XC_MethodHook() {
 
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
@@ -91,91 +74,155 @@ public class WeatherWidget extends HooksBaseClass {
                         final Animation fadeOut = AnimationUtils.loadAnimation(Common.XGELSCONTEXT, R.anim.weather_fade_out);
                         fadeOut.setAnimationListener(new Animation.AnimationListener() {
                             @Override
-                            public void onAnimationStart(Animation animation) { }
+                            public void onAnimationStart(Animation animation) {
+                                widget.setVisibility(View.INVISIBLE);
+                            }
 
                             @Override
                             public void onAnimationEnd(Animation animation) {
-
-                                for (int i = 0; i < widgetContentHolder.getChildCount(); i++) {
-                                    View item = widgetContentHolder.getChildAt(i);
-                                    if (isCity(item)) {
-                                        ((TextView) item).setText(getCity());
-                                    } else if (isTemperature(item)) {
-                                        ((TextView) item).setText(getTemperatur());
-                                    } else if (isWeatherDescription(item)) {
-                                        ((TextView) item).setText(getWeatherDescription());
-                                    }
-                                }
-
+                                widget.setVisibility(View.VISIBLE);
+                                updateWeatherContent();
                                 widget.startAnimation(AnimationUtils.loadAnimation(Common.XGELSCONTEXT, R.anim.weather_fade_in));
-                            }
-
-                            private String getWeatherDescription() {
-                                return (String) callMethod(getObjectField(weatherEntry, "dSi"), "getDescription");
-                            }
-
-                            private String getTemperatur() {
-                                return getIntField(getObjectField(weatherEntry, "dSi"), "dSm") + "°" + widgetSettings.unit;
-                            }
-
-                            private String getCity() {
-                                return (String) callMethod(getObjectField(weatherEntry, "abV"), "getName");
                             }
 
                             @Override
                             public void onAnimationRepeat(Animation animation) { }
                         });
 
-                        widget.setAnimation(fadeOut);
+                        if (((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lIsAllAppsVisible) // workspace state is not normal
+                                || !getObjectField(Common.WORKSPACE_INSTANCE, Fields.wState).toString().equals("NORMAL"))
+                                || ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lHasCustomContentToLeft) // is on G Now page
+                                    && getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage) == 0)
+                                || Common.LAUNCHER_CONTEXT.getResources().getConfiguration().orientation != Configuration.ORIENTATION_PORTRAIT) { // is not in portrait mode
+                            widget.setVisibility(View.GONE);
+                            updateWeatherContent();
+                        } else {
+                            widget.startAnimation(fadeOut);
+                        }
                     }
                 });
 
-                findAndHookMethod(Classes.DeviceProfile, Methods.dpGetWorkspacePadding, Integer.TYPE, new GetWorkspacePaddingHook());
+                CommonHooks.GetWorkspacePaddingListeners.add(new GetWorkspacePaddingHook());
 
-                XC_MethodHook hook = new XC_MethodHook() {
+                CommonHooks.OnDragStartListeners.add(new XGELSCallback() {
+                    @Override
+                    public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
+                        fadeOut(175);
+                    }
+                });
+                CommonHooks.OnDragEndListeners.add(new XGELSCallback() {
+                    @Override
+                    public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
+                        fadeIn(0);
+                    }
+                });
+
+                XposedBridge.hookAllConstructors(findClass("com.google.android.search.shared.ui.ReverseDrawRestrictedLayout", lpparam.classLoader), new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        ospc = (View) param.thisObject;
+                    }
+                });
+
+                findAndHookMethod(Classes.Workspace, Methods.wUpdateStateForCustomContent, Integer.TYPE, new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        if (widgetContentHolder == null ||
+                                Common.LAUNCHER_CONTEXT.getResources().getConfiguration().orientation != Configuration.ORIENTATION_PORTRAIT) {
+                            return;
+                        }
+
+                        widget.setVisibility(View.VISIBLE);
+                        widget.setAlpha(1 - getFloatField(param.thisObject, Fields.wLastCustomContentScrollProgress));
+                        widget.setTranslationY(ospc.getTranslationY());
+                    }
+                });
+
+                findAndHookMethod(Classes.SearchPlate, Methods.spOnModeChanged, Integer.TYPE, Integer.TYPE, new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                        ViewGroup parent = (ViewGroup) ((ViewGroup) getObjectField(Common.LAUNCHER_INSTANCE, ObfuscationHelper.Fields.lSearchDropTargetBar)).getParent();
-                        if (parent.getTag() != null) {
-                            ViewGroup widget = (ViewGroup) parent.getTag();
-                            widget.animate().alpha(0f).setDuration(175).start();
+                        if ((Integer) param.args[0] > 0) {
+                            fadeOut(0);
+                        } else {
+                            fadeIn(500);
                         }
                     }
-                };
+                });
 
-                // show DropDeleteTarget on dragging items
-                if (Common.PACKAGE_OBFUSCATED) {
-                    // this is actually not DragSource but the parameter type is unknown as of now
-                    findAndHookMethod(Classes.SearchDropTargetBar, Methods.sdtbOnDragStart, Classes.DragSource, Object.class, hook);
-                } else {
-                    hookAllMethods(Classes.SearchDropTargetBar, Methods.sdtbOnDragStart, hook);
-                }
-
-                hookAllMethods(Classes.SearchDropTargetBar, Methods.sdtbOnDragEnd, new XC_MethodHook() {
+                CommonHooks.EnterOverviewModeListeners.add(new XGELSCallback() {
                     @Override
-                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                        ViewGroup parent = (ViewGroup) ((ViewGroup) getObjectField(Common.LAUNCHER_INSTANCE, ObfuscationHelper.Fields.lSearchDropTargetBar)).getParent();
-                        if (parent.getTag() != null) {
-                            ViewGroup widget = (ViewGroup) parent.getTag();
-                            widget.animate().alpha(1f).setDuration(200).start();
-                        }
+                    public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
+                        log("Enter");
+                        fadeOut(0);
+                    }
+
+                    @Override
+                    public void onAfterHookedMethod(MethodHookParam param) throws Throwable {
+                        log("E2");
+                        fadeOut(0);
+                    }
+                });
+
+                findAndHookMethod(Classes.Launcher, Methods.lShowWorkspace, boolean.class, Runnable.class, new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        fadeIn(1000);
                     }
                 });
             }
         }
     }
 
-    public static void maybeAddWidget() {
-        ViewGroup searchBar = ((ViewGroup) getObjectField(Common.LAUNCHER_INSTANCE, ObfuscationHelper.Fields.lSearchDropTargetBar));
-        ViewGroup parent = (ViewGroup) searchBar.getParent();
+    public static void fadeOut(int duration) {
+        ViewGroup parent = (ViewGroup) ((ViewGroup) getObjectField(Common.LAUNCHER_INSTANCE, Fields.lSearchDropTargetBar)).getParent();
         if (parent.getTag() != null) {
-            widget = (LinearLayout) parent.getTag();
-        } else {
-            addWeatherWidget(searchBar);
+            ViewGroup widget = (ViewGroup) parent.getTag();
+            widget.animate().alpha(0f).setDuration(duration).start();
         }
     }
 
-    //public static final byte CONTENT_CITY = 0xAA
+    public static void fadeIn(int startDelay) {
+        ViewGroup parent = (ViewGroup) ((ViewGroup) getObjectField(Common.LAUNCHER_INSTANCE, Fields.lSearchDropTargetBar)).getParent();
+        if (parent.getTag() != null) {
+            ViewGroup widget = (ViewGroup) parent.getTag();
+            widget.animate().alpha(1f).setDuration(200).setStartDelay(startDelay).start();
+        }
+    }
+
+    private static void updateWeatherContent() {
+        for (int i = 0; i < widgetContentHolder.getChildCount(); i++) {
+            View item = widgetContentHolder.getChildAt(i);
+            if (isCity(item)) {
+                ((TextView) item).setText(getCity());
+            } else if (isTemperature(item)) {
+                ((TextView) item).setText(getTemperatur());
+            } else if (isWeatherDescription(item)) {
+                ((TextView) item).setText(getWeatherDescription());
+            }
+        }
+    }
+
+    private static String getWeatherDescription() {
+        return (String) callMethod(weatherEntry, Methods.wpGetWeatherDescription);
+    }
+
+    private static String getTemperatur() {
+        return callMethod(weatherEntry, Methods.wpGetTemperatur) + widgetSettings.unit;
+    }
+
+    private static String getCity() {
+        return (String) callMethod(weatherEntry, "getLocation");
+    }
+
+    public static void maybeAddWidget() {
+        ViewGroup searchDropTargetBar = ((ViewGroup) getObjectField(Common.LAUNCHER_INSTANCE, Fields.lSearchDropTargetBar));
+        ViewGroup parent = (ViewGroup) searchDropTargetBar.getParent();
+        if (parent.getTag() != null) {
+            widget = (LinearLayout) parent.getTag();
+        } else {
+            addWeatherWidget(searchDropTargetBar);
+        }
+    }
 
     private static void addWeatherWidget(ViewGroup searchBar) {
         ViewGroup parent = ((ViewGroup) searchBar.getParent());
@@ -207,7 +254,6 @@ public class WeatherWidget extends HooksBaseClass {
     }
 
     private static boolean isCity(View view) {
-        log(view.getTag() + " " +( ((Integer) view.getTag()) & WidgetSettings.CONTENT_CITY));
         return (((Integer) view.getTag()) & WidgetSettings.TEXTMASK) == WidgetSettings.CONTENT_CITY;
     }
 
@@ -225,7 +271,6 @@ public class WeatherWidget extends HooksBaseClass {
         TextView textView = new TextView(Common.XGELSCONTEXT);
         textView.setTag(content);
         textView.setTextColor(widgetSettings.textColor);
-        log("Add " + content);
         if (widgetSettings.textSize != -1) {
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
         }
@@ -266,8 +311,9 @@ public class WeatherWidget extends HooksBaseClass {
                             "textShadow=" + "" + Boolean.toString(true) + "|" +
                             "textColor=" + "" + Color.WHITE + "|" +
                             "divider=" + "-" + "|" +
-                            "unit=" + "C" + "|" +
                             "contents=" + CONTENT_CITY + "#" + CONTENT_WEATHER_DESCRIPTION + "#" + CONTENT_TEMPERATURE;
+
+            getDefaultUnit();
 
             for (String setting : settings.split("\\|")) {
                 if (setting.startsWith("gravity=")) {
@@ -292,6 +338,14 @@ public class WeatherWidget extends HooksBaseClass {
             }
         }
 
-
+        public void getDefaultUnit() {
+            String countryCode = Locale.getDefault().getCountry();
+            if ("US".equals(countryCode) // USA
+                    || "LR".equals(countryCode) // liberia
+                    || "MM".equals(countryCode)) {// burma
+                this.unit = "F";
+            }
+            this.unit = "C";
+        }
     }
 }

@@ -1,32 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
        	android:key="needsDonate"
 	    android:title="@string/pref_icon_premium_title"
 	    android:summary="@string/pref_icon_premium_summary"
 	    android:selectable="false" />
-    <de.theknut.xposedgelsettings.ui.MyListPreference
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
 		android:key="iconpack"
-		android:defaultValue="DEFAULT"
-		android:title="@string/pref_icon_chooseiconpack_title"
-		android:dialogTitle="@string/pref_icon_chooseiconpack_dialog_title" />
-    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+		android:title="@string/pref_icon_chooseiconpack_title" />
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
         android:key="support"
 	    android:title=" "
 	    android:summary="\n\n" />
-    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
         android:key="selectiveicon"
 	    android:title="@string/pref_icon_perappicon_title"
 	    android:summary="@string/pref_icon_perappicon_summary" />
-    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
         android:key="allappsbuttonicon"
 	    android:title="@string/pref_icon_allappsbutton_title"
 	    android:summary="@string/pref_icon_allappsbutton_summary" />
-    <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+    <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
 		android:key="autoupdateapplyiconpack"
 		android:title="@string/pref_icon_auto_apply_title"
 		android:summary="@string/pref_icon_auto_apply_summary" />
-    <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+    <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
         android:key="hideiconpacks"
         android:title="@string/pref_icon_hide_icon_packs_title"
         android:summary="@string/pref_icon_hide_icon_packs_summary" />

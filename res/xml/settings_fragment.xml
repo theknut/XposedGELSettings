@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
        	android:key="needsDonate"
 	    android:title="@string/pref_limited_title"
 	    android:summary="@string/pref_limited_summary"
 	    android:selectable="false"/>
-    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen 
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
       android:key="showchangelog"
       android:title="@string/changelog_full_title" />
-    <de.theknut.xposedgelsettings.ui.MyCheckboxPreference 
+    <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
       android:key="autokilllauncher"
       android:title="@string/pref_autokill_launcher_title"
       android:summary="@string/pref_autokill_launcher_summary" />
-    <de.theknut.xposedgelsettings.ui.MyCheckboxPreference 
+    <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
       android:key="debug"
       android:title="@string/pref_debug" />
-    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen 
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
       android:key="sendbugreport"
       android:title="@string/pref_send_bugreport" />
-    <de.theknut.xposedgelsettings.ui.MyCheckboxPreference
+    <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
         android:key="autoblurimage"
         android:title="@string/pref_auto_blur_wallpaper_title"
     	android:summary="@string/pref_auto_blur_wallpaper_summary" />
-    <de.theknut.xposedgelsettings.ui.MyCheckboxPreference
+    <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
         android:key="nobackgroundimage"
         android:title="@string/pref_xgels_no_background_image_title" />
-    <de.theknut.xposedgelsettings.ui.MyCheckboxPreference
+    <de.theknut.xposedgelsettings.ui.preferences.MyCheckboxPreference
         android:key="forceenglishlocale"
         android:title="@string/pref_force_english_locale_title" />
 </PreferenceScreen>

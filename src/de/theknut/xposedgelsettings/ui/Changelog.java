@@ -17,14 +17,15 @@ package de.theknut.xposedgelsettings.ui;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.webkit.WebView;
+
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.Theme;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,6 +33,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import de.theknut.xposedgelsettings.R;
+import de.theknut.xposedgelsettings.hooks.Utils;
 
 public class Changelog {
 
@@ -139,41 +141,27 @@ public class Changelog {
     private AlertDialog getDialog(boolean full) {
         WebView wv = new WebView(this.context);
 
+        wv.setPadding(0, Utils.dpToPx(5), 0, 0);
         wv.setBackgroundColor(Color.BLACK);
         wv.loadDataWithBaseURL(null, this.getLog(full), "text/html", "UTF-8",
                 null);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(
-                new ContextThemeWrapper(
-                        this.context, android.R.style.Theme_Holo_Dialog_NoActionBar));
-        builder.setTitle(
-                context.getResources().getString(
-                        full ? R.string.changelog_full_title
-                                : R.string.changelog_title))
-                .setView(wv)
-                .setCancelable(false)
-                // OK button
-                .setPositiveButton(
+        return new MaterialDialog.Builder(this.context)
+                .theme(Theme.DARK)
+                .autoDismiss(true)
+                .title(
                         context.getResources().getString(
-                                android.R.string.ok),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,
-                                    int which) {
-                                updateVersionInPreferences();
-                            }
-                        });
-
-        if (!full) {
-            // "more ..." button
-            builder.setNegativeButton(R.string.changelog_show_full,
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            getFullLogDialog().show();
-                        }
-                    });
-        }
-
-        return builder.create();
+                                full ? R.string.changelog_full_title
+                                        : R.string.changelog_title))
+                .customView(wv)
+                .positiveText(android.R.string.ok)
+                .callback(new MaterialDialog.SimpleCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog materialDialog) {
+                        updateVersionInPreferences();
+                    }
+                })
+                .build();
     }
 
     private void updateVersionInPreferences() {
@@ -225,7 +213,7 @@ public class Changelog {
 
             String line = null;
             boolean advanceToEOVS = false; // if true: ignore further version
-                                            // sections
+            // sections
             while ((line = br.readLine()) != null) {
                 line = line.trim();
                 char marker = line.length() > 0 ? line.charAt(0) : 0;
@@ -243,38 +231,38 @@ public class Changelog {
                     }
                 } else if (!advanceToEOVS) {
                     switch (marker) {
-                    case '%':
-                        // line contains version title
-                        this.closeList();
-                        sb.append("<div class='title'>"
-                                + line.substring(1).trim() + "</div>\n");
-                        break;
-                    case '_':
-                        // line contains version title
-                        this.closeList();
-                        sb.append("<div class='subtitle'>"
-                                + line.substring(1).trim() + "</div>\n");
-                        break;
-                    case '!':
-                        // line contains free text
-                        this.closeList();
-                        sb.append("<div class='freetext'>"
-                                + line.substring(1).trim() + "</div>\n");
-                        break;
-                    case '#':
-                        // line contains numbered list item
-                        this.openList(Listmode.ORDERED);
-                        sb.append("<li>" + line.substring(1).trim() + "</li>\n");
-                        break;
-                    case '*':
-                        // line contains bullet list item
-                        this.openList(Listmode.UNORDERED);
-                        sb.append("<li>" + line.substring(1).trim() + "</li>\n");
-                        break;
-                    default:
-                        // no special character: just use line as is
-                        this.closeList();
-                        sb.append(line + "\n");
+                        case '%':
+                            // line contains version title
+                            this.closeList();
+                            sb.append("<div class='title'>"
+                                    + line.substring(1).trim() + "</div>\n");
+                            break;
+                        case '_':
+                            // line contains version title
+                            this.closeList();
+                            sb.append("<div class='subtitle'>"
+                                    + line.substring(1).trim() + "</div>\n");
+                            break;
+                        case '!':
+                            // line contains free text
+                            this.closeList();
+                            sb.append("<div class='freetext'>"
+                                    + line.substring(1).trim() + "</div>\n");
+                            break;
+                        case '#':
+                            // line contains numbered list item
+                            this.openList(Listmode.ORDERED);
+                            sb.append("<li>" + line.substring(1).trim() + "</li>\n");
+                            break;
+                        case '*':
+                            // line contains bullet list item
+                            this.openList(Listmode.UNORDERED);
+                            sb.append("<li>" + line.substring(1).trim() + "</li>\n");
+                            break;
+                        default:
+                            // no special character: just use line as is
+                            this.closeList();
+                            sb.append(line + "\n");
                     }
                 }
             }

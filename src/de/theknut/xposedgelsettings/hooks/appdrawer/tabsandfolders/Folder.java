@@ -15,8 +15,6 @@ import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
-import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
-import de.theknut.xposedgelsettings.hooks.Utils;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
@@ -24,6 +22,7 @@ import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getLongField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.newInstance;
+import static de.robv.android.xposed.XposedHelpers.setBooleanField;
 import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
 /**
@@ -75,7 +74,9 @@ public class Folder extends AppDrawerItem implements View.OnLongClickListener, V
         if (folderIcon == null) {
             create(appsCustomizeCellLayout);
         } else {
-            ((ViewGroup) folderIcon.getParent()).removeView(folderIcon);
+            if (folderIcon.getParent() != null) {
+                ((ViewGroup) folderIcon.getParent()).removeView(folderIcon);
+            }
         }
         return folderIcon;
     }
@@ -99,10 +100,14 @@ public class Folder extends AppDrawerItem implements View.OnLongClickListener, V
                 folderIcon = (View) callStaticMethod(Classes.FolderIcon, Methods.fiFromXml, id, Common.LAUNCHER_INSTANCE, appsCustomizeCellLayout, folderInfo, getObjectField(Common.LAUNCHER_INSTANCE, Fields.lIconCache));
             }
 
-            EditText folderName = ((EditText) getObjectField(getObjectField(folderIcon, Fields.fiFolder), Fields.fFolderEditText));
-            folderName.setKeyListener(null);
+            TextView folderName = (TextView) getObjectField(folderIcon, Fields.fiFolderName);
+            setBooleanField(folderName, Fields.btvShadowsEnabled, false);
+            folderName.getPaint().clearShadowLayer();
+
+            EditText folderEditName = ((EditText) getObjectField(getObjectField(folderIcon, Fields.fiFolder), Fields.fFolderEditText));
+            folderEditName.setKeyListener(null);
             final Folder folder = this;
-            folderName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            folderEditName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
                     if (hasFocus) {
@@ -118,14 +123,14 @@ public class Folder extends AppDrawerItem implements View.OnLongClickListener, V
             ImageView background = (ImageView) getObjectField(folderIcon, Fields.fiPreviewBackground);
             ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) background.getLayoutParams();
 
-            double tmp = Utils.dpToPxExact(9) * (PreferencesHelper.iconSizeAppDrawer / 100.0);
-            double folderSize = Common.APP_DRAWER_ICON_SIZE + tmp;
-            layoutParams.height = layoutParams.width = (int) Math.ceil(folderSize);
+            int padding = getIntField(Common.DEVICE_PROFIL, "DK");
+            folderIcon.setPadding(0, padding, 0, 0);
+            layoutParams.height = layoutParams.width = (int) Math.ceil(Common.APP_DRAWER_ICON_SIZE);
 
             callMethod(callMethod(appsCustomizeCellLayout, Methods.clGetShortcutsAndWidgets), Methods.sawMeasureChild, folderIcon);
             TextView t = ((TextView) getObjectField(folderIcon, Fields.fiFolderName));
             t.setTextSize(0, getIntField(Common.DEVICE_PROFIL, Fields.dpIconTextSize));
-            ((ViewGroup.MarginLayoutParams) t.getLayoutParams()).setMargins(0, (int) Math.ceil(folderSize - tmp / 2), 0, 0);
+            ((ViewGroup.MarginLayoutParams) t.getLayoutParams()).setMargins(0, (int) Math.ceil(Common.APP_DRAWER_ICON_SIZE), 0, 0);
 
             addItems();
         }

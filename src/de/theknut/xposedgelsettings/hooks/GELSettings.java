@@ -13,6 +13,7 @@ import de.theknut.xposedgelsettings.hooks.androidintegration.SystemBars;
 import de.theknut.xposedgelsettings.hooks.androidintegration.SystemUIHooks;
 import de.theknut.xposedgelsettings.hooks.androidintegration.SystemUIReceiver;
 import de.theknut.xposedgelsettings.hooks.appdrawer.AppDrawerHooks;
+import de.theknut.xposedgelsettings.hooks.common.CommonHooks;
 import de.theknut.xposedgelsettings.hooks.general.ContextMenu;
 import de.theknut.xposedgelsettings.hooks.general.GeneralHooks;
 import de.theknut.xposedgelsettings.hooks.gestures.GestureHooks;
@@ -87,6 +88,7 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
         PreferencesHelper.init();
         ObfuscationHelper.init(lpparam, versionIdx);
 
+        long time = System.currentTimeMillis();
         // init all hooks...
         GeneralHooks.initAllHooks(lpparam);
         ContextMenu.initAllHooks(lpparam);
@@ -99,5 +101,7 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
         GestureHooks.initAllHooks(lpparam);
         NotificationBadgesHooks.initAllHooks(lpparam);
         IconHooks.initAllHooks(lpparam);
+        CommonHooks.initAllHooks(lpparam);
+        if (PreferencesHelper.Debug) XposedBridge.log("Installed hooks in " + (System.currentTimeMillis() - time) + "ms");
     }
 }

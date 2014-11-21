@@ -2,7 +2,6 @@ package de.theknut.xposedgelsettings.hooks.googlesearchbar;
 
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 
@@ -15,29 +14,30 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import de.theknut.xposedgelsettings.hooks.common.CommonHooks;
 import de.theknut.xposedgelsettings.hooks.googlesearchbar.weatherwidget.WeatherWidget;
 
-import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
-public class GoogleSearchBarHooks extends HooksBaseClass {
+public class
+        GoogleSearchBarHooks extends HooksBaseClass {
 
     public static void initAllHooks(final LoadPackageParam lpparam) {
 
         if (PreferencesHelper.hideSearchBar) {
             // hide Google Search Bar
-            findAndHookMethod(Classes.DeviceProfile, Methods.dpGetWorkspacePadding, Integer.TYPE, new GetWorkspacePaddingHook());
+            CommonHooks.GetWorkspacePaddingListeners.add(new GetWorkspacePaddingHook());
             findAndHookMethod(Classes.Launcher, "onCreate", Bundle.class, new LauncherOnCreateHook());
 
             if (PreferencesHelper.searchBarOnDefaultHomescreen) {
                 // show on default homescreen
-                findAndHookMethod(Classes.Launcher, "onResume", new LauncherOnResumeHook());
+                CommonHooks.LauncherOnResumeListeners.add(new LauncherOnResumeHook());
                 // hide search bar when the page is beeing moved
-                hookAllMethods(Classes.PagedView, Methods.pvPageBeginMoving, new OnPageBeginMovingHook());
+                CommonHooks.PageBeginMovingListeners.add(new OnPageBeginMovingHook());
                 // show search bar if GNow is visible
-                hookAllMethods(Classes.PagedView, Methods.pvPageEndMoving, new OnPageEndMovingHook());
+                CommonHooks.PageEndMovingListeners.add(new OnPageEndMovingHook());
 
                 if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE)) {
                     // avoid that nasty animation when showing the search bar again
@@ -56,12 +56,12 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
                 if (PreferencesHelper.autoHideSearchBar) {
 
                     // hide search bar when the page is beeing moved
-                    hookAllMethods(Classes.PagedView, Methods.pvPageBeginMoving, new OnPageBeginMovingHook());
+                    CommonHooks.PageBeginMovingListeners.add(new OnPageBeginMovingHook());
                     // show search bar if GNow is visible
-                    hookAllMethods(Classes.PagedView, Methods.pvPageEndMoving, new OnPageEndMovingHook());
+                    CommonHooks.PageEndMovingListeners.add(new OnPageEndMovingHook());
 
                     // show Google Search Bar on GEL sidekick - needed if GNow isn't accessed from the homescreen
-                    findAndHookMethod(Classes.NowOverlay, Methods.noOnShow, boolean.class, boolean.class, new OnShowNowOverlayHook());
+                    CommonHooks.OnNowShowListeners.add(new OnShowNowOverlayHook());
 
                     // avoid that nasty animation when showing the search bar again
                     findAndHookMethod(Classes.TransitionsManager, Methods.tmSetTransitionsEnabled, boolean.class, new XC_MethodHook() {
@@ -77,48 +77,30 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
             }
 
             // show DropDeleteTarget on dragging items
-            if (Common.PACKAGE_OBFUSCATED) {
-                // this is actually not DragSource but the parameter type is unknown as of now
-                findAndHookMethod(Classes.SearchDropTargetBar, Methods.sdtbOnDragStart, Classes.DragSource, Object.class, new OnDragStart());
-            } else {
-                hookAllMethods(Classes.SearchDropTargetBar, Methods.sdtbOnDragStart, new OnDragStart());
-            }
-
-            hookAllMethods(Classes.SearchDropTargetBar, Methods.sdtbOnDragEnd, new OnDragEnd());
+            CommonHooks.OnDragStartListeners.add(new OnDragStart());
+            CommonHooks.OnDragEndListeners.add(new OnDragEnd());
         }
 
         if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE)) {
 
             if (PreferencesHelper.alwaysShowSayOKGoogle) {
                 findAndHookMethod(Classes.GSAConfigFlags, Methods.gsaShouldAlwaysShowHotwordHint, XC_MethodReplacement.returnConstant(true));
-                //findAndHookMethod(Classes.RecognizerView, Methods.rvCanShowHotwordAnimation, XC_MethodReplacement.returnConstant(false));
             }
 
             // 0 - Default
             // 1 - Android L
-            if (PreferencesHelper.searchbarStyle == 1 || PreferencesHelper.searchBarWeatherWidget) {
+            if (PreferencesHelper.searchbarStyle == 1 && Common.IS_PRE_GNL_4) {
                 XC_MethodHook proximityToNowHook = new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-
-                        if (PreferencesHelper.searchBarWeatherWidget) {
-                            ViewGroup parent = (ViewGroup) ((ViewGroup) getObjectField(Common.LAUNCHER_INSTANCE, Fields.lSearchDropTargetBar)).getParent();
-                            if (parent.getTag() != null) {
-                                ViewGroup widget = (ViewGroup) parent.getTag();
-                                widget.setAlpha(1 - (Float) param.args[0]);
-                            }
-                        }
-
                         if (PreferencesHelper.searchbarStyle == 1) {
                             param.args[0] = 1.0f;
                         }
                     }
                 };
 
-                if (Common.IS_PRE_GNL_4) {
-                    findAndHookMethod(Classes.SearchPlate, Methods.spSetProximityToNow, float.class, proximityToNowHook);
-                    findAndHookMethod(Classes.GelSearchPlateContainer, Methods.spSetProximityToNow, float.class, proximityToNowHook);
-                }
+                findAndHookMethod(Classes.SearchPlate, Methods.spSetProximityToNow, float.class, proximityToNowHook);
+                findAndHookMethod(Classes.GelSearchPlateContainer, Methods.spSetProximityToNow, float.class, proximityToNowHook);
             }
 
             WeatherWidget.initAllHooks(lpparam);

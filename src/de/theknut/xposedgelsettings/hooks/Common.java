@@ -87,7 +87,7 @@ public final class Common {
     public static boolean FOLDER_GESTURE_ACTIVE;
     public static boolean L_VALUE = true;
     public static boolean ON_MEASURE;
-    public static View CURRENT_FOLDER;
+    public static View CURRENT_CONTEXT_MENU_ITEM;
     public static boolean IS_TREBUCHET;
     public static boolean IS_PRE_GNL_4 = true;
     public static boolean APP_DRAWER_PAGE_SWITCHED;
@@ -98,5 +98,5 @@ public final class Common {
     public static int ALL_APPS_Y_COUNT_HORIZONTAL;
     public static int APP_DRAWER_ICON_SIZE = -1;
     public static Object DEVICE_PROFIL;
-
+    public static ArrayList ALL_APPS;
 }

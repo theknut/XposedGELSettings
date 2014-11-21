@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Xposed GEL Settings</string>
-    <string name="app_description">隐藏谷歌搜索栏、在启动器在隐藏应用程序、变更主屏幕和应用程序抽屉的网格和图标的大小、变更主屏幕托盘图标的数量、删除图标的文字标签以及更多惊喜。</string>
+    <string name="app_description">Google Now Launcher the way you want it to be</string>
     <string name="pref_hide_google_search_bar_title">隐藏</string>
     <string name="pref_autohide_google_search_bar_title">自动隐藏</string>
     <string name="pref_autohide_google_search_bar_summary">自动显示谷歌即时页面</string>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Xposed GEL Settings</string>
+    <string name="app_description">Google Now Launcher the way you want it to be</string>
     <string name="colorpicker_apply">Застосувати</string>
     <string name="colorpicker_hex_hint">Задати колір тексту</string>
     <string name="pref_app_drawer_background_color_summary">Tip: зроби це повністю прозорим!</string>
@@ -132,8 +133,6 @@
     <string name="alert_xgels_updated_cancel">Пізніше</string>
     <string name="alert_xgels_updated_summary">Рекомендується перезавантаження для активації оновлення. Хочете перезавантажити зараз?</string>
     <string name="alert_xgels_updated_title">XGELS оновлений!</string>
-  <string name="app_description">Сховати строку пошуку Google, сховати програми зі списку, змінити сітку робочого столу і меню програм, змінити розмір и
-іконок, змінити розмір тексту і багато-багато чого іншого..</string>
     <string name="changelog_full_title">Зміни</string>
     <string name="changelog_show_full">більше...</string>
     <string name="changelog_title">Що нового?</string>

@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+    <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
         android:key="hidesearchbar"
         android:title="@string/pref_hide_google_search_bar_title" />
-    <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+    <de.theknut.xposedgelsettings.ui.preferences.MyCheckboxPreference
 	    android:key="autohidehidesearchbar"
 	    android:title="@string/pref_autohide_google_search_bar_title"
 	    android:dependency="hidesearchbar"
 	    android:summary="@string/pref_autohide_google_search_bar_summary" />
-    <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+    <de.theknut.xposedgelsettings.ui.preferences.MyCheckboxPreference
 	    android:key="searchbarondefaulthomescreen"
 	    android:dependency="hidesearchbar"
 	    android:title="@string/pref_show_google_search_bar_homescreen_title"
 	    android:summary="@string/pref_show_google_search_bar_homescreen_summary" />
-    <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+    <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
         android:key="alwaysshowsayokgoogle"
         android:title="@string/pref_always_show_ok_google_title"
         android:summary="@string/pref_always_show_ok_google_summary" />
-    <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+    <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
         android:key="searchbarweatherwidget"
         android:title="@string/pref_searchbar_weather_widget_title"
         android:summary="@string/pref_searchbar_weather_widget_summary" />
-    <de.theknut.xposedgelsettings.ui.MyListPreference
+    <de.theknut.xposedgelsettings.ui.preferences.MyListPreference
         android:key="searchbarstyle"
         android:title="@string/pref_searchbar_style_title"
         android:defaultValue="0"

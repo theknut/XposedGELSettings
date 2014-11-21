@@ -22,6 +22,8 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import de.theknut.xposedgelsettings.hooks.common.CommonHooks;
+import de.theknut.xposedgelsettings.hooks.common.XGELSCallback;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
@@ -33,10 +35,10 @@ public class NotificationBadgesHooks extends NotificationBadgesHelper {
 
         if (!PreferencesHelper.enableBadges) return;
 
-        XposedBridge.hookAllMethods(Classes.Launcher, "onCreate", new XC_MethodHook() {
+        CommonHooks.LauncherOnCreateListeners.add(new XGELSCallback() {
 
             @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+            public void onAfterHookedMethod(MethodHookParam param) throws Throwable {
 
                 final Context mContext = (Context) callMethod(Common.LAUNCHER_INSTANCE, "getApplicationContext");
 
@@ -61,6 +63,14 @@ public class NotificationBadgesHooks extends NotificationBadgesHelper {
             }
         });
 
+        CommonHooks.OpenFolderListeners.add(new XGELSCallback() {
+            @Override
+            public void onAfterHookedMethod(MethodHookParam param) throws Throwable {
+                if (DEBUG) log(param, "Request Counters");
+                requestCounters();
+            }
+        });
+
         XC_MethodHook requestCountersHook = new XC_MethodHook() {
 
             @Override
@@ -71,15 +81,14 @@ public class NotificationBadgesHooks extends NotificationBadgesHelper {
         };
 
         findAndHookMethod(Classes.Workspace, Methods.wOnDragEnd, requestCountersHook);
-        findAndHookMethod(Classes.Launcher, Methods.lOpenFolder, Classes.FolderIcon, requestCountersHook);
         findAndHookMethod(Classes.Launcher, Methods.lFinishBindingItems, boolean.class, requestCountersHook);
 
-        findAndHookMethod(Classes.Workspace, Methods.wOnLauncherTransitionEnd, Classes.Launcher, boolean.class, boolean.class, new XC_MethodHook() {
+        CommonHooks.OnLauncherTransitionEndListeners.add(new XGELSCallback() {
 
             int TOWORKSPACE = 2;
 
             @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+            public void onAfterHookedMethod(MethodHookParam param) throws Throwable {
 
                 if ((Boolean) param.args[TOWORKSPACE]) {
                     if (DEBUG) log(param, "Transitioning to Workspace - do nothing");
@@ -151,9 +160,9 @@ public class NotificationBadgesHooks extends NotificationBadgesHelper {
         }
         findAndHookMethod(Classes.BubbleTextView, "draw", Canvas.class, drawHook);
 
-        findAndHookMethod(Classes.FolderIcon, "dispatchDraw", Canvas.class, new XC_MethodHook() {
+        CommonHooks.FolderIconDispatchDrawListeners.add(new XGELSCallback() {
             @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+            public void onAfterHookedMethod(MethodHookParam param) throws Throwable {
                 ArrayList<View> items = (ArrayList<View>) callMethod(getObjectField(param.thisObject, Fields.fiFolder), Methods.fGetItemsInReadingOrder);
 
                 int count = 0;
@@ -163,7 +172,6 @@ public class NotificationBadgesHooks extends NotificationBadgesHelper {
                         count += pendingNotifications.get(idx).getCount();
                     }
                 }
-
 
                 if (count != 0) {
                     View bg = (View) getObjectField(param.thisObject, Fields.fiPreviewBackground);
@@ -202,10 +210,10 @@ public class NotificationBadgesHooks extends NotificationBadgesHelper {
             }
         });
 
-        XposedBridge.hookAllMethods(Classes.Launcher, "onResume", new XC_MethodHook() {
+        CommonHooks.LauncherOnResumeListeners.add(new XGELSCallback() {
 
             @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+            public void onAfterHookedMethod(MethodHookParam param) throws Throwable {
 
                 if (activityManager == null) {
                     activityManager = (ActivityManager) Common.LAUNCHER_CONTEXT.getSystemService(Context.ACTIVITY_SERVICE);

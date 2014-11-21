@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
         android:key="needsDonate"
         android:title="@string/pref_limited_title"
         android:summary="@string/pref_limited_summary"
         android:selectable="false"/>
-    <de.theknut.xposedgelsettings.ui.MyListPreference
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
         android:key="contextmenumode"
-        android:defaultValue="3"
-        android:title="@string/pref_contextmenu_mode_title"
-        android:entries="@array/contextmenu_mode_entries"
-        android:entryValues="@array/contextmenu_mode_values"/>
-    <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+        android:title="@string/pref_contextmenu_mode_title" />
+    <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
         android:key="enablellauncher"
         android:title="@string/pref_enable_l_launcher_title"
         android:summary="@string/pref_enable_l_launcher_summary"/>
-	<de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+	<de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
 	    android:key="hidepageindicator"
 	    android:title="@string/pref_pageindicator_title"
 	    android:summary="@string/pref_pageindicator_summary"/>
@@ -24,24 +21,25 @@
         android:title="@string/pref_pageindicator_color_title"
         android:summary="@string/pref_pageindicator_color_summary"
         android:defaultValue="0xffffffff"
+        defaultValue="0xffffffff"
         alphaSlider="true" />
-	<de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+	<de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
 		android:key="longpressallappsbutton"
 		android:title="@string/pref_title_longpress_app_drawer_button"
 		android:summary="@string/pref_summary_longpress_app_drawer_button" />
-    <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+    <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
         android:key="overridesettingsbutton"
         android:title="@string/pref_overridesettings_button_title"
         android:summary="@string/pref_overridesettings_button_summary" />
-	<de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+	<de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
 		android:key="enablerotation"
 		android:title="@string/pref_enable_rotation_title"
 		android:summary="@string/pref_enable_rotation_summary" />
-	<de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+	<de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
 		android:key="disablewallpaperscroll"
 		android:title="@string/pref_disable_wallpaper_scroll_title"
 		android:summary="@string/pref_disable_wallpaper_scroll_summary" />
-    <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+    <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
         android:key="hideworkspaceshadow"
         android:title="@string/pref_hide_workspace_shadow_title"
         android:summary="@string/pref_hide_workspace_shadow_summary" />
@@ -50,35 +48,34 @@
         android:title="@string/pref_glow_color_title"
         android:summary="@string/pref_glow_color_summary"
         android:defaultValue="0xffffffff"
+        defaultValue="0xffffffff"
         alphaSlider="true" />
-    <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+    <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
 		android:key="lockhomescreen"
 		android:title="@string/pref_lock_desktop_title"
 		android:summary="@string/pref_lock_desktop_summary" />
-	<de.theknut.xposedgelsettings.ui.MyListPreference
+	<de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
 		android:key="scrolldevider"
 		android:title="@string/pref_general_scroll_devider_title"
-		android:summary="@string/pref_general_scroll_devider_summary"
-		android:entries="@array/general_scroll_devider_entries"
-		android:entryValues="@array/general_scroll_devider_values"/>
-	<de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+		android:summary="@string/pref_general_scroll_devider_summary" />
+	<de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
 		android:key="continuousscroll"
 		android:title="@string/pref_continuous_scroll_title"
 		android:summary="@string/pref_continuous_scroll_summary" />
-	<de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+	<de.theknut.xposedgelsettings.ui.preferences.MyCheckboxPreference
 		android:key="continuousscrollwithappdrawer"
 		android:title="@string/pref_continuous_scroll_with_app_drawer_title"
 		android:summary="@string/pref_continuous_scroll_with_app_drawer_summary"
 		android:dependency="continuousscroll"/>
-	<de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+	<de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
 		android:key="resizeallwidgets"
 		android:title="@string/pref_resize_all_widgets_title"
 		android:summary="@string/pref_resize_all_widgets_summary" />
-    <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+    <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
         android:key="overlappingwidgets"
         android:title="@string/pref_overlapping_widgets_title"
         android:summary="@string/pref_overlapping_widgets_summary" />
-	<de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+	<de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
   		android:key="hidewidgets"
         android:title="@string/pref_selectwidgetstohide_summary" />
 </PreferenceScreen>

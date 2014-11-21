@@ -52,6 +52,7 @@ public class ColorPickerDialog
 	
 	private EditText mHexVal;
 	private boolean mHexValueEnabled = false;
+	private int mDefaultColor;
 	private ColorStateList mHexDefaultTextColor;
 
 	private OnColorChangedListener mListener;
@@ -130,6 +131,13 @@ public class ColorPickerDialog
 		mOldColor.setColor(color);
 		mColorPicker.setColor(color, true);
 
+        layout.findViewById(R.id.defaultcolor).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mColorPicker.setColor(mDefaultColor, true);
+                updateHexValue(mDefaultColor);
+            }
+        });
 	}
 
 	@Override
@@ -158,6 +166,10 @@ public class ColorPickerDialog
 		else
 			mHexVal.setVisibility(View.GONE);
 	}
+
+    public void setDefaultColor(int color) {
+        mDefaultColor = color;
+    }
 	
 	public boolean getHexValueEnabled() {
 		return mHexValueEnabled;

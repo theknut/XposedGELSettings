@@ -2,19 +2,19 @@ package de.theknut.xposedgelsettings.hooks.googlesearchbar;
 
 import android.graphics.Rect;
 
-import de.robv.android.xposed.XC_MethodHook;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.Utils;
+import de.theknut.xposedgelsettings.hooks.common.XGELSCallback;
 
-public class GetWorkspacePaddingHook extends XC_MethodHook {
-	
-	// http://androidxref.com/4.4.2_r1/xref/packages/apps/Launcher3/src/com/android/launcher3/DynamicGrid.java#301
-	// Rect getWorkspacePadding(int orientation)
-	
-	@Override
-	protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-	    
-		// 0 = landscape
+public class GetWorkspacePaddingHook extends XGELSCallback {
+
+    // http://androidxref.com/4.4.2_r1/xref/packages/apps/Launcher3/src/com/android/launcher3/DynamicGrid.java#301
+    // Rect getWorkspacePadding(int orientation)
+
+    @Override
+    public void onAfterHookedMethod(MethodHookParam param) throws Throwable {
+
+        // 0 = landscape
         // 1 = portrait
         int orientation;
 
@@ -24,7 +24,7 @@ public class GetWorkspacePaddingHook extends XC_MethodHook {
             orientation = (Integer) param.args[0];
         }
         boolean isLandscape = orientation == 0;
-        
+
         Rect padding = (Rect) param.getResult();
 
         if (PreferencesHelper.hideSearchBar) {
@@ -45,5 +45,5 @@ public class GetWorkspacePaddingHook extends XC_MethodHook {
         }
 
         param.setResult(padding);
-	}
+    }
 }

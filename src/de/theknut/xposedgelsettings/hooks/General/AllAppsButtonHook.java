@@ -7,14 +7,14 @@ import android.view.View.OnLongClickListener;
 import android.widget.TextView;
 
 import de.theknut.xposedgelsettings.hooks.Common;
-import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import de.theknut.xposedgelsettings.hooks.common.XGELSCallback;
 
 import static de.robv.android.xposed.XposedHelpers.getBooleanField;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
 
-public class AllAppsButtonHook extends HooksBaseClass {
+public class AllAppsButtonHook extends XGELSCallback {
 
     // http://androidxref.com/4.4.2_r1/xref/packages/apps/Launcher3/src/com/android/launcher3/CellLayout.java#604
     // public boolean addViewToCellLayout(View child, int index, int childId, LayoutParams params, boolean markCells)
@@ -24,7 +24,7 @@ public class AllAppsButtonHook extends HooksBaseClass {
     final int CHILD = 0;
 
     @Override
-    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+    public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
         Object tag = ((View) param.args[CHILD]).getTag();
         // there is only one button which can't be reordered and thats the app drawer
         if ((param.args[CHILD] instanceof TextView && !getBooleanField(param.args[CAN_REORDER], Fields.cllpCanReorder)

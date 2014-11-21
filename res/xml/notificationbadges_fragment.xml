@@ -1,40 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
        	android:key="needsDonate"
 	    android:title="@string/pref_notificationbadge_premium_title"
 	    android:summary="@string/pref_notificationbadge_premium_summary"
 	    android:selectable="false" />
-    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
        	android:key="missedit"
 	    android:title="@string/pref_notificationbadge_open_missedit_title"
 	    android:summary="@string/pref_notificationbadge_open_missedit_summary" />
-    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
 	    android:title="@string/pref_notificationbadge_help_title"
 	    android:summary="@string/pref_notificationbadge_help_summary" >	    
 	    <intent
             android:action="android.intent.action.VIEW"
             android:data="http://bit.ly/RyuQj3" />
-	</de.theknut.xposedgelsettings.ui.MyPreferenceScreen>
-    <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+	</de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen>
+    <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
         android:key="enablenotificationbadges"
         android:title="@string/pref_notificationbadge_enable_title" />
-    <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+    <de.theknut.xposedgelsettings.ui.preferences.MyCheckboxPreference
         android:key="hidenotificationbadgesappdrawer"
-        android:title="@string/pref_notificationbadge_noappdrawer_title" />
-    <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+        android:title="@string/pref_notificationbadge_noappdrawer_title"
+        android:dependency="enablenotificationbadges" />
+    <de.theknut.xposedgelsettings.ui.preferences.MyCheckboxPreference
         android:key="notificationbadgekeepsize"
         android:title="@string/pref_notificationbadge_keepsize_title"
+        android:dependency="enablenotificationbadges"
         android:defaultValue="true"
         android:summary="@string/pref_notificationbadge_keepsize_summary" />
-    <de.theknut.xposedgelsettings.ui.MyListPreference
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
 		android:key="notificationbadgepresets"
 		android:title="@string/pref_notificationbadge_presets_title"
-		android:dependency="enablenotificationbadges"
-		android:defaultValue="1"
-		android:entries="@array/notificationbadge_presets_entries"
-		android:entryValues="@array/notificationbadge_presets_values"/>
-    <de.theknut.xposedgelsettings.ui.MyListPreference
+		android:dependency="enablenotificationbadges" />
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
         android:key="notificationbadgeposition"
         android:title="@string/pref_notificationbadge_position_title"
         android:dependency="enablenotificationbadges"
@@ -46,20 +45,22 @@
 		android:title="@string/pref_notificationbadge_backgroundcolor_title"
 		android:dependency="enablenotificationbadges"
 		android:defaultValue="0xFFD44937"
+		defaultValue="0xFFD44937"
 		alphaSlider="true" />
     <net.margaritov.preference.colorpicker.ColorPickerPreference 
 		android:key="notificationbadgetextcolor"
 		android:title="@string/pref_notificationbadge_textcolor_title"
 		android:dependency="enablenotificationbadges"
 		android:defaultValue="0xFFFFFFFF"
+		defaultValue="0xFFFFFFFF"
 		alphaSlider="true" />
-    <de.theknut.xposedgelsettings.ui.MyListPreference
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
 		android:key="notificationbadgetextsize"
 		android:title="@string/pref_notificationbadge_textsize_title"
 		android:dependency="enablenotificationbadges"
 		android:entries="@array/notificationbadge_textsize_values"
 		android:entryValues="@array/notificationbadge_textsize_values"/>
-    <de.theknut.xposedgelsettings.ui.MyListPreference
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
 		android:key="notificationbadgeframesize"
 		android:title="@string/pref_notificationbadge_framesize_title"
 		android:dependency="enablenotificationbadges"
@@ -70,39 +71,40 @@
 		android:title="@string/pref_notificationbadge_framecolor_title"
 		android:dependency="enablenotificationbadges"
 		android:defaultValue="0xFFFFFFFF"
-		alphaSlider="true" />    
-    <de.theknut.xposedgelsettings.ui.MyListPreference
+		defaultValue="0xFFFFFFFF"
+		alphaSlider="true" />
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
 		android:key="notificationbadgecornerradius"
 		android:title="@string/pref_notificationbadge_corner_title"
 		android:dependency="enablenotificationbadges"
 		android:entries="@array/notificationbadge_corner_values"
 		android:entryValues="@array/notificationbadge_corner_values"/>
-    <de.theknut.xposedgelsettings.ui.MyListPreference
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
 		android:key="notificationbadgeleftrightpadding"
 		android:title="@string/pref_notificationbadge_leftright_padding_title"
 		android:dependency="enablenotificationbadges"
 		android:entries="@array/notificationbadge_leftright_padding_values"
 		android:entryValues="@array/notificationbadge_leftright_padding_values"/>
-    <de.theknut.xposedgelsettings.ui.MyListPreference
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
 		android:key="notificationbadgetopbottompadding"
 		android:title="@string/pref_notificationbadge_topbottom_padding_title"
 		android:dependency="enablenotificationbadges"
 		android:entries="@array/notificationbadge_topbottom_padding_values"
 		android:entryValues="@array/notificationbadge_topbottom_padding_values"/>
-    <de.theknut.xposedgelsettings.ui.MyPreferenceCategory
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory
   		android:title="@string/pref_notificationbadge_advanced">
-  		<de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+  		<de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
   		    android:key="advanced_message"
   		    android:title="@string/pref_notificationbadge_advanced_title"
 	    	android:summary="@string/pref_notificationbadge_advanced_summary"
 	    	android:dependency="enablenotificationbadges" />
- 		<de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+ 		<de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
        		android:key="notificationbadge_dialer"
 	    	android:title="@string/pref_notificationbadge_advanced_dialer_title"
 	    	android:dependency="enablenotificationbadges" />
- 		<de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+ 		<de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
        		android:key="notificationbadge_sms"
 	    	android:title="@string/pref_notificationbadge_advanced_sms_title"
 	    	android:dependency="enablenotificationbadges" />
-	</de.theknut.xposedgelsettings.ui.MyPreferenceCategory>
+	</de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory>
 </PreferenceScreen>

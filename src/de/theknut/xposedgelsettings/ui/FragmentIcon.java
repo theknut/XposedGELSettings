@@ -1,9 +1,7 @@
 package de.theknut.xposedgelsettings.ui;
 
-import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -16,7 +14,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.Preference;
-import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -26,6 +23,9 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.Theme;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,23 +37,25 @@ import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.Utils;
 import de.theknut.xposedgelsettings.hooks.icon.Icon;
 import de.theknut.xposedgelsettings.hooks.icon.IconPack;
+import de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen;
 
 public class FragmentIcon extends FragmentBase {
-    
+
     PackageManager packageManager;
     MyPreferenceScreen iconPackSupport;
-    MyListPreference iconPackList;
+    MyPreferenceScreen iconPackList;
     List<String> notSupportedIconsList;
     public static IconPack iconPack;
     GridView grid;
     ProgressBar progressBar;
     boolean dirty;
-    
+    String[] iconPackEntries, iconPackValues;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    	super.onCreateView(inflater, container, savedInstanceState);
-    	
-    	View rootView = inflater.inflate(R.layout.icon_fragment, container, false);
+        super.onCreateView(inflater, container, savedInstanceState);
+
+        View rootView = inflater.inflate(R.layout.icon_fragment, container, false);
         addPreferencesFromResource(R.xml.icon_fragment);
 
         this.findPreference("selectiveicon").setOnPreferenceClickListener(new OnPreferenceClickListener() {
@@ -76,56 +78,56 @@ public class FragmentIcon extends FragmentBase {
             }
         });
 
+        String currIconPack = sharedPrefs.getString("iconpack", Common.ICONPACK_DEFAULT);
+
         packageManager = mContext.getPackageManager();
         List<String> packages = CommonUI.getIconPacks(mContext);
-        
-        iconPackList = (MyListPreference) findPreference("iconpack");
+
+        iconPackList = (MyPreferenceScreen) findPreference("iconpack");
         if (packages.isEmpty()) {
-            CharSequence[] tmp = new CharSequence[1];
-            tmp[0] = getString(R.string.pref_icon_noiconpack);
-            iconPackList.setEntries(tmp);
-            tmp = new CharSequence[1];
-            tmp[0] = Common.ICONPACK_DEFAULT;
-            iconPackList.setEntryValues(tmp);
+            iconPackList.setSummary(R.string.pref_icon_noiconpack);
             iconPackList.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-                
+
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    new AlertDialog.Builder(mContext)
-                    .setCancelable(false)
-                    .setTitle(R.string.alert_icon_noiconpackfound_title)
-                    .setMessage(R.string.alert_icon_noiconpackfound_summary)
-                    .setPositiveButton(R.string.alert_icon_noiconpackfound_yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            try {
-                                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("market://developer?id=Vertumus"));
-                                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(i);
-                            } catch (android.content.ActivityNotFoundException anfe) {
-                                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/developer?id=Vertumus"));
-                                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(i);
-                            }
-                            
-                            getActivity().finish();
-                        }
-                    })
-                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).show();
-                    
+                    new MaterialDialog.Builder(mActivity)
+                            .theme(Theme.DARK)
+                            .cancelable(false)
+                            .title(R.string.alert_icon_noiconpackfound_title)
+                            .content(R.string.alert_icon_noiconpackfound_summary)
+                            .positiveText(R.string.alert_icon_noiconpackfound_yes)
+                            .negativeText(android.R.string.no)
+                            .callback(new MaterialDialog.Callback() {
+
+                                @Override
+                                public void onPositive(MaterialDialog materialDialog) {
+                                    try {
+                                        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("market://developer?id=Vertumus"));
+                                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(i);
+                                    } catch (android.content.ActivityNotFoundException anfe) {
+                                        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/developer?id=Vertumus"));
+                                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(i);
+                                    }
+
+                                    getActivity().finish();
+                                }
+
+                                @Override
+                                public void onNegative(MaterialDialog materialDialog) {}
+                            }).build()
+                            .show();
+
                     return false;
                 }
             });
         } else {
-
             final HashMap<String, String> iconPacks = new HashMap<String, String>();
             for (String pgk : packages) {
                 try {
                     String iconPackName = (String) packageManager.getApplicationInfo(pgk, 0).loadLabel(packageManager);
-                    iconPacks.put(iconPackName, pgk);                
+                    iconPacks.put(iconPackName, pgk);
                 } catch (NameNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -135,121 +137,131 @@ public class FragmentIcon extends FragmentBase {
             Collections.sort(names, String.CASE_INSENSITIVE_ORDER);
             iconPacks.put(getString(R.string.pref_icon_noiconpack), Common.ICONPACK_DEFAULT);
             names.add(0, getString(R.string.pref_icon_noiconpack));
-            
-            CharSequence[] tmp = new CharSequence[names.size()];
+
+            iconPackEntries = new String[names.size()];
             try {
-                for (int j = 0; j < tmp.length; j++) {
-                    tmp[j] = names.get(j);
+                for (int j = 0; j < iconPackEntries.length; j++) {
+                    iconPackEntries[j] = names.get(j);
                 }
             } catch (Exception e) { }
-            iconPackList.setEntries(tmp);
 
-            tmp = new CharSequence[names.size()];
+            iconPackValues = new String[names.size()];
+
             try {
-                for (int j = 0; j < tmp.length; j++) {
-                    tmp[j] = iconPacks.get(names.get(j));
+                for (int j = 0; j < iconPackValues.length; j++) {
+                    iconPackValues[j] = iconPacks.get(names.get(j));
                 }
             } catch (Exception e) {
                 // TODO: handle exception
             }
-            iconPackList.setEntryValues(tmp);
 
-            iconPackList.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+            int currSelection = 0;
+            for (int i = 0; i < iconPackValues.length; i++) {
+                if (iconPackValues[i].equals(currIconPack)) {
+                    currSelection = i;
+                }
+            }
 
+            final int finalCurrSelection = currSelection;
+            iconPackList.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    dirty = true;
-                    notSupportedIconsList = null;
-                    iconPackList.setEnabled(false);
-                    
-                    MyListPreference pref = (MyListPreference) preference;
-                    String iconPackName = (String) pref.getEntries()[pref.findIndexOfValue((String) newValue)];
-                    pref.setSummary(iconPackName);
+                public boolean onPreferenceClick(Preference preference) {
+                    new MaterialDialog.Builder(mActivity)
+                            .theme(Theme.DARK)
+                            .title(R.string.pref_icon_chooseiconpack_dialog_title)
+                            .items(iconPackEntries)
+                            .itemsCallbackSingleChoice(finalCurrSelection, new MaterialDialog.ListCallback() {
+                                @Override
+                                public void onSelection(MaterialDialog dialog, View view, int which, String text) {
+                                    // due to legacy reasons we need to save it as string
+                                    sharedPrefs.edit().putString("iconpack", "" + iconPackValues[which]).apply();
+                                    iconPackList.setSummary(text);
 
-                    if (((String) newValue).equals(Common.ICONPACK_DEFAULT)) {
-                        iconPack = null;
-                        getFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentIcon()).commit();
-                        return true;
-                    }
+                                    dirty = true;
+                                    notSupportedIconsList = null;
+                                    iconPackList.setEnabled(false);
 
-                    grid.setVisibility(View.INVISIBLE);
-                    progressBar.setVisibility(View.VISIBLE);
-                    progressBar.setIndeterminate(true);
-                    loadIconPack(true);
+                                    if (iconPackValues[which].equals(Common.ICONPACK_DEFAULT)) {
+                                        iconPack = null;
+                                        getFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentIcon()).commit();
+                                    }
 
-                    return true;
+                                    grid.setVisibility(View.INVISIBLE);
+                                    progressBar.setVisibility(View.VISIBLE);
+                                    progressBar.setIndeterminate(true);
+                                    loadIconPack(true);
+
+                                    dialog.dismiss();
+                                }
+                            })
+                            .build()
+                            .show();
+                    return false;
                 }
             });
-            
-            if (!packages.contains(iconPackList.getValue())) {
-                iconPackList.setValueIndex(0);
+            iconPackList.setSummary(iconPackEntries[currSelection]);
+        }
+
+        progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
+        grid = (GridView) rootView.findViewById(R.id.iconpreview);
+
+        try {
+            if (iconPack == null) {
+                iconPack = new IconPack(mContext, currIconPack);
+                iconPack.loadAppFilter();
             }
 
-            progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
-            grid = (GridView) rootView.findViewById(R.id.iconpreview);
+            new AsyncTask<Void, Void, Void>() {
 
-            try {
-                if (iconPack == null) {
-                    iconPack = new IconPack(mContext, iconPackList.getValue());
-                    iconPack.loadAppFilter();
+                ImageAdapter imageAdapter;
+
+                @Override
+                protected Void doInBackground(Void... params) {
+
+                    while(CommonUI.LOADING_ICONPACK) {
+                        SystemClock.sleep(100);
+                    }
+
+                    imageAdapter = new ImageAdapter(iconPack);
+                    return null;
                 }
 
-                new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    super.onPostExecute(aVoid);
+                    grid.setAdapter(imageAdapter);
+                }
+            }.execute();
 
-                    ImageAdapter imageAdapter;
-
-                    @Override
-                    protected Void doInBackground(Void... params) {
-
-                        while(CommonUI.LOADING_ICONPACK) {
-                            SystemClock.sleep(100);
-                        }
-
-                        imageAdapter = new ImageAdapter(iconPack);
-                        return null;
-                    }
-
-                    @Override
-                    protected void onPostExecute(Void aVoid) {
-                        super.onPostExecute(aVoid);
-                        grid.setAdapter(imageAdapter);
-                    }
-                }.execute();
-
-            } catch (NameNotFoundException e) {
-                e.printStackTrace();
-            }
+        } catch (NameNotFoundException e) {
+            e.printStackTrace();
         }
-        
-        iconPackList.setSummary(iconPackList.getEntry());
-        
+
         iconPackSupport = (MyPreferenceScreen) findPreference("support");
         iconPackSupport.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-            
+
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                
+
                 if (dirty || notSupportedIconsList == null) return false;
-                
-                StringBuilder sb = new StringBuilder();
-                for (String string : notSupportedIconsList) {
-                    sb.append(string).append('\n');
-                }
-                
-                new AlertDialog.Builder(mContext)
-                .setCancelable(true)
-                .setMessage(sb.toString())
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).show();
-                
+
+                new MaterialDialog.Builder(mActivity)
+                        .theme(Theme.DARK)
+                        .items(notSupportedIconsList.toArray(new String[notSupportedIconsList.size()]))
+                        .callback(new MaterialDialog.SimpleCallback() {
+                            @Override
+                            public void onPositive(MaterialDialog materialDialog) {
+                                materialDialog.dismiss();
+                            }
+                        })
+                        .positiveText(android.R.string.ok)
+                        .build()
+                        .show();
+
                 return true;
             }
         });
-        
+
         if (!InAppPurchase.isPremium) {
             iconPackList.setEnabled(false);
         } else {
@@ -261,9 +273,9 @@ public class FragmentIcon extends FragmentBase {
         findPreference("hideiconpacks").setDependency(iconPackList.getKey());
         findPreference("selectiveicon").setDependency(iconPackList.getKey());
         findPreference("allappsbuttonicon").setDependency(iconPackList.getKey());
-        
+
         rootView = CommonUI.setBackground(rootView, R.id.prefbackground);
-        
+
         return rootView;
     }
 
@@ -283,14 +295,14 @@ public class FragmentIcon extends FragmentBase {
             iconPackList.setEnabled(false);
             iconPackSupport.setSummary("Loading...\n\n");
         }
-        
+
         @Override
         protected Void doInBackground(Void... params) {
 
             notSupportedIconsList = new ArrayList<String>();
 
             List<ResolveInfo> apps = CommonUI.getAllApps();
-            if (!iconPackList.getValue().equals(Common.ICONPACK_DEFAULT)) {
+            if (!sharedPrefs.getString("iconpack", Common.ICONPACK_DEFAULT).equals(Common.ICONPACK_DEFAULT)) {
 
                 int cnt = 0;
                 for (ResolveInfo resolveInfo : apps) {
@@ -309,12 +321,12 @@ public class FragmentIcon extends FragmentBase {
                         mIconPack.getTotalIconCount() // count total apps
                 );
             } else {
-                summary = (String) iconPackList.getEntry();
+                summary = (String) iconPackList.getSummary();
             }
 
             return null;
         }
-        
+
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
@@ -411,13 +423,13 @@ public class FragmentIcon extends FragmentBase {
             @Override
             protected void onPostExecute(Void aVoid) {
                 if (progressBar.getVisibility() == View.VISIBLE
-                    && image.getId() == grid.getNumColumns()) {
+                        && image.getId() == grid.getNumColumns()) {
                     progressBar.setVisibility(View.GONE);
                     progressBar.setIndeterminate(false);
 
                     try {
-                        if (iconPackList.getEntryValues().length != 0) {
-                            iconPackSupport.setTitle(iconPackList.getEntry().toString());
+                        if (iconPackValues.length != 0) {
+                            iconPackSupport.setTitle(iconPackList.getSummary());
                             new UpdateStatisticAsyncTask(mIconPack).execute();
                         } else {
                             iconPackSupport.setSummary(getString(R.string.pref_icon_noiconpack));

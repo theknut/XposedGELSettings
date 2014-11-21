@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="fragmenttitles_array">
+        <item>Welcome</item>
+        <item>General</item>
+        <item>Google Search Bar</item>
+        <item>Homescreen</item>
+        <item>App Drawer</item>
+        <item>Gestures</item>
+        <item>Notification Badges</item>
+        <item>Icon</item>
+        <item>Android Integration</item>
+        <item>Backup/Restore</item>
+        <item>Settings</item>
+        <item>Premium/Support</item>
+        <item>Reverse Engineering</item>
+    </string-array>
+
+    <string-array name="smartfoldermode_entries">
+        <item>Off</item>
+        <item>Swipe - launch first app\nTouch - open folder</item>
+        <item>Touch - launch first app\nSwipe - open folder</item>
+    </string-array>
+
+    <string-array name="searchbarstyle_entries">
+        <item>Default</item>
+        <item>Android L style</item>
+    </string-array>
+
+    <string-array name="gesture_actions_entries">
+        <item>None</item>
+        <item>Notification bar</item>
+        <item>Quick settings</item>
+        <item>App drawer</item>
+        <item>Recent app</item>
+        <item>Show recents</item>
+        <item>Android settings</item>
+        <item>Go to sleep</item>
+        <item>Toggle dock</item>
+        <item>Open app</item>
+    </string-array>
+
+    <string-array name="gesture_actions_entries_limited">
+        <item>None</item>
+        <item>App drawer</item>
+        <item>Toggle dock</item>
+    </string-array>
+
+    <string-array name="general_scroll_devider_entries">
+        <item>Default</item>
+        <item>Medium</item>
+        <item>Fast</item>
+        <item>Vmax</item>
+        <item>No animation</item>
+    </string-array>
+
+    <string-array name="contextmenu_mode_entries">
+        <item>Disabled</item>
+        <item>Shortcuts only</item>
+        <item>Widgets only</item>
+        <item>Shortcuts &amp; Widgets</item>
+    </string-array>
+
+    <string-array name="tabcontent_entries">
+        <item>Apps</item>
+        <item>Widgets</item>
+        <item>Xposed modules</item>
+        <item>Google apps</item>
+        <item>Icon packs</item>
+        <item>New apps</item>
+        <item>New/Updated apps</item>
+    </string-array>
+
+    <string-array name="tabcontent_names">
+        <item>Apps</item>
+        <item>Widgets</item>
+        <item>Xposed</item>
+        <item>Google</item>
+        <item>Icon packs</item>
+        <item>New Apps</item>
+        <item>New/Updated</item>
+    </string-array>
+
+    <string-array name="tabsort_entries">
+        <item>Alphabetically</item>
+        <item>Install date</item>
+        <item>Last update</item>
+    </string-array>
+
+    <string-array name="notificationbadge_position_entries">
+        <item>Top left</item>
+        <item>Top right</item>
+        <item>Bottom left</item>
+        <item>Bottom right</item>
+    </string-array>
+
+</resources>

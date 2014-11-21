@@ -48,6 +48,7 @@ public class ColorPickerPreference
 	private int mValue = Color.BLACK;
 	private float mDensity = 0;
 	private boolean mAlphaSliderEnabled = false;
+	private int mDefaultColor = Color.WHITE;
 	private boolean mHexValueEnabled = false;
 
 	public ColorPickerPreference(Context context) {
@@ -80,6 +81,7 @@ public class ColorPickerPreference
 		setOnPreferenceClickListener(this);
 		if (attrs != null) {
 			mAlphaSliderEnabled = attrs.getAttributeBooleanValue(null, "alphaSlider", false);
+            mDefaultColor = attrs.getAttributeIntValue(null, "defaultValue", -1);
 			mHexValueEnabled = attrs.getAttributeBooleanValue(null, "hexValue", false);
 		}
 	}
@@ -134,7 +136,7 @@ public class ColorPickerPreference
 		}
 
 		return bm;
-	}
+    }
 
 	@Override
 	public void onColorChanged(int color) {
@@ -161,9 +163,8 @@ public class ColorPickerPreference
 		if (mAlphaSliderEnabled) {
 			mDialog.setAlphaSliderVisible(true);
 		}
-		if (mHexValueEnabled) {
-			mDialog.setHexValueEnabled(true);
-		}
+        mDialog.setHexValueEnabled(true);
+        mDialog.setDefaultColor(mDefaultColor);
 		if (state != null) {
 			mDialog.onRestoreInstanceState(state);
 		}

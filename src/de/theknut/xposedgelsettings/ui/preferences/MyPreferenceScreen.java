@@ -1,9 +1,11 @@
-package de.theknut.xposedgelsettings.ui;
+package de.theknut.xposedgelsettings.ui.preferences;
 
 import android.content.Context;
 import android.preference.Preference;
 import android.util.AttributeSet;
 import android.view.View;
+
+import de.theknut.xposedgelsettings.ui.CommonUI;
 
 public class MyPreferenceScreen extends Preference implements View.OnLongClickListener {
 	

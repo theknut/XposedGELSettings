@@ -1,4 +1,4 @@
-package de.theknut.xposedgelsettings.ui;
+package de.theknut.xposedgelsettings.ui.preferences;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -6,6 +6,8 @@ import android.preference.PreferenceCategory;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
+
+import de.theknut.xposedgelsettings.ui.CommonUI;
 
 public class MyPreferenceCategory extends PreferenceCategory {
     public MyPreferenceCategory(Context context) {

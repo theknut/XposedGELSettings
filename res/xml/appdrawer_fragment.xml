@@ -1,62 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
         android:key="needsDonate"
         android:title="@string/pref_limited_title"
         android:summary="@string/pref_limited_summary"
         android:selectable="false"/>
-    <de.theknut.xposedgelsettings.ui.MyPreferenceCategory
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory
         android:title="@string/pref_cat_tabs_and_folders_title">
-        <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+        <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
             android:key="tabsinstructions"
             android:summary="@string/pref_appdrawer_tabs_instructions_summary"
             android:selectable="false" />
-        <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+        <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
             android:key="enableappdrawertabs"
             android:title="@string/pref_switch_enable_tabs_title"
             android:summary="@string/pref_cat_tabs_and_folders_title" />
-        <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+        <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
             android:key="movetabhostbottom"
             android:title="@string/pref_tabs_bottom_title"
             android:summary="@string/pref_tabs_bottom_summary"
             android:dependency="enableappdrawertabs" />
-        <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+        <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
             android:key="addfolder"
             android:title="@string/pref_appdrawer_folders_title"
-            android:summary="@string/pref_appdrawer_folders_summary" />
-        <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+            android:summary="@string/pref_appdrawer_folders_summary"
+            android:dependency="enableappdrawertabs"/>
+        <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
             android:key="appdrawerswipetabs"
             android:title="@string/pref_switch_swipe_tabs_title"
-            android:summary="@string/pref_switch_swipe_tabs_summary" />
-        <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+            android:summary="@string/pref_switch_swipe_tabs_summary"
+            android:dependency="enableappdrawertabs"/>
+        <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
             android:key="cleartabdata"
             android:title="@string/pref_appdrawer_clear_tabs_title"
             android:summary="@string/pref_appdrawer_clear_tabs_summary"
             android:dependency="enableappdrawertabs" />
-    </de.theknut.xposedgelsettings.ui.MyPreferenceCategory>
-    <de.theknut.xposedgelsettings.ui.MyPreferenceCategory
+    </de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory>
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory
         android:title="@string/pref_cat_app_drawer_settings_title">
-        <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+        <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
             android:title="@string/pref_selectappstohide_summary">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:targetPackage="de.theknut.xposedgelsettings"
                 android:targetClass="de.theknut.xposedgelsettings.ui.AllAppsList" />
-        </de.theknut.xposedgelsettings.ui.MyPreferenceScreen>
-        <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+        </de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen>
+        <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
             android:key="changegridsizeapps"
             android:title="@string/pref_switch_enable_grid_size_title"
             android:summary="@string/pref_switch_enable_grid_size_summary" />
-        <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+        <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
             android:key="gridsize"
             android:title="@string/pref_grid_size_title"
             android:summary="@string/pref_grid_size_summary"
             android:dependency="changegridsizeapps" />
-        <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+        <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
             android:key="closeappdrawerafterappstarted"
             android:title="@string/pref_switch_close_app_drawer_after_app_started_title"
             android:summary="@string/pref_switch_close_app_drawer_after_app_started_summary" />
-        <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+        <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
             android:key="appdrawerrememberlastposition"
             android:title="@string/pref_switch_appdrawer_remember_last_position_title"
             android:summary="@string/pref_switch_appdrawer_remember_last_position_summary" />
@@ -65,25 +67,27 @@
             android:title="@string/pref_app_drawer_background_color_title"
             android:summary="@string/pref_app_drawer_background_color_summary"
             android:defaultValue="0xA5000000"
+            defaultValue="0xA5000000"
             alphaSlider="true" />
         <net.margaritov.preference.colorpicker.ColorPickerPreference
             android:key="appdrawerfolderstylebackgroundcolor"
             android:title="@string/pref_app_drawer_folderstyle_background_color_title"
             android:summary="@string/pref_app_drawer_folderstyle_background_color_summary"
-            android:defaultValue="0xFFFFFFFF"
+            android:defaultValue="0xFFF4F4F6"
+            defaultValue="0xFFF4F4F4"
             alphaSlider="true" />
-        <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+        <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
             android:key="iconsettingsswitchapps"
             android:title="@string/pref_switch_appicons_title"
             android:summary="@string/pref_switch_appicons_explain_summary" />
-        <de.theknut.xposedgelsettings.ui.MyListPreference
+        <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
             android:key="iconsizeappdrawer"
             android:title="@string/pref_iconsize_title"
             android:summary="@string/pref_iconsize_summary"
             android:dependency="iconsettingsswitchapps"
             android:entries="@array/iconsize_entries"
             android:entryValues="@array/iconsize_entries" />
-        <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+        <de.theknut.xposedgelsettings.ui.preferences.MyCheckboxPreference
             android:key="hideiconappdrawer"
             android:title="@string/pref_hide_icon_label_on_app_drawer_title"
             android:dependency="iconsettingsswitchapps"/>
@@ -92,10 +96,7 @@
             android:title="@string/pref_icon_label_color"
             android:dependency="iconsettingsswitchapps"
             android:defaultValue="0xffffffff"
+            defaultValue="0xffffffff"
             alphaSlider="true" />
-        <!--         <de.theknut.xposedgelsettings.ui.CustomSwitchPreference -->
-        <!-- 			android:key="appdrawericonlabelshadow" -->
-        <!-- 			android:title="@string/pref_switch_icon_shadow_title" -->
-        <!-- 			android:dependency="iconsettingsswitchapps"/> -->
-    </de.theknut.xposedgelsettings.ui.MyPreferenceCategory>
+    </de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory>
 </PreferenceScreen>

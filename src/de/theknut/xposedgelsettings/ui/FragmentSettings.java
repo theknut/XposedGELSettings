@@ -1,9 +1,7 @@
 package de.theknut.xposedgelsettings.ui;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -21,6 +19,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.Theme;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference;
 
 @SuppressLint("WorldReadableFiles")
 public class FragmentSettings extends FragmentBase {
@@ -90,22 +92,27 @@ public class FragmentSettings extends FragmentBase {
             }
         });
 
-        final MyCheckboxPreference debugPreference = (MyCheckboxPreference) this.findPreference("debug");
+        final SwitchCompatPreference debugPreference = (SwitchCompatPreference) this.findPreference("debug");
         debugPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
 
                 if ((Boolean) newValue) {
-                    new AlertDialog.Builder(mContext)
-                            .setCancelable(false)
-                            .setTitle(R.string.alert_debug_logging_activated_title)
-                            .setMessage(R.string.alert_debug_logging_activated_summary)
-                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
+                    new MaterialDialog.Builder(mActivity)
+                            .theme(Theme.DARK)
+                            .cancelable(false)
+                            .title(R.string.alert_debug_logging_activated_title)
+                            .content(R.string.alert_debug_logging_activated_summary)
+                            .positiveText(android.R.string.ok)
+                            .callback(new MaterialDialog.SimpleCallback() {
+                                @Override
+                                public void onPositive(MaterialDialog materialDialog) {
                                     CommonUI.restartLauncher(false);
                                 }
-                            }).show();
+                            })
+                            .build()
+                            .show();
                 }
 
                 return true;
@@ -122,15 +129,15 @@ public class FragmentSettings extends FragmentBase {
                 boolean debugLoggingEnabled = mContext.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).getBoolean("debug", false);
 
                 if (!debugLoggingEnabled) {
-                    new AlertDialog.Builder(mContext)
-                            .setCancelable(false)
-                            .setTitle(R.string.alert_debug_logging_not_activated_title)
-                            .setMessage(R.string.alert_debug_logging_not_activated_summary)
-                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // do nothing
-                                }
-                            }).show();
+                    new MaterialDialog.Builder(mActivity)
+                            .theme(Theme.DARK)
+                            .cancelable(false)
+                            .autoDismiss(true)
+                            .title(R.string.alert_debug_logging_not_activated_title)
+                            .content(R.string.alert_debug_logging_not_activated_summary)
+                            .positiveText(android.R.string.ok)
+                            .build()
+                            .show();
 
                     return false;
                 }
@@ -217,7 +224,7 @@ public class FragmentSettings extends FragmentBase {
 
                     Intent intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    String[] recipients = {"theknutcoding@gmail.com"};
+                    String[] recipients = {"theknutcoding+xgels.bugreport@gmail.com"};
                     intent.putExtra(Intent.EXTRA_EMAIL, recipients);
                     intent.putExtra(Intent.EXTRA_SUBJECT, "XGELS Debug log");
                     intent.putExtra(Intent.EXTRA_TEXT, deviceInfo.toString() + '\n' + '\n' + "Bug report description: <short description>" + '\n' + '\n' + "Steps to reproduce: <repro steps>" + '\n' + '\n');

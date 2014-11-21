@@ -1,8 +1,6 @@
 package de.theknut.xposedgelsettings.ui;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,6 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.NumberPicker;
 import android.widget.Toast;
+
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.Theme;
 
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
@@ -32,52 +33,76 @@ public class FragmentAppDrawer extends FragmentBase {
         findPreference("gridsize").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                final ViewGroup numberPickerView = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.number_picker, null);
-                int padding = Math.round(mContext.getResources().getDimension(R.dimen.tab_menu_padding));
-                final AlertDialog numberPickerDialog = new AlertDialog.Builder(mActivity).create();
-                numberPickerDialog.setView(numberPickerView, padding, padding, padding, padding);
-
-                final SharedPreferences prefs = mContext.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
+                final ViewGroup numberPickerView = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.grid_number_picker, null);
 
                 int minValue = 3, maxValue = 15;
                 final NumberPicker nphc = (NumberPicker) numberPickerView.findViewById(R.id.numberPickerHorizontalColumn);
                 nphc.setMinValue(minValue);
                 nphc.setMaxValue(maxValue);
-                nphc.setValue(Integer.parseInt(prefs.getString("xcountallappshorizontal", "" + 6)));
+                nphc.setValue(Integer.parseInt(sharedPrefs.getString("xcountallappshorizontal", "" + 6)));
 
                 final NumberPicker nphr = (NumberPicker) numberPickerView.findViewById(R.id.numberPickerHorizontalRow);
                 nphr.setMinValue(minValue);
                 nphr.setMaxValue(maxValue);
-                nphr.setValue(Integer.parseInt(prefs.getString("ycountallappshorizontal", "" + 4)));
+                nphr.setValue(Integer.parseInt(sharedPrefs.getString("ycountallappshorizontal", "" + 4)));
 
                 final NumberPicker npvc = (NumberPicker) numberPickerView.findViewById(R.id.numberPickerVerticalColumn);
                 npvc.setMinValue(minValue);
                 npvc.setMaxValue(maxValue);
-                npvc.setValue(Integer.parseInt(prefs.getString("xcountallapps", "" + 4)));
+                npvc.setValue(Integer.parseInt(sharedPrefs.getString("xcountallapps", "" + 4)));
 
                 final NumberPicker npvr = (NumberPicker) numberPickerView.findViewById(R.id.numberPickerVerticalRow);
                 npvr.setMinValue(minValue);
                 npvr.setMaxValue(maxValue);
-                npvr.setValue(Integer.parseInt(prefs.getString("ycountallapps", "" + 5)));
+                npvr.setValue(Integer.parseInt(sharedPrefs.getString("ycountallapps", "" + 5)));
 
-                numberPickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, mContext.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                new MaterialDialog.Builder(mActivity)
+                        .title(R.string.pref_grid_size_summary)
+                        .customView(numberPickerView)
+                        .cancelable(false)
+                        .theme(Theme.DARK)
+                        .callback(new MaterialDialog.SimpleCallback() {
+                            @Override
+                            public void onPositive(MaterialDialog materialDialog) {
+                                // due to legacy reasons we need to save them as strings... -.-
+                                sharedPrefs.edit()
+                                        .putString("ycountallapps", "" + npvr.getValue())
+                                        .putString("xcountallapps", "" + npvc.getValue())
+                                        .putString("ycountallappshorizontal", "" + nphr.getValue())
+                                        .putString("xcountallappshorizontal", "" + nphc.getValue())
+                                        .apply();
 
-                        // due to legacy reasons we need to save them as strings.........
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putString("ycountallapps", "" + npvr.getValue())
-                                .putString("xcountallapps", "" + npvc.getValue())
-                                .putString("ycountallappshorizontal", "" + nphr.getValue())
-                                .putString("xcountallappshorizontal", "" + nphc.getValue())
-                                .commit();
+                                materialDialog.dismiss();
+                            }
+                        })
+                        .build()
+                        .show();
+                return true;
+            }
+        });
 
-                        numberPickerDialog.dismiss();
-                    }
-                });
-
-                numberPickerDialog.setCancelable(false);
-                numberPickerDialog.show();
+        findPreference("iconsizeappdrawer").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                final String[] values = getResources().getStringArray(R.array.iconsize_entries);
+                final NumberPicker numberPicker = CommonUI.getNumberPicker(mContext, sharedPrefs, values, "iconsizeappdrawer", "100");
+                new MaterialDialog.Builder(mActivity)
+                        .title(R.string.pref_iconsize_title)
+                        .customView(numberPicker)
+                        .theme(Theme.DARK)
+                        .callback(new MaterialDialog.SimpleCallback() {
+                            @Override
+                            public void onPositive(MaterialDialog materialDialog) {
+                                // due to legacy reasons we need to save them as strings... -.-
+                                sharedPrefs.edit()
+                                        .remove("iconsizeappdrawer")
+                                        .putString("iconsizeappdrawer", "" + values[numberPicker.getValue()])
+                                        .apply();
+                                materialDialog.dismiss();
+                            }
+                        })
+                        .build()
+                        .show();
                 return true;
             }
         });
@@ -85,23 +110,26 @@ public class FragmentAppDrawer extends FragmentBase {
         findPreference("cleartabdata").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                new AlertDialog.Builder(mContext)
-                        .setTitle(getString(R.string.alert_appdrawer_clear_tabs_title))
-                        .setMessage(getString(R.string.alert_appdrawer_clear_tabs_summary))
-                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-
+                new MaterialDialog.Builder(mActivity)
+                        .theme(Theme.DARK)
+                        .title(getString(R.string.alert_appdrawer_clear_tabs_title))
+                        .content(getString(R.string.alert_appdrawer_clear_tabs_summary))
+                        .positiveText(android.R.string.ok)
+                        .negativeText(android.R.string.cancel)
+                        .callback(new MaterialDialog.Callback() {
+                            @Override
+                            public void onPositive(MaterialDialog materialDialog) {
                                 SharedPreferences settings = mContext.getSharedPreferences(Common.PREFERENCES_NAME, 0);
                                 SharedPreferences.Editor editor = settings.edit();
-                                editor.remove("appdrawertabdata").commit();
+                                editor.remove("appdrawertabdata").apply();
                                 Toast.makeText(mContext, getString(R.string.alert_appdrawer_clear_tabs_success), Toast.LENGTH_LONG).show();
                             }
-                        })
-                        .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
+
+                            @Override
+                            public void onNegative(MaterialDialog materialDialog) {
+                                materialDialog.dismiss();
                             }
-                        }).show();
+                        }).build().show();
                 return true;
             }
         });
@@ -133,7 +161,7 @@ public class FragmentAppDrawer extends FragmentBase {
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 if ((Boolean) newValue) {
                     SharedPreferences.Editor editor = mContext.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).edit();
-                    editor.remove("continuousscrollwithappdrawer").commit();
+                    editor.remove("continuousscrollwithappdrawer").apply();
                 }
                 return true;
             }
@@ -142,11 +170,6 @@ public class FragmentAppDrawer extends FragmentBase {
         try {
             if (mContext.getPackageManager().getPackageInfo(Common.GEL_PACKAGE, 0).versionCode >= ObfuscationHelper.GNL_4_0_26) {
                 getPreferenceScreen().removePreference(this.findPreference("appdrawerfolderstylebackgroundcolor"));
-
-                findPreference("enableappdrawertabs").setEnabled(false);
-                findPreference("addfolder").setEnabled(false);
-                findPreference("appdrawerswipetabs").setEnabled(false);
-                findPreference("tabsinstructions").setSummary("!!!BROKEN IN GOOGLE SEARCH 4.0!!!");
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Xposed GEL Settings</string>
-    <string name="app_description">Ocultar barra de pesquisa e aplicativos, alterar tamanho da grade da tela inicial e tela aplicativos, mudar o tamanho dos ícone e textos, mudança na barra de navegação, remover títulos de ícones e muito mais</string>
+    <string name="app_description">Google Now Launcher the way you want it to be</string>
     <string name="pref_hide_google_search_bar_title">Ocultar da Tela Inicial</string>
     <string name="pref_autohide_google_search_bar_title">Auto Ocultar</string>
     <string name="pref_autohide_google_search_bar_summary">Mostrar automaticamente na tela Google Now</string>

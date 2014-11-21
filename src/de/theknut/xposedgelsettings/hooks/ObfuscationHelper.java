@@ -158,9 +158,9 @@ public class ObfuscationHelper extends HooksBaseClass {
             SEARCH_OVERLAY_IMPL = new String[]{"com.google.android.search.gel.SearchOverlayImpl", "ccu", "cmh", "cuc", "cuc", "ebj"}[idx]; // search_overlay_impl:search_box_stats
             GSA_CONFIG_FLAGS = new String[]{"com.google.android.search.core.GsaConfigFlags", "ayc", "bgr", "bnj", "bnj", "chh"}[idx]; // Unknown string array encoding
             TRANSITIONS_MANAGER = new String[]{"com.google.android.search.shared.ui.SearchPlate$TransitionsManager", "cen", "cog", "cwb", "cwb", "dsi"}[idx]; // in SearchPlate: "(this, this);"
-            WEATHER_ENTRY_ADAPTER = new String[]{"com.google.android.sidekick.shared.cards.WeatherEntryAdapter", "dye", "elt", "euo", "euo", ""}[idx]; // tripdestination
+            WEATHER_ENTRY_ADAPTER = new String[]{"com.google.android.sidekick.shared.cards.WeatherEntryAdapter", "dye", "elt", "euo", "euo", "fzq"}[idx]; // empty text -> "  "
             URI_LOADER = new String[]{"com.google.android.shared.util.UriLoader", "cxw", "eno", "dtb", "dtb", ""}[idx];
-            WEATHER_POINT = new String[]{"com.google.geo.sidekick.Sidekick.WeatherEntry.WeatherPoint", "him", "ich", "ilp", "ilp", ""}[idx];
+            WEATHER_POINT = new String[]{"com.google.geo.sidekick.Sidekick.WeatherEntry.WeatherPoint", "him", "ich", "ilp", "ilp", "aps"}[idx]; // getLocation in WeatherEntryAdapter // since GS 4.0 it's not the same class anymore but it does the same
         }
     }
 
@@ -280,6 +280,11 @@ public class ObfuscationHelper extends HooksBaseClass {
                 if (Common.PACKAGE_OBFUSCATED) {
                     WorkspaceState = findClass(ClassNames.WORKSPACE_STATE, lpparam.classLoader);
 
+                    if (Common.GNL_VERSION >= GNL_4_0_26) {
+                        WeatherEntryAdapter = findClass(ClassNames.WEATHER_ENTRY_ADAPTER, lpparam.classLoader);
+                        WeatherPoint = findClass(ClassNames.WEATHER_POINT, lpparam.classLoader);
+                    }
+
                     if (Common.IS_PRE_GNL_4) {
                         // GelSearchPlateContainer was removed in Google Search 4.0
                         GelSearchPlateContainer = findClass(ClassNames.GEL_SEARCH_PLATE_CONTAINER, lpparam.classLoader);
@@ -363,6 +368,8 @@ public class ObfuscationHelper extends HooksBaseClass {
                 lmIsShortcutInfoUpdateable,
                 clAttemptPushInDirection,
                 btvSetShadowsEnabled,
+                btvApplyFromApplicationInfo,
+                btvApplyFromShortcutInfo,
                 acpvSetApps,
                 acpvUpdateApps,
                 acpvRemoveApps,
@@ -392,7 +399,15 @@ public class ObfuscationHelper extends HooksBaseClass {
                 wGetWorkspaceAndHotseatCellLayouts,
                 fiFromXml,
                 acpvSetAllAppsPadding,
-                weaAddCurrentConditions;
+                weaAddCurrentConditions,
+                wUpdateStateForCustomContent,
+                weaUpdateWeather,
+                wpGetWeatherDescription,
+                wpGetTemperatur,
+                lDispatchOnLauncherTransitionStart,
+                lDispatchOnLauncherTransitionEnd,
+                uGetCenterDeltaInScreenSpace,
+                spOnModeChanged;
 
         public static void initMethodNames(int idx) {
             lOpenFolder = new String[]{"openFolder", "i", "i", "i", "i", "i"}[idx]; // "Opening folder ("
@@ -408,6 +423,8 @@ public class ObfuscationHelper extends HooksBaseClass {
             lSetWorkspaceBackground = new String[]{"setWorkspaceBackground", "N", "S", "S", "S", "V"}[idx]; // localView.setBackground(localDrawable);
             lGetDragLayer = new String[]{"getDragLayer", "fV", "gK", "gT", "gU", "hn"}[idx]; // public final DragLayer
             lCreateAppInfo = new String[]{"", "e", "d", "d", "d", "d"}[idx]; // (Intent paramIntent)
+            lDispatchOnLauncherTransitionStart = new String[]{"dispatchOnLauncherTransitionStart", "c", "c", "c", "c", "c"}[idx]; // (paramView, 0.0F);
+            lDispatchOnLauncherTransitionEnd = new String[]{"dispatchOnLauncherTransitionEnd", "d", "d", "d", "d", "d"}[idx]; // (paramView, 1.0F);
             clAttemptPushInDirection = new String[]{"attemptPushInDirection", "b", "b", "b", "b", "b"}[idx]; // "if (Math.abs(paramArrayOfInt[0]) + Math.abs(paramArrayOfInt[1]) > 1)"
             clMarkCellsForView = new String[]{"markCellsForView", "a", "a", "a", "a", "a"}[idx]; // int paramInt1, int paramInt2, int paramInt3, int paramInt4, boolean[][] paramArrayOfBoolean, boolean paramBoolean
             clGetShortcutsAndWidgets = new String[]{"getShortcutsAndWidgets", "dH", "ew", "eF", "eF", "eZ"}[idx]; // "public final a"
@@ -426,9 +443,10 @@ public class ObfuscationHelper extends HooksBaseClass {
             wOnLauncherTransitionEnd = new String[]{"onLauncherTransitionEnd", "a", "a", "a", "a", "a"}[idx]; // (Launcher paramLauncher, boolean paramBoolean1, boolean paramBoolean2)
             wOnTransitionPrepare = new String[]{"onTransitionPrepare", "jR", "kM", "kR", "kW", "ln"}[idx]; // Method with "if ((bool) && (" in it
             wGetWorkspaceAndHotseatCellLayouts = new String[]{"getWorkspaceAndHotseatCellLayouts", "ka", "kV", "la", "lf", "lx"}[idx]; // localArrayList.add((CellLayout)getChildAt(j));
-            wGetViewForTag = new String[]{"getViewForTag", "I", "V", "V", "V", "a"}[idx]; // View[] arrayOfView = new View[1];
+            wGetViewForTag = new String[]{"getViewForTag", "I", "V", "V", "V", "af"}[idx]; // "FolderIcon localFolderIcon = (FolderIcon)this."
             wGetScreenWithId = new String[]{"getScreenWithId", "j", "j", "j", "j", "j"}[idx]; // public final CellLayout
             wGetFolderForTag = new String[]{"getFolderForTag", "H", "U", "U", "U", "ae"}[idx]; // Launcher: return (Folder)
+            wUpdateStateForCustomContent = new String[]{"updateStateForCustomContent", "H", "av", "aL", "aL", "aU"}[idx]; // Math.abs(Math.max(Math.min
             pvPageBeginMoving = new String[]{"pageBeginMoving", "ii", "iY", "jb", "jc", "jn"}[idx]; // above "awakenScrollBars"
             pvPageEndMoving = new String[]{"pageEndMoving", "ij", "iZ", "jc", "jd", "jJ"}[idx]; // method above "accessibility"
             pvSnapToPage = new String[]{"snapToPage", "a", "a", "a", "a", "a"}[idx]; // int paramInt1, int paramInt2, int paramInt3, boolean paramBoolean, TimeInterpolator paramTimeInterpolator
@@ -439,6 +457,8 @@ public class ObfuscationHelper extends HooksBaseClass {
             sdtbOnDragStart = new String[]{"onDragStart", "a", "a", "a", "a", "a"}[idx]; // twice .start in the method
             sdtbOnDragEnd = new String[]{"onDragEnd", "dt", "ei", "er", "er", "eK"}[idx]; // twice .reverse
             btvCreateGlowingOutline = new String[]{"createGlowingOutline", "a", "a", "a", "a", ""}[idx]; // setBitmap
+            btvApplyFromApplicationInfo = new String[]{"applyFromApplicationInfo", "", "", "", "", "b"}[idx];
+            btvApplyFromShortcutInfo = new String[]{"applyFromShortcutInfo", "a", "a", "a", "a", "a"}[idx]; // Bitmap localBitmap = param
             acpvOnPackagesUpdated = new String[]{"onPackagesUpdated", "a", "a", "a", "a", "a"}[idx]; // "can not fit on this device"
             //acpvOverScroll = new String[]{"overScroll", "g", "g", "g", "g"}[idx]; // (float paramFloat)
             acpvSetApps = new String[]{"setApps", "b", "b", "b", "b", "b"}[idx]; // Collections.sort
@@ -454,8 +474,8 @@ public class ObfuscationHelper extends HooksBaseClass {
             acpvUpdatePageCounts = new String[]{"updatePageCounts", "cO", "dD", "dM", "dM", "eg"}[idx]; // (int)Math.ceil
             acpvSetAllAppsPadding = new String[]{"setAllAppsPadding", "b", "b", "b", "b", ""}[idx]; // .set(paramRect);
             acthOnTabChanged = new String[]{"onTabChanged", "c", "c", "c", "c", ""}[idx]; // setBackgroundColor
-            acthSetInsets = new String[]{"setInsets", "c", "c", "c", "c", ""}[idx]; // (Rect
-            acthGetContentTypeForTabTag = new String[]{"getContentTypeForTabTag", "j", "r", "r", "q", ""}[idx]; // (String paramString)
+            acthSetInsets = new String[]{"setInsets", "c", "c", "c", "c", "b"}[idx]; // (Rect
+            acthGetContentTypeForTabTag = new String[]{"getContentTypeForTabTag", "j", "r", "r", "q", "q"}[idx]; // (String paramString)
             acthSetContentTypeImmediate = new String[]{"setContentTypeImmediate", "b", "b", "b", "b", ""}[idx]; // setOnTabChangedListener(null)
             dpGetWorkspacePadding = new String[]{"getWorkspacePadding", "aC", "aS", "aS", "aS", "ba"}[idx]; // Rect localRect2 = new Rect();
             dpUpdateFromConfiguration = new String[]{"updateFromConfiguration", "a", "a", "a", "a", "a"}[idx]; // float paramFloat, int paramInt, Resources paramResources, DisplayMetrics paramDisplayMetrics
@@ -488,10 +508,15 @@ public class ObfuscationHelper extends HooksBaseClass {
             woiSyncWithScroll = new String[]{"syncWithScroll", "kf", "la", "lf", "lk", "lC"}[idx]; // computeScroll in Workspace
             /////////rvCanShowHotwordAnimation = new String[]{"canShowHotwordAnimation", "NH", "Se", "UC", "UH"}[idx]; //  == 5);
             spSetProximityToNow = new String[]{"setProximityToNow", "x", "x", "x", "x", ""}[idx]; // (float paramFloat) with RecognizerView
+            spOnModeChanged = new String[]{"onModeChanged", "", "", "", "", "av"}[idx]; // (int paramInt1, int paramInt2)
             tmSetTransitionsEnabled = new String[]{"setTransitionsEnabled", "cG", "cY", "cZ", "cZ", "ea"}[idx]; // (4)
             weaAddCurrentConditions = new String[]{"addCurrentConditions", "a", "a", "a", "a", ""}[idx];
+            weaUpdateWeather = new String[]{"", "", "", "", "", "aCZ"}[idx]; // only "void" method
             uIsL = new String[]{"", "", "jO", "jS", "jV", ""}[idx];
+            uGetCenterDeltaInScreenSpace = new String[]{"getCenterDeltaInScreenSpace", "", "", "", "", "b"}[idx]; // public static int[]
             lasIsDisableAllApps = new String[]{"isDisableAllApps", "ha", "hS", "hW", "hX", "im"}[idx]; // launcher_noallapps
+            wpGetWeatherDescription = new String[]{"", "", "", "", "", "tz"}[idx]; // in WeatherEntryAdapter - for (String str =
+            wpGetTemperatur = new String[]{"", "", "", "", "", "tx"}[idx]; // in WeatherEntryAdapter - ().length() > 3
         }
     }
 
@@ -563,14 +588,16 @@ public class ObfuscationHelper extends HooksBaseClass {
                 dpAllAppsIconSize,
                 fContent,
                 dpIconDrawablePaddingPx,
-                lSearchDropTargetBar;
+                lSearchDropTargetBar,
+                wLastCustomContentScrollProgress,
+                pvOverscrollX;
 
         public static void initFieldNames(int idx) {
             dpHotseatAllAppsRank = new String[]{"hotseatAllAppsRank", "zp", "BQ", "Cv", "Cu", "DY"}[idx]; // only / 2 operation
             dpNumHotseatIcons = new String[]{"numHotseatIcons", "yz", "AY", "BD", "BC", "Di"}[idx]; // toString of DynamicGrid ", hc: "
             dpHotseatBarHeightPx = new String[]{"hotseatBarHeightPx", "zo", "BP", "Cu", "Ct", "DX"}[idx]; // 4 * ...
             dpPageIndicatorHeightPx = new String[]{"pageIndicatorHeightPx", "zw", "BX", "CC", "CB", "Ef"}[idx]; // last parameter in last localRect2.set(
-            dpIconTextSize = new String[]{"allAppsIconTextSizePx", "zd", "BE", "Cj", "Ci", ""}[idx]; // PagedViewIcon setTextSize
+            dpIconTextSize = new String[]{"allAppsIconTextSizePx", "zd", "BE", "Cj", "Ci", "DJ"}[idx]; // PagedViewIcon setTextSize
             dpAllAppsIconSize = new String[]{"allAppsIconSizePx", "zc", "BD", "Ci", "Ch", "DN"}[idx]; // first in acpv "public final float"
             dpIconDrawablePaddingPx = new String[]{"iconDrawablePaddingPx", "zZ", "BA", "Cf", "Ce", "DK"}[idx]; // in BubbleTextView setCompoundDrawablePadding
             dpNumCols = new String[]{"numColumns", "yy", "AX", "BC", "BB", "Dh"}[idx]; // ", c: "
@@ -586,6 +613,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             wDefaultPage = new String[]{"mDefaultPage", "PI", "Su", "SV", "SV", "Vs"}[idx];  // "Expected custom content screen to exist", member gets decreased by one // "(-1 + this."
             wTouchState = new String[]{"mTouchState", "KY", "NF", "Oj", "On", "Qt"}[idx]; // onInterceptTouchEvent while clause
             wIsSwitchingState = new String[]{"mIsSwitchingState", "Qk", "SW", "Tx", "Tx", "VU"}[idx]; // start from onTouch, second method call in if-clause
+            wLastCustomContentScrollProgress = new String[]{"mLastCustomContentScrollProgress", "PW", "SI", "Tj", "Tj", "VG"}[idx]; // " = -1.0F;"
             lHotseat = new String[]{"mHotseat", "EO", "Hu", "HZ", "Id", "Ka"}[idx];
             lSearchDropTargetBar = new String[]{"mSearchDropTargetBar", "um", "wN", "xs", "xr", "zD"}[idx];
             lAppsCustomizeTabHost = new String[]{"mAppsCustomizeTabHost", "ER", "Hx", "Ic", "Ig", "Kd"}[idx];
@@ -613,16 +641,17 @@ public class ObfuscationHelper extends HooksBaseClass {
             pvNextPage = new String[]{"mNextPage", "KI", "Np", "NT", "NX", "Qd"}[idx]; // abortAnimation();
             pvPageIndicator = new String[]{"mPageIndicator", "Lz", "Og", "OK", "OO", "QR"}[idx]; // setContentDescription
             pvCurrentPage = new String[]{"mCurrentPage", "KF", "Nm", "NQ", "NU", "Qa"}[idx]; // in OnTouch -> "indexOfChild(paramView) != this."
+            pvOverscrollX = new String[]{"mOverScrollX", "Ln", "Nu", "Oy", "OC", "QF"}[idx]; // " >= 0);"
             aiComponentName = new String[]{"componentName", "rJ", "uj", "uO", "uO", "xr"}[idx]; // only ComponentName member
             iiItemType = new String[]{"itemType", "En", "GT", "Hy", "HB", "Jz"}[idx]; // Item(id=
             iiID = new String[]{"id", "id", "id", "id", "id", "id"}[idx];
-            iiScreenId = new String[]{"screenId", "vO", "yn", "yS", "yR", "Bb"}[idx];
+            iiScreenId = new String[]{"screenId", "vO", "yn", "yS", "yR", "Bd"}[idx];
             iiContainer = new String[]{"container", "Eo", "GU", "Hz", "HC", "JA"}[idx];
             //iiTitle = new String[]{"title", "title", "title", "title"}[idx];
             ceIcon = new String[]{"icon", "DZ", "GE", "Hj", "Hm", "Jj"}[idx];
             lawiProviderName = new String[]{"providerName", "GX", "JF", "Kj", "Kn", "Mp"}[idx]; // only ComponentName member
             acthInTransition = new String[]{"mInTransition", "tf", "vF", "wk", "wk", "yA"}[idx]; // onInterceptTouchEvent first member in if-clause
-            acthContent = new String[]{"mContent", "tD", "wd", "wI", "wI", ""}[idx]; // .getLayoutParams in setInsets
+            acthContent = new String[]{"mContent", "tD", "wd", "wI", "wI", "yV"}[idx]; // .getLayoutParams in setInsets
             //acthTabsContainer = new String[]{"mTabsContainer", "tA", "wA", "wF"}[idx]; // setAlpha
             acthAppsCustomizePane = new String[]{"mAppsCustomizePane", "tB", "wb", "wG", "wG", ""}[idx]; // setAlpha
             uIconWidth = new String[]{"sIconWidth", "NC", "Qm", "QN", "QS", "Tn"}[idx]; // first private static int
@@ -631,7 +660,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             acpvAllAppsNumRows = new String[]{"allAppsNumRows", "zq", "BR", "Cw", "Cv", "Ea"}[idx]; // onMeasure localDeviceProfile
             acpvAllApps = new String[]{"mApps", "sA", "va", "vF", "vF", "yi"}[idx]; // sort
             //acpvAllWidgets = new String[]{"mWidgets", "sB", "vb", "vG"}[idx]; // 2nd "isEmpty"
-            acpvNumAppsPages = new String[]{"mNumAppsPages", "sN", "vn", "vS", "vS", "yq"}[idx]; // Math.ceil
+            acpvNumAppsPages = new String[]{"mNumAppsPages", "sN", "vn", "vS", "vS", "yp"}[idx]; // Math.ceil
             acpvCellCountX = new String[]{"mCellCountX", "Lg", "NN", "Or", "Ov", "Qx"}[idx]; // Math.ceil
             acpvCellCountY = new String[]{"mCellCountY", "Lh", "NO", "Os", "Ow", "Qy"}[idx]; // Math.ceil
             acpvRemoveAllViewsOnPage = new String[]{"removeAllViewsOnPage", "cI", "dx", "dG", "dG", "eb"}[idx]; // ")localView)."

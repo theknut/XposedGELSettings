@@ -19,7 +19,6 @@
     android:id="@+id/options_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_alignParentLeft="true"
     android:layout_alignParentTop="true"
     android:layout_centerInParent="true"
     tools:context=".MainActivity"
@@ -54,7 +53,8 @@
         android:verticalSpacing="8dp"
         android:horizontalSpacing="8dp"
         android:stretchMode="columnWidth"
-        android:gravity="center" />
+        android:gravity="center"
+        android:background="@color/icongrid" />
 
     <View
         android:layout_above="@android:id/list"

@@ -11,4 +11,6 @@
     <dimen name="context_menu_close_threshold">50dp</dimen>
     <dimen name="notificationbadgemarginleftright">6dp</dimen>
     <dimen name="notificationbadgemargintopbottom">3dp</dimen>
+    <dimen name="tabhost_margin">8dp</dimen>
+    <dimen name="tabhost_overlap">0.5dp</dimen>
 </resources>

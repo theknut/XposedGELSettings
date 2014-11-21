@@ -36,13 +36,6 @@
         android:layout_marginLeft="6dp"
         android:layout_marginRight="6dp" >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="left"
-            android:text="@string/colorpicker_apply"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
         <EditText
             android:id="@+id/hex_val"
             android:layout_width="0dp"
@@ -53,6 +46,15 @@
             android:maxLength="7"
             android:singleLine="true"
             android:inputType="textCapCharacters" />
+
+        <TextView
+            android:id="@+id/defaultcolor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/default_text"
+            android:drawableStart="@drawable/ic_action_rotate_left"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 
     <LinearLayout

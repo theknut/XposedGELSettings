@@ -3,7 +3,6 @@ package de.theknut.xposedgelsettings.hooks.appdrawer;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -28,7 +27,13 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.Utils;
 import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.AddTabsAndFolders;
+import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.AddTabsAndFoldersLegacy;
+import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.Tab;
 import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelper;
+import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelperLegacy;
+import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelperNew;
+import de.theknut.xposedgelsettings.hooks.common.CommonHooks;
+import de.theknut.xposedgelsettings.hooks.common.XGELSCallback;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
@@ -80,11 +85,6 @@ public class AppDrawerHooks extends HooksBaseClass {
                                 tabHost.removeView(content);
                                 ((ViewGroup) rl.findViewById(R.id.appdrawer_contents)).addView(content);
                                 tabHost.addView(rl);
-
-                                rl.findViewById(R.id.textView1).getBackground().setColorFilter(Color.parseColor(ColorPickerPreference.convertToARGB(PreferencesHelper.appdrawerFolderStyleBackgroundColor)), PorterDuff.Mode.MULTIPLY);
-                                rl.findViewById(R.id.textView2).getBackground().setColorFilter(Color.parseColor(ColorPickerPreference.convertToARGB(PreferencesHelper.appdrawerFolderStyleBackgroundColor)), PorterDuff.Mode.MULTIPLY);
-
-                                rl.findViewById(R.id.textView1).bringToFront();
                             }
                         });
 
@@ -92,6 +92,7 @@ public class AppDrawerHooks extends HooksBaseClass {
                             @Override
                             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                                 ((FrameLayout.LayoutParams) ((View) getObjectField(param.thisObject, "yV")).getLayoutParams()).topMargin = Utils.dpToPx(-6);
+                                ((View) getObjectField(param.thisObject, "yV")).setBackgroundColor(Color.TRANSPARENT);
                             }
                         });
                     }
@@ -116,22 +117,22 @@ public class AppDrawerHooks extends HooksBaseClass {
 
         if (PreferencesHelper.continuousScroll) {
             // open app drawer on overscroll of last page
-            findAndHookMethod(Classes.AppsCustomizePagedView, Methods.pvOverScroll, float.class, new OverScrollAppDrawerHook());
+            CommonHooks.AppsCustomizePagedViewOverScrollListeners.add(new OverScrollAppDrawerHook());
         }
 
         if (PreferencesHelper.closeAppdrawerAfterAppStarted) {
             findAndHookMethod(Common.IS_PRE_GNL_4 ? Classes.AppsCustomizePagedView : Classes.Launcher, "onClick", View.class, new OnClickHook());
         }
 
-        findAndHookMethod(Classes.Workspace, Methods.wOnLauncherTransitionEnd, Classes.Launcher, boolean.class, boolean.class, new XC_MethodHook() {
+        CommonHooks.OnLauncherTransitionEndListeners.add(new XGELSCallback() {
 
             int TOWORKSPACE = 2;
 
             @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-
-
+            public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
                 if ((Boolean) param.args[TOWORKSPACE]) {
+                    Tab currTab = TabHelper.getInstance().getCurrentTabData();
+
                     if (PreferencesHelper.appdrawerRememberLastPosition) {
                         if (!Common.OVERSCROLLED) {
                             Object acpv = getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizePagedView);
@@ -139,8 +140,12 @@ public class AppDrawerHooks extends HooksBaseClass {
                         }
 
                         if (Common.IS_PRE_GNL_4) {
-                            if (!Common.OVERSCROLLED && !Common.IS_TREBUCHET && !TabHelper.getInstance().getCurrentTabData().isWidgetsTab()) {
-                                Common.APPDRAWER_LAST_TAB_POSITION = TabHelper.getInstance().getTabHost().getCurrentTab();
+                            if (!Common.OVERSCROLLED && !Common.IS_TREBUCHET && !currTab.isWidgetsTab()) {
+                                Common.APPDRAWER_LAST_TAB_POSITION = currTab.getIndex();
+                            }
+                        } else {
+                            if (!Common.OVERSCROLLED && !Common.IS_TREBUCHET && !currTab.isWidgetsTab()) {
+                                Common.APPDRAWER_LAST_TAB_POSITION = currTab.getLayoutId();
                             }
                         }
 
@@ -148,6 +153,15 @@ public class AppDrawerHooks extends HooksBaseClass {
                             log(param, "AppDrawerHooks: get current position - " + Common.APPDRAWER_LAST_PAGE_POSITION);
                     }
 
+                    if (currTab.isWidgetsTab()) {
+                        callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSetContentType, callMethod(TabHelperNew.getInstance().getTabHost(), Methods.acthGetContentTypeForTabTag, "APPS"));
+
+                        if (Common.IS_PRE_GNL_4) {
+                            TabHelperLegacy.getInstance().setCurrentTab(0);
+                        } else {
+                            TabHelperNew.getInstance().setCurrentTab(0x80 + Tab.APPS_ID, true);
+                        }
+                    }
                     Common.OVERSCROLLED = false;
                 } else {
                     Common.ORIENTATION = Common.LAUNCHER_CONTEXT.getResources().getConfiguration().orientation;
@@ -163,13 +177,13 @@ public class AppDrawerHooks extends HooksBaseClass {
 
                 Object acpv = getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizePagedView);
                 if (PreferencesHelper.appdrawerRememberLastPosition) {
-                    if ((!Common.IS_TREBUCHET && Common.IS_PRE_GNL_4) && !TabHelper.getInstance().getCurrentTabData().isWidgetsTab()) {
-                        int lastTab = TabHelper.getInstance().getTabHost().getTabWidget().getTabCount() - 1;
+                    if ((!Common.IS_TREBUCHET && Common.IS_PRE_GNL_4) && !TabHelperLegacy.getInstance().getCurrentTabData().isWidgetsTab()) {
+                        int lastTab = TabHelperLegacy.getInstance().getTabHost().getTabWidget().getTabCount() - 1;
                         if (Common.APPDRAWER_LAST_TAB_POSITION > lastTab) {
                             Common.APPDRAWER_LAST_TAB_POSITION = lastTab;
                         }
 
-                        TabHelper.getInstance().setCurrentTab(Common.APPDRAWER_LAST_TAB_POSITION);
+                        TabHelperLegacy.getInstance().setCurrentTab(Common.APPDRAWER_LAST_TAB_POSITION);
                     }
 
                     int lastPage = (Integer) callMethod(acpv, "getChildCount") - 1;
@@ -183,6 +197,8 @@ public class AppDrawerHooks extends HooksBaseClass {
                 } else {
                     callMethod(acpv, Methods.pvSetCurrentPage, 0);
                 }
+
+                TabHelper.getInstance().scroll();
             }
         });
 
@@ -227,6 +243,8 @@ public class AppDrawerHooks extends HooksBaseClass {
         findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvUpdateApps, ArrayList.class, new AllAppsListAddHook());
         findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvRemoveApps, ArrayList.class, new AllAppsListAddHook());
 
+        //AddTabsAndFoldersLegacy.initAllHooks(lpparam);
         AddTabsAndFolders.initAllHooks(lpparam);
+        AddTabsAndFoldersLegacy.initAllHooks(lpparam);
     }
 }

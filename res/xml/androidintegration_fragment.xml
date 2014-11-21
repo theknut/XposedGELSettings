@@ -1,81 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
 		android:title="@string/pref_systemui_explain_title"
 		android:summary="@string/pref_systemui_explain_summary"
 	    android:selectable="false" />
-    <de.theknut.xposedgelsettings.ui.MyPreferenceCategory
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory
         android:title="@string/pref_cat_system_bars_title">
-        <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+        <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
             android:key="transparentsystembars"
             android:title="@string/pref_transparent_system_bars_title"
             android:summary="@string/pref_transparent_system_bars_summary" />
-    </de.theknut.xposedgelsettings.ui.MyPreferenceCategory>
-	<de.theknut.xposedgelsettings.ui.MyPreferenceCategory
+    </de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory>
+	<de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory
       android:title="@string/pref_cat_systemui_statusbar_title">
-      <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+      <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
 		android:key="hideclock"
 		android:title="@string/pref_dynamic_hideclock_title"
 		android:summary="@string/pref_dynamic_hideclock_summary" />
-    </de.theknut.xposedgelsettings.ui.MyPreferenceCategory>
-    <de.theknut.xposedgelsettings.ui.MyPreferenceCategory
+    </de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory>
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory
       android:title="@string/pref_cat_systemui_navbar_title">
-      <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+      <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
 		android:key="dynamichomebutton"
 		android:title="@string/pref_dynamic_homebutton_title"
 		android:summary="@string/pref_dynamic_homebutton_summary" />
-      <de.theknut.xposedgelsettings.ui.MyCheckboxPreference
+      <de.theknut.xposedgelsettings.ui.preferences.MyCheckboxPreference
         android:key="changeicondynamichomebutton"
 		android:title="@string/pref_change_dynamic_homebutton_title"
 		android:summary="@string/pref_change_dynamic_homebutton_summary"
 		android:dependency="dynamichomebutton" />
-      <de.theknut.xposedgelsettings.ui.MyCheckboxPreference
+      <de.theknut.xposedgelsettings.ui.preferences.MyCheckboxPreference
         android:key="animatedynamichomebutton"
 		android:title="@string/pref_animate_dynamic_homebutton_title"
 		android:summary="@string/pref_animate_dynamic_homebutton_summary"
 		android:dependency="changeicondynamichomebutton" />
-      <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+      <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
 		android:key="dynamicbackbutton"
 		android:title="@string/pref_dynamic_backbutton_title"
 		android:summary="@string/pref_dynamic_backbutton_summary" />
-      <de.theknut.xposedgelsettings.ui.MyCheckboxPreference
+      <de.theknut.xposedgelsettings.ui.preferences.MyCheckboxPreference
 		android:key="dynamicbackbuttononeveryscreen"
 		android:title="@string/pref_dynamic_backbuttononeveryscreen_title"
 		android:summary="@string/pref_dynamic_backbuttononeveryscreen_summary"
 		android:dependency="dynamicbackbutton" />
-      <de.theknut.xposedgelsettings.ui.MyCheckboxPreference
+      <de.theknut.xposedgelsettings.ui.preferences.MyCheckboxPreference
         android:key="changeicondynamicbackbutton"
 		android:title="@string/pref_change_dynamic_backbutton_title"
 		android:summary="@string/pref_change_dynamic_backbutton_summary"
 		android:dependency="dynamicbackbutton" />
-      <de.theknut.xposedgelsettings.ui.MyCheckboxPreference
+      <de.theknut.xposedgelsettings.ui.preferences.MyCheckboxPreference
         android:key="animatedynamicbackbutton"
 		android:title="@string/pref_animate_dynamic_backbutton_title"
 		android:summary="@string/pref_animate_dynamic_backbutton_summary"
 		android:dependency="changeicondynamicbackbutton" />
-<!--       <de.theknut.xposedgelsettings.ui.CustomSwitchPreference -->
-<!-- 		android:key="dynamicrecentsbutton" -->
-<!-- 		android:title="@string/pref_dynamic_recents_title" -->
-<!-- 		android:summary="@string/pref_dynamic_recents_summary" /> -->
-<!--       <de.theknut.xposedgelsettings.ui.MyCheckboxPreference -->
-<!--         android:key="changeicondynamicrecentsbutton" -->
-<!-- 		android:title="@string/pref_change_dynamic_recentsbutton_title" -->
-<!-- 		android:summary="@string/pref_change_dynamic_recentsbutton_summary" -->
-<!-- 		android:dependency="dynamichomebutton" /> -->
-<!--       <de.theknut.xposedgelsettings.ui.MyCheckboxPreference -->
-<!--         android:key="animatedynamicrecentsbutton" -->
-<!-- 		android:title="@string/pref_animate_dynamic_recentsbutton_title" -->
-<!-- 		android:summary="@string/pref_animate_dynamic_recentsbutton_summary" -->
-<!-- 		android:dependency="changeicondynamichomebutton" /> -->
-    </de.theknut.xposedgelsettings.ui.MyPreferenceCategory>
-    <de.theknut.xposedgelsettings.ui.MyPreferenceCategory
+    </de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory>
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory
         android:title="@string/pref_cat_quicksettings_title">
-        <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+        <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
             android:summary="@string/pref_quicksettings_explain_summary"
             android:selectable="false" />
-        <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+        <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
             android:key="quicksettingslockdesktop"
             android:title="@string/pref_cat_quicksettings_lock_desktop_title"
             android:summary="@string/pref_cat_quicksettings_lock_desktop_summary" />
-    </de.theknut.xposedgelsettings.ui.MyPreferenceCategory>
+    </de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory>
 </PreferenceScreen>

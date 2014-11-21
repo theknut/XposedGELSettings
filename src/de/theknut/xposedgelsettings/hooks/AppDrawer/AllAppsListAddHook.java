@@ -1,11 +1,7 @@
 package de.theknut.xposedgelsettings.hooks.appdrawer;
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.NotificationCompat;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,6 +31,12 @@ public final class AllAppsListAddHook extends XC_MethodHook {
 	
 	@Override
 	protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+        if (Common.ALL_APPS == null) {
+            Common.ALL_APPS = new ArrayList((ArrayList) param.args[0]);
+            TabHelper.getInstance().updateTabs();
+            return;
+        }
+
         if (PreferencesHelper.iconPackHide && !init && Common.LAUNCHER_CONTEXT != null) {
             init = true;
             packages = CommonUI.getIconPacks(Common.LAUNCHER_CONTEXT);
@@ -70,32 +72,8 @@ public final class AllAppsListAddHook extends XC_MethodHook {
 
     @Override
     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-        if (Common.IS_TREBUCHET || !Common.IS_PRE_GNL_4) return;
+        if (Common.IS_TREBUCHET) return;
         Tab tab = TabHelper.getInstance().getTabById(Tab.APPS_ID);
         Collections.sort((ArrayList) param.args[APPINFOLIST], tab.getSortComparator());
-    }
-
-    public void makeNotification() {
-        Intent intent = new Intent();
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-        intent.setComponent(new ComponentName(Common.PACKAGE_NAME, SaveActivity.class.getName()));
-        intent.putExtra("mode", SaveActivity.CONVERT_APPSWIDGETS);
-        PendingIntent pInstallTab = PendingIntent.getActivity(Common.LAUNCHER_CONTEXT, 0xB00B5, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        String msg = "Your current list of hidden widgets/apps needs to be converted into a new format. Touch here to start converting your settings! Otherwise widgets/apps won't be hidden!";
-        NotificationCompat.BigTextStyle notiStyle = new NotificationCompat.BigTextStyle();
-        notiStyle.setBigContentTitle("XGELS Information");
-        notiStyle.bigText(msg);
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(Common.LAUNCHER_CONTEXT)
-                .setContentTitle("Information")
-                .setContentText(msg)
-                .setTicker("XGELS Information")
-                .setContentIntent(pInstallTab)
-                .setAutoCancel(true)
-                .setStyle(notiStyle)
-                .setSmallIcon(android.R.drawable.ic_dialog_alert);
-
-        ((NotificationManager) Common.LAUNCHER_CONTEXT.getSystemService(Context.NOTIFICATION_SERVICE)).notify(null, 0, builder.build());
     }
 }

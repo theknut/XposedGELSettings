@@ -1,71 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
        	android:key="needsDonate"
 	    android:title="@string/pref_limited_title"
 	    android:summary="@string/pref_limited_summary"
 	    android:selectable="false"/>
-    <de.theknut.xposedgelsettings.ui.CustomSwitchPreference
+    <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
        android:key="gesture_appdrawer"
        android:title="@string/pref_switch_gesture_appdrawer_title"
        android:summary="@string/pref_switch_gesture_appdrawer_summary" />
-    <de.theknut.xposedgelsettings.ui.MyListPreference
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
        android:key="gesture_double_tap"
        android:title="@string/pref_switch_gesture_double_tap_title"
        android:summary="@string/pref_switch_gesture_double_tap_summary"
 	   android:entries="@array/gesture_actions_entries"
 	   android:entryValues="@array/gesture_actions_values"
 	   android:defaultValue="NONE" />
-    <de.theknut.xposedgelsettings.ui.MyCheckboxPreference
+    <de.theknut.xposedgelsettings.ui.preferences.MyCheckboxPreference
         android:key="gesture_double_tap_only_on_wallpaper"
 		android:title="@string/pref_switch_gesture_double_tap_only_on_wallpaper_title"
 		android:summary="@string/pref_switch_gesture_double_tap_only_on_wallpaper_summary" />
-    <de.theknut.xposedgelsettings.ui.MyPreferenceCategory
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory
         android:title="@string/pref_cat_gesture_down_title">
-	    <de.theknut.xposedgelsettings.ui.MyListPreference
+	    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
 	       android:key="gesture_one_down_left"
 	       android:title="@string/pref_gesture_down_left_title"
 	       android:dialogTitle="@string/pref_choose_gesture_action_title"
 	       android:entries="@array/gesture_actions_entries"
 		   android:entryValues="@array/gesture_actions_values"
 		   android:defaultValue="NONE" />
-	    <de.theknut.xposedgelsettings.ui.MyListPreference
+	    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
 	       android:key="gesture_one_down_middle"
 	       android:title="@string/pref_gesture_down_middle_title"
 	       android:dialogTitle="@string/pref_choose_gesture_action_title"
 	       android:entries="@array/gesture_actions_entries"
 		   android:entryValues="@array/gesture_actions_values"
 		   android:defaultValue="NONE" />
-	    <de.theknut.xposedgelsettings.ui.MyListPreference
+	    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
 	       android:key="gesture_one_down_right"
 	       android:title="@string/pref_gesture_down_right_title"
 	       android:dialogTitle="@string/pref_choose_gesture_action_title"
 	       android:entries="@array/gesture_actions_entries"
 		   android:entryValues="@array/gesture_actions_values"
 		   android:defaultValue="NONE" />
-    </de.theknut.xposedgelsettings.ui.MyPreferenceCategory>
-    <de.theknut.xposedgelsettings.ui.MyPreferenceCategory
+    </de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory>
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory
         android:title="@string/pref_cat_gesture_up_title">
-	    <de.theknut.xposedgelsettings.ui.MyListPreference
+	    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
 	       android:key="gesture_one_up_left"
 	       android:title="@string/pref_gesture_up_left_title"
 	       android:dialogTitle="@string/pref_choose_gesture_action_title"
 	       android:entries="@array/gesture_actions_entries"
 		   android:entryValues="@array/gesture_actions_values"
 		   android:defaultValue="NONE" />
-	    <de.theknut.xposedgelsettings.ui.MyListPreference
+	    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
 	       android:key="gesture_one_up_middle"
 	       android:title="@string/pref_gesture_up_middle_title"
 	       android:dialogTitle="@string/pref_choose_gesture_action_title"
 	       android:entries="@array/gesture_actions_entries"
 		   android:entryValues="@array/gesture_actions_values"
 		   android:defaultValue="NONE" />
-	    <de.theknut.xposedgelsettings.ui.MyListPreference
+	    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
 	       android:key="gesture_one_up_right"
 	       android:title="@string/pref_gesture_up_right_title"
 	       android:dialogTitle="@string/pref_choose_gesture_action_title"
 	       android:entries="@array/gesture_actions_entries"
 		   android:entryValues="@array/gesture_actions_values"
 		   android:defaultValue="NONE" />
-    </de.theknut.xposedgelsettings.ui.MyPreferenceCategory>
+    </de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory>
 </PreferenceScreen>

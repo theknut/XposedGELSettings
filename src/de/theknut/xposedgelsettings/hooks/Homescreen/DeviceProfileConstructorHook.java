@@ -3,13 +3,13 @@ package de.theknut.xposedgelsettings.hooks.homescreen;
 import android.content.Context;
 
 import de.theknut.xposedgelsettings.hooks.Common;
-import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import de.theknut.xposedgelsettings.hooks.common.XGELSCallback;
 
 import static de.robv.android.xposed.XposedHelpers.setIntField;
 
-public final class DeviceProfileConstructorHook extends HooksBaseClass {
+public final class DeviceProfileConstructorHook extends XGELSCallback {
 
     // http://androidxref.com/4.4.2_r1/xref/packages/apps/Launcher3/src/com/android/launcher3/DynamicGrid.java#99
     // DeviceProfile(String n, float w, float h, float r, float c, float is, float its, float hs, float his)
@@ -25,7 +25,7 @@ public final class DeviceProfileConstructorHook extends HooksBaseClass {
     public static int HOTSEATICONSIZE = 8;
 
     @Override
-    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+    public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
 
         // making sure to only hook to the appropriate constructor
         if (!(param.args[NAME] instanceof Context)) {
@@ -83,7 +83,7 @@ public final class DeviceProfileConstructorHook extends HooksBaseClass {
     }
 
     @Override
-    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+    public void onAfterHookedMethod(MethodHookParam param) throws Throwable {
 
         if (PreferencesHelper.noAllAppsButton) {
             setIntField(param.thisObject, Fields.dpHotseatAllAppsRank, 50);

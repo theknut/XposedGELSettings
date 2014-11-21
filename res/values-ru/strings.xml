@@ -24,7 +24,7 @@
     <string name="alert_xgels_updated_cancel">Позже</string>
     <string name="alert_xgels_updated_summary">Рекомендуется перезагрузка для активации обновления. Хотите перезагрузиться сейчас?</string>
     <string name="alert_xgels_updated_title">XGELS обновлен!</string>
-    <string name="app_description">Скрыть строку поиска Google, скрыть приложения из списка, изменить сетку рабочего стола и меню приложений, изменить размер иконок, изменить размер текста, изменить иконки док-панели и многое-многое другое</string>
+    <string name="app_description">Google Now Launcher the way you want it to be</string>
     <string name="app_name">Xposed GEL Settings</string>
     <string name="changelog_full_title">Изменения</string>
     <string name="changelog_show_full">больше...</string>

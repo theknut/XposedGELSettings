@@ -2,7 +2,6 @@ package de.theknut.xposedgelsettings.ui;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
-import android.app.ListActivity;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
 import android.content.ComponentName;
@@ -12,7 +11,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -39,7 +37,7 @@ import java.util.Set;
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 
-public class AllWidgetsList extends ListActivity {
+public class AllWidgetsList extends ActionBarListActivity {
 
     public static Set<String> hiddenWidgets;
 
@@ -81,10 +79,6 @@ public class AllWidgetsList extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CommonUI.CONTEXT = CommonUI.ACTIVITY = this;
-
-        getListView().setCacheColorHint(CommonUI.UIColor);
-        getListView().setBackgroundColor(CommonUI.UIColor);
-        getActionBar().setBackgroundDrawable(new ColorDrawable(CommonUI.UIColor));
 
         // load all widgets
         PackageManager packageManager = getPackageManager();

@@ -16,9 +16,10 @@ import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.Utils;
-import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelper.ContentType;
+import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelperLegacy.ContentType;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
+import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
 /**
@@ -26,12 +27,14 @@ import static de.robv.android.xposed.XposedHelpers.getObjectField;
  */
 public class Tab extends AppDrawerItem {
 
+    public static int DEFAULT_COLOR = Color.parseColor("#F4F4F4");
     public static final String KEY_PREFIX= "tab";
     public static final int APPS_ID = 0xABB5;
     public static final int WIDGETS_ID = 0xBEEF;
 
     private ContentType contentType = ContentType.User;
-    private int color = Color.WHITE;
+    private int color = DEFAULT_COLOR;
+    private boolean initialized = false;
 
     public Tab(String tabCfg) {
         this(tabCfg, true);
@@ -67,19 +70,30 @@ public class Tab extends AppDrawerItem {
         this.title = intent.getStringExtra("name");
         this.contentType = ContentType.valueOf(intent.getStringExtra("contenttype"));
         this.hideFromAppsPage = intent.getBooleanExtra("hide", false);
-        this.color = intent.getIntExtra("color", Color.WHITE);
+        this.color = intent.getIntExtra("color", DEFAULT_COLOR);
 
         if (initData) initData();
     }
 
+    public Tab(Intent intent, boolean initData, boolean add) {
+        this.id = intent.getLongExtra("itemid", -1);
+        this.idx = intent.getIntExtra("index", -1);
+        this.title = intent.getStringExtra("name");
+        this.contentType = ContentType.valueOf(intent.getStringExtra("contenttype"));
+        this.hideFromAppsPage = intent.getBooleanExtra("hide", false);
+        this.color = intent.getIntExtra("color", DEFAULT_COLOR);
+
+        if (initData) initData(add);
+    }
+
     public void initData() {
+        initData(false);
+    }
+
+    public void initData(final boolean add) {
+        initialized = false;
+        final Tab tab = this;
         new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected void onPreExecute() {
-                if (TabHelper.getInstance().getTabHost().getCurrentTab() == getIndex()) {
-                    //TabHelper.getInstance().showProgressBar();
-                }
-            }
 
             @Override
             protected Void doInBackground(Void... params) {
@@ -104,17 +118,18 @@ public class Tab extends AppDrawerItem {
 
             @Override
             protected void onPostExecute(Void aVoid) {
-                TabHelper tabHelper = TabHelper.getInstance();
                 if (!isAppsTab()) {
-                    Object mAppsCustomizePane = getObjectField(tabHelper.getTabHost(), Fields.acthAppsCustomizePane);
-                    ArrayList allApps = (ArrayList) getObjectField(mAppsCustomizePane, Fields.acpvAllApps);
-                    callMethod(mAppsCustomizePane, Methods.acpvSetApps, allApps);
+                    ArrayList allApps = (ArrayList) getObjectField(Common.APP_DRAWER_INSTANCE, Fields.acpvAllApps);
+                    callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSetApps, allApps);
                 }
-                tabHelper.invalidate();
 
-                if (tabHelper.getTabHost().getCurrentTab() == getIndex()) {
-                    //tabHelper.hideProgressBar();
+                if (add) {
+                    TabHelperNew.getInstance().addTab(tab);
                 }
+                else if (TabHelper.getInstance().getCurrentTabData().equals(this)) {
+                    TabHelper.getInstance().invalidate();
+                }
+                initialized = true;
             }
         }.execute();
     }
@@ -123,8 +138,24 @@ public class Tab extends AppDrawerItem {
         return contentType;
     }
 
-    public int getColor() {
-        return this.color;
+    public int getPrimaryColor() {
+        if (Common.IS_PRE_GNL_4) {
+            return this.color;
+        }
+
+        return this.color == Color.WHITE ? Color.parseColor("#F4F4F4") : this.color;
+    }
+
+    // http://stackoverflow.com/a/4928826/809277
+    public int getSecondaryColor() {
+        float[] hsv = new float[3];
+        Color.colorToHSV(getPrimaryColor(), hsv);
+        hsv[2] *= 0.9f;
+        return Color.HSVToColor(hsv);
+    }
+
+    public int getContrastColor() {
+        return Utils.getContrastColor(getPrimaryColor());
     }
 
     public void setColor(int color) {
@@ -169,6 +200,10 @@ public class Tab extends AppDrawerItem {
 
     public boolean isDynamicTab() {
         return isGoogleTab() || isXposedTab() || isNewUpdatedTab() || isNewAppsTab() || isIconPacksTab();
+    }
+
+    public boolean isInitialized() {
+        return this.initialized;
     }
 
     private void parseData() {
@@ -302,6 +337,23 @@ public class Tab extends AppDrawerItem {
         return apps;
     }
 
+    public int getPageCount() {
+        if ((isAppsTab() || isUserTab()) && FolderHelper.getInstance().hasFolder()) {
+            int mCellCountX = getIntField(Common.APP_DRAWER_INSTANCE, Fields.acpvCellCountX);
+            int mCellCountY = getIntField(Common.APP_DRAWER_INSTANCE, Fields.acpvCellCountY);
+            int itemCnt = FolderHelper.getInstance().getFoldersForTab(getId()).size();
+            itemCnt += isAppsTab() ? FolderHelper.getInstance().getAllApps().size() : getData().size();
+            return (int) Math.ceil((float) itemCnt / (mCellCountX * mCellCountY));
+        } else if (isCustomTab() && getData() != null) {
+            int mCellCountX = getIntField(Common.APP_DRAWER_INSTANCE, Fields.acpvCellCountX);
+            int mCellCountY = getIntField(Common.APP_DRAWER_INSTANCE, Fields.acpvCellCountY);
+            return (int) Math.ceil((float) getData().size() / (mCellCountX * mCellCountY));
+        } else if (isNewAppsTab() || isNewUpdatedTab()) {
+            return 1;
+        }
+        return 3;
+    }
+
     public void update() {
         initData();
     }
@@ -310,6 +362,6 @@ public class Tab extends AppDrawerItem {
     public String toString() {
         return super.toString() + "|"
                 + "contenttype=" + getContentType() + "|"
-                + "color=" + getColor();
+                + "color=" + getPrimaryColor();
     }
 }

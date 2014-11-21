@@ -25,12 +25,12 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -53,17 +53,19 @@ public class MainActivity extends InAppPurchase {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
-
-    private CharSequence mDrawerTitle;
     private CharSequence mTitle;
     private String[] mFragmentTitles;
     private Fragment mCurrFragment = null;
+    Toolbar mToolbar;
 
     @SuppressWarnings("deprecation")
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.toolbar);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         mContext = CommonUI.CONTEXT = mActivity = CommonUI.ACTIVITY = this;
 
@@ -74,13 +76,10 @@ public class MainActivity extends InAppPurchase {
             res.updateConfiguration(conf, res.getDisplayMetrics());
         }
 
-        mTitle = mDrawerTitle = getTitle();
+        mTitle = getTitle();
         mFragmentTitles = getResources().getStringArray(R.array.fragmenttitles_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        
-        mDrawerLayout.getRootView().setBackgroundColor(CommonUI.UIColor);
-		getActionBar().setBackgroundDrawable(new ColorDrawable(CommonUI.UIColor));
 
         // set a custom shadow that overlays the main content when the drawer opens
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
@@ -114,31 +113,18 @@ public class MainActivity extends InAppPurchase {
 			}
 		});
 
-        // enable ActionBar app icon to behave as action to toggle nav drawer
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
-        getActionBar().setBackgroundDrawable(new ColorDrawable(CommonUI.UIColor));
-
-        // ActionBarDrawerToggle ties together the the proper interactions
-        // between the sliding drawer and the action bar app icon
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */
-                R.drawable.ic_drawer,  /* nav drawer image to replace 'Up' caret */
+                mToolbar,
                 R.string.drawer_open,  /* "open drawer" description for accessibility */
                 R.string.drawer_close  /* "close drawer" description for accessibility */
-                ) {
-            public void onDrawerClosed(View view) {
-                getActionBar().setTitle(mTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-            }
-
-            public void onDrawerOpened(View drawerView) {
-                getActionBar().setTitle(mDrawerTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-            }
-        };
+                );
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        // enable ActionBar app icon to behave as action to toggle nav drawer
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         SharedPreferences prefs = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
         CommonUI.NO_BACKGROUND_IMAGE = prefs.getBoolean("nobackgroundimage", false);
@@ -162,18 +148,18 @@ public class MainActivity extends InAppPurchase {
     	super.onResume();
     	
     	// sending the colors to Tinted Status Bar
-    	StatusBarTintApi.sendColorChangeIntent(CommonUI.UIColor, Color.WHITE, CommonUI.UIColor, Color.WHITE, this);
+    	StatusBarTintApi.sendColorChangeIntent(getResources().getColor(R.color.statusbar), Color.WHITE, getResources().getColor(R.color.statusbar), Color.WHITE, this);
     }
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
     	MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.menu.menu, menu);
         menu.findItem(R.id.action_save).setVisible(false);
-	    
+
         return super.onCreateOptionsMenu(menu);
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
          // The action bar home/up action should open or close the drawer.
@@ -181,7 +167,7 @@ public class MainActivity extends InAppPurchase {
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-        
+
         switch (item.getItemId()) {
 		    // action with ID action_refresh was selected
 		    case R.id.action_refresh:
@@ -214,7 +200,7 @@ public class MainActivity extends InAppPurchase {
     	}
     }
 
-    private void selectItem(final int position) {
+    private void selectItem(int position) {
     	
     	// update the main content by replacing fragments
         FragmentManager fm = getFragmentManager();
@@ -266,13 +252,13 @@ public class MainActivity extends InAppPurchase {
 
         // update selected item and title
         mDrawerList.setItemChecked(position, true);
-        setTitle(mFragmentTitles[position]);
+        setTitle(mCurrFragment instanceof FragmentWelcome ? "" : mFragmentTitles[position]);
     }
 
     @Override
     public void setTitle(CharSequence title) {
         mTitle = title;
-        getActionBar().setTitle(mTitle);
+        getSupportActionBar().setTitle(mTitle);
     }
     
     public static void closeDrawer() {

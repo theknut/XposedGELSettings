@@ -13,12 +13,12 @@ import android.widget.TextView;
 import net.margaritov.preference.colorpicker.ColorPickerPreference;
 
 import de.theknut.xposedgelsettings.hooks.Common;
-import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.appdrawer.ApplyFromApplicationInfoHook;
+import de.theknut.xposedgelsettings.hooks.common.XGELSCallback;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.getBooleanField;
@@ -27,7 +27,7 @@ import static de.robv.android.xposed.XposedHelpers.getLongField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setBooleanField;
 
-public final class AddViewToCellLayoutHook extends HooksBaseClass {
+public final class AddViewToCellLayoutHook extends XGELSCallback {
 
     // public boolean addViewToCellLayout(View child, int index, int childId, LayoutParams params, boolean markCells)
     // http://androidxref.com/4.4.2_r1/xref/packages/apps/Launcher3/src/com/android/launcher3/CellLayout.java#604
@@ -41,7 +41,7 @@ public final class AddViewToCellLayoutHook extends HooksBaseClass {
     private static int iconPadding;
 
     @Override
-    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+    public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
         View child = (View) param.args[0];
         Object tag = child.getTag();
         long containerType = -1;

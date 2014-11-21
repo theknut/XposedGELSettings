@@ -54,6 +54,10 @@ public class AppDrawerItem {
         return id;
     }
 
+    public int getLayoutId() {
+        return 0x80 + (int) getId();
+    }
+
     public void setId(long id) {
         this.id = id;
     }
@@ -101,6 +105,7 @@ public class AppDrawerItem {
         ArrayList<String> tabData = new ArrayList<String>(PreferencesHelper.prefs.getStringSet(keyPrefix + "_" + getId(), null));
         for (String tab : tabData) {
             try {
+                long time = System.currentTimeMillis();
                 Object app = Utils.createAppInfo(ComponentName.unflattenFromString(tab));
                 if (app != null) data.add(app);
             } catch (Exception e) { }
@@ -109,9 +114,7 @@ public class AppDrawerItem {
     }
 
     protected void sort(final ArrayList apps) {
-        //TabHelper.getInstance().showProgressBar();
         Collections.sort(apps, getSortComparator());
-        //TabHelper.getInstance().hideProgressBar();
     }
 
     public Comparator getSortComparator() {

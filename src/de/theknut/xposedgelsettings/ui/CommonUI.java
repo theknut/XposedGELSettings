@@ -5,12 +5,11 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.app.AlarmManager;
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -18,19 +17,20 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.NumberPicker;
 import android.widget.Toast;
+
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.Theme;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -46,7 +46,6 @@ public class CommonUI {
     public static Bitmap bluredBackground = null;
     public static Context CONTEXT;
 
-    public static int UIColor = Color.parseColor("#222222");
     public static int TextColor = -1;
 
     public static boolean AUTO_BLUR_IMAGE;
@@ -95,7 +94,7 @@ public class CommonUI {
         if (drawable == null) return null;
 
         if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable)drawable).getBitmap();
+            return ((BitmapDrawable) drawable).getBitmap();
         }
 
         Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
@@ -107,7 +106,7 @@ public class CommonUI {
     }
 
     public static View setBackground(View rootView, int layout) {
-        if (CommonUI.NO_BACKGROUND_IMAGE && (layout != R.id.welcomebackground)) {
+        if (layout != R.id.welcomebackground) {
             return rootView;
         }
 
@@ -120,34 +119,6 @@ public class CommonUI {
             background.setImageResource(R.drawable.wall);
         } catch (RuntimeException e) { }
         catch (Exception e) { }
-
-        rootView.setOnTouchListener(new OnTouchListener() {
-
-            float downX;
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                    case MotionEvent.ACTION_DOWN:
-                        downX = event.getRawX();
-
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-
-                        if ((event.getRawX() - downX) > 100.0f) {
-                            MainActivity.openDrawer();
-                            return true;
-                        }
-
-                        break;
-                    default:
-                        break;
-                }
-
-                return false;
-            }
-        });
 
         return rootView;
     }
@@ -179,15 +150,15 @@ public class CommonUI {
     public static void setCustomStyle(View view, boolean setTitle, boolean setSummary) {
 
         if (setTitle) {
-            TextView title = ((TextView) view.findViewById(android.R.id.title));
-            title.setTextColor(Color.WHITE);
-            title.setTextAppearance(CommonUI.CONTEXT, R.style.ShadowText);
+            //TextView title = ((TextView) view.findViewById(android.R.id.title));
+            //title.setTextColor(Color.parseColor("#F4F4F4"));
+            //title.setTextAppearance(CommonUI.CONTEXT, R.style.ShadowText);
         }
 
         if (setSummary) {
-            TextView summary = ((TextView) view.findViewById(android.R.id.summary));
-            summary.setTextColor(Color.WHITE);
-            summary.setTextAppearance(CommonUI.CONTEXT, R.style.ShadowText);
+            //TextView summary = ((TextView) view.findViewById(android.R.id.summary));
+            //summary.setTextColor(Color.parseColor("#F4F4F4"));
+            //summary.setTextAppearance(CommonUI.CONTEXT, R.style.ShadowText);
         }
     }
 
@@ -207,35 +178,40 @@ public class CommonUI {
 
         if (needFullReboot) {
 
-            new AlertDialog.Builder(CONTEXT)
-                    .setTitle(R.string.alert_reboot_needed_title)
-                    .setMessage(R.string.alert_reboot_needed_summary)
-                    .setPositiveButton(R.string.full_reboot, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (!InAppPurchase.isPremium) {
-                                        Toast.makeText(CONTEXT, CONTEXT.getString(R.string.toast_donate_only), Toast.LENGTH_SHORT).show();
-                                        return;
-                                    }
-
-                                    openRootShell(new String[]{"su", "-c", "reboot now"});
-                                }
-                            }
-                    )
-                    .setNeutralButton(R.string.hot_reboot, new DialogInterface.OnClickListener() {
-
-                        public void onClick(DialogInterface dialog, int id) {
+            new MaterialDialog.Builder(CONTEXT)
+                    .theme(Theme.DARK)
+                    .title(R.string.alert_reboot_needed_title)
+                    .content(R.string.alert_reboot_needed_summary)
+                    .positiveText(R.string.full_reboot)
+                    .neutralText(R.string.hot_reboot)
+                    .negativeText(R.string.launcher_reboot)
+                    .callback(new MaterialDialog.FullCallback() {
+                        @Override
+                        public void onNeutral(MaterialDialog materialDialog) {
                             if (!InAppPurchase.isPremium) {
                                 Toast.makeText(CONTEXT, CONTEXT.getString(R.string.toast_donate_only), Toast.LENGTH_SHORT).show();
                                 return;
                             }
 
                             openRootShell(new String[]{ "su", "-c", "killall system_server"});
-                        }})
-                    .setNegativeButton(R.string.launcher_reboot, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
+                        }
+
+                        @Override
+                        public void onPositive(MaterialDialog materialDialog) {
+                            if (!InAppPurchase.isPremium) {
+                                Toast.makeText(CONTEXT, CONTEXT.getString(R.string.toast_donate_only), Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                            openRootShell(new String[]{"su", "-c", "reboot now"});
+                        }
+
+                        @Override
+                        public void onNegative(MaterialDialog materialDialog) {
                             restartLauncher();
                         }
                     })
+                    .build()
                     .show();
         }
         else {
@@ -272,13 +248,8 @@ public class CommonUI {
 
         if (!neededRoot) {
 
-            if (msg.equals(CONTEXT.getString(R.string.killed))) {
-                msg = msg.substring(0, msg.lastIndexOf('\n')) + " " + CONTEXT.getString(R.string.toast_reboot_failed_nothing_msg) + "... :(\n" + CONTEXT.getString(R.string.toast_reboot_failed);
-            } else {
+            if (!msg.equals(CONTEXT.getString(R.string.killed)) && showToast) {
                 msg = msg.substring(0, msg.lastIndexOf('\n'));
-            }
-
-            if (showToast) {
                 Toast.makeText(CONTEXT, msg, Toast.LENGTH_LONG).show();
             }
         }
@@ -286,8 +257,17 @@ public class CommonUI {
         return true;
     }
 
-    public static boolean restartLauncher() {
+    public static NumberPicker getNumberPicker(Context context, SharedPreferences sharedPrefs, String[] values, String key, String defVal) {
+        NumberPicker numberPicker = new NumberPicker(context);
+        numberPicker.setMinValue(0);
+        numberPicker.setMaxValue(values.length - 1);
+        numberPicker.setDisplayedValues(values);
+        int currIdx = Arrays.asList(values).indexOf(sharedPrefs.getString(key, defVal));
+        numberPicker.setValue(currIdx == -1 ? 0 : currIdx);
+        return numberPicker;
+    }
 
+    public static boolean restartLauncher() {
         return restartLauncher(true);
     }
 

@@ -324,9 +324,9 @@ public class GestureHooks extends GestureHelper {
                             return;
                         }
 
-                        if ((ev.getRawY() - downY) > (height / 6)) {
+                        if ((ev.getRawY() - downY) > gestureDistance) {
                             callMethod(Common.LAUNCHER_INSTANCE, Methods.lShowWorkspace, true, null);
-                        } else if ((ev.getRawY() - downY) < -(height / 6)) {
+                        } else if ((ev.getRawY() - downY) < -gestureDistance) {
 
                             if (Common.IS_TREBUCHET) {
                                 Toast.makeText(Common.LAUNCHER_CONTEXT, "XGELS: Unfortunately swipe up to toggle apps/widgets doesn't work on Trebuchet", Toast.LENGTH_LONG).show();
@@ -349,15 +349,8 @@ public class GestureHooks extends GestureHelper {
             }
         };
 
-        if (Common.IS_TREBUCHET) {
-            /////////
-            XposedBridge.hookAllMethods(Classes.PagedView, "onTouchEvent", gestureHook);
-            XposedBridge.hookAllMethods(Classes.PagedView, "onInterceptTouchEvent", gestureHook);
-        }
-        else if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE)) {
-            XposedBridge.hookAllMethods(Classes.PagedView, "onTouchEvent", gestureHook);
-            XposedBridge.hookAllMethods(Classes.PagedView, "onInterceptTouchEvent", gestureHook);
-        }
+        XposedBridge.hookAllMethods(Classes.PagedView, "onTouchEvent", gestureHook);
+        XposedBridge.hookAllMethods(Classes.PagedView, "onInterceptTouchEvent", gestureHook);
 
         if (!PreferencesHelper.gesture_double_tap.equals("NONE")) {
 

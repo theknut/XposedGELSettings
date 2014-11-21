@@ -5,8 +5,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 
-import net.margaritov.preference.colorpicker.ColorPickerPreference;
-
 import de.robv.android.xposed.IXposedHookInitPackageResources;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XSharedPreferences;
@@ -40,19 +38,19 @@ public class ResourceReplacements extends XC_MethodHook implements IXposedHookIn
             resparam.res.setReplacement(resparam.packageName, "bool", "allow_rotation", prefs.getBoolean("enablerotation", false));
             resparam.res.setReplacement(resparam.packageName, "integer", "config_tabTransitionDuration", 0);
 
-            if (!Common.IS_PRE_GNL_4) {
-                int i = resparam.res.getIdentifier("quantum_panel", "drawable", resparam.packageName);
-                if (i != 0) {
-                    final Drawable d = resparam.res.getDrawable(i);
-                    resparam.res.setReplacement(resparam.packageName, "drawable", "quantum_panel", new XResources.DrawableLoader() {
-                        @Override
-                        public Drawable newDrawable(XResources xResources, int i) throws Throwable {
-                            d.setColorFilter(Color.parseColor(ColorPickerPreference.convertToARGB(PreferencesHelper.appdrawerFolderStyleBackgroundColor)), PorterDuff.Mode.MULTIPLY);
-                            return d;
-                        }
-                    });
-                }
-            }
+//            if (!Common.IS_PRE_GNL_4) {
+//                int i = resparam.res.getIdentifier("quantum_panel", "drawable", resparam.packageName);
+//                if (i != 0) {
+//                    final Drawable d = resparam.res.getDrawable(i);
+//                    resparam.res.setReplacement(resparam.packageName, "drawable", "quantum_panel", new XResources.DrawableLoader() {
+//                        @Override
+//                        public Drawable newDrawable(XResources xResources, int i) throws Throwable {
+//                            d.setColorFilter(Color.parseColor(ColorPickerPreference.convertToARGB(PreferencesHelper.appdrawerFolderStyleBackgroundColor)), PorterDuff.Mode.MULTIPLY);
+//                            return d;
+//                        }
+//                    });
+//                }
+//            }
 
             applyPageIndicatorColor(resparam.packageName, resparam.res);
         }

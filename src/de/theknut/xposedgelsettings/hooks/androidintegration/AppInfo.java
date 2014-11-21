@@ -36,12 +36,10 @@ public class AppInfo extends HooksBaseClass {
     static Context XGELSContext;
     static LayoutInflater inflater;
     static Set<String> hiddenApps;
-    static final int USER_CURRENT = -2;
 
     public static void initAllHooks(LoadPackageParam lpparam) {
 
         final String key = "hiddenapps";
-
 
         findAndHookMethod("com.android.settings.applications.InstalledAppDetails", lpparam.classLoader, "onCreateView", LayoutInflater.class, ViewGroup.class, Bundle.class, new XC_MethodHook() {
 

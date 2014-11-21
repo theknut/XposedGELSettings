@@ -3,7 +3,6 @@ package de.theknut.xposedgelsettings.ui;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -16,7 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.Theme;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +37,6 @@ public class FragmentWelcome extends FragmentBase {
     boolean cancel;
     View rootView;
 
-
-
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -50,8 +51,7 @@ public class FragmentWelcome extends FragmentBase {
 
                     try {
                         InAppPurchase.purchaseSpecialOffer();
-                    } catch (Exception e) {
-                    }
+                    } catch (Exception e) { }
                 }
                 return true;
             }
@@ -93,7 +93,7 @@ public class FragmentWelcome extends FragmentBase {
             }
 
             Changelog cl = new Changelog(mContext);
-            if (cl.firstRun()) {
+            if (false && cl.firstRun()) {
                 CommonUI.needFullReboot = true;
                 alerts.add(cl.getFullLogDialog());
                 getFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentReverseEngineering()).commit();
@@ -161,154 +161,163 @@ public class FragmentWelcome extends FragmentBase {
     }
 
     private void createAlertDialogs() {
-        IsXposedInstalledAlert = new AlertDialog.Builder(mContext)
-                .setCancelable(false)
-                .setTitle(getString(R.string.missing_framework))
-                .setMessage(getString(R.string.missing_framework_msg))
-                .setPositiveButton(getString(R.string.go_to_framework), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://forum.xda-developers.com/xposed/xposed-installer-versions-changelog-t2714053"));
-                                startActivity(browserIntent);
-                                shown = false;
-                                getActivity().finish();
-                            }
-                        }
-                )
-                .setNegativeButton("Exit", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
+        IsXposedInstalledAlert = new MaterialDialog.Builder(mActivity)
+                .theme(Theme.DARK)
+                .cancelable(false)
+                .title(getString(R.string.missing_framework))
+                .content(getString(R.string.missing_framework_msg))
+                .positiveText(getString(R.string.go_to_framework))
+                .negativeText("Exit")
+                .callback(new MaterialDialog.Callback() {
+                    @Override
+                    public void onPositive(MaterialDialog materialDialog) {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://forum.xda-developers.com/xposed/xposed-installer-versions-changelog-t2714053"));
+                        startActivity(browserIntent);
                         shown = false;
                         getActivity().finish();
                     }
-                }).create();
 
-        IsModuleActive = new AlertDialog.Builder(mContext)
-                .setCancelable(false)
-                .setTitle(getString(R.string.module_not_active))
-                .setMessage(getString(R.string.module_not_active_msg))
-                .setPositiveButton(getString(R.string.open_xposed_installer), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                Intent LaunchIntent = null;
-
-                                try {
-                                    LaunchIntent = mContext.getPackageManager().getLaunchIntentForPackage("de.robv.android.xposed.installer");
-                                    if (LaunchIntent == null) {
-                                        Toast.makeText(mContext, R.string.toast_openinstaller_failed, Toast.LENGTH_LONG).show();
-                                    } else {
-                                        Intent intent = new Intent("de.robv.android.xposed.installer.OPEN_SECTION");
-                                        intent.setPackage("de.robv.android.xposed.installer");
-                                        intent.putExtra("section", "modules");
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        mContext.startActivity(intent);
-                                    }
-                                } catch (Exception e) {
-                                    if (LaunchIntent != null) {
-                                        LaunchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        mContext.startActivity(LaunchIntent);
-                                    } else {
-                                        e.printStackTrace();
-                                        Toast.makeText(mContext, getString(R.string.active_manually), Toast.LENGTH_LONG).show();
-                                    }
-                                }
-                            }
-                        }
-                )
-                .setNegativeButton(getString(R.string.continue_text), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
+                    @Override
+                    public void onNegative(MaterialDialog materialDialog) {
+                        shown = false;
+                        getActivity().finish();
                     }
                 })
-                .create();
+                .build();
+
+        IsModuleActive = new MaterialDialog.Builder(mActivity)
+                .theme(Theme.DARK)
+                .cancelable(false)
+                .title(getString(R.string.module_not_active))
+                .content(getString(R.string.module_not_active_msg))
+                .positiveText(getString(R.string.open_xposed_installer))
+                .negativeText(getString(R.string.continue_text))
+                .callback(new MaterialDialog.Callback() {
+                    @Override
+                    public void onPositive(MaterialDialog materialDialog) {
+                        Intent LaunchIntent = null;
+
+                        try {
+                            LaunchIntent = mContext.getPackageManager().getLaunchIntentForPackage("de.robv.android.xposed.installer");
+                            if (LaunchIntent == null) {
+                                Toast.makeText(mContext, R.string.toast_openinstaller_failed, Toast.LENGTH_LONG).show();
+                            } else {
+                                Intent intent = new Intent("de.robv.android.xposed.installer.OPEN_SECTION");
+                                intent.setPackage("de.robv.android.xposed.installer");
+                                intent.putExtra("section", "modules");
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                mContext.startActivity(intent);
+                            }
+                        } catch (Exception e) {
+                            if (LaunchIntent != null) {
+                                LaunchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                mContext.startActivity(LaunchIntent);
+                            } else {
+                                e.printStackTrace();
+                                Toast.makeText(mContext, getString(R.string.active_manually), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onNegative(MaterialDialog materialDialog) {
+                        materialDialog.dismiss();
+                    }
+                })
+                .build();
 
         LayoutInflater adbInflater = LayoutInflater.from(mContext);
         View dontShowAgainLayout = adbInflater.inflate(R.layout.dialog_with_checkbox, null);
+        ((TextView) dontShowAgainLayout.findViewById(R.id.message)).setText(R.string.module_not_from_google_play_msg);
         final CheckBox dontShowAgain = (CheckBox) dontShowAgainLayout.findViewById(R.id.skip);
         dontShowAgain.setIncludeFontPadding(false);
         dontShowAgain.setText(getString(R.string.dont_show_again));
 
-        AlertDialog.Builder adb = new AlertDialog.Builder(mContext);
-        adb.setView(dontShowAgainLayout);
-        adb.setCancelable(false);
-        adb.setTitle(getString(R.string.module_not_from_google_play));
-        adb.setMessage(getString(R.string.module_not_from_google_play_msg));
-        adb.setPositiveButton(getString(R.string.open_play_store), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-
-                if (dontShowAgain.isChecked()) {
-                    SharedPreferences settings = mContext.getSharedPreferences(Common.PREFERENCES_NAME, 0);
-                    SharedPreferences.Editor editor = settings.edit();
-                    editor.putBoolean("dontshowgoogleplaydialog", true);
-                    editor.commit();
-                }
-
-                final String appPackageName = Common.PACKAGE_NAME;
-                try {
-                    CommonUI.ACTIVITY.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-                } catch (android.content.ActivityNotFoundException anfe) {
-                    CommonUI.ACTIVITY.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName)));
-                }
-            }
-        });
-        adb.setNegativeButton(getString(R.string.continue_text), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-
-                if (dontShowAgain.isChecked()) {
-                    SharedPreferences settings = mContext.getSharedPreferences(Common.PREFERENCES_NAME, 0);
-                    SharedPreferences.Editor editor = settings.edit();
-                    editor.putBoolean("dontshowgoogleplaydialog", true);
-                    editor.commit();
-                }
-
-                dialog.dismiss();
-            }
-        });
-
-        IsInstalledFromPlayStore = adb.create();
-
-        NeedReboot = new AlertDialog.Builder(mContext)
-                .setCancelable(false)
-                .setTitle(R.string.alert_xgels_updated_title)
-                .setMessage(R.string.alert_xgels_updated_summary)
-                .setPositiveButton(getString(R.string.full_reboot), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                CommonUI.openRootShell(new String[]{"su", "-c", "reboot now"});
-                                cancel = true;
-                            }
+        IsInstalledFromPlayStore = new MaterialDialog.Builder(mActivity)
+                .theme(Theme.DARK)
+                .customView(dontShowAgainLayout)
+                .cancelable(false)
+                .title(getString(R.string.module_not_from_google_play))
+                .positiveText(getString(R.string.open_play_store))
+                .negativeText(getString(R.string.continue_text))
+                .callback(new MaterialDialog.Callback() {
+                    @Override
+                    public void onPositive(MaterialDialog materialDialog) {
+                        if (dontShowAgain.isChecked()) {
+                            SharedPreferences settings = mContext.getSharedPreferences(Common.PREFERENCES_NAME, 0);
+                            settings.edit().putBoolean("dontshowgoogleplaydialog", true).apply();
                         }
-                )
-                .setNeutralButton(getString(R.string.hot_reboot), new DialogInterface.OnClickListener() {
 
-                    public void onClick(DialogInterface dialog, int id) {
+                        final String appPackageName = Common.PACKAGE_NAME;
+                        try {
+                            CommonUI.ACTIVITY.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                        } catch (android.content.ActivityNotFoundException anfe) {
+                            CommonUI.ACTIVITY.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName)));
+                        }
+                    }
 
+                    @Override
+                    public void onNegative(MaterialDialog materialDialog) {
+                        if (dontShowAgain.isChecked()) {
+                            SharedPreferences settings = mContext.getSharedPreferences(Common.PREFERENCES_NAME, 0);
+                            settings.edit().putBoolean("dontshowgoogleplaydialog", true).apply();
+                        }
+
+                        materialDialog.dismiss();
+                    }
+                }).build();
+
+        NeedReboot = new MaterialDialog.Builder(mActivity)
+                .theme(Theme.DARK)
+                .cancelable(false)
+                .title(R.string.alert_xgels_updated_title)
+                .content(R.string.alert_xgels_updated_summary)
+                .positiveText(R.string.full_reboot)
+                .negativeText(R.string.alert_xgels_updated_cancel)
+                .neutralText(R.string.hot_reboot)
+                .callback(new MaterialDialog.FullCallback() {
+                    @Override
+                    public void onNeutral(MaterialDialog materialDialog) {
                         CommonUI.openRootShell(new String[]{ "su", "-c", "killall system_server"});
                         cancel = true;
-                    }})
-                .setNegativeButton(R.string.alert_xgels_updated_cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
                     }
-                }).create();
 
-        IsSupportedLauncherInstalled = new AlertDialog.Builder(mContext)
-                .setCancelable(false)
-                .setTitle(R.string.alert_launcher_not_installed_title)
-                .setMessage(R.string.alert_launcher_not_installed_summary)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
+                    @Override
+                    public void onPositive(MaterialDialog materialDialog) {
+                        CommonUI.openRootShell(new String[]{"su", "-c", "reboot now"});
+                        cancel = true;
+                    }
 
-                        dialog.dismiss();
+                    @Override
+                    public void onNegative(MaterialDialog materialDialog) {
+                        materialDialog.dismiss();
                     }
                 })
-                .setNeutralButton(R.string.alert_launcher_not_installed_get_gnl, new DialogInterface.OnClickListener() {
+                .build();
 
-                    public void onClick(DialogInterface dialog, int id) {
+        IsSupportedLauncherInstalled = new MaterialDialog.Builder(mActivity)
+                .theme(Theme.DARK)
+                .cancelable(false)
+                .title(R.string.alert_launcher_not_installed_title)
+                .content(R.string.alert_launcher_not_installed_summary)
+                .positiveText(R.string.alert_launcher_not_installed_get_gnl)
+                .negativeText(android.R.string.ok)
+                .callback(new MaterialDialog.Callback() {
+                    @Override
+                    public void onPositive(MaterialDialog materialDialog) {
                         try {
                             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + Common.GEL_PACKAGE)));
                         } catch (android.content.ActivityNotFoundException anfe) {
                             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + Common.GEL_PACKAGE)));
                         }
-                    }}).create();
+                    }
+
+                    @Override
+                    public void onNegative(MaterialDialog materialDialog) {
+                        materialDialog.dismiss();
+                    }
+                })
+                .build();
     }
 
     private class ShowAlertsAsyncTask extends AsyncTask<Void, Void, Void> {

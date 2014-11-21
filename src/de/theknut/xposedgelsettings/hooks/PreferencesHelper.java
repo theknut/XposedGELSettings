@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import de.robv.android.xposed.XSharedPreferences;
+import de.robv.android.xposed.XposedBridge;
 
 public class PreferencesHelper {
     public static XSharedPreferences prefs = new XSharedPreferences(Common.PACKAGE_NAME);
@@ -136,6 +137,7 @@ public class PreferencesHelper {
     public static boolean searchBarWeatherWidget;
 
     public static void init() {
+        long time = System.currentTimeMillis();
         prefs = new XSharedPreferences(Common.PACKAGE_NAME);
         prefs.reload();
 
@@ -264,5 +266,6 @@ public class PreferencesHelper {
         enableAppDrawerTabs = prefs.getBoolean("enableappdrawertabs", false);
         appdrawerSwipeTabs = prefs.getBoolean("appdrawerswipetabs", false);
         moveTabHostBottom = prefs.getBoolean("movetabhostbottom", false);
+        if (PreferencesHelper.Debug) XposedBridge.log("Initialized PreferencesHelper in " + (System.currentTimeMillis() - time) + "ms");
     }
 }

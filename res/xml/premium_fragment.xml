@@ -1,28 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <de.theknut.xposedgelsettings.ui.MyListPreference
-        android:dialogTitle="Support me! Buy me"
-        android:entries="@array/premiumArray"
-        android:entryValues="@array/premiumValues"
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
         android:key="premiumlistpref"
         android:title="@string/pref_donate_button" />
 
-    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
         android:key="donated"
         android:title="@string/pref_donated_button" />
-    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
         android:summary="@string/pref_support_thread_summary"
         android:title="@string/pref_support_thread_title" >
         <intent
             android:action="android.intent.action.VIEW"
             android:data="http://bit.ly/1cEFuyK" />
-    </de.theknut.xposedgelsettings.ui.MyPreferenceScreen>
-    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+    </de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen>
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
         android:key="support"
         android:summary="@string/pref_xgel_group_summary"
         android:title="XGELS Premium Group" />
-    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
         android:key="rateit"
         android:title="@string/pref_reverseengineering_rate_title"
         android:summary="@string/pref_reverseengineering_rate_summary" />

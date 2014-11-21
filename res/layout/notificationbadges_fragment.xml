@@ -19,7 +19,6 @@
     android:id="@+id/options_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_alignParentLeft="true"
     android:layout_alignParentTop="true"
     android:layout_centerInParent="true"
     tools:context=".MainActivity"
@@ -31,49 +30,57 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop" />
 
-    <TextView
-        android:id="@+id/badgepreviewicon"
-        android:drawableTop="@drawable/ic_launcher_mail"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/badgepreview"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:layout_centerHorizontal="true" />
+        android:background="@color/icongrid" >
 
-    <TextView
-        android:id="@+id/badgetopleft"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toStartOf="@+id/badgepreviewicon"
-        android:layout_alignTop="@+id/badgepreviewicon" />
+        <TextView
+            android:id="@+id/badgepreviewicon"
+            android:drawableTop="@drawable/ic_launcher_mail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:id="@+id/badgetopright"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/badgepreviewicon"
-        android:layout_alignTop="@+id/badgepreviewicon" />
+        <TextView
+            android:id="@+id/badgetopleft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/badgepreviewicon"
+            android:layout_alignTop="@+id/badgepreviewicon" />
 
-    <TextView
-        android:id="@+id/badgebottomleft"
-        android:layout_marginBottom="12dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toStartOf="@+id/badgepreviewicon"
-        android:layout_alignBottom="@+id/badgepreviewicon" />
+        <TextView
+            android:id="@+id/badgetopright"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/badgepreviewicon"
+            android:layout_alignTop="@+id/badgepreviewicon" />
 
-    <TextView
-        android:id="@+id/badgebottomright"
-        android:layout_marginBottom="12dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/badgepreviewicon"
-        android:layout_alignBottom="@+id/badgepreviewicon" />
+        <TextView
+            android:id="@+id/badgebottomleft"
+            android:layout_marginBottom="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/badgepreviewicon"
+            android:layout_alignBottom="@+id/badgepreviewicon" />
+
+        <TextView
+            android:id="@+id/badgebottomright"
+            android:layout_marginBottom="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/badgepreviewicon"
+            android:layout_alignBottom="@+id/badgepreviewicon" />
+
+    </RelativeLayout>
 
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/badgepreviewicon"
+        android:layout_below="@+id/badgepreview"
         android:background="#FFFFFF"
         android:id="@+id/view" />
 

@@ -1,14 +1,12 @@
 package de.theknut.xposedgelsettings.ui;
 
 import android.annotation.SuppressLint;
-import android.app.ListActivity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -36,7 +34,7 @@ import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.Tab;
 import de.theknut.xposedgelsettings.hooks.icon.IconPack;
 import de.theknut.xposedgelsettings.ui.ImageLoader.ViewHolder;
 
-public class AllAppsList extends ListActivity {
+public class AllAppsList extends ActionBarListActivity {
 
     List<String> apps, initialItems, itemsToAdd, itemsToRemove;
     String appComponentName;
@@ -57,6 +55,7 @@ public class AllAppsList extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         CommonUI.CONTEXT = CommonUI.ACTIVITY = this;
 
         if (FragmentIcon.iconPack == null) {
@@ -114,14 +113,13 @@ public class AllAppsList extends ListActivity {
         }
 
         if (mode == MODE_SELECT_FOLDER_APPS) {
-            getActionBar().setTitle(intent.getStringExtra("foldername"));
+            getSupportActionBar().setTitle(intent.getStringExtra("foldername"));
         } else if (mode == MODE_MANAGE_TAB || mode == MODE_MANAGE_FOLDER) {
-            getActionBar().setTitle(itemName);
+            getSupportActionBar().setTitle(itemName);
         }
 
-        getListView().setCacheColorHint(CommonUI.UIColor);
-        getListView().setBackgroundColor(CommonUI.UIColor);
-        getActionBar().setBackgroundDrawable(new ColorDrawable(CommonUI.UIColor));
+        getListView().setCacheColorHint(getResources().getColor(R.color.primary_dark));
+        getListView().setBackgroundColor(getResources().getColor(R.color.primary_dark));
 
         AppArrayAdapter adapter = new AppArrayAdapter(this, getPackageManager(), CommonUI.getAllApps());
         setListAdapter(adapter);

@@ -16,6 +16,7 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import de.theknut.xposedgelsettings.hooks.common.CommonHooks;
 import de.theknut.xposedgelsettings.hooks.general.MoveToDefaultScreenHook;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
@@ -29,10 +30,10 @@ public class HomescreenHooks extends HooksBaseClass {
     public static void initAllHooks(LoadPackageParam lpparam) {
 
         // change the default homescreen
-        findAndHookMethod(Classes.Workspace, Methods.wMoveToDefaultScreen, boolean.class, new MoveToDefaultScreenHook());
+        CommonHooks.MoveToDefaultScreenListeners.add(new MoveToDefaultScreenHook());
 
         // modify homescreen grid
-        XposedBridge.hookAllConstructors(Classes.DeviceProfile, new DeviceProfileConstructorHook());
+        CommonHooks.DeviceProfileConstructorListeners.add(new DeviceProfileConstructorHook());
 
         if (!Common.IS_PRE_GNL_4) {
             findAndHookMethod(Classes.Folder, "onFinishInflate", new XC_MethodHook() {
@@ -45,7 +46,7 @@ public class HomescreenHooks extends HooksBaseClass {
 
         if (PreferencesHelper.iconSettingsSwitchHome || PreferencesHelper.homescreenFolderSwitch || PreferencesHelper.appdockSettingsSwitch) {
             // changing the appearence of the icons on the homescreen
-            findAndHookMethod(Classes.CellLayout, Methods.clAddViewToCellLayout, View.class, Integer.TYPE, Integer.TYPE, Classes.CellLayoutLayoutParams, boolean.class, new AddViewToCellLayoutHook());
+            CommonHooks.AddViewToCellLayoutListeners.add(new AddViewToCellLayoutHook());
         }
 
         if (PreferencesHelper.continuousScroll) {
@@ -57,7 +58,7 @@ public class HomescreenHooks extends HooksBaseClass {
         if (PreferencesHelper.appdockSettingsSwitch || PreferencesHelper.changeGridSizeHome) {
 
             // hide the app dock
-            findAndHookMethod(Classes.DeviceProfile, Methods.dpGetWorkspacePadding, Integer.TYPE, new GetWorkspacePaddingHook());
+            CommonHooks.GetWorkspacePaddingListeners.add(new GetWorkspacePaddingHook());
 
             if (PreferencesHelper.appdockSettingsSwitch) {
                 XposedBridge.hookAllConstructors(Classes.Hotseat, new HotseatConstructorHook());

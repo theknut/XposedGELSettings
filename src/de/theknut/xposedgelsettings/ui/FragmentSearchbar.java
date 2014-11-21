@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
+import de.theknut.xposedgelsettings.ui.preferences.MyListPreference;
+import de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference;
 
 public class FragmentSearchbar extends FragmentBase {
      
@@ -33,8 +35,8 @@ public class FragmentSearchbar extends FragmentBase {
         });
         searchbarStyle.setSummary(searchbarStyle.getEntry());
 
-        final CustomSwitchPreference hideSearchbar = (CustomSwitchPreference) findPreference("hidesearchbar");
-        final CustomSwitchPreference weatherWidget = (CustomSwitchPreference) findPreference("searchbarweatherwidget");
+        final SwitchCompatPreference hideSearchbar = (SwitchCompatPreference) findPreference("hidesearchbar");
+        final SwitchCompatPreference weatherWidget = (SwitchCompatPreference) findPreference("searchbarweatherwidget");
 
         weatherWidget.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -60,7 +62,7 @@ public class FragmentSearchbar extends FragmentBase {
             if (mContext.getPackageManager().getPackageInfo(Common.GEL_PACKAGE, 0).versionCode >= ObfuscationHelper.GNL_4_0_26) {
                 getPreferenceScreen().removePreference(this.findPreference("searchbarstyle"));
             }
-            getPreferenceScreen().removePreference(findPreference("searchbarweatherwidget"));
+            //getPreferenceScreen().removePreference(findPreference("searchbarweatherwidget"));
         } catch (Exception e) {
             e.printStackTrace();
         }

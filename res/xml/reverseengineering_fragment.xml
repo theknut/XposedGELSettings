@@ -1,39 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
     
-    <de.theknut.xposedgelsettings.ui.MyPreferenceCategory
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory
    	    android:title="@string/pref_reverseengineering_support_cat" >
 
-	    <de.theknut.xposedgelsettings.ui.MyListPreference
-	        android:dialogTitle="Support me! Buy me"
-	        android:entries="@array/donationArray"
-	        android:entryValues="@array/donationValues"
+	    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
 	        android:key="donationlistpref"
 	        android:summary="@string/pref_reverseengineering_support_summary"
 	        android:title="@string/pref_reverseengineering_support_title" />
 	
-	    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+	    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
 	        android:key="rateit"
 	        android:title="@string/pref_reverseengineering_rate_title"
 	        android:summary="@string/pref_reverseengineering_rate_summary" />
-	</de.theknut.xposedgelsettings.ui.MyPreferenceCategory>
+	</de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory>
     
-    <de.theknut.xposedgelsettings.ui.MyPreferenceCategory
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory
         android:title="@string/pref_reverseengineering_cat_title" >
 
-	    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+	    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
 	        android:summary="@string/pref_reverseengineering_explain_summary"
 	        android:title="@string/pref_reverseengineering_explain_title" />
-	    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+	    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
 	        android:summary="@string/pref_reverseengineering_conclusion_summary"
 	        android:title="@string/pref_reverseengineering_conclusion_title" />
-	    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+	    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
 	        android:key="whattodo"
 	        android:summary="@string/pref_reverseengineering_what_to_do_summary"
 	        android:title="@string/pref_reverseengineering_what_to_do_title" />
-	    <de.theknut.xposedgelsettings.ui.MyPreferenceScreen
+	    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
 	        android:summary="@string/pref_reverseengineering_bugs_summary"
 	        android:title="@string/pref_reverseengineering_bugs_title" />
-	</de.theknut.xposedgelsettings.ui.MyPreferenceCategory>
+	</de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory>
 
 </PreferenceScreen>

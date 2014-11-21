@@ -1,6 +1,5 @@
 package de.theknut.xposedgelsettings.hooks.androidintegration;
 
-import android.animation.TimeInterpolator;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
@@ -18,6 +17,8 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import de.theknut.xposedgelsettings.hooks.common.CommonHooks;
+import de.theknut.xposedgelsettings.hooks.common.XGELSCallback;
 import de.theknut.xposedgelsettings.hooks.general.ContextMenu;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
@@ -91,12 +92,12 @@ public class SystemUIHooks extends HooksBaseClass {
             return;
         }
 
-        XC_MethodHook snapToPageHook = new XC_MethodHook() {
+        CommonHooks.SnapToPageListeners.add(new XGELSCallback() {
 
             boolean gnow = true;
 
             @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+            public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
 
                 gnow = (Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lHasCustomContentToLeft);
                 String launcherState = getObjectField(Common.LAUNCHER_INSTANCE, Fields.lState).toString();
@@ -129,20 +130,14 @@ public class SystemUIHooks extends HooksBaseClass {
                     }
                 } catch (Throwable e) { }
             }
-        };
+        });
 
-        if (Common.PACKAGE_OBFUSCATED) {
-            findAndHookMethod(Classes.PagedView, Methods.pvSnapToPage, Integer.TYPE, Integer.TYPE, Integer.TYPE, boolean.class, TimeInterpolator.class, snapToPageHook);
-        } else {
-            XposedBridge.hookAllMethods(Classes.PagedView, Methods.pvSnapToPage, snapToPageHook);
-        }
-
-        XposedBridge.hookAllMethods(Classes.PagedView, Methods.pvPageBeginMoving, new XC_MethodHook() {
+        CommonHooks.PageBeginMovingListeners.add(new XGELSCallback() {
 
             int TOUCH_STATE_REST = 0;
 
             @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+            public void onAfterHookedMethod(MethodHookParam param) throws Throwable {
                 if (DEBUG) log("SystemUIHooks: onPageBeginMoving TouchState " + getObjectField(Common.WORKSPACE_INSTANCE, Fields.wTouchState));
 
                 int currentPage = getIntField(param.thisObject, Fields.pvCurrentPage);
@@ -171,10 +166,9 @@ public class SystemUIHooks extends HooksBaseClass {
             }
         });
 
-        XposedBridge.hookAllMethods(Classes.PagedView, Methods.pvPageEndMoving, new XC_MethodHook() {
-
+        CommonHooks.PageEndMovingListeners.add(new XGELSCallback() {
             @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+            public void onAfterHookedMethod(MethodHookParam param) throws Throwable {
                 if (DEBUG) log("SystemUIHooks: onPageEndMoving TouchState " + getObjectField(Common.WORKSPACE_INSTANCE, Fields.wTouchState) + " " + getIntField(param.thisObject, Fields.pvCurrentPage) + " " + getObjectField(Common.WORKSPACE_INSTANCE, Fields.wState));
 
                 if (!((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lIsAllAppsVisible))
@@ -199,10 +193,9 @@ public class SystemUIHooks extends HooksBaseClass {
             }
         });
 
-        XposedBridge.hookAllMethods(Classes.Workspace, Methods.wEnterOverviewMode, new XC_MethodHook() {
-
+        CommonHooks.EnterOverviewModeListeners.add(new XGELSCallback() {
             @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+            public void onAfterHookedMethod(MethodHookParam param) throws Throwable {
                 if (DEBUG) log("SystemUIHooks: enterOverviewMode");
 
                 Intent myIntent = new Intent();
@@ -213,10 +206,10 @@ public class SystemUIHooks extends HooksBaseClass {
             }
         });
 
-        XposedBridge.hookAllMethods(Classes.Launcher, "onPause", new XC_MethodHook() {
+        CommonHooks.LauncherOnPauseListeners.add(new XGELSCallback() {
 
             @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+            public void onAfterHookedMethod(MethodHookParam param) throws Throwable {
                 if (DEBUG) log("SystemUIHooks: onPause");
 
                 String launcherState = getObjectField(Common.LAUNCHER_INSTANCE, Fields.lState).toString();
@@ -248,10 +241,10 @@ public class SystemUIHooks extends HooksBaseClass {
             }
         });
 
-        XposedBridge.hookAllMethods(Classes.Launcher, "onStart", new XC_MethodHook() {
+        CommonHooks.LauncherOnStartListeners.add(new XGELSCallback() {
 
             @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+            public void onAfterHookedMethod(MethodHookParam param) throws Throwable {
                 if (DEBUG) log("SystemUIHooks: onStart");
 
                 boolean isDefaultHomescreen = getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage) == (PreferencesHelper.defaultHomescreen - 1);
@@ -276,10 +269,10 @@ public class SystemUIHooks extends HooksBaseClass {
             }
         });
 
-        XposedBridge.hookAllMethods(Classes.Launcher, "onResume", new XC_MethodHook() {
+        CommonHooks.LauncherOnResumeListeners.add(new XGELSCallback() {
 
             @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+            public void onAfterHookedMethod(MethodHookParam param) throws Throwable {
                 if (DEBUG) log("SystemUIHooks: onResume currentPage" + getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage));
 
                 if (!((Boolean) callMethod(param.thisObject, Methods.lIsAllAppsVisible))
@@ -350,12 +343,12 @@ public class SystemUIHooks extends HooksBaseClass {
             }
         });
 
-        findAndHookMethod(Classes.Workspace, Methods.wOnLauncherTransitionEnd, Classes.Launcher, boolean.class, boolean.class, new XC_MethodHook() {
+        CommonHooks.OnLauncherTransitionEndListeners.add(new XGELSCallback() {
 
             int TOWORKSPACE = 2;
 
             @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+            public void onAfterHookedMethod(MethodHookParam param) throws Throwable {
 
                 int currPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage);
 
@@ -376,10 +369,10 @@ public class SystemUIHooks extends HooksBaseClass {
 
         if (PreferencesHelper.dynamicBackbutton && PreferencesHelper.dynamicIconBackbutton) {
 
-            findAndHookMethod(Classes.Launcher, Methods.lOpenFolder, Classes.FolderIcon, new XC_MethodHook() {
+            CommonHooks.OpenFolderListeners.add(new XGELSCallback() {
 
                 @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                public void onAfterHookedMethod(MethodHookParam param) throws Throwable {
                     if (DEBUG) log("SystemUIHooks: openFolder");
 
                     int currentPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage);
