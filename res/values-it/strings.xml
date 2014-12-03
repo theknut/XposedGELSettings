@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Xposed GEL Settings</string>
-    <string name="app_description">Google Now Launcher the way you want it to be</string>
+    <string name="app_description">Google Now Launcher nel modo come lo desideri</string>
     <string name="pref_hide_google_search_bar_title">Nascondi</string>
     <string name="pref_autohide_google_search_bar_title">Nascondi automaticamente</string>
     <string name="pref_autohide_google_search_bar_summary">Mostra solo nella pagina di Google Now</string>
@@ -245,7 +245,7 @@
     <string name="alert_xgels_updated_cancel">Pi&#249; tardi</string>
 
     <string name="alert_launcher_not_installed_title">Nessun launcher supportato trovato!</string>
-    <string name="alert_launcher_not_installed_summary">Sembra che tu non hai installati Google Now Launcher o Trebuchet. Questo modulo &#232; progettato per quei due lanciatori e non funziona senza loro. Assicurati di installare GNL o Trebuchet prima di utilizzare questa applicazione!</string>
+    <string name="alert_launcher_not_installed_summary">Sembra che tu non abbia installato Google Now Launcher o Trebuchet. Questo modulo &#232; progettato per i seguenti launcher e non funziona senza essi. Assicurati di installare GNL o Trebuchet prima di utilizzare questa applicazione!</string>
     <string name="alert_launcher_not_installed_get_gnl">Insralla GNL</string>
 
     <string name="toast_donate_only">Questa funzionalità richiede XGELS Premium!</string>
@@ -315,9 +315,9 @@
     <string name="default_text">Predefinito</string>
     <string name="pref_cat_system_bars_title">Barre di sistema</string>
     <string name="pref_transparent_system_bars_title">Barre di sistema trasparenti</string>
-    <string name="pref_transparent_system_bars_summary">Utilizzare barre trasparenti come Android L (richiede ≥ Android 4.4)</string>
+    <string name="pref_transparent_system_bars_summary">Utilizzare le barre trasparenti come Android L (richiede ≥ Android 4.4)</string>
     <string name="module_not_from_google_play">Modulo non installato da Google Play!</string>
-    <string name="module_not_from_google_play_msg">XGELS non &#232; installato da Google Play! Si prega di installare XGELS dal Play Store per poter acquistare XGELS Premium e per ottenere automaticamente gli aggiornamenti!</string>
+    <string name="module_not_from_google_play_msg">XGELS non &#232; installato da Google Play! Si prega di installare XGELS dal Play Store, per poter acquistare XGELS Premium e per ottenere automaticamente gli aggiornamenti!</string>
     <string name="open_play_store">Apri Play Store</string>
     <string name="dont_show_again">Non mostrare pi&#249;</string>
     <string name="success">Riuscito</string>
@@ -383,5 +383,8 @@
     <string name="pref_searchbar_weather_widget_summary">Mostra la posizione e il meteo corrente sotto la barra di ricerca (solo GNL)</string>
     <string name="pref_app_drawer_folderstyle_background_color_title">Colore sfondo cartella</string>
     <string name="pref_app_drawer_folderstyle_background_color_summary">Colore di sfondo App drawer stile cartella (Ricerca Google ≥ 4.0)</string>
+
+    <!-- 2.2 -->
+    <string name="pref_grid_size_vert_summary">Scegliere una dimensione della griglia verticale</string>
 
 </resources>
