@@ -228,6 +228,7 @@ public class FragmentNotificationBadges extends FragmentBase {
                                 .title(pref.pref.getTitle())
                                 .customView(numberPicker)
                                 .theme(Theme.DARK)
+                                .positiveText(android.R.string.ok)
                                 .callback(new MaterialDialog.SimpleCallback() {
                                     @Override
                                     public void onPositive(MaterialDialog materialDialog) {

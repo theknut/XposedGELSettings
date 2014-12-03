@@ -41,7 +41,6 @@ import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.Utils;
 import de.theknut.xposedgelsettings.ui.AllAppsList;
 import de.theknut.xposedgelsettings.ui.AllWidgetsList;
-import de.theknut.xposedgelsettings.ui.SaveActivity;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
@@ -71,7 +70,6 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
     public static final int MOVE_RIGHT = 1;
 
     private FrameLayout tabHost;
-    private ArrayList<Tab> tabs;
     private RelativeLayout tabsContainer;
     private HorizontalScrollView hsv;
     private AlertDialog tabSettingsDialog;
@@ -98,7 +96,7 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
         this.tabHost = tabhost;
         this.tabs = new ArrayList<Tab>();
 
-        addTabBar();
+        addTabBar(PreferencesHelper.moveTabHostBottom);
 
         initTabs();
         addTabs(false);
@@ -142,18 +140,20 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
         hsv.setVisibility(PreferencesHelper.enableAppDrawerTabs ? View.INVISIBLE : View.GONE);
     }
 
-    private void addTabBar() {
+    private void addTabBar(boolean alignBottom) {
+        // this is freaking dirty but ain't nobody got time for that
+        int layout = alignBottom ? R.layout.tab_host_bottom : R.layout.tab_host;
         RelativeLayout rl = (RelativeLayout) inflater.inflate(R.layout.tab_host, null, false);
         hsv = (HorizontalScrollView) rl.findViewById(R.id.horizontalScrollView);
 
-        int titleBarHeight;
+        int statusbarHeight;
         int resourceId = XGELSContext.getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0) {
-            titleBarHeight = XGELSContext.getResources().getDimensionPixelSize(resourceId);
+            statusbarHeight = XGELSContext.getResources().getDimensionPixelSize(resourceId);
         } else {
-            titleBarHeight = Utils.dpToPx(25);
+            statusbarHeight = Utils.dpToPx(25);
         }
-        rl.setPadding(0, titleBarHeight, 0, 0);
+        rl.setPadding(0, statusbarHeight, 0, 0);
 
         tabsContainer = (RelativeLayout) rl.findViewById(R.id.tabscontainer);
 
@@ -237,6 +237,11 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
         tabView.setContentDescription(tab.getTitle());
         tabView.setOnLongClickListener(this);
         tabView.setOnClickListener(this);
+
+        if (PreferencesHelper.moveTabHostBottom) {
+            tabView.setBackground(tabView.getContext().getResources().getDrawable(R.drawable.tab_indicator_background_bottom));
+        }
+
         tabView.getBackground().setColorFilter(tab.getPrimaryColor(), PorterDuff.Mode.MULTIPLY);
         tabView.setTextColor(tab.getContrastColor());
         tabView.setTranslationY(hsv.getHeight() * 1.5f);
@@ -1009,21 +1014,6 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
         Drawable ring = XGELSContext.getResources().getDrawable(R.drawable.tabcolorpreview_ring);
         ring.setColorFilter(getCurrentTabData().getPrimaryColor(), PorterDuff.Mode.MULTIPLY);
         return new LayerDrawable(new Drawable[] {canvas, ring});
-    }
-
-    private Intent getBaseIntent(boolean openVisible, long itemid, String tabname) {
-        Intent intent = new Intent();
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-        intent.setComponent(new ComponentName(Common.PACKAGE_NAME, openVisible ? AllAppsList.class.getName() : SaveActivity.class.getName()));
-        intent.putExtra("mode", AllAppsList.MODE_MANAGE_TAB);
-        intent.putExtra("itemid", itemid);
-        intent.putExtra("name", tabname);
-        ArrayList<String> data = new ArrayList<String>(tabs.size());
-        for (Tab tab : tabs) {
-            data.add(tab.toString());
-        }
-        intent.putExtra("tabsdata", data);
-        return intent;
     }
 
     public void handleOverscroll(int overscroll) {

@@ -18,6 +18,7 @@ import com.afollestad.materialdialogs.Theme;
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
+import de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory;
 
 public class FragmentAppDrawer extends FragmentBase {
 
@@ -61,6 +62,7 @@ public class FragmentAppDrawer extends FragmentBase {
                         .customView(numberPickerView)
                         .cancelable(false)
                         .theme(Theme.DARK)
+                        .positiveText(android.R.string.ok)
                         .callback(new MaterialDialog.SimpleCallback() {
                             @Override
                             public void onPositive(MaterialDialog materialDialog) {
@@ -90,6 +92,7 @@ public class FragmentAppDrawer extends FragmentBase {
                         .title(R.string.pref_iconsize_title)
                         .customView(numberPicker)
                         .theme(Theme.DARK)
+                        .positiveText(android.R.string.ok)
                         .callback(new MaterialDialog.SimpleCallback() {
                             @Override
                             public void onPositive(MaterialDialog materialDialog) {
@@ -168,8 +171,13 @@ public class FragmentAppDrawer extends FragmentBase {
         });
 
         try {
-            if (mContext.getPackageManager().getPackageInfo(Common.GEL_PACKAGE, 0).versionCode >= ObfuscationHelper.GNL_4_0_26) {
-                getPreferenceScreen().removePreference(this.findPreference("appdrawerfolderstylebackgroundcolor"));
+            int version = mContext.getPackageManager().getPackageInfo(Common.GEL_PACKAGE, 0).versionCode;
+            if (version < ObfuscationHelper.GNL_4_0_26) {
+                MyPreferenceCategory cat = (MyPreferenceCategory) this.findPreference("settings");
+                cat.removePreference(this.findPreference("appdrawerfolderstylebackgroundcolor"));
+            } else if (version >= ObfuscationHelper.GNL_4_0_26) {
+                findPreference("movetabhostbottom").setEnabled(false);
+                findPreference("appdrawerswipetabs").setEnabled(false);
             }
         } catch (Exception e) {
             e.printStackTrace();

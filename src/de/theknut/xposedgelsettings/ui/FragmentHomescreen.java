@@ -13,6 +13,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 
 import de.theknut.xposedgelsettings.R;
+import de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory;
 import de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen;
 
 public class FragmentHomescreen extends FragmentBase {
@@ -47,6 +48,7 @@ public class FragmentHomescreen extends FragmentBase {
                         .customView(numberPickerView)
                         .cancelable(false)
                         .theme(Theme.DARK)
+                        .positiveText(android.R.string.ok)
                         .callback(new MaterialDialog.SimpleCallback() {
                             @Override
                             public void onPositive(MaterialDialog materialDialog) {
@@ -77,6 +79,7 @@ public class FragmentHomescreen extends FragmentBase {
                         .customView(numberPicker)
                         .cancelable(false)
                         .theme(Theme.DARK)
+                        .positiveText(android.R.string.ok)
                         .callback(new MaterialDialog.SimpleCallback() {
                             @Override
                             public void onPositive(MaterialDialog materialDialog) {
@@ -105,6 +108,7 @@ public class FragmentHomescreen extends FragmentBase {
                         .title(R.string.pref_workspacerect_title)
                         .customView(numberPicker)
                         .theme(Theme.DARK)
+                        .positiveText(android.R.string.ok)
                         .callback(new MaterialDialog.SimpleCallback() {
                             @Override
                             public void onPositive(MaterialDialog materialDialog) {
@@ -160,6 +164,7 @@ public class FragmentHomescreen extends FragmentBase {
                         .title(R.string.pref_switch_position_all_apps_button_title)
                         .customView(numberPicker)
                         .theme(Theme.DARK)
+                        .positiveText(android.R.string.ok)
                         .callback(new MaterialDialog.SimpleCallback() {
                             @Override
                             public void onPositive(MaterialDialog materialDialog) {
@@ -189,6 +194,7 @@ public class FragmentHomescreen extends FragmentBase {
                         .title(R.string.pref_appdockiconsize_title)
                         .customView(numberPicker)
                         .theme(Theme.DARK)
+                        .positiveText(android.R.string.ok)
                         .callback(new MaterialDialog.SimpleCallback() {
                             @Override
                             public void onPositive(MaterialDialog materialDialog) {
@@ -217,6 +223,7 @@ public class FragmentHomescreen extends FragmentBase {
                         .title(R.string.pref_appdock_count_title)
                         .customView(numberPicker)
                         .theme(Theme.DARK)
+                        .positiveText(android.R.string.ok)
                         .callback(new MaterialDialog.SimpleCallback() {
                             @Override
                             public void onPositive(MaterialDialog materialDialog) {
@@ -243,6 +250,7 @@ public class FragmentHomescreen extends FragmentBase {
                         .title(R.string.pref_workspacerect_dialog)
                         .customView(numberPicker)
                         .theme(Theme.DARK)
+                        .positiveText(android.R.string.ok)
                         .callback(new MaterialDialog.SimpleCallback() {
                             @Override
                             public void onPositive(MaterialDialog materialDialog) {
@@ -269,6 +277,7 @@ public class FragmentHomescreen extends FragmentBase {
                         .title(R.string.pref_appdockiconsize_title)
                         .customView(numberPicker)
                         .theme(Theme.DARK)
+                        .positiveText(android.R.string.ok)
                         .callback(new MaterialDialog.SimpleCallback() {
                             @Override
                             public void onPositive(MaterialDialog materialDialog) {
@@ -295,6 +304,7 @@ public class FragmentHomescreen extends FragmentBase {
                         .title(R.string.pref_appdockiconsize_title)
                         .customView(numberPicker)
                         .theme(Theme.DARK)
+                        .positiveText(android.R.string.ok)
                         .callback(new MaterialDialog.SimpleCallback() {
                             @Override
                             public void onPositive(MaterialDialog materialDialog) {
@@ -340,7 +350,8 @@ public class FragmentHomescreen extends FragmentBase {
         if (!InAppPurchase.isPremium) {
             findPreference("unlimitedfoldersize").setEnabled(false);
         } else {
-            getPreferenceScreen().removePreference(this.findPreference("needsDonate"));
+            MyPreferenceCategory cat = (MyPreferenceCategory) this.findPreference("folders");
+            cat.removePreference(this.findPreference("needsDonate"));
         }
 
         rootView = CommonUI.setBackground(rootView, R.id.prefbackground);

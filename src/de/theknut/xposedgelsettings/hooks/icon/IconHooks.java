@@ -125,7 +125,6 @@ public class IconHooks extends HooksBaseClass {
     public static void initAllHooks(LoadPackageParam lpparam) {
 
         if (PreferencesHelper.iconpack.equals(Common.ICONPACK_DEFAULT)) {
-
             for (ResolveInfo r : getCalendars()) {
                 if (r.activityInfo.metaData != null) {
                     int arrayID = r.activityInfo.metaData.getInt("com.teslacoilsw.launcher.calendarIconArray");
@@ -134,7 +133,6 @@ public class IconHooks extends HooksBaseClass {
                     }
                 }
             }
-
             if (!hasCalendarIcon) {
                 return;
             }

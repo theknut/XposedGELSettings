@@ -32,7 +32,7 @@ public class AppDrawerItem {
 
     protected SortType sortType = SortType.Alphabetically;
     protected ArrayList data;
-    protected ArrayList rawData;
+    protected ArrayList<String> rawData;
     protected String title;
     protected long id;
     protected int idx;
@@ -96,7 +96,7 @@ public class AppDrawerItem {
     }
 
     public void invalidateRawData() {
-        rawData = null;
+        this.rawData = null;
     }
 
     protected void parseData(String keyPrefix) {

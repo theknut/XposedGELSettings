@@ -67,7 +67,7 @@ public class ContextMenu extends HooksBaseClass{
     static ClassLoader classLoader;
 
     public static void initAllHooks(final LoadPackageParam lpparam) {
-classLoader = lpparam.classLoader;
+        classLoader = lpparam.classLoader;
         if (isMode(DISABLED)) return;
 
         if (isMode(WIDGET_ONLY) || isMode(SHORTCUT_WIDGET)) {
@@ -361,6 +361,7 @@ classLoader = lpparam.classLoader;
                 intent.putExtra("mode", AllAppsList.MODE_SELECT_FOLDER_APPS);
                 intent.putExtra("foldername", ((TextView) getObjectField(longPressedItem, Fields.fiFolderName)).getText());
                 intent.putExtra("itemid", getLongField(tag, Fields.iiID));
+                intent.putExtra("homescreen", true);
                 intent.putStringArrayListExtra("items", items);
                 Common.LAUNCHER_CONTEXT.startActivity(intent);
             }

@@ -198,7 +198,8 @@ public class AppDrawerHooks extends HooksBaseClass {
                     callMethod(acpv, Methods.pvSetCurrentPage, 0);
                 }
 
-                TabHelper.getInstance().scroll();
+                if (!Common.IS_TREBUCHET)
+                    TabHelper.getInstance().scroll();
             }
         });
 

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
+    <item
+        android:id="@+id/action_save"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_action_accept"
+        android:title="@string/default_text" />
+    <item
+        android:id="@+id/action_hide"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:checkable="true"
+        android:title="@string/menu_hide_apps_used_in_tabs" />
+</menu>

@@ -196,7 +196,7 @@ public class FragmentSelectiveIcon extends ActionBarActivity implements ActionBa
 
                 editor.remove(key).commit();
                 editor.putStringSet(key, selectedIcons).commit();
-                finishActivity();
+                finishActivity(true);
 
                 break;
             case R.id.shortcutfolderdefault:
@@ -215,7 +215,7 @@ public class FragmentSelectiveIcon extends ActionBarActivity implements ActionBa
 
                 editor.remove(key).commit();
                 editor.putStringSet(key, shortcuticons).commit();
-                finishActivity();
+                finishActivity(true);
 
                 break;
             default:
@@ -225,11 +225,12 @@ public class FragmentSelectiveIcon extends ActionBarActivity implements ActionBa
         return true;
     }
 
-    public static void finishActivity() {
+    public static void finishActivity(boolean restoreDefault) {
         if (mode == MODE_PICK_SHORTCUT_ICON || mode == MODE_PICK_FOLDER_ICON) {
             Intent intent = new Intent(Common.XGELS_ACTION_UPDATE_ICON);
             intent.putExtra("mode", mode);
             intent.putExtra("itemid", itemID);
+            intent.putExtra("default", restoreDefault);
             mActivity.sendBroadcast(intent);
             System.exit(0);
         } else {
@@ -586,7 +587,7 @@ public class FragmentSelectiveIcon extends ActionBarActivity implements ActionBa
                     editor.putStringSet(key, selectedIcons).commit();
 
                     mActivity.setResult(RESULT_OK);
-                    finishActivity();
+                    finishActivity(false);
                 }
             });
 

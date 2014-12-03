@@ -31,6 +31,7 @@ public class AddTabsAndFolders extends HooksBaseClass {
 
         if (Common.IS_TREBUCHET || Common.IS_PRE_GNL_4) return;
 
+        PreferencesHelper.moveTabHostBottom = false;
         findAndHookMethod(Classes.AppsCustomizeTabHost, "onFinishInflate", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(final MethodHookParam param) throws Throwable {
@@ -45,8 +46,6 @@ public class AddTabsAndFolders extends HooksBaseClass {
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 if (PreferencesHelper.enableAppDrawerTabs) {
                     ((FrameLayout.LayoutParams) ((View) getObjectField(param.thisObject, Fields.acthContent)).getLayoutParams()).topMargin = Utils.dpToPx(0);
-log("margin " + ((FrameLayout.LayoutParams) ((View) getObjectField(param.thisObject, Fields.acthContent)).getLayoutParams()).leftMargin);
-log("Padding " + (((View) getObjectField(param.thisObject, Fields.acthContent)).getPaddingLeft()));
                 }
             }
         });

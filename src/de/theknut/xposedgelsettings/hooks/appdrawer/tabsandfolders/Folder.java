@@ -123,14 +123,14 @@ public class Folder extends AppDrawerItem implements View.OnLongClickListener, V
             ImageView background = (ImageView) getObjectField(folderIcon, Fields.fiPreviewBackground);
             ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) background.getLayoutParams();
 
-            int padding = getIntField(Common.DEVICE_PROFIL, "DK");
+            int padding = getIntField(Common.DEVICE_PROFIL, Fields.dpIconDrawablePaddingPx);
             folderIcon.setPadding(0, padding, 0, 0);
             layoutParams.height = layoutParams.width = (int) Math.ceil(Common.APP_DRAWER_ICON_SIZE);
 
             callMethod(callMethod(appsCustomizeCellLayout, Methods.clGetShortcutsAndWidgets), Methods.sawMeasureChild, folderIcon);
             TextView t = ((TextView) getObjectField(folderIcon, Fields.fiFolderName));
             t.setTextSize(0, getIntField(Common.DEVICE_PROFIL, Fields.dpIconTextSize));
-            ((ViewGroup.MarginLayoutParams) t.getLayoutParams()).setMargins(0, (int) Math.ceil(Common.APP_DRAWER_ICON_SIZE), 0, 0);
+            ((ViewGroup.MarginLayoutParams) t.getLayoutParams()).setMargins(0, (int) Math.ceil(Common.APP_DRAWER_ICON_SIZE + padding), 0, 0);
 
             addItems();
         }

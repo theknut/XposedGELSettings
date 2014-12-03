@@ -179,13 +179,11 @@ public final class FolderHelper {
                         items.add(((Intent) callMethod(item.getTag(), "getIntent")).getComponent().flattenToString());
                     }
 
-                    Intent intent = new Intent();
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+                    String folderName = "" + ((TextView) getObjectField(folder.getFolderIcon(), Fields.fiFolderName)).getText();
+                    Intent intent = getBaseIntent(true, getLongField(folder.getFolderIcon().getTag(), Fields.iiID), folderName);
                     intent.setComponent(new ComponentName(Common.PACKAGE_NAME, AllAppsList.class.getName()));
                     intent.putExtra("mode", AllAppsList.MODE_SELECT_FOLDER_APPS);
                     intent.putExtra("save", true);
-                    intent.putExtra("foldername", ((TextView) getObjectField(folder.getFolderIcon(), Fields.fiFolderName)).getText());
-                    intent.putExtra("itemid", getLongField(folder.getFolderIcon().getTag(), Fields.iiID));
                     intent.putStringArrayListExtra("items", items);
                     Common.LAUNCHER_CONTEXT.startActivity(intent);
 
@@ -344,10 +342,20 @@ public final class FolderHelper {
         intent.putExtra("itemid", itemid);
         intent.putExtra("name", foldername);
         syncIndexes();
+
+        ArrayList<String> excludeApps = new ArrayList<String>();
         ArrayList<String> data = new ArrayList<String>(folders.size());
         for (Folder folder : folders) {
             data.add(folder.toString());
+            if (folder.getId() != itemid) {
+                excludeApps.addAll(folder.getRawData());
+            }
         }
+
+        if (openVisible) {
+            intent.putExtra("excludeapps", excludeApps);
+        }
+
         intent.putExtra("folderdata", data);
         return intent;
     }

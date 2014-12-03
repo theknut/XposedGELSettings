@@ -45,7 +45,6 @@ import de.theknut.xposedgelsettings.hooks.Utils;
 import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.AppDrawerItem.SortType;
 import de.theknut.xposedgelsettings.ui.AllAppsList;
 import de.theknut.xposedgelsettings.ui.AllWidgetsList;
-import de.theknut.xposedgelsettings.ui.SaveActivity;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
@@ -78,7 +77,6 @@ public final class TabHelperLegacy extends TabHelper implements View.OnClickList
     private Tab tmpWidgetTab;
 
     TabHost tabHost;
-    ArrayList<Tab> tabs;
     HorizontalScrollView hsv;
     ImageView addButton;
     FrameLayout tabsContainer;
@@ -928,20 +926,5 @@ public final class TabHelperLegacy extends TabHelper implements View.OnClickList
         Drawable ring = XGELSContext.getResources().getDrawable(R.drawable.tabcolorpreview_ring);
         ring.setColorFilter(getCurrentTabData().getPrimaryColor(), PorterDuff.Mode.MULTIPLY);
         return new LayerDrawable(new Drawable[] {canvas, ring});
-    }
-
-    private Intent getBaseIntent(boolean openVisible, long itemid, String tabname) {
-        Intent intent = new Intent();
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-        intent.setComponent(new ComponentName(Common.PACKAGE_NAME, openVisible ? AllAppsList.class.getName() : SaveActivity.class.getName()));
-        intent.putExtra("mode", AllAppsList.MODE_MANAGE_TAB);
-        intent.putExtra("itemid", itemid);
-        intent.putExtra("name", tabname);
-        ArrayList<String> data = new ArrayList<String>(tabs.size());
-        for (Tab tab : tabs) {
-            data.add(tab.toString());
-        }
-        intent.putExtra("tabsdata", data);
-        return intent;
     }
 }

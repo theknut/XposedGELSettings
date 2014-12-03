@@ -76,6 +76,8 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
                 if (versionCode >= ObfuscationHelper.GNL_4_0_26) Common.IS_PRE_GNL_4 = false;
 
                 if (PreferencesHelper.Debug) XposedBridge.log("XGELS: " + Common.HOOKED_PACKAGE + " V" + versionName + "(" + versionCode + ")");
+
+                Common.XGELSCONTEXT = context.createPackageContext(Common.PACKAGE_NAME, Context.CONTEXT_IGNORE_SECURITY);
             } catch (Exception e) {
                 XposedBridge.log("XGELS: exception while trying to get version info. (" + e.getMessage() + ")");
                 return;

@@ -135,6 +135,8 @@ public class PreferencesHelper {
     public static int iconSizeAppDrawer;
     public static boolean appdrawerSwipeTabs;
     public static boolean searchBarWeatherWidget;
+    public static boolean excludeAppsUsedInTabs;
+    public static boolean autoHideHomeIcons;
 
     public static void init() {
         long time = System.currentTimeMillis();
@@ -266,6 +268,8 @@ public class PreferencesHelper {
         enableAppDrawerTabs = prefs.getBoolean("enableappdrawertabs", false);
         appdrawerSwipeTabs = prefs.getBoolean("appdrawerswipetabs", false);
         moveTabHostBottom = prefs.getBoolean("movetabhostbottom", false);
+        excludeAppsUsedInTabs = prefs.getBoolean("excludeappsusedintabs", false);
+        autoHideHomeIcons = prefs.getBoolean("autohidehomeicons", false);
         if (PreferencesHelper.Debug) XposedBridge.log("Initialized PreferencesHelper in " + (System.currentTimeMillis() - time) + "ms");
     }
 }

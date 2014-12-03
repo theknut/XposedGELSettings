@@ -55,9 +55,9 @@ import de.theknut.xposedgelsettings.ui.FragmentSelectiveIcon;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
+import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getLongField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
-import static de.robv.android.xposed.XposedHelpers.getStaticIntField;
 import static de.robv.android.xposed.XposedHelpers.newInstance;
 
 public class GeneralHooks extends HooksBaseClass {
@@ -514,8 +514,8 @@ public class GeneralHooks extends HooksBaseClass {
                                                         Common.LAUNCHER_CONTEXT.getResources(),
                                                         Bitmap.createScaledBitmap(
                                                                 bitmap,
-                                                                getStaticIntField(ObfuscationHelper.Classes.Utilities, Fields.uIconWidth),
-                                                                getStaticIntField(ObfuscationHelper.Classes.Utilities, Fields.uIconHeight),
+                                                                getIntField(Common.DEVICE_PROFIL, Fields.dpFolderIconSize),
+                                                                getIntField(Common.DEVICE_PROFIL, Fields.dpFolderIconSize),
                                                                 true
                                                         )
                                                 );
@@ -555,6 +555,19 @@ public class GeneralHooks extends HooksBaseClass {
                             } else if (mode == FragmentSelectiveIcon.MODE_PICK_FOLDER_ICON) {
                                 if (isDefault) {
                                     ImageView prevBackground = (ImageView) getObjectField(icon, Fields.fiPreviewBackground);
+                                    int id = Common.LAUNCHER_CONTEXT.getResources().getIdentifier("portal_ring_inner_holo", "drawable", Common.HOOKED_PACKAGE);
+                                    if (id != 0) {
+                                        Bitmap bitmap = ((BitmapDrawable) Common.LAUNCHER_CONTEXT.getResources().getDrawable(id)).getBitmap();
+                                        background[0] = new BitmapDrawable(
+                                                Common.LAUNCHER_CONTEXT.getResources(),
+                                                Bitmap.createScaledBitmap(
+                                                        bitmap,
+                                                        getIntField(Common.DEVICE_PROFIL, Fields.dpFolderIconSize),
+                                                        getIntField(Common.DEVICE_PROFIL, Fields.dpFolderIconSize),
+                                                        true
+                                                )
+                                        );
+                                    }
                                     background[0].setColorFilter(Color.parseColor(ColorPickerPreference.convertToARGB(PreferencesHelper.homescreenFolderPreviewColor)), PorterDuff.Mode.MULTIPLY);
                                     prevBackground.setImageDrawable(background[0]);
                                 } else {

@@ -60,9 +60,10 @@ public class FragmentSearchbar extends FragmentBase {
 
         try {
             if (mContext.getPackageManager().getPackageInfo(Common.GEL_PACKAGE, 0).versionCode >= ObfuscationHelper.GNL_4_0_26) {
-                getPreferenceScreen().removePreference(this.findPreference("searchbarstyle"));
+                getPreferenceScreen().removePreference(findPreference("searchbarstyle"));
+            } else {
+                getPreferenceScreen().removePreference(findPreference("searchbarweatherwidget"));
             }
-            //getPreferenceScreen().removePreference(findPreference("searchbarweatherwidget"));
         } catch (Exception e) {
             e.printStackTrace();
         }

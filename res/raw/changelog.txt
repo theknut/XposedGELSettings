@@ -2,7 +2,7 @@
   <head>
     <style type='text/css'>
       body {
-        background-color:#282828;
+        background-color: rgba(0,0,0,0.0);
         color:white; }
       a {
       	color:#5c5cff }
@@ -26,6 +26,37 @@
     </style>
   </head>
   <body>
+
+$ 2.2
+  % Version 2.2
+  _ 2014-03-12
+
+  <b>&#35;Materialyolo</b></br></br>
+
+  !Added:
+  * support for Google Search 3.6.16
+  * <b>App drawer:</b>hide apps from app drawer if they are on home screen (experimental)
+
+  !Improvement:
+  * massive under the hood changes
+  * way less memory consumption
+  * faster creation of tabs and folders
+  * tabs and folders support for Google Search 4.0
+
+  !Fixed:
+  * crash when picking an icon
+  * folder icon to folder name distance in app drawer
+
+  !XGELS UI:
+  * material redesign
+  * added reset to default color to color picker
+  * show hex value of color in color picker
+  * option in overflow menu to hide apps from the app picker if they are used in any other tab/folder already
+  * added Spanish translation (thanks to Sergio Schiappapietra)
+  * updated translations
+
+  !Credits:
+  * Aidan Follestad for <a href="https://github.com/afollestad/material-dialogs">material-dialogs</a>
 
 $ 2.1.3
   % Version 2.1.3

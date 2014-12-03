@@ -203,7 +203,7 @@ public class FragmentSettings extends FragmentBase {
                     try {
                         PackageManager pkgMgr = mContext.getPackageManager();
                         PackageInfo packageInfo = pkgMgr.getPackageInfo(mContext.getPackageName(), 0);
-                        version = "XGELS " + (InAppPurchase.isPremium ? "Premium" : "") + ": " + packageInfo.versionName + " (" + packageInfo.versionCode + ")";
+                        version = "XGELS" + (InAppPurchase.isPremium ? " Premium" : "") + ": " + packageInfo.versionName + " (" + packageInfo.versionCode + ")";
                         deviceInfo.append(version).append(ls);
 
                         packageInfo = pkgMgr.getPackageInfo("de.robv.android.xposed.installer", 0);

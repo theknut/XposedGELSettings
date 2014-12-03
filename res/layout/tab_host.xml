@@ -35,54 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/tabscontainer"
-                android:orientation="horizontal" >
-
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:text="Apps"-->
-                    <!--android:id="@+id/apps"-->
-                    <!--android:layout_weight="1"-->
-                    <!--style="@style/TabIndicator" />-->
-
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:text="Games"-->
-                    <!--android:id="@+id/games"-->
-                    <!--android:layout_weight="0"-->
-                    <!--android:layout_toRightOf="@+id/apps"-->
-                    <!--style="@style/TabIndicator" />-->
-
-                <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:text="Apps"-->
-                <!--android:layout_weight="1"-->
-                <!--style="@style/TabIndicator" />-->
-
-                <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:text="Games"-->
-                <!--android:layout_weight="0"-->
-                <!--style="@style/TabIndicator" />-->
-
-                <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:text="Apps"-->
-                <!--android:layout_weight="1"-->
-                <!--style="@style/TabIndicator" />-->
-
-                <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:text="Games"-->
-                <!--android:layout_weight="0"-->
-                <!--style="@style/TabIndicator" />-->
-
-            </RelativeLayout>
+                android:orientation="horizontal" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"

@@ -254,19 +254,19 @@ public class IconPack {
         }
     }
 
-    // Copyright Kevin Barry, TeslaCoil Software
-    private void applyScaleFactor(Canvas c, Bitmap dst, Bitmap src, float scale) {
-        c.save();
-        c.translate(dst.getWidth()*.5f, dst.getHeight()*.5f);
+        // Copyright Kevin Barry, TeslaCoil Software
+        private void applyScaleFactor(Canvas c, Bitmap dst, Bitmap src, float scale) {
+            c.save();
+            c.translate(dst.getWidth()*.5f, dst.getHeight()*.5f);
 
-        c.scale(scale, scale);
-        int scaledW = dst.getScaledWidth(c);
-        int scaledH = dst.getScaledHeight(c);
-        int l = - scaledW/2;
-        int t = - scaledH/2;
-        c.drawBitmap(src, l, t, mPaint);
-        c.restore();
-    }
+            c.scale(scale, scale);
+            int scaledW = dst.getScaledWidth(c);
+            int scaledH = dst.getScaledHeight(c);
+            int l = - scaledW/2;
+            int t = - scaledH/2;
+            c.drawBitmap(src, l, t, mPaint);
+            c.restore();
+        }
 
     public Drawable loadIcon(String pkg) {
 

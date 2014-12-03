@@ -6,6 +6,7 @@
         android:summary="@string/pref_limited_summary"
         android:selectable="false"/>
     <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory
+        android:key="tabsfolders"
         android:title="@string/pref_cat_tabs_and_folders_title">
         <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
             android:key="tabsinstructions"
@@ -37,6 +38,7 @@
             android:dependency="enableappdrawertabs" />
     </de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory>
     <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory
+        android:key="settings"
         android:title="@string/pref_cat_app_drawer_settings_title">
         <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
             android:title="@string/pref_selectappstohide_summary">
@@ -54,6 +56,10 @@
             android:title="@string/pref_grid_size_title"
             android:summary="@string/pref_grid_size_summary"
             android:dependency="changegridsizeapps" />
+        <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
+            android:key="autohidehomeicons"
+            android:title="@string/pref_app_drawer_hide_from_home_title"
+            android:summary="@string/pref_app_drawer_hide_from_home_summary"/>
         <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
             android:key="closeappdrawerafterappstarted"
             android:title="@string/pref_switch_close_app_drawer_after_app_started_title"

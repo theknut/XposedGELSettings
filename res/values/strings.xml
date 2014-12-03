@@ -386,5 +386,8 @@
 
     <!-- 2.2 -->
     <string name="pref_grid_size_vert_summary">Choose a vertical grid size</string>
+    <string name="menu_hide_apps_used_in_tabs">Hide already selected apps</string>
+    <string name="pref_app_drawer_hide_from_home_title">Hide homescreen apps</string>
+    <string name="pref_app_drawer_hide_from_home_summary">(Experimental)\nAutomatically hide apps from the app drawer if they are placed on the homescreen. Requires a launcher reboot to sync.</string>
 
 </resources>

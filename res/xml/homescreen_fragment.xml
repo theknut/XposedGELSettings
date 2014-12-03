@@ -113,6 +113,7 @@
             android:dependency="iconsettingsswitchhome" />
     </de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory>
     <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory
+        android:key="folders"
         android:title="@string/pref_cat_homescreen_folder_title">
         <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
             android:key="needsDonate"

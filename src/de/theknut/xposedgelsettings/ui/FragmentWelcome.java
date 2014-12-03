@@ -93,7 +93,7 @@ public class FragmentWelcome extends FragmentBase {
             }
 
             Changelog cl = new Changelog(mContext);
-            if (false && cl.firstRun()) {
+            if (cl.firstRun()) {
                 CommonUI.needFullReboot = true;
                 alerts.add(cl.getFullLogDialog());
                 getFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentReverseEngineering()).commit();
@@ -112,29 +112,27 @@ public class FragmentWelcome extends FragmentBase {
     }
 
     public boolean isSupportedLauncherInstalled() {
-
-        boolean retVal = false;
         PackageManager pm = mContext.getPackageManager();
 
         try {
-            pm.getPackageInfo(Common.GEL_PACKAGE, PackageManager.GET_ACTIVITIES);
-            retVal = true;
+            pm.getPackageInfo("com.google.android.launcher", PackageManager.GET_ACTIVITIES);
+            return true;
         }
         catch (PackageManager.NameNotFoundException e) { }
 
         try {
             pm.getPackageInfo(Common.TREBUCHET_PACKAGE, PackageManager.GET_ACTIVITIES);
-            retVal = true;
+            return true;
         }
         catch (PackageManager.NameNotFoundException e) { }
 
         try {
             pm.getPackageInfo("com.android.launcher3", PackageManager.GET_ACTIVITIES);
-            retVal = true;
+            return true;
         }
         catch (PackageManager.NameNotFoundException e) { }
 
-        return retVal;
+        return false;
     }
 
     private boolean isXposedInstalled() {

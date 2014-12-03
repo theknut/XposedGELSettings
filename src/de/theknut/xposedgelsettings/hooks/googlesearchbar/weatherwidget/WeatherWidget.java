@@ -21,7 +21,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
-import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
@@ -32,7 +31,6 @@ import de.theknut.xposedgelsettings.hooks.common.XGELSCallback;
 import de.theknut.xposedgelsettings.hooks.googlesearchbar.GetWorkspacePaddingHook;
 
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
-import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
@@ -144,7 +142,9 @@ public class WeatherWidget extends HooksBaseClass {
                         if ((Integer) param.args[0] > 0) {
                             fadeOut(0);
                         } else {
-                            fadeIn(500);
+                            if ((Integer) param.args[1] != 6 && (Integer) param.args[1] != 2) {
+                                fadeIn(500);
+                            }
                         }
                     }
                 });
@@ -152,13 +152,11 @@ public class WeatherWidget extends HooksBaseClass {
                 CommonHooks.EnterOverviewModeListeners.add(new XGELSCallback() {
                     @Override
                     public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
-                        log("Enter");
                         fadeOut(0);
                     }
 
                     @Override
                     public void onAfterHookedMethod(MethodHookParam param) throws Throwable {
-                        log("E2");
                         fadeOut(0);
                     }
                 });

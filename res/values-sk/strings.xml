@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_description">Google Now Launcher the way you want it to be</string>
+    <string name="app_description">Rôzne vylepšenia pre Google Now Launcher</string>
     <string name="pref_hide_google_search_bar_title">Skryť</string>
     <string name="pref_autohide_google_search_bar_title">Automaticky skryť</string>
     <string name="pref_autohide_google_search_bar_summary">Automaticky zobraziť na stránke Asistenta Google</string>
@@ -412,4 +412,13 @@
     <string name="pref_switch_swipe_tabs_title">Potiahnúť po kartách</string>
     <string name="pref_switch_swipe_tabs_summary">Prepnúť na ďalšiu kartu pri potiahnutí na poslednej stránke s kartami</string>
 
+    <!-- 2.1.2. -->
+    <string name="pref_searchbar_weather_widget_title">Miniaplikácia počasia</string>
+    <string name="pref_searchbar_weather_widget_summary">Zobraziť aktuálnu polohu a počasie pod vyhľadávacím riadkom (iba GNL)</string>
+
+    <string name="pref_app_drawer_folderstyle_background_color_title">Farba pozadia priečinka</string>
+    <string name="pref_app_drawer_folderstyle_background_color_summary">Farba pozadia priečinka v ponuke aplikácií (Vyhľadávanie Google ≥ 4.0)</string>
+    
+    <!-- 2.2 -->
+    <string name="pref_grid_size_vert_summary">Zvoliť zvislú veľkosť mriežky</string>
 </resources>

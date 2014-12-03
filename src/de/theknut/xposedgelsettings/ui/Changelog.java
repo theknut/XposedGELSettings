@@ -142,7 +142,7 @@ public class Changelog {
         WebView wv = new WebView(this.context);
 
         wv.setPadding(0, Utils.dpToPx(5), 0, 0);
-        wv.setBackgroundColor(Color.BLACK);
+        wv.setBackgroundColor(Color.TRANSPARENT);
         wv.loadDataWithBaseURL(null, this.getLog(full), "text/html", "UTF-8",
                 null);
 

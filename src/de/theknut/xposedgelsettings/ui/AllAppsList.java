@@ -46,6 +46,8 @@ public class AllAppsList extends ActionBarListActivity {
     private String contentType;
     private boolean newItem;
 
+    MenuItem hideMenuItem;
+
     public static final int MODE_PICK_APPS_TO_HIDE = 1;
     public static final int MODE_SELECT_FOLDER_APPS = 2;
     public static final int MODE_MANAGE_TAB = 3;
@@ -114,14 +116,25 @@ public class AllAppsList extends ActionBarListActivity {
 
         if (mode == MODE_SELECT_FOLDER_APPS) {
             getSupportActionBar().setTitle(intent.getStringExtra("foldername"));
-        } else if (mode == MODE_MANAGE_TAB || mode == MODE_MANAGE_FOLDER) {
+        } else if (mode == MODE_MANAGE_TAB || mode == MODE_MANAGE_FOLDER || mode == MODE_SELECT_FOLDER_APPS) {
             getSupportActionBar().setTitle(itemName);
         }
 
         getListView().setCacheColorHint(getResources().getColor(R.color.primary_dark));
         getListView().setBackgroundColor(getResources().getColor(R.color.primary_dark));
 
-        AppArrayAdapter adapter = new AppArrayAdapter(this, getPackageManager(), CommonUI.getAllApps());
+        List<ResolveInfo> allApps = CommonUI.getAllApps();
+        ArrayList<String> excludeApps = intent.getStringArrayListExtra("excludeapps");
+        if (excludeApps != null) {
+            for (int i = 0; i < allApps.size(); i++) {
+                ResolveInfo item = allApps.get(i);
+                if (excludeApps.contains(new ComponentName(item.activityInfo.packageName, item.activityInfo.name).flattenToString())) {
+                    allApps.remove(i);
+                }
+            }
+        }
+
+        AppArrayAdapter adapter = new AppArrayAdapter(this, getPackageManager(), allApps);
         setListAdapter(adapter);
     }
 
@@ -162,9 +175,16 @@ public class AllAppsList extends ActionBarListActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
 
-        menu.findItem(R.id.action_refresh).setVisible(false);
+        if (!getIntent().hasExtra("homescreen") && (mode == MODE_MANAGE_TAB || mode == MODE_SELECT_FOLDER_APPS)) {
+            inflater.inflate(R.menu.allapps_menu, menu);
+            boolean isChecked = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).getBoolean("excludeappsusedintabs", false);
+            hideMenuItem = menu.findItem(R.id.action_hide);
+            hideMenuItem.setChecked(isChecked);
+        } else {
+            inflater.inflate(R.menu.menu, menu);
+            menu.findItem(R.id.action_refresh).setVisible(false);
+        }
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -277,6 +297,27 @@ public class AllAppsList extends ActionBarListActivity {
                 }
 
                 finish();
+                break;
+            case R.id.action_hide:
+                SharedPreferences.Editor editor = getSharedPreferences(Common.PREFERENCES_NAME, MODE_WORLD_READABLE).edit();
+                editor.putBoolean("excludeappsusedintabs", !item.isChecked()).apply();
+                hideMenuItem.setChecked(!item.isChecked());
+
+                List<ResolveInfo> allApps = CommonUI.getAllApps();
+                if (!item.isChecked()) {
+                    ArrayList<String> excludeApps = getIntent().getStringArrayListExtra("excludeapps");
+                    if (excludeApps != null) {
+                        for (int i = 0; i < allApps.size(); i++) {
+                            ResolveInfo app = allApps.get(i);
+                            if (excludeApps.contains(new ComponentName(app.activityInfo.packageName, app.activityInfo.name).flattenToString())) {
+                                allApps.remove(i);
+                            }
+                        }
+                    }
+                }
+
+                AppArrayAdapter adapter = new AppArrayAdapter(this, getPackageManager(), allApps);
+                setListAdapter(adapter);
             default:
                 break;
         }

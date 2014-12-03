@@ -10,13 +10,16 @@ public class ObfuscationHelper extends HooksBaseClass {
     public static final int GNL_3_4_15 = 300304150;
     public static final int GNL_3_5_14 = 300305140;
     public static final int GNL_3_6_13 = 300306130;
+    public static final int GNL_3_6_16 = 300306160;
     public static final int GNL_3_9_00 = 300309000;
     public static final int GNL_4_0_26 = 300400260;
 
     public static int getVersionIndex(int version) {
 
         if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE)) {
-            if (version >= GNL_4_0_26) {
+            if (version >= GNL_3_6_16 && version < GNL_3_9_00) {
+                return 3;
+            } else if (version >= GNL_4_0_26) {
                 return 5;
             } else if (version >= GNL_3_9_00) {
                 return 4;
@@ -288,7 +291,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                     if (Common.IS_PRE_GNL_4) {
                         // GelSearchPlateContainer was removed in Google Search 4.0
                         GelSearchPlateContainer = findClass(ClassNames.GEL_SEARCH_PLATE_CONTAINER, lpparam.classLoader);
-                        WeatherEntryAdapter = findClass(ClassNames.WEATHER_ENTRY_ADAPTER, lpparam.classLoader);
+                        if (Common.GNL_VERSION != GNL_3_6_16) WeatherEntryAdapter = findClass(ClassNames.WEATHER_ENTRY_ADAPTER, lpparam.classLoader);
                         UriLoader = findClass(ClassNames.URI_LOADER, lpparam.classLoader);
                         WeatherPoint = findClass(ClassNames.WEATHER_POINT, lpparam.classLoader);
                     }
@@ -590,7 +593,10 @@ public class ObfuscationHelper extends HooksBaseClass {
                 dpIconDrawablePaddingPx,
                 lSearchDropTargetBar,
                 wLastCustomContentScrollProgress,
-                pvOverscrollX;
+                pvOverscrollX,
+                dpFolderIconSize,
+                lmWorkspaceItems,
+                lmFolders;
 
         public static void initFieldNames(int idx) {
             dpHotseatAllAppsRank = new String[]{"hotseatAllAppsRank", "zp", "BQ", "Cv", "Cu", "DY"}[idx]; // only / 2 operation
@@ -601,6 +607,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             dpAllAppsIconSize = new String[]{"allAppsIconSizePx", "zc", "BD", "Ci", "Ch", "DN"}[idx]; // first in acpv "public final float"
             dpIconDrawablePaddingPx = new String[]{"iconDrawablePaddingPx", "zZ", "BA", "Cf", "Ce", "DK"}[idx]; // in BubbleTextView setCompoundDrawablePadding
             dpNumCols = new String[]{"numColumns", "yy", "AX", "BC", "BB", "Dh"}[idx]; // ", c: "
+            dpFolderIconSize = new String[]{"folderIconSizePx", "zi", "BJ", "Co", "Cn", "DS"}[idx]; // " + 2 * -"
             clphHasPerformedLongPress = new String[]{"mHasPerformedLongPress", "wG", "zf", "zK", "zJ", "BV"}[idx]; // only boolean member
             cllpCanReorder = new String[]{"canReorder", "wf", "yE", "zj", "zi", "Bu"}[idx]; // second member with "= true"
             clIsHotseat = new String[]{"mIsHotseat", "vq", "xP", "yu", "yt", "AF"}[idx];
@@ -666,6 +673,8 @@ public class ObfuscationHelper extends HooksBaseClass {
             acpvRemoveAllViewsOnPage = new String[]{"removeAllViewsOnPage", "cI", "dx", "dG", "dG", "eb"}[idx]; // ")localView)."
             acpvContentType = new String[]{"mContentType", "sw", "uW", "vB", "vB", "yf"}[idx]; // private oo uW = oo.vW;
             acpvContentHeight = new String[]{"mContentHeight", "sH", "vh", "vM", "vM", "yl"}[idx]; // second View.MeasureSpec.makeMeasureSpec(this.
+            lmWorkspaceItems = new String[]{"sBgWorkspaceItems", "HG", "Ko", "KS", "KW", "MX"}[idx]; // "adding item: " over case 4
+            lmFolders = new String[]{"sBgFolders", "HF", "Kn", "KR", "KV", "MW"}[idx]; // ", not in the list of folders"
         }
     }
 }

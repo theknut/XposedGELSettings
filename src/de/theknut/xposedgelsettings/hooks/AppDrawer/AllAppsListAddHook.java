@@ -5,11 +5,13 @@ import android.content.Intent;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.FolderHelper;
@@ -18,7 +20,9 @@ import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelper;
 import de.theknut.xposedgelsettings.ui.CommonUI;
 import de.theknut.xposedgelsettings.ui.SaveActivity;
 
+import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
+import static de.robv.android.xposed.XposedHelpers.getStaticObjectField;
 
 public final class AllAppsListAddHook extends XC_MethodHook {
 	
@@ -45,6 +49,7 @@ public final class AllAppsListAddHook extends XC_MethodHook {
         ArrayList<String> appsToHide = new ArrayList<String>(PreferencesHelper.hiddenApps);
         appsToHide.addAll(TabHelper.getInstance().getAppsToHide());
         appsToHide.addAll(FolderHelper.getInstance().getAppsToHide());
+        appsToHide.addAll(getWorkspaceIcons());
 
         if (PreferencesHelper.hiddenApps.size() != 0 && PreferencesHelper.hiddenApps.iterator().next().contains("#")
                 || PreferencesHelper.hiddenWidgets.size() != 0 && PreferencesHelper.hiddenWidgets.iterator().next().contains("#")) {
@@ -69,6 +74,29 @@ public final class AllAppsListAddHook extends XC_MethodHook {
             }
         }
 	}
+
+    private ArrayList<String> getWorkspaceIcons() {
+        ArrayList<String> appsToHide = new ArrayList<String>();
+
+        if (PreferencesHelper.autoHideHomeIcons) {
+            ArrayList workspaceItems = (ArrayList) getStaticObjectField(Classes.LauncherModel, Fields.lmWorkspaceItems);
+
+            for (Object workspaceItem : workspaceItems) {
+                if (workspaceItem.getClass().equals(Classes.ShortcutInfo)) {
+                    Intent i = (Intent) callMethod(workspaceItem, "getIntent");
+                    appsToHide.add(i.getComponent().flattenToString());
+                }
+            }
+
+            for (Object item : ((HashMap) getStaticObjectField(Classes.LauncherModel, Fields.lmFolders)).values()) {
+                if (item.getClass().equals(Classes.ShortcutInfo)) {
+                    Intent i = (Intent) callMethod(item, "getIntent");
+                    appsToHide.add(i.getComponent().flattenToString());
+                }
+            }
+        }
+        return appsToHide;
+    }
 
     @Override
     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
