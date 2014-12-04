@@ -87,7 +87,7 @@
     <string name="pref_lock_desktop_title">デスクトップをロック</string>
     <string name="pref_lock_desktop_summary">デスクトップをロックして誤移動を防止する</string>
     <string name="pref_continuous_scroll_title">無限スクロール</string>
-    <string name="pref_continuous_scroll_summary">最初のページに飛んでスクロールする\n（実験的）</string>
+    <string name="pref_continuous_scroll_summary">最初のページに飛んでスクロールする\n（試験的な機能）</string>
     <string name="pref_continuous_scroll_with_app_drawer_title">アプリドロワーを含める</string>
     <string name="pref_continuous_scroll_with_app_drawer_summary">無限スクロールにアプリドロワーも含める</string>
     <string name="pref_switch_close_app_drawer_after_app_started_title">アプリドロワーを閉じる</string>
@@ -231,7 +231,7 @@
     <string name="pref_notificationbadge_topbottom_padding_title">上下のパディング</string>
     <string name="pref_notificationbadge_advanced">高度な設定</string>
     <string name="pref_notificationbadge_advanced_title">手動で設定</string>
-    <string name="pref_notificationbadge_advanced_summary">電話アプリやSMSアプリのバッジに問題が起こる場合は、もう一度ここで設定してください。ここをクリックすると以下の設定をリセットすることもできます。</string>
+    <string name="pref_notificationbadge_advanced_summary">電話アプリやSMSアプリのバッジに問題が起こる場合は、ここで再設定してください。ここをクリックすると以下の設定をリセットすることもできます。</string>
     <string name="pref_notificationbadge_advanced_dialer_title">電話アプリ</string>
     <string name="pref_notificationbadge_advanced_sms_title">SMSアプリ</string>
     
@@ -307,7 +307,7 @@
     <!-- V1.9 -->
     <string name="pref_hide_workspace_shadow_title">ホーム画面の影</string>
     <string name="pref_hide_workspace_shadow_summary">没入モードで見えるホームスクリーンの影を非表示にする</string>
-    <string name="pref_switch_unlimited_folder_size_title">フォルダサイズを無制限化</string>
+    <string name="pref_switch_unlimited_folder_size_title">無制限のフォルダサイズ</string>
     <string name="pref_always_show_ok_google_title">OK Google</string>
     <string name="pref_always_show_ok_google_summary">「OK Google」を常に表示する</string>
     <string name="pref_glow_color_title">発光色</string>
@@ -330,7 +330,7 @@
     <string name="pref_cat_quicksettings_title">クイック設定タイル</string>
     <string name="pref_cat_quicksettings_lock_desktop_title">デスクトップロックタイル</string>
     <string name="pref_cat_quicksettings_lock_desktop_summary">デスクトップのロックを素早く切り替えるためのタイルをクイック設定に追加する</string>
-    <string name="pref_quicksettings_explain_summary">クイック設定はAndroid 4.2で導入され、他のXposedモジュールやROMの機能と干渉して動かない可能性があります</string>
+    <string name="pref_quicksettings_explain_summary">クイック設定はAndroid 4.2で導入されたもので、他のXposedモジュールやROMの機能と干渉して動かない可能性があります</string>
 
     <!-- V1.9.1 -->
     <string name="pref_searchbar_style_title">検索バーのスタイル</string>
@@ -352,7 +352,7 @@
     <string name="alert_appdrawer_clear_tabs_title">注意</string>
     <string name="alert_appdrawer_clear_tabs_summary">作成したすべてのアプリドロワーのタブを削除しようとしています。続けますか？</string>
     <string name="alert_appdrawer_clear_tabs_success">アプリドロワーのタブデータは削除されました</string>
-    <string name="pref_appdrawer_tabs_instructions_summary">Android 4.2以上でGoogle Nowランチャーのみ\nアプリドロワーのタブはアプリドロワーから直接追加できます。タブを長押しするとタブの設定を開くことができます。</string>
+    <string name="pref_appdrawer_tabs_instructions_summary">Android 4.2以上でGoogle Nowランチャーのみ\nアプリドロワーのタブはアプリドロワーから直接追加することができます。タブを長押しするとタブの設定を開くことができます。</string>
     <string name="pref_notificationbadge_noappdrawer_title">アプリドロワーから非表示</string>
     <string name="toast_appdrawer_tabadded_title">タブを長押しして設定を開く</string>
 
@@ -382,9 +382,13 @@
     <!-- 2.1.2. -->
     <string name="pref_searchbar_weather_widget_title">天気ウィジェット</string>
     <string name="pref_searchbar_weather_widget_summary">検索バーの下に現在地と天気を表示する（GNLのみ）</string>
-
-    <!-- new -->
     <string name="pref_app_drawer_folderstyle_background_color_title">フォルダの背景色</string>
     <string name="pref_app_drawer_folderstyle_background_color_summary">アプリドロワーのフォルダスタイルの背景色（Google検索4.0以上）</string>
+
+    <!-- 2.2 -->
+    <string name="pref_grid_size_vert_summary">縦のグリッドサイズを選択する</string>
+    <string name="menu_hide_apps_used_in_tabs">既に選択しているアプリを非表示</string>
+    <string name="pref_app_drawer_hide_from_home_title">ホーム画面アプリを非表示</string>
+    <string name="pref_app_drawer_hide_from_home_summary">（試験的な機能）\nホーム画面に設置されているアプリをアプリドロワーから自動的に非表示にします。同期するためにランチャーの再起動が必要です。</string>
 
 </resources>
