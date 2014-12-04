@@ -386,5 +386,8 @@
 
     <!-- 2.2 -->
     <string name="pref_grid_size_vert_summary">Scegliere una dimensione della griglia verticale</string>
+    <string name="menu_hide_apps_used_in_tabs">Nascondi app già selezionate</string>
+    <string name="pref_app_drawer_hide_from_home_title">Nascondi app dalla homesreen</string>
+    <string name="pref_app_drawer_hide_from_home_summary">(Sperimentale)\nNascondi automaticamente le app dall\'app drawer se vengono inserite nell\'homescreen. Richiede di riavviare il launcher per la sincronizzazione.</string>
 
 </resources>
