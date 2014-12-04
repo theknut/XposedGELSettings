@@ -362,15 +362,6 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
     }
 
     @Override
-    public void updateTabs() {
-        if (Common.IS_TREBUCHET) return;
-
-        for (Tab tab : tabs) {
-            tab.update();
-        }
-    }
-
-    @Override
     public void invalidate() {
         setTabColor(getCurrentTabData().getPrimaryColor());
         callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvInvalidatePageData, PreferencesHelper.appdrawerRememberLastPosition ? Common.APPDRAWER_LAST_PAGE_POSITION : 0, true);

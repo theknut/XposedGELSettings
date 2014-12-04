@@ -95,7 +95,7 @@ public class FragmentGeneral extends FragmentBase {
                         .items(getResources().getStringArray(R.array.contextmenu_mode_entries))
                         .itemsCallbackSingleChoice(Integer.parseInt(sharedPrefs.getString("contextmenumode", "3")), new MaterialDialog.ListCallback() {
                             @Override
-                            public void onSelection(MaterialDialog dialog, View view, int which, String text) {
+                            public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                                 // due to legacy reasons we need to save it as string
                                 sharedPrefs.edit().putString("contextmenumode", "" + which).apply();
                                 contextmenuMode.setSummary(text);
@@ -122,7 +122,7 @@ public class FragmentGeneral extends FragmentBase {
                         .items(getResources().getStringArray(R.array.general_scroll_devider_entries))
                         .itemsCallbackSingleChoice(values.indexOf("" + Integer.parseInt(sharedPrefs.getString("scrolldevider", "10"))), new MaterialDialog.ListCallback() {
                             @Override
-                            public void onSelection(MaterialDialog dialog, View view, int which, String text) {
+                            public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                                 // due to legacy reasons we need to save it as string
                                 sharedPrefs.edit().putString("scrolldevider", getResources().getStringArray(R.array.general_scroll_devider_values)[which]).apply();
                                 scrollSpeed.setSummary(text);

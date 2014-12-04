@@ -105,7 +105,7 @@ public class FragmentHomescreen extends FragmentBase {
                 numberPicker.setValue(Integer.parseInt(sharedPrefs.getString("defaulthomescreen", "1")));
 
                 new MaterialDialog.Builder(mActivity)
-                        .title(R.string.pref_workspacerect_title)
+                        .title(R.string.pref_default_homescreen_title)
                         .customView(numberPicker)
                         .theme(Theme.DARK)
                         .positiveText(android.R.string.ok)
@@ -333,7 +333,7 @@ public class FragmentHomescreen extends FragmentBase {
                         .items(getResources().getStringArray(R.array.smartfoldermode_entries))
                         .itemsCallbackSingleChoice(Integer.parseInt(sharedPrefs.getString("smartfoldermode", "0")), new MaterialDialog.ListCallback() {
                             @Override
-                            public void onSelection(MaterialDialog dialog, View view, int which, String text) {
+                            public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                                 // due to legacy reasons we need to save it as string
                                 sharedPrefs.edit().putString("smartfoldermode", "" + which).apply();
                                 smartFolderMode.setSummary(text);

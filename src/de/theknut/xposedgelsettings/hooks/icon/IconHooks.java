@@ -133,7 +133,7 @@ public class IconHooks extends HooksBaseClass {
                     }
                 }
             }
-            if (!hasCalendarIcon) {
+            if (!hasCalendarIcon && !checkPremium()) {
                 return;
             }
         }

@@ -175,7 +175,7 @@ public class WeatherWidget extends HooksBaseClass {
         ViewGroup parent = (ViewGroup) ((ViewGroup) getObjectField(Common.LAUNCHER_INSTANCE, Fields.lSearchDropTargetBar)).getParent();
         if (parent.getTag() != null) {
             ViewGroup widget = (ViewGroup) parent.getTag();
-            widget.animate().alpha(0f).setDuration(duration).start();
+            widget.animate().alpha(0.0f).setDuration(duration).start();
         }
     }
 
@@ -183,7 +183,7 @@ public class WeatherWidget extends HooksBaseClass {
         ViewGroup parent = (ViewGroup) ((ViewGroup) getObjectField(Common.LAUNCHER_INSTANCE, Fields.lSearchDropTargetBar)).getParent();
         if (parent.getTag() != null) {
             ViewGroup widget = (ViewGroup) parent.getTag();
-            widget.animate().alpha(1f).setDuration(200).setStartDelay(startDelay).start();
+            widget.animate().alpha(1.0f).setDuration(200).setStartDelay(startDelay).start();
         }
     }
 
@@ -311,7 +311,7 @@ public class WeatherWidget extends HooksBaseClass {
                             "divider=" + "-" + "|" +
                             "contents=" + CONTENT_CITY + "#" + CONTENT_WEATHER_DESCRIPTION + "#" + CONTENT_TEMPERATURE;
 
-            getDefaultUnit();
+            this.unit = getDefaultUnit();
 
             for (String setting : settings.split("\\|")) {
                 if (setting.startsWith("gravity=")) {
@@ -336,14 +336,14 @@ public class WeatherWidget extends HooksBaseClass {
             }
         }
 
-        public void getDefaultUnit() {
+        public String getDefaultUnit() {
             String countryCode = Locale.getDefault().getCountry();
             if ("US".equals(countryCode) // USA
                     || "LR".equals(countryCode) // liberia
                     || "MM".equals(countryCode)) {// burma
-                this.unit = "F";
+                return "F";
             }
-            this.unit = "C";
+            return "C";
         }
     }
 }

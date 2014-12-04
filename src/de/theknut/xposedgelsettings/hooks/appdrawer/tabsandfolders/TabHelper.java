@@ -29,8 +29,15 @@ public abstract class TabHelper extends HooksBaseClass {
     abstract public void removeTab(Tab tab);
     abstract public void setTabColor(int color);
     abstract public void saveTabData();
-    abstract public void updateTabs();
     abstract public boolean handleScroll(float overscroll);
+
+    public void updateTabs() {
+        if (Common.IS_TREBUCHET) return;
+
+        for (Tab tab : tabs) {
+            tab.update();
+        }
+    }
 
     protected Intent getBaseIntent(boolean openVisible, long itemid, String tabname) {
         Intent intent = new Intent();

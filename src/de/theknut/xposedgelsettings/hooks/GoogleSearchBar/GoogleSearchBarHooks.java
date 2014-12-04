@@ -95,7 +95,7 @@ public class
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                         if (PreferencesHelper.searchbarStyle == 1) {
-                            param.args[0] = 1.0f;
+                            param.args[0] = 1f;
                         }
                     }
                 };
@@ -104,7 +104,7 @@ public class
                 findAndHookMethod(Classes.GelSearchPlateContainer, Methods.spSetProximityToNow, float.class, proximityToNowHook);
             }
 
-            if (Common.GNL_VERSION != ObfuscationHelper.GNL_3_6_16) {
+            if (Common.GNL_VERSION > ObfuscationHelper.GNL_4_0_26) {
                 WeatherWidget.initAllHooks(lpparam);
             }
         }

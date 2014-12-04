@@ -131,7 +131,7 @@ public class AppDrawerHooks extends HooksBaseClass {
             @Override
             public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
                 if ((Boolean) param.args[TOWORKSPACE]) {
-                    Tab currTab = TabHelper.getInstance().getCurrentTabData();
+                    Tab currTab = Common.IS_TREBUCHET ? null : TabHelper.getInstance().getCurrentTabData();
 
                     if (PreferencesHelper.appdrawerRememberLastPosition) {
                         if (!Common.OVERSCROLLED) {
@@ -153,7 +153,7 @@ public class AppDrawerHooks extends HooksBaseClass {
                             log(param, "AppDrawerHooks: get current position - " + Common.APPDRAWER_LAST_PAGE_POSITION);
                     }
 
-                    if (currTab.isWidgetsTab()) {
+                    if (currTab != null && currTab.isWidgetsTab()) {
                         callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSetContentType, callMethod(TabHelperNew.getInstance().getTabHost(), Methods.acthGetContentTypeForTabTag, "APPS"));
 
                         if (Common.IS_PRE_GNL_4) {

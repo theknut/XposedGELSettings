@@ -172,7 +172,7 @@ public class FragmentIcon extends FragmentBase {
                             .items(iconPackEntries)
                             .itemsCallbackSingleChoice(finalCurrSelection, new MaterialDialog.ListCallback() {
                                 @Override
-                                public void onSelection(MaterialDialog dialog, View view, int which, String text) {
+                                public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                                     // due to legacy reasons we need to save it as string
                                     sharedPrefs.edit().putString("iconpack", "" + iconPackValues[which]).apply();
                                     iconPackList.setSummary(text);
@@ -243,7 +243,7 @@ public class FragmentIcon extends FragmentBase {
             @Override
             public boolean onPreferenceClick(Preference preference) {
 
-                if (dirty || notSupportedIconsList == null) return false;
+                if (dirty || notSupportedIconsList == null || notSupportedIconsList.size() == 0) return false;
 
                 new MaterialDialog.Builder(mActivity)
                         .theme(Theme.DARK)

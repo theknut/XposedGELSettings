@@ -38,7 +38,7 @@ public final class AllAppsListAddHook extends XC_MethodHook {
         if (Common.ALL_APPS == null) {
             Common.ALL_APPS = new ArrayList((ArrayList) param.args[0]);
             TabHelper.getInstance().updateTabs();
-            return;
+            if (!Common.IS_TREBUCHET) return;
         }
 
         if (PreferencesHelper.iconPackHide && !init && Common.LAUNCHER_CONTEXT != null) {
@@ -66,7 +66,6 @@ public final class AllAppsListAddHook extends XC_MethodHook {
         while(it.hasNext()) {
             Object appInfo = it.next();
             ComponentName componentName = (ComponentName) getObjectField(appInfo, Fields.aiComponentName);
-
             if (appsToHide.contains(componentName.flattenToString())
                     || packages.contains(componentName.getPackageName())) {
                 // remove it from the allAppsList if it is in our list
@@ -84,14 +83,18 @@ public final class AllAppsListAddHook extends XC_MethodHook {
             for (Object workspaceItem : workspaceItems) {
                 if (workspaceItem.getClass().equals(Classes.ShortcutInfo)) {
                     Intent i = (Intent) callMethod(workspaceItem, "getIntent");
-                    appsToHide.add(i.getComponent().flattenToString());
+                    if (i != null) {
+                        appsToHide.add(i.getComponent().flattenToString());
+                    }
                 }
             }
 
             for (Object item : ((HashMap) getStaticObjectField(Classes.LauncherModel, Fields.lmFolders)).values()) {
                 if (item.getClass().equals(Classes.ShortcutInfo)) {
                     Intent i = (Intent) callMethod(item, "getIntent");
-                    appsToHide.add(i.getComponent().flattenToString());
+                    if (i != null) {
+                        appsToHide.add(i.getComponent().flattenToString());
+                    }
                 }
             }
         }

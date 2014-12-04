@@ -79,7 +79,7 @@ public class FragmentGestures extends FragmentBase {
                             .items(getResources().getStringArray(R.array.gesture_actions_entries))
                             .itemsCallbackSingleChoice(gestureValues.indexOf(sharedPrefs.getString(preference.getKey(), "NONE")), new MaterialDialog.ListCallback() {
                                 @Override
-                                public void onSelection(MaterialDialog dialog, View view, int which, String text) {
+                                public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
 
                                     if (gestureValues.get(which).equals("TOGGLE_DOCK")
                                             && preference.getKey().equals("gesture_double_tap")) {
@@ -120,7 +120,7 @@ public class FragmentGestures extends FragmentBase {
                             .items(getResources().getStringArray(R.array.gesture_actions_entries_limited))
                             .itemsCallbackSingleChoice(gestureValues.indexOf(sharedPrefs.getString(preference.getKey(), "NONE")), new MaterialDialog.ListCallback() {
                                 @Override
-                                public void onSelection(MaterialDialog dialog, View view, int which, String text) {
+                                public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
 
                                     sharedPrefs.edit()
                                             .remove(preference.getKey())

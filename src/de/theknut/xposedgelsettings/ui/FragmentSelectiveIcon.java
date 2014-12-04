@@ -232,10 +232,9 @@ public class FragmentSelectiveIcon extends ActionBarActivity implements ActionBa
             intent.putExtra("itemid", itemID);
             intent.putExtra("default", restoreDefault);
             mActivity.sendBroadcast(intent);
-            System.exit(0);
-        } else {
-            mActivity.finish();
         }
+
+            mActivity.finish();
     }
 
     public boolean shouldShow(String packageName) {

@@ -27,6 +27,22 @@
   </head>
   <body>
 
+$ 2.2.1
+  % Version 2.2.1
+  _ 2014-04-12
+
+  !Fixed:
+  * crash when changing an icon
+  * hide apps no longer working on CM
+  * crash in notification badges menu
+  * icons no longer being applied
+  * potential fix for gestures not working after some time
+  * wrong dialog title for default homescreen settings
+
+  !XGELS UI:
+  * updated Japanese translation
+  * updated Italian translation
+
 $ 2.2
   % Version 2.2
   _ 2014-03-12

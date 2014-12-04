@@ -105,7 +105,7 @@ public class FragmentNotificationBadges extends FragmentBase {
                         .items(getResources().getStringArray(R.array.notificationbadge_presets_entries))
                         .itemsCallbackSingleChoice(Integer.parseInt(sharedPrefs.getString(presetsKey, "1")), new MaterialDialog.ListCallback() {
                             @Override
-                            public void onSelection(MaterialDialog dialog, View view, int which, String text) {
+                            public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
 
                                 switch (which) {
                                     case 1:
@@ -171,7 +171,7 @@ public class FragmentNotificationBadges extends FragmentBase {
             List prefs = new ArrayList();
             prefs.addAll(colorPrefs);
             prefs.addAll(listPrefs);
-            prefs.add(Arrays.asList(badgePosition, dialerPref, smsPref, advancedMessagePref, enablePref));
+            prefs.addAll(Arrays.asList(badgePosition, dialerPref, smsPref, advancedMessagePref, enablePref));
 
             for (Object pref : prefs) {
                 if (pref instanceof Preference) {
@@ -201,7 +201,7 @@ public class FragmentNotificationBadges extends FragmentBase {
                             .items(positionEntries)
                             .itemsCallbackSingleChoice(idx, new MaterialDialog.ListCallback() {
                                 @Override
-                                public void onSelection(MaterialDialog materialDialog, View view, int which, String text) {
+                                public void onSelection(MaterialDialog materialDialog, View view, int which, CharSequence text) {
                                     // due to legacy reasons we need to save them as strings... -.-
                                     sharedPrefs.edit()
                                             .remove(badgePosition.getKey())

@@ -360,15 +360,6 @@ public final class TabHelperLegacy extends TabHelper implements View.OnClickList
     }
 
     @Override
-    public void updateTabs() {
-        if (Common.IS_TREBUCHET) return;
-
-        for (Tab tab : tabs) {
-            tab.update();
-        }
-    }
-
-    @Override
     public void invalidate() {
         setTabColor(getCurrentTabData().getPrimaryColor());
         Object mAppsCustomizePane = getObjectField(tabHost, Fields.acthAppsCustomizePane);
