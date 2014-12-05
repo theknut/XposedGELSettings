@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Xposed GEL Settings</string>
-    <string name="app_description">Google Now Launcher the way you want it to be</string>
+    <string name="app_description">Google Now Launcher do jeito que você quer que ele seja!</string>
     <string name="pref_hide_google_search_bar_title">Ocultar da Tela Inicial</string>
     <string name="pref_autohide_google_search_bar_title">Auto Ocultar</string>
     <string name="pref_autohide_google_search_bar_summary">Mostrar automaticamente na tela Google Now</string>
@@ -381,9 +381,13 @@
     <!-- 2.1.2. -->
     <string name="pref_searchbar_weather_widget_title">Widget do tempo</string>
     <string name="pref_searchbar_weather_widget_summary">Mostrar a localização e tempo real abaixo da barra de pesquisa (somente GNL)</string>
-    
-    <!-- new -->
     <string name="pref_app_drawer_folderstyle_background_color_title">Cor do fundo da pasta</string>
     <string name="pref_app_drawer_folderstyle_background_color_summary">Cor do fundo das pastas na tela aplicativos (Google Search ≥ 4.0)</string>
     
+    <!-- 2.2 -->
+    <string name="pref_grid_size_vert_summary">Escolha um tamanho de grade vertical</string>
+    <string name="menu_hide_apps_used_in_tabs">Ocultar aplicativos já selecionados</string>
+    <string name="pref_app_drawer_hide_from_home_title">Ocultar aplicativos da tela inicial</string>
+    <string name="pref_app_drawer_hide_from_home_summary">(Experimental)\n Oculta automaticamente aplicativos da Tela Aplicaticos se eles são colocados na tela inicial. Requer uma reinicialização para sincronizar.</string>
+
 </resources>
