@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.theknut.xposedgelsettings.hooks.Common;
@@ -25,19 +26,20 @@ import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.getStaticObjectField;
 
 public final class AllAppsListAddHook extends XC_MethodHook {
-	
-	// http://androidxref.com/4.4.2_r1/xref/packages/apps/Launcher3/src/com/android/launcher3/AllAppsList.java#65
-	// public void add(AppInfo info)
+
+    // http://androidxref.com/4.4.2_r1/xref/packages/apps/Launcher3/src/com/android/launcher3/AllAppsList.java#65
+    // public void add(AppInfo info)
 
     List<String> packages = new ArrayList<String>();
     boolean init;
     final int APPINFOLIST = 0;
-	
-	@Override
-	protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+
+    @Override
+    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
         if (Common.ALL_APPS == null) {
             Common.ALL_APPS = new ArrayList((ArrayList) param.args[0]);
             TabHelper.getInstance().updateTabs();
+
             if (!Common.IS_TREBUCHET) return;
         }
 
@@ -72,14 +74,13 @@ public final class AllAppsListAddHook extends XC_MethodHook {
                 it.remove();
             }
         }
-	}
+    }
 
     private ArrayList<String> getWorkspaceIcons() {
         ArrayList<String> appsToHide = new ArrayList<String>();
 
         if (PreferencesHelper.autoHideHomeIcons) {
             ArrayList workspaceItems = (ArrayList) getStaticObjectField(Classes.LauncherModel, Fields.lmWorkspaceItems);
-
             for (Object workspaceItem : workspaceItems) {
                 if (workspaceItem.getClass().equals(Classes.ShortcutInfo)) {
                     Intent i = (Intent) callMethod(workspaceItem, "getIntent");
@@ -89,11 +90,16 @@ public final class AllAppsListAddHook extends XC_MethodHook {
                 }
             }
 
-            for (Object item : ((HashMap) getStaticObjectField(Classes.LauncherModel, Fields.lmFolders)).values()) {
-                if (item.getClass().equals(Classes.ShortcutInfo)) {
-                    Intent i = (Intent) callMethod(item, "getIntent");
-                    if (i != null) {
-                        appsToHide.add(i.getComponent().flattenToString());
+            Map<Long, Object> map = (HashMap<Long, Object>) getStaticObjectField(Classes.LauncherModel, Fields.lmFolders);
+            for (Long key: map.keySet()) {
+                Object item = map.get(key);
+                if (!item.getClass().equals(Classes.FolderInfo)) continue;
+                for (Object folderItem : ((ArrayList) getObjectField(item, Fields.fiContents))) {
+                    if (folderItem.getClass().equals(Classes.ShortcutInfo)) {
+                        Intent i = (Intent) callMethod(folderItem, "getIntent");
+                        if (i != null) {
+                            appsToHide.add(i.getComponent().flattenToString());
+                        }
                     }
                 }
             }

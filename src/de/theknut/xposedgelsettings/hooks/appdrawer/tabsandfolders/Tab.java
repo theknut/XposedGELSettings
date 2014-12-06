@@ -118,10 +118,8 @@ public class Tab extends AppDrawerItem {
 
             @Override
             protected void onPostExecute(Void aVoid) {
-                if (!isAppsTab()) {
-                    ArrayList allApps = (ArrayList) getObjectField(Common.APP_DRAWER_INSTANCE, Fields.acpvAllApps);
-                    callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSetApps, allApps);
-                }
+                ArrayList allApps = (ArrayList) getObjectField(Common.APP_DRAWER_INSTANCE, Fields.acpvAllApps);
+                callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSetApps, allApps);
 
                 if (add) {
                     TabHelperNew.getInstance().addTab(tab);

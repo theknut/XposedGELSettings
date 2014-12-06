@@ -27,6 +27,24 @@
   </head>
   <body>
 
+$ 2.2.2
+  % Version 2.2.2
+  _ 2014-06-12
+
+  !Fixed:
+  * shadow in app dock
+  * apps not hidden
+  * app drawer background color not applied
+  * too many apps hidden when using experimental "Hide homescreen apps" feature
+  * app dock icon size not applied
+  * app dock count not applied
+  * app drawer tab being upside down
+  * selected tab color not being applied immediately
+  * swipe through tabs on GS4.0.26
+
+  !XGELS UI:
+  * updated Portuguese translation
+
 $ 2.2.1
   % Version 2.2.1
   _ 2014-04-12

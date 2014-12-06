@@ -61,13 +61,14 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
         Common.HOOKED_PACKAGE = lpparam.packageName;
         if (PreferencesHelper.Debug) XposedBridge.log("XGELS: GELSettings.handleLoadPackage: hooked package -> " + lpparam.packageName);
 
-        if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE)) {
-            // thanks to KeepChat for the following snippet:
-            // http://git.io/JJZPaw
-            try {
-                Object activityThread = callStaticMethod(findClass("android.app.ActivityThread", null), "currentActivityThread");
-                Context context = (Context) callMethod(activityThread, "getSystemContext");
 
+        // thanks to KeepChat for the following snippet:
+        // http://git.io/JJZPaw
+        try {
+            Object activityThread = callStaticMethod(findClass("android.app.ActivityThread", null), "currentActivityThread");
+            Context context = (Context) callMethod(activityThread, "getSystemContext");
+
+            if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE)) {
                 String versionName = context.getPackageManager().getPackageInfo(lpparam.packageName, 0).versionName;
                 int versionCode = Common.GNL_VERSION = context.getPackageManager().getPackageInfo(lpparam.packageName, 0).versionCode;
 
@@ -75,16 +76,17 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
                 if (versionIdx > 0) Common.PACKAGE_OBFUSCATED = true;
                 if (versionCode >= ObfuscationHelper.GNL_4_0_26) Common.IS_PRE_GNL_4 = false;
 
-                if (PreferencesHelper.Debug) XposedBridge.log("XGELS: " + Common.HOOKED_PACKAGE + " V" + versionName + "(" + versionCode + ")");
-
-                Common.XGELSCONTEXT = context.createPackageContext(Common.PACKAGE_NAME, Context.CONTEXT_IGNORE_SECURITY);
-            } catch (Exception e) {
-                XposedBridge.log("XGELS: exception while trying to get version info. (" + e.getMessage() + ")");
-                return;
+                if (PreferencesHelper.Debug)
+                    XposedBridge.log("XGELS: " + Common.HOOKED_PACKAGE + " V" + versionName + "(" + versionCode + ")");
+            } else {
+                Common.IS_TREBUCHET = Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE);
+                versionIdx = 0;
             }
-        } else {
-            Common.IS_TREBUCHET = Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE);
-            versionIdx = 0;
+
+            Common.XGELSCONTEXT = context.createPackageContext(Common.PACKAGE_NAME, Context.CONTEXT_IGNORE_SECURITY);
+        } catch (Exception e) {
+            XposedBridge.log("XGELS: exception while trying to get version info. (" + e.getMessage() + ")");
+            return;
         }
 
         PreferencesHelper.init();

@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- Colors for the app -->
+    <color name="primary">@color/blue_grey_800</color>
+    <color name="primary_dark">@color/blue_grey_700</color>
+    <color name="accent">@color/teal_A700</color>
+    <color name="navigationdrawer">@color/blue_grey_600</color>
+    <color name="icongrid">@color/blue_grey_700</color>
+    <color name="grid">@color/blue_grey_600</color>
+    <color name="statusbar">@color/blue_grey_900</color>
+
     <color name="dark_grey">#7f0a0017</color>
     <color name="light_grey">#888</color>
     <color name="contextmenu_bg_color">#C1000000</color>
@@ -278,14 +288,4 @@
     <color name="blue_grey_700">#455a64</color>
     <color name="blue_grey_800">#37474f</color>
     <color name="blue_grey_900">#263238</color>
-
-
-    <!-- Colors for the app -->
-    <color name="primary">@color/blue_grey_800</color>
-    <color name="primary_dark">@color/blue_grey_700</color>
-    <color name="accent">@color/teal_A700</color>
-    <color name="navigationdrawer">@color/blue_grey_600</color>
-    <color name="icongrid">@color/blue_grey_700</color>
-    <color name="grid">@color/blue_grey_600</color>
-    <color name="statusbar">@color/blue_grey_900</color>
 </resources>

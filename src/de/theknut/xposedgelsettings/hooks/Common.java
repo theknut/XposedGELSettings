@@ -64,10 +64,6 @@ public final class Common {
     public static int SEARCH_BAR_SPACE_HEIGHT = -1;
     public static int HOTSEAT_BAR_HEIGHT;
 
-    // saved measures for the icon sizes
-    public static float NEW_ICON_SIZE;
-    public static float NEW_HOTSEAT_ICON_SIZE;
-
     public static String GEL_PACKAGE = "com.google.android.googlequicksearchbox";
     public static String TREBUCHET_PACKAGE = "com.cyanogenmod.trebuchet";
 

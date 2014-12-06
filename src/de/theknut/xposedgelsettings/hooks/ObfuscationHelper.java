@@ -410,7 +410,8 @@ public class ObfuscationHelper extends HooksBaseClass {
                 lDispatchOnLauncherTransitionStart,
                 lDispatchOnLauncherTransitionEnd,
                 uGetCenterDeltaInScreenSpace,
-                spOnModeChanged;
+                spOnModeChanged,
+                clGetChildrenScale;
 
         public static void initMethodNames(int idx) {
             lOpenFolder = new String[]{"openFolder", "i", "i", "i", "i", "i"}[idx]; // "Opening folder ("
@@ -433,6 +434,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             clGetShortcutsAndWidgets = new String[]{"getShortcutsAndWidgets", "dH", "ew", "eF", "eF", "eZ"}[idx]; // "public final a"
             clAddViewToCellLayout = new String[]{"addViewToCellLayout", "a", "a", "a", "a", "a"}[idx]; // View paramView, int paramInt1, int paramInt2, CellLayout.LayoutParams paramLayoutParams, boolean paramBoolean
             clSetIsHotseat= new String[]{"setIsHotseat", "D", "G", "G", "G", "I"}[idx]; // two line in a row with " = true;"
+            clGetChildrenScale= new String[]{"getChildrenScale", "dv", "ek", "et", "et", "eM"}[idx]; // paramView.setScaleX
             wStartDrag = new String[]{"startDrag", "a", "a", "a", "a", "a"}[idx]; // isInTouchMode
             wMoveToDefaultScreen = new String[]{"moveToDefaultScreen", "ao", "at", "at", "at", "av"}[idx]; // Launcher onNewIntent method call of workspace member with (true)
             pvOverScroll = new String[]{"overScroll", "g", "g", "g", "g", "h"}[idx]; // (float paramFloat)

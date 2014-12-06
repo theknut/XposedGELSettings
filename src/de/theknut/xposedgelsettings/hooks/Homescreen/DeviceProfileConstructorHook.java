@@ -2,7 +2,6 @@ package de.theknut.xposedgelsettings.hooks.homescreen;
 
 import android.content.Context;
 
-import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.common.XGELSCallback;
@@ -50,7 +49,7 @@ public final class DeviceProfileConstructorHook extends XGELSCallback {
 
                 // some validation
                 if (newIconSize > 0.0 ) {
-                    param.args[ICONSIZE] = Common.NEW_ICON_SIZE = newIconSize;
+                    param.args[ICONSIZE] = newIconSize;
                 }
                 else {
                     log("Didn't change icon size! Value was " + newIconSize);
@@ -70,7 +69,7 @@ public final class DeviceProfileConstructorHook extends XGELSCallback {
 
                 // some validation
                 if (newHotseatIconSize > 0.0) {
-                    param.args[HOTSEATICONSIZE] = Common.NEW_HOTSEAT_ICON_SIZE = newHotseatIconSize;
+                    param.args[HOTSEATICONSIZE] = newHotseatIconSize;
                 }
                 else {
                     log("Didn't change hotseat icon size! Value was " + newHotseatIconSize);

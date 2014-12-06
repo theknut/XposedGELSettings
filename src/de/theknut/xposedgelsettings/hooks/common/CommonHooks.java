@@ -105,7 +105,6 @@ public class CommonHooks {
         if (DeviceProfileConstructorListeners.size() != 0) {
             XposedBridge.hookAllConstructors(Classes.DeviceProfile, new XGELSHook(DeviceProfileConstructorListeners));
         }
-
         if (EnterOverviewModeListeners.size() != 0) {
             XposedBridge.hookAllMethods(Classes.Workspace, Methods.wEnterOverviewMode, new XGELSHook(EnterOverviewModeListeners));
         }

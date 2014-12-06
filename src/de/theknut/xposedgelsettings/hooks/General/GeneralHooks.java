@@ -441,8 +441,10 @@ public class GeneralHooks extends HooksBaseClass {
                     } else if (intent.getBooleanExtra("remove", false)) {
                         TabHelper.getInstance().removeTab(TabHelper.getInstance().getCurrentTabData());
                     } else if (intent.hasExtra("color")) {
-                        TabHelper.getInstance().setTabColor(intent.getIntExtra("color", Color.WHITE));
-                        TabHelper.getInstance().saveTabData();
+                        TabHelper tabHelper = TabHelper.getInstance();
+                        tabHelper.setTabColor(intent.getIntExtra("color", Color.WHITE));
+                        tabHelper.saveTabData();
+                        tabHelper.invalidate();
                     } else {
                         TabHelper tabHelper = TabHelper.getInstance();
                         Tab tab = tabHelper.getCurrentTabData();

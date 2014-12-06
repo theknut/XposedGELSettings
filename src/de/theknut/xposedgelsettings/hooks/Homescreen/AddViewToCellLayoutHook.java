@@ -4,26 +4,24 @@ import android.graphics.Color;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import net.margaritov.preference.colorpicker.ColorPickerPreference;
 
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
-import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.appdrawer.ApplyFromApplicationInfoHook;
 import de.theknut.xposedgelsettings.hooks.common.XGELSCallback;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
-import static de.robv.android.xposed.XposedHelpers.getBooleanField;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
-import static de.robv.android.xposed.XposedHelpers.getLongField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setBooleanField;
 
@@ -43,107 +41,44 @@ public final class AddViewToCellLayoutHook extends XGELSCallback {
     @Override
     public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
         View child = (View) param.args[0];
-        Object tag = child.getTag();
-        long containerType = -1;
-
-        if (tag != null) {
-            try {
-                containerType = getLongField(tag, Fields.iiContainer);
-            } catch (Exception e) {}
-        }
-
-        boolean showInDock = containerType == -101 && PreferencesHelper.appdockShowLabels;
-        boolean isAppDrawerItem = param.thisObject.getClass().equals(Classes.AppsCustomizeCellLayout);
 
         if (child.getClass().equals(Classes.BubbleTextView)) {
-
-            if (isAppDrawerItem) {
-                if (PreferencesHelper.hideIconLabelApps) {
-                    callMethod(child, "setTextColor", Color.TRANSPARENT);
-                }
-                else {
-                    callMethod(child, "setTextColor", ApplyFromApplicationInfoHook.newColor);
-
-                    if (!PreferencesHelper.appdrawerIconLabelShadow) {
-                        ((TextView) child).getPaint().clearShadowLayer();
-                    }
-                }
-            } else if (!getBooleanField(child, Fields.btvShadowsEnabled)) {
-                // apps in folders don't have a shadow so we can filter that for future customization
+            if (param.thisObject.getClass().equals(Classes.AppsCustomizeCellLayout)) {
+                callMethod(child, "setTextColor", PreferencesHelper.hideIconLabelApps ? Color.TRANSPARENT : ApplyFromApplicationInfoHook.newColor);
+                maybeHideShadow(child, !PreferencesHelper.appdrawerIconLabelShadow || PreferencesHelper.hideIconLabelApps);
+            } else if (((View) param.thisObject).getParent().getClass().equals(ScrollView.class)) {
+                // apps inside folders are added to a ScrollView
                 if (PreferencesHelper.homescreenFolderSwitch) {
-                    if (PreferencesHelper.homescreenFolderNoLabel) {
-                        ((TextView) child).getPaint().clearShadowLayer();
-                        callMethod(child, "setTextColor", Color.TRANSPARENT);
-                    } else {
-                        callMethod(child, "setTextColor", newFolderAppLabelColor);
-                    }
+                    callMethod(child, "setTextColor", PreferencesHelper.homescreenFolderNoLabel ? Color.TRANSPARENT : newFolderAppLabelColor);
                 }
-            } else {
+            } else if (((View) param.thisObject).getParent().getClass().equals(Classes.Workspace)) {
                 if (PreferencesHelper.iconSettingsSwitchHome) {
-                    if (Common.PACKAGE_OBFUSCATED) {
-                        if (Common.IS_PRE_GNL_4) {
-                            if (!PreferencesHelper.homescreenIconLabelShadow) {
-                                callMethod(child, Methods.btvSetShadowsEnabled, PreferencesHelper.homescreenIconLabelShadow);
-                            }
-                        } else {
-                            setBooleanField(child, Fields.btvShadowsEnabled, PreferencesHelper.homescreenIconLabelShadow);
-                        }
-                    } else {
-                        callMethod(child, Methods.btvSetShadowsEnabled, PreferencesHelper.homescreenIconLabelShadow);
-                    }
-
-                    if (PreferencesHelper.hideIconLabelHome && !showInDock) {
-                        ((TextView) child).getPaint().clearShadowLayer();
-                        callMethod(child, "setTextColor", Color.TRANSPARENT);
-                    } else {
-                        callMethod(child, "setTextColor", newAppLabelColor);
-                    }
+                    callMethod(child, "setTextColor", PreferencesHelper.hideIconLabelHome ? Color.TRANSPARENT : newAppLabelColor);
+                    maybeHideShadow(child, !PreferencesHelper.homescreenIconLabelShadow || PreferencesHelper.hideIconLabelHome);
                 }
-
                 iconPadding = ((TextView) child).getCompoundDrawablePadding();
-            }
-
-            if (PreferencesHelper.appdockSettingsSwitch) {
-                ViewGroup parent = (ViewGroup) ((View) param.thisObject).getParent().getParent();
-                if (parent.getClass().equals(Classes.Folder)) {
-
+            } else if (((View) param.thisObject).getParent().getClass().equals(Classes.Hotseat)) {
+                if (PreferencesHelper.iconSettingsSwitchHome) {
+                    callMethod(child, "setTextColor", PreferencesHelper.hideIconLabelHome ? Color.TRANSPARENT : newAppLabelColor);
+                    maybeHideShadow(child, !PreferencesHelper.homescreenIconLabelShadow || PreferencesHelper.hideIconLabelHome);
                 }
             }
-
         } else if (child.getClass().equals(Classes.FolderIcon)) {
             boolean isAppDrawerFolder = ((View) param.thisObject).getParent().getClass().equals(Classes.AppsCustomizePagedView);
             Object folderName = getObjectField(child, Fields.fiFolderName);
+
             if (isAppDrawerFolder) {
                 if (PreferencesHelper.iconSettingsSwitchApps) {
-                    callMethod(folderName, "setTextColor", newAppLabelColorAppDrawer);
-                    if (PreferencesHelper.hideIconLabelApps) {
-                        ((TextView) folderName).getPaint().clearShadowLayer();
-                        callMethod(folderName, "setTextColor", Color.TRANSPARENT);
-                    }
+                    callMethod(folderName, "setTextColor", PreferencesHelper.hideIconLabelApps ? Color.TRANSPARENT : newAppLabelColorAppDrawer);
+                    maybeHideShadow(folderName, !PreferencesHelper.appdrawerIconLabelShadow || PreferencesHelper.hideIconLabelApps);
                 }
             } else {
                 if (PreferencesHelper.iconSettingsSwitchHome) {
-                    if (Common.PACKAGE_OBFUSCATED) {
-                        if (Common.IS_PRE_GNL_4) {
-                            if (!PreferencesHelper.homescreenIconLabelShadow) {
-                                callMethod(folderName, Methods.btvSetShadowsEnabled, PreferencesHelper.homescreenIconLabelShadow);
-                            }
-                        } else {
-                            setBooleanField(folderName, Fields.btvShadowsEnabled, PreferencesHelper.homescreenIconLabelShadow);
-                        }
-                    } else {
-                        callMethod(folderName, Methods.btvSetShadowsEnabled, PreferencesHelper.homescreenIconLabelShadow);
-                    }
-
-                    callMethod(folderName, "setTextColor", newAppLabelColor);
-
-                    if (PreferencesHelper.appdockShowLabels) {
+                    callMethod(folderName, "setTextColor", PreferencesHelper.hideIconLabelHome ? Color.TRANSPARENT : newAppLabelColor);
+                    maybeHideShadow(folderName, !PreferencesHelper.homescreenIconLabelShadow || PreferencesHelper.hideIconLabelHome);
+                    if (PreferencesHelper.appdockShowLabels
+                            && ((View) param.thisObject).getParent().getClass().equals(Classes.Hotseat)) {
                         ((View) folderName).setVisibility(View.VISIBLE);
-                    }
-
-                    if (PreferencesHelper.hideIconLabelHome && !showInDock) {
-                        ((TextView) folderName).getPaint().clearShadowLayer();
-                        callMethod(folderName, "setTextColor", Color.TRANSPARENT);
                     }
                 }
             }
@@ -186,6 +121,30 @@ public final class AddViewToCellLayoutHook extends XGELSCallback {
                 if (DEBUG) log("Error: Set padding alternatively");
                 allAppsButton.setCompoundDrawablePadding(iconPadding);
             }
+
+            callMethod(child, "setTextColor", PreferencesHelper.hideIconLabelHome ? Color.TRANSPARENT : newAppLabelColor);
+            maybeHideShadow(child, !PreferencesHelper.homescreenIconLabelShadow || PreferencesHelper.hideIconLabelHome);
+        }
+    }
+
+    @Override
+    public void onAfterHookedMethod(MethodHookParam param) throws Throwable {
+        if (PreferencesHelper.appdockShowLabels
+                && ((View) param.thisObject).getParent().getClass().equals(Classes.Hotseat)) {
+            setBooleanField(param.thisObject, Fields.clIsHotseat, true);
+            View child = (View) param.args[0];
+            child.setScaleX((Float) callMethod(param.thisObject, Methods.clGetChildrenScale));
+            child.setScaleY((Float) callMethod(param.thisObject, Methods.clGetChildrenScale));
+            setBooleanField(param.thisObject, Fields.clIsHotseat, false);
+        }
+    }
+
+    public void maybeHideShadow(Object child, boolean hide) {
+        if (hide) {
+            if (child.getClass().equals(Classes.BubbleTextView)) {
+                setBooleanField(child, Fields.btvShadowsEnabled, false);
+            }
+            ((TextView) child).getPaint().clearShadowLayer();
         }
     }
 }

@@ -170,11 +170,14 @@ public class AddTabsAndFolders extends HooksBaseClass {
             }
         });
 
-        //public static int[]
         findAndHookMethod(Classes.Utilities, Methods.uGetCenterDeltaInScreenSpace, View.class, View.class, int[].class, new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                ((View) param.args[0]).getBackground().setColorFilter(TabHelperNew.getInstance().getCurrentTabData().getPrimaryColor(), PorterDuff.Mode.MULTIPLY);
+                int color = PreferencesHelper.appdrawerFolderStyleBackgroundColor;
+                if (PreferencesHelper.enableAppDrawerTabs) {
+                    color = TabHelperNew.getInstance().getCurrentTabData().getPrimaryColor();
+                }
+                ((View) param.args[0]).getBackground().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
             }
         });
 

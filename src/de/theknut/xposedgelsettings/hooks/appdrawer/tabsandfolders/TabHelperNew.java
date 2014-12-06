@@ -200,7 +200,12 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
             } else {
                 appsTabName = "Apps";
             }
-            tabs.add(0, new Tab("idx=" + 0 + "|id=" + Tab.APPS_ID + "|contenttype=" + ContentType.Applications + "|title=" + appsTabName + "|hide=" + false, false));
+
+            Tab apps = new Tab("idx=" + 0 + "|id=" + Tab.APPS_ID + "|contenttype=" + ContentType.Applications + "|title=" + appsTabName + "|hide=" + false, false);
+            if (!PreferencesHelper.enableAppDrawerTabs) {
+                apps.setColor(PreferencesHelper.appdrawerFolderStyleBackgroundColor);
+            }
+            tabs.add(0, apps);
         }
     }
 
@@ -238,7 +243,7 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
         tabView.setOnLongClickListener(this);
         tabView.setOnClickListener(this);
 
-        if (PreferencesHelper.moveTabHostBottom) {
+        if (false) {// && PreferencesHelper.moveTabHostBottom) {
             tabView.setBackground(tabView.getContext().getResources().getDrawable(R.drawable.tab_indicator_background_bottom));
         }
 
@@ -355,7 +360,7 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
             return true;
         } else if (overscroll < -100.0) {
             int newIdx = tab.getIndex() - 1;
-            setCurrentTab(newIdx < 0 ? tabs.get(0) : tabs.get(newIdx));
+            setCurrentTab(newIdx < 0 ? tabs.get(tabs.size() - 1) : tabs.get(newIdx));
             return true;
         }
         return false;
@@ -397,8 +402,10 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
         callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSyncPages);
         callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvInvalidatePageData, 0, false);
         setTabColor(tabs.get(((Tab) tabsContainer.findViewById(layoutId).getTag()).getIndex()).getPrimaryColor());
+
         organizeTabs();
         scroll();
+        hsv.setTranslationX(0);
     }
 
     @Override
@@ -1008,6 +1015,8 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
     }
 
     public void handleOverscroll(int overscroll) {
+        if (Common.APP_DRAWER_PAGE_SWITCHED) return;
+
         if (overscroll > 0.0) {
             overscroll -= (overscroll / ((View) Common.APP_DRAWER_INSTANCE).getWidth()) * ((View) Common.APP_DRAWER_INSTANCE).getWidth();
         }

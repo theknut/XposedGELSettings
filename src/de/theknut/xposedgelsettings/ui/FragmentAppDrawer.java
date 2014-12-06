@@ -177,7 +177,6 @@ public class FragmentAppDrawer extends FragmentBase {
                 cat.removePreference(this.findPreference("appdrawerfolderstylebackgroundcolor"));
             } else if (version >= ObfuscationHelper.GNL_4_0_26) {
                 findPreference("movetabhostbottom").setEnabled(false);
-                findPreference("appdrawerswipetabs").setEnabled(false);
             }
         } catch (Exception e) {
             e.printStackTrace();
