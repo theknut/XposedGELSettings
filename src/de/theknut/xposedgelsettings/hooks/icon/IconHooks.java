@@ -337,9 +337,9 @@ public class IconHooks extends HooksBaseClass {
             }
         });
 
-        CommonHooks.AddViewToCellLayoutListeners.add(0, new XGELSCallback() {
+        findAndHookMethod(Classes.CellLayout, Methods.clAddViewToCellLayout, View.class, Integer.TYPE, Integer.TYPE, Classes.CellLayoutLayoutParams, boolean.class, new XC_MethodHook(PRIORITY_LOWEST) {
             @Override
-            public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 if (param.args[0].getClass().equals(Classes.FolderIcon)) {
                     setFolderIcon((View) param.args[0]);
                 }
