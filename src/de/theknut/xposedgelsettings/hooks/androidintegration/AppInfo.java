@@ -58,13 +58,18 @@ public class AppInfo extends HooksBaseClass {
 
                 Object mAppEntry = getObjectField(param.thisObject, "mAppEntry");
                 ApplicationInfo info = (ApplicationInfo) getObjectField(mAppEntry, "info");
+                // Application doesn't have a launch intent, nothing to do
+                Intent launchIntent = SettingsContext.getPackageManager().getLaunchIntentForPackage(info.packageName);
+                if (launchIntent == null) {
+                    return;
+                }
 
                 View mNotificationSwitch = (View) getObjectField(param.thisObject, "mNotificationSwitch");
                 ViewGroup parent = (ViewGroup) mNotificationSwitch.getParent();
 
                 RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.androidsettingscheckbox, null, false);
                 CheckBox checkbox = (CheckBox) view.findViewById(R.id.hide_app_switch);
-                checkbox.setTag(SettingsContext.getPackageManager().getLaunchIntentForPackage(info.packageName).getComponent().flattenToString());
+                checkbox.setTag(launchIntent.getComponent().flattenToString());
                 checkbox.setChecked(hiddenApps.contains(checkbox.getTag()));
                 checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
