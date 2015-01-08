@@ -1,0 +1,180 @@
+-- Merging decision tree log ---
+manifest
+ADDED from AndroidManifest.xml:2:1
+	xmlns:android
+		ADDED from AndroidManifest.xml:2:11
+	package
+		ADDED from AndroidManifest.xml:3:5
+	android:versionName
+		ADDED from AndroidManifest.xml:5:5
+	android:versionCode
+		ADDED from AndroidManifest.xml:4:5
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
+uses-sdk
+ADDED from AndroidManifest.xml:7:5
+MERGED from com.android.support:appcompat-v7:21.0.3:15:5
+MERGED from com.android.support:support-v4:21.0.3:15:5
+MERGED from com.afollestad:material-dialogs:0.5.9:8:5
+MERGED from com.android.support:appcompat-v7:21.0.3:15:5
+MERGED from com.android.support:support-v4:21.0.3:15:5
+	android:targetSdkVersion
+		ADDED from AndroidManifest.xml:9:9
+	android:minSdkVersion
+		ADDED from AndroidManifest.xml:8:9
+uses-permission#android.permission.KILL_BACKGROUND_PROCESSES
+ADDED from AndroidManifest.xml:11:5
+	android:name
+		ADDED from AndroidManifest.xml:11:22
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from AndroidManifest.xml:12:5
+	android:name
+		ADDED from AndroidManifest.xml:12:22
+uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
+ADDED from AndroidManifest.xml:13:5
+	android:name
+		ADDED from AndroidManifest.xml:13:22
+uses-permission#com.android.vending.BILLING
+ADDED from AndroidManifest.xml:14:5
+	android:name
+		ADDED from AndroidManifest.xml:14:22
+application
+ADDED from AndroidManifest.xml:16:5
+MERGED from com.android.support:appcompat-v7:21.0.3:16:5
+MERGED from com.android.support:support-v4:21.0.3:16:5
+MERGED from com.android.support:appcompat-v7:21.0.3:16:5
+MERGED from com.android.support:support-v4:21.0.3:16:5
+	android:label
+		ADDED from AndroidManifest.xml:19:9
+	android:allowBackup
+		ADDED from AndroidManifest.xml:17:9
+	android:icon
+		ADDED from AndroidManifest.xml:18:9
+activity#de.theknut.xposedgelsettings.ui.MainActivity
+ADDED from AndroidManifest.xml:21:9
+	android:label
+		ADDED from AndroidManifest.xml:23:13
+	android:configChanges
+		ADDED from AndroidManifest.xml:25:13
+	android:theme
+		ADDED from AndroidManifest.xml:24:13
+	android:name
+		ADDED from AndroidManifest.xml:22:13
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from AndroidManifest.xml:26:13
+action#android.intent.action.MAIN
+ADDED from AndroidManifest.xml:27:17
+	android:name
+		ADDED from AndroidManifest.xml:27:25
+category#android.intent.category.LAUNCHER
+ADDED from AndroidManifest.xml:28:17
+	android:name
+		ADDED from AndroidManifest.xml:28:27
+activity#de.theknut.xposedgelsettings.ui.AllAppsList
+ADDED from AndroidManifest.xml:32:9
+	android:label
+		ADDED from AndroidManifest.xml:34:13
+	android:theme
+		ADDED from AndroidManifest.xml:35:13
+	android:name
+		ADDED from AndroidManifest.xml:33:13
+intent-filter#android.intent.action.MAIN+android.intent.category.DEFAULT
+ADDED from AndroidManifest.xml:36:13
+category#android.intent.category.DEFAULT
+ADDED from AndroidManifest.xml:38:17
+	android:name
+		ADDED from AndroidManifest.xml:38:27
+activity#eu.janmuller.android.simplecropimage.CropImage
+ADDED from AndroidManifest.xml:42:9
+	android:name
+		ADDED from AndroidManifest.xml:42:19
+activity#de.theknut.xposedgelsettings.ui.AllWidgetsList
+ADDED from AndroidManifest.xml:44:9
+	android:label
+		ADDED from AndroidManifest.xml:46:13
+	android:theme
+		ADDED from AndroidManifest.xml:47:13
+	android:name
+		ADDED from AndroidManifest.xml:45:13
+activity#de.theknut.xposedgelsettings.ui.ChooseAppList
+ADDED from AndroidManifest.xml:54:9
+	android:label
+		ADDED from AndroidManifest.xml:56:13
+	android:theme
+		ADDED from AndroidManifest.xml:57:13
+	android:name
+		ADDED from AndroidManifest.xml:55:13
+activity#de.theknut.xposedgelsettings.ui.FragmentSelectiveIcon
+ADDED from AndroidManifest.xml:64:9
+	android:label
+		ADDED from AndroidManifest.xml:66:13
+	android:theme
+		ADDED from AndroidManifest.xml:67:13
+	android:name
+		ADDED from AndroidManifest.xml:65:13
+activity#de.theknut.xposedgelsettings.ui.SaveActivity
+ADDED from AndroidManifest.xml:74:9
+	android:label
+		ADDED from AndroidManifest.xml:76:13
+	android:theme
+		ADDED from AndroidManifest.xml:77:13
+	android:name
+		ADDED from AndroidManifest.xml:75:13
+receiver#de.theknut.xposedgelsettings.broadcastreceiver.XGELSReceiver
+ADDED from AndroidManifest.xml:84:3
+	android:label
+		ADDED from AndroidManifest.xml:88:7
+	android:exported
+		ADDED from AndroidManifest.xml:87:7
+	android:enabled
+		ADDED from AndroidManifest.xml:86:7
+	android:name
+		ADDED from AndroidManifest.xml:85:7
+intent-filter#de.theknut.xposedgelsettings.Intent.CONVERT_SETTING+de.theknut.xposedgelsettings.Intent.SAVE_ICONPACK+de.theknut.xposedgelsettings.Intent.SAVE_LAYER_POSITIONS+de.theknut.xposedgelsettings.Intent.SAVE_SETTING
+ADDED from AndroidManifest.xml:89:7
+action#de.theknut.xposedgelsettings.Intent.SAVE_ICONPACK
+ADDED from AndroidManifest.xml:90:11
+	android:name
+		ADDED from AndroidManifest.xml:90:19
+action#de.theknut.xposedgelsettings.Intent.SAVE_LAYER_POSITIONS
+ADDED from AndroidManifest.xml:91:17
+	android:name
+		ADDED from AndroidManifest.xml:91:25
+action#de.theknut.xposedgelsettings.Intent.SAVE_SETTING
+ADDED from AndroidManifest.xml:92:17
+	android:name
+		ADDED from AndroidManifest.xml:92:25
+action#de.theknut.xposedgelsettings.Intent.CONVERT_SETTING
+ADDED from AndroidManifest.xml:93:17
+	android:name
+		ADDED from AndroidManifest.xml:93:25
+intent-filter#android.intent.action.WALLPAPER_CHANGED+android.intent.category.DEFAULT
+ADDED from AndroidManifest.xml:95:7
+action#android.intent.action.WALLPAPER_CHANGED
+ADDED from AndroidManifest.xml:96:11
+	android:name
+		ADDED from AndroidManifest.xml:96:19
+meta-data#override_tinted_status_bar_defaults
+ADDED from AndroidManifest.xml:101:3
+	android:name
+		ADDED from AndroidManifest.xml:102:7
+	android:value
+		ADDED from AndroidManifest.xml:103:7
+meta-data#xposedmodule
+ADDED from AndroidManifest.xml:105:9
+	android:name
+		ADDED from AndroidManifest.xml:106:13
+	android:value
+		ADDED from AndroidManifest.xml:107:13
+meta-data#xposedminversion
+ADDED from AndroidManifest.xml:108:9
+	android:name
+		ADDED from AndroidManifest.xml:109:13
+	android:value
+		ADDED from AndroidManifest.xml:110:13
+meta-data#xposeddescription
+ADDED from AndroidManifest.xml:111:9
+	android:name
+		ADDED from AndroidManifest.xml:112:13
+	android:value
+		ADDED from AndroidManifest.xml:113:13

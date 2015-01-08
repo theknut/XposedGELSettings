@@ -390,4 +390,11 @@
     <string name="pref_app_drawer_hide_from_home_title">Hide homescreen apps</string>
     <string name="pref_app_drawer_hide_from_home_summary">(Experimental)\nAutomatically hide apps from the app drawer if they are placed on the homescreen. Requires a launcher reboot to sync.</string>
 
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="saving_image">Saving image</string>
+    <string name="preparing_card">Preparing card</string>
+    <string name="no_storage_card">No storage card</string>
+    <string name="not_enough_space">Not enough space</string>
+
 </resources>

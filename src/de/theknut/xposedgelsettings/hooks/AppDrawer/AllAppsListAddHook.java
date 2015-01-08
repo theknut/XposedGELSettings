@@ -97,7 +97,7 @@ public final class AllAppsListAddHook extends XC_MethodHook {
                 for (Object folderItem : ((ArrayList) getObjectField(item, Fields.fiContents))) {
                     if (folderItem.getClass().equals(Classes.ShortcutInfo)) {
                         Intent i = (Intent) callMethod(folderItem, "getIntent");
-                        if (i != null) {
+                        if (i != null && i.getComponent() != null) {
                             appsToHide.add(i.getComponent().flattenToString());
                         }
                     }

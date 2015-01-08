@@ -52,7 +52,7 @@ public class WeatherWidget extends HooksBaseClass {
 
     public static void initAllHooks(final LoadPackageParam lpparam) {
 
-        if (!PreferencesHelper.hideSearchBar && Common.PACKAGE_OBFUSCATED) {
+        if (false && !PreferencesHelper.hideSearchBar && Common.PACKAGE_OBFUSCATED) {
 
             if (PreferencesHelper.searchBarWeatherWidget) {
 

@@ -33,7 +33,7 @@ public class PendingNotification {
         if (o instanceof PendingNotification) {
             return ((PendingNotification) o).componentName.equals(this.componentName);
         }
-        return o.equals(this.componentName);
+        return this.componentName.equals(o);
     }
 
     @Override

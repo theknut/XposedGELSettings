@@ -1,14 +1,17 @@
 package de.theknut.xposedgelsettings.ui;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,6 +29,7 @@ import java.util.List;
 
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
+import eu.janmuller.android.simplecropimage.CropImage;
 
 @SuppressLint("WorldReadableFiles")
 public class FragmentWelcome extends FragmentBase {
@@ -51,13 +55,64 @@ public class FragmentWelcome extends FragmentBase {
 
                     try {
                         InAppPurchase.purchaseSpecialOffer();
-                    } catch (Exception e) { }
+                    } catch (Exception e) {}
                 }
                 return true;
             }
         });
 
+        rootView.findViewById(R.id.welcometext).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                //startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_PICK_PICTURE);
+            }
+        });
+
         return CommonUI.setBackground(rootView, R.id.welcomebackground);
+    }
+    private static int REQUEST_CROP_PICTURE = 2;
+    private static int REQUEST_PICK_PICTURE = 3;
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_PICK_PICTURE) {
+            // create explicit intent
+            Intent intent = new Intent(mContext, CropImage.class);
+            String filePath = getPath(data.getData());
+            intent.putExtra(CropImage.IMAGE_PATH, filePath);
+            intent.putExtra(CropImage.SCALE, true);
+            intent.putExtra(CropImage.OUTPUT_X, 192);
+            intent.putExtra(CropImage.OUTPUT_Y, 192);
+            startActivityForResult(intent, REQUEST_CROP_PICTURE);
+        }
+    }
+
+    /**
+     * helper to retrieve the path of an image URI
+     */
+    public String getPath(Uri uri) {
+        // just some safety built in
+        if( uri == null ) {
+            // TODO perform some logging or show user feedback
+            return null;
+        }
+        // try to retrieve the image from the media store first
+        // this will only work for images selected from gallery
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = mActivity.managedQuery(uri, projection, null, null, null);
+        if( cursor != null ){
+            int column_index = cursor
+                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        }
+        // this is our fallback here
+        return uri.getPath();
     }
 
     @SuppressWarnings("deprecation")
@@ -69,7 +124,7 @@ public class FragmentWelcome extends FragmentBase {
             shown = true;
 
             createAlertDialogs();
-            alerts = new ArrayList<AlertDialog>();
+            alerts = new ArrayList<>();
 
             if (!isXposedInstalled()) {
                 alerts.add(IsXposedInstalledAlert);

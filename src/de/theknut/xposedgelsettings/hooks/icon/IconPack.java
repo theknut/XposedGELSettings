@@ -279,9 +279,11 @@ public class IconPack {
         if (isAppFilterLoaded()) {
             int id = getResourceIdForDrawable(pkg);
             if (id != 0) {
-                Icon icon = new Icon(pkg, resources.getDrawableForDensity(id, getDPI()));
-                getIcons().add(icon);
-                return icon.getIcon();
+                try {
+                    Icon icon = new Icon(pkg, resources.getDrawableForDensity(id, getDPI()));
+                    getIcons().add(icon);
+                    return icon.getIcon();
+                } catch (Exception e) { }
             }
         }
 

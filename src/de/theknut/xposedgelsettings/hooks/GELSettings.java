@@ -45,6 +45,12 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
             PreferencesHelper.init();
             SystemUIReceiver.initAllHooks(lpparam);
             QuickSettings.initAllHooks(lpparam);
+
+//            try {
+//                findAndHookMethod("com.android.systemui.SearchPanelView", lpparam.classLoader, "show", boolean.class, boolean.class, XC_MethodReplacement.DO_NOTHING);
+//                findAndHookMethod("com.android.systemui.SearchPanelView", lpparam.classLoader, "startAssistActivity", XC_MethodReplacement.DO_NOTHING);
+//            } catch (Error e) { }
+//              catch (Exception e) { }
             return;
 
         } else if (lpparam.packageName.equals("com.android.settings")) {

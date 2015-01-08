@@ -27,6 +27,33 @@
   </head>
   <body>
 
+$ 2.2.5
+  % Version 2.2.5
+  _ 2015-08-01
+
+  There have been quite some internal changes to the launcher again. If you happen to find an error please file a bug from the XGELS "Settings" menu -> "Send bug report". Thanks!<br><br>
+
+  !Added:
+  * support for Google Search 4.1.21
+  * new app drawer tabs starting with Google Search 4.1.21 releases
+
+  !Fixed:
+  * crash in AppInfo (thanks to gmay)
+  * Gesture settings not saving properly
+  * various stability fixes and improvements
+
+  !XGELS UI:
+  * updated translations
+
+$ 2.2.3
+  % Version 2.2.3
+  _ 2014-06-12
+
+Sorry for the frequent updates, this should be the last one<br><br>
+
+  !Fixed:
+  * icons turning black - semi transparent
+
 $ 2.2.2
   % Version 2.2.2
   _ 2014-06-12

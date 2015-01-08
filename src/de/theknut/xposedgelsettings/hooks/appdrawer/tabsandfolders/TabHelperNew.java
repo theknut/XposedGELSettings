@@ -653,7 +653,7 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
         ViewGroup appsCustomizeCellLayout = (ViewGroup) callMethod(thisObject, Methods.pvGetPageAt, page);
         appsCustomizeCellLayout.getBackground().setColorFilter(currTab.getPrimaryColor(), PorterDuff.Mode.MULTIPLY);
 
-        callMethod(appsCustomizeCellLayout, Fields.acpvRemoveAllViewsOnPage);
+        callMethod(appsCustomizeCellLayout, Methods.acpvRemoveAllViewsOnPage);
         for (int i = startIndex; i < endIndex; ++i) {
             Object info = apps.get(i);
             View icon;
@@ -675,7 +675,7 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
                 icon.setOnLongClickListener((View.OnLongClickListener) thisObject);
                 icon.setOnTouchListener((View.OnTouchListener) thisObject);
                 icon.setOnKeyListener((View.OnKeyListener) thisObject);
-                icon.setOnFocusChangeListener((View.OnFocusChangeListener) getObjectField(appsCustomizeCellLayout, "yd"));
+                icon.setOnFocusChangeListener((View.OnFocusChangeListener) getObjectField(appsCustomizeCellLayout, Fields.acclFocusHandlerView));
             }
 
             callMethod(appsCustomizeCellLayout, Methods.clAddViewToCellLayout, icon, -1, i, newInstance(Classes.CellLayoutLayoutParams, x, y, 1, 1), false);

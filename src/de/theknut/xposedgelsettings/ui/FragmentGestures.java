@@ -118,17 +118,17 @@ public class FragmentGestures extends FragmentBase {
                             .theme(Theme.DARK)
                             .title(preference.getTitle())
                             .items(getResources().getStringArray(R.array.gesture_actions_entries_limited))
-                            .itemsCallbackSingleChoice(gestureValues.indexOf(sharedPrefs.getString(preference.getKey(), "NONE")), new MaterialDialog.ListCallback() {
+                            .itemsCallbackSingleChoice(gestureValuesLimited.indexOf(sharedPrefs.getString(preference.getKey(), "NONE")), new MaterialDialog.ListCallback() {
                                 @Override
                                 public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
 
                                     sharedPrefs.edit()
                                             .remove(preference.getKey())
-                                            .putString(preference.getKey(), gestureValues.get(which))
+                                            .putString(preference.getKey(), gestureValuesLimited.get(which))
                                             .remove(gesture_one_up_left.getKey())
-                                            .putString(gesture_one_up_left.getKey(), gestureValues.get(which))
+                                            .putString(gesture_one_up_left.getKey(), gestureValuesLimited.get(which))
                                             .remove(gesture_one_up_right.getKey())
-                                            .putString(gesture_one_up_right.getKey(), gestureValues.get(which))
+                                            .putString(gesture_one_up_right.getKey(), gestureValuesLimited.get(which))
                                             .apply();
 
                                     preference.setSummary(text);
@@ -150,7 +150,7 @@ public class FragmentGestures extends FragmentBase {
             });
         }
         else {
-            getPreferenceScreen().removePreference(this.findPreference("needsDonate"));
+            //getPreferenceScreen().removePreference(this.findPreference("needsDonate"));
         }
 
         rootView = CommonUI.setBackground(rootView, R.id.prefbackground);

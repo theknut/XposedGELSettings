@@ -16,6 +16,8 @@ import android.widget.FrameLayout.LayoutParams;
 import net.margaritov.preference.colorpicker.ColorPickerPreference;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
@@ -57,6 +59,8 @@ public class GestureHelper extends HooksBaseClass {
     static int height;
     static int sector;
     static boolean isLandscape;
+
+    static Method method;
 
     static void init() throws IOException {
         if (DEBUG) log("Init Gestures");
@@ -192,13 +196,27 @@ public class GestureHelper extends HooksBaseClass {
             context.sendBroadcast(myIntent);
 
         } else if (action.equals("OPEN_APPDRAWER")) {
-
-            Common.LAUNCHER_INSTANCE.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    callMethod(Common.LAUNCHER_INSTANCE, "onClickAllAppsButton", new View(context));
-                }
-            });
+                Common.LAUNCHER_INSTANCE.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION >= ObfuscationHelper.GNL_4_1_21) {
+                            //View d = (View) getObjectField(Common.LAUNCHER_INSTANCE, "IR");
+                            //d.callOnClick();
+                            Object objectField = getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizeTabHost);
+                            try {
+                                method.invoke(Common.LAUNCHER_INSTANCE, true, callMethod(objectField, "p", "APPS"), false);
+                            } catch (IllegalAccessException e) {
+                                e.printStackTrace();
+                                log("Ex");
+                            } catch (InvocationTargetException e) {
+                                log("Ex");
+                                e.printStackTrace();
+                            }
+                        } else {
+                            callMethod(Common.LAUNCHER_INSTANCE, "onClickAllAppsButton", new View(context));
+                        }
+                    }
+                });
 
         } else if (action.equals("LAST_APP")) {
 

@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
+import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
@@ -348,6 +349,9 @@ public class GestureHooks extends GestureHelper {
                 }
             }
         };
+
+        method = XposedHelpers.findMethodBestMatch(Classes.Launcher, "a", boolean.class, Classes.AppsCustomizeContentType, boolean.class);
+
 
         XposedBridge.hookAllMethods(Classes.PagedView, "onTouchEvent", gestureHook);
         XposedBridge.hookAllMethods(Classes.PagedView, "onInterceptTouchEvent", gestureHook);

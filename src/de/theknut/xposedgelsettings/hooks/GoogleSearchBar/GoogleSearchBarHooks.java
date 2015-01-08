@@ -22,8 +22,9 @@ import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
-public class
-        GoogleSearchBarHooks extends HooksBaseClass {
+public class GoogleSearchBarHooks extends HooksBaseClass {
+
+    private static View qsb;
 
     public static void initAllHooks(final LoadPackageParam lpparam) {
 
@@ -138,7 +139,13 @@ public class
         lp.height = show ? Common.SEARCH_BAR_SPACE_HEIGHT : 0;
 
         // Layout the search bar
-        View qsbBar = (View) callMethod(Common.LAUNCHER_INSTANCE, Methods.lGetQsbBar);
+        View qsbBar;
+
+        if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION >= ObfuscationHelper.GNL_4_1_21) {
+            qsbBar = (View) getObjectField(searchBar, Fields.sdtbQsbBar);
+        } else {
+            qsbBar = (View) callMethod(Common.LAUNCHER_INSTANCE, Methods.lGetQsbBar);
+        }
         LayoutParams vglp = qsbBar.getLayoutParams();
         vglp.width = show ? LayoutParams.MATCH_PARENT : 0;
         vglp.height = show ? LayoutParams.MATCH_PARENT : 0;

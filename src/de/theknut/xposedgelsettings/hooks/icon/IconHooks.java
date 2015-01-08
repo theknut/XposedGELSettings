@@ -285,21 +285,24 @@ public class IconHooks extends HooksBaseClass {
             }
         });
 
-        findAndHookMethod(Classes.LauncherModel, Methods.lmIsShortcutInfoUpdateable, Classes.ItemInfo, new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+        if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION < ObfuscationHelper.GNL_4_1_21) {
+            findAndHookMethod(Classes.LauncherModel, Methods.lmIsShortcutInfoUpdateable, Classes.ItemInfo, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 
-                for (ResolveInfo r : getCalendars()) {
-                    if (r.activityInfo.packageName.equals(((Intent) callMethod(param.args[0], "getIntent")).getComponent().getPackageName())) {
-                        if (DEBUG) log(param, "Returning true for " + r.activityInfo.packageName + " instead of " + param.getResult());
-                        param.setResult(true);
-                        return;
+                    for (ResolveInfo r : getCalendars()) {
+                        if (r.activityInfo.packageName.equals(((Intent) callMethod(param.args[0], "getIntent")).getComponent().getPackageName())) {
+                            if (DEBUG) log(param, "Returning true for " + r.activityInfo.packageName + " instead of " + param.getResult());
+                            param.setResult(true);
+                            return;
+                        }
                     }
-                }
 
-                if (DEBUG) log(param, "Returned " + param.getResult() + " for " + ((Intent) callMethod(param.args[0], "getIntent")).getComponent().getPackageName());
-            }
-        });
+                    if (DEBUG)
+                        log(param, "Returned " + param.getResult() + " for " + ((Intent) callMethod(param.args[0], "getIntent")).getComponent().getPackageName());
+                }
+            });
+        }
 
         findAndHookMethod(Classes.IconCache, Methods.icGetFullResIcon, ActivityInfo.class, new XC_MethodHook() {
 

@@ -40,7 +40,7 @@ public class AddTabsAndFoldersLegacy extends HooksBaseClass {
             final int PAGE = 0;
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-
+log("1");
                 if (TabHelperLegacy.getInstance().loadTabPage(param.thisObject, (Integer) param.args[PAGE])) {
                     param.setResult(null);
                 }
@@ -56,7 +56,7 @@ public class AddTabsAndFoldersLegacy extends HooksBaseClass {
         findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvSetContentType, Classes.AppsCustomizeContentType, new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-
+                log("2");
                 TabHelperLegacy.getInstance().setContentType(param.thisObject);
                 param.setResult(null);
             }
@@ -66,7 +66,9 @@ public class AddTabsAndFoldersLegacy extends HooksBaseClass {
             final int CONTENTTYPE = 0;
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                log("3");
                 if (TabHelperLegacy.getInstance().setContentTypeImmediate(param.args[CONTENTTYPE])) {
+                    log("4");
                     param.setResult(null);
                 }
             }
@@ -90,8 +92,10 @@ public class AddTabsAndFoldersLegacy extends HooksBaseClass {
         XC_MethodHook resetHook = new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                log("5");
                 Tab tab = TabHelperLegacy.getInstance().getCurrentTabData();
                 if (tab != null && tab.isCustomTab()) {
+                    log("6");
                     param.setResult(null);
                 }
             }
@@ -137,6 +141,7 @@ public class AddTabsAndFoldersLegacy extends HooksBaseClass {
                     }
                     setIntField(param.thisObject, Fields.acpvContentHeight, contentHeight - Utils.dpToPx(52));
                 }
+                log("7");
                 numAppPages = TabHelperLegacy.getInstance().setNumberOfPages(param.thisObject);
             }
 
@@ -153,9 +158,12 @@ public class AddTabsAndFoldersLegacy extends HooksBaseClass {
 
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                log("8");
                 if ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lIsAllAppsVisible)) {
+                    log("9");
                     Folder folder = FolderHelper.getInstance().findOpenFolder();
                     if (folder != null) {
+                        log("10");
                         folder.closeFolder();
                         param.setResult(null);
                     }

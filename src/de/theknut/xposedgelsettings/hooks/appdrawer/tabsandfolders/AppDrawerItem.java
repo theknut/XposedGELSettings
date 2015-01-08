@@ -105,7 +105,6 @@ public class AppDrawerItem {
         ArrayList<String> tabData = new ArrayList<String>(PreferencesHelper.prefs.getStringSet(keyPrefix + "_" + getId(), null));
         for (String tab : tabData) {
             try {
-                long time = System.currentTimeMillis();
                 Object app = Utils.createAppInfo(ComponentName.unflattenFromString(tab));
                 if (app != null) data.add(app);
             } catch (Exception e) { }

@@ -42,6 +42,8 @@ public class NotificationBadgesHelper extends HooksBaseClass {
     public static int folderMarginLeftRight, folderMarginTopBottom;
     public static int frameSize;
 
+    public static Intent missedItServiceIntent;
+
     static ArrayList<PendingNotification> pendingNotifications = new ArrayList<PendingNotification>();
 
     static BroadcastReceiver notificationReceiver = new BroadcastReceiver() {
@@ -264,8 +266,16 @@ public class NotificationBadgesHelper extends HooksBaseClass {
     };
 
     protected static void requestCounters() {
+        if (missedItServiceIntent == null) {
+            missedItServiceIntent = new Intent(Common.MISSEDIT_REQUESET_COUNTERS);
+            ResolveInfo r = Common.LAUNCHER_INSTANCE.getPackageManager().resolveService(missedItServiceIntent, 0);
+            if (r != null) {
+                missedItServiceIntent.setComponent(new ComponentName(r.serviceInfo.packageName, r.serviceInfo.name));
+            }
+        }
+
         // start or call MissedIt service in order to receive notification intents
-        Common.LAUNCHER_CONTEXT.startService(new Intent(Common.MISSEDIT_REQUESET_COUNTERS));
+        Common.LAUNCHER_CONTEXT.startService(missedItServiceIntent);
     }
 
     protected static void initMeasures() {

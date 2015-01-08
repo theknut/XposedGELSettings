@@ -2,6 +2,7 @@ package de.theknut.xposedgelsettings.hooks.androidintegration;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.os.Build;

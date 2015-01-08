@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.theknut.xposedgelsettings"
-    android:versionCode="101"
-    android:versionName="2.2.2" >
+    android:versionCode="103"
+    android:versionName="2.2.5" >
 
     <uses-sdk
         android:minSdkVersion="16"
@@ -38,6 +38,8 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
+
+        <activity android:name="eu.janmuller.android.simplecropimage.CropImage"/>
         
         <activity
             android:name="de.theknut.xposedgelsettings.ui.AllWidgetsList"

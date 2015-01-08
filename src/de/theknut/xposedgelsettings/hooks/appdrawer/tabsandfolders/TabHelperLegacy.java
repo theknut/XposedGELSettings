@@ -537,6 +537,8 @@ public final class TabHelperLegacy extends TabHelper implements View.OnClickList
         Tab curTab = getCurrentTabData();
         if (curTab == null) return false;
 
+        log("Curtab " + curTab.getTitle());
+
         if ((curTab.isAppsTab() || curTab.isUserTab()) && FolderHelper.getInstance().hasFolder()) {
             ArrayList items;
             if (curTab.isAppsTab()) {
@@ -559,6 +561,7 @@ public final class TabHelperLegacy extends TabHelper implements View.OnClickList
     }
 
     private void syncAppsPageItems(Object thisObject, ArrayList apps, int page) {
+        log("Sync");
         final boolean isRtl = (Boolean) callMethod(thisObject, Methods.pvIsLayoutRtl);
         LayoutInflater mLayoutInflater = (LayoutInflater) getObjectField(thisObject, "mLayoutInflater");
 
@@ -571,7 +574,7 @@ public final class TabHelperLegacy extends TabHelper implements View.OnClickList
         int endIndex = Math.min(startIndex + numCells, apps.size());
         ViewGroup appsCustomizeCellLayout = (ViewGroup) callMethod(thisObject, Methods.pvGetPageAt, page);
 
-        callMethod(appsCustomizeCellLayout, Fields.acpvRemoveAllViewsOnPage);
+        callMethod(appsCustomizeCellLayout, Methods.acpvRemoveAllViewsOnPage);
         for (int i = startIndex; i < endIndex; ++i) {
             Object info = apps.get(i);
             View icon;

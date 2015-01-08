@@ -278,7 +278,11 @@ public class GeneralHooks extends HooksBaseClass {
             });
 
             if (Common.PACKAGE_OBFUSCATED) {
-                findAndHookMethod(Classes.LoaderTask, Methods.lmCheckItemPlacement, HashMap.class, Classes.ItemInfo, AtomicBoolean.class, checkItemPlacementHook);
+                if (Common.GNL_VERSION >= ObfuscationHelper.GNL_4_1_21) {
+                    findAndHookMethod(Classes.LoaderTask, Methods.lmCheckItemPlacement, HashMap.class, Classes.ItemInfo, checkItemPlacementHook);
+                } else {
+                    findAndHookMethod(Classes.LoaderTask, Methods.lmCheckItemPlacement, HashMap.class, Classes.ItemInfo, AtomicBoolean.class, checkItemPlacementHook);
+                }
             } else
                 XposedBridge.hookAllMethods(Classes.LoaderTask, Methods.lmCheckItemPlacement, checkItemPlacementHook);
         }
