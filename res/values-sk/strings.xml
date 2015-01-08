@@ -252,13 +252,13 @@
 
     <string name="pref_reverseengineering_cat_title">Reverzné inžinierstvo</string>
     <string name="pref_reverseengineering_explain_title">Oh, ahojte tu!</string>
-    <string name="pref_reverseengineering_explain_summary">Ako ste si možno všimli, nedávna aktualizácia GNL znefunkčnila XGELS. To je vzhľadom k úplnej obfuskácií GNL. Aby aplikácia XGELS znovu fungovala, musel som za pomoci reverzného inžinierstva prerobiť každú funkciu XGELS a prejsť celým kódom GNL znovu. Naštastie som bol schopný obnoviť 99% funkcií!</string>
+    <string name="pref_reverseengineering_explain_summary">Ako ste si možno všimli, nedávna aktualizácia GNL znefunkčnila XGELS. To je vzhľadom k úplnej obfuskácií GNL. Aby aplikácia XGELS znovu fungovala, musel som za pomoci reverzného inžinierstva prerobiť každú funkciu XGELS a prejsť celým kódom GNL znovu. Našťastie som bol schopný obnoviť 99% funkcií!</string>
     <string name="pref_reverseengineering_conclusion_title">Čo to znamená?</string>
     <string name="pref_reverseengineering_conclusion_summary">Predpokladá sa, že Google obfuskuje GNL s každou hlavnou verziou (3.X), čo znamená, že dôjde s najväčšou pravdepodobnosťou k znefunkčneniu XGELS. Tentoraz som však na to pripravený a som si istý, že môžem obnoviť všetky funkcie v priebehu niekoľkých hodín!</string>
     <string name="pref_reverseengineering_what_to_do_title">Čo môžete spraviť?</string>
     <string name="pref_reverseengineering_what_to_do_summary">Ak nechcete, aby budúca aktualizácia GNL/Vyhľadávania Google spôsobila znefunkčnenie XGELS, prejdite do Obchodu Play a zakážte automatické aktualizovanie. Pri GNL/Vyhľadávaniu Google dochádza k postupnému uvoľnovaniu aktualizácií, čo znamenám že v niektorých prípadoch sa XGELS aktualizuje ešte predtým, než dostanete oficiálnu aktualizáciu GNL/Vyhľadávania Google. Kliknite sem pre otvorenie Obchodu Play a zakázanie automatického aktualizovania práve teraz!</string>
     <string name="pref_reverseengineering_bugs_title">Chyby</string>
-    <string name="pref_reverseengineering_bugs_summary">Vzhľadom k potrebe reverzného inžinierstva, je možné, že sa vyskytnú nejaké chyby. Prosím, buďte trochu zhovievavejší a neudeľujte nízke hodnotenie pre túto aplikácia v Obchode Play. Použite funkciu \"Poslať hlásenie o chybe\" v Nastaveniach. Ďakujeme vám!</string>
+    <string name="pref_reverseengineering_bugs_summary">Vzhľadom k potrebe reverzného inžinierstva je možné, že sa vyskytnú nejaké chyby. Prosím, buďte trochu zhovievavejší a neudeľujte nízke hodnotenie pre túto aplikácia v Obchode Play. Použite funkciu \"Poslať hlásenie o chybe\" v Nastaveniach. Ďakujeme vám!</string>
     <string name="pref_reverseengineering_support_cat">Potrebujeme vašu podporu!</string>
     <string name="pref_reverseengineering_support_title">Podporiť vývojára!</string>
     <string name="pref_reverseengineering_support_summary">Toto neodomkne Prémium!\nNeuveriteľné možnostvo mojej práce je potrebné pre vývoj XGELS. Ak sa vám táto aplikácia páči, prosím, kliknite sem pre prispenie!</string>
@@ -383,7 +383,7 @@
     <string name="alert_appdrawer_clear_tabs_title">Upozornenie!</string>
     <string name="alert_appdrawer_clear_tabs_summary">Chystáte sa vymazať všetky karty v ponuke aplikácií! Pokračovať?</string>
     <string name="alert_appdrawer_clear_tabs_success">Údaje kariet v ponuke aplikácií boli vymazané!</string>
-    <string name="pref_appdrawer_tabs_instructions_summary">!!Len pre Google Now Launcher a ≥ Android 4.2!!\nKarty v ponuke aplikácií môžete pridať priamo z ponuky aplikácií . Nastavenia karty možete otvoriť jej dlhým stlačením.</string>
+    <string name="pref_appdrawer_tabs_instructions_summary">Len pre Google Now Launcher a verziu Androidu ≥ Android 4.2\nKarty v ponuke aplikácií môžete pridať priamo z ponuky aplikácií. Nastavenia karty možete otvoriť jej dlhým stlačením.</string>
     <string name="pref_notificationbadge_noappdrawer_title">Skryť z ponuky aplikácií</string>
     <string name="toast_appdrawer_tabadded_title">Dlho stlačte kartu pre otvorenie jej nastavení</string>
     
@@ -415,10 +415,12 @@
     <!-- 2.1.2. -->
     <string name="pref_searchbar_weather_widget_title">Miniaplikácia počasia</string>
     <string name="pref_searchbar_weather_widget_summary">Zobraziť aktuálnu polohu a počasie pod vyhľadávacím riadkom (iba GNL)</string>
-
     <string name="pref_app_drawer_folderstyle_background_color_title">Farba pozadia priečinka</string>
     <string name="pref_app_drawer_folderstyle_background_color_summary">Farba pozadia priečinka v ponuke aplikácií (Vyhľadávanie Google ≥ 4.0)</string>
     
     <!-- 2.2 -->
     <string name="pref_grid_size_vert_summary">Zvoliť zvislú veľkosť mriežky</string>
+    <string name="menu_hide_apps_used_in_tabs">Skryť vybrané aplikácie</string>
+    <string name="pref_app_drawer_hide_from_home_title">Skryť aplikácie domovskej obrazovky</string>
+    <string name="pref_app_drawer_hide_from_home_summary">(Experimentálne)\nAutomaticky skryť aplikácie z ponuky aplikácií, ak sú umiestnené na domovskej obrazovke. Vyžaduje reštart spúšťača pre synchronizáciu.</string>
 </resources>
