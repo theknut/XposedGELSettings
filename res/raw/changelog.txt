@@ -33,11 +33,12 @@ $ 2.2.6
 
   !Fixed:
   * search bar not hiding
-  * missing files in bug report
   * continuous scroll not working
   * icon labels not hiding in custom tabs
   * text labels not adopting to color in custom tabs
-  * usage on Trebuchet
+  * background in app drawer
+  * problems on Trebuchet
+  * missing files in bug report
 
 $ 2.2.5
   % Version 2.2.5

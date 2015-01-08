@@ -2,10 +2,8 @@ package de.theknut.xposedgelsettings.hooks.appdrawer;
 
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +35,6 @@ import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setIntField;
-import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
 public class AppDrawerHooks extends HooksBaseClass {
 
@@ -68,48 +65,12 @@ public class AppDrawerHooks extends HooksBaseClass {
                 if (Common.IS_PRE_GNL_4) {
                     findAndHookMethod(Classes.AppsCustomizeTabHost, Methods.acthOnTabChanged, Classes.AppsCustomizeContentType, new OnTabChangedHook());
                 } else {
-
-                    findAndHookMethod(Classes.DragLayer, "dispatchDraw", Canvas.class, new XC_MethodHook() {
-                        FrameLayout dragLayer;
-                        Drawable bg;
-
-                        @Override
-                        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                            if (dragLayer == null) {
-                                dragLayer = (FrameLayout) callMethod(Common.LAUNCHER_INSTANCE, Methods.lGetDragLayer);
-                            }
-
-                            if ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lIsAllAppsVisible)) {
-                                bg = (Drawable) getObjectField(dragLayer, "yt");
-                            }
-                        }
-
+                    findAndHookMethod(Classes.AppsCustomizeTabHost, "onFinishInflate", new XC_MethodHook() {
                         @Override
                         protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                            if (bg != null) {
-                                setObjectField(dragLayer, "yt", bg);
-                                bg = null;
-                            }
+                            ((View) param.thisObject).setBackgroundColor(PreferencesHelper.appdrawerBackgroundColor);
                         }
                     });
-
-
-                        findAndHookMethod(Classes.AppsCustomizeTabHost, "onFinishInflate", new XC_MethodHook() {
-                            @Override
-                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                                ((View) param.thisObject).setBackgroundColor(PreferencesHelper.appdrawerBackgroundColor);
-
-//                                LayoutInflater inflater = LayoutInflater.from(Common.XGELSCONTEXT);
-//                                RelativeLayout rl = (RelativeLayout) inflater.inflate(R.layout.tab_host, null, true);
-//
-//                                View content = (View) getObjectField(param.thisObject, "yV");
-//                                FrameLayout tabHost = ((FrameLayout) param.thisObject);
-//                                tabHost.removeView(content);
-//                                tabHost.removeView(content);
-//                                ((ViewGroup) rl.findViewById(R.id.appdrawer_contents)).addView(content);
-//                                tabHost.addView(rl);
-                            }
-                        });
                     if (false) {
                         findAndHookMethod(Classes.AppsCustomizeTabHost, "b", Rect.class, new XC_MethodHook() {
                             @Override
