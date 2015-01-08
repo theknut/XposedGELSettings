@@ -55,7 +55,7 @@ public final class Common {
     public static Activity LAUNCHER_INSTANCE;
     public static Object WORKSPACE_INSTANCE;
     public static Object HOTSEAT_INSTANCE;
-    public static Object APP_DRAWER_INSTANCE;
+    public static View APP_DRAWER_INSTANCE;
 
     public static Context LAUNCHER_CONTEXT;
     public static Context XGELSCONTEXT;
@@ -77,8 +77,7 @@ public final class Common {
     public static boolean PACKAGE_OBFUSCATED;
     public static int GNL_VERSION;
 
-    // all launchers we support (hopefully :-S)
-    public static final List<String> PACKAGE_NAMES = new ArrayList<String>(Arrays.asList("com.android.launcher2", "com.android.launcher3", Common.GEL_PACKAGE, Common.TREBUCHET_PACKAGE));
+    public static final List<String> PACKAGE_NAMES = new ArrayList<String>(Arrays.asList("com.android.launcher3", Common.GEL_PACKAGE, Common.TREBUCHET_PACKAGE));
 
     public static boolean FOLDER_GESTURE_ACTIVE;
     public static boolean L_VALUE = true;

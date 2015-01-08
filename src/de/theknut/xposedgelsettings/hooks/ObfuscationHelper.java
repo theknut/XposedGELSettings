@@ -621,12 +621,12 @@ public class ObfuscationHelper extends HooksBaseClass {
             clShortcutsAndWidgets = new String[]{"mShortcutsAndWidgets", "vp", "xO", "yt", "ys", "AE", "zB"}[idx];
             sawIsHotseat = new String[]{"mIsHotseatLayout", "Ng", "PQ", "Qr", "Qu", "SP", "Wx"}[idx];
             sdtbIsSearchBarHidden = new String[]{"mIsSearchBarHidden", "MV", "PF", "Qg", "Qj", "SE", "Wn"}[idx]; // above Qsb member
-            sdtbQsbBar = new String[]{"mQSBSearchBar", "MW", "PG", "Qh", "Qk", "SF", "Wp"}[idx];
+            sdtbQsbBar = new String[]{"mQSBSearchBar", "MW", "PG", "Qh", "Qk", "SF", "Wo"}[idx];
             wCustomContentShowing = new String[]{"mCustomContentShowing", "PV", "SH", "Ti", "Ti", "VF", "Zo"}[idx]; // "() == 0) || (!this."
             wState = new String[]{"mState", "Qj", "SV", "Tw", "Tw", "VT", "ZC"}[idx]; // WorkspaceState member
             wDefaultPage = new String[]{"mDefaultPage", "PI", "Su", "SV", "SV", "Vs", "Zb"}[idx];  // "Expected custom content screen to exist", member gets decreased by one // "(-1 + this."
             wTouchState = new String[]{"mTouchState", "KY", "NF", "Oj", "On", "Qt", "TV"}[idx]; // onInterceptTouchEvent while clause
-            wIsSwitchingState = new String[]{"mIsSwitchingState", "Qk", "SW", "Tx", "Tx", "VU", "mh"}[idx]; // start from onTouch, second method call in if-clause
+            wIsSwitchingState = new String[]{"mIsSwitchingState", "Qk", "SW", "Tx", "Tx", "VU", "ZD"}[idx]; // start from onTouch, second method call in if-clause
             wLastCustomContentScrollProgress = new String[]{"mLastCustomContentScrollProgress", "PW", "SI", "Tj", "Tj", "VG", "Zp"}[idx]; // " = -1.0F;"
             lHotseat = new String[]{"mHotseat", "EO", "Hu", "HZ", "Id", "Ka", "IP"}[idx];
             lSearchDropTargetBar = new String[]{"mSearchDropTargetBar", "um", "wN", "xs", "xr", "zD", "yz"}[idx];

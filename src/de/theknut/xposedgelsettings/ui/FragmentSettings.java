@@ -10,6 +10,7 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
@@ -24,6 +25,8 @@ import com.afollestad.materialdialogs.Theme;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -182,14 +185,15 @@ public class FragmentSettings extends FragmentBase {
                     out.close();
                 } catch (IOException e) {}
 
-                if (new File(pathDebugLog).exists() && new File(pathXGELSPrefs).exists()) {
-
-                    ArrayList<Uri> uris = new ArrayList<Uri>();
-                    uris.add(Uri.parse("file://" + pathDebugLog));
-                    uris.add(Uri.parse("file://" + pathXGELSPrefs));
+                File debugLogFile = new File(pathDebugLog);
+                File xgelsPrefsFile = new File(pathXGELSPrefs);
+                if (debugLogFile.exists() && xgelsPrefsFile.exists()) {
+                    ArrayList<Uri> uris = new ArrayList<>();
+                    uris.add(save(pathDebugLog));
+                    uris.add(save(pathXGELSPrefs));
 
                     if (logfile.exists()) {
-                        uris.add(Uri.parse("file://" + logfilePath));
+                        uris.add(Uri.fromFile(logfile));
                     }
 
                     char ls = '\n';
@@ -230,7 +234,7 @@ public class FragmentSettings extends FragmentBase {
                     intent.putExtra(Intent.EXTRA_TEXT, deviceInfo.toString() + '\n' + '\n' + "Bug report description: <short description>" + '\n' + '\n' + "Steps to reproduce: <repro steps>" + '\n' + '\n');
                     intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
                     intent.setType("text/html");
-                    startActivity(Intent.createChooser(intent, "Send mail"));
+                    startActivityForResult(Intent.createChooser(intent, "Send mail"), 0);
 
                     debugPreference.setChecked(false);
                     CommonUI.restartLauncher(false);
@@ -254,5 +258,36 @@ public class FragmentSettings extends FragmentBase {
 
         rootView = CommonUI.setBackground(rootView, R.id.prefbackground);
         return rootView;
+    }
+
+    @SuppressLint("DefaultLocale")
+    private Uri save(String fromPath) {
+        if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            Toast.makeText(getActivity(), "Access to SD denied", Toast.LENGTH_LONG).show();
+            return null;
+        }
+
+        String filename = String.format(fromPath.substring(fromPath.lastIndexOf('/') + 1, fromPath.length()));
+        File targetFile = new File(getActivity().getExternalFilesDir(null), filename);
+        targetFile.getParentFile().mkdirs();
+
+        try {
+            FileInputStream in = new FileInputStream(new File(fromPath));
+            FileOutputStream out = new FileOutputStream(targetFile);
+            out.write(new StringBuilder(512).toString().getBytes());
+
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = in.read(buffer)) > 0){
+                out.write(buffer, 0, len);
+            }
+            in.close();
+            out.close();
+        } catch (IOException e) {
+            Toast.makeText(getActivity(), "Failed to copy file to SD \n" + e.getMessage(), Toast.LENGTH_LONG).show();
+            return null;
+        }
+
+        return Uri.fromFile(targetFile);
     }
 }

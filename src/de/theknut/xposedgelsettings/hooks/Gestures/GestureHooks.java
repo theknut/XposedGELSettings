@@ -21,6 +21,7 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
@@ -350,8 +351,9 @@ public class GestureHooks extends GestureHelper {
             }
         };
 
-        method = XposedHelpers.findMethodBestMatch(Classes.Launcher, "a", boolean.class, Classes.AppsCustomizeContentType, boolean.class);
-
+        if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION >= ObfuscationHelper.GNL_4_1_21) {
+            method = XposedHelpers.findMethodBestMatch(Classes.Launcher, "a", boolean.class, Classes.AppsCustomizeContentType, boolean.class);
+        }
 
         XposedBridge.hookAllMethods(Classes.PagedView, "onTouchEvent", gestureHook);
         XposedBridge.hookAllMethods(Classes.PagedView, "onInterceptTouchEvent", gestureHook);

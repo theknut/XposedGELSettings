@@ -27,6 +27,18 @@
   </head>
   <body>
 
+$ 2.2.6
+  % Version 2.2.6
+  _ 2015-08-01
+
+  !Fixed:
+  * search bar not hiding
+  * missing files in bug report
+  * continuous scroll not working
+  * icon labels not hiding in custom tabs
+  * text labels not adopting to color in custom tabs
+  * usage on Trebuchet
+
 $ 2.2.5
   % Version 2.2.5
   _ 2015-08-01

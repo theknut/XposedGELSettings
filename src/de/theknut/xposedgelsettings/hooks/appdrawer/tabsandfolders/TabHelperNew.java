@@ -34,6 +34,7 @@ import java.util.Iterator;
 
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
@@ -245,6 +246,12 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
 
         if (false) {// && PreferencesHelper.moveTabHostBottom) {
             tabView.setBackground(tabView.getContext().getResources().getDrawable(R.drawable.tab_indicator_background_bottom));
+        }
+
+        if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION >= ObfuscationHelper.GNL_4_0_26
+                && Color.alpha(tab.getPrimaryColor()) == 0) {
+
+            tabView.setBackground(tabView.getContext().getResources().getDrawable(R.drawable.tab_indicator));
         }
 
         tabView.getBackground().setColorFilter(tab.getPrimaryColor(), PorterDuff.Mode.MULTIPLY);
@@ -680,13 +687,15 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
 
             callMethod(appsCustomizeCellLayout, Methods.clAddViewToCellLayout, icon, -1, i, newInstance(Classes.CellLayoutLayoutParams, x, y, 1, 1), false);
 
-            TextView iconName;
-            if (!(info instanceof Folder)) {
-                iconName = (TextView) icon;
-            } else {
-                iconName = (TextView) getObjectField(icon, Fields.fiFolderName);
+            if (!PreferencesHelper.hideIconLabelApps) {
+                TextView iconName;
+                if (!(info instanceof Folder)) {
+                    iconName = (TextView) icon;
+                } else {
+                    iconName = (TextView) getObjectField(icon, Fields.fiFolderName);
+                }
+                iconName.setTextColor(currTab.getContrastColor());
             }
-            iconName.setTextColor(currTab.getContrastColor());
         }
 
         callMethod(thisObject, Methods.acpvEnableHwLayersOnVisiblePages);
