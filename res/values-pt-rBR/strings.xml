@@ -389,5 +389,11 @@
     <string name="menu_hide_apps_used_in_tabs">Ocultar aplicativos já selecionados</string>
     <string name="pref_app_drawer_hide_from_home_title">Ocultar aplicativos da tela inicial</string>
     <string name="pref_app_drawer_hide_from_home_summary">(Experimental)\n Oculta automaticamente aplicativos da Tela Aplicaticos se eles são colocados na tela inicial. Requer uma reinicialização para sincronizar.</string>
-
+    
+    <string name="cancel">Cancelar</string>
+    <string name="save">Salvar</string>
+    <string name="saving_image">Salvando imagem</string>
+    <string name="preparing_card">preparando cartão</string>
+    <string name="no_storage_card">Não há cartão de memória</string>
+    <string name="not_enough_space">Não há espaço suficiente</string>
 </resources>
