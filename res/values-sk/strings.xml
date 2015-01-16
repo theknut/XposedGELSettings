@@ -423,4 +423,12 @@
     <string name="menu_hide_apps_used_in_tabs">Skryť vybrané aplikácie</string>
     <string name="pref_app_drawer_hide_from_home_title">Skryť aplikácie domovskej obrazovky</string>
     <string name="pref_app_drawer_hide_from_home_summary">(Experimentálne)\nAutomaticky skryť aplikácie z ponuky aplikácií, ak sú umiestnené na domovskej obrazovke. Vyžaduje reštart spúšťača pre synchronizáciu.</string>
+    
+    <string name="cancel">Zrušiť</string>
+    <string name="save">Uložiť</string>
+    <string name="saving_image">Ukladanie obrázku</string>
+    <string name="preparing_card">Príprava karty SD</string>
+    <string name="no_storage_card">Žiadna karta SD/string>
+    <string name="not_enough_space">Nedostatok miesta</string>
+
 </resources>
