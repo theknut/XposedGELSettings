@@ -216,7 +216,7 @@
     <string name="pref_notificationbadge_premium_title">プレミアム機能</string>
     <string name="pref_notificationbadge_premium_summary">この機能はXGELSプレミアムでのみ利用できます。通知バッジにはカウンターの統計を受信するためにMissed It!（有料）が必要なので注意してください。</string>
     <string name="pref_notificationbadge_missedit_missing_title">Missed It!がインストールされていません</string>
-    <string name="pref_notificationbadge_missedit_missing_summary">Missed It!がインストールされていません。XGELSはバッジの数を受信するためにこのアプリからのカウンターの統計をリクエストします。MissedIt!を開く/Playストアから購入するにはここをクリックしてください。</string>
+    <string name="pref_notificationbadge_missedit_missing_summary">Missed It!がインストールされていません。XGELSはバッジの数を受信するためにこのアプリからのカウンターの統計をリクエストします。Missed It!を開く/Playストアから購入するにはここをクリックしてください。</string>
     <string name="pref_notificationbadge_open_missedit_title">Missed It!を開く</string>
     <string name="pref_notificationbadge_open_missedit_summary">Missed It!を開くにはここをクリックする</string>
     <string name="pref_notificationbadge_enable_title">バッジを有効化</string>
@@ -390,5 +390,12 @@
     <string name="menu_hide_apps_used_in_tabs">既に選択しているアプリを非表示</string>
     <string name="pref_app_drawer_hide_from_home_title">ホーム画面アプリを非表示</string>
     <string name="pref_app_drawer_hide_from_home_summary">（試験的な機能）\nホーム画面に設置されているアプリをアプリドロワーから自動的に非表示にします。同期するためにランチャーの再起動が必要です。</string>
+
+    <string name="cancel">キャンセル</string>
+    <string name="save">保存</string>
+    <string name="saving_image">画像を保存中</string>
+    <string name="preparing_card">カードを準備中</string>
+    <string name="no_storage_card">ストレージカードがありません</string>
+    <string name="not_enough_space">空き容量が不足しています</string>
 
 </resources>
