@@ -386,5 +386,15 @@
 
     <!-- 2.2 -->
     <string name="pref_grid_size_vert_summary">Choisir une taille verticale pour la grille</string>
+    <string name="menu_hide_apps_used_in_tabs">Masquer applis déjà sélectionnées</string>
+    <string name="pref_app_drawer_hide_from_home_title">Masquer applis de l\'écran d\'accueil</string>
+    <string name="pref_app_drawer_hide_from_home_summary">(Expérimental)\nMasquer automatiquement les applis du drawer si elles sont placées sur l\'écran d\'accueil. Nécessite un redémarrage du lanceur à synchroniser.</string>
+
+    <string name="cancel">Annuler</string>
+    <string name="save">Enregistrer</string>
+    <string name="saving_image">Enregistrement de l\'image</string>
+    <string name="preparing_card">Préparation de la carte</string>
+    <string name="no_storage_card">Aucune carte de stockage</string>
+    <string name="not_enough_space">Espace insuffisant</string>    
     
 </resources>
