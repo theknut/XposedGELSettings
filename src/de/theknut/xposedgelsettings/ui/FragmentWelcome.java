@@ -221,7 +221,7 @@ public class FragmentWelcome extends FragmentBase {
                 .content(getString(R.string.missing_framework_msg))
                 .positiveText(getString(R.string.go_to_framework))
                 .negativeText("Exit")
-                .callback(new MaterialDialog.Callback() {
+                .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog materialDialog) {
                         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://forum.xda-developers.com/xposed/xposed-installer-versions-changelog-t2714053"));
@@ -245,7 +245,7 @@ public class FragmentWelcome extends FragmentBase {
                 .content(getString(R.string.module_not_active_msg))
                 .positiveText(getString(R.string.open_xposed_installer))
                 .negativeText(getString(R.string.continue_text))
-                .callback(new MaterialDialog.Callback() {
+                .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog materialDialog) {
                         Intent LaunchIntent = null;
@@ -293,7 +293,7 @@ public class FragmentWelcome extends FragmentBase {
                 .title(getString(R.string.module_not_from_google_play))
                 .positiveText(getString(R.string.open_play_store))
                 .negativeText(getString(R.string.continue_text))
-                .callback(new MaterialDialog.Callback() {
+                .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog materialDialog) {
                         if (dontShowAgain.isChecked()) {
@@ -328,7 +328,7 @@ public class FragmentWelcome extends FragmentBase {
                 .positiveText(R.string.full_reboot)
                 .negativeText(R.string.alert_xgels_updated_cancel)
                 .neutralText(R.string.hot_reboot)
-                .callback(new MaterialDialog.FullCallback() {
+                .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onNeutral(MaterialDialog materialDialog) {
                         CommonUI.openRootShell(new String[]{ "su", "-c", "killall system_server"});
@@ -355,7 +355,7 @@ public class FragmentWelcome extends FragmentBase {
                 .content(R.string.alert_launcher_not_installed_summary)
                 .positiveText(R.string.alert_launcher_not_installed_get_gnl)
                 .negativeText(android.R.string.ok)
-                .callback(new MaterialDialog.Callback() {
+                .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog materialDialog) {
                         try {

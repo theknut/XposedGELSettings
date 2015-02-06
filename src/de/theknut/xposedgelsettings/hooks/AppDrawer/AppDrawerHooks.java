@@ -71,6 +71,16 @@ public class AppDrawerHooks extends HooksBaseClass {
                             ((View) param.thisObject).setBackgroundColor(PreferencesHelper.appdrawerBackgroundColor);
                         }
                     });
+
+                    findAndHookMethod(Classes.Workspace, Methods.wGetChangeStateAnimation, float.class, boolean.class, new XC_MethodHook() {
+                        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                            if (Color.alpha(PreferencesHelper.appdrawerBackgroundColor) < 55
+                                    && getObjectField(param.thisObject, Fields.wState).toString().equals("NORMAL_HIDDEN")) {
+                                param.args[0] = 0f;
+                            }
+                        }
+                    });
+
                     if (false) {
                         findAndHookMethod(Classes.AppsCustomizeTabHost, "b", Rect.class, new XC_MethodHook() {
                             @Override

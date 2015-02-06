@@ -185,7 +185,7 @@ public class CommonUI {
                     .positiveText(R.string.full_reboot)
                     .neutralText(R.string.hot_reboot)
                     .negativeText(R.string.launcher_reboot)
-                    .callback(new MaterialDialog.FullCallback() {
+                    .callback(new MaterialDialog.ButtonCallback() {
                         @Override
                         public void onNeutral(MaterialDialog materialDialog) {
                             if (!InAppPurchase.isPremium) {

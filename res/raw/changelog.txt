@@ -27,6 +27,21 @@
   </head>
   <body>
 
+$ 2.2.7
+  % Version 2.2.7
+  _ 2015-06-02
+
+  Sorry, for the late fixes! I had some real life going on, stay tuned for Xposed on L in the near future!<br><br>
+
+  !Added:
+  * Compatibility for Google Search 4.1.29
+
+  !Fixed:
+  * app drawer label color
+  * dynamic home button not opening app drawer
+  * continuous scroll not opening app drawer
+  * app drawer transparency
+
 $ 2.2.6
   % Version 2.2.6
   _ 2015-08-01

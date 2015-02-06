@@ -561,7 +561,6 @@ public final class TabHelperLegacy extends TabHelper implements View.OnClickList
     }
 
     private void syncAppsPageItems(Object thisObject, ArrayList apps, int page) {
-        log("Sync");
         final boolean isRtl = (Boolean) callMethod(thisObject, Methods.pvIsLayoutRtl);
         LayoutInflater mLayoutInflater = (LayoutInflater) getObjectField(thisObject, "mLayoutInflater");
 

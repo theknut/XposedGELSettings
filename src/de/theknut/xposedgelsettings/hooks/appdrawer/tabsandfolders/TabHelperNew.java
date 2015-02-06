@@ -635,6 +635,9 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
         } else if (curTab.isCustomTab() && curTab.getData() != null) {
             syncAppsPageItems(thisObject, curTab.getData(), page);
             return true;
+        } else if (curTab.isAppsTab()) {
+            syncAppsPageItems(thisObject, new ArrayList(FolderHelper.getInstance().getAllApps()), page);
+            return true;
         }
 
         if (curTab.isAppsTab()) {
@@ -694,7 +697,12 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
                 } else {
                     iconName = (TextView) getObjectField(icon, Fields.fiFolderName);
                 }
-                iconName.setTextColor(currTab.getContrastColor());
+
+                if (PreferencesHelper.iconSettingsSwitchApps) {
+                    iconName.setTextColor(PreferencesHelper.appdrawerIconLabelColor);
+                } else {
+                    iconName.setTextColor(currTab.getContrastColor());
+                }
             }
         }
 

@@ -49,7 +49,7 @@ public class FragmentHomescreen extends FragmentBase {
                         .cancelable(false)
                         .theme(Theme.DARK)
                         .positiveText(android.R.string.ok)
-                        .callback(new MaterialDialog.SimpleCallback() {
+                        .callback(new MaterialDialog.ButtonCallback() {
                             @Override
                             public void onPositive(MaterialDialog materialDialog) {
                                 // due to legacy reasons we need to save them as strings... -.-
@@ -80,7 +80,7 @@ public class FragmentHomescreen extends FragmentBase {
                         .cancelable(false)
                         .theme(Theme.DARK)
                         .positiveText(android.R.string.ok)
-                        .callback(new MaterialDialog.SimpleCallback() {
+                        .callback(new MaterialDialog.ButtonCallback() {
                             @Override
                             public void onPositive(MaterialDialog materialDialog) {
                                 // due to legacy reasons we need to save them as strings... -.-
@@ -109,7 +109,7 @@ public class FragmentHomescreen extends FragmentBase {
                         .customView(numberPicker)
                         .theme(Theme.DARK)
                         .positiveText(android.R.string.ok)
-                        .callback(new MaterialDialog.SimpleCallback() {
+                        .callback(new MaterialDialog.ButtonCallback() {
                             @Override
                             public void onPositive(MaterialDialog materialDialog) {
                                 // due to legacy reasons we need to save them as strings... -.-
@@ -137,7 +137,7 @@ public class FragmentHomescreen extends FragmentBase {
                             .title(android.R.string.dialog_alert_title)
                             .content(R.string.alert_hidedock_summary)
                             .positiveText(android.R.string.ok)
-                            .callback(new MaterialDialog.SimpleCallback() {
+                            .callback(new MaterialDialog.ButtonCallback() {
                                 @Override
                                 public void onPositive(MaterialDialog materialDialog) {
                                     if (!toastShown) {
@@ -165,7 +165,7 @@ public class FragmentHomescreen extends FragmentBase {
                         .customView(numberPicker)
                         .theme(Theme.DARK)
                         .positiveText(android.R.string.ok)
-                        .callback(new MaterialDialog.SimpleCallback() {
+                        .callback(new MaterialDialog.ButtonCallback() {
                             @Override
                             public void onPositive(MaterialDialog materialDialog) {
                                 String value = values[numberPicker.getValue()];
@@ -195,7 +195,7 @@ public class FragmentHomescreen extends FragmentBase {
                         .customView(numberPicker)
                         .theme(Theme.DARK)
                         .positiveText(android.R.string.ok)
-                        .callback(new MaterialDialog.SimpleCallback() {
+                        .callback(new MaterialDialog.ButtonCallback() {
                             @Override
                             public void onPositive(MaterialDialog materialDialog) {
                                 // due to legacy reasons we need to save them as strings... -.-
@@ -224,7 +224,7 @@ public class FragmentHomescreen extends FragmentBase {
                         .customView(numberPicker)
                         .theme(Theme.DARK)
                         .positiveText(android.R.string.ok)
-                        .callback(new MaterialDialog.SimpleCallback() {
+                        .callback(new MaterialDialog.ButtonCallback() {
                             @Override
                             public void onPositive(MaterialDialog materialDialog) {
                                 // due to legacy reasons we need to save them as strings... -.-
@@ -251,7 +251,7 @@ public class FragmentHomescreen extends FragmentBase {
                         .customView(numberPicker)
                         .theme(Theme.DARK)
                         .positiveText(android.R.string.ok)
-                        .callback(new MaterialDialog.SimpleCallback() {
+                        .callback(new MaterialDialog.ButtonCallback() {
                             @Override
                             public void onPositive(MaterialDialog materialDialog) {
                                 // due to legacy reasons we need to save them as strings... -.-
@@ -278,7 +278,7 @@ public class FragmentHomescreen extends FragmentBase {
                         .customView(numberPicker)
                         .theme(Theme.DARK)
                         .positiveText(android.R.string.ok)
-                        .callback(new MaterialDialog.SimpleCallback() {
+                        .callback(new MaterialDialog.ButtonCallback() {
                             @Override
                             public void onPositive(MaterialDialog materialDialog) {
                                 // due to legacy reasons we need to save them as strings... -.-
@@ -305,7 +305,7 @@ public class FragmentHomescreen extends FragmentBase {
                         .customView(numberPicker)
                         .theme(Theme.DARK)
                         .positiveText(android.R.string.ok)
-                        .callback(new MaterialDialog.SimpleCallback() {
+                        .callback(new MaterialDialog.ButtonCallback() {
                             @Override
                             public void onPositive(MaterialDialog materialDialog) {
                                 // due to legacy reasons we need to save them as strings... -.-

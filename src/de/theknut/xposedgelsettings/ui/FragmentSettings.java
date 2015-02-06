@@ -108,7 +108,7 @@ public class FragmentSettings extends FragmentBase {
                             .title(R.string.alert_debug_logging_activated_title)
                             .content(R.string.alert_debug_logging_activated_summary)
                             .positiveText(android.R.string.ok)
-                            .callback(new MaterialDialog.SimpleCallback() {
+                            .callback(new MaterialDialog.ButtonCallback() {
                                 @Override
                                 public void onPositive(MaterialDialog materialDialog) {
                                     CommonUI.restartLauncher(false);

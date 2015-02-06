@@ -63,7 +63,7 @@ public class FragmentAppDrawer extends FragmentBase {
                         .cancelable(false)
                         .theme(Theme.DARK)
                         .positiveText(android.R.string.ok)
-                        .callback(new MaterialDialog.SimpleCallback() {
+                        .callback(new MaterialDialog.ButtonCallback() {
                             @Override
                             public void onPositive(MaterialDialog materialDialog) {
                                 // due to legacy reasons we need to save them as strings... -.-
@@ -93,7 +93,7 @@ public class FragmentAppDrawer extends FragmentBase {
                         .customView(numberPicker)
                         .theme(Theme.DARK)
                         .positiveText(android.R.string.ok)
-                        .callback(new MaterialDialog.SimpleCallback() {
+                        .callback(new MaterialDialog.ButtonCallback() {
                             @Override
                             public void onPositive(MaterialDialog materialDialog) {
                                 // due to legacy reasons we need to save them as strings... -.-
@@ -119,7 +119,7 @@ public class FragmentAppDrawer extends FragmentBase {
                         .content(getString(R.string.alert_appdrawer_clear_tabs_summary))
                         .positiveText(android.R.string.ok)
                         .negativeText(android.R.string.cancel)
-                        .callback(new MaterialDialog.Callback() {
+                        .callback(new MaterialDialog.ButtonCallback() {
                             @Override
                             public void onPositive(MaterialDialog materialDialog) {
                                 SharedPreferences settings = mContext.getSharedPreferences(Common.PREFERENCES_NAME, 0);

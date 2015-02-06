@@ -177,31 +177,24 @@ public class GestureHelper extends HooksBaseClass {
         handleGesture(Common.LAUNCHER_CONTEXT, gestureKey, action);
     }
 
-    static void handleGesture(final Context context, String gestureKey, String action) {
-
+    static public void handleGesture(final Context context, String gestureKey, String action) {
         if (action.equals("NOTIFICATION_BAR")) {
-
             Intent myIntent = new Intent();
             myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_OTHER);
             myIntent.putExtra(Common.XGELS_ACTION, "SHOW_NOTIFICATION_BAR");
             myIntent.setAction(Common.XGELS_INTENT);
             context.sendBroadcast(myIntent);
-
         } else if (action.equals("QUICKSETTINGS_PANEL")) {
-
             Intent myIntent = new Intent();
             myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_OTHER);
             myIntent.putExtra(Common.XGELS_ACTION, "SHOW_SETTINGS_PANEL");
             myIntent.setAction(Common.XGELS_INTENT);
             context.sendBroadcast(myIntent);
-
         } else if (action.equals("OPEN_APPDRAWER")) {
                 Common.LAUNCHER_INSTANCE.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION >= ObfuscationHelper.GNL_4_1_21) {
-                            //View d = (View) getObjectField(Common.LAUNCHER_INSTANCE, "IR");
-                            //d.callOnClick();
                             Object objectField = getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizeTabHost);
                             try {
                                 method.invoke(Common.LAUNCHER_INSTANCE, true, callMethod(objectField, "p", "APPS"), false);
@@ -217,54 +210,38 @@ public class GestureHelper extends HooksBaseClass {
                         }
                     }
                 });
-
         } else if (action.equals("LAST_APP")) {
-
             Intent myIntent = new Intent();
             myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_OTHER);
             myIntent.putExtra(Common.XGELS_ACTION, "GESTURE_LAST_APP");
             myIntent.setAction(Common.XGELS_INTENT);
             context.sendBroadcast(myIntent);
-
         } else if (action.equals("SHOW_RECENTS")) {
-
             Intent myIntent = new Intent();
             myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_OTHER);
             myIntent.putExtra(Common.XGELS_ACTION, "SHOW_RECENTS");
             myIntent.setAction(Common.XGELS_INTENT);
             context.sendBroadcast(myIntent);
-
         } else if (action.equals("OPEN_SETTINGS")) {
-
             Intent LaunchIntent = new Intent(android.provider.Settings.ACTION_SETTINGS);
             LaunchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            //callMethod(Common.LAUNCHER_INSTANCE, "startActivity", LaunchIntent);
-
             Utils.startActivity(LaunchIntent);
-
         } else if (action.equals("SCREEN_OFF")) {
-
             Intent myIntent = new Intent();
             myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_OTHER);
             myIntent.putExtra(Common.XGELS_ACTION, "GO_TO_SLEEP");
             myIntent.setAction(Common.XGELS_INTENT);
             context.sendBroadcast(myIntent);
-
         } else if (action.equals("TOGGLE_DOCK")) {
-
             if (PreferencesHelper.appdockSettingsSwitch && PreferencesHelper.hideAppDock) {
-
                 if (mHotseat.getAlpha() == 0.0f) {
                     showAppdock(animateDuration);
                 } else {
                     hideAppdock(animateDuration);
                 }
             }
-
         } else if (action.contains("APP")) {
-
             String pkg = PreferencesHelper.prefs.getString(gestureKey + "_launch", "");
-
             if (!pkg.equals("")) {
                 Intent LaunchIntent = context.getPackageManager().getLaunchIntentForPackage(pkg);
                 LaunchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

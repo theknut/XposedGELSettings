@@ -155,7 +155,7 @@ public class Changelog {
                                         : R.string.changelog_title))
                 .customView(wv)
                 .positiveText(android.R.string.ok)
-                .callback(new MaterialDialog.SimpleCallback() {
+                .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog materialDialog) {
                         updateVersionInPreferences();

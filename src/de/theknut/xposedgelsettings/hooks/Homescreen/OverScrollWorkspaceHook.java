@@ -1,12 +1,11 @@
 package de.theknut.xposedgelsettings.hooks.homescreen;
 
-import android.view.View;
-
 import de.robv.android.xposed.XC_MethodHook;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import de.theknut.xposedgelsettings.hooks.gestures.GestureHelper;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.getBooleanField;
@@ -32,7 +31,7 @@ public class OverScrollWorkspaceHook extends XC_MethodHook {
 			
 			if (PreferencesHelper.continuousScrollWithAppDrawer) {
 				Common.OVERSCROLLED = true;
-				callMethod(Common.LAUNCHER_INSTANCE, "onClickAllAppsButton", new View(Common.LAUNCHER_CONTEXT));
+                GestureHelper.handleGesture(Common.LAUNCHER_CONTEXT, null, "OPEN_APPDRAWER");
                 callMethod(Common.APP_DRAWER_INSTANCE, Methods.pvSetCurrentPage, 0);
 			}
 			else {				
@@ -46,8 +45,7 @@ public class OverScrollWorkspaceHook extends XC_MethodHook {
 		}
 		else if (overscroll < -50.0) {
 			if (PreferencesHelper.continuousScrollWithAppDrawer) {
-				//callMethod(Common.LAUNCHER_INSTANCE, Methods.lShowAllApps, true, Common.CONTENT_TYPE, !PreferencesHelper.appdrawerRememberLastPosition);
-				callMethod(Common.LAUNCHER_INSTANCE, "onClickAllAppsButton", new View(Common.LAUNCHER_CONTEXT));
+                GestureHelper.handleGesture(Common.LAUNCHER_CONTEXT, null, "OPEN_APPDRAWER");
 				Common.OVERSCROLLED = true;
 				
 				int lastPage = (Integer) callMethod(Common.APP_DRAWER_INSTANCE, "getChildCount") - 1;

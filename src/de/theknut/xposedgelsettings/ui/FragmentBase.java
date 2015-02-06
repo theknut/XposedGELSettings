@@ -91,7 +91,7 @@ public class FragmentBase extends PreferenceFragment {
                         .title(R.string.alert_autokill_title)
                         .positiveText(R.string.alert_autokill_ok)
                         .negativeText(R.string.alert_autokill_cancel)
-                        .callback(new MaterialDialog.Callback() {
+                        .callback(new MaterialDialog.ButtonCallback() {
                             @Override
                             public void onPositive(MaterialDialog materialDialog) {
                                 if (dontShowAgain.isChecked()) {

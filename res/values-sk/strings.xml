@@ -428,7 +428,7 @@
     <string name="save">Uložiť</string>
     <string name="saving_image">Ukladanie obrázku</string>
     <string name="preparing_card">Príprava karty SD</string>
-    <string name="no_storage_card">Žiadna karta SD/string>
+    <string name="no_storage_card">Žiadna karta SD</string>
     <string name="not_enough_space">Nedostatok miesta</string>
 
 </resources>

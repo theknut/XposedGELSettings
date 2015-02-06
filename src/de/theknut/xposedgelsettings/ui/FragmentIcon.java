@@ -97,7 +97,7 @@ public class FragmentIcon extends FragmentBase {
                             .content(R.string.alert_icon_noiconpackfound_summary)
                             .positiveText(R.string.alert_icon_noiconpackfound_yes)
                             .negativeText(android.R.string.no)
-                            .callback(new MaterialDialog.Callback() {
+                            .callback(new MaterialDialog.ButtonCallback() {
 
                                 @Override
                                 public void onPositive(MaterialDialog materialDialog) {
@@ -248,7 +248,7 @@ public class FragmentIcon extends FragmentBase {
                 new MaterialDialog.Builder(mActivity)
                         .theme(Theme.DARK)
                         .items(notSupportedIconsList.toArray(new String[notSupportedIconsList.size()]))
-                        .callback(new MaterialDialog.SimpleCallback() {
+                        .callback(new MaterialDialog.ButtonCallback() {
                             @Override
                             public void onPositive(MaterialDialog materialDialog) {
                                 materialDialog.dismiss();

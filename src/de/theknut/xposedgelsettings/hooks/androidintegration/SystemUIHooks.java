@@ -4,7 +4,6 @@ import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
 import android.content.Intent;
-import android.view.View;
 
 import java.util.List;
 
@@ -20,6 +19,7 @@ import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.common.CommonHooks;
 import de.theknut.xposedgelsettings.hooks.common.XGELSCallback;
 import de.theknut.xposedgelsettings.hooks.general.ContextMenu;
+import de.theknut.xposedgelsettings.hooks.gestures.GestureHelper;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
@@ -79,8 +79,7 @@ public class SystemUIHooks extends HooksBaseClass {
                             || getIntField(Common.WORKSPACE_INSTANCE, Fields.pvNextPage) == (PreferencesHelper.defaultHomescreen - 1))
                             && getBooleanField(Common.LAUNCHER_INSTANCE, Fields.lHasFocus)
                             && getObjectField(Common.WORKSPACE_INSTANCE, Fields.wState).toString().equals("NORMAL")) {
-
-                        callMethod(Common.LAUNCHER_INSTANCE, "onClickAllAppsButton", new View(Common.LAUNCHER_CONTEXT));
+                        GestureHelper.handleGesture(Common.LAUNCHER_CONTEXT, null, "OPEN_APPDRAWER");
                         param.setResult(null);
                     }
                 }
