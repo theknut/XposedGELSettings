@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="fragmenttitles_array">
+        <item>Hoşgeldiniz</item>
+        <item>Genel</item>
+        <item>Google Arama Çubuğu</item>
+        <item>Ana Ekran</item>
+        <item>Uygulama Menüsü</item>
+        <item>Jestler</item>
+        <item>Bildirim Sembolleri</item>
+        <item>Simge</item>
+        <item>Android Entegrasyon</item>
+        <item>Yedekle/Geri Yükleme</item>
+        <item>Ayarlar</item>
+        <item>Premium/Destek</item>
+        <item>Ters Mühendislik</item>
+    </string-array>
+
+    <string-array name="smartfoldermode_entries">
+        <item>Kapalı</item>
+        <item>Kaydır - ilk uygulamayı başlatır\nDokun - klasörü açar</item>
+        <item>Dokun - ilk uygulamayı başlatır\nKaydır - klasörü açar</item>
+    </string-array>
+
+    <string-array name="searchbarstyle_entries">
+        <item>Varsayılan</item>
+        <item>Android L tarzı</item>
+    </string-array>
+
+    <string-array name="gesture_actions_entries">
+        <item>Hiçbiri</item>
+        <item>Bildirim çubuğu</item>
+        <item>Hızlı ayarlar</item>
+        <item>Uygulama menüsü</item>
+        <item>Son uygulama</item>
+        <item>Son kullanılanları göster</item>
+        <item>Android ayarları</item>
+        <item>Uyut</item>
+        <item>Birim takıp çıkartma</item>
+        <item>Uygulamayı aç</item>
+    </string-array>
+
+    <string-array name="gesture_actions_entries_limited">
+        <item>Hiçbiri</item>
+        <item>Uygulama menüsü</item>
+        <item>Birim takıp çıkartma</item>
+    </string-array>
+
+    <string-array name="general_scroll_devider_entries">
+        <item>Hiçbiri</item>
+        <item>Orta</item>
+        <item>Hızlı</item>
+        <item>En hızlı</item>
+        <item>Animasyon yok</item>
+    </string-array>
+
+    <string-array name="contextmenu_mode_entries">
+        <item>Devre dışı</item>
+        <item>Sadece kısayollar</item>
+        <item>Sadece widgetler</item>
+        <item>Kısayollar &amp; Widgetler</item>
+    </string-array>
+
+    <string-array name="tabcontent_entries">
+        <item>Uygulamalar</item>
+        <item>Widgetler</item>
+        <item>Xposed modülleri</item>
+        <item>Google uygulamaları</item>
+        <item>Simge paketleri</item>
+        <item>Yeni uygulamalar</item>
+        <item>Yeni/Güncel uygulamalar</item>
+    </string-array>
+
+    <string-array name="tabcontent_names">
+        <item>Uygulamalar</item>
+        <item>Widgetler</item>
+        <item>Xposed</item>
+        <item>Google</item>
+        <item>Simge paketleri</item>
+        <item>Yeni uygulamalar</item>
+        <item>Yeni/Güncel uygulamalar</item>
+    </string-array>
+
+    <string-array name="tabsort_entries">
+        <item>Alfabetik</item>
+        <item>Yükleme tarihi</item>
+        <item>Son güncellenen</item>
+    </string-array>
+
+    <string-array name="notificationbadge_position_entries">
+        <item>Sol üst</item>
+        <item>Sağ üst</item>
+        <item>Sol alt</item>
+        <item>Sağ alt</item>
+    </string-array>
+
+</resources>
