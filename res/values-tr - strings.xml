@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Xposed GEL Settings</string>
+    <string name="app_description">Google Başlatıcı şimdi olmasını istediğiniz şekilde</string>
+    <string name="pref_hide_google_search_bar_title">Gizle</string>
+    <string name="pref_autohide_google_search_bar_title">Otomatik gizle</string>
+    <string name="pref_autohide_google_search_bar_summary">Otomatik olarak sayfada gösterir</string>
+    <string name="pref_hide_icon_label_on_homescreen_title">Simge etketlerini gizle</string>
+    <string name="pref_hide_icon_label_on_app_drawer_title">Simge etketlerini gizle</string>
+    <string name="toast_reboot">Bu değişikliklerin etkili olabilmesi için başlatıcıyı yeniden başlatın lütfen!</string>
+    <string name="toast_reboot_failed_nothing_msg">şimdi değil</string>
+    <string name="toast_reboot_failed">Cihazınızı el ile yeniden başlatın lütfen!</string>
+    <string name="toast_export">Dışa aktarma başarılı!</string>
+    <string name="toast_import">İçe aktarma başarılı!</string>
+    <string name="toast_reset">Ayarlar başarıyla sıfırlandı!</string>
+    <string name="toast_export_failed">Peki&#8230; bu işe yaramadımı :-S</string>
+    <string name="toast_import_failed">Peki&#8230; bu işe yaramadımı :-S</string>
+    <string name="toast_reset_failed">Peki&#8230; bu işe yamadamı :-S</string>
+    <string name="pref_cat_title_icon_labels">Simge etiketleri görünürlüğü</string>
+    <string name="pref_cat_title_searchbar">Google arama çubuğu</string>
+    <string name="pref_cat_title_general">Genel</string>
+    <string name="pref_cat_title_hide_apps">Uygulamaları gizle</string>
+    <string name="pref_grid_size_explain_title">Dikkat!</string>
+    <string name="pref_grid_size_explain_summary">Lütfen unutmayın: simge düzeni ile ızgara boyutu değiştirilmesi karmaşa yaratabilir. Eğer ızgara boyutunu düşürmek bazı simgelerin kaybolmasına sebep olabilir. Boyutunu artırarak onları geri getirebilirsiniz. Izgara boyutuna göre simgelerin çok yüksek kısımları kesilir.</string>
+    <string name="pref_switch_enable_grid_size_title">Etkinleştir</string>
+    <string name="pref_switch_enable_grid_size_summary">Izgara boyutu değişiklikleri etkinleştir</string>
+    <string name="pref_resize_all_widgets_title">Widgetleri yeniden boyutlandırma</string>
+    <string name="pref_resize_all_widgets_summary">Tüm widgetleri boyutlandırır</string>
+    <string name="pref_xcount_title">Ana kran sütunları</string>
+    <string name="pref_xcount_summary">Ana ekrandaki simgelerin sütun sayısını değiştirir</string>
+    <string name="pref_ycount_title">Ana Ekran satırları</string>
+    <string name="pref_ycount_summary">Ana ekrandaki simgelerin satır sayısı değiştirir</string>
+    <string name="pref_xcountallapps_title">Uygulama menüsü sütunları</string>
+    <string name="pref_xcountallapps_summary">Uygulamaların sütun sayısını değiştirme</string>
+    <string name="pref_ycountallapps_title">Uygulama menüsü satırları</string>
+    <string name="pref_ycountallapps_summary">Uygulamaların satır sayısını değiştirme</string>
+    <string name="pref_cat_title_homescreen">Ana Ekran</string>
+    <string name="pref_title_longpress_app_drawer_button">Tüm uygulamalar tuşu</string>
+    <string name="pref_summary_longpress_app_drawer_button">XGELS açmak için uzun basın</string>
+    <string name="pref_cat_title_appicons">Simge ayarları</string>
+    <string name="pref_switch_appicons_title">Etkin</string>
+    <string name="pref_switch_appicons_explain_summary">Simgeler değişikliklerini etkinleştirin</string>
+    <string name="pref_iconsize_title">Simge boyutu</string>
+    <string name="pref_iconsize_summary">Bir yüzde seçin</string>
+    <string name="pref_icontextsize_title">Simge yazı boyutu</string>
+    <string name="pref_icontextsize_summary">Bir yüzde seçin</string>
+    <string name="pref_icontextcolor_homescreen_title">Ana Ekran yazı rengi</string>
+    <string name="pref_icontextcolor_appdrawer_title">Uygulama menüsü rengi</string>
+    <string name="pref_appdockiconsize_title">Alt panel simge boyutu</string>
+    <string name="pref_appdockiconsize_summary">Bir yüzde seçin</string>
+    <string name="pref_cat_title_app_drawer">Uygulama menüsü</string>
+    <string name="pref_appdock_count_title">Alt panel simge sayısı</string>
+    <string name="pref_appdock_count_summary">Alt panel uygulama simge sayısını deiştirme</string>
+    <string name="pref_selectappstohide_summary">Gizlemek için uygulamaları seçin</string>
+    <string name="pref_cat_title_restart_launcher">Başlatıcıyı yeniden başlat</string>
+    <string name="pref_restart_launcher_summary">Başlatıcısı yeniden başlatın ve ayarları yüklemek için buraya tıklayın.</string>
+    <string name="pref_support_thread_title">Yardıma mı ihtiyacın var?</string>
+    <string name="pref_support_thread_summary">Destek konusuna biraz ilgi gösterin lütfen. Eğer yardım ya da geribildirim gerekiyorsa konuyu açmak için lütfen tıklayınız.</string>
+    <string name="pref_cat_eximport_settings">XGELS Ayarlarını İçeri aktar/Dışarı aktar</string>
+    <string name="pref_settings_import_title">İçeri Aktar</string>
+    <string name="pref_settings_import_summary">Ayarlarınız içeri aktarıldı\n/sdcard/XposedGELSettings</string>
+    <string name="pref_settings_export_title">Dışarı Aktar</string>
+    <string name="pref_settings_export_summary">Ayarlarınız dışarı aktarıldı\n/sdcard/XposedGELSettings</string>
+    <string name="pref_settings_reset_title">Sıfırla</string>
+    <string name="pref_settings_reset_summary">Ayarlarınızı sıfırlayın</string>
+    <string name="pref_pageindicator_title">Sayfa göstergesi</string>
+    <string name="pref_pageindicator_summary">Ana ekran ve uygulama menüsünde sayfa göstergesini gizler</string>
+    <string name="pref_default_homescreen_title">Varsayılan Ana ekran</string>
+    <string name="pref_default_homescreen_summary">Varsayılan Ana ekranı seç</string>
+    <string name="pref_enable_rotation_title">Döndürme</string>
+    <string name="pref_enable_rotation_summary">Döndürmeyi etkinleştir\n(Tam yeniden başlatma gerektirir)</string>
+    <string name="pref_icon_label_color">Yazı rengi</string>
+    <string name="pref_switch_icon_shadow_title">Yazı gölgesi</string>
+    <string name="pref_app_drawer_background_color_title">Arkaplan rengi</string>
+    <string name="pref_app_drawer_background_color_summary">İpucu: tamamen şeffaf olur!</string>
+    <string name="colorpicker_apply">Uygula</string>
+    <string name="colorpicker_hex_hint">Özel hex renk</string>
+    <string name="restart_launcher_icon_title">Yeniden başlat</string>
+    <string name="pref_disable_wallpaper_scroll_title">Duvar kağıdı kaydırma</string>
+    <string name="pref_disable_wallpaper_scroll_summary">Senkronize duvar kağıdı kaydırma devre dışı</string>
+    <!-- V1.3 -->
+    <string name="toast_desktop_locked">Masaüstü kilitli!</string>
+    <string name="toast_fail">Peki&#8230; bu işe yaramadımı :-S\nLütfen logcat' e bakınız!</string>
+    <string name="pref_switch_appdock_title">Alt paneli gizle</string>
+    <string name="pref_switch_appdock_summary">Alt paneli gizler</string>
+    <string name="pref_lock_desktop_title">Masaüstünü kilitle</string>
+    <string name="pref_lock_desktop_summary">Masaüstü kilitleyerek yanlışlıkla yapılan değişikliği önler/string>
+    <string name="pref_continuous_scroll_title">Sürekli kaydırma</string>
+    <string name="pref_continuous_scroll_summary">İlk sayfa üzerinde kaydırma\n(Deneysel)</string>
+    <string name="pref_continuous_scroll_with_app_drawer_title">Uygulama menüsünü de dahil et</string>
+    <string name="pref_continuous_scroll_with_app_drawer_summary">Sürekli kaydırma uygulama menüsünde dahil eder</string>
+    <string name="pref_switch_close_app_drawer_after_app_started_title">Uygulama menüsünü kapat</string>
+    <string name="pref_switch_close_app_drawer_after_app_started_summary">Bir uygulamayı başlattıktan sonra uygulama menüsü kapatılır</string>
+    <string name="pref_appdock_background_color_title">Alt panel arkaplan rengi</string>
+    <string name="pref_appdock_background_color_summary">Alt panelde olan uygulamaların arkaplan rengini seçin</string>
+    <string name="pref_cat_gestures">Hareketler</string>
+    <string name="pref_switch_gesture_swipe_down_left_title">Sol aşağı doğru kaydırın</string>
+    <string name="pref_switch_gesture_swipe_down_left_summary">Bildirim panelini açar</string>
+    <string name="pref_switch_gesture_swipe_down_right_title">Sağ aşağı doğru kaydırın</string>
+    <string name="pref_switch_gesture_swipe_down_right_summary">Ayarlar panelini açar</string>
+    <string name="pref_switch_gesture_swipe_up_appdock_title">Uygulama alt paneli</string>
+    <string name="pref_switch_gesture_swipe_up_appdock_summary">Göster - yukarı kaydır - swipe up / Gizle - aşağı kaydır</string>
+    <string name="pref_switch_gesture_swipe_up_app_drawer_title">Uygulama menüsü</string>
+    <string name="pref_switch_gesture_swipe_up_app_drawer_summary">Yukarı kaydırma uygulama menüsünü açar</string>
+    <string name="pref_gestures_note_title">Not</string>
+    <string name="pref_gestures_note_summary">Hareketleri önyükleme başlatmak için bir ya da iki dakika ihtiyaç duyar</string>
+    
+    <!-- V1.4 -->
+    <string name="pref_switch_no_all_apps_button_title">Uygulama menüsü tuşu</string>
+    <string name="pref_switch_no_all_apps_button_summary">Uygulama çekmece tuşunu gizler. Bu seçeneği kapatırsanız, uygulama çekmeceden simgesini kaldırın lütfen!</string>    
+    <string name="drawer_open">Gezint menüsü açık</string>
+    <string name="drawer_close">Gezinti menüsünü kapat</string>
+    <string name="pref_systemui_explain_title">Not</string>
+    <string name="pref_systemui_explain_summary">Bu ayarların tümü kurulu ROM/veyacihazınıza bağlı olarak çalışmıyor olabilir. Ayrıca bu ayarların etkili olması için tam bir yeniden başlatma gerektirir.</string>
+    <string name="pref_cat_systemui_navbar_title">Gezinti çubuğu</string>
+    <string name="pref_cat_systemui_statusbar_title">Durum çubuğu</string>
+    <string name="pref_dynamic_backbutton_title">Geri tuşu</string>
+    <string name="pref_dynamic_backbutton_summary">Varsayılan ana ekrana\"Uyku\" için geçiş yapar</string>
+    <string name="pref_dynamic_homebutton_title">Ana ekran tuşu</string>
+    <string name="pref_dynamic_homebutton_summary">Varsayılan ana ekran üzerinden \"Uygulama çekmecesini aç\" geçiş yapar</string>
+    <string name="pref_dynamic_hideclock_title">Saati gizle</string>
+    <string name="pref_dynamic_hideclock_summary">Varsayılan ana ekranda saati gizler</string> 
+    <string name="toast_restore_success">Ana ekran düzen başarıyla geri yüklendi</string>
+    <string name="toast_restore_failed">Peki&#8230; işe yaramadımı :-S</string>
+    <string name="toast_backup_success">Ana ekran düzeni başarıyla yedeklendi</string>
+    <string name="toast_backup_failed">Peki&#8230; işe yaramadımı :-S</string>
+    <string name="pref_cat_backuprestore_homescreen_title">Başlatıcı Ana Ekran Düzeni</string>
+    <string name="pref_backuprestore_note_title">Not</string>
+    <string name="pref_backuprestore_note_summary">Bu yedekleme/geri yükleme sadece simgeleri ve klasörleri içerir. Widget'ler ve pozisyonları kaybolur ve tekrar yerleştirilmesi gerekli olacaktır! Bu aynı zamanda root özellikleri gerektirir!</string>
+    <string name="pref_backup_homescreen_title">Yedekle</string>
+    <string name="pref_backup_homescreen_summary">Ana Ekran düzeni yedekleme (sadece simge ve dosyalar) \n/sdcard/XposedGELSettings dışarı aktarıldı</string>
+    <string name="pref_restore_homescreen_title">Geri Yükleme</string>
+    <string name="pref_restore_homescreen_summary">Ana Ekran düzeni geri yükleme (sadece simge ve dosyalar) \n/sdcard/XposedGELSettings içer alındı</string>
+    <string name="pref_animate_dynamic_homebutton_title">Simge geçişini canlandırın</string>
+    <string name="pref_animate_dynamic_homebutton_summary">Animasyonu hızlı solma olarak değiştir</string>
+    <string name="pref_change_dynamic_homebutton_title">Dinamik ana ekran simgesi</string>
+    <string name="pref_change_dynamic_homebutton_summary">Varsayılan ekran üzerindeki uygulama menüsü simgesi ile ana ekran simgesini değiştirir</string>
+    <string name="pref_animate_dynamic_backbutton_title">Simge geçişini canlandırın</string>
+    <string name="pref_animate_dynamic_backbutton_summary">Animasyonu hızlı solma olarak değiştir</string>
+    <string name="pref_change_dynamic_backbutton_title">Dinamik geri tuşu simgesi</string>
+    <string name="pref_change_dynamic_backbutton_summary">Varsayılan ekran üzerindeki geri tuşu simgesi ile güçü kapatma simgesini değiştirir</string>
+    <string name="toast_full_reboot">Bu değişikliklerin etkili olması için tam bir yeniden başlatma gerçekleştirin!</string>
+    <string name="pref_switch_gesture_swipe_down_close_app_drawer_title">Uygulama menüsü</string>
+    <string name="pref_switch_gesture_swipe_down_close_app_drawer_summary">Uygulama menüsünü kapatmak için aşağı kaydırın</string>
+    <string name="toast_getprices_fail">Fiyat listesini alırken bir şeyler yanlış gitti. Logcat'i kontrol edin!</string>
+    <string name="toast_donation_result_fail">Bir şeyler yanlış gitti. XGELS i kapatıp ve tekrar başlatabilirsiniz. Logcat'i kontrol edin!</string>
+    <string name="toast_donate_thanks">Evet, sen harikasın!</string>
+    <string name="pref_xgel_group_summary">XGELS Premium Group uygulamak için lütfen tıklayınız! Ben özel bir gruba sizi ekleyebilirim, Google Plus ve e-posta adresinizi ekleyin.</string>
+    <string name="pref_requires_donation_title">Mevcut değil</string>
+    <string name="pref_requires_donation_summary">Aşağıdaki özellikler yalnızca Premium sürümünde kullanılabilir.</string>
+    <string name="alert_reboot_needed_title">Tam yeniden başlatma gerekir!</string>
+    <string name="alert_reboot_needed_summary">En azından bir tam yeniden başlatma (root gerektirir) gerektiren değişiklikler yaptık. Kendi yönteminizi seçiniz!</string>
+    <string name="progress_requesting_root_title">Lütfen bekleyiniz&#8230;</string>
+    <string name="progress_requesting_root_summary">Root yetkisi alınıyor&#8230;</string>
+    <string name="pref_auto_blur_wallpaper_title">Dinamik arkaplan</string>
+    <string name="pref_auto_blur_wallpaper_summary">Cihaz duvar kağıdı değişikliği her zaman bulanıklık olur ve XGELS arka plan olarak kullanabilirsiniz. Belirli aralıklarla duvar kağıdı değiştiren uygulamalar kullanıyorsanız bu pil tüketimine sebep olabilir.</string>
+    <string name="pref_dynamic_backbuttononeveryscreen_title">Her ekranda uyut</string>
+    <string name="pref_dynamic_backbuttononeveryscreen_summary">Her Ana Ekranda uyku moduna geçer. Bu onay kutusu işaretli değilse, yalnızca varsayılan ana ekranda uyku moduna geçer.</string>
+    
+    <!-- V1.5 -->
+    <string name="pref_selectwidgetstohide_summary">Gizlemek için widget seçin</string>
+    <string name="pref_workspacerect_title">Ana ekran sol/sağ kenar boşluğu</string>
+    <string name="pref_workspacerect_summary">Ekranınızın sol ve sağ tarafında bir kenar çarpan seçin</string>
+    <string name="pref_workspacerect_dialog">Bir çarpan seçin</string>
+    <string name="toast_openinstaller_failed">Xposed Yükleyici açılamadı. Bunu el ile başlatın lütfen!</string>
+    <string name="pref_cat_homescreen_folder_title">Klasörler</string>
+    <string name="pref_cat_homescreen_icon_title">Simgeler</string>
+    <string name="pref_cat_homescreen_appdock_title">Uygulama alt paneli</string>
+    <string name="pref_switch_appdocksettings_title">Etkinleştir</string>
+    <string name="pref_switch_appdocksettings_explain_summary">Uygulama alt paneli değişikliklerini etkinleştir</string>
+    <string name="pref_switch_autohideappdock_title">Otomatik gizle</string>
+    <string name="pref_switch_autohideappdock_summary">Uygulama alt panelini otomatik gizle</string>
+    <string name="pref_switch_folder_title">Etkinleştir</string>
+    <string name="pref_switch_folder_summary">Klasörler değişikliklerini etkinleştir</string>
+    <string name="pref_folder_background_color">Arkaplan rengi</string>
+    <string name="pref_folder_applabel_color">Sige metni rengi</string>
+    <string name="pref_folder_namelabel_color">Klasör adı metni rengi</string>
+    <string name="pref_folder_preview_color">Klasör önizleme rengi</string>
+    
+    <string name="pref_choose_gesture_action_title">Bir hareket eylemi seçin</string>
+    <string name="pref_switch_gesture_appdrawer_title">Uygulama menüsü</string>
+    <string name="pref_switch_gesture_appdrawer_summary">Aşağı kaydırma - uygulama menüsünü kapat/nYukarı kaydırma - tüm uygulamalar ve widget'ler arasında geçiş sağlar</string>
+    <string name="pref_switch_gesture_double_tap_title">Çift dokunma</string>
+    <string name="pref_switch_gesture_double_tap_summary">klasörler ve widget'ler hariç</string>
+    <string name="pref_cat_gesture_down_title">Aşağı kaydırma hareketleri</string>
+    <string name="pref_cat_gesture_up_title">Yukarı kaydırma hareketleri</string>
+    <string name="pref_gesture_down_left_title">Sol aşağı doğru kaydırın</string>
+    <string name="pref_gesture_down_middle_title">Orta aşağı kaydırın</string>
+    <string name="pref_gesture_down_right_title">Aşağı doğru kaydırın</string>
+    <string name="pref_gesture_up_left_title">Sol yukarı kaydırın</string>
+    <string name="pref_gesture_up_middle_title">Ortadan yukarı kaydırın</string>
+    <string name="pref_gesture_up_right_title">Sağ yukarı kaydırın</string>
+    <string name="alert_hidedock_summary">Hareketleri menüsünde gizlemek/göstermek arası geçiş için ayarlandığından emin olun veya SystemUI tweaks dinamik ev tuşunu etkinleştirin. Aksi takdirde artık uygulama çekmecesini açmak mümkün olmayacaktır!</string>
+    <string name="alert_hidewidgets_title">Not</string>
+    <string name="alert_hidewidgets_summary">Sadece bu listeden widget seçebilirsiniz. Kısayollar şu anda gizlenemez.</string>
+    <string name="pref_limited_title">Sınırlı</string>
+    
+    <!-- V1.6 -->
+    <string name="pref_debug">Hata ayıklama günlüğünü etkinleştir</string>
+    <string name="pref_send_bugreport">Hata raporu gönder</string>
+    <string name="toast_no_log_found">Xposed Installer debug.log bulamadı</string>
+    <string name="alert_debug_logging_activated_title">Hata ayıklama günlüğü aktif!</string>
+    <string name="alert_debug_logging_activated_summary">Hata ayıklama günlüğü şimdi etkin. Hatayı yeniden deneyin ve hata ayıklama günlüğünü gönderin.</string>
+    <string name="alert_debug_logging_not_activated_title">Hata ayıklama günlüğü etkin değil!</string>
+    <string name="alert_debug_logging_not_activated_summary">Hata ayıklama günlüğü etkin değil. Hata ayıklama günlüğünü etkinleştirin ve bir hata günlük dosyası göndermeden önce hata yeniden tekrar edin.</string>
+    
+    <string name="alert_autokill_title">Not</string>
+    <string name="alert_autokill_summary">XGELS otomatik olarak en kısa değişiklik yapıldığında GNL/Trebuchet sonlandırılır. Ana ekrana geri dönerken GNL/Trebuchet yeni ayarlarla açılacaktır.</string>
+    <string name="alert_autokill_ok">Anladım!</string>
+    <string name="alert_autokill_cancel">Ben kendim yapacağım!</string>
+    <string name="alert_autokill_checkbox">Tekrar gösterme</string>
+    <string name="pref_autokill_launcher_title">Başlatıcıyı sonlandır</string>
+    <string name="pref_autokill_launcher_summary">Bir tercih değiştiği zaman otomatik olarak GNL/Trebuchet sonlandırılır. Ana ekrana geri giderken GNL/Trebuchet yeni ayarlarla yüklenir.</string>
+    
+    <string name="pref_notificationbadge_premium_title">Premium Özellik</string>
+    <string name="pref_notificationbadge_premium_summary">Bu özellik XGELS Premium ile kullanılabilir. Bildirim sayıları MissedIt gerektirir unutmayın! Bildirim sayısı al (ücretli).</string>
+    <string name="pref_notificationbadge_missedit_missing_title">MissedIt! yüklü değil</string>
+    <string name="pref_notificationbadge_missedit_missing_summary">MissedIt! yüklü değil. XGELS bildirim sayısını almak için bu uygulamadan sayaç istatistikleri ister. MissedIt açmak/satın almak için buraya tıklayın! Play Store'dan!</string>
+    <string name="pref_notificationbadge_open_missedit_title">MissedIt aç!</string>
+    <string name="pref_notificationbadge_open_missedit_summary">MissedIt açmak için buraya dokunun!</string>
+    <string name="pref_notificationbadge_enable_title">Bildirim saysını etkinleştir</string>
+    <string name="pref_notificationbadge_backgroundcolor_title">Arkaplan rengi</string>
+    <string name="pref_notificationbadge_textcolor_title">Yazı rengi</string>
+    <string name="pref_notificationbadge_textsize_title">Yazı boyutu</string>
+    <string name="pref_notificationbadge_framecolor_title">Çerçeve rengi</string>
+    <string name="pref_notificationbadge_framesize_title">Çerçeve boyutu</string>
+    <string name="pref_notificationbadge_corner_title">Köşe yarıçapı</string>
+    <string name="pref_notificationbadge_presets_title">Hazır ayarlar</string>
+    <string name="pref_notificationbadge_leftright_padding_title">Sol/Sağ dolgu</string>
+    <string name="pref_notificationbadge_topbottom_padding_title">Üst/Alt dolgu</string>
+    <string name="pref_notificationbadge_advanced">Gelişmiş ayarlar</string>
+    <string name="pref_notificationbadge_advanced_title">Elle yapılandırın</string>
+    <string name="pref_notificationbadge_advanced_summary">Eğer Çevirici veya SMS rozetleri ile ilgili sorunlar yaşıyorsanız buradan tekrar yapılandırın. Ayrıca aşağıdaki ayarları sıfırlamak için buraya tıklayın.</string>
+    <string name="pref_notificationbadge_advanced_dialer_title">Çevirici uyguaması</string>
+    <string name="pref_notificationbadge_advanced_sms_title">SMS uygulaması</string>
+    
+    <string name="pref_switch_gesture_double_tap_only_on_wallpaper_title">Sadece duvar kağıdı</string>
+    <string name="pref_switch_gesture_double_tap_only_on_wallpaper_summary">Sadece duvar kağıdına çift dokunmaya izin vermek için bu seçeneği işaretleyin. Bu çift simgelere dokunarak çift dokunma hareket tanıması için gecikmeyi ortadan kaldıracak.</string>
+    
+    <string name="pref_switch_appdrawer_remember_last_position_title">Pozisyonu hatırla</string>
+    <string name="pref_switch_appdrawer_remember_last_position_summary">Uygulama menüsünü kapatıldığı son konumdan başlatın</string>
+    
+    <string name="alert_xgels_updated_title">XGELS güncellendi!</string>
+    <string name="alert_xgels_updated_summary">Bir yeniden başlatma güncellemeyi etkinleştirmek için gereklidir. Şimdi yeniden başlatmak ister misiniz?</string>
+    <string name="alert_xgels_updated_cancel">Sonra</string>
+    
+    <string name="alert_launcher_not_installed_title">Desteklenen başlatıcı bulunamadı!</string>
+    <string name="alert_launcher_not_installed_summary">Google Now Launcher ve Trebuchet yüklü gibi görünmüyor. Bu modül, bu başlatıcılar için tasarlanmıştır ve bunların hiçbiri yüklü değilse çalışmaz. Bu uygulamayı kullanmadan önce GNL veya Trebuchet yüklü olduğundan emin olun!</string>
+    <string name="alert_launcher_not_installed_get_gnl">GNL yükle</string>
+    
+    <string name="toast_donate_only">Bu özellik, XGELS Premium gerektirir!</string>
+    <string name="pref_donate_button">Premium al ve bana destek ol!</string>
+    <string name="pref_donated_button">Satın alma ve desteğiniz için teşekkür ederim!</string>
+    <string name="pref_limited_summary">Aşağıdaki özelliklerden bazıları XGELS Premium da kullanılabilinir.</string>
+    
+    <!-- V1.6.2 -->
+    <string name="pref_notificationbadge_help_title">Yardıma mı ihtiyacınız var?</string>
+    <string name="pref_notificationbadge_help_summary">Bildirim rozetlerinin nasıl yapılandırılacağını okumak için buraya tıklayın!</string>
+    
+    <!-- V1.7 -->
+    <string name="pref_switch_position_all_apps_button_title">Uygulama menüsü tuşu pozisyonu</string>
+    <string name="pref_switch_position_all_apps_button_summary">Uygulama menüsü konumunu seçin</string>
+    <string name="pref_general_scroll_devider_title">Kaydırma hızı</string>
+    <string name="pref_general_scroll_devider_summary"> Genel kaydırma hızını ayarla</string>
+
+    <string name="pref_switch_folder_hide_label">Simge etiketlerini gizle</string>
+    <string name="pref_icon_chooseiconpack_title">Simge paketi</string>
+    <string name="pref_icon_chooseiconpack_dialog_title">Bir simge paketi seçin</string>
+    <string name="pref_icon_noiconpack">Varsayılan</string>
+    <string name="alert_icon_noiconpackfound_title">Simge paketi bulunamadı!</string>
+    <string name="alert_icon_noiconpackfound_summary">Bulunan desteklenen bir simge paketi yok. Bir tane alın?</string>
+    <string name="alert_icon_noiconpackfound_yes">Tabi</string>
+    
+    <string name="pref_icon_premium_title">Premium Özellik</string>
+    <string name="pref_icon_premium_summary">Bu özellik XGELS Premium gerektirir.</string>
+    <string name="pref_icon_support_title">istatistikler</string>
+    <string name="pref_icon_support_summary">Dinamik takvim: %1$s\n%2$d arasında %3$d simgeler desteklenir\ntoplam simgeler %4$d</string>
+    <string name="pref_icon_auto_apply_title">Otomatik uygula</string>
+    <string name="pref_icon_auto_apply_summary">Otomatik olarak yeni veya güncellenmiş simge paketlerini uygula</string>
+    
+    <string name="pref_show_google_search_bar_homescreen_title">Varsayılan ana ekran</string>
+    <string name="pref_show_google_search_bar_homescreen_summary">Varsayılan ekran üzerinde arama çubuğunu göster</string>
+
+    <!-- V1.8 -->
+    <string name="pref_icon_hide_icon_packs_title">Simge paketini gizle</string>
+    <string name="pref_icon_hide_icon_packs_summary">Uygulama menüsünden simge paketlerini gizler</string>
+    <string name="pref_icon_perappicon_title">Ortalama uygulama simgesi değişikliği</string>
+    <string name="pref_icon_perappicon_summary">Bir uygulama bazında farklı simge paketlerinden simgeleri seçin</string>
+    <string name="pref_icon_allappsbutton_title">Uygulama menüsü tuşu</string>
+    <string name="pref_icon_allappsbutton_summary">Uygulama menüsü tuşu simgesini değiştirin</string>
+    <string name="pref_xgels_no_background_image_title">Hiçbir arka plan resmi yok</string>
+    <string name="pref_switch_smart_folder_title">Akıllı klasör</string>
+    <string name="pref_switch_smart_folder_summary">Dokunma - İlk uygulamayı başlatacak\nYukarı kaydırma - klasörü açar</string>
+    <string name="pref_overlapping_widgets_title">üst üste binen widgetler</string>
+    <string name="pref_overlapping_widgets_summary">Birbirlerinin üzerine binen widget'lere izin verir. Bu sadece GNL çalışır!\n(Beta: Şu anda ki tabaka pozisyonu yeniden başlatmadan kaydedilmez)</string>
+
+    <string name="pref_overridesettings_button_title">Ayarlar tuşu</string>
+    <string name="pref_overridesettings_button_summary">XGELS yerine Google Now ayarları açık</string>
+
+    <string name="pref_icon_reset_all">Tümünü sıfırla</string>
+
+    <!-- V1.8.4 -->
+    <string name="pref_enable_l_launcher_title">L Başlatıcı Tasarımı</string>
+    <string name="pref_enable_l_launcher_summary">Bu Google Arama 3,5 edinilebilir yeni L başlatıcısı tema kullanır. Bu gibi gezinti çubuğu başlatıcısı parçası değil temasıda degildir.</string>
+
+    <!-- V1.9 -->
+    <string name="pref_hide_workspace_shadow_title">Ana ekran gölgesi</string>
+    <string name="pref_hide_workspace_shadow_summary">Ekran gölgesi gizle (sürükleme modunda görünür)</string>
+    <string name="pref_switch_unlimited_folder_size_title">Sınırsız klasör boyutu</string>
+    <string name="pref_always_show_ok_google_title">Ok Google</string>
+    <string name="pref_always_show_ok_google_summary">Her zaman göster \"Ok Google\"</string>
+    <string name="pref_glow_color_title">Parlak renk</string>
+    <string name="pref_glow_color_summary">Bir simgeye basıldığında renklenir</string>
+    <string name="hide_app_switch_label">Uygulama menüsünde gizle</string>
+    <string name="default_text">Varsayılan</string>
+    <string name="pref_cat_system_bars_title">Sistem çubukları</string>
+    <string name="pref_transparent_system_bars_title">Şeffaf sistem çubuklar</string>
+    <string name="pref_transparent_system_bars_summary">Android L- benzeri şeffaf sistem çubuklarını kullanın (Android 4.4 ≥ gerektirir)</string>
+    <string name="module_not_from_google_play">Modül yüklü değil Google Play'den yükleyin!</string>
+    <string name="module_not_from_google_play_msg">XGELS Google Play den yüklenmemiş! XGELS Premium satın almak ve otomatik güncelleştirmeleri alabilmek için Play Store'dan XGELS i kurun!</string>
+    <string name="open_play_store">Play Store' u aç</string>
+    <string name="dont_show_again">Bunu gösterme</string>
+    <string name="success">Başarılı</string>
+    <string name="failed">Başarısız</string>
+    <string name="active_manually">Hımm&#823; Bu işe yaramadı. Xposed Yükleyiciyi açın ve modülü aktif ediniz. Cihazınızı yeniden başlatın!</string>
+    <string name="continue_text">Devam et</string>
+    <string name="quicksettings_desktop_locked">Masaüstü kilitli</string>
+    <string name="quicksettings_desktop_unlocked">Masüstü kilitli değil</string>
+    <string name="pref_cat_quicksettings_title">Hızlı ayarlar karoları</string>
+    <string name="pref_cat_quicksettings_lock_desktop_title">Kilit ekranı karoları</string>
+    <string name="pref_cat_quicksettings_lock_desktop_summary">Kilitli ve kilitsiz masaüstü arasında hızlı geçiş sağlayan hızlı ayarlara bir karo ekle</string>
+    <string name="pref_quicksettings_explain_summary">Hızlı ayarlar Android 4.2 ile tanıtıldı veya diğer Xposed modülleri veya ROM özellikleri ile birlikte çalışmıyor olabilir.</string>
+
+    <!-- V1.9.1 -->
+    <string name="pref_searchbar_style_title">Arama çubuğu stili</string>
+    <string name="pref_contextmenu_mode_title">İçerik menüsü modu</string>
+
+    <!-- V2.0 -->
+    <string name="alert_tab_settings_title">Sekme ayarları</string>
+    <string name="alert_tab_hide_from_apps_title">Ana uygulamalar sekmesinden uygulamaları gizle</string>
+    <string name="alert_tab_hint_text_title">Sekme adı</string>
+    <string name="pref_tabsandfolders_title">Sekmeler ve klasörler</string>
+    <string name="pref_tab_type_title">Sekme türü</string>
+    <string name="toast_tab_delete">Basın ve sekmeyi silmek için basılı tutun</string>
+    <string name="pref_notificationbadge_position_title">Pozisyon</string>
+    <string name="pref_cat_tabs_and_folders_title">Sekmeler ve klasörler</string>
+    <string name="pref_cat_app_drawer_settings_title">Ayarlar</string>
+    <string name="pref_switch_enable_tabs_title">Etinleştir</string>
+    <string name="pref_appdrawer_clear_tabs_title">Sekme verilerini temizle</string>
+    <string name="pref_appdrawer_clear_tabs_summary">Tüm sekme verilerini sıfırlamak için buraya dokunun. Tüm özel sekmeler silinecek!</string>
+    <string name="alert_appdrawer_clear_tabs_title">Dikkat!</string>
+    <string name="alert_appdrawer_clear_tabs_summary">Yaptığınız tüm uygulama menüsü sekmelerini silmek üzeresiniz! Devam edilsin mi?</string>
+    <string name="alert_appdrawer_clear_tabs_success">Uygulama menüsü sekmeleri verileri silindi!</string>
+    <string name="pref_appdrawer_tabs_instructions_summary">!!Google Now Başlatıcı ve Android 4.2 ≥ sadece!!\nUygulama menüsü sekmeleri uygulamanıza çekmeceden doğrudan eklenebilir. Sekme ayarları bir sekmeye uzun basarak açılabilir.</string>
+    <string name="pref_notificationbadge_noappdrawer_title">Uygulama menüsünde gizle</string>
+    <string name="toast_appdrawer_tabadded_title">Ayarlarını açmak için bir sekmeye uzun basın</string>
+
+    <string name="pref_reverseengineering_rate_title">XGELS i derecelendir!</string>
+    <string name="pref_reverseengineering_rate_summary">Siz de desteğinizi gösterin ve bana Google Play'de bir değerlendirme bırakın. İyi bir itibar da, XGELS denemek için başkalarını motive edecektir. Google Play'de XGELS derecelendirmek için buraya tıklayın!</string>
+
+    <!-- V2.1 -->
+    <string name="pref_notificationbadge_keepsize_title">Rozet boyutunu tutun</string>
+    <string name="pref_notificationbadge_keepsize_summary">Rozet sayısı iki basamaklı geniş olduğunda sol/sağ dolgu azaltılır</string>
+    <string name="pref_pageindicator_color_title">Sayfa göstergesi rengi</string>
+    <string name="pref_pageindicator_color_summary">Bir sayfa göstergesi rengi seçin</string>
+    <string name="pref_tabs_bottom_title">Alt taraftaki sekmeler</string>
+    <string name="pref_tabs_bottom_summary">Ekranın üstünden alt tarafa doğru sekmeler taşı</string>
+    <string name="toast_appdrawer_folderadded_title">Klasör ayarlarını açmak için uzun basın</string>
+    <string name="alert_folder_hint_text_title">Klasör ismi</string>
+    <string name="pref_appdrawer_folders_title">Klasörler</string>
+    <string name="pref_appdrawer_folders_summary">Ana uygulamalar sekmesine bir klasör eklemek için dokunun</string>
+    <string name="toast_appdrawer_folder_minimum_app">Bir klasör en az iki öğe içermelidir</string>
+    <string name="pref_appdock_show_labels_title">Simge etiketlerini göster</string>
+    <string name="pref_appdockrect_title">Uygulama alt paneli sol/sağ kenarı</string>
+    <string name="pref_appdockrect_summary">Uygulama alt panelinin sol ve sağ tarafında bir kenar boşluğu çarpanı seçin</string>
+    <string name="pref_grid_size_title">Izgara boyutu</string>
+    <string name="pref_grid_size_summary">Yatay ve dikey ızgara boyutunu seçin</string>
+    <string name="pref_switch_swipe_tabs_title">Sekmeler arasında kaydırın</string>
+    <string name="pref_switch_swipe_tabs_summary">Son sekmeler sayfasınıda kaydırarak bir sonraki sekmeye geçin</string>
+
+    <!-- 2.1.2. -->
+    <string name="pref_searchbar_weather_widget_title">Hava Durumu Widgeti</string>
+    <string name="pref_searchbar_weather_widget_summary">Arama çubuğunun altında bulunduğunuz konumu ve hava durumunu gösterr (sadece GNL)</string>
+    <string name="pref_app_drawer_folderstyle_background_color_title">Klasör arka plan rengi</string>
+    <string name="pref_app_drawer_folderstyle_background_color_summary">Uygulama menüsü klasör tarzı arka plan rengi (Google Arama ≥ 4.0)</string>
+
+    <!-- 2.2 -->
+    <string name="pref_grid_size_vert_summary">Dikey ızgara boyutunu seçin</string>
+    <string name="menu_hide_apps_used_in_tabs">Önceden seçilen uygulamaları gizle</string>
+    <string name="pref_app_drawer_hide_from_home_title">Ana ekran uygulamalarını gizle</string>
+    <string name="pref_app_drawer_hide_from_home_summary">(Deneysel)\nOnları ana ekrana yerleştirip uygulama menüsünden uygulamaları otomatik gizleyebilirsiniz. Senkronize bir başlatıcıyı yeniden başlatma gerektirir.</string>
+
+    <string name="cancel">Vazgeç</string>
+    <string name="save">Kaydet</string>
+    <string name="saving_image">Görüntüyü kaydet</string>
+    <string name="preparing_card">Kart hazırlanıyor</string>
+    <string name="no_storage_card">Hiçbir depolama kartı yok</string>
+    <string name="not_enough_space">Yeterli alan yok</string>
+
+</resources>
