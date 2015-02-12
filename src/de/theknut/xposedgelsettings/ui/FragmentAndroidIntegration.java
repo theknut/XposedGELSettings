@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import de.theknut.xposedgelsettings.R;
+import de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory;
 
 public class FragmentAndroidIntegration extends FragmentBase {
 	
@@ -28,8 +29,9 @@ public class FragmentAndroidIntegration extends FragmentBase {
         this.findPreference("transparentsystembars").setOnPreferenceChangeListener(onChangeListenerFullReboot);
         this.findPreference("quicksettingslockdesktop").setOnPreferenceChangeListener(onChangeListenerFullReboot);
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            getPreferenceScreen().removePreference(findPreference("transparentsystembars"));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            MyPreferenceCategory cat = (MyPreferenceCategory) this.findPreference("systembarskey");
+            cat.removePreference(findPreference("transparentsystembars"));
         }
 
         rootView = CommonUI.setBackground(rootView, R.id.prefbackground);
