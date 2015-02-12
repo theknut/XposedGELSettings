@@ -80,7 +80,7 @@
     <string name="pref_disable_wallpaper_scroll_summary">Senkronize duvar kağıdı kaydırma devre dışı</string>
     <!-- V1.3 -->
     <string name="toast_desktop_locked">Masaüstü kilitli!</string>
-    <string name="toast_fail">Peki&#8230; bu işe yaramadımı :-S\nLütfen logcat' e bakınız!</string>
+    <string name="toast_fail">Peki&#8230; bu işe yaramadımı :-S\nLütfen logcat\' e bakınız!</string>
     <string name="pref_switch_appdock_title">Alt paneli gizle</string>
     <string name="pref_switch_appdock_summary">Alt paneli gizler</string>
     <string name="pref_lock_desktop_title">Masaüstünü kilitle</string>
@@ -126,7 +126,7 @@
     <string name="toast_backup_failed">Peki&#8230; işe yaramadımı :-S</string>
     <string name="pref_cat_backuprestore_homescreen_title">Başlatıcı Ana Ekran Düzeni</string>
     <string name="pref_backuprestore_note_title">Not</string>
-    <string name="pref_backuprestore_note_summary">Bu yedekleme/geri yükleme sadece simgeleri ve klasörleri içerir. Widget'ler ve pozisyonları kaybolur ve tekrar yerleştirilmesi gerekli olacaktır! Bu aynı zamanda root özellikleri gerektirir!</string>
+    <string name="pref_backuprestore_note_summary">Bu yedekleme/geri yükleme sadece simgeleri ve klasörleri içerir. Widget\'ler ve pozisyonları kaybolur ve tekrar yerleştirilmesi gerekli olacaktır! Bu aynı zamanda root özellikleri gerektirir!</string>
     <string name="pref_backup_homescreen_title">Yedekle</string>
     <string name="pref_backup_homescreen_summary">Ana Ekran düzeni yedekleme (sadece simge ve dosyalar) \n/sdcard/XposedGELSettings dışarı aktarıldı</string>
     <string name="pref_restore_homescreen_title">Geri Yükleme</string>
@@ -142,8 +142,8 @@
     <string name="toast_full_reboot">Bu değişikliklerin etkili olması için tam bir yeniden başlatma gerçekleştirin!</string>
     <string name="pref_switch_gesture_swipe_down_close_app_drawer_title">Uygulama menüsü</string>
     <string name="pref_switch_gesture_swipe_down_close_app_drawer_summary">Uygulama menüsünü kapatmak için aşağı kaydırın</string>
-    <string name="toast_getprices_fail">Fiyat listesini alırken bir şeyler yanlış gitti. Logcat'i kontrol edin!</string>
-    <string name="toast_donation_result_fail">Bir şeyler yanlış gitti. XGELS i kapatıp ve tekrar başlatabilirsiniz. Logcat'i kontrol edin!</string>
+    <string name="toast_getprices_fail">Fiyat listesini alırken bir şeyler yanlış gitti. Logcat\'i kontrol edin!</string>
+    <string name="toast_donation_result_fail">Bir şeyler yanlış gitti. XGELS i kapatıp ve tekrar başlatabilirsiniz. Logcat\'i kontrol edin!</string>
     <string name="toast_donate_thanks">Evet, sen harikasın!</string>
     <string name="pref_xgel_group_summary">XGELS Premium Group uygulamak için lütfen tıklayınız! Ben özel bir gruba sizi ekleyebilirim, Google Plus ve e-posta adresinizi ekleyin.</string>
     <string name="pref_requires_donation_title">Mevcut değil</string>
@@ -179,9 +179,9 @@
     
     <string name="pref_choose_gesture_action_title">Bir hareket eylemi seçin</string>
     <string name="pref_switch_gesture_appdrawer_title">Uygulama menüsü</string>
-    <string name="pref_switch_gesture_appdrawer_summary">Aşağı kaydırma - uygulama menüsünü kapat/nYukarı kaydırma - tüm uygulamalar ve widget'ler arasında geçiş sağlar</string>
+    <string name="pref_switch_gesture_appdrawer_summary">Aşağı kaydırma - uygulama menüsünü kapat/nYukarı kaydırma - tüm uygulamalar ve widget\'ler arasında geçiş sağlar</string>
     <string name="pref_switch_gesture_double_tap_title">Çift dokunma</string>
-    <string name="pref_switch_gesture_double_tap_summary">klasörler ve widget'ler hariç</string>
+    <string name="pref_switch_gesture_double_tap_summary">klasörler ve widget\'ler hariç</string>
     <string name="pref_cat_gesture_down_title">Aşağı kaydırma hareketleri</string>
     <string name="pref_cat_gesture_up_title">Yukarı kaydırma hareketleri</string>
     <string name="pref_gesture_down_left_title">Sol aşağı doğru kaydırın</string>
@@ -215,7 +215,7 @@
     <string name="pref_notificationbadge_premium_title">Premium Özellik</string>
     <string name="pref_notificationbadge_premium_summary">Bu özellik XGELS Premium ile kullanılabilir. Bildirim sayıları MissedIt gerektirir unutmayın! Bildirim sayısı al (ücretli).</string>
     <string name="pref_notificationbadge_missedit_missing_title">MissedIt! yüklü değil</string>
-    <string name="pref_notificationbadge_missedit_missing_summary">MissedIt! yüklü değil. XGELS bildirim sayısını almak için bu uygulamadan sayaç istatistikleri ister. MissedIt açmak/satın almak için buraya tıklayın! Play Store'dan!</string>
+    <string name="pref_notificationbadge_missedit_missing_summary">MissedIt! yüklü değil. XGELS bildirim sayısını almak için bu uygulamadan sayaç istatistikleri ister. MissedIt açmak/satın almak için buraya tıklayın! Play Store\'dan!</string>
     <string name="pref_notificationbadge_open_missedit_title">MissedIt aç!</string>
     <string name="pref_notificationbadge_open_missedit_summary">MissedIt açmak için buraya dokunun!</string>
     <string name="pref_notificationbadge_enable_title">Bildirim saysını etkinleştir</string>
@@ -292,7 +292,7 @@
     <string name="pref_switch_smart_folder_title">Akıllı klasör</string>
     <string name="pref_switch_smart_folder_summary">Dokunma - İlk uygulamayı başlatacak\nYukarı kaydırma - klasörü açar</string>
     <string name="pref_overlapping_widgets_title">üst üste binen widgetler</string>
-    <string name="pref_overlapping_widgets_summary">Birbirlerinin üzerine binen widget'lere izin verir. Bu sadece GNL çalışır!\n(Beta: Şu anda ki tabaka pozisyonu yeniden başlatmadan kaydedilmez)</string>
+    <string name="pref_overlapping_widgets_summary">Birbirlerinin üzerine binen widget\'lere izin verir. Bu sadece GNL çalışır!\n(Beta: Şu anda ki tabaka pozisyonu yeniden başlatmadan kaydedilmez)</string>
 
     <string name="pref_overridesettings_button_title">Ayarlar tuşu</string>
     <string name="pref_overridesettings_button_summary">XGELS yerine Google Now ayarları açık</string>
@@ -316,9 +316,9 @@
     <string name="pref_cat_system_bars_title">Sistem çubukları</string>
     <string name="pref_transparent_system_bars_title">Şeffaf sistem çubuklar</string>
     <string name="pref_transparent_system_bars_summary">Android L- benzeri şeffaf sistem çubuklarını kullanın (Android 4.4 ≥ gerektirir)</string>
-    <string name="module_not_from_google_play">Modül yüklü değil Google Play'den yükleyin!</string>
-    <string name="module_not_from_google_play_msg">XGELS Google Play den yüklenmemiş! XGELS Premium satın almak ve otomatik güncelleştirmeleri alabilmek için Play Store'dan XGELS i kurun!</string>
-    <string name="open_play_store">Play Store' u aç</string>
+    <string name="module_not_from_google_play">Modül yüklü değil Google Play\'den yükleyin!</string>
+    <string name="module_not_from_google_play_msg">XGELS Google Play den yüklenmemiş! XGELS Premium satın almak ve otomatik güncelleştirmeleri alabilmek için Play Store\'dan XGELS i kurun!</string>
+    <string name="open_play_store">Play Store\' u aç</string>
     <string name="dont_show_again">Bunu gösterme</string>
     <string name="success">Başarılı</string>
     <string name="failed">Başarısız</string>
@@ -356,7 +356,7 @@
     <string name="toast_appdrawer_tabadded_title">Ayarlarını açmak için bir sekmeye uzun basın</string>
 
     <string name="pref_reverseengineering_rate_title">XGELS i derecelendir!</string>
-    <string name="pref_reverseengineering_rate_summary">Siz de desteğinizi gösterin ve bana Google Play'de bir değerlendirme bırakın. İyi bir itibar da, XGELS denemek için başkalarını motive edecektir. Google Play'de XGELS derecelendirmek için buraya tıklayın!</string>
+    <string name="pref_reverseengineering_rate_summary">Siz de desteğinizi gösterin ve bana Google Play\'de bir değerlendirme bırakın. İyi bir itibar da, XGELS denemek için başkalarını motive edecektir. Google Play\'de XGELS derecelendirmek için buraya tıklayın!</string>
 
     <!-- V2.1 -->
     <string name="pref_notificationbadge_keepsize_title">Rozet boyutunu tutun</string>
