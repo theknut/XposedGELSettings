@@ -84,7 +84,7 @@ public final class AllAppsListAddHook extends XC_MethodHook {
             for (Object workspaceItem : workspaceItems) {
                 if (workspaceItem.getClass().equals(Classes.ShortcutInfo)) {
                     Intent i = (Intent) callMethod(workspaceItem, "getIntent");
-                    if (i != null) {
+                    if (i != null && i.getComponent() != null) {
                         appsToHide.add(i.getComponent().flattenToString());
                     }
                 }
