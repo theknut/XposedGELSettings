@@ -27,6 +27,20 @@
   </head>
   <body>
 
+$ 2.2.8
+  % Version 2.2.8
+  _ 2015-13-02
+
+  !Improvement:
+  * add support for the quick settings tile on Android Lollipop
+
+  !Fixed:
+  * app drawer items not hiding
+  * error when adding folder to app drawer tab
+
+  !XGELS UI:
+  * add Turkish translation (thanks to razor84)
+
 $ 2.2.7
   % Version 2.2.7
   _ 2015-06-02
