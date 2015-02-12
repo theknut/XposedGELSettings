@@ -129,11 +129,10 @@ public class GeneralHooks extends HooksBaseClass {
 //            }
         });
 
-        unhook = findAndHookMethod(Classes.DynamicGrid, Methods.dgGetDeviceProfile, new XC_MethodHook() {
+        XposedBridge.hookAllConstructors(Classes.DynamicGrid, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                Common.DEVICE_PROFIL = param.getResult();
-                unhook.unhook();
+                Common.DEVICE_PROFIL = callMethod(param.thisObject, Methods.dgGetDeviceProfile);
             }
         });
 
