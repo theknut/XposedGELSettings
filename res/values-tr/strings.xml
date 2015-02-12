@@ -84,7 +84,7 @@
     <string name="pref_switch_appdock_title">Alt paneli gizle</string>
     <string name="pref_switch_appdock_summary">Alt paneli gizler</string>
     <string name="pref_lock_desktop_title">Masaüstünü kilitle</string>
-    <string name="pref_lock_desktop_summary">Masaüstü kilitleyerek yanlışlıkla yapılan değişikliği önler/string>
+    <string name="pref_lock_desktop_summary">Masaüstü kilitleyerek yanlışlıkla yapılan değişikliği önler</string>
     <string name="pref_continuous_scroll_title">Sürekli kaydırma</string>
     <string name="pref_continuous_scroll_summary">İlk sayfa üzerinde kaydırma\n(Deneysel)</string>
     <string name="pref_continuous_scroll_with_app_drawer_title">Uygulama menüsünü de dahil et</string>
