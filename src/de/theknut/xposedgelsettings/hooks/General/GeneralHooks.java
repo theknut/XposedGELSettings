@@ -385,6 +385,8 @@ public class GeneralHooks extends HooksBaseClass {
         public void onReceive(final Context context, final Intent intent) {
 
             PreferencesHelper.init();
+            PreferencesHelper.initDefaultHomescreen();
+
             if (DEBUG) log("Launcher: Settings reloaded");
             try {
                 if (intent.getAction().equals(Common.XGELS_ACTION_RESTART_LAUNCHER)) {

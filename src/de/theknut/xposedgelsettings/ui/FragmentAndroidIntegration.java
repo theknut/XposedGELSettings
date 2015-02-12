@@ -1,5 +1,6 @@
 package de.theknut.xposedgelsettings.ui;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +27,11 @@ public class FragmentAndroidIntegration extends FragmentBase {
         this.findPreference("dynamicbackbuttononeveryscreen").setOnPreferenceChangeListener(onChangeListenerFullReboot);
         this.findPreference("transparentsystembars").setOnPreferenceChangeListener(onChangeListenerFullReboot);
         this.findPreference("quicksettingslockdesktop").setOnPreferenceChangeListener(onChangeListenerFullReboot);
-        
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            getPreferenceScreen().removePreference(findPreference("transparentsystembars"));
+        }
+
         rootView = CommonUI.setBackground(rootView, R.id.prefbackground);
         
         return rootView;

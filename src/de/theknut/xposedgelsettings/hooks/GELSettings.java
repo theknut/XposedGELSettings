@@ -1,6 +1,7 @@
 package de.theknut.xposedgelsettings.hooks;
 
 import android.content.Context;
+import android.os.Build;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
@@ -8,7 +9,8 @@ import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import de.theknut.xposedgelsettings.hooks.androidintegration.AppInfo;
-import de.theknut.xposedgelsettings.hooks.androidintegration.QuickSettings;
+import de.theknut.xposedgelsettings.hooks.androidintegration.QuickSettingsL;
+import de.theknut.xposedgelsettings.hooks.androidintegration.QuickSettingsPreL;
 import de.theknut.xposedgelsettings.hooks.androidintegration.SystemBars;
 import de.theknut.xposedgelsettings.hooks.androidintegration.SystemUIHooks;
 import de.theknut.xposedgelsettings.hooks.androidintegration.SystemUIReceiver;
@@ -44,7 +46,12 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
 
             PreferencesHelper.init();
             SystemUIReceiver.initAllHooks(lpparam);
-            QuickSettings.initAllHooks(lpparam);
+
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                QuickSettingsPreL.initAllHooks(lpparam);
+            } else {
+                QuickSettingsL.initAllHooks(lpparam);
+            }
 
 //            try {
 //                findAndHookMethod("com.android.systemui.SearchPanelView", lpparam.classLoader, "show", boolean.class, boolean.class, XC_MethodReplacement.DO_NOTHING);

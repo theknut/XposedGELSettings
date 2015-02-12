@@ -1,6 +1,7 @@
 package de.theknut.xposedgelsettings.hooks.androidintegration;
 
 import android.content.Intent;
+import android.os.Build;
 
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import de.theknut.xposedgelsettings.hooks.Common;
@@ -21,7 +22,7 @@ public class SystemBars extends HooksBaseClass {
 
     public static void initAllHooks(LoadPackageParam lpparam) {
 
-        if (PreferencesHelper.transparentSystemBars) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP && PreferencesHelper.transparentSystemBars) {
             CommonHooks.LauncherOnResumeListeners.add(new XGELSCallback() {
                 @Override
                 public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {

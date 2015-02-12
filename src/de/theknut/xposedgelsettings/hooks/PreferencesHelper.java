@@ -8,6 +8,8 @@ import java.util.Set;
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 
+import static de.robv.android.xposed.XposedHelpers.callMethod;
+
 public class PreferencesHelper {
     public static XSharedPreferences prefs = new XSharedPreferences(Common.PACKAGE_NAME);
     public static boolean Debug = prefs.getBoolean("debug", false);
@@ -271,5 +273,19 @@ public class PreferencesHelper {
         excludeAppsUsedInTabs = prefs.getBoolean("excludeappsusedintabs", false);
         autoHideHomeIcons = prefs.getBoolean("autohidehomeicons", false);
         if (PreferencesHelper.Debug) XposedBridge.log("Initialized PreferencesHelper in " + (System.currentTimeMillis() - time) + "ms");
+    }
+
+    public static void initDefaultHomescreen() {
+        if (PreferencesHelper.defaultHomescreen == -1) {
+            boolean gnow = (Boolean) callMethod(Common.LAUNCHER_INSTANCE, ObfuscationHelper.Methods.lHasCustomContentToLeft);
+
+            if (gnow) {
+                PreferencesHelper.defaultHomescreen = 2;
+            } else {
+                PreferencesHelper.defaultHomescreen = 1;
+            }
+
+            if (Debug) XposedBridge.log("Setting default homescreen = " + PreferencesHelper.defaultHomescreen);
+        }
     }
 }

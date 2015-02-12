@@ -16,17 +16,7 @@ public class FinishBindingItemsHook extends HooksBaseClass {
 	@Override
 	protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 		
-		if (PreferencesHelper.defaultHomescreen == -1) {
-			boolean gnow = (Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lHasCustomContentToLeft);
-			
-			if (gnow) {
-				PreferencesHelper.defaultHomescreen = 2;
-			} else {
-				PreferencesHelper.defaultHomescreen = 1;
-			}
-			
-			if (DEBUG) log(param, "Setting default homescreen = " + PreferencesHelper.defaultHomescreen);
-		}
+		PreferencesHelper.initDefaultHomescreen();
 		
 		if (!Common.MOVED_TO_DEFAULTHOMESCREEN) {
 			// move to default screen
