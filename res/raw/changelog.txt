@@ -31,11 +31,16 @@ $ 2.2.8
   % Version 2.2.8
   _ 2015-13-02
 
+  The Xposed framework is now available for Android Lollipop<br>
+  Click <a href="http://forum.xda-developers.com/xposed/official-xposed-lollipop-t3030118">here</a> to go to the thread.<br><br>
+
   !Improvement:
   * add support for the quick settings tile on Android Lollipop
 
   !Fixed:
   * app drawer items not hiding
+  * app drawer background color not applying
+  * crash when removing app drawer tab
   * error when adding folder to app drawer tab
 
   !XGELS UI:
