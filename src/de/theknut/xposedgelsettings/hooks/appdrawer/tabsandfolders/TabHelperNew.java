@@ -289,10 +289,9 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
         setCurrentTab(newId < 0 ? tabs.get(0) : tabs.get(newId));
 
         if (tab.hideFromAppsPage()) {
-            Object mAppsCustomizePane = getObjectField(getTabHost(), Fields.acthAppsCustomizePane);
-            ArrayList allApps = (ArrayList) getObjectField(mAppsCustomizePane, Fields.acpvAllApps);
+            ArrayList allApps = FolderHelper.getInstance().getAllApps();
             allApps.addAll(tab.getData());
-            callMethod(mAppsCustomizePane, Methods.acpvSetApps, allApps);
+            callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSetApps, allApps);
         }
 
         scroll();
@@ -398,17 +397,20 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
 
     public void setCurrentTab(int layoutId, boolean onlySetInternal) {
         currentTabId = layoutId;
+
+        tabsContainer.findViewById(layoutId).bringToFront();
+        setTabColor(tabs.get(((Tab) tabsContainer.findViewById(layoutId).getTag()).getIndex()).getPrimaryColor());
+
         if (onlySetInternal) {
+            callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvInvalidatePageData, 0, false);
             organizeTabs();
             scroll();
             return;
         }
 
-        tabsContainer.findViewById(layoutId).bringToFront();
         hsv.bringToFront();
         callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSyncPages);
         callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvInvalidatePageData, 0, false);
-        setTabColor(tabs.get(((Tab) tabsContainer.findViewById(layoutId).getTag()).getIndex()).getPrimaryColor());
 
         organizeTabs();
         scroll();
@@ -810,7 +812,7 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
                             Common.LAUNCHER_CONTEXT.startActivity(intent);
                         } else {
                             if (tab.isWidgetsTab()) {
-                                setCurrentTab(0);
+                                //setCurrentTab(tab);
                                 Intent startMain = new Intent(Intent.ACTION_MAIN);
                                 startMain.addCategory(Intent.CATEGORY_HOME);
                                 startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

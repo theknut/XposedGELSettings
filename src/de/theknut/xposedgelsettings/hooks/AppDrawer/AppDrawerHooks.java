@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
@@ -148,13 +149,17 @@ public class AppDrawerHooks extends HooksBaseClass {
                     }
 
                     if (currTab != null && currTab.isWidgetsTab()) {
-                        callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSetContentType, callMethod(TabHelperNew.getInstance().getTabHost(), Methods.acthGetContentTypeForTabTag, "APPS"));
-
-                        if (Common.IS_PRE_GNL_4) {
-                            TabHelperLegacy.getInstance().setCurrentTab(0);
-                        } else {
-                            TabHelperNew.getInstance().setCurrentTab(0x80 + Tab.APPS_ID, true);
-                        }
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSetContentType, callMethod(TabHelperNew.getInstance().getTabHost(), Methods.acthGetContentTypeForTabTag, "APPS"));
+                                if (Common.IS_PRE_GNL_4) {
+                                    TabHelperLegacy.getInstance().setCurrentTab(0);
+                                } else {
+                                    TabHelperNew.getInstance().setCurrentTab(0x80 + Tab.APPS_ID, true);
+                                }
+                            }
+                        }, 1000);
                     }
                     Common.OVERSCROLLED = false;
                 } else {
