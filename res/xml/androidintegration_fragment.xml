@@ -5,7 +5,8 @@
 		android:summary="@string/pref_systemui_explain_summary"
 	    android:selectable="false" />
     <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory
-        android:title="@string/pref_cat_system_bars_title">
+        android:title="@string/pref_cat_system_bars_title"
+        android:key="systembarskey">
         <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
             android:key="transparentsystembars"
             android:title="@string/pref_transparent_system_bars_title"

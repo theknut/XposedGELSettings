@@ -32,10 +32,9 @@ public class FragmentAndroidIntegration extends FragmentBase {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             MyPreferenceCategory cat = (MyPreferenceCategory) this.findPreference("systembarskey");
             cat.removePreference(findPreference("transparentsystembars"));
+            getPreferenceScreen().removePreference(cat);
         }
 
-        rootView = CommonUI.setBackground(rootView, R.id.prefbackground);
-        
-        return rootView;
+        return CommonUI.setBackground(rootView, R.id.prefbackground);
     }
 }
