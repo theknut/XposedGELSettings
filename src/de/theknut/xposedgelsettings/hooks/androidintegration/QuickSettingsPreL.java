@@ -42,7 +42,7 @@ public class QuickSettingsPreL extends HooksBaseClass {
 
     public static void initAllHooks(LoadPackageParam lpparam) {
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN || PreferencesHelper.quicksettingsLockDesktop) return;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN || !PreferencesHelper.quicksettingsLockDesktop) return;
 
         try {
             final Class<?> QuickSettingsBasicTileClass = findClass("com.android.systemui.statusbar.phone.QuickSettingsBasicTile", lpparam.classLoader);
