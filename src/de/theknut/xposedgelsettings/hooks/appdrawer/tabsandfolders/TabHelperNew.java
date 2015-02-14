@@ -80,6 +80,8 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
     int currentTabId;
     float inactiveTabTranslationX;
 
+    boolean hasBeenInflated = false;
+
     public static TabHelperNew getInstance() {
         return INSTANCE;
     }
@@ -95,17 +97,21 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
         inactiveTabTranslationX = XGELSContext.getResources().getDimension(R.dimen.tabhost_overlap);
 
         this.tabHost = tabhost;
-        this.tabs = new ArrayList<Tab>();
+
+        if (!hasBeenInflated) {
+            this.tabs = new ArrayList<>();
+            initTabs();
+        }
 
         addTabBar(PreferencesHelper.moveTabHostBottom);
-
-        initTabs();
         addTabs(false);
 
         showTabBar();
 
         int id = tabhost.getContext().getResources().getIdentifier("market_button", "id", Common.HOOKED_PACKAGE);
         tabhost.removeView(tabhost.findViewById(id));
+
+        hasBeenInflated = true;
     }
 
     public void showTabBar() {
