@@ -331,6 +331,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 lHasCustomContentToLeft,
                 lHideAppsCustomizeHelper,
                 lShowWorkspace,
+                lAddOnResumeCallback,
                 wMoveToDefaultScreen,
                 pvOverScroll,
                 lFinishBindingItems,
@@ -425,6 +426,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             lOpenFolder = new String[]{"openFolder", "i", "i", "i", "i", "i", "i", "i"}[idx]; // "Opening folder ("
             lHideAppsCustomizeHelper = new String[]{"hideAppsCustomizeHelper", "a", "a", "a", "a", "a", "a", "a"}[idx];
             lShowWorkspace = new String[]{"showWorkspace", "a", "a", "a", "a", "a", "a", "a"}[idx]; // boolean paramBoolean, Runnable paramRunnable
+            lAddOnResumeCallback = new String[]{"addOnResumeCallback", "a", "a", "a", "a", "a", "a", "a"}[idx]; // (Runnable paramRunnable)
             lCloseFolderWParam = new String[]{"closeFolder", "h", "h", "h", "h", "h", "h", "h"}[idx]; // if ((ViewGroup)paramFolder.getParent().getParent() != null)
             lBindAppsUpdated = new String[]{"bindAppsUpdated", "l", "l", "l", "l", "l", "l", "l"}[idx]; // "(this, paramArrayList), false));"
             lGetQsbBar = new String[]{"getQsbBar", "gw", "hl", "hu", "hv", "hM", "", ""}[idx]; // "public View "
