@@ -170,9 +170,9 @@ public class AddTabsAndFolders extends HooksBaseClass {
             }
         });
 
-        findAndHookMethod(Classes.Utilities, Methods.uGetCenterDeltaInScreenSpace, View.class, View.class, int[].class, new XC_MethodHook() {
+        CommonHooks.GetCenterDeltaInScreenSpaceListener.add(new XGELSCallback() {
             @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+            public void onAfterHookedMethod(MethodHookParam param) throws Throwable {
                 int color = PreferencesHelper.appdrawerFolderStyleBackgroundColor;
                 if (PreferencesHelper.enableAppDrawerTabs) {
                     color = TabHelperNew.getInstance().getCurrentTabData().getPrimaryColor();

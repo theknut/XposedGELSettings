@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
@@ -17,6 +18,7 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.common.CommonHooks;
+import de.theknut.xposedgelsettings.hooks.common.XGELSCallback;
 import de.theknut.xposedgelsettings.hooks.general.MoveToDefaultScreenHook;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
@@ -107,6 +109,8 @@ public class HomescreenHooks extends HooksBaseClass {
             findAndHookMethod(Classes.FolderIcon, "onTouchEvent", MotionEvent.class, new SmartFolderHook());
         }
 
+        CommonHooks.MoveToDefaultScreenListeners.add(new MoveToDefaultScreenHook());
+
         if (PreferencesHelper.unlimitedFolderSize) {
             XposedBridge.hookAllConstructors(Classes.Folder, new XC_MethodHook() {
                 @Override
@@ -140,5 +144,17 @@ public class HomescreenHooks extends HooksBaseClass {
                 });
             }
         }
+
+        CommonHooks.GetCenterDeltaInScreenSpaceListener.add(new XGELSCallback() {
+            @Override
+            public void onAfterHookedMethod(MethodHookParam param) throws Throwable {
+                if (param.args[1] == null || ((TextView) param.args[1]).getX() == 0) {
+                    int[] loc = (int[]) param.getResult();
+                    loc[0] = 0;
+                    loc[1] = 0;
+                    param.setResult(loc);
+                }
+            }
+        });
     }
 }

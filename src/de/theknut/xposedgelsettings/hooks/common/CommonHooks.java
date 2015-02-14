@@ -39,6 +39,7 @@ public class CommonHooks {
     static public ArrayList<XGELSCallback> FolderIconDispatchDrawListeners = new ArrayList<XGELSCallback>();
     static public ArrayList<XGELSCallback> DeviceProfileConstructorListeners = new ArrayList<XGELSCallback>();
     public static ArrayList<XGELSCallback> EnterOverviewModeListeners = new ArrayList<XGELSCallback>();
+    public static ArrayList<XGELSCallback> GetCenterDeltaInScreenSpaceListener = new ArrayList<XGELSCallback>();
 
     public static void initAllHooks(LoadPackageParam lpparam) {
 
@@ -107,6 +108,9 @@ public class CommonHooks {
         }
         if (EnterOverviewModeListeners.size() != 0) {
             XposedBridge.hookAllMethods(Classes.Workspace, Methods.wEnterOverviewMode, new XGELSHook(EnterOverviewModeListeners));
+        }
+        if (GetCenterDeltaInScreenSpaceListener.size() != 0) {
+            findAndHookMethod(Classes.Utilities, Methods.uGetCenterDeltaInScreenSpace, View.class, View.class, int[].class, new XGELSHook(GetCenterDeltaInScreenSpaceListener));
         }
     }
 }
