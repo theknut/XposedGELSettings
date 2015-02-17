@@ -42,7 +42,7 @@ public class GestureHelper extends HooksBaseClass {
         NONE
     }
 
-    static float gestureDistance = Utils.dpToPx(50);
+    public static float gestureDistance = Utils.dpToPx(50);
     static int animateDuration = 300;
     static boolean isAnimating = false;
     static ViewPropertyAnimator hideAnimation;

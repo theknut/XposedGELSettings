@@ -27,7 +27,7 @@ public final class DeviceProfileConstructorHook extends XGELSCallback {
     public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
 
         // making sure to only hook to the appropriate constructor
-        if (!(param.args[NAME] instanceof Context)) {
+        if (param.args.length > 0 && !(param.args[NAME] instanceof Context)) {
 
             if (PreferencesHelper.changeGridSizeHome) {
                 if (PreferencesHelper.yCountHomescreenVertical != -1) {

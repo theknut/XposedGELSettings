@@ -322,12 +322,12 @@ public class GestureHooks extends GestureHelper {
 
                         if (!PreferencesHelper.gesture_appdrawer) return;
 
-                        if (System.currentTimeMillis() - lastTouchTime < 1000) return;
+                        if (System.currentTimeMillis() - lastTouchTime < 250) return;
                         lastTouchTime = System.currentTimeMillis();
 
                         // user probably switched pages
                         if (getBooleanField(getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizeTabHost), Fields.acthInTransition)
-                                || getBooleanField(Common.APP_DRAWER_INSTANCE, Fields.pvIsPageMoving)) {
+                                || Math.abs(downX - ev.getRawX()) > GestureHelper.gestureDistance) {
                             return;
                         }
 

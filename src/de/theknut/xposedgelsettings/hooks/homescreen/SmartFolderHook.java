@@ -12,6 +12,7 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.Utils;
+import de.theknut.xposedgelsettings.hooks.gestures.GestureHelper;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.getBooleanField;
@@ -42,7 +43,7 @@ public class SmartFolderHook extends HooksBaseClass {
                     return;
                 }
 
-                if (downY - ev.getRawY() <= 10.0 && downX - ev.getRawX() <= 10.0) {
+                if (downY - ev.getRawY() <= GestureHelper.gestureDistance && downX - ev.getRawX() <= GestureHelper.gestureDistance) {
                     handleAction("SWIPE", param);
                 } else {
                     handleAction("TOUCH", param);

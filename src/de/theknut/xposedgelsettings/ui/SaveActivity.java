@@ -107,7 +107,7 @@ public class SaveActivity extends ListActivity {
             }
         }
 
-        if (!getIntent().hasExtra("initcolor") || mode != MODE_PICK_GESTURE) {
+        if (!(getIntent().hasExtra("initcolor") || mode == MODE_PICK_GESTURE)) {
             sendBroadcast(new Intent(Common.XGELS_ACTION_RELOAD_SETTINGS));
             finish();
         }

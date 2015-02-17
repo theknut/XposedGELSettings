@@ -148,7 +148,7 @@ public class HomescreenHooks extends HooksBaseClass {
         CommonHooks.GetCenterDeltaInScreenSpaceListener.add(new XGELSCallback() {
             @Override
             public void onAfterHookedMethod(MethodHookParam param) throws Throwable {
-                if (param.args[1] == null || ((TextView) param.args[1]).getX() == 0) {
+                if (param.args[1] == null || ((TextView) param.args[1]).getX() == 0 && ((TextView) param.args[1]).getY() == 0) {
                     int[] loc = (int[]) param.getResult();
                     loc[0] = 0;
                     loc[1] = 0;
