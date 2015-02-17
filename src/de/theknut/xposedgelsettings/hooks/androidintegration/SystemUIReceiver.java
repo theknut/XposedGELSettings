@@ -11,6 +11,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.os.Handler;
 import android.os.PowerManager;
 import android.os.SystemClock;
 import android.view.View;
@@ -269,15 +271,26 @@ public class SystemUIReceiver extends HooksBaseClass {
                                         callMethod(PHONE_STATUSBAR_OBJECT, "animateExpandNotificationsPanel");
 
                                     } else if (intent.getStringExtra(Common.XGELS_ACTION).equals("SHOW_SETTINGS_PANEL")) {
-
                                         if (PHONE_STATUSBAR_OBJECT == null) return;
-
                                         if (DEBUG) log("SystemUIReceiver: Show Settings Panel");
 
                                         try {
                                             callMethod(PHONE_STATUSBAR_OBJECT, "animateExpandSettingsPanel");
                                         } catch (NoSuchMethodError nsme) {
                                             callMethod(PHONE_STATUSBAR_OBJECT, "animateExpandSettingsPanel", false);
+                                        }
+
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                            new Handler().postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    try {
+                                                        callMethod(PHONE_STATUSBAR_OBJECT, "animateExpandSettingsPanel");
+                                                    } catch (NoSuchMethodError nsme) {
+                                                        callMethod(PHONE_STATUSBAR_OBJECT, "animateExpandSettingsPanel", false);
+                                                    }
+                                                }
+                                            }, 300);
                                         }
 
                                     } else if (intent.getStringExtra(Common.XGELS_ACTION).equals("SHOW_RECENTS")) {

@@ -1,6 +1,7 @@
 package de.theknut.xposedgelsettings.hooks.androidintegration;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Build;
 
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
@@ -22,7 +23,56 @@ public class SystemBars extends HooksBaseClass {
 
     public static void initAllHooks(LoadPackageParam lpparam) {
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP && PreferencesHelper.transparentSystemBars) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            CommonHooks.LauncherOnResumeListeners.add(new XGELSCallback() {
+                @Override
+                public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
+                    boolean show = ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lHasCustomContentToLeft)
+                            && getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage) == 0);
+                    setGradientVisbility(show);
+                }
+            });
+
+            CommonHooks.LauncherFinishBindingItems.add(new XGELSCallback() {
+                @Override
+                public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
+                    boolean show = ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lHasCustomContentToLeft)
+                            && getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage) == 0)
+                            && Common.LAUNCHER_CONTEXT.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+                    setGradientVisbility(show);
+                }
+            });
+
+            CommonHooks.LauncherOnPauseListeners.add(new XGELSCallback() {
+                @Override
+                public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
+                    setGradientVisbility(true);
+                }
+            });
+
+            if (Common.PACKAGE_OBFUSCATED) {
+                CommonHooks.OnNowShowListeners.add(new XGELSCallback() {
+                    @Override
+                    public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
+                        if (Common.LAUNCHER_CONTEXT.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                            setGradientVisbility(true);
+                        }
+                    }
+                });
+            }
+
+            CommonHooks.PageEndMovingListeners.add(new XGELSCallback() {
+                @Override
+                public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
+                    boolean show = ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lHasCustomContentToLeft)
+                            && getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage) == 0)
+                            && Common.LAUNCHER_CONTEXT.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+
+                    setGradientVisbility(show);
+                }
+            });
+        } else if (PreferencesHelper.transparentSystemBars) {
             CommonHooks.LauncherOnResumeListeners.add(new XGELSCallback() {
                 @Override
                 public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {

@@ -27,6 +27,22 @@
   </head>
   <body>
 
+$ 2.2.9
+  % Version 2.2.9
+  _ 2015-17-02
+
+  Please consider XGELS Premium to support the development<br><br>Trebuchet on Lollipop is currently not supported but will be in the future.<br><br>
+
+  !Fixed:
+  * quick settings gesture
+  * black nav bar in landscape mode
+  * app drawer not completely closing
+  * app drawer swipe up gesture
+  * RTL not used in app drawer
+
+  !XGELS UI:
+  * updated icon (thanks to Eduardo Pratti)
+
 $ 2.2.8
   % Version 2.2.8
   _ 2015-13-02

@@ -241,7 +241,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             DynamicGrid = findClass(ClassNames.DYNAMIC_GRID, lpparam.classLoader);
             AppInfo = findClass(ClassNames.APP_INFO, lpparam.classLoader);
 
-            if (Common.IS_TREBUCHET) {
+            if (Common.IS_TREBUCHET && !Common.IS_L_TREBUCHET) {
                 AppsCustomizeLayout = findClass(ClassNames.APPS_CUSTOMIZE_LAYOUT, lpparam.classLoader);
             } else {
                 AppsCustomizeTabHost = findClass(ClassNames.APPS_CUSTOMIZE_TAB_HOST, lpparam.classLoader);
@@ -272,7 +272,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             BubbleTextView = findClass(ClassNames.BUBBLE_TEXT_VIEW, lpparam.classLoader);
             LauncherAppState = findClass(ClassNames.LAUNCHER_APP_STATE, lpparam.classLoader);
 
-            if (Common.IS_PRE_GNL_4) {
+            if (Common.IS_PRE_GNL_4 && !Common.IS_L_TREBUCHET) {
                 // PagedViewIcon was removed in Google Search 4.0
                 PagedViewIcon = findClass(ClassNames.PAGED_VIEW_ICON, lpparam.classLoader);
             }
@@ -493,7 +493,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             acthOnTabChanged = new String[]{"onTabChanged", "c", "c", "c", "c", "", "", ""}[idx]; // setBackgroundColor
             acthSetInsets = new String[]{"setInsets", "c", "c", "c", "c", "b", "b", "b"}[idx]; // (Rect
             acthGetContentTypeForTabTag = new String[]{"getContentTypeForTabTag", "j", "r", "r", "q", "q", "p", "p"}[idx]; // (String paramString)
-            acthSetContentTypeImmediate = new String[]{"setContentTypeImmediate", "b", "b", "b", "b", "", "", ""}[idx]; // setOnTabChangedListener(null)
+            acthSetContentTypeImmediate = new String[]{"setContentTypeImmediate", "b", "b", "b", "b", "b", "b", "b"}[idx]; // setOnTabChangedListener(null)
             dpGetWorkspacePadding = new String[]{"getWorkspacePadding", "aC", "aS", "aS", "aS", "ba", "ba", "ba"}[idx]; // Rect localRect2 = new Rect();
             dpUpdateFromConfiguration = new String[]{"updateFromConfiguration", "a", "a", "a", "a", "a", "a", "a"}[idx]; // float paramFloat, int paramInt, Resources paramResources, DisplayMetrics paramDisplayMetrics
             dgGetDeviceProfile = new String[]{"getDeviceProfile", "eV", "fK", "fT", "fT", "gl", "fM", "fM"}[idx]; // public final

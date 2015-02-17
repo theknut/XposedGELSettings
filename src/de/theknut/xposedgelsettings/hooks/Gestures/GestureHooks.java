@@ -26,9 +26,11 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelperNew;
 import de.theknut.xposedgelsettings.hooks.general.ContextMenu;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
+import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.getBooleanField;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
@@ -320,6 +322,9 @@ public class GestureHooks extends GestureHelper {
 
                         if (!PreferencesHelper.gesture_appdrawer) return;
 
+                        if (System.currentTimeMillis() - lastTouchTime < 1000) return;
+                        lastTouchTime = System.currentTimeMillis();
+
                         // user probably switched pages
                         if (getBooleanField(getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizeTabHost), Fields.acthInTransition)
                                 || getBooleanField(Common.APP_DRAWER_INSTANCE, Fields.pvIsPageMoving)) {
@@ -335,11 +340,25 @@ public class GestureHooks extends GestureHelper {
                                 return;
                             }
 
-                            if (Common.IS_PRE_GNL_4) {
-                                TabHost tabhost = (TabHost) getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizeTabHost);
-                                if (!getBooleanField(tabhost, Fields.acthInTransition)) {
+                            if (!getBooleanField(getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizeTabHost), Fields.acthInTransition)) {
+                                if (Common.IS_PRE_GNL_4) {
+                                    TabHost tabhost = (TabHost) getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizeTabHost);
                                     int tabIdx = tabhost.getCurrentTab() + 1;
                                     tabhost.setCurrentTab(tabIdx == tabhost.getTabWidget().getTabCount() ? 0 : tabIdx);
+                                } else {
+                                    if (PreferencesHelper.enableAppDrawerTabs) {
+                                        TabHelperNew.getInstance().setNextTab();
+                                    } else {
+                                        Object contentType;
+                                        if (getObjectField(Common.APP_DRAWER_INSTANCE, Fields.acpvContentType).toString().equals("Widgets")) {
+                                            contentType = callStaticMethod(Classes.AppsCustomizeTabHost, Methods.acthGetContentTypeForTabTag, "APPS");
+                                        } else {
+                                            contentType = callStaticMethod(Classes.AppsCustomizeTabHost, Methods.acthGetContentTypeForTabTag, "WIDGETS");
+                                        }
+                                        callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSetContentType, contentType);
+                                        callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSyncPages);
+                                        callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvInvalidatePageData, 0, false);
+                                    }
                                 }
                             }
                         }

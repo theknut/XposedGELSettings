@@ -152,7 +152,7 @@ public class AppDrawerHooks extends HooksBaseClass {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSetContentType, callMethod(TabHelperNew.getInstance().getTabHost(), Methods.acthGetContentTypeForTabTag, "APPS"));
+                                callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSetContentType, callMethod(getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizeTabHost), Methods.acthGetContentTypeForTabTag, "APPS"));
                                 if (Common.IS_PRE_GNL_4) {
                                     TabHelperLegacy.getInstance().setCurrentTab(0);
                                 } else {
@@ -243,7 +243,6 @@ public class AppDrawerHooks extends HooksBaseClass {
         findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvUpdateApps, ArrayList.class, new AllAppsListAddHook());
         findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvRemoveApps, ArrayList.class, new AllAppsListAddHook());
 
-        //AddTabsAndFoldersLegacy.initAllHooks(lpparam);
         AddTabsAndFolders.initAllHooks(lpparam);
         AddTabsAndFoldersLegacy.initAllHooks(lpparam);
     }

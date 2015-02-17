@@ -102,6 +102,7 @@ public class PreferencesHelper {
     public static Set<String> layerPositions;
     public static Set<String> appdrawerTabData;
     public static Set<String> appdrawerFolderData;
+    public static Set<String> iconGestures;
 
     public static String iconpack;
     public static boolean iconPackAutoApply;
@@ -239,6 +240,7 @@ public class PreferencesHelper {
         layerPositions = prefs.getStringSet("layerpositions", new HashSet<String>());
         appdrawerTabData = prefs.getStringSet("appdrawertabdata", new HashSet<String>());
         appdrawerFolderData = prefs.getStringSet("appdrawerfolderdata", new HashSet<String>());
+        iconGestures = prefs.getStringSet("icongestures", new HashSet<String>());
 
         iconpack = prefs.getString("iconpack", Common.ICONPACK_DEFAULT);
         iconPackAutoApply = prefs.getBoolean("autoupdateapplyiconpack", false);

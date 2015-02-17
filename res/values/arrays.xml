@@ -23,6 +23,10 @@
         <item>Touch - launch first app\nSwipe - open folder</item>
     </string-array>
 
+    <string-array name="icongestures_entries">
+        <item>Call contact</item>
+    </string-array>
+
     <string-array name="searchbarstyle_entries">
         <item>Default</item>
         <item>Android L style</item>

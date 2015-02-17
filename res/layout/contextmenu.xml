@@ -12,6 +12,13 @@
         android:background="@drawable/rounded_corners" >
 
         <ImageView
+            android:id="@+id/gesture"
+            android:layout_width="@dimen/context_menu_icon_size"
+            android:layout_height="@dimen/context_menu_icon_size"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_allapps" />
+
+        <ImageView
             android:id="@+id/appinfo"
             android:layout_width="@dimen/context_menu_icon_size"
             android:layout_height="@dimen/context_menu_icon_size"

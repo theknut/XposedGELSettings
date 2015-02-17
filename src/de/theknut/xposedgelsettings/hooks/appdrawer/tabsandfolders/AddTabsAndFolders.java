@@ -146,7 +146,9 @@ public class AddTabsAndFolders extends HooksBaseClass {
         CommonHooks.AppsCustomizePagedViewOverScrollListeners.add(new XGELSCallback() {
             @Override
             public void onAfterHookedMethod(MethodHookParam param) throws Throwable {
-                TabHelperNew.getInstance().handleOverscroll(getIntField(param.thisObject, Fields.pvOverscrollX));
+                if ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lIsAllAppsVisible)) {
+                    TabHelperNew.getInstance().handleOverscroll(getIntField(param.thisObject, Fields.pvOverscrollX));
+                }
             }
         });
 

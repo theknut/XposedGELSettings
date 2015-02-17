@@ -23,6 +23,7 @@ public class CommonHooks {
     static public ArrayList<XGELSCallback> AddViewToCellLayoutListeners = new ArrayList<XGELSCallback>();
     static public ArrayList<XGELSCallback> SnapToPageListeners = new ArrayList<XGELSCallback>();
     static public ArrayList<XGELSCallback> LauncherOnResumeListeners = new ArrayList<XGELSCallback>();
+    static public ArrayList<XGELSCallback> LauncherFinishBindingItems = new ArrayList<XGELSCallback>();
     static public ArrayList<XGELSCallback> LauncherOnPauseListeners = new ArrayList<XGELSCallback>();
     static public ArrayList<XGELSCallback> LauncherOnStartListeners = new ArrayList<XGELSCallback>();
     static public ArrayList<XGELSCallback> LauncherOnCreateListeners = new ArrayList<XGELSCallback>();
@@ -72,6 +73,9 @@ public class CommonHooks {
         }
         if (LauncherOnStartListeners.size() != 0) {
             findAndHookMethod(Classes.Launcher, "onStart", new XGELSHook(LauncherOnStartListeners));
+        }
+        if (LauncherFinishBindingItems.size() != 0) {
+            findAndHookMethod(Classes.Launcher, Methods.lFinishBindingItems, boolean.class, new XGELSHook(LauncherFinishBindingItems));
         }
         if (LauncherOnCreateListeners.size() != 0) {
             XposedBridge.hookAllMethods(Classes.Launcher, "onCreate", new XGELSHook(LauncherOnCreateListeners));

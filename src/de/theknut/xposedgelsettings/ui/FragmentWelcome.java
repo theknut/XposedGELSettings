@@ -7,10 +7,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -64,10 +67,19 @@ public class FragmentWelcome extends FragmentBase {
         rootView.findViewById(R.id.welcometext).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
+                //Intent intent = new Intent();
+                //intent.setType("image/*");
+                //intent.setAction(Intent.ACTION_GET_CONTENT);
                 //startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_PICK_PICTURE);
+
+//                Intent intent = new Intent(Intent.ACTION_PICK);
+//                intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
+//                startActivityForResult(intent, 1);
+
+
+
+
+
             }
         });
 
@@ -89,6 +101,29 @@ public class FragmentWelcome extends FragmentBase {
             intent.putExtra(CropImage.OUTPUT_X, 192);
             intent.putExtra(CropImage.OUTPUT_Y, 192);
             startActivityForResult(intent, REQUEST_CROP_PICTURE);
+        } else if (resultCode == Activity.RESULT_OK && requestCode == 1 && data != null) {
+                Uri uri = data.getData();
+
+                if (uri != null) {
+                    Cursor c = null;
+                    try {
+                        c = mContext.getContentResolver().query(uri, new String[]{
+                                        ContactsContract.CommonDataKinds.Phone.NUMBER,
+                                        ContactsContract.CommonDataKinds.Phone.TYPE },
+                                null, null, null);
+
+                        if (c != null && c.moveToFirst()) {
+                            String number = c.getString(0);
+                            Intent intent = new Intent(Intent.ACTION_CALL);
+                            intent.setData(Uri.parse("tel:" + number));
+                            mContext.startActivity(intent);
+                        }
+                    } finally {
+                        if (c != null) {
+                            c.close();
+                        }
+                    }
+                }
         }
     }
 
@@ -152,6 +187,25 @@ public class FragmentWelcome extends FragmentBase {
                 CommonUI.needFullReboot = true;
                 alerts.add(cl.getFullLogDialog());
                 //getFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentReverseEngineering()).commit();
+            }
+
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            ResolveInfo resolveInfo = mContext.getPackageManager().resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
+            if(resolveInfo.activityInfo.packageName.equals(Common.TREBUCHET_PACKAGE)
+                    && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                alerts.add(new MaterialDialog.Builder(mActivity)
+                        .theme(Theme.DARK)
+                        .title(R.string.alert_launcher_not_installed_title)
+                        .content("Trebuchet on Android Lollipop is currently not supported. In the meantime please use the Google Now Launcher.")
+                        .positiveText(android.R.string.ok)
+                        .callback(new MaterialDialog.ButtonCallback() {
+                            @Override
+                            public void onPositive(MaterialDialog materialDialog) {
+                                materialDialog.dismiss();
+                            }
+                        })
+                        .build());
             }
 
             if (alerts.size() != 0) {

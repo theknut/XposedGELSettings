@@ -2,11 +2,11 @@ package de.theknut.xposedgelsettings.hooks.gestures;
 
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.net.Uri;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
@@ -197,12 +197,12 @@ public class GestureHelper extends HooksBaseClass {
                         if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION >= ObfuscationHelper.GNL_4_1_21) {
                             Object objectField = getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizeTabHost);
                             try {
-                                method.invoke(Common.LAUNCHER_INSTANCE, true, callMethod(objectField, "p", "APPS"), false);
+                                method.invoke(Common.LAUNCHER_INSTANCE, true, callMethod(objectField, ObfuscationHelper.Methods.acthGetContentTypeForTabTag, "APPS"), false);
                             } catch (IllegalAccessException e) {
                                 e.printStackTrace();
-                                log("Ex");
+                                log("Ex1");
                             } catch (InvocationTargetException e) {
-                                log("Ex");
+                                log("Ex2");
                                 e.printStackTrace();
                             }
                         } else {
@@ -384,7 +384,7 @@ public class GestureHelper extends HooksBaseClass {
             hideAnimation = mHotseat.animate();
             hideAnimation.setListener(hideListener);
 
-            ((Activity) Common.LAUNCHER_INSTANCE).runOnUiThread(new Runnable() {
+            Common.LAUNCHER_INSTANCE.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
 
@@ -418,5 +418,11 @@ public class GestureHelper extends HooksBaseClass {
 
             mHotseat.setLayoutParams(lp);
         }
+    }
+
+    static void iconGesture() {
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        intent.setData(Uri.parse("tel:" + 2));
+        Common.LAUNCHER_INSTANCE.startActivity(intent);
     }
 }

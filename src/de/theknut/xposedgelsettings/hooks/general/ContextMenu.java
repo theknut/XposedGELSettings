@@ -34,6 +34,7 @@ import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.Utils;
 import de.theknut.xposedgelsettings.ui.AllAppsList;
 import de.theknut.xposedgelsettings.ui.FragmentSelectiveIcon;
+import de.theknut.xposedgelsettings.ui.SaveActivity;
 
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
@@ -277,6 +278,23 @@ public class ContextMenu extends HooksBaseClass{
         });
         show = isSystemApp || isFolder || getPackageName(tag) == null;
         uninstall.setVisibility(show ? View.GONE : View.VISIBLE);
+
+        ImageView gesture = (ImageView) contextMenuHolder.findViewById(R.id.gesture);
+        gesture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                closeAndRemove();
+
+                Intent intent = new Intent();
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+                intent.setComponent(new ComponentName(Common.PACKAGE_NAME, SaveActivity.class.getName()));
+                intent.putExtra("mode", SaveActivity.MODE_PICK_COLOR);
+                intent.putExtra("itemid", getLongField(tag, Fields.iiID));
+                Common.LAUNCHER_CONTEXT.startActivity(intent);
+            }
+        });
+        show = !isFolder;
+        gesture.setVisibility(View.GONE);
 
         ImageView appInfo = (ImageView) contextMenuHolder.findViewById(R.id.appinfo);
         appInfo.setOnClickListener(new View.OnClickListener() {

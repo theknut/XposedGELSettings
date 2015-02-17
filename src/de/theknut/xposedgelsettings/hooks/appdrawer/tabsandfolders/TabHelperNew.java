@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.os.Build;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,7 +81,7 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
     int currentTabId;
     float inactiveTabTranslationX;
 
-    boolean hasBeenInflated = false;
+    boolean tabsInitialized = false;
 
     public static TabHelperNew getInstance() {
         return INSTANCE;
@@ -98,9 +99,10 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
 
         this.tabHost = tabhost;
 
-        if (!hasBeenInflated) {
+        if (!tabsInitialized) {
             this.tabs = new ArrayList<>();
             initTabs();
+            tabsInitialized = true;
         }
 
         addTabBar(PreferencesHelper.moveTabHostBottom);
@@ -110,8 +112,6 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
 
         int id = tabhost.getContext().getResources().getIdentifier("market_button", "id", Common.HOOKED_PACKAGE);
         tabhost.removeView(tabhost.findViewById(id));
-
-        hasBeenInflated = true;
     }
 
     public void showTabBar() {
@@ -149,8 +149,7 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
 
     private void addTabBar(boolean alignBottom) {
         // this is freaking dirty but ain't nobody got time for that
-        int layout = alignBottom ? R.layout.tab_host_bottom : R.layout.tab_host;
-        RelativeLayout rl = (RelativeLayout) inflater.inflate(R.layout.tab_host, null, false);
+        ViewGroup rl = (ViewGroup) inflater.inflate(R.layout.tab_host, tabHost, true);
         hsv = (HorizontalScrollView) rl.findViewById(R.id.horizontalScrollView);
 
         int statusbarHeight;
@@ -169,6 +168,11 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
         ((ViewGroup) rl.findViewById(R.id.appdrawer_contents)).addView(contents);
         hsv.bringToFront();
 
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+            contents.setLayoutDirection(XGELSContext.getResources().getConfiguration().getLayoutDirection());
+            tabsContainer.setLayoutDirection(XGELSContext.getResources().getConfiguration().getLayoutDirection());
+        }
+
         addButton = (ImageView) rl.findViewById(R.id.addbutton);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,8 +185,6 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
             }
         });
         addButton.setTranslationY(hsv.getHeight() * 1.5f);
-
-        tabHost.addView(rl);
     }
 
     public void initTabs() {
@@ -390,6 +392,11 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
         tabsContainer.findViewById(currentTabId).getBackground().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
         ((TextView) tabsContainer.findViewById(currentTabId)).setTextColor(Utils.getContrastColor(color));
         addButton.setColorFilter(color, PorterDuff.Mode.MULTIPLY);
+    }
+
+    public void setNextTab() {
+        int tabIdx = getCurrentTabData().getIndex() + 1;
+        setCurrentTab(tabs.get(tabIdx >= tabs.size() ? 0 : tabIdx));
     }
 
     public void setCurrentTab(Tab tab) {
@@ -877,7 +884,6 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
                 @Override
                 public void onClick(View v) {
                     Intent intent = getBaseIntent(false, tab.getId(), tab.getTitle());
-                    intent.putExtra("keep", true);
                     intent.putExtra("initcolor", tab.getPrimaryColor());
                     Common.LAUNCHER_CONTEXT.startActivity(intent);
                     tabSettingsDialog.cancel();
@@ -1043,7 +1049,7 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
         if (Common.APP_DRAWER_PAGE_SWITCHED) return;
 
         if (overscroll > 0.0) {
-            overscroll -= (overscroll / ((View) Common.APP_DRAWER_INSTANCE).getWidth()) * ((View) Common.APP_DRAWER_INSTANCE).getWidth();
+            overscroll -= (overscroll / Common.APP_DRAWER_INSTANCE.getWidth()) * Common.APP_DRAWER_INSTANCE.getWidth();
         }
         hsv.setTranslationX(-overscroll);
     }

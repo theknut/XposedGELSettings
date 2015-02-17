@@ -92,6 +92,8 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
                 if (PreferencesHelper.Debug)
                     XposedBridge.log("XGELS: " + Common.HOOKED_PACKAGE + " V" + versionName + "(" + versionCode + ")");
             } else {
+                Common.IS_L_TREBUCHET = Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE)
+                            && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
                 Common.IS_TREBUCHET = Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE);
                 versionIdx = 0;
             }

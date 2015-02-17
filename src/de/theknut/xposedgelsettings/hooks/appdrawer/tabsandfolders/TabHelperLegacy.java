@@ -768,7 +768,6 @@ public final class TabHelperLegacy extends TabHelper implements View.OnClickList
                 @Override
                 public void onClick(View v) {
                     Intent intent = getBaseIntent(false, tab.getId(), tab.getTitle());
-                    intent.putExtra("keep", true);
                     intent.putExtra("initcolor", tab.getPrimaryColor());
                     Common.LAUNCHER_CONTEXT.startActivity(intent);
                     tabSettingsDialog.cancel();
