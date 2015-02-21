@@ -52,7 +52,7 @@
         <item>切换托盘</item>
         <item>打开应用</item>
     </string-array>
-  <string-array name="gesture_actions_entries_limited">
+    <string-array name="gesture_actions_entries_limited">
         <item>无</item>
         <item>应用抽屉</item>
         <item>切换托盘</item>
