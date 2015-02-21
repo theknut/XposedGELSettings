@@ -28,6 +28,11 @@
         <item>滑动 - 启动第一个应用\n点击 - 打开文件夹</item>
         <item>点击 - 启动第一个应用\n滑动 - 打开文件夹</item>
     </string-array>
+    
+    <string-array name="icongestures_entries">
+       <item>拨打联系人电话</item>
+    </string-array>
+
 
     <string-array name="searchbarstyle_entries">
         <item>默认</item>
