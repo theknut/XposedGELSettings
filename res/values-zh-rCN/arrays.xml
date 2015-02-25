@@ -10,18 +10,35 @@
     <string-array name="fragmenttitles_array">
         <item>欢迎</item>
         <item>常规</item>
-        <item>谷歌搜索栏</item>
+        <item>Google 搜索栏</item>
         <item>桌面</item>
         <item>应用抽屉</item>
         <item>手势</item>
         <item>通知标记</item>
         <item>图标</item>
-        <item>Android综合</item>
+        <item>Android 整合</item>
         <item>备份/还原</item>
         <item>设置</item>
         <item>高级版/支持</item>
         <item>逆向工程</item>
     </string-array>
+    
+    <string-array name="smartfoldermode_entries">
+        <item>关</item>
+        <item>滑动 - 启动第一个应用\n点击 - 打开文件夹</item>
+        <item>点击 - 启动第一个应用\n滑动 - 打开文件夹</item>
+    </string-array>
+    
+    <string-array name="icongestures_entries">
+       <item>拨打联系人电话</item>
+    </string-array>
+
+
+    <string-array name="searchbarstyle_entries">
+        <item>默认</item>
+        <item>Android L 样式</item>
+    </string-array>
+
 
     <string-array name="gesture_actions_entries">
         <item>无</item>
@@ -35,5 +52,57 @@
         <item>切换托盘</item>
         <item>打开应用</item>
     </string-array>
+    <string-array name="gesture_actions_entries_limited">
+        <item>无</item>
+        <item>应用抽屉</item>
+        <item>切换托盘</item>
+    </string-array>
 
+    <string-array name="general_scroll_devider_entries">
+        <item>默认</item>
+        <item>中等</item>
+        <item>快</item>
+        <item>最大速度</item>
+        <item>无动画</item>
+    </string-array>
+
+    <string-array name="contextmenu_mode_entries">
+        <item>已禁用</item>
+        <item>仅快捷方式</item>
+        <item>仅小部件</item>
+        <item>快捷方式和小部件</item>
+    </string-array>
+
+    <string-array name="tabcontent_entries">
+        <item>应用</item>
+        <item>小部件</item>
+        <item>Xposed 模块</item>
+        <item>Google 应用</item>
+        <item>图标包</item>
+        <item>新应用</item>
+        <item>新/更新的应用</item>
+    </string-array>
+
+    <string-array name="tabcontent_names">
+        <item>应用</item>
+        <item>小部件</item>
+        <item>Xposed</item>
+        <item>Google</item>
+        <item>图标包</item>
+        <item>新应用</item>
+        <item>新/更新</item>
+    </string-array>
+
+    <string-array name="tabsort_entries">
+        <item>字母顺序</item>
+        <item>安装日期</item>
+        <item>最后更新</item>
+    </string-array>
+
+    <string-array name="notificationbadge_position_entries">
+        <item>左上角</item>
+        <item>右上角</item>
+        <item>左下角</item>
+        <item>右下角</item>
+    </string-array>
 </resources>
