@@ -23,6 +23,10 @@
         <item>Dokun - ilk uygulamayı başlatır\nKaydır - klasörü açar</item>
     </string-array>
 
+    <string-array name="icongestures_entries">
+        <item>Aranan kişi</item>
+    </string-array>
+    
     <string-array name="searchbarstyle_entries">
         <item>Varsayılan</item>
         <item>Android L tarzı</item>
