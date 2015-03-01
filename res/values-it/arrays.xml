@@ -22,7 +22,11 @@
         <item>Scorri - apre la prima applicazione\nTouch - apre la cartella</item>
         <item>Touch - apre la prima applicazione\nScorri - apre la cartella</item>
     </string-array>
-
+    
+    <string-array name="icongestures_entries">
+        <item>Chiama contatto</item>
+    </string-array>
+    
     <string-array name="searchbarstyle_entries">
         <item>Predefinito</item>
         <item>Stile Android L</item>
