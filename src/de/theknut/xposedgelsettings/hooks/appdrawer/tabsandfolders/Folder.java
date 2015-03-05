@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
@@ -94,7 +95,9 @@ public class Folder extends AppDrawerItem implements View.OnLongClickListener, V
             setObjectField(folderInfo, Fields.iiContainer, -101);
             setObjectField(folderInfo, Fields.iiID, getId());
 
-            if (Common.PACKAGE_OBFUSCATED) {
+            if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION >= ObfuscationHelper.GNL_4_2_16) {
+                folderIcon = (View) callStaticMethod(Classes.FolderIcon, Methods.fiFromXml, id, Common.LAUNCHER_INSTANCE, appsCustomizeCellLayout, folderInfo, getObjectField(Common.LAUNCHER_INSTANCE, Fields.lIconCache));
+            } else if (Common.PACKAGE_OBFUSCATED) {
                 folderIcon = (View) callStaticMethod(Classes.FolderIcon, Methods.fiFromXml, id, Common.LAUNCHER_INSTANCE, appsCustomizeCellLayout, folderInfo);
             } else {
                 folderIcon = (View) callStaticMethod(Classes.FolderIcon, Methods.fiFromXml, id, Common.LAUNCHER_INSTANCE, appsCustomizeCellLayout, folderInfo, getObjectField(Common.LAUNCHER_INSTANCE, Fields.lIconCache));
@@ -123,14 +126,20 @@ public class Folder extends AppDrawerItem implements View.OnLongClickListener, V
             ImageView background = (ImageView) getObjectField(folderIcon, Fields.fiPreviewBackground);
             ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) background.getLayoutParams();
 
-            int padding = getIntField(Common.DEVICE_PROFIL, Fields.dpIconDrawablePaddingPx);
-            folderIcon.setPadding(0, padding, 0, 0);
-            layoutParams.height = layoutParams.width = (int) Math.ceil(Common.APP_DRAWER_ICON_SIZE);
+            int padding = getIntField(Common.DEVICE_PROFIL, Fields.dpFolderBackgroundOffset);
+            background.setPadding(0, -padding, 0, 0);
+            folderIcon.setPadding(0, -padding, 0, 0);
+            //layoutParams.height = layoutParams.width = (int) Math.ceil(Common.APP_DRAWER_ICON_SIZE);
+            layoutParams.topMargin = getIntField(Common.DEVICE_PROFIL, Fields.dpFolderBackgroundOffset);
+
+            int folderIconSize = Common.APP_DRAWER_ICON_SIZE + (2 * - getIntField(Common.DEVICE_PROFIL, Fields.dpFolderBackgroundOffset));
+            layoutParams.height = layoutParams.width = folderIconSize;
 
             callMethod(callMethod(appsCustomizeCellLayout, Methods.clGetShortcutsAndWidgets), Methods.sawMeasureChild, folderIcon);
             TextView t = ((TextView) getObjectField(folderIcon, Fields.fiFolderName));
+            t.setCompoundDrawablePadding(0);
             t.setTextSize(0, getIntField(Common.DEVICE_PROFIL, Fields.dpIconTextSize));
-            ((ViewGroup.MarginLayoutParams) t.getLayoutParams()).setMargins(0, (int) Math.ceil(Common.APP_DRAWER_ICON_SIZE + padding), 0, 0);
+            ((ViewGroup.MarginLayoutParams) t.getLayoutParams()).topMargin = Common.APP_DRAWER_ICON_SIZE + getIntField(Common.DEVICE_PROFIL, Fields.dpIconDrawablePaddingPx);
 
             addItems();
         }
@@ -160,7 +169,7 @@ public class Folder extends AppDrawerItem implements View.OnLongClickListener, V
                         for (int i = 0; i < contents.getChildCount(); i++) {
                             TextView app = (TextView) contents.getChildAt(i);
                             app.setOnTouchListener((View.OnTouchListener) appsCustomizePagedView);
-                            app.setOnLongClickListener((View.OnLongClickListener) appsCustomizePagedView);
+                            app.setOnLongClickListener(null);
                             app.setOnKeyListener((View.OnKeyListener) appsCustomizePagedView);
                         }
 

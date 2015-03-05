@@ -31,6 +31,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
@@ -205,9 +206,13 @@ public class FragmentSettings extends FragmentBase {
 
                     String version = null;
                     try {
+
+                        ArrayList<String> skuList = new ArrayList<String>();
+                        Collections.addAll(skuList, mContext.getResources().getStringArray(R.array.premiumValues));
+
                         PackageManager pkgMgr = mContext.getPackageManager();
                         PackageInfo packageInfo = pkgMgr.getPackageInfo(mContext.getPackageName(), 0);
-                        version = "XGELS" + (InAppPurchase.isPremium ? " Premium" : "") + ": " + packageInfo.versionName + " (" + packageInfo.versionCode + ")";
+                        version = "XGELS" + (InAppPurchase.isPremium ? " Premium: " : ": ") + packageInfo.versionName + " (" + packageInfo.versionCode + ")" + (InAppPurchase.isPremium ? " | " + InAppPurchase.mHelper.getOrderId(skuList) : "");
                         deviceInfo.append(version).append(ls);
 
                         packageInfo = pkgMgr.getPackageInfo("de.robv.android.xposed.installer", 0);

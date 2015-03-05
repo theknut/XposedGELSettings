@@ -27,6 +27,42 @@
   </head>
   <body>
 
+$ 2.2.11
+  % Version 2.2.11
+  _ 2015-03-06
+
+  Trebuchet on <b>CM12</b> is now fully supported. Until furhter notice <b>all</b> GNL features are working for <b>Trebuchet on CM12</b> as well!<br><br>
+
+  !Fixed:
+  * Trebuchet not working
+  * Launcher goes to Google Now on reboot
+  * hiding app dock not working
+  * SystemUI crash on unsupported ROMs
+  * folder in app drawer too small
+  * app drawer padding in landscape
+  * calendar icon not updated on new day
+
+  !XGELS UI:
+  * updated translations
+
+$ 2.2.10
+  % Version 2.2.10
+  _ 2015-17-02
+
+  Please consider XGELS Premium to support the development of this app<br><br>Trebuchet on Lollipop is currently not supported but will be in the very near future.<br><br>
+
+  !Improvment:
+  * support for Google Search 4.2.16
+
+  !Fixed:
+  * toggle recents gesture not working
+  * color for new tabs is always white
+  * app drawer gesture not working
+  * various other fixes
+
+  !XGELS UI:
+  * updated Chinese translation
+
 $ 2.2.9
   % Version 2.2.9
   _ 2015-17-02

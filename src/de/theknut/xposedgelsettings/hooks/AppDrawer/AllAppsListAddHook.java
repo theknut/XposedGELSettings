@@ -40,7 +40,7 @@ public final class AllAppsListAddHook extends XC_MethodHook {
             Common.ALL_APPS = new ArrayList((ArrayList) param.args[0]);
             TabHelper.getInstance().updateTabs();
 
-            if (!Common.IS_TREBUCHET) return;
+            if (!Common.IS_KK_TREBUCHET) return;
         }
 
         if (PreferencesHelper.iconPackHide && !init && Common.LAUNCHER_CONTEXT != null) {
@@ -109,7 +109,7 @@ public final class AllAppsListAddHook extends XC_MethodHook {
 
     @Override
     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-        if (Common.IS_TREBUCHET) return;
+        if (Common.IS_KK_TREBUCHET) return;
         Tab tab = TabHelper.getInstance().getTabById(Tab.APPS_ID);
         Collections.sort((ArrayList) param.args[APPINFOLIST], tab.getSortComparator());
     }

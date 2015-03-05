@@ -303,7 +303,7 @@ public final class FolderHelper {
 
     public ArrayList<String> getAppsToHide() {
         ArrayList apps = new ArrayList();
-        if (Common.IS_TREBUCHET) return apps;
+        if (Common.IS_KK_TREBUCHET) return apps;
 
         for (Folder folder : folders) {
             if (folder.hideFromAppsPage()) {

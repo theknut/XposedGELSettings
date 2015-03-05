@@ -19,7 +19,6 @@ public class MoveToDefaultScreenHook extends XGELSCallback {
     public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
 
         int newDefaultPageNumber = ((PreferencesHelper.defaultHomescreen == 0) ? 0 : PreferencesHelper.defaultHomescreen) - 1;
-
         // move to our default homescreen
         if (Common.IS_TREBUCHET) {
             setIntField(param.thisObject, "mDefaultPage", newDefaultPageNumber);

@@ -27,6 +27,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
@@ -75,12 +76,18 @@ public class ContextMenu extends HooksBaseClass{
             XC_MethodHook addResizeFrameHook = new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    int WIDGET = Common.PACKAGE_OBFUSCATED ? 0 : 1;
+                    int WIDGET = 0;
+                    if ((Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION >= ObfuscationHelper.GNL_4_2_16)
+                        || !Common.PACKAGE_OBFUSCATED) {
+                        WIDGET = 1;
+                    } else if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION < ObfuscationHelper.GNL_4_2_16) {
+                        WIDGET = 0;
+                    }
 
                     Object resize = getAdditionalInstanceField(param.args[WIDGET], "resize");
                     if (resize == null) {
                         param.setResult(null);
-                    } else if (resize != null) {
+                    } else {
                         setAdditionalInstanceField(param.args[WIDGET], "resize", false);
                         if (!(Boolean) resize) {
                             param.setResult(null);
@@ -89,7 +96,9 @@ public class ContextMenu extends HooksBaseClass{
                 }
             };
 
-            if (Common.PACKAGE_OBFUSCATED) {
+            if (Common.GNL_VERSION >= ObfuscationHelper.GNL_4_2_16) {
+                findAndHookMethod(Classes.DragLayer, Methods.dlAddResizeFrame, Classes.ItemInfo, Classes.LauncherAppWidgetHostView, Classes.CellLayout, addResizeFrameHook);
+            } else if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION < ObfuscationHelper.GNL_4_2_16) {
                 findAndHookMethod(Classes.DragLayer, Methods.dlAddResizeFrame, Classes.LauncherAppWidgetHostView, Classes.CellLayout, addResizeFrameHook);
             } else {
                 findAndHookMethod(Classes.DragLayer, Methods.dlAddResizeFrame, Classes.ItemInfo, Classes.LauncherAppWidgetHostView, Classes.CellLayout, addResizeFrameHook);
@@ -113,7 +122,7 @@ public class ContextMenu extends HooksBaseClass{
                 final View longPressedItem = (View) param.args[0];
                 if (longPressedItem.getClass().equals(Classes.CellLayout)) return;
 
-                if (Common.IS_TREBUCHET) {
+                if (Common.IS_KK_TREBUCHET) {
                     try {
                         // alls apps button
                         if (getIntField(longPressedItem.getTag(), Fields.iiItemType) == 5) {
@@ -334,12 +343,15 @@ public class ContextMenu extends HooksBaseClass{
                                 @Override
                                 public void run() {
                                     ((ViewGroup) longPressedItem.getParent()).removeView(longPressedItem);
-                                    if (Common.IS_PRE_GNL_4) {
-                                        callStaticMethod(Classes.LauncherModel, Methods.lmDeleteItemFromDatabase, Common.LAUNCHER_INSTANCE, longPressedItem.getTag());
+
+                                    if (Common.IS_KK_TREBUCHET) {
+                                        callStaticMethod(Classes.LauncherModel, "deleteItemFromDatabase", Common.LAUNCHER_INSTANCE, longPressedItem.getTag());
+                                    } else if (Common.IS_PRE_GNL_4) {
+                                        callStaticMethod(Classes.LauncherModel, Methods.lmDeleteItemsFromDatabase, Common.LAUNCHER_INSTANCE, longPressedItem.getTag());
                                     } else {
                                         ArrayList array = new ArrayList();
                                         array.add(longPressedItem.getTag());
-                                        callStaticMethod(Classes.LauncherModel, Methods.lmDeleteItemFromDatabase, Common.LAUNCHER_CONTEXT, array);
+                                        callStaticMethod(Classes.LauncherModel, Methods.lmDeleteItemsFromDatabase, Common.LAUNCHER_CONTEXT, array);
                                     }
                                 }
                             });
@@ -439,7 +451,7 @@ public class ContextMenu extends HooksBaseClass{
 
                 setAdditionalInstanceField(longPressedItem, "resize", true);
 
-                if (Common.PACKAGE_OBFUSCATED) {
+                if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION < ObfuscationHelper.GNL_4_2_16) {
                     callMethod(getDragLayer(), Methods.dlAddResizeFrame, longPressedItem, longPressedItem.getParent().getParent());
                 } else {
                     callMethod(getDragLayer(), Methods.dlAddResizeFrame, longPressedItem.getTag(), longPressedItem, longPressedItem.getParent().getParent());

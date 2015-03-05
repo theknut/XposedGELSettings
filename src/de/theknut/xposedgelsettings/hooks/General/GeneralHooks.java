@@ -187,7 +187,7 @@ public class GeneralHooks extends HooksBaseClass {
             if (Common.PACKAGE_OBFUSCATED) {
                 findAndHookMethod(Classes.StartSettingsOnClick, "onClick", View.class, overriderSettingsHook);
             } else {
-                if (!Common.IS_TREBUCHET) {
+                if (!Common.IS_KK_TREBUCHET) {
                     findAndHookMethod(Classes.Launcher, "startSettings", overriderSettingsHook);
                 }
             }
@@ -195,7 +195,17 @@ public class GeneralHooks extends HooksBaseClass {
 
         if (PreferencesHelper.resizeAllWidgets) {
             // manipulate the widget settings to make them resizeable
-            CommonHooks.AddViewToCellLayoutListeners.add(new AddViewToCellLayoutHook());
+            findAndHookMethod(Classes.CellLayout, Methods.clAddViewToCellLayout, View.class, Integer.TYPE, Integer.TYPE, Classes.CellLayoutLayoutParams, boolean.class, new AddViewToCellLayoutHook());
+
+//            findAndHookMethod(Classes.Launcher, "a", Context.class, ComponentName.class, Integer.TYPE, Integer.TYPE, new XC_MethodHook() {
+//                @Override
+//                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+//                    int[] res = new int[2];
+//                    res[0] = 1;
+//                    res[1] = 1;
+//                    param.setResult(res);
+//                }
+//            });
         }
 
         if (PreferencesHelper.longpressAllAppsButton) {
@@ -343,10 +353,12 @@ public class GeneralHooks extends HooksBaseClass {
             }
         };
 
-        if (Common.IS_PRE_GNL_4) {
-            findAndHookMethod(Classes.LauncherModel, Methods.lmDeleteItemFromDatabase, Context.class, Classes.ItemInfo, hook);
+        if (Common.IS_KK_TREBUCHET) {
+            findAndHookMethod(Classes.LauncherModel, "deleteItemFromDatabase", Context.class, Classes.ItemInfo, hook);
+        } else if (Common.IS_PRE_GNL_4) {
+            findAndHookMethod(Classes.LauncherModel, Methods.lmDeleteItemsFromDatabase, Context.class, Classes.ItemInfo, hook);
         } else {
-            findAndHookMethod(Classes.LauncherModel, Methods.lmDeleteItemFromDatabase, Context.class, ArrayList.class, hook);
+            findAndHookMethod(Classes.LauncherModel, Methods.lmDeleteItemsFromDatabase, Context.class, ArrayList.class, hook);
         }
 
         findAndHookMethod(Classes.LauncherModel, Methods.lmDeleteFolderContentsFromDatabase, Context.class, Classes.FolderInfo, new XC_MethodHook() {
@@ -390,6 +402,8 @@ public class GeneralHooks extends HooksBaseClass {
             try {
                 if (intent.getAction().equals(Common.XGELS_ACTION_RESTART_LAUNCHER)) {
                     killLauncher();
+                } else if (intent.getAction().equals(Common.XGELS_ACTION_RELOAD_SETTINGS)) {
+                    TabHelper.getInstance().updateTabs();
                 } else if (intent.getAction().equals(Common.XGELS_ACTION_UPDATE_FOLDER_ITEMS)) {
                     long folderID = intent.getLongExtra("itemid", -1);
                     View view = Common.CURRENT_CONTEXT_MENU_ITEM;
@@ -531,7 +545,7 @@ public class GeneralHooks extends HooksBaseClass {
                                         }
 
                                         if (Common.PACKAGE_OBFUSCATED) {
-                                            icon = (View) callMethod(Common.LAUNCHER_INSTANCE, Methods.lCreateAppInfo, callMethod(tag, "getIntent"));
+                                            icon = (View) callMethod(Common.LAUNCHER_INSTANCE, Methods.lCreateAppDragInfo, callMethod(tag, "getIntent"));
                                         } else {
                                             PackageManager pm = Common.LAUNCHER_CONTEXT.getPackageManager();
                                             icon = (View) newInstance(

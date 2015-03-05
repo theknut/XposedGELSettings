@@ -81,13 +81,16 @@ public class GestureHooks extends GestureHelper {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     if (DEBUG) log("GestureHooks: lHideAppsCustomizeHelper");
-
                     hideAppdock(FORCEHIDE);
                 }
             };
 
             if (Common.PACKAGE_OBFUSCATED) {
-                findAndHookMethod(Classes.Launcher, Methods.lHideAppsCustomizeHelper, Classes.WorkspaceState, boolean.class, Runnable.class, hideAppsCustomizeHelper);
+                if (Common.GNL_VERSION >= ObfuscationHelper.GNL_4_2_16) {
+                    findAndHookMethod(Classes.Launcher, Methods.lHideAppsCustomizeHelper, Classes.WorkspaceState, boolean.class, boolean.class, Runnable.class, hideAppsCustomizeHelper);
+                } else {
+                    findAndHookMethod(Classes.Launcher, Methods.lHideAppsCustomizeHelper, Classes.WorkspaceState, boolean.class, Runnable.class, hideAppsCustomizeHelper);
+                }
             } else {
                 XposedBridge.hookAllMethods(Classes.Launcher, Methods.lHideAppsCustomizeHelper, hideAppsCustomizeHelper);
             }
@@ -122,7 +125,6 @@ public class GestureHooks extends GestureHelper {
 
                     try {
                         if (mHotseat.getAlpha() == 1.0f) {
-
                             if (autoHideAppDock) {
                                 if (DEBUG) log("GestureHooks: onRequestFocusInDescendants autoHideAppDock");
                                 hideAppdock(animateDuration);
@@ -146,7 +148,9 @@ public class GestureHooks extends GestureHelper {
 
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                if (Common.FOLDER_GESTURE_ACTIVE || ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lIsAllAppsVisible))) {
+                if (Common.FOLDER_GESTURE_ACTIVE
+                        || ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lIsAllAppsVisible))
+                        || !getObjectField(Common.WORKSPACE_INSTANCE, Fields.wState).toString().equals("NORMAL")) {
                     return;
                 }
 
@@ -204,7 +208,6 @@ public class GestureHooks extends GestureHelper {
                                 mHotseat.setLayoutParams(lp);
 
                             } else if (autoHideAppDock) {
-
                                 hideAppdock(animateDuration);
                             }
                         }
@@ -263,6 +266,7 @@ public class GestureHooks extends GestureHelper {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 
+                if (!(Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lIsAllAppsVisible)) return;
                 if (wm == null) init();
 
                 MotionEvent ev = (MotionEvent) param.args[0];
@@ -287,7 +291,6 @@ public class GestureHooks extends GestureHelper {
                 }
 
                 switch (ev.getAction() & MotionEvent.ACTION_MASK) {
-
                     case MotionEvent.ACTION_MOVE:
                         if (DEBUG) log("MOVE: " + ev.getRawY());
 
@@ -322,7 +325,7 @@ public class GestureHooks extends GestureHelper {
 
                         if (!PreferencesHelper.gesture_appdrawer) return;
 
-                        if (System.currentTimeMillis() - lastTouchTime < 250) return;
+                        if (System.currentTimeMillis() - lastTouchTime < 400) return;
                         lastTouchTime = System.currentTimeMillis();
 
                         // user probably switched pages
@@ -335,7 +338,7 @@ public class GestureHooks extends GestureHelper {
                             callMethod(Common.LAUNCHER_INSTANCE, Methods.lShowWorkspace, true, null);
                         } else if ((ev.getRawY() - downY) < -gestureDistance) {
 
-                            if (Common.IS_TREBUCHET) {
+                            if (Common.IS_KK_TREBUCHET) {
                                 Toast.makeText(Common.LAUNCHER_CONTEXT, "XGELS: Unfortunately swipe up to toggle apps/widgets doesn't work on Trebuchet", Toast.LENGTH_LONG).show();
                                 return;
                             }

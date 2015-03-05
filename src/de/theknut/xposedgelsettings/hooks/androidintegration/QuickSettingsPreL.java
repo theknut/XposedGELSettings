@@ -104,85 +104,89 @@ public class QuickSettingsPreL extends HooksBaseClass {
                 }
             });
         } catch (ClassNotFoundError cnfe) {
-            // CM -.-
-            final Class<?> QuickSettingsBasicTileClass = findClass("com.android.systemui.quicksettings.QuickSettingsTile", lpparam.classLoader);
+            try {
+                // CM -.-
+                final Class<?> QuickSettingsBasicTileClass = findClass("com.android.systemui.quicksettings.QuickSettingsTile", lpparam.classLoader);
 
-            findAndHookMethod("com.android.systemui.statusbar.phone.QuickSettingsController", lpparam.classLoader, "loadTiles", new XC_MethodHook() {
+                findAndHookMethod("com.android.systemui.statusbar.phone.QuickSettingsController", lpparam.classLoader, "loadTiles", new XC_MethodHook() {
 
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 
-                    mContext = (Context) getObjectField(param.thisObject, "mContext");
-                    XGELSResources = mContext.createPackageContext(Common.PACKAGE_NAME, Context.CONTEXT_IGNORE_SECURITY).getResources();
-                    ViewGroup mContainerView = (ViewGroup) getObjectField(param.thisObject, "mContainerView");
-                    ArrayList mQuickSettingsTiles = (ArrayList) getObjectField(param.thisObject, "mQuickSettingsTiles");
+                        mContext = (Context) getObjectField(param.thisObject, "mContext");
+                        XGELSResources = mContext.createPackageContext(Common.PACKAGE_NAME, Context.CONTEXT_IGNORE_SECURITY).getResources();
+                        ViewGroup mContainerView = (ViewGroup) getObjectField(param.thisObject, "mContainerView");
+                        ArrayList mQuickSettingsTiles = (ArrayList) getObjectField(param.thisObject, "mQuickSettingsTiles");
 
-                    final Object lockDesktopTile = newInstance(QuickSettingsBasicTileClass, mContext, param.thisObject);
-                    callMethod(lockDesktopTile, "setupQuickSettingsTile", LayoutInflater.from(mContext), mContainerView);
+                        final Object lockDesktopTile = newInstance(QuickSettingsBasicTileClass, mContext, param.thisObject);
+                        callMethod(lockDesktopTile, "setupQuickSettingsTile", LayoutInflater.from(mContext), mContainerView);
 
-                    FrameLayout mTile = (FrameLayout) getObjectField(lockDesktopTile, "mTile");
-                    mTile.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            String text = XGELSResources.getString(
-                                    !PreferencesHelper.lockHomescreen
-                                            ? R.string.quicksettings_desktop_locked
-                                            : R.string.quicksettings_desktop_unlocked
-                            );
-                            Drawable drawable = XGELSResources.getDrawable(
-                                    !PreferencesHelper.lockHomescreen
-                                            ? R.drawable.ic_qs_desktop_locked
-                                            : R.drawable.ic_qs_desktop_unlocked
-                            );
+                        FrameLayout mTile = (FrameLayout) getObjectField(lockDesktopTile, "mTile");
+                        mTile.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                String text = XGELSResources.getString(
+                                        !PreferencesHelper.lockHomescreen
+                                                ? R.string.quicksettings_desktop_locked
+                                                : R.string.quicksettings_desktop_unlocked
+                                );
+                                Drawable drawable = XGELSResources.getDrawable(
+                                        !PreferencesHelper.lockHomescreen
+                                                ? R.drawable.ic_qs_desktop_locked
+                                                : R.drawable.ic_qs_desktop_unlocked
+                                );
 
-                            FrameLayout mTile = (FrameLayout) getObjectField(lockDesktopTile, "mTile");
-                            TextView tv = (TextView) mTile.findViewById(mTile.getResources().getIdentifier("text", "id", mTile.getContext().getPackageName()));
-                            if (tv != null) {
-                                tv.setText(text);
+                                FrameLayout mTile = (FrameLayout) getObjectField(lockDesktopTile, "mTile");
+                                TextView tv = (TextView) mTile.findViewById(mTile.getResources().getIdentifier("text", "id", mTile.getContext().getPackageName()));
+                                if (tv != null) {
+                                    tv.setText(text);
+                                }
+                                ImageView image = (ImageView) mTile.findViewById(mTile.getResources().getIdentifier("image", "id", mTile.getContext().getPackageName()));
+                                if (image != null) {
+                                    image.setImageDrawable(drawable);
+                                }
+                                Utils.saveToSettings(mContext, "lockhomescreen", !PreferencesHelper.lockHomescreen);
                             }
-                            ImageView image = (ImageView) mTile.findViewById(mTile.getResources().getIdentifier("image", "id", mTile.getContext().getPackageName()));
-                            if (image != null) {
-                                image.setImageDrawable(drawable);
-                            }
-                            Utils.saveToSettings(mContext, "lockhomescreen", !PreferencesHelper.lockHomescreen);
+                        });
+
+                        mQuickSettingsTiles.add(lockDesktopTile);
+
+                        setAdditionalInstanceField(param.thisObject, LOCKDESKTOPTILE_KEY, lockDesktopTile);
+                    }
+                });
+
+                findAndHookMethod("com.android.systemui.statusbar.phone.QuickSettingsController", lpparam.classLoader, "updateResources", new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        mContext = (Context) getObjectField(param.thisObject, "mContext");
+                        XGELSResources = mContext.createPackageContext(Common.PACKAGE_NAME, Context.CONTEXT_IGNORE_SECURITY).getResources();
+                        Object lockDesktopTile = getAdditionalInstanceField(param.thisObject, LOCKDESKTOPTILE_KEY);
+
+                        Drawable drawable = XGELSResources.getDrawable(
+                                PreferencesHelper.lockHomescreen
+                                        ? R.drawable.ic_qs_desktop_locked
+                                        : R.drawable.ic_qs_desktop_unlocked
+                        );
+                        String text = XGELSResources.getString(
+                                PreferencesHelper.lockHomescreen
+                                        ? R.string.quicksettings_desktop_locked
+                                        : R.string.quicksettings_desktop_unlocked
+                        );
+
+                        FrameLayout mTile = (FrameLayout) getObjectField(lockDesktopTile, "mTile");
+                        TextView tv = (TextView) mTile.findViewById(mTile.getResources().getIdentifier("text", "id", mTile.getContext().getPackageName()));
+                        if (tv != null) {
+                            tv.setText(text);
                         }
-                    });
-
-                    mQuickSettingsTiles.add(lockDesktopTile);
-
-                    setAdditionalInstanceField(param.thisObject, LOCKDESKTOPTILE_KEY, lockDesktopTile);
-                }
-            });
-
-            findAndHookMethod("com.android.systemui.statusbar.phone.QuickSettingsController", lpparam.classLoader, "updateResources", new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    mContext = (Context) getObjectField(param.thisObject, "mContext");
-                    XGELSResources = mContext.createPackageContext(Common.PACKAGE_NAME, Context.CONTEXT_IGNORE_SECURITY).getResources();
-                    Object lockDesktopTile = getAdditionalInstanceField(param.thisObject, LOCKDESKTOPTILE_KEY);
-
-                    Drawable drawable = XGELSResources.getDrawable(
-                            PreferencesHelper.lockHomescreen
-                                    ? R.drawable.ic_qs_desktop_locked
-                                    : R.drawable.ic_qs_desktop_unlocked
-                    );
-                    String text = XGELSResources.getString(
-                            PreferencesHelper.lockHomescreen
-                                    ? R.string.quicksettings_desktop_locked
-                                    : R.string.quicksettings_desktop_unlocked
-                    );
-
-                    FrameLayout mTile = (FrameLayout) getObjectField(lockDesktopTile, "mTile");
-                    TextView tv = (TextView) mTile.findViewById(mTile.getResources().getIdentifier("text", "id", mTile.getContext().getPackageName()));
-                    if (tv != null) {
-                        tv.setText(text);
+                        ImageView image = (ImageView) mTile.findViewById(mTile.getResources().getIdentifier("image", "id", mTile.getContext().getPackageName()));
+                        if (image != null) {
+                            image.setImageDrawable(drawable);
+                        }
                     }
-                    ImageView image = (ImageView) mTile.findViewById(mTile.getResources().getIdentifier("image", "id", mTile.getContext().getPackageName()));
-                    if (image != null) {
-                        image.setImageDrawable(drawable);
-                    }
-                }
-            });
+                });
+            } catch (ClassNotFoundError cnfe2) {
+                // okay probably not... anyways
+            }
         }
     }
 }

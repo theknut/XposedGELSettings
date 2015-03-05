@@ -47,6 +47,7 @@ import de.theknut.xposedgelsettings.ui.AllWidgetsList;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
+import static de.robv.android.xposed.XposedHelpers.getStaticIntField;
 import static de.robv.android.xposed.XposedHelpers.newInstance;
 import static de.robv.android.xposed.XposedHelpers.setIntField;
 
@@ -216,6 +217,8 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
             }
             tabs.add(0, apps);
         }
+
+        syncIndexes();
     }
 
     private void addTabs(boolean focusLastTab) {
@@ -411,8 +414,11 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
     public void setCurrentTab(int layoutId, boolean onlySetInternal) {
         currentTabId = layoutId;
 
-        tabsContainer.findViewById(layoutId).bringToFront();
-        setTabColor(tabs.get(((Tab) tabsContainer.findViewById(layoutId).getTag()).getIndex()).getPrimaryColor());
+        View tabView = tabsContainer.findViewById(layoutId);
+        if (tabView == null) return;
+
+        tabView.bringToFront();
+        setTabColor(tabs.get(((Tab) tabView.getTag()).getIndex()).getPrimaryColor());
 
         if (onlySetInternal) {
             callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvInvalidatePageData, 0, false);
@@ -666,7 +672,7 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
     private void syncAppsPageItems(Object thisObject, ArrayList apps, int page) {
         final boolean isRtl = (Boolean) callMethod(thisObject, Methods.pvIsLayoutRtl);
         Tab currTab = getCurrentTabData();
-        LayoutInflater mLayoutInflater = (LayoutInflater) getObjectField(thisObject, "mLayoutInflater");
+        LayoutInflater mLayoutInflater = (LayoutInflater) getObjectField(thisObject, Fields.acpvLayoutInflater);
 
         int mCellCountX = getIntField(thisObject, Fields.acpvCellCountX);
         int mCellCountY = getIntField(thisObject, Fields.acpvCellCountY);
@@ -716,7 +722,11 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
                 if (PreferencesHelper.iconSettingsSwitchApps) {
                     iconName.setTextColor(PreferencesHelper.appdrawerIconLabelColor);
                 } else {
-                    iconName.setTextColor(currTab.getContrastColor());
+                    if (currTab.getPrimaryColor() == Tab.DEFAULT_COLOR) {
+                        iconName.setTextColor(Tab.DEFAULT_TEXT_COLOR);
+                    } else {
+                        iconName.setTextColor(currTab.getContrastColor());
+                    }
                 }
             }
         }
@@ -736,7 +746,7 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
     @Override
     public ArrayList<String> getAppsToHide() {
         ArrayList apps = new ArrayList();
-        if (Common.IS_TREBUCHET) return apps;
+        if (Common.IS_KK_TREBUCHET) return apps;
 
         for (Tab tab : tabs) {
             if (tab.hideFromAppsPage()) {
@@ -997,12 +1007,10 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
                     ContentType contentType = ContentType.valueOf(XGELSContext.getResources().getStringArray(R.array.tabcontent_values)[spinner.getSelectedItemPosition()]);
                     int tabindex = tabsContainer.getChildCount();
 
-                    int color = Tab.DEFAULT_COLOR;
+                    int color = Utils.getRandomColor();
                     if (spinner.getSelectedItemPosition() != 0) {
                         if (spinner.getSelectedItemPosition() == 1) {
                             color = Color.parseColor("#263238"); // Blue Grey 900
-                        } else {
-                            color = Utils.getRandomColor();
                         }
 
                         addTab(new Tab("idx=" + tabindex
@@ -1019,9 +1027,6 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
                     intent.putExtra("contenttype", contentType.toString());
                     intent.putExtra("new", true);
                     intent.putExtra("index", tabindex);
-                    if (newTab) {
-                        intent.putExtra("color", color);
-                    }
                     Common.LAUNCHER_CONTEXT.startActivity(intent);
                 }
             });

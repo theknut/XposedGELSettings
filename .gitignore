@@ -263,3 +263,10 @@ gradlew.bat
 src/de/theknut/xposedgelsettings/ui/Crypto.java
 .idea/libraries/universal_image_loader_1_9_2.xml
 *.apk
+.gradle/2.2.1/taskArtifacts/cache.properties.lock
+.gradle/2.2.1/taskArtifacts/cache.properties.lock
+.gradle/2.2.1/taskArtifacts/cache.properties.lock
+.gradle/2.2.1/taskArtifacts/fileHashes.bin
+.gradle/2.2.1/taskArtifacts/fileSnapshots.bin
+.gradle/2.2.1/taskArtifacts/taskArtifacts.bin
+manifest-merger-release-report.txt

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 
@@ -53,7 +54,10 @@ public class CommonHooks {
         }
 
         if (OnDragStartListeners.size() != 0) {
-            if (Common.PACKAGE_OBFUSCATED) {
+            if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION >= ObfuscationHelper.GNL_4_2_16) {
+                // this is actually not DragSource but the parameter type is unknown as of now
+                findAndHookMethod(Classes.SearchDropTargetBar, Methods.sdtbOnDragStart, Classes.DragSource, Object.class, Integer.TYPE, new XGELSHook(OnDragStartListeners));
+            } else if (Common.PACKAGE_OBFUSCATED) {
                 // this is actually not DragSource but the parameter type is unknown as of now
                 findAndHookMethod(Classes.SearchDropTargetBar, Methods.sdtbOnDragStart, Classes.DragSource, Object.class, new XGELSHook(OnDragStartListeners));
             } else {
@@ -113,8 +117,10 @@ public class CommonHooks {
         if (EnterOverviewModeListeners.size() != 0) {
             XposedBridge.hookAllMethods(Classes.Workspace, Methods.wEnterOverviewMode, new XGELSHook(EnterOverviewModeListeners));
         }
-        if (GetCenterDeltaInScreenSpaceListener.size() != 0) {
-            findAndHookMethod(Classes.Utilities, Methods.uGetCenterDeltaInScreenSpace, View.class, View.class, int[].class, new XGELSHook(GetCenterDeltaInScreenSpaceListener));
-        }
+        try {
+            if (GetCenterDeltaInScreenSpaceListener.size() != 0) {
+                findAndHookMethod(Classes.Utilities, Methods.uGetCenterDeltaInScreenSpace, View.class, View.class, int[].class, new XGELSHook(GetCenterDeltaInScreenSpaceListener));
+            }
+        } catch (NoSuchMethodError nsme) { }
     }
 }

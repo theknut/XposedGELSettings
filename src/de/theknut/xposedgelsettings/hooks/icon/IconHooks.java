@@ -18,8 +18,10 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
@@ -53,6 +56,7 @@ import static de.robv.android.xposed.XposedHelpers.getBooleanField;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.getStaticIntField;
+import static de.robv.android.xposed.XposedHelpers.getStaticObjectField;
 import static de.robv.android.xposed.XposedHelpers.newInstance;
 import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
@@ -193,9 +197,11 @@ public class IconHooks extends HooksBaseClass {
                 } else {
                     Bitmap replacedIcon = (Bitmap) callStaticMethod(Classes.Utilities, Methods.uCreateIconBitmap, icon, iconPack.getContext());
                     Object cacheEntry = createCacheEntry(labelCache, cmpName, pkgMgr, replacedIcon);
-                    param.setResult(cacheEntry);
-                    if (DEBUG)
-                        log("CacheLocked: Loaded Icon Replacement for " + appName + " took " + (System.currentTimeMillis() - time) + "ms");
+                    if (cacheEntry != null) {
+                        param.setResult(cacheEntry);
+                        if (DEBUG)
+                            log("CacheLocked: Loaded Icon Replacement for " + appName + " took " + (System.currentTimeMillis() - time) + "ms");
+                    }
                 }
             }
 
@@ -206,7 +212,9 @@ public class IconHooks extends HooksBaseClass {
                 try {
                     info = pkgMgr.getActivityInfo(cmpName, 0);
                 } catch (NameNotFoundException e) {
-                    e.printStackTrace();
+                    if (DEBUG)
+                        log("CacheLocked: Skipping " + cmpName.flattenToString());
+                    return null;
                 }
 
                 if (labelCache != null && labelCache.containsKey(cmpName)) {
@@ -225,7 +233,9 @@ public class IconHooks extends HooksBaseClass {
             }
         };
 
-        if (!Common.IS_PRE_GNL_4) {
+        if (Common.IS_L_TREBUCHET) {
+            findAndHookMethod(Classes.IconCache, Methods.icCacheLocked, ComponentName.class, Classes.Adb, HashMap.class, Classes.UserHandle, boolean.class, Integer.TYPE, cacheLockedHook);
+        } else if (!Common.IS_PRE_GNL_4 && !Common.IS_KK_TREBUCHET) {
             findAndHookMethod(Classes.IconCache, Methods.icCacheLocked, ComponentName.class, Classes.Adb, HashMap.class, Classes.UserHandle, boolean.class, cacheLockedHook);
         } else if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION >= ObfuscationHelper.GNL_3_5_14) {
             findAndHookMethod(Classes.IconCache, Methods.icCacheLocked, ComponentName.class, Classes.Adb, HashMap.class, Classes.UserHandle, cacheLockedHook);
@@ -424,6 +434,25 @@ public class IconHooks extends HooksBaseClass {
                 param.setResult(CommonUI.drawableToBitmap(d));
             }
         });
+
+        if (Common.IS_PRE_GNL_4 || Common.IS_TREBUCHET) {
+            findAndHookMethod(Classes.LauncherModel, Methods.lmIsShortcutInfoUpdateable, Classes.ItemInfo, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    for (ResolveInfo r : getCalendars()) {
+                        if (r.activityInfo.packageName.equals(((Intent) callMethod(param.args[0], "getIntent")).getComponent().getPackageName())) {
+                            if (DEBUG)
+                                log(param, "Returning true for " + r.activityInfo.packageName + " instead of " + param.getResult());
+                            param.setResult(true);
+                            return;
+                        }
+                    }
+
+                    if (DEBUG)
+                        log(param, "Returned " + param.getResult() + " for " + ((Intent) callMethod(param.args[0], "getIntent")).getComponent().getPackageName());
+                }
+            });
+        }
     }
 
     public static boolean initIconPack(MethodHookParam param) throws NameNotFoundException {
@@ -535,13 +564,12 @@ public class IconHooks extends HooksBaseClass {
     @SuppressWarnings({ "rawtypes", "rawtypes", "unchecked" })
     static void updateIcons() {
         long time = System.currentTimeMillis();
-
+        final List<ResolveInfo> calendars = getCalendars();
         List<Object> appsToUpdate = new ArrayList<Object>();
-        for (ResolveInfo r : getCalendars()) {
-            if (Common.PACKAGE_OBFUSCATED) {
+        for (ResolveInfo r : calendars) {
+            if (Common.PACKAGE_OBFUSCATED || Common.IS_L_TREBUCHET) {
                 Intent i = Common.LAUNCHER_CONTEXT.getPackageManager().getLaunchIntentForPackage(r.activityInfo.packageName);
-                appsToUpdate.add(callMethod(Common.LAUNCHER_INSTANCE, Methods.lCreateAppInfo, i));
-
+                appsToUpdate.add(callMethod(Common.LAUNCHER_INSTANCE, Methods.lCreateAppDragInfo, i));
             } else {
                 appsToUpdate.add(newInstance(
                                 Classes.AppInfo,
@@ -555,6 +583,76 @@ public class IconHooks extends HooksBaseClass {
 
         callMethod(Common.LAUNCHER_INSTANCE, Methods.lBindAppsUpdated, appsToUpdate);
         if (DEBUG) log("updateIcons took " + (System.currentTimeMillis() - time) + "ms");
+
+        if (Common.GNL_VERSION >= ObfuscationHelper.GNL_4_2_16) {
+            new AsyncTask<Void, Void, Void>() {
+                ArrayList<View> viewToUpdate = new ArrayList<View>();
+
+                @Override
+                protected Void doInBackground(Void... params) {
+                    ArrayList<ComponentName> calendarComponents = new ArrayList<>();
+                    for (ResolveInfo calendar : calendars) {
+                        calendarComponents.add(new ComponentName(calendar.activityInfo.packageName, calendar.activityInfo.name));
+                    }
+
+                    ArrayList cellLayouts = (ArrayList) callMethod(Common.WORKSPACE_INSTANCE, Methods.wGetWorkspaceAndHotseatCellLayouts);
+                    for (Object layoutParent : cellLayouts) {
+                        ViewGroup layout = (ViewGroup) callMethod(layoutParent, Methods.clGetShortcutsAndWidgets);
+                        int childCount = layout.getChildCount();
+                        for (int i = 0; i < childCount; ++i) {
+                            View child = layout.getChildAt(i);
+                            Object tag = child.getTag();
+                            if (tag == null || child.getClass().equals(Classes.LauncherAppWidgetHostView))
+                                continue;
+
+                            if (child.getClass().equals(Classes.BubbleTextView)) {
+                                Intent intent = (Intent) callMethod(tag, "getIntent");
+                                if (intent == null || intent.getComponent() == null) continue;
+                                if (child.getClass().equals(Classes.BubbleTextView)
+                                        && calendarComponents.contains(intent.getComponent())) {
+                                    viewToUpdate.add(child);
+                                }
+                            }
+                        }
+                    }
+
+                    Map<Long, Object> map = (HashMap<Long, Object>) getStaticObjectField(Classes.LauncherModel, Fields.lmFolders);
+                    for (ResolveInfo calendar : calendars) {
+                        for (Long key : map.keySet()) {
+                            Object item = map.get(key);
+                            if (!item.getClass().equals(Classes.FolderInfo)) continue;
+
+                            Object folderIcon = callMethod(Common.WORKSPACE_INSTANCE, Methods.wGetViewForTag, item);
+                            if (folderIcon == null) continue;
+
+                            Object folder = getObjectField(folderIcon, Fields.fiFolder);
+                            ViewGroup mContents = (ViewGroup) callMethod(getObjectField(folder, Fields.fContent), Methods.clGetShortcutsAndWidgets);
+
+                            for (int i = 0; i < mContents.getChildCount(); i++) {
+                                View child = mContents.getChildAt(i);
+                                if (child.getTag() == null) continue;
+                                Intent intent = (Intent) callMethod(child.getTag(), "getIntent");
+                                if (intent != null && intent.getComponent() != null
+                                        && intent.getComponent().getPackageName().equals(calendar.activityInfo.packageName)) {
+                                    viewToUpdate.add(child);
+                                }
+                            }
+                        }
+                    }
+
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    for (View child : viewToUpdate) {
+                        setObjectField(child.getTag(), Fields.siIcon, null);
+                        callMethod(child, Methods.btvApplyFromShortcutInfo, child.getTag(), getObjectField(Common.LAUNCHER_INSTANCE, Fields.lIconCache), true);
+                        child.postInvalidate();
+                    }
+                }
+            }.execute();
+        }
     }
 
     public static List<ResolveInfo> getCalendars() {

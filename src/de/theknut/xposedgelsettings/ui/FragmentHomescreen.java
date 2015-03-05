@@ -274,7 +274,7 @@ public class FragmentHomescreen extends FragmentBase {
                 final String[] values = getResources().getStringArray(R.array.iconsize_entries);
                 final NumberPicker numberPicker = CommonUI.getNumberPicker(mContext, sharedPrefs, values, "iconsize", "100");
                 new MaterialDialog.Builder(mActivity)
-                        .title(R.string.pref_appdockiconsize_title)
+                        .title(R.string.pref_iconsize_title)
                         .customView(numberPicker)
                         .theme(Theme.DARK)
                         .positiveText(android.R.string.ok)
@@ -301,7 +301,7 @@ public class FragmentHomescreen extends FragmentBase {
                 final String[] values = getResources().getStringArray(R.array.iconsize_entries);
                 final NumberPicker numberPicker = CommonUI.getNumberPicker(mContext, sharedPrefs, values, "icontextsize", "100");
                 new MaterialDialog.Builder(mActivity)
-                        .title(R.string.pref_appdockiconsize_title)
+                        .title(R.string.pref_icontextsize_title)
                         .customView(numberPicker)
                         .theme(Theme.DARK)
                         .positiveText(android.R.string.ok)

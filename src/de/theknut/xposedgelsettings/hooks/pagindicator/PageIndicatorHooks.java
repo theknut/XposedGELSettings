@@ -25,7 +25,7 @@ public class PageIndicatorHooks {
             CommonHooks.DeviceProfileConstructorListeners.add(new DeviceProfileConstructorHook());
 
             // reduce the bottom margin height in app drawer
-            if (Common.IS_TREBUCHET) {
+            if (Common.IS_KK_TREBUCHET) {
                 findAndHookMethod(Classes.AppsCustomizeLayout, Methods.acthSetInsets, Rect.class, new SetInsetsHook(true));
             }
             else if (Common.GNL_VERSION < ObfuscationHelper.GNL_4_0_26) {

@@ -15,6 +15,7 @@ import java.util.List;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
+import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.Utils;
 import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelperLegacy.ContentType;
 
@@ -28,6 +29,7 @@ import static de.robv.android.xposed.XposedHelpers.getObjectField;
 public class Tab extends AppDrawerItem {
 
     public static int DEFAULT_COLOR = Color.parseColor("#F4F4F4");
+    public static int DEFAULT_TEXT_COLOR = Color.parseColor("#666666");
     public static final String KEY_PREFIX= "tab";
     public static final int APPS_ID = 0xABB5;
     public static final int WIDGETS_ID = 0xBEEF;
@@ -141,7 +143,7 @@ public class Tab extends AppDrawerItem {
             return this.color;
         }
 
-        return this.color == Color.WHITE ? Color.parseColor("#F4F4F4") : this.color;
+        return this.color == Color.WHITE ? DEFAULT_COLOR : this.color;
     }
 
     // http://stackoverflow.com/a/4928826/809277
@@ -228,6 +230,7 @@ public class Tab extends AppDrawerItem {
             if (app.metaData != null && app.metaData.getBoolean("xposedmodule", false)) {
                 Intent i = pm.getLaunchIntentForPackage(app.packageName);
                 if (i != null) {
+                    if (!shouldShowAppInTab(i.getComponent().flattenToString())) continue;
                     modules.add(Utils.createAppInfo(i.getComponent()));
                     rawData.add(i.getComponent().flattenToString());
                 }
@@ -235,7 +238,7 @@ public class Tab extends AppDrawerItem {
         }
 
         Intent i = pm.getLaunchIntentForPackage("de.robv.android.xposed.installer");
-        if (i != null) {
+        if (i != null && shouldShowAppInTab(i.getComponent().flattenToString())) {
             modules.add(Utils.createAppInfo(i.getComponent()));
             rawData.add(i.getComponent().flattenToString());
         }
@@ -254,6 +257,7 @@ public class Tab extends AppDrawerItem {
             String pkg = app.activityInfo.packageName;
             if (pkg.contains("com.google.android.") || google.contains(pkg) && !exclude.contains(pkg)) {
                 ComponentName cmp = new ComponentName(pkg, app.activityInfo.name);
+                if (!shouldShowAppInTab(cmp.flattenToString())) continue;
                 modules.add(Utils.createAppInfo(cmp));
                 rawData.add(cmp.flattenToString());
             }
@@ -269,6 +273,7 @@ public class Tab extends AppDrawerItem {
 
         for (ResolveInfo app : Utils.getAllApps()) {
             ComponentName cmp = new ComponentName(app.activityInfo.packageName, app.activityInfo.name);
+            if (!shouldShowAppInTab(cmp.flattenToString())) continue;
             apps.add(Utils.createAppInfo(cmp));
             rawData.add(cmp.flattenToString());
         }
@@ -282,6 +287,7 @@ public class Tab extends AppDrawerItem {
 
         for (ResolveInfo app : Utils.getAllApps()) {
             ComponentName cmp = new ComponentName(app.activityInfo.packageName, app.activityInfo.name);
+            if (!shouldShowAppInTab(cmp.flattenToString())) continue;
             apps.add(Utils.createAppInfo(cmp));
             rawData.add(cmp.flattenToString());
         }
@@ -326,7 +332,7 @@ public class Tab extends AppDrawerItem {
 
         for (String pkg : packages) {
             Intent li = packageManager.getLaunchIntentForPackage(pkg);
-            if (li != null) {
+            if (li != null && shouldShowAppInTab(li.getComponent().flattenToString())) {
                 apps.add(Utils.createAppInfo(li.getComponent()));
                 rawData.add(li.getComponent().flattenToString());
             }
@@ -350,6 +356,10 @@ public class Tab extends AppDrawerItem {
             return 1;
         }
         return 3;
+    }
+
+    private boolean shouldShowAppInTab(String pkg) {
+        return !PreferencesHelper.hiddenApps.contains(pkg);
     }
 
     public void update() {

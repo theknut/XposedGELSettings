@@ -15,7 +15,7 @@ public final class OnPageBeginMovingHook extends XGELSCallback {
     public void onAfterHookedMethod(MethodHookParam param) throws Throwable {
         if (Common.LAUNCHER_INSTANCE == null) return;
 
-        if ((Common.IS_TREBUCHET || (Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lHasCustomContentToLeft)) && !Common.IS_DRAGGING) {
+        if ((Common.IS_KK_TREBUCHET || (Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lHasCustomContentToLeft)) && !Common.IS_DRAGGING) {
             GoogleSearchBarHooks.hideSearchbar();
         }
     }

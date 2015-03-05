@@ -10,6 +10,7 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
@@ -29,7 +30,7 @@ public class AddTabsAndFolders extends HooksBaseClass {
 
     public static void initAllHooks(LoadPackageParam lpparam) {
 
-        if (Common.IS_TREBUCHET || Common.IS_PRE_GNL_4) return;
+        if (Common.IS_KK_TREBUCHET || Common.IS_PRE_GNL_4) return;
 
         PreferencesHelper.moveTabHostBottom = false;
         findAndHookMethod(Classes.AppsCustomizeTabHost, "onFinishInflate", new XC_MethodHook() {
@@ -61,7 +62,12 @@ public class AddTabsAndFolders extends HooksBaseClass {
             }
         };
 
-        findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvSyncAppsPageItems, Integer.TYPE, syncAppsPageItemsHook);
+        if (Common.IS_L_TREBUCHET
+                || (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION >= ObfuscationHelper.GNL_4_2_16)) {
+            findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvSyncAppsPageItems, Integer.TYPE, boolean.class, syncAppsPageItemsHook);
+        } else {
+            findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvSyncAppsPageItems, Integer.TYPE, syncAppsPageItemsHook);
+        }
 
         findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvSyncPages, new XC_MethodHook() {
 
@@ -175,6 +181,10 @@ public class AddTabsAndFolders extends HooksBaseClass {
         CommonHooks.GetCenterDeltaInScreenSpaceListener.add(new XGELSCallback() {
             @Override
             public void onAfterHookedMethod(MethodHookParam param) throws Throwable {
+                if (getObjectField(Common.APP_DRAWER_INSTANCE, Fields.acpvContentType).toString().equals("Widgets")) {
+                    return;
+                }
+
                 int color = PreferencesHelper.appdrawerFolderStyleBackgroundColor;
                 if (PreferencesHelper.enableAppDrawerTabs) {
                     color = TabHelperNew.getInstance().getCurrentTabData().getPrimaryColor();

@@ -21,6 +21,7 @@ import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setBooleanField;
+import static de.robv.android.xposed.XposedHelpers.setIntField;
 
 public final class AddViewToCellLayoutHook extends XGELSCallback {
 
@@ -84,7 +85,13 @@ public final class AddViewToCellLayoutHook extends XGELSCallback {
                 ll.setBackground(d);
 
                 EditText mFolderName = (EditText) getObjectField(mFolder, Fields.fFolderEditText);
-                mFolderName.setTextColor(PreferencesHelper.homescreenFolderNameTextColor);
+                if (Color.alpha(PreferencesHelper.homescreenFolderNameTextColor) == 0) {
+                    setIntField(mFolder, Fields.fFolderNameHeight, 0);
+                    mFolderName.getLayoutParams().height = 0;
+                    mFolderName.setVisibility(View.GONE);
+                } else {
+                    mFolderName.setTextColor(PreferencesHelper.homescreenFolderNameTextColor);
+                }
 
                 ImageView prevBackground = (ImageView) getObjectField(child, Fields.fiPreviewBackground);
                 prevBackground.setVisibility(View.VISIBLE);

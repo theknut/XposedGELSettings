@@ -74,12 +74,13 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
         Common.HOOKED_PACKAGE = lpparam.packageName;
         if (PreferencesHelper.Debug) XposedBridge.log("XGELS: GELSettings.handleLoadPackage: hooked package -> " + lpparam.packageName);
 
-
-        // thanks to KeepChat for the following snippet:
-        // http://git.io/JJZPaw
         try {
+            ////////////////////////////////////////////////////
+            // thanks to KeepChat for the following snippet:
+            // http://git.io/JJZPaw
             Object activityThread = callStaticMethod(findClass("android.app.ActivityThread", null), "currentActivityThread");
             Context context = (Context) callMethod(activityThread, "getSystemContext");
+            ///////////////////////////////////////////////////
 
             if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE)) {
                 String versionName = context.getPackageManager().getPackageInfo(lpparam.packageName, 0).versionName;
@@ -92,9 +93,13 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
                 if (PreferencesHelper.Debug)
                     XposedBridge.log("XGELS: " + Common.HOOKED_PACKAGE + " V" + versionName + "(" + versionCode + ")");
             } else {
-                Common.IS_L_TREBUCHET = Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE)
-                            && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+                Common.IS_PRE_GNL_4 = false;
                 Common.IS_TREBUCHET = Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE);
+                Common.IS_L_TREBUCHET = Common.IS_TREBUCHET && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+                Common.IS_KK_TREBUCHET = Common.IS_TREBUCHET && Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT;
+                if (Common.IS_L_TREBUCHET) {
+                    Common.HOOKED_PACKAGE = "com.android.launcher3";
+                }
                 versionIdx = 0;
             }
 

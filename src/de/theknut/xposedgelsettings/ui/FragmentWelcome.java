@@ -7,11 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
@@ -38,7 +36,7 @@ import eu.janmuller.android.simplecropimage.CropImage;
 public class FragmentWelcome extends FragmentBase {
 
     static boolean shown = false;
-    AlertDialog IsXposedInstalledAlert, IsModuleActive, IsInstalledFromPlayStore, IsSupportedLauncherInstalled, NeedReboot;
+    AlertDialog IsXposedInstalledAlert, IsModuleActive, IsInstalledFromPlayStore, IsSupportedLauncherInstalled, NeedReboot, LuckyPatcher;
     List<AlertDialog> alerts;
     int alertToShow = 0;
     boolean cancel;
@@ -102,28 +100,28 @@ public class FragmentWelcome extends FragmentBase {
             intent.putExtra(CropImage.OUTPUT_Y, 192);
             startActivityForResult(intent, REQUEST_CROP_PICTURE);
         } else if (resultCode == Activity.RESULT_OK && requestCode == 1 && data != null) {
-                Uri uri = data.getData();
+            Uri uri = data.getData();
 
-                if (uri != null) {
-                    Cursor c = null;
-                    try {
-                        c = mContext.getContentResolver().query(uri, new String[]{
-                                        ContactsContract.CommonDataKinds.Phone.NUMBER,
-                                        ContactsContract.CommonDataKinds.Phone.TYPE },
-                                null, null, null);
+            if (uri != null) {
+                Cursor c = null;
+                try {
+                    c = mContext.getContentResolver().query(uri, new String[]{
+                                    ContactsContract.CommonDataKinds.Phone.NUMBER,
+                                    ContactsContract.CommonDataKinds.Phone.TYPE },
+                            null, null, null);
 
-                        if (c != null && c.moveToFirst()) {
-                            String number = c.getString(0);
-                            Intent intent = new Intent(Intent.ACTION_CALL);
-                            intent.setData(Uri.parse("tel:" + number));
-                            mContext.startActivity(intent);
-                        }
-                    } finally {
-                        if (c != null) {
-                            c.close();
-                        }
+                    if (c != null && c.moveToFirst()) {
+                        String number = c.getString(0);
+                        Intent intent = new Intent(Intent.ACTION_CALL);
+                        intent.setData(Uri.parse("tel:" + number));
+                        mContext.startActivity(intent);
+                    }
+                } finally {
+                    if (c != null) {
+                        c.close();
                     }
                 }
+            }
         }
     }
 
@@ -175,6 +173,27 @@ public class FragmentWelcome extends FragmentBase {
                 alerts.add(IsModuleActive);
             }
 
+            if (hasLuckyPatcher()) {
+                int lpcnt = mContext.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).getInt("lpcnt", 3);
+                if (lpcnt > 0) {
+                    mContext.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).edit().putInt("lpcnt", lpcnt - 1).apply();
+                    String plural = lpcnt == 1 ? "" : "s";
+                    LuckyPatcher = new MaterialDialog.Builder(mActivity)
+                            .theme(Theme.DARK)
+                            .title("Lucky Patcher detected")
+                            .content("Lucky Patcher is installed on your device. This will break the Google InApp-Billing service and therefore your purchase can NOT be verified nor can you purchase XGELS Premium. Please disable \"Billing emulation\" and uninstall Lucky Patcher. If the issue persists flash your ROM and GAPPS again.\n\nThis dialog will be shown " + lpcnt + " more time" + plural + ".")
+                            .positiveText(android.R.string.ok)
+                            .callback(new MaterialDialog.ButtonCallback() {
+                                @Override
+                                public void onPositive(MaterialDialog materialDialog) {
+                                    materialDialog.dismiss();
+                                }
+                            })
+                            .build();
+                }
+                alerts.add(LuckyPatcher);
+            }
+
             SharedPreferences settings = mContext.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
             if (!isInstalledFromPlay()) {
                 if (!settings.getBoolean("dontshowgoogleplaydialog", false)) {
@@ -187,25 +206,6 @@ public class FragmentWelcome extends FragmentBase {
                 CommonUI.needFullReboot = true;
                 alerts.add(cl.getFullLogDialog());
                 //getFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentReverseEngineering()).commit();
-            }
-
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.addCategory(Intent.CATEGORY_HOME);
-            ResolveInfo resolveInfo = mContext.getPackageManager().resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
-            if(resolveInfo.activityInfo.packageName.equals(Common.TREBUCHET_PACKAGE)
-                    && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                alerts.add(new MaterialDialog.Builder(mActivity)
-                        .theme(Theme.DARK)
-                        .title(R.string.alert_launcher_not_installed_title)
-                        .content("Trebuchet on Android Lollipop is currently not supported. In the meantime please use the Google Now Launcher.")
-                        .positiveText(android.R.string.ok)
-                        .callback(new MaterialDialog.ButtonCallback() {
-                            @Override
-                            public void onPositive(MaterialDialog materialDialog) {
-                                materialDialog.dismiss();
-                            }
-                        })
-                        .build());
             }
 
             if (alerts.size() != 0) {
@@ -245,10 +245,8 @@ public class FragmentWelcome extends FragmentBase {
     }
 
     private boolean isXposedInstalled() {
-        PackageManager pm = mContext.getPackageManager();
-
         try {
-            pm.getPackageInfo("de.robv.android.xposed.installer", PackageManager.GET_ACTIVITIES);
+            mContext.getPackageManager().getPackageInfo("de.robv.android.xposed.installer", PackageManager.GET_ACTIVITIES);
             return true;
         }
         catch (PackageManager.NameNotFoundException e) {
@@ -264,6 +262,16 @@ public class FragmentWelcome extends FragmentBase {
         }
         else {
             return installer.equals("com.android.vending");
+        }
+    }
+
+    private boolean hasLuckyPatcher() {
+        try {
+            mContext.getPackageManager().getPackageInfo("com.android.protips", PackageManager.GET_ACTIVITIES);
+            return true;
+        }
+        catch (PackageManager.NameNotFoundException e) {
+            return false;
         }
     }
 

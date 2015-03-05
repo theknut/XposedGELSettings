@@ -33,6 +33,7 @@ public class HomescreenHooks extends HooksBaseClass {
 
         // change the default homescreen
         CommonHooks.MoveToDefaultScreenListeners.add(new MoveToDefaultScreenHook());
+        findAndHookMethod(Classes.Workspace, Methods.wMoveToDefaultScreen, boolean.class,new MoveToDefaultScreenHook());
 
         // modify homescreen grid
         CommonHooks.DeviceProfileConstructorListeners.add(new DeviceProfileConstructorHook());
@@ -96,7 +97,7 @@ public class HomescreenHooks extends HooksBaseClass {
             }
         }
 
-        if (Common.IS_TREBUCHET) {
+        if (Common.IS_KK_TREBUCHET) {
             // move to default homescreen after workspace has finished loading
             XposedBridge.hookAllMethods(Classes.Launcher, "onFinishBindingItems", new FinishBindingItemsHook());
         }
@@ -123,7 +124,7 @@ public class HomescreenHooks extends HooksBaseClass {
             });
 
             // very dirty hack :(
-            if (!Common.IS_TREBUCHET) {
+            if (!Common.IS_KK_TREBUCHET) {
                 findAndHookMethod(Classes.Folder, "onMeasure", Integer.TYPE, Integer.TYPE, new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {

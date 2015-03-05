@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import java.util.ArrayList;
 
@@ -17,8 +16,8 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
-import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.Utils;
@@ -56,13 +55,13 @@ public class AppDrawerHooks extends HooksBaseClass {
             XposedBridge.hookAllMethods(Classes.DeviceProfile, Methods.dpUpdateFromConfiguration, new UpdateFromConfigurationHook());
         }
 
-        if (Common.IS_TREBUCHET) {
+        if (Common.IS_KK_TREBUCHET) {
             // set the background pref_color of the app drawer
             XposedBridge.hookAllConstructors(Classes.AppsCustomizeLayout, new AppsCustomizeLayoutConstructorHook());
         }
         else {
             // set the background pref_color of the app drawer
-            if (Common.PACKAGE_OBFUSCATED) {
+            if (Common.PACKAGE_OBFUSCATED || Common.IS_L_TREBUCHET) {
                 if (Common.IS_PRE_GNL_4) {
                     findAndHookMethod(Classes.AppsCustomizeTabHost, Methods.acthOnTabChanged, Classes.AppsCustomizeContentType, new OnTabChangedHook());
                 } else {
@@ -73,23 +72,19 @@ public class AppDrawerHooks extends HooksBaseClass {
                         }
                     });
 
-                    findAndHookMethod(Classes.Workspace, Methods.wGetChangeStateAnimation, float.class, boolean.class, new XC_MethodHook() {
+                    XC_MethodHook GetChangeStateAnimation = new XC_MethodHook() {
                         protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                             if (Color.alpha(PreferencesHelper.appdrawerBackgroundColor) < 55
-                                    && getObjectField(param.thisObject, Fields.wState).toString().equals("NORMAL_HIDDEN")) {
+                                    && getObjectField(param.thisObject, ObfuscationHelper.Fields.wState).toString().equals("NORMAL_HIDDEN")) {
                                 param.args[0] = 0f;
                             }
                         }
-                    });
+                    };
 
-                    if (false) {
-                        findAndHookMethod(Classes.AppsCustomizeTabHost, "b", Rect.class, new XC_MethodHook() {
-                            @Override
-                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                                ((FrameLayout.LayoutParams) ((View) getObjectField(param.thisObject, "yV")).getLayoutParams()).topMargin = Utils.dpToPx(-6);
-                                ((View) getObjectField(param.thisObject, "yV")).setBackgroundColor(Color.TRANSPARENT);
-                            }
-                        });
+                    if (Common.IS_L_TREBUCHET) {
+                        findAndHookMethod(Classes.Workspace, Methods.wGetChangeStateAnimation, Classes.WorkspaceState, boolean.class, ArrayList.class, GetChangeStateAnimation);
+                    } else {
+                        findAndHookMethod(Classes.Workspace, Methods.wGetChangeStateAnimation, float.class, boolean.class, GetChangeStateAnimation);
                     }
                 }
             } else {
@@ -126,20 +121,20 @@ public class AppDrawerHooks extends HooksBaseClass {
             @Override
             public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
                 if ((Boolean) param.args[TOWORKSPACE]) {
-                    Tab currTab = Common.IS_TREBUCHET ? null : TabHelper.getInstance().getCurrentTabData();
+                    Tab currTab = Common.IS_KK_TREBUCHET ? null : TabHelper.getInstance().getCurrentTabData();
 
                     if (PreferencesHelper.appdrawerRememberLastPosition) {
                         if (!Common.OVERSCROLLED) {
-                            Object acpv = getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizePagedView);
-                            Common.APPDRAWER_LAST_PAGE_POSITION = getIntField(acpv, Fields.pvCurrentPage);
+                            Object acpv = getObjectField(Common.LAUNCHER_INSTANCE, ObfuscationHelper.Fields.lAppsCustomizePagedView);
+                            Common.APPDRAWER_LAST_PAGE_POSITION = getIntField(acpv, ObfuscationHelper.Fields.pvCurrentPage);
                         }
 
                         if (Common.IS_PRE_GNL_4) {
-                            if (!Common.OVERSCROLLED && !Common.IS_TREBUCHET && !currTab.isWidgetsTab()) {
+                            if (!Common.OVERSCROLLED && !Common.IS_KK_TREBUCHET && !currTab.isWidgetsTab()) {
                                 Common.APPDRAWER_LAST_TAB_POSITION = currTab.getIndex();
                             }
                         } else {
-                            if (!Common.OVERSCROLLED && !Common.IS_TREBUCHET && !currTab.isWidgetsTab()) {
+                            if (!Common.OVERSCROLLED && !Common.IS_KK_TREBUCHET && !currTab.isWidgetsTab()) {
                                 Common.APPDRAWER_LAST_TAB_POSITION = currTab.getLayoutId();
                             }
                         }
@@ -152,7 +147,7 @@ public class AppDrawerHooks extends HooksBaseClass {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSetContentType, callMethod(getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizeTabHost), Methods.acthGetContentTypeForTabTag, "APPS"));
+                                callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSetContentType, callMethod(getObjectField(Common.LAUNCHER_INSTANCE, ObfuscationHelper.Fields.lAppsCustomizeTabHost), Methods.acthGetContentTypeForTabTag, "APPS"));
                                 if (Common.IS_PRE_GNL_4) {
                                     TabHelperLegacy.getInstance().setCurrentTab(0);
                                 } else {
@@ -164,6 +159,16 @@ public class AppDrawerHooks extends HooksBaseClass {
                     Common.OVERSCROLLED = false;
                 } else {
                     Common.ORIENTATION = Common.LAUNCHER_CONTEXT.getResources().getConfiguration().orientation;
+
+                    if (PreferencesHelper.enableAppDrawerTabs
+                            && (Common.PACKAGE_OBFUSCATED || Common.IS_L_TREBUCHET)
+                            && getObjectField(Common.APP_DRAWER_INSTANCE, ObfuscationHelper.Fields.acpvContentType).toString().equals("Widgets")) {
+
+                        TabHelper tabHelper = TabHelper.getInstance();
+                        if (tabHelper instanceof TabHelperNew) {
+                            ((TabHelperNew) tabHelper).setCurrentTab(Tab.WIDGETS_ID);
+                        }
+                    }
                 }
             }
         });
@@ -174,9 +179,9 @@ public class AppDrawerHooks extends HooksBaseClass {
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 if (Common.OVERSCROLLED) return;
 
-                Object acpv = getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizePagedView);
+                Object acpv = getObjectField(Common.LAUNCHER_INSTANCE, ObfuscationHelper.Fields.lAppsCustomizePagedView);
                 if (PreferencesHelper.appdrawerRememberLastPosition) {
-                    if ((!Common.IS_TREBUCHET && Common.IS_PRE_GNL_4) && !TabHelperLegacy.getInstance().getCurrentTabData().isWidgetsTab()) {
+                    if ((!Common.IS_KK_TREBUCHET && Common.IS_PRE_GNL_4) && !TabHelperLegacy.getInstance().getCurrentTabData().isWidgetsTab()) {
                         int lastTab = TabHelperLegacy.getInstance().getTabHost().getTabWidget().getTabCount() - 1;
                         if (Common.APPDRAWER_LAST_TAB_POSITION > lastTab) {
                             Common.APPDRAWER_LAST_TAB_POSITION = lastTab;
@@ -197,7 +202,7 @@ public class AppDrawerHooks extends HooksBaseClass {
                     callMethod(acpv, Methods.pvSetCurrentPage, 0);
                 }
 
-                if (!Common.IS_TREBUCHET)
+                if (!Common.IS_KK_TREBUCHET)
                     TabHelper.getInstance().scroll();
             }
         });
@@ -207,33 +212,36 @@ public class AppDrawerHooks extends HooksBaseClass {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     if (Common.LAUNCHER_CONTEXT.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                        setIntField(param.thisObject, Fields.acpvCellCountY, Common.ALL_APPS_Y_COUNT_HORIZONTAL);
-                        setIntField(param.thisObject, Fields.acpvCellCountX, Common.ALL_APPS_X_COUNT_HORIZONTAL);
+                        setIntField(param.thisObject, ObfuscationHelper.Fields.acpvCellCountY, Common.ALL_APPS_Y_COUNT_HORIZONTAL);
+                        setIntField(param.thisObject, ObfuscationHelper.Fields.acpvCellCountX, Common.ALL_APPS_X_COUNT_HORIZONTAL);
+                        ((ViewGroup) param.thisObject).setPadding(Utils.dpToPx(24), ((ViewGroup) param.thisObject).getPaddingTop(), Utils.dpToPx(24), ((ViewGroup) param.thisObject).getPaddingBottom());
                     } else {
-                        setIntField(param.thisObject, Fields.acpvCellCountY, Common.ALL_APPS_Y_COUNT_VERTICAL);
-                        setIntField(param.thisObject, Fields.acpvCellCountX, Common.ALL_APPS_X_COUNT_VERTICAL);
+                        setIntField(param.thisObject, ObfuscationHelper.Fields.acpvCellCountY, Common.ALL_APPS_Y_COUNT_VERTICAL);
+                        setIntField(param.thisObject, ObfuscationHelper.Fields.acpvCellCountX, Common.ALL_APPS_X_COUNT_VERTICAL);
                     }
                 }
             });
         }
 
-        if (Common.PACKAGE_OBFUSCATED) {
-            if (Common.IS_PRE_GNL_4) {
-                findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvSetAllAppsPadding, Rect.class, new XC_MethodHook() {
-                    @Override
-                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+        if (Common.PACKAGE_OBFUSCATED && Common.IS_PRE_GNL_4) {
+            findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvSetAllAppsPadding, Rect.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    if (Resources.getSystem().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                         Rect r = (Rect) param.args[0];
                         r.left = 0;
                         r.right = 0;
                     }
-                });
-            }
-        } else {
+                }
+            });
+        } else if (Common.IS_KK_TREBUCHET) {
             findAndHookMethod(Classes.AppsCustomizePagedView, "setupPage", Classes.AppsCustomizeCellLayout, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    ViewGroup vg = (ViewGroup) param.args[0];
-                    vg.setPadding(0, vg.getPaddingTop(), 0, vg.getPaddingBottom());
+                    if (Resources.getSystem().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                        ViewGroup vg = (ViewGroup) param.args[0];
+                        vg.setPadding(0, vg.getPaddingTop(), 0, vg.getPaddingBottom());
+                    }
                 }
             });
         }

@@ -228,13 +228,15 @@ public class Utils {
 
     public static Object createAppInfo(Intent intent) {
         for (Object appInfo : Common.ALL_APPS) {
-            if (intent.getComponent().equals(((Intent) callMethod(appInfo, "getIntent")).getComponent())) {
-                return appInfo;
-            }
+            try {
+                if (intent.getComponent().equals(((Intent) callMethod(appInfo, "getIntent")).getComponent())) {
+                    return appInfo;
+                }
+            } catch (NoSuchMethodError nsme) { }
         }
 
         if (Common.PACKAGE_OBFUSCATED) {
-            return callMethod(Common.LAUNCHER_INSTANCE, Methods.lCreateAppInfo, intent);
+            return callMethod(Common.LAUNCHER_INSTANCE, Methods.lCreateAppDragInfo, intent);
         }
 
         PackageManager pm = Common.LAUNCHER_CONTEXT.getPackageManager();
@@ -252,7 +254,7 @@ public class Utils {
         intent.setComponent(ComponentName.unflattenFromString(componentName));
 
         if (Common.PACKAGE_OBFUSCATED) {
-            return callMethod(callMethod(Common.LAUNCHER_INSTANCE, Methods.lCreateAppInfo, intent), Methods.aiMakeShortcut);
+            return callMethod(callMethod(Common.LAUNCHER_INSTANCE, Methods.lCreateAppDragInfo, intent), Methods.aiMakeShortcut);
         }
 
         PackageManager pm = Common.LAUNCHER_CONTEXT.getPackageManager();

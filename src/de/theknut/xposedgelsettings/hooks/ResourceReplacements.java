@@ -4,6 +4,7 @@ import android.content.res.XResources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 
 import de.robv.android.xposed.IXposedHookInitPackageResources;
 import de.robv.android.xposed.XC_MethodHook;
@@ -28,31 +29,18 @@ public class ResourceReplacements extends XC_MethodHook implements IXposedHookIn
         XSharedPreferences prefs = new XSharedPreferences(Common.PACKAGE_NAME);
         int glowColor = prefs.getInt("glowcolor", Color.argb(0xFF, 0xFF, 0xFF, 0xFF));
 
-        if (resparam.packageName.equals(Common.TREBUCHET_PACKAGE)) {
+        if (resparam.packageName.equals(Common.TREBUCHET_PACKAGE) && Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
             resparam.res.setReplacement("com.android.launcher3", "color", "outline_color", glowColor);
             resparam.res.setReplacement("com.android.launcher3", "bool", "allow_rotation", prefs.getBoolean("enablerotation", false));
 
             applyPageIndicatorColor("com.android.launcher3", resparam.res);
         } else {
-            resparam.res.setReplacement(resparam.packageName, "color", "outline_color", glowColor);
-            resparam.res.setReplacement(resparam.packageName, "bool", "allow_rotation", prefs.getBoolean("enablerotation", false));
-            resparam.res.setReplacement(resparam.packageName, "integer", "config_tabTransitionDuration", 0);
+            String pkg = resparam.packageName.equals(Common.TREBUCHET_PACKAGE) ? "com.android.launcher3" : resparam.packageName;
+            resparam.res.setReplacement(pkg, "color", "outline_color", glowColor);
+            resparam.res.setReplacement(pkg, "bool", "allow_rotation", prefs.getBoolean("enablerotation", false));
+            resparam.res.setReplacement(pkg, "integer", "config_tabTransitionDuration", 0);
 
-//            if (!Common.IS_PRE_GNL_4) {
-//                int i = resparam.res.getIdentifier("quantum_panel", "drawable", resparam.packageName);
-//                if (i != 0) {
-//                    final Drawable d = resparam.res.getDrawable(i);
-//                    resparam.res.setReplacement(resparam.packageName, "drawable", "quantum_panel", new XResources.DrawableLoader() {
-//                        @Override
-//                        public Drawable newDrawable(XResources xResources, int i) throws Throwable {
-//                            d.setColorFilter(Color.parseColor(ColorPickerPreference.convertToARGB(PreferencesHelper.appdrawerFolderStyleBackgroundColor)), PorterDuff.Mode.MULTIPLY);
-//                            return d;
-//                        }
-//                    });
-//                }
-//            }
-
-            applyPageIndicatorColor(resparam.packageName, resparam.res);
+            applyPageIndicatorColor(pkg, resparam.res);
         }
     }
 

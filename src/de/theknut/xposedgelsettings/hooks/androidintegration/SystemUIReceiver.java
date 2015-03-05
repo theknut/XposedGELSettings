@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
@@ -180,20 +181,18 @@ public class SystemUIReceiver extends HooksBaseClass {
 
                                     if (intent.getStringExtra(Common.XGELS_ACTION).equals("ON_DEFAULT_HOMESCREEN")) {
 
+                                        if (PreferencesHelper.hideClock) {
+                                            showHideClock(false);
+                                        }
+
                                         if (PreferencesHelper.dynamicHomebutton && PreferencesHelper.dynamicIconHomebutton
                                                 && !HOME_BUTTON.getDrawable().getConstantState().equals(ALL_APPS_BUTTON.getConstantState())) {
-
                                             setHomeButtonIcon(ALL_APPS_BUTTON);
                                         }
 
                                         if (PreferencesHelper.dynamicBackbutton && PreferencesHelper.dynamicIconBackbutton
                                                 && !BACK_BUTTON.getDrawable().getConstantState().equals(POWER_OFF_BUTTON.getConstantState())) {
-
                                             setBackButtonIcon(POWER_OFF_BUTTON, ScaleType.FIT_CENTER);
-                                        }
-
-                                        if (PreferencesHelper.hideClock) {
-                                            showHideClock(false);
                                         }
                                     } else if (intent.getStringExtra(Common.XGELS_ACTION).equals("BACK_HOME_ORIG")) {
 
@@ -290,7 +289,7 @@ public class SystemUIReceiver extends HooksBaseClass {
                                                         callMethod(PHONE_STATUSBAR_OBJECT, "animateExpandSettingsPanel", false);
                                                     }
                                                 }
-                                            }, 300);
+                                            }, 500);
                                         }
 
                                     } else if (intent.getStringExtra(Common.XGELS_ACTION).equals("SHOW_RECENTS")) {
@@ -298,7 +297,7 @@ public class SystemUIReceiver extends HooksBaseClass {
                                         if (PHONE_STATUSBAR_OBJECT == null) return;
 
                                         if (DEBUG) log("SystemUIReceiver: Show Recents");
-                                        callMethod(PHONE_STATUSBAR_OBJECT, "toggleRecentsActivity");
+                                        callMethod(PHONE_STATUSBAR_OBJECT, "toggleRecentApps");
 
                                     } else if (intent.getStringExtra(Common.XGELS_ACTION).equals("SHADOWS")) {
 
@@ -364,13 +363,13 @@ public class SystemUIReceiver extends HooksBaseClass {
                             if (!errorMsgShown) {
                                 errorMsgShown = true;
                                 log("Something went wrong. Show this to the dev!");
-                                log(nsme.toString());
+                                log("Error: " + Log.getStackTraceString(nsme));
                             }
                         } catch (Exception ex) {
                             if (!errorMsgShown) {
                                 errorMsgShown = true;
-                                log("Something went wrong. Show this to the dev!");
-                                log(ex.toString());
+                                log("Ex Something went wrong. Show this to the dev!");
+                                log("Exception: " + Log.getStackTraceString(ex));
                             }
                         }
                     }
@@ -423,7 +422,7 @@ public class SystemUIReceiver extends HooksBaseClass {
                         BACK_BUTTON_ORIG_SCALE = BACK_BUTTON.getScaleType();
                         //RECENTS_BUTTON_ORIG = RECENTS_BUTTON.getDrawable();
                     }
-                }catch (Exception ex) {
+                } catch (Exception ex) {
                     // okay probably not
                     log("SystemUIReceiver: Something went wrong when hooking to SystemUI. Changing the navigation bar icons will not work. Please show this to dev:");
                     log("SystemUIReceiver: " + ex);

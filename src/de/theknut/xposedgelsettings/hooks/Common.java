@@ -83,8 +83,9 @@ public final class Common {
     public static boolean L_VALUE = true;
     public static boolean ON_MEASURE;
     public static View CURRENT_CONTEXT_MENU_ITEM;
-    public static boolean IS_TREBUCHET;
+    public static boolean IS_KK_TREBUCHET;
     public static boolean IS_L_TREBUCHET;
+    public static boolean IS_TREBUCHET;
     public static boolean IS_PRE_GNL_4 = true;
     public static boolean APP_DRAWER_PAGE_SWITCHED;
     public static int ORIENTATION;

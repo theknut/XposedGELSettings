@@ -26,7 +26,7 @@ public class AddTabsAndFoldersLegacy extends HooksBaseClass {
 
     public static void initAllHooks(LoadPackageParam lpparam) {
 
-        if (Common.IS_TREBUCHET || !Common.IS_PRE_GNL_4) return;
+        if (Common.IS_KK_TREBUCHET || !Common.IS_PRE_GNL_4) return;
 
         findAndHookMethod(Classes.AppsCustomizeTabHost, "onFinishInflate", new XC_MethodHook() {
             @Override

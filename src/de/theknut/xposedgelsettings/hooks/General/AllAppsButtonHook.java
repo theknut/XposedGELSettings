@@ -47,7 +47,7 @@ public class AllAppsButtonHook extends XGELSCallback {
                 }
             });
 
-            if (Common.IS_TREBUCHET && PreferencesHelper.noAllAppsButton) {
+            if (Common.IS_KK_TREBUCHET && PreferencesHelper.noAllAppsButton) {
                 if (DEBUG) log(param, "Removing AllAppsButton");
                 param.setResult(false);
             }

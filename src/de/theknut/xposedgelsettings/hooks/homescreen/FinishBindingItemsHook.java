@@ -20,7 +20,7 @@ public class FinishBindingItemsHook extends HooksBaseClass {
 		
 		if (!Common.MOVED_TO_DEFAULTHOMESCREEN) {
 			// move to default screen
-			callMethod(Common.WORKSPACE_INSTANCE, Methods.wMoveToDefaultScreen, true);
+			callMethod(Common.WORKSPACE_INSTANCE, Methods.pvSnapToPage, PreferencesHelper.defaultHomescreen - 1);
 			Common.MOVED_TO_DEFAULTHOMESCREEN = true;
 		} else {
 			int currPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage);
@@ -30,7 +30,6 @@ public class FinishBindingItemsHook extends HooksBaseClass {
 			myIntent.putExtra(Common.XGELS_ACTION_EXTRA, Common.XGELS_ACTION_NAVBAR);
 			
 			if (currPage == (PreferencesHelper.defaultHomescreen - 1)) {
-				
 				myIntent.putExtra(Common.XGELS_ACTION, "ON_DEFAULT_HOMESCREEN");
 				Common.LAUNCHER_CONTEXT.sendBroadcast(myIntent);
 			} else {						

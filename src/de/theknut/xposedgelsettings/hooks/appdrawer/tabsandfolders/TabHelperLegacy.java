@@ -619,7 +619,7 @@ public final class TabHelperLegacy extends TabHelper implements View.OnClickList
     @Override
     public ArrayList<String> getAppsToHide() {
         ArrayList apps = new ArrayList();
-        if (Common.IS_TREBUCHET || !Common.IS_PRE_GNL_4) return apps;
+        if (Common.IS_KK_TREBUCHET || !Common.IS_PRE_GNL_4) return apps;
 
         for (Tab tab : tabs) {
             if (tab.hideFromAppsPage()) {
