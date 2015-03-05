@@ -20,7 +20,7 @@ public class FinishBindingItemsHook extends HooksBaseClass {
 		
 		if (!Common.MOVED_TO_DEFAULTHOMESCREEN) {
 			// move to default screen
-			callMethod(Common.WORKSPACE_INSTANCE, Methods.pvSnapToPage, PreferencesHelper.defaultHomescreen - 1);
+			callMethod(Common.WORKSPACE_INSTANCE, Methods.wMoveToDefaultScreen, true);
 			Common.MOVED_TO_DEFAULTHOMESCREEN = true;
 		} else {
 			int currPage = getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage);
