@@ -143,7 +143,7 @@ public class AppDrawerHooks extends HooksBaseClass {
                             log(param, "AppDrawerHooks: get current position - " + Common.APPDRAWER_LAST_PAGE_POSITION);
                     }
 
-                    if (currTab != null && currTab.isWidgetsTab()) {
+                    if (!PreferencesHelper.appdrawerRememberLastPosition || (currTab != null && currTab.isWidgetsTab())) {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {

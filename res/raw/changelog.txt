@@ -31,7 +31,7 @@ $ 2.2.11
   % Version 2.2.11
   _ 2015-03-06
 
-  Trebuchet on <b>CM12</b> is now fully supported. Until furhter notice <b>all</b> GNL features are working for <b>Trebuchet on CM12</b> as well!<br><br>
+  Trebuchet on <b>CM12</b> is now fully supported! Until further notice <b>all</b> GNL features such as app drawer tabs/folders are working for <b>Trebuchet on CM12</b> as well!<br><br>
 
   !Fixed:
   * Trebuchet not working
@@ -41,6 +41,7 @@ $ 2.2.11
   * folder in app drawer too small
   * app drawer padding in landscape
   * calendar icon not updated on new day
+  * remember last app drawer position always enabled
 
   !XGELS UI:
   * updated translations

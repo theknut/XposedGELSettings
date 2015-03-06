@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Point;
@@ -35,6 +36,11 @@ import android.widget.CheckedTextView;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -50,6 +56,7 @@ import de.theknut.xposedgelsettings.hooks.Utils;
 import de.theknut.xposedgelsettings.hooks.icon.IconPack;
 import de.theknut.xposedgelsettings.hooks.icon.IconPreview;
 import de.theknut.xposedgelsettings.ui.preferences.MyGridView;
+import eu.janmuller.android.simplecropimage.CropImage;
 
 public class FragmentSelectiveIcon extends ActionBarActivity implements ActionBar.TabListener {
 
@@ -70,6 +77,8 @@ public class FragmentSelectiveIcon extends ActionBarActivity implements ActionBa
     public static final int MODE_PICK_SHORTCUT_ICON = 2;
     static final int MODE_PICK_APPDRAWER_ICON = 3;
     public static final int MODE_PICK_FOLDER_ICON = 4;
+    private static int REQUEST_PICK_PICTURE = 10;
+    private static int REQUEST_CROP_PICTURE = 11;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -178,15 +187,16 @@ public class FragmentSelectiveIcon extends ActionBarActivity implements ActionBa
         SharedPreferences.Editor editor = prefs.edit();
         String key, shortcutItem;
         Iterator it;
+        HashSet<String> icons;
 
         switch (item.getItemId()) {
             case R.id.appdrawerdefault:
+            case R.id.shortcutfolderdefault:
+                key = mode == MODE_PICK_SHORTCUT_ICON ? "shortcuticons" : "foldericons";
+                shortcutItem = String.valueOf(itemID);
 
-                key = "selectedicons";
-                shortcutItem = "all_apps_button_icon";
-                HashSet<String> selectedIcons = (HashSet<String>) prefs.getStringSet(key, new HashSet<String>());
-
-                it = selectedIcons.iterator();
+                icons = (HashSet<String>) prefs.getStringSet(key, new HashSet<String>());
+                it = icons.iterator();
                 while (it.hasNext()) {
                     String[] name = it.next().toString().split("\\|");
                     if (name[0].equals(shortcutItem)) {
@@ -195,34 +205,106 @@ public class FragmentSelectiveIcon extends ActionBarActivity implements ActionBa
                 }
 
                 editor.remove(key).commit();
-                editor.putStringSet(key, selectedIcons).commit();
+                editor.putStringSet(key, icons).commit();
                 finishActivity(true);
 
                 break;
-            case R.id.shortcutfolderdefault:
-
-                key = mode == MODE_PICK_SHORTCUT_ICON ? "shortcuticons" : "foldericons";
-                shortcutItem = "" + itemID;
-
-                HashSet<String> shortcuticons = (HashSet<String>) prefs.getStringSet(key, new HashSet<String>());
-                it = shortcuticons.iterator();
-                while (it.hasNext()) {
-                    String[] name = it.next().toString().split("\\|");
-                    if (name[0].equals(shortcutItem)) {
-                        it.remove();
-                    }
-                }
-
-                editor.remove(key).commit();
-                editor.putStringSet(key, shortcuticons).commit();
-                finishActivity(true);
-
+            case R.id.iconfromgallery:
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, REQUEST_PICK_PICTURE);
                 break;
             default:
                 break;
         }
 
         return true;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_PICK_PICTURE) {
+            InputStream imageStream;
+            Bitmap yourSelectedImage = null;
+
+            try {
+                imageStream = mActivity.getContentResolver().openInputStream(data.getData());
+                yourSelectedImage = BitmapFactory.decodeStream(imageStream);
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            FileOutputStream out = null;
+            File file = new File("/mnt/sdcard/XposedGELSettings/icons/" + getIntent().getStringExtra("app") + ".png");
+            file.getParentFile().mkdirs();
+            try {
+                out = new FileOutputStream(file);
+                yourSelectedImage.compress(Bitmap.CompressFormat.PNG, 100, out);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (out != null) {
+                        out.flush();
+                        out.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (yourSelectedImage.getWidth() < 192
+                    && yourSelectedImage.getHeight() < 192
+                    && (yourSelectedImage.getWidth() / yourSelectedImage.getHeight() == 1.0)) {
+                saveExternalIcon();
+                return;
+            }
+
+            // create explicit intent
+            Intent intent = new Intent(getApplicationContext(), CropImage.class);
+            intent.putExtra(CropImage.IMAGE_PATH, file.getAbsolutePath());
+            intent.putExtra(CropImage.SCALE, true);
+            intent.putExtra(CropImage.ASPECT_X, 1);
+            intent.putExtra(CropImage.ASPECT_Y, 1);
+            intent.putExtra(CropImage.OUTPUT_X, 192);
+            intent.putExtra(CropImage.OUTPUT_Y, 192);
+            startActivityForResult(intent, REQUEST_CROP_PICTURE);
+        } else if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CROP_PICTURE) {
+            saveExternalIcon();
+        }
+    }
+
+    public void saveExternalIcon() {
+        SharedPreferences prefs = CommonUI.CONTEXT.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        String key = "selectedicons";
+        if (mode == MODE_PICK_SHORTCUT_ICON) {
+            key = "shortcuticons";
+            appComponentName = "" + itemID;
+        } else if (mode == MODE_PICK_FOLDER_ICON) {
+            key = "foldericons";
+            appComponentName = "" + itemID;
+        }
+
+        HashSet<String> selectedIcons = (HashSet<String>) prefs.getStringSet(key, new HashSet<String>());
+
+        Iterator it = selectedIcons.iterator();
+        while (it.hasNext()) {
+            String[] item = it.next().toString().split("\\|");
+            if (item[0].equals(appComponentName)) {
+                it.remove();
+            }
+        }
+
+        selectedIcons.add(appComponentName + "|sdcard|" + getIntent().getStringExtra("app"));
+
+        editor.remove(key).commit();
+        editor.putStringSet(key, selectedIcons).commit();
+        finishActivity(false);
     }
 
     public static void finishActivity(boolean restoreDefault) {

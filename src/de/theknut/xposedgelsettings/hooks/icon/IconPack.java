@@ -7,10 +7,12 @@ import android.content.res.Resources;
 import android.content.res.Resources.NotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 
@@ -316,6 +318,12 @@ public class IconPack {
             } catch (NameNotFoundException e) {
                 e.printStackTrace();
             }
+        } else if (iconPackPackageName.equals("sdcard")) {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+            Drawable icon = new BitmapDrawable(res, BitmapFactory.decodeFile("/mnt/sdcard/XposedGELSettings/icons/" + drawableName + ".png", options));
+            if (addToCache) getIcons().add(new Icon(drawableName.replace("#", "/"), icon));
+            return icon;
         } else {
             if (!iconPackPackageName.equals(getPackageName())) {
                 try {
@@ -325,7 +333,6 @@ public class IconPack {
                     e.printStackTrace();
                 }
             }
-
             id = res.getIdentifier(drawableName, "drawable", iconPackPackageName);
         }
 

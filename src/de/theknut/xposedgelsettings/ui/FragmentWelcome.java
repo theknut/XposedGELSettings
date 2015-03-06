@@ -8,11 +8,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,6 +27,11 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +49,9 @@ public class FragmentWelcome extends FragmentBase {
     boolean cancel;
     View rootView;
 
+    private static int REQUEST_PICK_PICTURE = 10;
+    private static int REQUEST_CROP_PICTURE = 11;
+
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -53,7 +63,6 @@ public class FragmentWelcome extends FragmentBase {
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getPointerCount() == 2) {
                     if (InAppPurchase.checkFreedom()) return false;
-
                     try {
                         InAppPurchase.purchaseSpecialOffer();
                     } catch (Exception e) {}
@@ -65,37 +74,56 @@ public class FragmentWelcome extends FragmentBase {
         rootView.findViewById(R.id.welcometext).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent intent = new Intent();
-                //intent.setType("image/*");
-                //intent.setAction(Intent.ACTION_GET_CONTENT);
-                //startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_PICK_PICTURE);
-
-//                Intent intent = new Intent(Intent.ACTION_PICK);
-//                intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
-//                startActivityForResult(intent, 1);
-
-
-
-
-
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, REQUEST_PICK_PICTURE);
             }
         });
 
         return CommonUI.setBackground(rootView, R.id.welcomebackground);
     }
-    private static int REQUEST_CROP_PICTURE = 2;
-    private static int REQUEST_PICK_PICTURE = 3;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_PICK_PICTURE) {
+            InputStream imageStream;
+            Bitmap yourSelectedImage = null;
+
+            try {
+                imageStream = mActivity.getContentResolver().openInputStream(data.getData());
+                yourSelectedImage = BitmapFactory.decodeStream(imageStream);
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            FileOutputStream out = null;
+            File file = new File("/mnt/sdcard/XposedGELSettings/icons/test.png");
+            file.getParentFile().mkdirs();
+            try {
+                out = new FileOutputStream(file);
+                yourSelectedImage.compress(Bitmap.CompressFormat.PNG, 100, out);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (out != null) {
+                        out.flush();
+                        out.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
             // create explicit intent
             Intent intent = new Intent(mContext, CropImage.class);
-            String filePath = getPath(data.getData());
-            intent.putExtra(CropImage.IMAGE_PATH, filePath);
+            intent.putExtra(CropImage.IMAGE_PATH, file.getAbsolutePath());
             intent.putExtra(CropImage.SCALE, true);
+            intent.putExtra(CropImage.ASPECT_X, 1);
+            intent.putExtra(CropImage.ASPECT_Y, 1);
             intent.putExtra(CropImage.OUTPUT_X, 192);
             intent.putExtra(CropImage.OUTPUT_Y, 192);
             startActivityForResult(intent, REQUEST_CROP_PICTURE);
@@ -125,27 +153,14 @@ public class FragmentWelcome extends FragmentBase {
         }
     }
 
-    /**
-     * helper to retrieve the path of an image URI
-     */
-    public String getPath(Uri uri) {
-        // just some safety built in
-        if( uri == null ) {
-            // TODO perform some logging or show user feedback
-            return null;
-        }
-        // try to retrieve the image from the media store first
-        // this will only work for images selected from gallery
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = mActivity.managedQuery(uri, projection, null, null, null);
-        if( cursor != null ){
-            int column_index = cursor
-                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        }
-        // this is our fallback here
-        return uri.getPath();
+    public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleWidth, scaleHeight);
+        return Bitmap.createBitmap(bm, 0, 0, width, height, matrix, false);
     }
 
     @SuppressWarnings("deprecation")

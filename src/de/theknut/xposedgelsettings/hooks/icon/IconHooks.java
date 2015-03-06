@@ -381,9 +381,9 @@ public class IconHooks extends HooksBaseClass {
 
         if (!PreferencesHelper.noAllAppsButton) {
 
-            for (String selectedIcon : PreferencesHelper.selectedIcons) {
-                if (selectedIcon.split("\\|")[0].equals("all_apps_button_icon")) {
-
+            for (final String selectedIcon : PreferencesHelper.selectedIcons) {
+                final String[] split = selectedIcon.split("\\|");
+                if (split[0].equals("all_apps_button_icon")) {
                     CommonHooks.AddViewToCellLayoutListeners.add(new XGELSCallback() {
 
                         final int ITEM_TYPE_ALLAPPS = 5; // Trebuchet
@@ -395,9 +395,14 @@ public class IconHooks extends HooksBaseClass {
                                     && (!getBooleanField(param.args[3], Fields.cllpCanReorder) || (tag != null && getIntField(tag, Fields.iiItemType) == ITEM_TYPE_ALLAPPS))) {
                                 if (DEBUG) log(param, "theme all apps button");
 
-                                Drawable icon = iconPack.loadIcon("all_apps_button_icon");
-                                if (icon != null) {
+                                Drawable icon;
+                                if (split[IconPack.ICONPACKNAME].equals("sdcard")) {
+                                    icon = iconPack.loadSingleIconFromIconPack(split[IconPack.ICONPACKNAME], split[IconPack.COMPONENTNAME], split[IconPack.DRAWABLENAME]);
+                                } else {
+                                    icon = iconPack.loadIcon("all_apps_button_icon");
+                                }
 
+                                if (icon != null) {
                                     Bitmap tmpIcon = CommonUI.drawableToBitmap(icon);
                                     Bitmap iconPressed = Bitmap.createBitmap(tmpIcon.getWidth(), tmpIcon.getHeight(), Bitmap.Config.ARGB_8888);
 
@@ -422,6 +427,7 @@ public class IconHooks extends HooksBaseClass {
                             }
                         }
                     });
+                    break;
                 }
             }
         }
