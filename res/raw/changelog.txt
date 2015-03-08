@@ -27,6 +27,19 @@
   </head>
   <body>
 
+$ 2.3 Beta2
+  % Version 2.3 Beta2
+  _ 2015-03-08
+
+  !Added:
+  * Icon: External icon support
+
+  !Fixed:
+  * transparency turns black after cropping
+
+  !XGELS UI:
+  *
+
 $ 2.2.11
   % Version 2.2.11
   _ 2015-03-06

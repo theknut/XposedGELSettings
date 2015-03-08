@@ -10,7 +10,7 @@
         android:title="@string/default_text" />
     <item
         android:id="@+id/iconfromgallery"
-        android:visible="false"
+        android:visible="true"
         android:orderInCategory="100"
         android:icon="@drawable/contextmenu_action_picture"
         app:showAsAction="always" />
@@ -19,5 +19,6 @@
         android:visible="false"
         android:orderInCategory="100"
         app:showAsAction="always"
+        android:icon="@drawable/contextmenu_action_rotate_left"
         android:title="@string/default_text" />
 </menu>

@@ -302,7 +302,7 @@ public class SystemUIReceiver extends HooksBaseClass {
                                     } else if (intent.getStringExtra(Common.XGELS_ACTION).equals("SHADOWS")) {
 
                                         if (!isLauncherInForeground()
-                                                && (STATUS_BAR_VIEW == null || NAVIGATION_BAR_VIEW == null)) return;
+                                                || (STATUS_BAR_VIEW == null || NAVIGATION_BAR_VIEW == null)) return;
 
                                         boolean show = intent.getBooleanExtra("SHOW", false);
                                         if (DEBUG) log("SystemUIReceiver: " + (show ? "SHOW" : "HIDE") + " shadows");

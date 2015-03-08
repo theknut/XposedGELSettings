@@ -61,7 +61,6 @@ public class FragmentSearchbar extends FragmentBase {
         try {
             int versionCode = mContext.getPackageManager().getPackageInfo(Common.GEL_PACKAGE, 0).versionCode;
             if (versionCode == ObfuscationHelper.GNL_4_1_21) {
-                findPreference("alwaysshowsayokgoogle").setSummary("!!CURRENTLY BROKEN!!");
                 getPreferenceScreen().removePreference(findPreference("searchbarstyle"));
             } else if (versionCode >= ObfuscationHelper.GNL_4_0_26) {
                 getPreferenceScreen().removePreference(findPreference("searchbarstyle"));

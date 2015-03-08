@@ -1,63 +1,52 @@
 <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="horizontal">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal">
 
     <view
-            class="eu.janmuller.android.simplecropimage.CropImageView"
-            android:id="@+id/image"
-            android:background="#55000000"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_x="0dip"
-            android:layout_y="0dip"
-            />
+        class="eu.janmuller.android.simplecropimage.CropImageView"
+        android:id="@+id/image"
+        android:background="#55000000"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_x="0dip"
+        android:layout_y="0dip"
+        />
 
-    <RelativeLayout
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+        <ImageView
+            android:id="@+id/discard"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:paddingLeft="10dip"
-            android:paddingRight="10dip"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true">
+            style="@style/CropButton"
+            android:src="@drawable/contextmenu_action_remove" />
 
+        <ImageView
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            style="@style/CropButton"
+            android:src="@drawable/ic_action_accept" />
 
-        <Button
-                android:layout_alignParentLeft="true"
-                android:id="@+id/discard"
-                android:layout_width="80dp"
-                android:layout_height="fill_parent"
-                style="@style/CropButton"
-                android:text="@string/cancel"
-                />
+        <ImageView
+            android:id="@+id/rotateRight"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            style="@style/CropButton"
+            android:src="@drawable/ic_rotate_image" />
 
-        <ImageButton
-                android:id="@+id/rotateLeft"
-                android:layout_width="50dp"
-                android:layout_height="fill_parent"
-                android:layout_toRightOf="@id/discard"
-                style="@style/CropButton"
-                android:src="@drawable/ic_rotate_left"
-                />
-
-        <ImageButton
-                android:id="@+id/rotateRight"
-                android:layout_width="50dp"
-                android:layout_height="fill_parent"
-                android:layout_toRightOf="@id/rotateLeft"
-                style="@style/CropButton"
-                android:src="@drawable/ic_rotate_right"
-                />
-        <Button
-                android:id="@+id/save"
-                android:layout_width="80dp"
-                android:layout_height="fill_parent"
-                android:layout_toRightOf="@id/rotateRight"
-                style="@style/CropButton"
-                android:text="@string/save"
-                />
-
-    </RelativeLayout>
+    </LinearLayout>
 </RelativeLayout>

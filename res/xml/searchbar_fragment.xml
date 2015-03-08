@@ -13,10 +13,10 @@
 	    android:dependency="hidesearchbar"
 	    android:title="@string/pref_show_google_search_bar_homescreen_title"
 	    android:summary="@string/pref_show_google_search_bar_homescreen_summary" />
-    <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
-        android:key="alwaysshowsayokgoogle"
-        android:title="@string/pref_always_show_ok_google_title"
-        android:summary="@string/pref_always_show_ok_google_summary" />
+    <!--<de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference-->
+        <!--android:key="alwaysshowsayokgoogle"-->
+        <!--android:title="@string/pref_always_show_ok_google_title"-->
+        <!--android:summary="@string/pref_always_show_ok_google_summary" />-->
     <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
         android:key="searchbarweatherwidget"
         android:title="@string/pref_searchbar_weather_widget_title"

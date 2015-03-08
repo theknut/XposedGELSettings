@@ -147,6 +147,10 @@ public class AppDrawerHooks extends HooksBaseClass {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
+                                if (Common.IS_KK_TREBUCHET) {
+                                    return;
+                                }
+
                                 callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSetContentType, callMethod(getObjectField(Common.LAUNCHER_INSTANCE, ObfuscationHelper.Fields.lAppsCustomizeTabHost), Methods.acthGetContentTypeForTabTag, "APPS"));
                                 if (Common.IS_PRE_GNL_4) {
                                     TabHelperLegacy.getInstance().setCurrentTab(0);

@@ -75,7 +75,7 @@ public class CropImage extends MonitoredActivity {
     public static final  String ACTION_INLINE_DATA     = "inline-data";
 
     // These are various options can be specified in the intent.
-    private       Bitmap.CompressFormat mOutputFormat    = Bitmap.CompressFormat.JPEG;
+    private       Bitmap.CompressFormat mOutputFormat    = Bitmap.CompressFormat.PNG;
     private       Uri                   mSaveUri         = null;
     private       boolean               mDoFaceDetection = true;
     private       boolean               mCircleCrop      = false;
@@ -184,16 +184,6 @@ public class CropImage extends MonitoredActivity {
                         } catch (Exception e) {
                             finish();
                         }
-                    }
-                });
-        findViewById(R.id.rotateLeft).setOnClickListener(
-                new View.OnClickListener() {
-                    public void onClick(View v) {
-
-                        mBitmap = Util.rotateImage(mBitmap, -90);
-                        RotateBitmap rotateBitmap = new RotateBitmap(mBitmap);
-                        mImageView.setImageRotateBitmapResetBase(rotateBitmap, true);
-                        mRunFaceDetection.run();
                     }
                 });
 
@@ -312,9 +302,7 @@ public class CropImage extends MonitoredActivity {
         // third param here.
         Bitmap croppedImage;
         try {
-
-            croppedImage = Bitmap.createBitmap(width, height,
-                    mCircleCrop ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565);
+            croppedImage = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         } catch (Exception e) {
             throw e;
         }
@@ -429,7 +417,6 @@ public class CropImage extends MonitoredActivity {
                 finish();
                 return;
             } finally {
-
                 Util.closeSilently(outputStream);
             }
 

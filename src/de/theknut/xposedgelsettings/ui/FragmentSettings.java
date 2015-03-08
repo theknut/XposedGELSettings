@@ -206,13 +206,19 @@ public class FragmentSettings extends FragmentBase {
 
                     String version = null;
                     try {
-
                         ArrayList<String> skuList = new ArrayList<String>();
                         Collections.addAll(skuList, mContext.getResources().getStringArray(R.array.premiumValues));
 
+                        String additional;
+                        try {
+                            additional = InAppPurchase.isPremium ? " | " + InAppPurchase.mHelper.getOrderId(skuList) : "";
+                        } catch (Exception e) {
+                            additional = e.getMessage();
+                        }
+
                         PackageManager pkgMgr = mContext.getPackageManager();
                         PackageInfo packageInfo = pkgMgr.getPackageInfo(mContext.getPackageName(), 0);
-                        version = "XGELS" + (InAppPurchase.isPremium ? " Premium: " : ": ") + packageInfo.versionName + " (" + packageInfo.versionCode + ")" + (InAppPurchase.isPremium ? " | " + InAppPurchase.mHelper.getOrderId(skuList) : "");
+                        version = "XGELS" + (InAppPurchase.isPremium ? " Premium: " : ": ") + packageInfo.versionName + " (" + packageInfo.versionCode + ")" + additional;
                         deviceInfo.append(version).append(ls);
 
                         packageInfo = pkgMgr.getPackageInfo("de.robv.android.xposed.installer", 0);

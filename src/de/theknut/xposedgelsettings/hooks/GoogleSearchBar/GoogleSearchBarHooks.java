@@ -85,7 +85,7 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
 
         if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE)) {
 
-            if (PreferencesHelper.alwaysShowSayOKGoogle) {
+            if (false && PreferencesHelper.alwaysShowSayOKGoogle) {
                 findAndHookMethod(Classes.GSAConfigFlags, Methods.gsaShouldAlwaysShowHotwordHint, XC_MethodReplacement.returnConstant(true));
             }
 

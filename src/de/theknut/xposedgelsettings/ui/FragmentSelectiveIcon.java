@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -15,6 +16,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -37,10 +39,11 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -226,23 +229,67 @@ public class FragmentSelectiveIcon extends ActionBarActivity implements ActionBa
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_PICK_PICTURE) {
-            InputStream imageStream;
-            Bitmap yourSelectedImage = null;
+            String[] column = { MediaStore.Images.Media.DATA };
+            String[] split = data.getData().getPath().split("/");
+            String id = split[split.length - 1];
+            String sel = MediaStore.Images.Media._ID + "=?";
 
-            try {
-                imageStream = mActivity.getContentResolver().openInputStream(data.getData());
-                yourSelectedImage = BitmapFactory.decodeStream(imageStream);
+            Cursor cursor = getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    column, sel, new String[]{id}, null);
 
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+            String filePath = "";
+            int columnIndex = cursor.getColumnIndex(column[0]);
+            if (cursor.moveToFirst()) {
+                filePath = cursor.getString(columnIndex);
             }
 
+            cursor.close();
+
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+            Bitmap yourSelectedImage = BitmapFactory.decodeFile(filePath, options);
+
+            if (yourSelectedImage.getWidth() <= 192 && yourSelectedImage.getHeight() <= 192
+                    && (yourSelectedImage.getWidth() / yourSelectedImage.getHeight() == 1.0)) {
+                try {
+                    File dst = new File("/mnt/sdcard/XposedGELSettings/icons/" + getIntent().getStringExtra("app") + ".png");
+                    dst.getParentFile().mkdirs();
+                    dst.createNewFile();
+
+                    InputStream in = new FileInputStream(new File(filePath));
+                    OutputStream out = new FileOutputStream(dst);
+
+                    byte[] buf = new byte[1024];
+                    int len;
+                    while ((len = in.read(buf)) > 0) {
+                        out.write(buf, 0, len);
+                    }
+                    in.close();
+                    out.close();
+                    saveExternalIcon();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return;
+            }
+
+            Intent intent = new Intent(getApplicationContext(), CropImage.class);
+            intent.putExtra(CropImage.IMAGE_PATH, filePath);
+            intent.putExtra(CropImage.RETURN_DATA, true);
+            intent.putExtra(CropImage.RETURN_DATA_AS_BITMAP, true);
+            intent.putExtra(CropImage.SCALE, true);
+            intent.putExtra(CropImage.ASPECT_X, 1);
+            intent.putExtra(CropImage.ASPECT_Y, 1);
+            intent.putExtra(CropImage.OUTPUT_X, 192);
+            intent.putExtra(CropImage.OUTPUT_Y, 192);
+            startActivityForResult(intent, REQUEST_CROP_PICTURE);
+        } else if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CROP_PICTURE) {
             FileOutputStream out = null;
             File file = new File("/mnt/sdcard/XposedGELSettings/icons/" + getIntent().getStringExtra("app") + ".png");
             file.getParentFile().mkdirs();
             try {
                 out = new FileOutputStream(file);
-                yourSelectedImage.compress(Bitmap.CompressFormat.PNG, 100, out);
+                ((Bitmap) data.getParcelableExtra(CropImage.RETURN_DATA_AS_BITMAP)).compress(Bitmap.CompressFormat.PNG, 100, out);
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -255,24 +302,6 @@ public class FragmentSelectiveIcon extends ActionBarActivity implements ActionBa
                     e.printStackTrace();
                 }
             }
-
-            if (yourSelectedImage.getWidth() < 192
-                    && yourSelectedImage.getHeight() < 192
-                    && (yourSelectedImage.getWidth() / yourSelectedImage.getHeight() == 1.0)) {
-                saveExternalIcon();
-                return;
-            }
-
-            // create explicit intent
-            Intent intent = new Intent(getApplicationContext(), CropImage.class);
-            intent.putExtra(CropImage.IMAGE_PATH, file.getAbsolutePath());
-            intent.putExtra(CropImage.SCALE, true);
-            intent.putExtra(CropImage.ASPECT_X, 1);
-            intent.putExtra(CropImage.ASPECT_Y, 1);
-            intent.putExtra(CropImage.OUTPUT_X, 192);
-            intent.putExtra(CropImage.OUTPUT_Y, 192);
-            startActivityForResult(intent, REQUEST_CROP_PICTURE);
-        } else if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CROP_PICTURE) {
             saveExternalIcon();
         }
     }

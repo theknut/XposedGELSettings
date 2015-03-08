@@ -321,7 +321,9 @@ public class IconPack {
         } else if (iconPackPackageName.equals("sdcard")) {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-            Drawable icon = new BitmapDrawable(res, BitmapFactory.decodeFile("/mnt/sdcard/XposedGELSettings/icons/" + drawableName + ".png", options));
+            Bitmap bitmap = BitmapFactory.decodeFile("/mnt/sdcard/XposedGELSettings/icons/" + drawableName + ".png", options);
+            if (bitmap == null) return null;
+            Drawable icon = new BitmapDrawable(res, bitmap);
             if (addToCache) getIcons().add(new Icon(drawableName.replace("#", "/"), icon));
             return icon;
         } else {
