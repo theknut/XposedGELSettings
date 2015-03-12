@@ -27,15 +27,21 @@
   </head>
   <body>
 
-$ 2.3 Beta2
-  % Version 2.3 Beta2
-  _ 2015-03-08
+$ 2.3 Beta4
+  % Version 2.3 Beta4
+  _ 2015-03-12
 
   !Added:
+  * Searchbar: Search bar color
   * Icon: External icon support
+
+  !Improvement:
+    * add circular crop mode
 
   !Fixed:
   * transparency turns black after cropping
+  * app drawer top padding
+  * always show "Ok Google" not working
 
   !XGELS UI:
   *

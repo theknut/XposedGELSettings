@@ -109,6 +109,8 @@ public class ObfuscationHelper extends HooksBaseClass {
                 GEL_SEARCH_PLATE_CONTAINER,
                 TRANSITIONS_MANAGER,
                 WEATHER_ENTRY_ADAPTER,
+                SEARCH_SETTINGS,
+                SEARCH_PLATE_BAR,
                 URI_LOADER,
                 WEATHER_POINT,
                 LAUNCHER_APP_STATE;
@@ -171,6 +173,8 @@ public class ObfuscationHelper extends HooksBaseClass {
             GSA_CONFIG_FLAGS = new String[]{"com.google.android.search.core.GsaConfigFlags", "ayc", "bgr", "bnj", "bnj", "chh", "cug", "cug", "com.google.android.search.core.av"}[idx]; // "int array"
             TRANSITIONS_MANAGER = new String[]{"com.google.android.search.shared.ui.SearchPlate$TransitionsManager", "cen", "cog", "cwb", "cwb", "dsi", "egu", "egu", "com.google.android.search.searchplate.af"}[idx]; // in SearchPlate: "(this, this);" "com.google.android.search.searchplate"
             WEATHER_ENTRY_ADAPTER = new String[]{"com.google.android.sidekick.shared.cards.WeatherEntryAdapter", "dye", "elt", "euo", "euo", "fzq", "gtm", "gtm", "com.google.android.sidekick.shared.ui.qp.id"}[idx]; // empty text -> "  "
+            SEARCH_SETTINGS = new String[]{"", "", "", "", "", "", "", "", "com.google.android.search.core.dx"}[idx]; // QSB.SearchSettings
+            SEARCH_PLATE_BAR = new String[]{"", "", "", "", "", "", "", "", "com.google.android.search.searchplate.an"}[idx]; // search_plate_rounded_corner_radius
             URI_LOADER = new String[]{"com.google.android.shared.util.UriLoader", "cxw", "eno", "dtb", "dtb", "", "", "", ""}[idx];
             WEATHER_POINT = new String[]{"com.google.geo.sidekick.Sidekick.WeatherEntry.WeatherPoint", "him", "ich", "ilp", "ilp", "aps", "aps", "ara", "com.google.android.apps.sidekick.e.ca"}[idx]; // getLocation in WeatherEntryAdapter // since GS 4.0 it's not the same class anymore but it does the same
         }
@@ -221,6 +225,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 GSAConfigFlags,
                 RecognizerView,
                 SearchPlate,
+                SearchPlateBar,
                 GelSearchPlateContainer,
                 TransitionsManager,
                 BubbleTextView,
@@ -229,6 +234,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 AppsCustomizeCellLayout,
                 WeatherEntryAdapter,
                 WeatherPoint,
+                SearchSettings,
                 UriLoader;
 
         public static void hookAllClasses(LoadPackageParam lpparam) {
@@ -297,6 +303,11 @@ public class ObfuscationHelper extends HooksBaseClass {
 
                 if (Common.PACKAGE_OBFUSCATED) {
                     WorkspaceState = findClass(ClassNames.WORKSPACE_STATE, lpparam.classLoader);
+
+                    if (Common.GNL_VERSION >= GNL_4_2_16) {
+                        SearchSettings = findClass(ClassNames.SEARCH_SETTINGS, lpparam.classLoader);
+                        SearchPlateBar = findClass(ClassNames.SEARCH_PLATE_BAR, lpparam.classLoader);
+                    }
 
                     if (Common.GNL_VERSION >= GNL_4_0_26) {
                         WeatherEntryAdapter = findClass(ClassNames.WEATHER_ENTRY_ADAPTER, lpparam.classLoader);
@@ -429,7 +440,8 @@ public class ObfuscationHelper extends HooksBaseClass {
                 spOnModeChanged,
                 clGetChildrenScale,
                 acpvRemoveAllViewsOnPage,
-                wGetChangeStateAnimation;
+                wGetChangeStateAnimation,
+                ssFirstHotwordHintShownAt;
 
         public static void initMethodNames(int idx) {
             lOpenFolder = new String[]{"openFolder", "i", "i", "i", "i", "i", "i", "i", "k"}[idx]; // "Opening folder ("
@@ -543,6 +555,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             lasIsDisableAllApps = new String[]{"isDisableAllApps", "ha", "hS", "hW", "hX", "im", "jd", "jd", "lC"}[idx]; // launcher_noallapps
             wpGetWeatherDescription = new String[]{"", "", "", "", "", "tz", "vd", "vd", "AZ"}[idx]; // in WeatherEntryAdapter - (TextUtils.isEmpty(str)))
             wpGetTemperatur = new String[]{"", "", "", "", "", "tx", "vb", "vb", "AX"}[idx]; // in WeatherEntryAdapter - ().length() > 3
+            ssFirstHotwordHintShownAt = new String[]{"", "", "", "", "", "", "", "", "afw"}[idx]; // "first_hotword_hint_shown_at"
         }
     }
 
@@ -623,7 +636,9 @@ public class ObfuscationHelper extends HooksBaseClass {
                 lmFolders,
                 acclFocusHandlerView,
                 acpvLayoutInflater,
-                siIcon;
+                siIcon,
+                spbMic;
+        public static String[] covbFields;
 
         public static void initFieldNames(int idx) {
             dpHotseatAllAppsRank = new String[]{"hotseatAllAppsRank", "zp", "BQ", "Cv", "Cu", "DY", "CV", "CV", "Is"}[idx]; // only / 2 operation
@@ -706,6 +721,12 @@ public class ObfuscationHelper extends HooksBaseClass {
             lmWorkspaceItems = new String[]{"sBgWorkspaceItems", "HG", "Ko", "KS", "KW", "MX", "QA", "QA", "RS"}[idx]; // "adding item: " in case 1 <field>.add
             lmFolders = new String[]{"sBgFolders", "HF", "Kn", "KR", "KV", "MW", "Qz", "Qz", "RR"}[idx]; // 1. ", not in the list of folders" 2. <field>.get(Long.valueOf(paramLong));
             acclFocusHandlerView = new String[]{"mFocusHandlerView", "", "", "", "KV", "yd", "wV", "wV", "Cm"}[idx]; // localBubbleTextView.setOnFocusChangeListener
+            spbMic = new String[]{"", "", "", "", "", "", "", "", "cnl"}[idx]; // <field>.getOpacity()
+
+            covbFields = new String[][]{
+                    {"", "", "", ""}, {"", "", "", ""}, {"", "", "", ""}, {"", "", "", ""}, {"", "", "", ""}, {"", "", "", ""}, {"", "", "", ""}, {"", "", "", ""},
+                    {"qW", "ckE", "ckG", "ckH"}
+            }[idx]; // com/google/android/search/searchplate/ClearOrVoiceButton
 
             if (Common.IS_L_TREBUCHET) {
                 btvShadowsEnabled = "mCustomShadowsEnabled";

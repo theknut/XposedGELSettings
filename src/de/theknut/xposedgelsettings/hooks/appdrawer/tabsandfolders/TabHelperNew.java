@@ -43,6 +43,7 @@ import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.Utils;
 import de.theknut.xposedgelsettings.ui.AllAppsList;
 import de.theknut.xposedgelsettings.ui.AllWidgetsList;
+import eu.janmuller.android.simplecropimage.Util;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
@@ -153,14 +154,18 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
         ViewGroup rl = (ViewGroup) inflater.inflate(R.layout.tab_host, tabHost, true);
         hsv = (HorizontalScrollView) rl.findViewById(R.id.horizontalScrollView);
 
-        int statusbarHeight;
-        int resourceId = XGELSContext.getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            statusbarHeight = XGELSContext.getResources().getDimensionPixelSize(resourceId);
+        int topPadding;
+        if (PreferencesHelper.enableAppDrawerTabs) {
+            int resourceId = XGELSContext.getResources().getIdentifier("status_bar_height", "dimen", "android");
+            if (resourceId > 0) {
+                topPadding = XGELSContext.getResources().getDimensionPixelSize(resourceId);
+            } else {
+                topPadding = Utils.dpToPx(25);
+            }
         } else {
-            statusbarHeight = Utils.dpToPx(25);
+            topPadding = Utils.dpToPx(6);
         }
-        rl.setPadding(0, statusbarHeight, 0, 0);
+        rl.setPadding(0, topPadding, 0, 0);
 
         tabsContainer = (RelativeLayout) rl.findViewById(R.id.tabscontainer);
 

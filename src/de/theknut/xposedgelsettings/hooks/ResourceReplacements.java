@@ -36,6 +36,12 @@ public class ResourceReplacements extends XC_MethodHook implements IXposedHookIn
             applyPageIndicatorColor("com.android.launcher3", resparam.res);
         } else {
             String pkg = resparam.packageName.equals(Common.TREBUCHET_PACKAGE) ? "com.android.launcher3" : resparam.packageName;
+
+            if (resparam.packageName.equals(Common.GEL_PACKAGE)
+                    && Utils.getContrastColor(PreferencesHelper.searchbarPrimaryColor) == Color.WHITE) {
+                resparam.res.setReplacement(pkg, "color", "navigation_button_color", 0xfff4f4f4);
+            }
+
             resparam.res.setReplacement(pkg, "color", "outline_color", glowColor);
             resparam.res.setReplacement(pkg, "bool", "allow_rotation", prefs.getBoolean("enablerotation", false));
             resparam.res.setReplacement(pkg, "integer", "config_tabTransitionDuration", 0);

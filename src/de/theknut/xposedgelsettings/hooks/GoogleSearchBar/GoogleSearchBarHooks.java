@@ -1,13 +1,24 @@
 package de.theknut.xposedgelsettings.hooks.googlesearchbar;
 
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
+import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
@@ -15,6 +26,7 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
+import de.theknut.xposedgelsettings.hooks.Utils;
 import de.theknut.xposedgelsettings.hooks.common.CommonHooks;
 import de.theknut.xposedgelsettings.hooks.googlesearchbar.weatherwidget.WeatherWidget;
 
@@ -84,9 +96,58 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
         }
 
         if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE)) {
+            if (Common.GNL_VERSION >= ObfuscationHelper.GNL_4_2_16) {
+                if (PreferencesHelper.alwaysShowSayOKGoogle) {
+                    findAndHookMethod(Classes.SearchSettings, Methods.ssFirstHotwordHintShownAt, XC_MethodReplacement.returnConstant(0L));
+                }
 
-            if (false && PreferencesHelper.alwaysShowSayOKGoogle) {
-                findAndHookMethod(Classes.GSAConfigFlags, Methods.gsaShouldAlwaysShowHotwordHint, XC_MethodReplacement.returnConstant(true));
+                XposedBridge.hookAllConstructors(Classes.SearchPlateBar, new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        Drawable searchBg = (Drawable) getObjectField(param.thisObject, Fields.spbMic);
+                        searchBg.setColorFilter(PreferencesHelper.searchbarPrimaryColor, PorterDuff.Mode.MULTIPLY);
+                    }
+                });
+
+                if (Utils.getContrastColor(PreferencesHelper.searchbarPrimaryColor) == Color.WHITE) {
+
+                    final int color = Color.WHITE;
+                    final int darkerColor = 0xFFF4F4F4;
+
+                    findAndHookMethod(Classes.SearchPlate, "onFinishInflate", new XC_MethodHook() {
+                        @Override
+                        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                            ViewGroup searchPlate = (ViewGroup) param.thisObject;
+                            Resources resources = searchPlate.getContext().getResources();
+
+                            int id = resources.getIdentifier("launcher_search_button", "id", Common.HOOKED_PACKAGE);
+                            if (id != 0) {
+                                ((ImageView) searchPlate.findViewById(id)).setImageDrawable(Common.XGELSCONTEXT.getResources().getDrawable(R.drawable.ic_google_small_light));
+                            }
+
+                            id = resources.getIdentifier("search_box", "id", Common.HOOKED_PACKAGE);
+                            if (id != 0) {
+                                EditText simpleSearchText = (EditText) searchPlate.findViewById(id);
+                                simpleSearchText.setTextColor(color);
+                                simpleSearchText.setHintTextColor(darkerColor);
+                            }
+
+                            id = resources.getIdentifier("say_ok_google", "id", Common.HOOKED_PACKAGE);
+                            if (id != 0) {
+                                ((TextView) searchPlate.findViewById(id)).setTextColor(darkerColor);
+                            }
+
+                            id = resources.getIdentifier("clear_or_voice_button", "id", Common.HOOKED_PACKAGE);
+                            if (id != 0) {
+                                View clearOrVoiceButton = searchPlate.findViewById(id);
+                                ((Paint) getObjectField(clearOrVoiceButton, Fields.covbFields[0])).setColor(darkerColor);
+                                ((Drawable) getObjectField(clearOrVoiceButton, Fields.covbFields[1])).setColorFilter(color, PorterDuff.Mode.MULTIPLY);
+                                ((Drawable) getObjectField(clearOrVoiceButton, Fields.covbFields[2])).setColorFilter(color, PorterDuff.Mode.MULTIPLY);
+                                ((Drawable) getObjectField(clearOrVoiceButton, Fields.covbFields[3])).setColorFilter(color, PorterDuff.Mode.MULTIPLY);
+                            }
+                        }
+                    });
+                }
             }
 
             // 0 - Default

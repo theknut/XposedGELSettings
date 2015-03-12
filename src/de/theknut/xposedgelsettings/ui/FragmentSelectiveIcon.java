@@ -6,9 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Point;
@@ -37,13 +35,11 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckedTextView;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -213,7 +209,7 @@ public class FragmentSelectiveIcon extends ActionBarActivity implements ActionBa
 
                 break;
             case R.id.iconfromgallery:
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
                 photoPickerIntent.setType("image/*");
                 startActivityForResult(photoPickerIntent, REQUEST_PICK_PICTURE);
                 break;
@@ -229,60 +225,48 @@ public class FragmentSelectiveIcon extends ActionBarActivity implements ActionBa
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_PICK_PICTURE) {
-            String[] column = { MediaStore.Images.Media.DATA };
-            String[] split = data.getData().getPath().split("/");
-            String id = split[split.length - 1];
-            String sel = MediaStore.Images.Media._ID + "=?";
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
 
-            Cursor cursor = getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    column, sel, new String[]{id}, null);
-
-            String filePath = "";
-            int columnIndex = cursor.getColumnIndex(column[0]);
-            if (cursor.moveToFirst()) {
-                filePath = cursor.getString(columnIndex);
-            }
-
-            cursor.close();
-
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-            Bitmap yourSelectedImage = BitmapFactory.decodeFile(filePath, options);
-
-            if (yourSelectedImage.getWidth() <= 192 && yourSelectedImage.getHeight() <= 192
-                    && (yourSelectedImage.getWidth() / yourSelectedImage.getHeight() == 1.0)) {
-                try {
+                if (bitmap.getWidth() <= 192 && bitmap.getHeight() <= 192
+                        && (bitmap.getWidth() / bitmap.getHeight() == 1.0)) {
                     File dst = new File("/mnt/sdcard/XposedGELSettings/icons/" + getIntent().getStringExtra("app") + ".png");
                     dst.getParentFile().mkdirs();
                     dst.createNewFile();
 
-                    InputStream in = new FileInputStream(new File(filePath));
-                    OutputStream out = new FileOutputStream(dst);
-
-                    byte[] buf = new byte[1024];
-                    int len;
-                    while ((len = in.read(buf)) > 0) {
-                        out.write(buf, 0, len);
+                    FileOutputStream out = null;
+                    try {
+                        out = new FileOutputStream(dst);
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            if (out != null) {
+                                out.close();
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
-                    in.close();
-                    out.close();
                     saveExternalIcon();
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    return;
                 }
-                return;
-            }
 
-            Intent intent = new Intent(getApplicationContext(), CropImage.class);
-            intent.putExtra(CropImage.IMAGE_PATH, filePath);
-            intent.putExtra(CropImage.RETURN_DATA, true);
-            intent.putExtra(CropImage.RETURN_DATA_AS_BITMAP, true);
-            intent.putExtra(CropImage.SCALE, true);
-            intent.putExtra(CropImage.ASPECT_X, 1);
-            intent.putExtra(CropImage.ASPECT_Y, 1);
-            intent.putExtra(CropImage.OUTPUT_X, 192);
-            intent.putExtra(CropImage.OUTPUT_Y, 192);
-            startActivityForResult(intent, REQUEST_CROP_PICTURE);
+                Intent intent = new Intent(getApplicationContext(), CropImage.class);
+                intent.putExtra(CropImage.IMAGE_PATH, data.getData().toString());
+                intent.putExtra(CropImage.PATH_AS_URI, true);
+                intent.putExtra(CropImage.RETURN_DATA, true);
+                intent.putExtra(CropImage.RETURN_DATA_AS_BITMAP, true);
+                intent.putExtra(CropImage.SCALE, true);
+                intent.putExtra(CropImage.ASPECT_X, 1);
+                intent.putExtra(CropImage.ASPECT_Y, 1);
+                intent.putExtra(CropImage.OUTPUT_X, 192);
+                intent.putExtra(CropImage.OUTPUT_Y, 192);
+                startActivityForResult(intent, REQUEST_CROP_PICTURE);
+            } catch (Exception e) {
+                Toast.makeText(this, "Couldn't load image. Please send a bug report from the XGELS settings menu!", Toast.LENGTH_LONG).show();
+            }
         } else if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CROP_PICTURE) {
             FileOutputStream out = null;
             File file = new File("/mnt/sdcard/XposedGELSettings/icons/" + getIntent().getStringExtra("app") + ".png");
@@ -345,7 +329,7 @@ public class FragmentSelectiveIcon extends ActionBarActivity implements ActionBa
             mActivity.sendBroadcast(intent);
         }
 
-            mActivity.finish();
+        mActivity.finish();
     }
 
     public boolean shouldShow(String packageName) {

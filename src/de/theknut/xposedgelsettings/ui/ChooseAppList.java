@@ -69,6 +69,9 @@ public class ChooseAppList extends ActionBarListActivity {
     @Override
     public void onResume() {
         super.onResume();
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
         getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
     }
 

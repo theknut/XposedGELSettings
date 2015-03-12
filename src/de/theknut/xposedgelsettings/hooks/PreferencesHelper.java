@@ -127,6 +127,7 @@ public class PreferencesHelper {
     public static boolean unlimitedFolderSize;
     public static boolean alwaysShowSayOKGoogle;
     public static int glowColor;
+    public static int searchbarPrimaryColor;
     public static boolean transparentSystemBars;
     public static boolean quicksettingsLockDesktop;
     public static int notificationBadgePosition;
@@ -207,6 +208,7 @@ public class PreferencesHelper {
         homescreenIconLabelColor = prefs.getInt("homescreeniconlabelcolor", Color.WHITE);
         appdrawerIconLabelColor = prefs.getInt("appdrawericonlabelcolor", Color.WHITE);
         appdrawerBackgroundColor = prefs.getInt("appdrawerbackgroundcolor", Color.argb(0xA5, 0x00, 0x00, 0x00));
+        searchbarPrimaryColor = prefs.getInt("searchbarprimarycolor", Color.WHITE);
         appdrawerFolderStyleBackgroundColor = prefs.getInt("appdrawerfolderstylebackgroundcolor", Color.argb(0xFF, 0xFF, 0xFF, 0xFF));
         appDockBackgroundColor = prefs.getInt("appdockbackgroundcolor", Color.argb(0x00, 0xFF, 0xFF, 0xFF));
         homescreenFolderColor = prefs.getInt("homescreenfoldercolor", Color.argb(0xFF, 0xFF, 0xFF, 0xFF));
