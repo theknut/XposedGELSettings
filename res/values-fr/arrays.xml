@@ -23,6 +23,10 @@
         <item>Appuyer - lancer la première appli\nGlisser - ouvrir le dossier</item>
     </string-array>
 
+    <string-array name="icongestures_entries">
+        <item>Appel contact</item>
+    </string-array>
+
     <string-array name="searchbarstyle_entries">
         <item>Défaut</item>
         <item>Style Android L</item>
