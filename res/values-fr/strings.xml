@@ -395,6 +395,9 @@
     <string name="saving_image">Enregistrement de l\'image</string>
     <string name="preparing_card">Préparation de la carte</string>
     <string name="no_storage_card">Aucune carte de stockage</string>
-    <string name="not_enough_space">Espace insuffisant</string>    
+    <string name="not_enough_space">Espace insuffisant</string>
+    
+    <!-- 2.3 -->
+    <string name="pref_searchbar_color_title">Couleur barre de recherche</string>    
     
 </resources>
