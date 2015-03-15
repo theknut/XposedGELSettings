@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/gridphonevertical"
-            android:src="@drawable/ic_action_phone"
+            android:src="@drawable/ic_cellphone_android_white"
             android:layout_gravity="center"
             android:layout_marginEnd="5dp" />
 
@@ -53,7 +53,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_action_phone"
+            android:src="@drawable/ic_cellphone_android_white"
             android:id="@+id/gridphonehorizontal"
             android:rotation="90"
             android:layout_gravity="center"

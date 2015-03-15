@@ -38,20 +38,6 @@
                 android:text="Games"
                 android:includeFontPadding="false"
                 android:id="@+id/textView" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/addbutton"
-                android:src="@drawable/tab_add_button"
-                android:layout_marginLeft="-20dp"
-                android:layout_toRightOf="@+id/textView"
-                android:paddingStart="5dp"
-                android:paddingEnd="5dp"
-                android:paddingBottom="2dp"
-                android:paddingTop="6dp"
-                android:scaleType="center"
-                android:background="@drawable/tab_indicator_background" />
         </RelativeLayout>
 
     </HorizontalScrollView>

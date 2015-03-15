@@ -12,13 +12,13 @@
         android:id="@+id/iconfromgallery"
         android:visible="true"
         android:orderInCategory="100"
-        android:icon="@drawable/contextmenu_action_picture"
+        android:icon="@drawable/ic_file_image_box_white"
         app:showAsAction="always" />
     <item
         android:id="@+id/shortcutfolderdefault"
         android:visible="false"
         android:orderInCategory="100"
         app:showAsAction="always"
-        android:icon="@drawable/contextmenu_action_rotate_left"
+        android:icon="@drawable/ic_backup_restore_white"
         android:title="@string/default_text" />
 </menu>

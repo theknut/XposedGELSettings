@@ -15,6 +15,13 @@
 	    <item name="android:shadowRadius">2</item>
   	</style>
 
+    <style name="ContextMenuItem">
+	    <item name="android:layout_height">@dimen/context_menu_icon_size</item>
+	    <item name="android:layout_width">@dimen/context_menu_icon_size</item>
+	    <item name="android:paddingLeft">4dp</item>
+	    <item name="android:paddingRight">4dp</item>
+  	</style>
+
     <style name="Theme.Transparent" parent="@android:style/Theme.Dialog">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>

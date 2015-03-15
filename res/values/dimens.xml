@@ -2,8 +2,11 @@
 <resources>
     <dimen name="context_menu_icon_size">40dp</dimen>
     <dimen name="context_menu_padding">4dp</dimen>
-    <dimen name="tab_menu_icon_size">40dp</dimen>
+    <dimen name="tab_menu_icon_size">30dp</dimen>
+    <dimen name="tab_menu_save_size">40dp</dimen>
+    <dimen name="tab_menu_sort_size">40dp</dimen>
     <dimen name="tab_menu_padding">5dp</dimen>
+    <dimen name="edit_app_name_padding">5dp</dimen>
     <dimen name="folder_menu_padding">5dp</dimen>
     <dimen name="tab_menu_add_button">25dp</dimen>
     <dimen name="tab_color_preview_stroke">5dp</dimen>

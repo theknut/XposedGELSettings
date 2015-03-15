@@ -61,21 +61,21 @@
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             style="@style/CropButton"
-            android:src="@drawable/contextmenu_action_remove" />
+            android:src="@drawable/ic_close_white" />
 
         <ImageView
             android:id="@+id/save"
             android:layout_width="wrap_content"
             android:layout_height="80dp"
             style="@style/CropButton"
-            android:src="@drawable/ic_action_accept" />
+            android:src="@drawable/ic_check_white" />
 
         <ImageView
             android:id="@+id/rotateRight"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             style="@style/CropButton"
-            android:src="@drawable/ic_rotate_image" />
+            android:src="@drawable/ic_rotate_right_white" />
 
     </LinearLayout>
 </RelativeLayout>

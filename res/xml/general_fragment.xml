@@ -8,14 +8,16 @@
     <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
         android:key="contextmenumode"
         android:title="@string/pref_contextmenu_mode_title" />
+    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
+        android:key="appnames"
+        android:title="@string/pref_rename_apps_title" />
     <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
         android:key="enablellauncher"
         android:title="@string/pref_enable_l_launcher_title"
         android:summary="@string/pref_enable_l_launcher_summary"/>
-	<de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
-	    android:key="hidepageindicator"
-	    android:title="@string/pref_pageindicator_title"
-	    android:summary="@string/pref_pageindicator_summary"/>
+	<de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
+	    android:key="pageindicatormode"
+	    android:title="@string/pref_pageindicator_title"/>
     <net.margaritov.preference.colorpicker.ColorPickerPreference
         android:key="pageindicatorcolor"
         android:title="@string/pref_pageindicator_color_title"

@@ -28,6 +28,7 @@ import java.util.Set;
 
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.Tab;
 
 public class SaveActivity extends ListActivity {
 
@@ -119,7 +120,7 @@ public class SaveActivity extends ListActivity {
 
         if (getIntent().hasExtra("initcolor")) {
             colorPickerDialog = new ColorPickerDialog(this, getIntent().getIntExtra("initcolor", Color.WHITE));
-            colorPickerDialog.setDefaultColor(Color.WHITE);
+            colorPickerDialog.setDefaultColor(Tab.DEFAULT_COLOR);
             colorPickerDialog.setOnColorChangedListener(new ColorPickerDialog.OnColorChangedListener() {
                 @Override
                 public void onColorChanged(int color) {

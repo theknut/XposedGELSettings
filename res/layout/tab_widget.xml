@@ -22,7 +22,7 @@
         android:layout_height="52.0dp"
         android:id="@+id/addbutton"
         android:layout_gravity="center"
-        android:src="@drawable/tab_add_button"
+        android:src="@drawable/ic_plus_white"
         android:background="@drawable/tab_indicator"
         android:scaleType="centerCrop"
         android:layout_alignParentEnd="true" />

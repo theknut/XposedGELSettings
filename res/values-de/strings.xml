@@ -380,5 +380,9 @@
     <string name="menu_hide_apps_used_in_tabs">Verberge bereits verwendete Apps</string>
     <string name="pref_app_drawer_hide_from_home_title">Verberge Homescreen Apps</string>
     <string name="pref_app_drawer_hide_from_home_summary">(Experimentell)\nVerbirgt automatisch Apps in der App-Übersicht, wenn sie sich bereits auf dem Homescreen befinden. Benötigt einen Launcher-Neustart zum Synchronisieren.</string>
-   
+
+    <!-- 2.3 -->
+    <string name="pref_searchbar_color_title">Farbe der Suchleiste</string>
+    <string name="pref_rename_apps_title">Apps umbenennen</string>
+
 </resources>

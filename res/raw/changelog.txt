@@ -28,23 +28,26 @@
   <body>
 
 $ 2.3 Beta4
-  % Version 2.3 Beta4
-  _ 2015-03-12
+  % Version 2.3 Beta5
+  _ 2015-03-16
+
+  Due to internal changes you'll have to set your external icons again. Sorry for the inconvenience!<br><br>
 
   !Added:
-  * Searchbar: Search bar color
-  * Icon: External icon support
-
-  !Improvement:
-    * add circular crop mode
+  * <b>Icon:</b> External icon support (Premium)
+  * <b>Search bar:</b> Search bar color
+  * <b>General:</b> Hide page indicators separately
+  * <b>General:</b> Rename apps
 
   !Fixed:
-  * transparency turns black after cropping
   * app drawer top padding
+  * remember position not working
+  * app drawer default text color
   * always show "Ok Google" not working
+  * color picker dialog in landscape
 
   !XGELS UI:
-  *
+  * replaced all icons with new material icons
 
 $ 2.2.11
   % Version 2.2.11

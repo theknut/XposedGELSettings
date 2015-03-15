@@ -441,6 +441,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 clGetChildrenScale,
                 acpvRemoveAllViewsOnPage,
                 wGetChangeStateAnimation,
+                dpLayout,
                 ssFirstHotwordHintShownAt;
 
         public static void initMethodNames(int idx) {
@@ -477,7 +478,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             wOnDragEnd = new String[]{"onDragEnd", "dt", "ei", "er", "er", "eK", "ek", "ek", "gO"}[idx]; // only method without interface parameters with InstallShortcutReceiver
             //wOnDragStart = new String[]{"onDragStart", "a", "a", "a"}[idx]; // only method with interface parameters with InstallShortcutReceiver
             wOnLauncherTransitionEnd = new String[]{"onLauncherTransitionEnd", "a", "a", "a", "a", "a", "a", "a", "c"}[idx]; // (Launcher paramLauncher, boolean paramBoolean1, boolean paramBoolean2)
-            wOnTransitionPrepare = new String[]{"onTransitionPrepare", "jR", "kM", "kR", "kW", "ln", "mx", "mx", "pG"}[idx]; // Method with "if ((bool) && (" in it
+            wOnTransitionPrepare = new String[]{"onLauncherTransitionPrepare", "a", "a", "a", "a", "a", "a", "a", "a"}[idx]; // Method with "if ((bool) && (" in it
             wGetWorkspaceAndHotseatCellLayouts = new String[]{"getWorkspaceAndHotseatCellLayouts", "ka", "kV", "la", "lf", "lx", "mH", "mH", "pS"}[idx]; // localArrayList.add((CellLayout)getChildAt(j));
             wGetViewForTag = new String[]{"getViewForTag", "I", "V", "V", "V", "af", "ae", "ae", "at"}[idx]; // "(this, paramObject));"
             wGetScreenWithId = new String[]{"getScreenWithId", "j", "j", "j", "j", "j", "j", "j", "p"}[idx]; // public final CellLayout

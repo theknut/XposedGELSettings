@@ -28,8 +28,8 @@ import static de.robv.android.xposed.XposedHelpers.getObjectField;
  */
 public class Tab extends AppDrawerItem {
 
-    public static int DEFAULT_COLOR = Color.parseColor("#F4F4F4");
-    public static int DEFAULT_TEXT_COLOR = Color.parseColor("#666666");
+    public static int DEFAULT_COLOR = 0xFFF4F4F4;
+    public static int DEFAULT_TEXT_COLOR = 0xFF666666;
     public static final String KEY_PREFIX= "tab";
     public static final int APPS_ID = 0xABB5;
     public static final int WIDGETS_ID = 0xBEEF;

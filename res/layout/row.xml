@@ -59,7 +59,7 @@
             android:layout_alignLeft="@+id/checkbox"
             android:layout_alignStart="@+id/checkbox"
             android:layout_alignParentBottom="true"
-            android:src="@drawable/ic_action_remove"
+            android:src="@drawable/ic_close_white"
             android:background="#00ffffff"
             android:scaleType="centerInside"
             android:layout_marginRight="10dp" />

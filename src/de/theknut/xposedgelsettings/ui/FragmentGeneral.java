@@ -86,6 +86,7 @@ public class FragmentGeneral extends FragmentBase {
 
         final MyPreferenceScreen contextmenuMode = (MyPreferenceScreen) findPreference("contextmenumode");
         final int modeIdx = Integer.parseInt(sharedPrefs.getString("contextmenumode", "3"));
+        contextmenuMode.setSummary(getResources().getStringArray(R.array.contextmenu_mode_entries)[modeIdx]);
         contextmenuMode.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
@@ -107,7 +108,30 @@ public class FragmentGeneral extends FragmentBase {
                 return false;
             }
         });
-        contextmenuMode.setSummary(getResources().getStringArray(R.array.contextmenu_mode_entries)[modeIdx]);
+
+        final MyPreferenceScreen pageIndicatorMode = (MyPreferenceScreen) findPreference("pageindicatormode");
+        final int pageIndicatorModeIdx = sharedPrefs.getInt("pageindicatormode", 0);
+        pageIndicatorMode.setSummary(getResources().getStringArray(R.array.pageindicator_mode_entries)[pageIndicatorModeIdx]);
+        pageIndicatorMode.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                new MaterialDialog.Builder(mActivity)
+                        .theme(Theme.DARK)
+                        .title(R.string.pref_pageindicator_title)
+                        .items(getResources().getStringArray(R.array.pageindicator_mode_entries))
+                        .itemsCallbackSingleChoice(sharedPrefs.getInt("pageindicatormode", 0), new MaterialDialog.ListCallback() {
+                            @Override
+                            public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                                sharedPrefs.edit().putInt("pageindicatormode", which).apply();
+                                pageIndicatorMode.setSummary(text);
+                                dialog.dismiss();
+                            }
+                        })
+                        .build()
+                        .show();
+                return false;
+            }
+        });
 
         final MyPreferenceScreen scrollSpeed = (MyPreferenceScreen) findPreference("scrolldevider");
         final List<String> values = Arrays.asList(getResources().getStringArray(R.array.general_scroll_devider_values));
@@ -157,6 +181,16 @@ public class FragmentGeneral extends FragmentBase {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 getActivity().startActivity(new Intent(getActivity(), AllWidgetsList.class));
+                return true;
+            }
+        });
+
+        findPreference("appnames").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent intent = new Intent(getActivity(), ChooseAppList.class);
+                intent.putExtra("mode", ChooseAppList.MODE_APP_RENAME);
+                getActivity().startActivity(intent);
                 return true;
             }
         });

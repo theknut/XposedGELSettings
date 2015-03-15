@@ -22,17 +22,17 @@
 
         <EditText
             android:layout_width="175dp"
-            android:layout_height="@dimen/tab_menu_icon_size"
+            android:layout_height="wrap_content"
             android:id="@+id/tabname"
             android:layout_weight="0.60"
             android:hint="@string/alert_tab_hint_text_title"
             android:textColorHint="@color/hint_text" />
 
         <ImageView
-            android:layout_width="@dimen/tab_menu_icon_size"
-            android:layout_height="@dimen/tab_menu_icon_size"
+            android:layout_width="@dimen/tab_menu_save_size"
+            android:layout_height="@dimen/tab_menu_save_size"
             android:id="@+id/tab_save_settings"
-            android:src="@drawable/ic_action_accept" />
+            android:src="@drawable/ic_check_white" />
 
     </LinearLayout>
 
@@ -54,21 +54,21 @@
             android:layout_width="@dimen/tab_menu_icon_size"
             android:layout_height="@dimen/tab_menu_icon_size"
             android:id="@+id/movetableft"
-            android:src="@drawable/appdrawer_tab_left"
+            android:src="@drawable/ic_arrow_left_white"
             android:layout_weight="1" />
 
         <ImageView
             android:layout_width="@dimen/tab_menu_icon_size"
             android:layout_height="@dimen/tab_menu_icon_size"
             android:id="@+id/deletetab"
-            android:src="@drawable/contextmenu_action_discard"
+            android:src="@drawable/ic_delete_white"
             android:layout_weight="1" />
 
         <ImageView
             android:layout_width="@dimen/tab_menu_icon_size"
             android:layout_height="@dimen/tab_menu_icon_size"
             android:id="@+id/addfolder"
-            android:src="@drawable/contextmenu_action_collection"
+            android:src="@drawable/ic_folder_white"
             android:layout_weight="1" />
 
         <ImageView
@@ -81,14 +81,14 @@
             android:layout_width="@dimen/tab_menu_icon_size"
             android:layout_height="@dimen/tab_menu_icon_size"
             android:id="@+id/manageapps"
-            android:src="@drawable/contextmenu_action_settings"
+            android:src="@drawable/ic_settings_white"
             android:layout_weight="1" />
 
         <ImageView
             android:layout_width="@dimen/tab_menu_icon_size"
             android:layout_height="@dimen/tab_menu_icon_size"
             android:id="@+id/movetabright"
-            android:src="@drawable/appdrawer_tab_right"
+            android:src="@drawable/ic_arrow_right_white"
             android:layout_weight="1" />
 
     </LinearLayout>
@@ -103,7 +103,7 @@
 
         <Spinner
             android:layout_width="match_parent"
-            android:layout_height="@dimen/tab_menu_icon_size"
+            android:layout_height="@dimen/tab_menu_sort_size"
             android:id="@+id/tabsort"
             android:entries="@array/tabsort_entries" />
 

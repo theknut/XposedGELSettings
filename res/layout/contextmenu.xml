@@ -13,69 +13,58 @@
 
         <ImageView
             android:id="@+id/gesture"
-            android:layout_width="@dimen/context_menu_icon_size"
-            android:layout_height="@dimen/context_menu_icon_size"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_allapps" />
+            style="@style/ContextMenuItem"
+            android:src="@drawable/ic_action_gesture" />
 
         <ImageView
             android:id="@+id/appinfo"
-            android:layout_width="@dimen/context_menu_icon_size"
-            android:layout_height="@dimen/context_menu_icon_size"
-            android:layout_gravity="center"
-            android:src="@drawable/contextmenu_action_about" />
+            style="@style/ContextMenuItem"
+            android:src="@drawable/ic_information_outline_white" />
 
         <ImageView
             android:id="@+id/managefolder"
-            android:layout_width="@dimen/context_menu_icon_size"
-            android:layout_height="@dimen/context_menu_icon_size"
-            android:layout_gravity="center"
-            android:src="@drawable/contextmenu_action_settings" />
+            style="@style/ContextMenuItem"
+            android:src="@drawable/ic_settings_white" />
 
         <ImageView
             android:id="@+id/remove"
-            android:layout_width="@dimen/context_menu_icon_size"
-            android:layout_height="@dimen/context_menu_icon_size"
-            android:layout_gravity="center"
-            android:src="@drawable/contextmenu_action_remove" />
+            style="@style/ContextMenuItem"
+            android:src="@drawable/ic_close_white" />
 
         <ImageView
             android:id="@+id/uninstall"
-            android:layout_width="@dimen/context_menu_icon_size"
-            android:layout_height="@dimen/context_menu_icon_size"
-            android:src="@drawable/contextmenu_action_discard" />
+            style="@style/ContextMenuItem"
+            android:src="@drawable/ic_delete_white" />
 
         <ImageView
             android:id="@+id/resize"
-            android:layout_width="@dimen/context_menu_icon_size"
-            android:layout_height="@dimen/context_menu_icon_size"
-            android:src="@drawable/contextmenu_action_crop" />
+            style="@style/ContextMenuItem"
+            android:src="@drawable/ic_crop_white" />
 
         <ImageView
             android:id="@+id/settings"
-            android:layout_width="@dimen/context_menu_icon_size"
-            android:layout_height="@dimen/context_menu_icon_size"
-            android:src="@drawable/contextmenu_action_picture" />
+            style="@style/ContextMenuItem"
+            android:src="@drawable/ic_file_image_box_white" />
+
+        <ImageView
+            android:id="@+id/appname"
+            style="@style/ContextMenuItem"
+            android:src="@drawable/ic_pencil_white" />
 
         <ImageView
             android:id="@+id/sortapps"
-            android:layout_width="@dimen/context_menu_icon_size"
-            android:layout_height="@dimen/context_menu_icon_size"
-            android:src="@drawable/contextmenu_action_sort" />
+            style="@style/ContextMenuItem"
+            android:src="@drawable/ic_sort_alphabetical_white" />
 
         <ImageView
             android:id="@+id/layerdown"
-            android:visibility="visible"
-            android:layout_width="@dimen/context_menu_icon_size"
-            android:layout_height="@dimen/context_menu_icon_size"
-            android:src="@drawable/contextmenu_action_download" />
+            style="@style/ContextMenuItem"
+            android:src="@drawable/ic_download_white" />
 
         <ImageView
             android:id="@+id/layerup"
-            android:visibility="visible"
-            android:layout_width="@dimen/context_menu_icon_size"
-            android:layout_height="@dimen/context_menu_icon_size"
-            android:src="@drawable/contextmenu_action_upload" />
+            style="@style/ContextMenuItem"
+            android:src="@drawable/ic_upload_white" />
 
     </LinearLayout>
 

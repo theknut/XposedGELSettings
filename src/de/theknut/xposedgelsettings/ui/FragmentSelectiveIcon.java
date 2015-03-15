@@ -230,7 +230,7 @@ public class FragmentSelectiveIcon extends ActionBarActivity implements ActionBa
 
                 if (bitmap.getWidth() <= 192 && bitmap.getHeight() <= 192
                         && (bitmap.getWidth() / bitmap.getHeight() == 1.0)) {
-                    File dst = new File("/mnt/sdcard/XposedGELSettings/icons/" + getIntent().getStringExtra("app") + ".png");
+                    File dst = new File("/mnt/sdcard/XposedGELSettings/icons/" + itemID + ".png");
                     dst.getParentFile().mkdirs();
                     dst.createNewFile();
 
@@ -269,7 +269,7 @@ public class FragmentSelectiveIcon extends ActionBarActivity implements ActionBa
             }
         } else if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CROP_PICTURE) {
             FileOutputStream out = null;
-            File file = new File("/mnt/sdcard/XposedGELSettings/icons/" + getIntent().getStringExtra("app") + ".png");
+            File file = new File("/mnt/sdcard/XposedGELSettings/icons/" + itemID + ".png");
             file.getParentFile().mkdirs();
             try {
                 out = new FileOutputStream(file);
@@ -297,10 +297,8 @@ public class FragmentSelectiveIcon extends ActionBarActivity implements ActionBa
         String key = "selectedicons";
         if (mode == MODE_PICK_SHORTCUT_ICON) {
             key = "shortcuticons";
-            appComponentName = "" + itemID;
         } else if (mode == MODE_PICK_FOLDER_ICON) {
             key = "foldericons";
-            appComponentName = "" + itemID;
         }
 
         HashSet<String> selectedIcons = (HashSet<String>) prefs.getStringSet(key, new HashSet<String>());
@@ -308,12 +306,12 @@ public class FragmentSelectiveIcon extends ActionBarActivity implements ActionBa
         Iterator it = selectedIcons.iterator();
         while (it.hasNext()) {
             String[] item = it.next().toString().split("\\|");
-            if (item[0].equals(appComponentName)) {
+            if (item[0].equals(String.valueOf(itemID))) {
                 it.remove();
             }
         }
 
-        selectedIcons.add(appComponentName + "|sdcard|" + getIntent().getStringExtra("app"));
+        selectedIcons.add(itemID + "|sdcard|" + itemID);
 
         editor.remove(key).commit();
         editor.putStringSet(key, selectedIcons).commit();

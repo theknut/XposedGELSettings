@@ -12,7 +12,7 @@
 
     <color name="dark_grey">#7f0a0017</color>
     <color name="light_grey">#888</color>
-    <color name="contextmenu_bg_color">#C1000000</color>
+    <color name="contextmenu_bg_color">@color/blue_grey_800</color>
 
     <color name="red_50">#fde0dc</color>
     <color name="red_100">#f9bdbb</color>

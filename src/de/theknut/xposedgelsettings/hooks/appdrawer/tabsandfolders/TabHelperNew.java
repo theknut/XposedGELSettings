@@ -43,12 +43,10 @@ import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.Utils;
 import de.theknut.xposedgelsettings.ui.AllAppsList;
 import de.theknut.xposedgelsettings.ui.AllWidgetsList;
-import eu.janmuller.android.simplecropimage.Util;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
-import static de.robv.android.xposed.XposedHelpers.getStaticIntField;
 import static de.robv.android.xposed.XposedHelpers.newInstance;
 import static de.robv.android.xposed.XposedHelpers.setIntField;
 
@@ -727,7 +725,8 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
                 if (PreferencesHelper.iconSettingsSwitchApps) {
                     iconName.setTextColor(PreferencesHelper.appdrawerIconLabelColor);
                 } else {
-                    if (currTab.getPrimaryColor() == Tab.DEFAULT_COLOR) {
+                    int color = currTab.getPrimaryColor();
+                    if (color >= Tab.DEFAULT_COLOR || color == Color.WHITE) {
                         iconName.setTextColor(Tab.DEFAULT_TEXT_COLOR);
                     } else {
                         iconName.setTextColor(currTab.getContrastColor());

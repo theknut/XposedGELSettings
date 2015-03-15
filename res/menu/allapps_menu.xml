@@ -5,7 +5,7 @@
         android:id="@+id/action_save"
         android:orderInCategory="100"
         app:showAsAction="always"
-        android:icon="@drawable/ic_action_accept"
+        android:icon="@drawable/ic_check_white"
         android:title="@string/default_text" />
     <item
         android:id="@+id/action_hide"

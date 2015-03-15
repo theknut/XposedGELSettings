@@ -285,7 +285,7 @@ public class Utils {
         Iterator it = preference.iterator();
         while (it.hasNext()) {
             String[] name = it.next().toString().split("\\|");
-            if (name[0].equals("" + id)) {
+            if (name[0].equals(String.valueOf(id))) {
                 return name;
             }
         }

@@ -47,7 +47,6 @@ public class AppDrawerHooks extends HooksBaseClass {
             // changing the appearence of the icons in the app drawer
             XposedBridge.hookAllMethods(Classes.PagedViewIcon, Methods.pviApplyFromApplicationInfo, new ApplyFromApplicationInfoHook());
         }
-
         // modify app drawer grid
         if (Common.PACKAGE_OBFUSCATED) {
             findAndHookMethod(Classes.DeviceProfile, Methods.dpUpdateFromConfiguration, float.class, Integer.TYPE, Resources.class, DisplayMetrics.class, new UpdateFromConfigurationHook());
@@ -114,6 +113,48 @@ public class AppDrawerHooks extends HooksBaseClass {
             findAndHookMethod(Common.IS_PRE_GNL_4 ? Classes.AppsCustomizePagedView : Classes.Launcher, "onClick", View.class, new OnClickHook());
         }
 
+        findAndHookMethod(Classes.Workspace, Methods.wOnTransitionPrepare, Classes.Launcher, boolean.class, boolean.class, new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                if ((Boolean) param.args[2]) return;
+
+                if (PreferencesHelper.enableAppDrawerTabs
+                        && (Common.PACKAGE_OBFUSCATED || Common.IS_L_TREBUCHET)
+                        && getObjectField(Common.APP_DRAWER_INSTANCE, ObfuscationHelper.Fields.acpvContentType).toString().equals("Widgets")) {
+
+                    TabHelper tabHelper = TabHelper.getInstance();
+                    if (tabHelper instanceof TabHelperNew) {
+                        ((TabHelperNew) tabHelper).setCurrentTab(Tab.WIDGETS_ID);
+                    }
+                } else {
+                    if (PreferencesHelper.appdrawerRememberLastPosition) {
+                        if ((!Common.IS_KK_TREBUCHET && Common.IS_PRE_GNL_4) && !TabHelperLegacy.getInstance().getCurrentTabData().isWidgetsTab()) {
+                            int lastTab = TabHelperLegacy.getInstance().getTabHost().getTabWidget().getTabCount() - 1;
+                            if (Common.APPDRAWER_LAST_TAB_POSITION > lastTab) {
+                                Common.APPDRAWER_LAST_TAB_POSITION = lastTab;
+                            }
+
+                            TabHelperLegacy.getInstance().setCurrentTab(Common.APPDRAWER_LAST_TAB_POSITION);
+                        }
+
+                        int lastPage = (Integer) callMethod(Common.APP_DRAWER_INSTANCE, "getChildCount") - 1;
+                        if (Common.APPDRAWER_LAST_PAGE_POSITION > lastPage) {
+                            Common.APPDRAWER_LAST_PAGE_POSITION = lastPage;
+                        }
+
+                        if (DEBUG)
+                            log(param, "AppDrawer: set to last position " + Common.APPDRAWER_LAST_PAGE_POSITION);
+                        callMethod(Common.APP_DRAWER_INSTANCE, Methods.pvSetCurrentPage, Common.APPDRAWER_LAST_PAGE_POSITION);
+                    } else {
+                        callMethod(Common.APP_DRAWER_INSTANCE, Methods.pvSetCurrentPage, 0);
+                    }
+
+                    if (!Common.IS_KK_TREBUCHET)
+                        TabHelper.getInstance().scroll();
+                }
+            }
+        });
+
         CommonHooks.OnLauncherTransitionEndListeners.add(new XGELSCallback() {
 
             int TOWORKSPACE = 2;
@@ -125,8 +166,7 @@ public class AppDrawerHooks extends HooksBaseClass {
 
                     if (PreferencesHelper.appdrawerRememberLastPosition) {
                         if (!Common.OVERSCROLLED) {
-                            Object acpv = getObjectField(Common.LAUNCHER_INSTANCE, ObfuscationHelper.Fields.lAppsCustomizePagedView);
-                            Common.APPDRAWER_LAST_PAGE_POSITION = getIntField(acpv, ObfuscationHelper.Fields.pvCurrentPage);
+                            Common.APPDRAWER_LAST_PAGE_POSITION = getIntField(Common.APP_DRAWER_INSTANCE, ObfuscationHelper.Fields.pvCurrentPage);
                         }
 
                         if (Common.IS_PRE_GNL_4) {
@@ -163,51 +203,7 @@ public class AppDrawerHooks extends HooksBaseClass {
                     Common.OVERSCROLLED = false;
                 } else {
                     Common.ORIENTATION = Common.LAUNCHER_CONTEXT.getResources().getConfiguration().orientation;
-
-                    if (PreferencesHelper.enableAppDrawerTabs
-                            && (Common.PACKAGE_OBFUSCATED || Common.IS_L_TREBUCHET)
-                            && getObjectField(Common.APP_DRAWER_INSTANCE, ObfuscationHelper.Fields.acpvContentType).toString().equals("Widgets")) {
-
-                        TabHelper tabHelper = TabHelper.getInstance();
-                        if (tabHelper instanceof TabHelperNew) {
-                            ((TabHelperNew) tabHelper).setCurrentTab(Tab.WIDGETS_ID);
-                        }
-                    }
                 }
-            }
-        });
-
-        findAndHookMethod(Classes.Workspace, Methods.wOnTransitionPrepare, new XC_MethodHook() {
-
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                if (Common.OVERSCROLLED) return;
-
-                Object acpv = getObjectField(Common.LAUNCHER_INSTANCE, ObfuscationHelper.Fields.lAppsCustomizePagedView);
-                if (PreferencesHelper.appdrawerRememberLastPosition) {
-                    if ((!Common.IS_KK_TREBUCHET && Common.IS_PRE_GNL_4) && !TabHelperLegacy.getInstance().getCurrentTabData().isWidgetsTab()) {
-                        int lastTab = TabHelperLegacy.getInstance().getTabHost().getTabWidget().getTabCount() - 1;
-                        if (Common.APPDRAWER_LAST_TAB_POSITION > lastTab) {
-                            Common.APPDRAWER_LAST_TAB_POSITION = lastTab;
-                        }
-
-                        TabHelperLegacy.getInstance().setCurrentTab(Common.APPDRAWER_LAST_TAB_POSITION);
-                    }
-
-                    int lastPage = (Integer) callMethod(acpv, "getChildCount") - 1;
-                    if (Common.APPDRAWER_LAST_PAGE_POSITION > lastPage) {
-                        Common.APPDRAWER_LAST_PAGE_POSITION = lastPage;
-                    }
-
-                    if (DEBUG)
-                        log(param, "AppDrawer: set to last position " + Common.APPDRAWER_LAST_PAGE_POSITION);
-                    callMethod(acpv, Methods.pvSetCurrentPage, Common.APPDRAWER_LAST_PAGE_POSITION);
-                } else {
-                    callMethod(acpv, Methods.pvSetCurrentPage, 0);
-                }
-
-                if (!Common.IS_KK_TREBUCHET)
-                    TabHelper.getInstance().scroll();
             }
         });
 

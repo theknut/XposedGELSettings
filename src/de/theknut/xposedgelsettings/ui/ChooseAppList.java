@@ -1,6 +1,7 @@
 package de.theknut.xposedgelsettings.ui;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +18,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,6 +26,7 @@ import android.widget.TextView;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
@@ -34,8 +37,14 @@ import de.theknut.xposedgelsettings.ui.ImageLoader.ViewHolder;
 public class ChooseAppList extends ActionBarListActivity {
 
     AppArrayAdapter adapter;
+    SharedPreferences prefs;
     String prefKey;
+    int mode;
     Intent intent;
+
+    Set<String> appNames;
+
+    public static int MODE_APP_RENAME = 1;
 
     @SuppressLint("NewApi")
     @Override
@@ -45,6 +54,10 @@ public class ChooseAppList extends ActionBarListActivity {
         // retrieve the preference key so that we can save an app linked with the gesture
         intent = getIntent();
         prefKey = intent.getStringExtra("prefKey");
+        mode = intent.getIntExtra("mode", 0);
+
+        prefs = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
+        appNames = prefs.getStringSet("appnames", new HashSet<String>());
 
         adapter = new AppArrayAdapter(this, getPackageManager(), CommonUI.getAllApps());
         setListAdapter(adapter);
@@ -72,19 +85,20 @@ public class ChooseAppList extends ActionBarListActivity {
         if (adapter != null) {
             adapter.notifyDataSetChanged();
         }
-        getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
+        prefs.registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
     }
 
     @Override
     public void onPause() {
-        getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).unregisterOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
+        prefs.unregisterOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
         super.onPause();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        if (prefKey == null) {
+        if (prefKey == null
+                && mode != MODE_APP_RENAME) {
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.chooseapp_menu, menu);
         }
@@ -98,7 +112,7 @@ public class ChooseAppList extends ActionBarListActivity {
         switch (item.getItemId()) {
             // action with ID action_refresh was selected
             case R.id.action_reset_all:
-                SharedPreferences.Editor editor = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).edit();
+                SharedPreferences.Editor editor = prefs.edit();
                 editor.remove("selectedicons").commit();
                 adapter.notifyDataSetChanged();
                 break;
@@ -129,8 +143,6 @@ public class ChooseAppList extends ActionBarListActivity {
             @SuppressWarnings("deprecation")
             @Override
             public void onClick(View v) {
-
-                SharedPreferences prefs = getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.remove(prefKey + "_launch").commit();
                 editor.putString(prefKey + "_launch", ((ViewHolder) v.getTag()).cmpName).commit();
@@ -144,12 +156,94 @@ public class ChooseAppList extends ActionBarListActivity {
             @SuppressWarnings("deprecation")
             @Override
             public void onClick(View v) {
-
                 Intent i = new Intent(ChooseAppList.this, FragmentSelectiveIcon.class);
                 i.putExtra("app", ((ViewHolder) v.getTag()).cmpName);
                 i.putExtra("name", ((ViewHolder) v.getTag()).textView.getText());
                 i.putExtra("mode", FragmentSelectiveIcon.MODE_PICK_GLOBAL_ICON);
                 startActivityForResult(i, 0);
+            }
+        };
+
+        OnClickListener onClickListenerRename = new OnClickListener() {
+
+            @SuppressWarnings("deprecation")
+            @Override
+            public void onClick(final View row) {
+                final ViewHolder holder = (ViewHolder) row.getTag();
+                final String curName = String.valueOf(holder.textView.getText());
+                final AlertDialog editNameDialog = new AlertDialog.Builder(context).create();
+                final ViewGroup editNameView = (ViewGroup) inflater.inflate(R.layout.edit_app_name, null);
+                final EditText editText = (EditText) editNameView.findViewById(R.id.edit_app_name_edittext);
+                editText.setHint(curName);
+
+                int padding = Math.round(context.getResources().getDimension(R.dimen.edit_app_name_padding));
+                editNameDialog.setView(editNameView, padding, padding, padding, padding);
+
+                editNameView.findViewById(R.id.edit_app_name_save).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String newName = editText.getText().toString().trim();
+                        if (newName.length() == 0) {
+                            editNameDialog.dismiss();
+                            return;
+                        }
+
+                        if (!curName.equals(newName)) {
+                            Iterator<String> it = appNames.iterator();
+                            while (it.hasNext()) {
+                                String next = it.next();
+                                String[] split = next.split("|");
+                                if (split[0].equals(holder.cmpName)) {
+                                    it.remove();
+                                    break;
+                                }
+                            }
+
+                            appNames.add(holder.cmpName + "|global|" + newName);
+                            prefs.edit()
+                                    .remove("appnames")
+                                    .commit();
+                            prefs.edit()
+                                    .putStringSet("appnames", appNames)
+                                    .commit();
+
+                            holder.textView.setText(newName);
+                            adapter.notifyDataSetChanged();
+                        }
+
+                        editNameDialog.dismiss();
+                    }
+                });
+
+                editNameView.findViewById(R.id.edit_app_name_restore).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Iterator<String> it = appNames.iterator();
+                        while (it.hasNext()) {
+                            String next = it.next();
+                            String[] split = next.split("\\|");
+                            if (split[0].equals(holder.cmpName)) {
+                                it.remove();
+                                break;
+                            }
+                        }
+
+                        prefs.edit()
+                                .remove("appnames")
+                                .commit();
+                        prefs.edit()
+                                .putStringSet("appnames", appNames)
+                                .commit();
+
+                        holder.textView.setText(String.valueOf(holder.textView.getTag()));
+                        adapter.notifyDataSetChanged();
+
+                        editNameDialog.dismiss();
+                    }
+                });
+
+                editNameDialog.setTitle(String.valueOf(holder.textView.getTag()));
+                editNameDialog.show();
             }
         };
 
@@ -194,7 +288,9 @@ public class ChooseAppList extends ActionBarListActivity {
             }
 
             holder = (ViewHolder) rowView.getTag();
-            holder.textView.setText(item.loadLabel(pm));
+            String name = String.valueOf(item.loadLabel(pm));
+            holder.textView.setTag(name);
+            holder.textView.setText(name);
 
             if (prefKey != null) {
                 holder.cmpName = item.activityInfo.packageName;
@@ -210,12 +306,26 @@ public class ChooseAppList extends ActionBarListActivity {
                 for (String selectedIcon : selectedIcons) {
                     if (selectedIcon.split("\\|")[0].equals(cmpName)) {
                         visible = true;
+                        break;
                     }
                 }
 
                 holder.delete.setVisibility(visible ? View.VISIBLE : View.GONE);
                 holder.selectedIcon.setVisibility(visible ? View.VISIBLE : View.GONE);
-                rowView.setOnClickListener(onClickListenerApp);
+
+                if (mode == MODE_APP_RENAME) {
+                    rowView.setOnClickListener(onClickListenerRename);
+                } else {
+                    rowView.setOnClickListener(onClickListenerApp);
+                }
+            }
+
+            for (String app : appNames) {
+                String[] split = app.split("\\|");
+                if (split[1].equals("global") && split[0].equals(holder.cmpName)) {
+                    holder.textView.setText(split[2]);
+                    break;
+                }
             }
 
             holder.delete.setOnClickListener(new OnClickListener() {

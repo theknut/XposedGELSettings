@@ -72,8 +72,7 @@ public class ColorPickerDialog
 		getWindow().setFormat(PixelFormat.RGBA_8888);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setUp(color);
-
-	}
+    }
 
 	private void setUp(int color) {
 		

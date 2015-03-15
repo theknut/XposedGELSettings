@@ -7,6 +7,7 @@ import java.util.Set;
 
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
+import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.Tab;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 
@@ -83,6 +84,7 @@ public class PreferencesHelper {
     public static int smartFolderMode;
     public static int searchbarStyle;
     public static int contextmenuMode;
+    public static int pageIndicatorMode;
     public static double scrolldevider;
 
     public static String gesture_one_up_left;
@@ -103,6 +105,7 @@ public class PreferencesHelper {
     public static Set<String> appdrawerTabData;
     public static Set<String> appdrawerFolderData;
     public static Set<String> iconGestures;
+    public static Set<String> appNames;
 
     public static String iconpack;
     public static boolean iconPackAutoApply;
@@ -209,7 +212,7 @@ public class PreferencesHelper {
         appdrawerIconLabelColor = prefs.getInt("appdrawericonlabelcolor", Color.WHITE);
         appdrawerBackgroundColor = prefs.getInt("appdrawerbackgroundcolor", Color.argb(0xA5, 0x00, 0x00, 0x00));
         searchbarPrimaryColor = prefs.getInt("searchbarprimarycolor", Color.WHITE);
-        appdrawerFolderStyleBackgroundColor = prefs.getInt("appdrawerfolderstylebackgroundcolor", Color.argb(0xFF, 0xFF, 0xFF, 0xFF));
+        appdrawerFolderStyleBackgroundColor = prefs.getInt("appdrawerfolderstylebackgroundcolor", Tab.DEFAULT_COLOR);
         appDockBackgroundColor = prefs.getInt("appdockbackgroundcolor", Color.argb(0x00, 0xFF, 0xFF, 0xFF));
         homescreenFolderColor = prefs.getInt("homescreenfoldercolor", Color.argb(0xFF, 0xFF, 0xFF, 0xFF));
         homescreenFolderAppTextColor = prefs.getInt("homescreenfolderapptextcolor", Color.argb(0xFF, 0xFF, 0xFF, 0xFF));
@@ -243,6 +246,7 @@ public class PreferencesHelper {
         appdrawerTabData = prefs.getStringSet("appdrawertabdata", new HashSet<String>());
         appdrawerFolderData = prefs.getStringSet("appdrawerfolderdata", new HashSet<String>());
         iconGestures = prefs.getStringSet("icongestures", new HashSet<String>());
+        appNames = prefs.getStringSet("appnames", new HashSet<String>());
 
         iconpack = prefs.getString("iconpack", Common.ICONPACK_DEFAULT);
         iconPackAutoApply = prefs.getBoolean("autoupdateapplyiconpack", false);
@@ -276,6 +280,9 @@ public class PreferencesHelper {
         moveTabHostBottom = prefs.getBoolean("movetabhostbottom", false);
         excludeAppsUsedInTabs = prefs.getBoolean("excludeappsusedintabs", false);
         autoHideHomeIcons = prefs.getBoolean("autohidehomeicons", false);
+
+        pageIndicatorMode = prefs.getInt("pageindicatormode", hidePageIndicator ? 3 : 0);
+
         if (PreferencesHelper.Debug) XposedBridge.log("Initialized PreferencesHelper in " + (System.currentTimeMillis() - time) + "ms");
     }
 

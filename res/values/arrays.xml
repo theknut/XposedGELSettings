@@ -66,6 +66,13 @@
         <item>Shortcuts &amp; Widgets</item>
     </string-array>
 
+    <string-array name="pageindicator_mode_entries">
+        <item>Default</item>
+        <item>Homescreen only</item>
+        <item>App drawer only</item>
+        <item>None</item>
+    </string-array>
+
     <string-array name="tabcontent_entries">
         <item>Apps</item>
         <item>Widgets</item>

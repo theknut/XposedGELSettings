@@ -20,6 +20,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -54,6 +55,7 @@ import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.getBooleanField;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
+import static de.robv.android.xposed.XposedHelpers.getLongField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.getStaticIntField;
 import static de.robv.android.xposed.XposedHelpers.getStaticObjectField;
@@ -192,15 +194,13 @@ public class IconHooks extends HooksBaseClass {
 
                     Object cacheEntry = createCacheEntry(labelCache, cmpName, pkgMgr, tmpFinalIcon);
                     param.setResult(cacheEntry);
-                    if (DEBUG)
-                        log("CacheLocked: Loaded Themed Icon Replacement for " + appName + " took " + (System.currentTimeMillis() - time) + "ms");
+                    if (DEBUG) log("CacheLocked: Loaded Themed Icon Replacement for " + appName + " took " + (System.currentTimeMillis() - time) + "ms");
                 } else {
                     Bitmap replacedIcon = (Bitmap) callStaticMethod(Classes.Utilities, Methods.uCreateIconBitmap, icon, iconPack.getContext());
                     Object cacheEntry = createCacheEntry(labelCache, cmpName, pkgMgr, replacedIcon);
                     if (cacheEntry != null) {
                         param.setResult(cacheEntry);
-                        if (DEBUG)
-                            log("CacheLocked: Loaded Icon Replacement for " + appName + " took " + (System.currentTimeMillis() - time) + "ms");
+                        if (DEBUG) log("CacheLocked: Loaded Icon Replacement for " + appName + " took " + (System.currentTimeMillis() - time) + "ms");
                     }
                 }
             }
@@ -208,19 +208,20 @@ public class IconHooks extends HooksBaseClass {
             private Object createCacheEntry(HashMap<Object, String> labelCache, ComponentName cmpName, PackageManager pkgMgr, Bitmap tmpFinalIcon) {
                 Object cacheEntry = newInstance(Classes.CacheEntry);
                 setObjectField(cacheEntry, Fields.ceIcon, tmpFinalIcon);
+
+                String title;
                 ActivityInfo info = null;
                 try {
                     info = pkgMgr.getActivityInfo(cmpName, 0);
                 } catch (NameNotFoundException e) {
-                    if (DEBUG)
-                        log("CacheLocked: Skipping " + cmpName.flattenToString());
+                    if (DEBUG) log("CacheLocked: Skipping " + cmpName.flattenToString());
                     return null;
                 }
 
                 if (labelCache != null && labelCache.containsKey(cmpName)) {
                     setObjectField(cacheEntry, "title", labelCache.get(cmpName).toString());
                 } else {
-                    String title = info.loadLabel(pkgMgr).toString();
+                    title = info.loadLabel(pkgMgr).toString();
                     setObjectField(cacheEntry, "title", title);
                     if (labelCache != null) {
                         labelCache.put(cmpName, title);
@@ -435,11 +436,56 @@ public class IconHooks extends HooksBaseClass {
         findAndHookMethod(Classes.ShortcutInfo, Methods.siGetIcon, Classes.IconCache, new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                String itemId = String.valueOf(getLongField(param.thisObject, Fields.iiID));
+                String cmp = null, title = null;
+
+                Intent intent = (Intent) callMethod(param.thisObject, "getIntent");
+                if (intent != null
+                        && intent.getComponent() != null) {
+                    cmp = intent.getComponent().flattenToString();
+                }
+
+                for (String app : PreferencesHelper.appNames) {
+                    String[] split = app.split("\\|");
+                    if (split[0].equals(itemId)) {
+                        title = split[2];
+                        setObjectField(param.thisObject, "title", title);
+                        break;
+                    }
+                }
+
+                if (TextUtils.isEmpty(title) && !TextUtils.isEmpty(cmp)) {
+                    for (String app : PreferencesHelper.appNames) {
+                        String[] split = app.split("\\|");
+                        if (split[0].equals(cmp)) {
+                            setObjectField(param.thisObject, "title", split[2]);
+                            break;
+                        }
+                    }
+                }
+
                 Drawable d = Utils.loadIconByTag(iconPack, PreferencesHelper.shortcutIcons, param.thisObject);
                 if (d == null) return;
                 param.setResult(CommonUI.drawableToBitmap(d));
             }
         });
+
+        if ((Common.PACKAGE_OBFUSCATED && !Common.IS_PRE_GNL_4)
+                || Common.IS_L_TREBUCHET) {
+            findAndHookMethod(Classes.BubbleTextView, Methods.btvApplyFromApplicationInfo, Classes.AppInfo, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    String cmp = ((ComponentName) getObjectField(param.args[0], ObfuscationHelper.Fields.aiComponentName)).flattenToString();
+                    for (String app : PreferencesHelper.appNames) {
+                        String[] split = app.split("\\|");
+                        if (split[1].equals("global") && split[0].equals(cmp)) {
+                            setObjectField(param.args[0], "title", split[2]);
+                            return;
+                        }
+                    }
+                }
+            });
+        }
 
         if (Common.IS_PRE_GNL_4 || Common.IS_TREBUCHET) {
             findAndHookMethod(Classes.LauncherModel, Methods.lmIsShortcutInfoUpdateable, Classes.ItemInfo, new XC_MethodHook() {

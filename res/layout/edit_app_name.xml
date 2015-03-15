@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    android:orientation="horizontal" >
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_app_name_edittext"
+            android:textColorHint="@color/hint_text"
+            android:layout_toStartOf="@+id/edit_app_name_restore" />
+
+        <ImageView
+            android:layout_width="@dimen/tab_menu_save_size"
+            android:layout_height="@dimen/tab_menu_save_size"
+            android:id="@+id/edit_app_name_restore"
+            android:src="@drawable/ic_backup_restore_white"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:padding="5dp"
+            android:layout_toStartOf="@+id/edit_app_name_save" />
+
+        <ImageView
+            android:layout_width="@dimen/tab_menu_save_size"
+            android:layout_height="@dimen/tab_menu_save_size"
+            android:id="@+id/edit_app_name_save"
+            android:src="@drawable/ic_check_white"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

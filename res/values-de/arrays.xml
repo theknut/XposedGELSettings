@@ -54,6 +54,13 @@
         <item>Shortcuts &amp; Widgets</item>
     </string-array>
 
+    <string-array name="pageindicator_mode_entries">
+        <item>Standard</item>
+        <item>Nur Homescreen</item>
+        <item>Nur App-Übersicht</item>
+        <item>Keine</item>
+    </string-array>
+
     <string-array name="tabcontent_entries">
         <item>Apps</item>
         <item>Widgets</item>

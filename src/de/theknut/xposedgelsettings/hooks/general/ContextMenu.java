@@ -1,5 +1,6 @@
 package de.theknut.xposedgelsettings.hooks.general;
 
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -16,11 +18,13 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
@@ -46,6 +50,7 @@ import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getLongField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setAdditionalInstanceField;
+import static de.robv.android.xposed.XposedHelpers.setObjectField;
 import static de.theknut.xposedgelsettings.hooks.Utils.isIntersecting;
 
 /**
@@ -78,7 +83,7 @@ public class ContextMenu extends HooksBaseClass{
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     int WIDGET = 0;
                     if ((Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION >= ObfuscationHelper.GNL_4_2_16)
-                        || !Common.PACKAGE_OBFUSCATED) {
+                            || !Common.PACKAGE_OBFUSCATED) {
                         WIDGET = 1;
                     } else if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION < ObfuscationHelper.GNL_4_2_16) {
                         WIDGET = 0;
@@ -274,6 +279,7 @@ public class ContextMenu extends HooksBaseClass{
         isSystemApp = isSystemApp(tag);
 
         ImageView uninstall = (ImageView) contextMenuHolder.findViewById(R.id.uninstall);
+        Utils.setDrawableSelector(uninstall);
         uninstall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -289,6 +295,7 @@ public class ContextMenu extends HooksBaseClass{
         uninstall.setVisibility(show ? View.GONE : View.VISIBLE);
 
         ImageView gesture = (ImageView) contextMenuHolder.findViewById(R.id.gesture);
+        Utils.setDrawableSelector(gesture);
         gesture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -306,6 +313,7 @@ public class ContextMenu extends HooksBaseClass{
         gesture.setVisibility(View.GONE);
 
         ImageView appInfo = (ImageView) contextMenuHolder.findViewById(R.id.appinfo);
+        Utils.setDrawableSelector(appInfo);
         appInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -325,7 +333,103 @@ public class ContextMenu extends HooksBaseClass{
         show = isFolder || getPackageName(tag) == null;
         appInfo.setVisibility(show ? View.GONE : View.VISIBLE);
 
+        final ImageView editName = (ImageView) contextMenuHolder.findViewById(R.id.appname);
+        Utils.setDrawableSelector(editName);
+        editName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeContextMenu();
+
+                final String curName = String.valueOf(getObjectField(tag, "title"));
+                final AlertDialog editNameDialog = new AlertDialog.Builder(Common.LAUNCHER_INSTANCE).create();
+                final ViewGroup editNameView = (ViewGroup) LayoutInflater.from(XGELSContext).inflate(R.layout.edit_app_name, null);
+                final EditText editText = (EditText) editNameView.findViewById(R.id.edit_app_name_edittext);
+                editText.setHint(curName);
+
+                int padding = Math.round(XGELSContext.getResources().getDimension(R.dimen.edit_app_name_padding));
+                editNameDialog.setView(editNameView, padding, padding, padding, padding);
+
+                editNameView.findViewById(R.id.edit_app_name_save).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String newName = editText.getText().toString().trim();
+                        if (newName.length() == 0) {
+                            editNameDialog.dismiss();
+                            return;
+                        }
+
+                        if (!curName.equals(newName)) {
+                            String itemId = String.valueOf(getLongField(tag, Fields.iiID));
+                            setObjectField(tag, "title", newName);
+                            ((TextView) longPressedItem).setText(newName);
+
+                            Iterator<String> it = PreferencesHelper.appNames.iterator();
+                            while (it.hasNext()) {
+                                String next = it.next();
+                                String[] split = next.split("\\|");
+                                if (split[0].equals(itemId)) {
+                                    it.remove();
+                                    break;
+                                }
+                            }
+
+                            PreferencesHelper.appNames.add(itemId + "|shortcut|" + newName);
+                            Utils.saveToSettings(Common.LAUNCHER_CONTEXT, "appnames", PreferencesHelper.appNames);
+                        }
+
+                        editNameDialog.dismiss();
+                    }
+                });
+
+                editNameView.findViewById(R.id.edit_app_name_restore).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PackageManager pm = Common.LAUNCHER_CONTEXT.getPackageManager();
+                        Intent intent = (Intent) callMethod(tag, "getIntent");
+                        String title = null;
+                        String itemId = String.valueOf(getLongField(tag, Fields.iiID));
+
+                        if (intent != null && intent.getComponent() != null) {
+                            title = String.valueOf(pm.resolveActivity(intent, 0).activityInfo.loadLabel(pm));
+                        }
+
+                        if (!TextUtils.isEmpty(title)) {
+                            setObjectField(tag, "title", title);
+                            ((TextView) longPressedItem).setText(title);
+                        }
+
+                        Iterator<String> it = PreferencesHelper.appNames.iterator();
+                        while (it.hasNext()) {
+                            String next = it.next();
+                            String[] split = next.split("\\|");
+                            if (split[0].equals(itemId)) {
+                                it.remove();
+                                break;
+                            }
+                        }
+
+                        Utils.saveToSettings(Common.LAUNCHER_CONTEXT, "appnames", PreferencesHelper.appNames);
+                        editNameDialog.dismiss();
+                    }
+                });
+
+                String title = curName;
+                PackageManager pm = Common.LAUNCHER_CONTEXT.getPackageManager();
+                Intent intent = (Intent) callMethod(tag, "getIntent");
+                if (intent != null
+                        && intent.getComponent() != null) {
+                    title = String.valueOf(pm.resolveActivity(intent, 0).activityInfo.loadLabel(pm));
+                }
+
+                editNameDialog.setTitle(title);
+                editNameDialog.show();
+            }
+        });
+        show = !isFolder && !isWidget;
+        editName.setVisibility(show ? View.VISIBLE : View.GONE);
+
         ImageView remove = (ImageView) contextMenuHolder.findViewById(R.id.remove);
+        Utils.setDrawableSelector(remove);
         remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -371,6 +475,7 @@ public class ContextMenu extends HooksBaseClass{
         remove.setVisibility(show ? View.GONE : View.VISIBLE);
 
         ImageView manageFolder = (ImageView) contextMenuHolder.findViewById(R.id.managefolder);
+        Utils.setDrawableSelector(manageFolder);
         manageFolder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -400,6 +505,7 @@ public class ContextMenu extends HooksBaseClass{
         manageFolder.setVisibility(show ? View.VISIBLE : View.GONE);
 
         ImageView sort = (ImageView) contextMenuHolder.findViewById(R.id.sortapps);
+        Utils.setDrawableSelector(sort);
         sort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -420,6 +526,7 @@ public class ContextMenu extends HooksBaseClass{
         sort.setVisibility(show ? View.VISIBLE : View.GONE);
 
         ImageView iconPicker = (ImageView) contextMenuHolder.findViewById(R.id.settings);
+        Utils.setDrawableSelector(iconPicker);
         iconPicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -436,7 +543,6 @@ public class ContextMenu extends HooksBaseClass{
                 intent.setComponent(new ComponentName(Common.PACKAGE_NAME, FragmentSelectiveIcon.class.getName()));
                 intent.putExtra("mode", isFolder ? FragmentSelectiveIcon.MODE_PICK_FOLDER_ICON : FragmentSelectiveIcon.MODE_PICK_SHORTCUT_ICON);
                 intent.putExtra("name", getObjectField(tag, "title").toString());
-                intent.putExtra("app", isFolder ? String.valueOf(getLongField(tag, Fields.iiID)) : getComponentName(tag).flattenToString().replace("/", "#"));
                 intent.putExtra("itemtid", getLongField(tag, Fields.iiID));
                 Common.LAUNCHER_CONTEXT.startActivity(intent);
             }
@@ -445,6 +551,7 @@ public class ContextMenu extends HooksBaseClass{
         iconPicker.setVisibility(show ? View.GONE : View.VISIBLE);
 
         ImageView resize = (ImageView) contextMenuHolder.findViewById(R.id.resize);
+        Utils.setDrawableSelector(remove);
         resize.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -463,6 +570,7 @@ public class ContextMenu extends HooksBaseClass{
         resize.setVisibility(show ? View.VISIBLE : View.GONE);
 
         ImageView layerUp = (ImageView) contextMenuHolder.findViewById(R.id.layerup);
+        Utils.setDrawableSelector(layerUp);
         layerUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -505,6 +613,7 @@ public class ContextMenu extends HooksBaseClass{
         layerUp.setVisibility(show ? View.VISIBLE : View.GONE);
 
         ImageView layerDown = (ImageView) contextMenuHolder.findViewById(R.id.layerdown);
+        Utils.setDrawableSelector(layerDown);
         layerDown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

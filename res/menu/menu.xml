@@ -5,12 +5,12 @@
         android:id="@+id/action_refresh"
         android:orderInCategory="100"
         app:showAsAction="always"
-        android:icon="@drawable/ic_menu_refresh"
+        android:icon="@drawable/ic_sync_white"
         android:title="@string/restart_launcher_icon_title"/>
     <item
         android:id="@+id/action_save"
         android:orderInCategory="100"
         app:showAsAction="always"
-        android:icon="@drawable/ic_action_accept"
+        android:icon="@drawable/ic_check_white"
         android:title="@string/default_text" />
 </menu>
