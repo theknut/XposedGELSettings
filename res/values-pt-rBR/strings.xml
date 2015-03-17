@@ -396,4 +396,7 @@
     <string name="preparing_card">preparando cartão</string>
     <string name="no_storage_card">Não há cartão de memória</string>
     <string name="not_enough_space">Não há espaço suficiente</string>
+    
+    <!-- 2.3 -->
+    <string name="pref_searchbar_color_title">Cor na barra de pesquisa</string>
 </resources>
