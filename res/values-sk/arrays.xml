@@ -54,6 +54,10 @@
     </string-array>
     
 
+    <string-array name="icongestures_entries">
+        <item>Zavolať kontaktu</item>
+    </string-array>
+
     <string-array name="searchbarstyle_entries">
         <item>Predvolený</item>
         <item>Štýl Androidu L</item>

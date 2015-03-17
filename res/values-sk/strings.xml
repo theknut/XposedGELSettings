@@ -431,4 +431,7 @@
     <string name="no_storage_card">Žiadna karta SD</string>
     <string name="not_enough_space">Nedostatok miesta</string>
 
+    <!-- 2.3 -->
+    <string name="pref_searchbar_color_title">Farba panela vyhľadávania</string>
+
 </resources>
