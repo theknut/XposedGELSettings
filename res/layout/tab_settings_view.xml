@@ -14,7 +14,7 @@
 
         <Spinner
             android:layout_width="100dp"
-            android:layout_height="@dimen/tab_menu_icon_size"
+            android:layout_height="@dimen/tab_menu_save_size"
             android:visibility="gone"
             android:id="@+id/tabcontenttype"
             android:entries="@array/tabcontent_entries"
@@ -22,7 +22,7 @@
 
         <EditText
             android:layout_width="175dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/tab_menu_save_size"
             android:id="@+id/tabname"
             android:layout_weight="0.60"
             android:hint="@string/alert_tab_hint_text_title"

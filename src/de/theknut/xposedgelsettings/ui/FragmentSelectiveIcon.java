@@ -191,8 +191,15 @@ public class FragmentSelectiveIcon extends ActionBarActivity implements ActionBa
         switch (item.getItemId()) {
             case R.id.appdrawerdefault:
             case R.id.shortcutfolderdefault:
-                key = mode == MODE_PICK_SHORTCUT_ICON ? "shortcuticons" : "foldericons";
                 shortcutItem = String.valueOf(itemID);
+                if (mode == MODE_PICK_SHORTCUT_ICON) {
+                    key = "shortcuticons";
+                } else if (mode == MODE_PICK_APPDRAWER_ICON) {
+                    key = "selectedicons";
+                    shortcutItem = appComponentName;
+                } else {
+                    key = "foldericons";
+                }
 
                 icons = (HashSet<String>) prefs.getStringSet(key, new HashSet<String>());
                 it = icons.iterator();
@@ -230,7 +237,12 @@ public class FragmentSelectiveIcon extends ActionBarActivity implements ActionBa
 
                 if (bitmap.getWidth() <= 192 && bitmap.getHeight() <= 192
                         && (bitmap.getWidth() / bitmap.getHeight() == 1.0)) {
-                    File dst = new File("/mnt/sdcard/XposedGELSettings/icons/" + itemID + ".png");
+                    File dst;
+                    if (mode == MODE_PICK_APPDRAWER_ICON) {
+                        dst = new File("/mnt/sdcard/XposedGELSettings/icons/all_apps_button_icon.png");
+                    } else {
+                        dst = new File("/mnt/sdcard/XposedGELSettings/icons/" + itemID + ".png");
+                    }
                     dst.getParentFile().mkdirs();
                     dst.createNewFile();
 
@@ -269,10 +281,15 @@ public class FragmentSelectiveIcon extends ActionBarActivity implements ActionBa
             }
         } else if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CROP_PICTURE) {
             FileOutputStream out = null;
-            File file = new File("/mnt/sdcard/XposedGELSettings/icons/" + itemID + ".png");
-            file.getParentFile().mkdirs();
+            File dst;
+            if (mode == MODE_PICK_APPDRAWER_ICON) {
+                dst = new File("/mnt/sdcard/XposedGELSettings/icons/all_apps_button_icon.png");
+            } else {
+                dst = new File("/mnt/sdcard/XposedGELSettings/icons/" + itemID + ".png");
+            }
+            dst.getParentFile().mkdirs();
             try {
-                out = new FileOutputStream(file);
+                out = new FileOutputStream(dst);
                 ((Bitmap) data.getParcelableExtra(CropImage.RETURN_DATA_AS_BITMAP)).compress(Bitmap.CompressFormat.PNG, 100, out);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -303,15 +320,16 @@ public class FragmentSelectiveIcon extends ActionBarActivity implements ActionBa
 
         HashSet<String> selectedIcons = (HashSet<String>) prefs.getStringSet(key, new HashSet<String>());
 
+        String searchString = mode == MODE_PICK_APPDRAWER_ICON ? "all_apps_button_icon" : String.valueOf(itemID);
         Iterator it = selectedIcons.iterator();
         while (it.hasNext()) {
             String[] item = it.next().toString().split("\\|");
-            if (item[0].equals(String.valueOf(itemID))) {
+            if (item[0].equals(searchString)) {
                 it.remove();
             }
         }
 
-        selectedIcons.add(itemID + "|sdcard|" + itemID);
+        selectedIcons.add(searchString + "|sdcard|" + searchString);
 
         editor.remove(key).commit();
         editor.putStringSet(key, selectedIcons).commit();

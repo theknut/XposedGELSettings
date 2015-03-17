@@ -381,7 +381,6 @@ public class IconHooks extends HooksBaseClass {
         });
 
         if (!PreferencesHelper.noAllAppsButton) {
-
             for (final String selectedIcon : PreferencesHelper.selectedIcons) {
                 final String[] split = selectedIcon.split("\\|");
                 if (split[0].equals("all_apps_button_icon")) {

@@ -15,7 +15,7 @@ uses-sdk
 ADDED from AndroidManifest.xml:7:5
 MERGED from com.android.support:appcompat-v7:22.0.0:20:5
 MERGED from com.android.support:support-v4:22.0.0:20:5
-MERGED from com.afollestad:material-dialogs:0.6.4.1:8:5
+MERGED from com.afollestad:material-dialogs:0.6.4.4:8:5
 MERGED from com.android.support:appcompat-v7:22.0.0:20:5
 MERGED from com.android.support:support-v4:22.0.0:20:5
 MERGED from com.android.support:recyclerview-v7:22.0.0:20:5
@@ -44,7 +44,7 @@ application
 ADDED from AndroidManifest.xml:16:5
 MERGED from com.android.support:appcompat-v7:22.0.0:22:5
 MERGED from com.android.support:support-v4:22.0.0:22:5
-MERGED from com.afollestad:material-dialogs:0.6.4.1:12:5
+MERGED from com.afollestad:material-dialogs:0.6.4.4:12:5
 MERGED from com.android.support:appcompat-v7:22.0.0:22:5
 MERGED from com.android.support:support-v4:22.0.0:22:5
 MERGED from com.android.support:recyclerview-v7:22.0.0:22:5

@@ -76,7 +76,7 @@ public class FragmentWelcome extends FragmentBase {
             public void onClick(View v) {
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                 photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, REQUEST_PICK_PICTURE);
+                //startActivityForResult(photoPickerIntent, REQUEST_PICK_PICTURE);
             }
         });
 
@@ -220,7 +220,7 @@ public class FragmentWelcome extends FragmentBase {
             if (cl.firstRun()) {
                 CommonUI.needFullReboot = true;
                 alerts.add(cl.getFullLogDialog());
-                //getFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentReverseEngineering()).commit();
+                getFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentReverseEngineering()).commit();
             }
 
             if (alerts.size() != 0) {

@@ -64,6 +64,8 @@ public class FragmentSearchbar extends FragmentBase {
                 getPreferenceScreen().removePreference(findPreference("searchbarstyle"));
             } else if (versionCode >= ObfuscationHelper.GNL_4_0_26) {
                 getPreferenceScreen().removePreference(findPreference("searchbarstyle"));
+            } else if (versionCode < ObfuscationHelper.GNL_4_2_16) {
+                getPreferenceScreen().removePreference(findPreference("searchbarprimarycolor"));
             }
             getPreferenceScreen().removePreference(findPreference("searchbarweatherwidget"));
         } catch (Exception e) {

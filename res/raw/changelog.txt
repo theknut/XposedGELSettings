@@ -27,17 +27,18 @@
   </head>
   <body>
 
-$ 2.3 Beta4
-  % Version 2.3 Beta5
-  _ 2015-03-16
+$ 2.3
+  % Version 2.3
+  _ 2015-03-17
 
-  Due to internal changes you'll have to set your external icons again. Sorry for the inconvenience!<br><br>
+  Please consider XGELS Premium to support the development of this app!<br>Thanks so much!<br><br>
 
   !Added:
   * <b>Icon:</b> External icon support (Premium)
   * <b>Search bar:</b> Search bar color
   * <b>General:</b> Hide page indicators separately
   * <b>General:</b> Rename apps
+  * support for Google Search 4.3.10
 
   !Fixed:
   * app drawer top padding
@@ -48,6 +49,11 @@ $ 2.3 Beta4
 
   !XGELS UI:
   * replaced all icons with new material icons
+  * updated translations
+
+  !Credits:
+  * Thanks to biokys for the android-cropimage library // https://github.com/biokys/cropimage
+  * Thanks to materialdesignicons.com for the material icons // http://materialdesignicons.com
 
 $ 2.2.11
   % Version 2.2.11

@@ -14,7 +14,7 @@
 
         <Spinner
             android:layout_width="100dp"
-            android:layout_height="@dimen/tab_menu_icon_size"
+            android:layout_height="@dimen/tab_menu_save_size"
             android:visibility="gone"
             android:id="@+id/foldercontenttype"
             android:entries="@array/tabcontent_entries"
@@ -22,15 +22,15 @@
 
         <EditText
             android:layout_width="175dp"
-            android:layout_height="@dimen/tab_menu_icon_size"
+            android:layout_height="@dimen/tab_menu_save_size"
             android:id="@+id/foldername"
             android:layout_weight="0.60"
             android:hint="@string/alert_folder_hint_text_title"
             android:textColorHint="@color/hint_text" />
 
         <ImageView
-            android:layout_width="@dimen/tab_menu_icon_size"
-            android:layout_height="@dimen/tab_menu_icon_size"
+            android:layout_width="@dimen/tab_menu_save_size"
+            android:layout_height="@dimen/tab_menu_save_size"
             android:id="@+id/folder_save_settings"
             android:src="@drawable/ic_check_white" />
 
