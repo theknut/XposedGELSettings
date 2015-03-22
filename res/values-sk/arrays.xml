@@ -70,6 +70,13 @@
         <item>Skratky a miniaplikácie</item>
     </string-array>
 
+    <string-array name="pageindicator_mode_entries">
+        <item>Predvolený</item>
+        <item>Len domovská obrazovka</item>
+        <item>Len ponuka aplikácií</item>
+        <item>Žiadny</item>
+    </string-array>
+
     <string-array name="tabcontent_entries">
         <item>Aplikácie</item>
         <item>Miniaplikácie</item>
