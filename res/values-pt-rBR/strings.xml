@@ -399,4 +399,5 @@
     
     <!-- 2.3 -->
     <string name="pref_searchbar_color_title">Cor na barra de pesquisa</string>
+    <string name="pref_rename_apps_title">Renomear apps</string>
 </resources>
