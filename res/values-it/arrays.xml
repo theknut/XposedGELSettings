@@ -58,14 +58,21 @@
         <item>Velocit&#224; massima</item>
         <item>Nessuna animazione</item>
     </string-array>
-
+    
     <string-array name="contextmenu_mode_entries">
         <item>Disabilitato</item>
         <item>Solo scorciatoie</item>
         <item>Solo Widgets</item>
         <item>Scorciatoie &amp; Widgets</item>
     </string-array>
-
+    
+    <string-array name="pageindicator_mode_entries">
+        <item>Predefinito</item>
+        <item>Solo homescreen</item>
+        <item>Solo app drawer</item>
+        <item>Nessuno</item>
+    </string-array>
+    
     <string-array name="tabcontent_entries">
         <item>App</item>
         <item>Widget</item>
