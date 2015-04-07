@@ -22,6 +22,10 @@
         <item>"Deslizar - inciar o primeiro aplicativo\nToque - pasta aberta"</item>
         <item>"Toque - inicar o primeiro aplicativo\nDeslizar - abrir pasta"</item>
     </string-array>
+    
+    <string-array name="icongestures_entries">
+        <item>Ligar para contato</item>
+    </string-array>
 
     <string-array name="searchbarstyle_entries">
         <item>Padrão</item>
