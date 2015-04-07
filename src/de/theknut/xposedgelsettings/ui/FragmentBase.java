@@ -86,7 +86,7 @@ public class FragmentBase extends PreferenceFragment {
 
                 new MaterialDialog.Builder(mActivity)
                         .theme(Theme.DARK)
-                        .customView(dontShowAgainLayout)
+                        .customView(dontShowAgainLayout, true)
                         .cancelable(false)
                         .title(R.string.alert_autokill_title)
                         .positiveText(R.string.alert_autokill_ok)

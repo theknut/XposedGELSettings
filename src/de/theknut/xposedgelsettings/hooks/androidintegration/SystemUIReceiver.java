@@ -59,6 +59,7 @@ public class SystemUIReceiver extends HooksBaseClass {
     //public static Drawable RECENTS_BUTTON_ORIG;
     public static ScaleType BACK_BUTTON_ORIG_SCALE;
     public static ActivityManager activityManager;
+    public static PowerManager powerManager;
     public static boolean shown;
     public static boolean allowFlipPanel;
     public static int animationDuration = 300;
@@ -118,6 +119,7 @@ public class SystemUIReceiver extends HooksBaseClass {
                 NAVIGATION_BAR_VIEW = (View) getObjectField(PHONE_STATUSBAR_OBJECT, "mNavigationBarView");
 
                 systemUIContext = ((Context) getObjectField(PHONE_STATUSBAR_OBJECT, "mContext"));
+                powerManager = (PowerManager) systemUIContext.getSystemService(Context.POWER_SERVICE);
 
                 IntentFilter intentFilter = new IntentFilter();
                 intentFilter.addAction(Common.XGELS_INTENT);
@@ -242,8 +244,11 @@ public class SystemUIReceiver extends HooksBaseClass {
 
                                     if (intent.getStringExtra(Common.XGELS_ACTION).equals("GO_TO_SLEEP")) {
 
-                                        PowerManager pm = (PowerManager) systemUIContext.getSystemService(Context.POWER_SERVICE);
-                                        callMethod(pm, "goToSleep",SystemClock.uptimeMillis());
+                                        if (powerManager == null) {
+                                            powerManager = (PowerManager) systemUIContext.getSystemService(Context.POWER_SERVICE);
+                                        }
+
+                                        callMethod(powerManager, "goToSleep",SystemClock.uptimeMillis());
 
                                     } else if (intent.getStringExtra(Common.XGELS_ACTION).equals("GESTURE_LAST_APP")) {
 
@@ -253,9 +258,7 @@ public class SystemUIReceiver extends HooksBaseClass {
 
                                         ArrayList<RecentTaskInfo> apps = (ArrayList<RecentTaskInfo>) activityManager.getRecentTasks(2, ActivityManager.RECENT_IGNORE_UNAVAILABLE);
                                         if (apps.size() == 2) {
-
                                             RecentTaskInfo app = apps.get(1);
-
                                             if (app.id != -1) {
                                                 activityManager.moveTaskToFront(app.id, ActivityManager.MOVE_TASK_WITH_HOME);
                                             } else {
@@ -302,7 +305,9 @@ public class SystemUIReceiver extends HooksBaseClass {
                                     } else if (intent.getStringExtra(Common.XGELS_ACTION).equals("SHADOWS")) {
 
                                         if (!isLauncherInForeground()
-                                                || (STATUS_BAR_VIEW == null || NAVIGATION_BAR_VIEW == null)) return;
+                                                || (STATUS_BAR_VIEW == null || NAVIGATION_BAR_VIEW == null)
+                                                || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+                                                    && powerManager.isPowerSaveMode())) return;
 
                                         boolean show = intent.getBooleanExtra("SHOW", false);
                                         if (DEBUG) log("SystemUIReceiver: " + (show ? "SHOW" : "HIDE") + " shadows");

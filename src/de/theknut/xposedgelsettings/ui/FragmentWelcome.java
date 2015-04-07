@@ -365,7 +365,7 @@ public class FragmentWelcome extends FragmentBase {
 
         IsInstalledFromPlayStore = new MaterialDialog.Builder(mActivity)
                 .theme(Theme.DARK)
-                .customView(dontShowAgainLayout)
+                .customView(dontShowAgainLayout, true)
                 .cancelable(false)
                 .title(getString(R.string.module_not_from_google_play))
                 .positiveText(getString(R.string.open_play_store))

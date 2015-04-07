@@ -27,6 +27,21 @@
   </head>
   <body>
 
+$ 2.3.1
+  % Version 2.3.1
+  _ 2015-04-07
+
+  Please consider XGELS Premium to support the development of this app!<br>Thanks so much!<br><br>
+
+  !Added:
+  * support for Google Search 4.4.9
+
+  !Fixed:
+  * system bar colors in landscape when battery saver enabled
+
+  !XGELS UI:
+  * updated translations
+
 $ 2.3
   % Version 2.3
   _ 2015-03-17

@@ -59,7 +59,7 @@ public class FragmentAppDrawer extends FragmentBase {
 
                 new MaterialDialog.Builder(mActivity)
                         .title(R.string.pref_grid_size_summary)
-                        .customView(numberPickerView)
+                        .customView(numberPickerView, true)
                         .cancelable(false)
                         .theme(Theme.DARK)
                         .positiveText(android.R.string.ok)
@@ -90,7 +90,7 @@ public class FragmentAppDrawer extends FragmentBase {
                 final NumberPicker numberPicker = CommonUI.getNumberPicker(mContext, sharedPrefs, values, "iconsizeappdrawer", "100");
                 new MaterialDialog.Builder(mActivity)
                         .title(R.string.pref_iconsize_title)
-                        .customView(numberPicker)
+                        .customView(numberPicker, true)
                         .theme(Theme.DARK)
                         .positiveText(android.R.string.ok)
                         .callback(new MaterialDialog.ButtonCallback() {

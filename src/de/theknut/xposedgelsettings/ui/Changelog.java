@@ -153,7 +153,7 @@ public class Changelog {
                         context.getResources().getString(
                                 full ? R.string.changelog_full_title
                                         : R.string.changelog_title))
-                .customView(wv)
+                .customView(wv, false)
                 .positiveText(android.R.string.ok)
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override

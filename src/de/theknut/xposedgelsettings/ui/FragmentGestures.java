@@ -77,14 +77,14 @@ public class FragmentGestures extends FragmentBase {
                             .theme(Theme.DARK)
                             .title(pref.getTitle())
                             .items(getResources().getStringArray(R.array.gesture_actions_entries))
-                            .itemsCallbackSingleChoice(gestureValues.indexOf(sharedPrefs.getString(preference.getKey(), "NONE")), new MaterialDialog.ListCallback() {
+                            .itemsCallbackSingleChoice(gestureValues.indexOf(sharedPrefs.getString(preference.getKey(), "NONE")), new MaterialDialog.ListCallbackSingleChoice() {
                                 @Override
-                                public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                                public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
 
                                     if (gestureValues.get(which).equals("TOGGLE_DOCK")
                                             && preference.getKey().equals("gesture_double_tap")) {
                                         Toast.makeText(mContext, "Double tap to toggle dock is currently not supported :(", Toast.LENGTH_LONG).show();
-                                        return;
+                                        return false;
                                     }
 
                                     if (gestureValues.get(which).equals("APP")) {
@@ -95,7 +95,7 @@ public class FragmentGestures extends FragmentBase {
 
                                     sharedPrefs.edit().putString(preference.getKey(), gestureValues.get(which)).apply();
                                     preference.setSummary(text);
-                                    dialog.dismiss();
+                                    return true;
                                 }
                             })
                             .build()
@@ -118,9 +118,9 @@ public class FragmentGestures extends FragmentBase {
                             .theme(Theme.DARK)
                             .title(preference.getTitle())
                             .items(getResources().getStringArray(R.array.gesture_actions_entries_limited))
-                            .itemsCallbackSingleChoice(gestureValuesLimited.indexOf(sharedPrefs.getString(preference.getKey(), "NONE")), new MaterialDialog.ListCallback() {
+                            .itemsCallbackSingleChoice(gestureValuesLimited.indexOf(sharedPrefs.getString(preference.getKey(), "NONE")), new MaterialDialog.ListCallbackSingleChoice() {
                                 @Override
-                                public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                                public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
 
                                     sharedPrefs.edit()
                                             .remove(preference.getKey())
@@ -140,7 +140,7 @@ public class FragmentGestures extends FragmentBase {
                                         toastShown = true;
                                     }
 
-                                    dialog.dismiss();
+                                    return true;
                                 }
                             })
                             .build()

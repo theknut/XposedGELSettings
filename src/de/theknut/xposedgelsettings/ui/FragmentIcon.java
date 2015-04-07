@@ -170,9 +170,9 @@ public class FragmentIcon extends FragmentBase {
                             .theme(Theme.DARK)
                             .title(R.string.pref_icon_chooseiconpack_dialog_title)
                             .items(iconPackEntries)
-                            .itemsCallbackSingleChoice(finalCurrSelection, new MaterialDialog.ListCallback() {
+                            .itemsCallbackSingleChoice(finalCurrSelection, new MaterialDialog.ListCallbackSingleChoice() {
                                 @Override
-                                public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                                public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                                     // due to legacy reasons we need to save it as string
                                     sharedPrefs.edit().putString("iconpack", "" + iconPackValues[which]).apply();
                                     iconPackList.setSummary(text);
@@ -191,7 +191,7 @@ public class FragmentIcon extends FragmentBase {
                                     progressBar.setIndeterminate(true);
                                     loadIconPack(true);
 
-                                    dialog.dismiss();
+                                    return true;
                                 }
                             })
                             .build()

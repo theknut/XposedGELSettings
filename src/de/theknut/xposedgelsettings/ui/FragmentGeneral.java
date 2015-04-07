@@ -94,13 +94,14 @@ public class FragmentGeneral extends FragmentBase {
                         .theme(Theme.DARK)
                         .title(R.string.pref_contextmenu_mode_title)
                         .items(getResources().getStringArray(R.array.contextmenu_mode_entries))
-                        .itemsCallbackSingleChoice(Integer.parseInt(sharedPrefs.getString("contextmenumode", "3")), new MaterialDialog.ListCallback() {
+                        .itemsCallbackSingleChoice(Integer.parseInt(sharedPrefs.getString("contextmenumode", "3")), new MaterialDialog.ListCallbackSingleChoice() {
+
                             @Override
-                            public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                            public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                                 // due to legacy reasons we need to save it as string
                                 sharedPrefs.edit().putString("contextmenumode", "" + which).apply();
                                 contextmenuMode.setSummary(text);
-                                dialog.dismiss();
+                                return true;
                             }
                         })
                         .build()
@@ -119,12 +120,13 @@ public class FragmentGeneral extends FragmentBase {
                         .theme(Theme.DARK)
                         .title(R.string.pref_pageindicator_title)
                         .items(getResources().getStringArray(R.array.pageindicator_mode_entries))
-                        .itemsCallbackSingleChoice(sharedPrefs.getInt("pageindicatormode", 0), new MaterialDialog.ListCallback() {
+                        .itemsCallbackSingleChoice(sharedPrefs.getInt("pageindicatormode", 0), new MaterialDialog.ListCallbackSingleChoice() {
                             @Override
-                            public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                            public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                                 sharedPrefs.edit().putInt("pageindicatormode", which).apply();
                                 pageIndicatorMode.setSummary(text);
                                 dialog.dismiss();
+                                return true;
                             }
                         })
                         .build()
@@ -144,13 +146,13 @@ public class FragmentGeneral extends FragmentBase {
                         .theme(Theme.DARK)
                         .title(R.string.pref_general_scroll_devider_title)
                         .items(getResources().getStringArray(R.array.general_scroll_devider_entries))
-                        .itemsCallbackSingleChoice(values.indexOf("" + Integer.parseInt(sharedPrefs.getString("scrolldevider", "10"))), new MaterialDialog.ListCallback() {
+                        .itemsCallbackSingleChoice(values.indexOf("" + Integer.parseInt(sharedPrefs.getString("scrolldevider", "10"))), new MaterialDialog.ListCallbackSingleChoice() {
                             @Override
-                            public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                            public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                                 // due to legacy reasons we need to save it as string
                                 sharedPrefs.edit().putString("scrolldevider", getResources().getStringArray(R.array.general_scroll_devider_values)[which]).apply();
                                 scrollSpeed.setSummary(text);
-                                dialog.dismiss();
+                                return true;
                             }
                         })
                         .build()

@@ -45,7 +45,7 @@ public class FragmentHomescreen extends FragmentBase {
 
                 final MaterialDialog numberPickerDialog = new MaterialDialog.Builder(mActivity)
                         .title(R.string.pref_grid_size_vert_summary)
-                        .customView(numberPickerView)
+                        .customView(numberPickerView, true)
                         .cancelable(false)
                         .theme(Theme.DARK)
                         .positiveText(android.R.string.ok)
@@ -76,7 +76,7 @@ public class FragmentHomescreen extends FragmentBase {
                 final NumberPicker numberPicker = CommonUI.getNumberPicker(mContext, sharedPrefs, values, "workspacerect", "1");
                 new MaterialDialog.Builder(mActivity)
                         .title(R.string.pref_workspacerect_title)
-                        .customView(numberPicker)
+                        .customView(numberPicker, true)
                         .cancelable(false)
                         .theme(Theme.DARK)
                         .positiveText(android.R.string.ok)
@@ -106,7 +106,7 @@ public class FragmentHomescreen extends FragmentBase {
 
                 new MaterialDialog.Builder(mActivity)
                         .title(R.string.pref_default_homescreen_title)
-                        .customView(numberPicker)
+                        .customView(numberPicker, true)
                         .theme(Theme.DARK)
                         .positiveText(android.R.string.ok)
                         .callback(new MaterialDialog.ButtonCallback() {
@@ -162,7 +162,7 @@ public class FragmentHomescreen extends FragmentBase {
                 final NumberPicker numberPicker = CommonUI.getNumberPicker(mContext, sharedPrefs, values, "positionallappsbutton", "0");
                 new MaterialDialog.Builder(mActivity)
                         .title(R.string.pref_switch_position_all_apps_button_title)
-                        .customView(numberPicker)
+                        .customView(numberPicker, true)
                         .theme(Theme.DARK)
                         .positiveText(android.R.string.ok)
                         .callback(new MaterialDialog.ButtonCallback() {
@@ -192,7 +192,7 @@ public class FragmentHomescreen extends FragmentBase {
 
                 new MaterialDialog.Builder(mActivity)
                         .title(R.string.pref_appdockiconsize_title)
-                        .customView(numberPicker)
+                        .customView(numberPicker, true)
                         .theme(Theme.DARK)
                         .positiveText(android.R.string.ok)
                         .callback(new MaterialDialog.ButtonCallback() {
@@ -221,7 +221,7 @@ public class FragmentHomescreen extends FragmentBase {
                 numberPicker.setValue(Integer.parseInt(sharedPrefs.getString("appdockcount", "1")));
                 new MaterialDialog.Builder(mActivity)
                         .title(R.string.pref_appdock_count_title)
-                        .customView(numberPicker)
+                        .customView(numberPicker, true)
                         .theme(Theme.DARK)
                         .positiveText(android.R.string.ok)
                         .callback(new MaterialDialog.ButtonCallback() {
@@ -248,7 +248,7 @@ public class FragmentHomescreen extends FragmentBase {
                 final NumberPicker numberPicker = CommonUI.getNumberPicker(mContext, sharedPrefs, values, "appdockrect", "1");
                 new MaterialDialog.Builder(mActivity)
                         .title(R.string.pref_workspacerect_dialog)
-                        .customView(numberPicker)
+                        .customView(numberPicker, true)
                         .theme(Theme.DARK)
                         .positiveText(android.R.string.ok)
                         .callback(new MaterialDialog.ButtonCallback() {
@@ -275,7 +275,7 @@ public class FragmentHomescreen extends FragmentBase {
                 final NumberPicker numberPicker = CommonUI.getNumberPicker(mContext, sharedPrefs, values, "iconsize", "100");
                 new MaterialDialog.Builder(mActivity)
                         .title(R.string.pref_iconsize_title)
-                        .customView(numberPicker)
+                        .customView(numberPicker, true)
                         .theme(Theme.DARK)
                         .positiveText(android.R.string.ok)
                         .callback(new MaterialDialog.ButtonCallback() {
@@ -302,7 +302,7 @@ public class FragmentHomescreen extends FragmentBase {
                 final NumberPicker numberPicker = CommonUI.getNumberPicker(mContext, sharedPrefs, values, "icontextsize", "100");
                 new MaterialDialog.Builder(mActivity)
                         .title(R.string.pref_icontextsize_title)
-                        .customView(numberPicker)
+                        .customView(numberPicker, true)
                         .theme(Theme.DARK)
                         .positiveText(android.R.string.ok)
                         .callback(new MaterialDialog.ButtonCallback() {
@@ -331,13 +331,13 @@ public class FragmentHomescreen extends FragmentBase {
                         .theme(Theme.DARK)
                         .title(R.string.pref_switch_smart_folder_title)
                         .items(getResources().getStringArray(R.array.smartfoldermode_entries))
-                        .itemsCallbackSingleChoice(Integer.parseInt(sharedPrefs.getString("smartfoldermode", "0")), new MaterialDialog.ListCallback() {
+                        .itemsCallbackSingleChoice(Integer.parseInt(sharedPrefs.getString("smartfoldermode", "0")), new MaterialDialog.ListCallbackSingleChoice() {
                             @Override
-                            public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                            public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                                 // due to legacy reasons we need to save it as string
                                 sharedPrefs.edit().putString("smartfoldermode", "" + which).apply();
                                 smartFolderMode.setSummary(text);
-                                dialog.dismiss();
+                                return true;
                             }
                         })
                         .build()

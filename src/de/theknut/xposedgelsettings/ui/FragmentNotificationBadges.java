@@ -103,9 +103,9 @@ public class FragmentNotificationBadges extends FragmentBase {
                         .theme(Theme.DARK)
                         .title(R.string.pref_notificationbadge_presets_title)
                         .items(getResources().getStringArray(R.array.notificationbadge_presets_entries))
-                        .itemsCallbackSingleChoice(Integer.parseInt(sharedPrefs.getString(presetsKey, "1")), new MaterialDialog.ListCallback() {
+                        .itemsCallbackSingleChoice(Integer.parseInt(sharedPrefs.getString(presetsKey, "1")), new MaterialDialog.ListCallbackSingleChoice() {
                             @Override
-                            public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                            public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
 
                                 switch (which) {
                                     case 1:
@@ -130,7 +130,7 @@ public class FragmentNotificationBadges extends FragmentBase {
                                         applyPreset(-1738448543, Color.WHITE, "10", "1", Color.WHITE, "25", "5", "2");
                                         break;
                                     default:
-                                        break;
+                                        return false;
                                 }
 
                                 presetsPreference.setSummary(getResources().getStringArray(R.array.notificationbadge_presets_entries)[which]);
@@ -138,7 +138,7 @@ public class FragmentNotificationBadges extends FragmentBase {
                                 // due to legacy reasons we need to save it as string
                                 sharedPrefs.edit().remove(presetsKey).putString(presetsKey, "" + which).apply();
 
-                                dialog.dismiss();
+                                return true;
                             }
                         })
                         .build()
@@ -199,16 +199,16 @@ public class FragmentNotificationBadges extends FragmentBase {
                             .title(preference.getTitle())
                             .theme(Theme.DARK)
                             .items(positionEntries)
-                            .itemsCallbackSingleChoice(idx, new MaterialDialog.ListCallback() {
+                            .itemsCallbackSingleChoice(idx, new MaterialDialog.ListCallbackSingleChoice() {
                                 @Override
-                                public void onSelection(MaterialDialog materialDialog, View view, int which, CharSequence text) {
+                                public boolean onSelection(MaterialDialog materialDialog, View view, int which, CharSequence text) {
                                     // due to legacy reasons we need to save them as strings... -.-
                                     sharedPrefs.edit()
                                             .remove(badgePosition.getKey())
                                             .putString(badgePosition.getKey(), "" + getResources().getStringArray(R.array.notificationbadge_position_values)[which])
                                             .apply();
                                     badgePosition.setSummary(text);
-                                    materialDialog.dismiss();
+                                    return true;
                                 }
                             })
                             .build()
@@ -226,7 +226,7 @@ public class FragmentNotificationBadges extends FragmentBase {
                         final NumberPicker numberPicker = CommonUI.getNumberPicker(mContext, sharedPrefs, values, pref.key, pref.defVal);
                         new MaterialDialog.Builder(mActivity)
                                 .title(pref.pref.getTitle())
-                                .customView(numberPicker)
+                                .customView(numberPicker, true)
                                 .theme(Theme.DARK)
                                 .positiveText(android.R.string.ok)
                                 .callback(new MaterialDialog.ButtonCallback() {
