@@ -62,6 +62,13 @@
         <item>ショートカットとウィジェット</item>
     </string-array>
 
+   <string-array name="pageindicator_mode_entries">
+        <item>デフォルト</item>
+        <item>ホーム画面のみ</item>
+        <item>アプリドロワーのみ</item>
+        <item>なし</item>
+    </string-array>
+
     <string-array name="tabcontent_entries">
         <item>アプリ</item>
         <item>ウィジェット</item>
