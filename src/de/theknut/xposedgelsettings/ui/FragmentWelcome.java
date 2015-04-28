@@ -2,7 +2,6 @@ package de.theknut.xposedgelsettings.ui;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -43,8 +42,8 @@ import eu.janmuller.android.simplecropimage.CropImage;
 public class FragmentWelcome extends FragmentBase {
 
     static boolean shown = false;
-    AlertDialog IsXposedInstalledAlert, IsModuleActive, IsInstalledFromPlayStore, IsSupportedLauncherInstalled, NeedReboot, LuckyPatcher;
-    List<AlertDialog> alerts;
+    MaterialDialog IsXposedInstalledAlert, IsModuleActive, IsInstalledFromPlayStore, IsSupportedLauncherInstalled, NeedReboot, LuckyPatcher;
+    List<MaterialDialog> alerts;
     int alertToShow = 0;
     boolean cancel;
     View rootView;

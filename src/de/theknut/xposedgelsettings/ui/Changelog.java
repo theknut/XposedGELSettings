@@ -127,18 +127,18 @@ public class Changelog {
      *         first run of your app including ChangeLog then the full log
      *         dialog is show.
      */
-    public AlertDialog getLogDialog() {
+    public MaterialDialog getLogDialog() {
         return this.getDialog(this.firstRunEver());
     }
 
     /**
      * @return an AlertDialog with a full change log displayed
      */
-    public AlertDialog getFullLogDialog() {
+    public MaterialDialog getFullLogDialog() {
         return this.getDialog(true);
     }
 
-    private AlertDialog getDialog(boolean full) {
+    private MaterialDialog getDialog(boolean full) {
         WebView wv = new WebView(this.context);
 
         wv.setPadding(0, Utils.dpToPx(5), 0, 0);
