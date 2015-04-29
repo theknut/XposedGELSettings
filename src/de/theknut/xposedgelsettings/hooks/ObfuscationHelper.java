@@ -730,7 +730,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             acpvContentType = new String[]{"mContentType", "sw", "uW", "vB", "vB", "yf", "wX", "wX", "Co", "Cn", "Cs", "Cy"}[idx]; // private oo uW = oo.vW;
             acpvContentHeight = new String[]{"mContentHeight", "sH", "vh", "vM", "vM", "yl", "xd", "xd", "Cv", "Cu", "Cz", "CF"}[idx]; // second View.MeasureSpec.makeMeasureSpec(this.
             acpvLayoutInflater = new String[]{"mLayoutInflater", "mLayoutInflater", "mLayoutInflater", "mLayoutInflater", "mLayoutInflater", "mLayoutInflater", "mLayoutInflater", "mLayoutInflater", "Cq", "Cp", "Cu", "CA"}[idx]; // only LayoutInflater member
-            lmWorkspaceItems = new String[]{"sBgWorkspaceItems", "HG", "Ko", "KS", "KW", "MX", "QA", "QA", "RS", "RR", "RW", "RW", "Sl"}[idx]; // "adding item: " in case 1 <field>.add
+            lmWorkspaceItems = new String[]{"sBgWorkspaceItems", "HG", "Ko", "KS", "KW", "MX", "QA", "QA", "RS", "RR", "RW", "Sl"}[idx]; // "adding item: " in case 1 <field>.add
             lmFolders = new String[]{"sBgFolders", "HF", "Kn", "KR", "KV", "MW", "Qz", "Qz", "RR", "RQ", "RV", "Sk"}[idx]; // 1. ", not in the list of folders" 2. <field>.get(Long.valueOf(paramLong));
             acclFocusHandlerView = new String[]{"mFocusHandlerView", "", "", "", "KV", "yd", "wV", "wV", "Cm", "Cl", "Cq", "Cw"}[idx]; // localBubbleTextView.setOnFocusChangeListener
             spbMic = new String[]{"", "", "", "", "", "", "", "", "cnl", "cKX", "cWT", "bhN"}[idx]; // <field>.getOpacity()
