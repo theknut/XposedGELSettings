@@ -733,15 +733,21 @@ public class ObfuscationHelper extends HooksBaseClass {
             lmWorkspaceItems = new String[]{"sBgWorkspaceItems", "HG", "Ko", "KS", "KW", "MX", "QA", "QA", "RS", "RR", "RW", "Sl"}[idx]; // "adding item: " in case 1 <field>.add
             lmFolders = new String[]{"sBgFolders", "HF", "Kn", "KR", "KV", "MW", "Qz", "Qz", "RR", "RQ", "RV", "Sk"}[idx]; // 1. ", not in the list of folders" 2. <field>.get(Long.valueOf(paramLong));
             acclFocusHandlerView = new String[]{"mFocusHandlerView", "", "", "", "KV", "yd", "wV", "wV", "Cm", "Cl", "Cq", "Cw"}[idx]; // localBubbleTextView.setOnFocusChangeListener
-            spbMic = new String[]{"", "", "", "", "", "", "", "", "cnl", "cKX", "cWT", "bhN"}[idx]; // <field>.getOpacity()
+            spbMic = new String[]{"", "", "", "", "", "", "", "", "cnl", "cKX", "cWT", "bhN"}[idx]; // 1. search_plate_rounded_corner_radius 2. <field>.getOpacity()
 
             covbFields = new String[][]{
                     {"", "", "", ""}, {"", "", "", ""}, {"", "", "", ""}, {"", "", "", ""}, {"", "", "", ""}, {"", "", "", ""}, {"", "", "", ""}, {"", "", "", ""},
                     {"qW", "ckE", "ckG", "ckH"},
                     {"qW", "cIq", "cIs", "cIt"},
                     {"ra", "cUk", "cUm", "cUn"},
-                    {"rf", "beZ", "bfb", "bfc"}
+                    {"rf", "beZ", "bfb", "bfc"},
+                    {"rf", "beY", "bfa", "bfb"}
             }[idx]; // com.google.android.apps.gsa.searchplate.ClearOrVoiceButton
+
+            if (Common.GNL_VERSION >= ObfuscationHelper.GNL_4_5_13) {
+                covbFields = new String[]{"rf", "beY", "bfa", "bfb"};
+                spbMic = "bhM";
+            }
 
             if (Common.IS_L_TREBUCHET) {
                 btvShadowsEnabled = "mCustomShadowsEnabled";
