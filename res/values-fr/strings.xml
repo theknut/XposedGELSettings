@@ -398,6 +398,7 @@
     <string name="not_enough_space">Espace insuffisant</string>
     
     <!-- 2.3 -->
-    <string name="pref_searchbar_color_title">Couleur barre de recherche</string>    
+    <string name="pref_searchbar_color_title">Couleur barre de recherche</string>
+    <string name="pref_rename_apps_title">Renommer applis</string>    
     
 </resources>
