@@ -65,6 +65,13 @@
         <item>Widgets uniquement</item>
         <item>Raccourcis et widgets</item>
     </string-array>
+
+    <string-array name="pageindicator_mode_entries">
+        <item>Par défaut</item>
+        <item>Écran d\'accueil uniquement</item>
+        <item>Drawer appli uniquement</item>
+        <item>Aucun</item>
+    </string-array>
     
     <string-array name="tabcontent_entries">
         <item>Applis</item>
