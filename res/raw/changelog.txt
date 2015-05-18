@@ -27,6 +27,18 @@
   </head>
   <body>
 
+$ 2.3.5
+  % Version 2.3.5
+  _ 2015-05-19
+
+  Please consider XGELS Premium to support the development of this app!<br>Thanks so much!<br><br>
+
+  !Added:
+  * support for Google Search 4.6.10
+
+  !XGELS:
+  * updated translations
+
 $ 2.3.3
   % Version 2.3.3
   _ 2015-05-01

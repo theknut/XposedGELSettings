@@ -125,6 +125,7 @@ public class ContextMenu extends HooksBaseClass{
                 }
 
                 final View longPressedItem = (View) param.args[0];
+                if (longPressedItem.getTag() == null) return;
                 if (longPressedItem.getClass().equals(Classes.CellLayout)) return;
 
                 if (Common.IS_KK_TREBUCHET) {

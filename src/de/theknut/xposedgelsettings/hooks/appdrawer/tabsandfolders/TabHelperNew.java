@@ -636,7 +636,8 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
 
     @Override
     public Tab getCurrentTabData() {
-        return (Tab) tabsContainer.findViewById(currentTabId).getTag();
+        View curTab = tabsContainer.findViewById(currentTabId);
+        return curTab == null ? null : (Tab) curTab.getTag();
     }
 
     public boolean loadTabPage(Object thisObject, int page) {
