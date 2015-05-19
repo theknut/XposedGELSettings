@@ -550,7 +550,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             lmDeleteFolderContentsFromDatabase = new String[]{"deleteFolderContentsFromDatabase", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a"}[idx]; // (Context paramContext, FolderInfo paramsh)
             lmGetAppNameComparator = new String[]{"getAppNameComparator", "hw", "im", "iq", "ir", "iB", "jH", "jH", "mh", "mh", "mj", "mn", "mp"}[idx]; // public static final Comparator
             dlAddResizeFrame = new String[]{"addResizeFrame", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a"}[idx]; // ", CellLayout paramCellLayout)"
-            soiSetSearchStarted = new String[]{"setSearchStarted", "cs", "cI", "cI", "cI", "eG", "fg", "fh", "gt", "hc", "hG", "hN", "iO"}[idx]; // 1. "search_overlay_impl:search_started" 2. onResume before cancel()
+            soiSetSearchStarted = new String[]{"setSearchStarted", "cs", "cI", "cI", "cI", "eG", "fg", "fh", "gt", "hc", "hG", "hN", "io"}[idx]; // 1. "search_overlay_impl:search_started" 2. onResume before cancel()
             noOnShow = new String[]{"onShow", "p", "u", "v", "v", "x", "y", "y", "z", "A", "D", "C", "A"}[idx]; // 1. "now_overlay:views_hidden_for_search" 2. boolean paramBoolean1, boolean paramBoolean2 3. the one with isConnected
             woiSyncWithScroll = new String[]{"syncWithScroll", "kf", "la", "lf", "lk", "lC", "mM", "mM", "pZ", "pZ", "qb", "qf", "qh"}[idx]; // computeScroll in Workspace
             /////////rvCanShowHotwordAnimation = new String[]{"canShowHotwordAnimation", "NH", "Se", "UC", "UH"}[idx]; //  == 5);
