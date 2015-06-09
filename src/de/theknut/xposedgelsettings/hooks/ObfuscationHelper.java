@@ -491,7 +491,6 @@ public class ObfuscationHelper extends HooksBaseClass {
             wMoveToCustomContentScreen = new String[]{"moveToCustomContentScreen", "ap", "au", "au", "au", "aw", "au", "au", "an", "ao", "ao", "ao", "ao"}[idx]; // "View localView = getChildAt(i);" with "-301L"
             wSnapToPage = new String[]{"snapToPage", "bc", "bs", "bt", "bv", "bA", "bz", "bz", "cM", "cL", "cL", "cN", "cN"}[idx]; // in PagedView requestChildFocus - last line of method
             wOnDragEnd = new String[]{"onDragEnd", "dt", "ei", "er", "er", "eK", "ek", "ek", "gO", "gO", "gR", "gR", "gT"}[idx]; // only method without interface parameters with InstallShortcutReceiver
-            //wOnDragStart = new String[]{"onDragStart", "a", "a", "a"}[idx]; // only method with interface parameters with InstallShortcutReceiver
             wGetWorkspaceAndHotseatCellLayouts = new String[]{"getWorkspaceAndHotseatCellLayouts", "ka", "kV", "la", "lf", "lx", "mH", "mH", "pS", "pS", "pU", "pY", "qa"}[idx]; // localArrayList.add((CellLayout)getChildAt(j));
             wGetViewForTag = new String[]{"getViewForTag", "I", "V", "V", "V", "af", "ae", "ae", "at", "at", "at", "at", "at"}[idx]; // "(this, paramObject));"
             wGetFolderForTag = new String[]{"getFolderForTag", "H", "U", "U", "U", "ae", "ad", "ad", "as", "as", "as", "as", "as"}[idx]; // "public Folder"
@@ -509,12 +508,10 @@ public class ObfuscationHelper extends HooksBaseClass {
             btvApplyFromApplicationInfo = new String[]{"applyFromApplicationInfo", "", "", "", "", "b", "b", "b", "b", "b", "b", "b", "b"}[idx];
             btvApplyFromShortcutInfo = new String[]{"applyFromShortcutInfo", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a"}[idx]; // Bitmap localBitmap = param
             acpvOnPackagesUpdated = new String[]{"onPackagesUpdated", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a"}[idx]; // "can not fit on this device"
-            //acpvOverScroll = new String[]{"overScroll", "g", "g", "g", "g"}[idx]; // (float paramFloat)
             acpvSetApps = new String[]{"setApps", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"}[idx]; // Collections.sort
             acpvUpdateApps = new String[]{"updateApps", "g", "g", "g", "g", "g", "g", "g", "d", "c", "c", "c", "c"}[idx]; // contains method which calls "binarySearch"
             acpvRemoveApps = new String[]{"removeApps", "f", "f", "f", "f", "f", "f", "f", "f", "f", "f", "f", "f"}[idx]; //
             acpvEnableHwLayersOnVisiblePages = new String[]{"enableHwLayersOnVisiblePages", "db", "dQ", "dZ", "dZ", "et", "dU", "dU", "gw", "gw", "gz", "gz", "gB"}[idx]; // "localArrayList2.add(" between break; and return;
-            //acpvGetTabHost = new String[]{"getTabHost", "de", "dt", "ec"}[idx];
             acpvSyncAppsPageItems = new String[]{"syncAppsPageItems", "aq", "aG", "aG", "aG", "aP", "aP", "aP", "g", "g", "g", "g", "g"}[idx]; // int k = Math.min(i + j, this.
             acpvSetContentType = new String[]{"setContentType", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a"}[idx];
             acpvInvalidatePageData = new String[]{"invalidatePageData", "j", "k", "k", "k", "k", "j", "j", "o", "o", "o", "o", "o"}[idx]; // method for "(i, true);"
@@ -528,13 +525,10 @@ public class ObfuscationHelper extends HooksBaseClass {
             dpGetWorkspacePadding = new String[]{"getWorkspacePadding", "aC", "aS", "aS", "aS", "ba", "ba", "ba", "ch", "cg", "cg", "cg", "cg"}[idx]; // Rect localRect2 = new Rect();
             dpUpdateFromConfiguration = new String[]{"updateFromConfiguration", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a"}[idx]; // float paramFloat, int paramInt, Resources paramResources, DisplayMetrics paramDisplayMetrics
             dgGetDeviceProfile = new String[]{"getDeviceProfile", "eV", "fK", "fT", "fT", "gl", "fM", "fM", "iP", "iP", "iS", "iS", "iU"}[idx]; // public final
-            //fOnRemove = new String[]{"onRemove", "g", "g", "g"}[idx]; // removeView(localView)
-            //fOnAdd = new String[]{"onAdd", "f", "f", "f"}[idx]; // (1 + getItemCount()); - first line  = new String[]true
-            //fReplaceFolderWithFinalItem = new String[]{"replaceFolderWithFinalItem", "ge", "ge", "gn"}[idx]; // if (localView != new String[]null)
             fGetItemsInReadingOrder = new String[]{"getItemsInReadingOrder", "fr", "gh", "gq", "gr", "gJ", "hJ", "hJ", "jr", "jr", "ju", "ju", "jw"}[idx]; // public ArrayList
+			fiAddItem = new String[]{"addItem", "i", "i", "i", "i", "i", "i", "i", "i", "i", "i", "i", "i"}[idx]; // FolderIcon - below "getVisibility() == 0;" with interface parameter ShortcutInfo
             fBind = new String[]{"bind", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a"}[idx]; // ", boolean paramBoolean1, boolean paramBoolean2)"
             fiAdd = new String[]{"add", "j", "j", "j", "j", "j", "j", "j", "j", "j", "j", "j", "j"}[idx]; // FolderInfo - .add
-            fiAddItem = new String[]{"addItem", "i", "i", "i", "i", "i", "i", "i", "i", "i", "i", "i", "i"}[idx]; // FolderIcon - below "getVisibility() == 0;" with interface parameter ShortcutInfo
             fiRemove = new String[]{"remove", "k", "k", "k", "k", "k", "k", "k", "k", "k", "k", "k", "k"}[idx]; // FolderInfo - .remove
             fiFromXml = new String[]{"fromXml", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a"}[idx]; // FolderIcon - method with ".topMargin" in it
             sawMeasureChild = new String[]{"measureChild", "M", "M", "M", "M", "ad", "ad", "ad", "as", "as", "as", "as", "at"}[idx]; // in Launcher above "return localFolderIcon"
@@ -544,34 +538,33 @@ public class ObfuscationHelper extends HooksBaseClass {
             icGetFullResIcon = new String[]{"getFullResIcon", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a"}[idx]; // (Resources paramResources, int paramInt)
             icCacheLocked = new String[]{"cacheLocked", "b", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a"}[idx];
             uCreateIconBitmap = new String[]{"createIconBitmap", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a"}[idx]; // (Drawable paramDrawable, Context paramContext)
-            lmCheckItemPlacement = new String[]{"checkItemPlacement", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a"}[idx]; // "Error loading shortcut into "
-            lmIsShortcutInfoUpdateable = new String[]{"isShortcutInfoUpdateable", "e", "e", "e", "e", "f", "", "", "", "", "", "", ""}[idx]; // "android.intent.action.MAIN"
-            lmDeleteItemsFromDatabase = new String[]{"deleteItemsFromDatabase", "b", "b", "b", "b", "c", "b", "b", "c", "c", "c", "c", "c"}[idx]; // (paramContext, localArrayList); - link to "deleting a folder"
-            lmDeleteFolderContentsFromDatabase = new String[]{"deleteFolderContentsFromDatabase", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a"}[idx]; // (Context paramContext, FolderInfo paramsh)
             lmGetAppNameComparator = new String[]{"getAppNameComparator", "hw", "im", "iq", "ir", "iB", "jH", "jH", "mh", "mh", "mj", "mn", "mp"}[idx]; // public static final Comparator
+			lmDeleteFolderContentsFromDatabase = new String[]{"deleteFolderContentsFromDatabase", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a"}[idx]; // (Context paramContext, FolderInfo paramsh)
+			lmCheckItemPlacement = new String[]{"checkItemPlacement", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a"}[idx]; // "Error loading shortcut into "
             dlAddResizeFrame = new String[]{"addResizeFrame", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a"}[idx]; // ", CellLayout paramCellLayout)"
             soiSetSearchStarted = new String[]{"setSearchStarted", "cs", "cI", "cI", "cI", "eG", "fg", "fh", "gt", "hc", "hG", "hN", "io"}[idx]; // 1. "search_overlay_impl:search_started" 2. onResume before cancel()
-            noOnShow = new String[]{"onShow", "p", "u", "v", "v", "x", "y", "y", "z", "A", "D", "C", "A"}[idx]; // 1. "now_overlay:views_hidden_for_search" 2. boolean paramBoolean1, boolean paramBoolean2 3. the one with isConnected
             woiSyncWithScroll = new String[]{"syncWithScroll", "kf", "la", "lf", "lk", "lC", "mM", "mM", "pZ", "pZ", "qb", "qf", "qh"}[idx]; // computeScroll in Workspace
-            /////////rvCanShowHotwordAnimation = new String[]{"canShowHotwordAnimation", "NH", "Se", "UC", "UH"}[idx]; //  == 5);
-            spSetProximityToNow = new String[]{"setProximityToNow", "x", "x", "x", "x", "", "", "", "", "", "", "", ""}[idx]; // (float paramFloat) with RecognizerView
             spOnModeChanged = new String[]{"onModeChanged", "", "", "", "", "av", "aA", "aA", "bf", "bE", "bJ", "aR", "aR"}[idx]; // 1. com.google.android.apps.gsa.searchplate.SearchPlate 2. "if ((paramInt1 == 0) && ((paramInt2 & 0x4) != 0))"
             tmSetTransitionsEnabled = new String[]{"setTransitionsEnabled", "cG", "cY", "cZ", "cZ", "ea", "eE", "eF", "fM", "gw", "hc", "cR", "df"}[idx]; // (4)
-            weaAddCurrentConditions = new String[]{"addCurrentConditions", "a", "a", "a", "a", "", "", "", "", "", "", "", ""}[idx];
-            weaUpdateWeather = new String[]{"", "", "", "", "", "aCZ", "aGu", "aGu", "bfe", "biH", "bpo", "", ""}[idx]; // only "void" method
-            uIsL = new String[]{"", "", "jO", "jS", "jV", "", "", "", "", "", "", "", ""}[idx];
             uGetCenterDeltaInScreenSpace = new String[]{"getCenterDeltaInScreenSpace", "", "", "", "", "b", "b", "b", "b", "b", "b", "b", "b"}[idx]; // public static int[]
             lasIsDisableAllApps = new String[]{"isDisableAllApps", "ha", "hS", "hW", "hX", "im", "jd", "jd", "lC", "lC", "lE", "lF", "lH"}[idx]; // launcher_noallapps
-            wpGetWeatherDescription = new String[]{"", "", "", "", "", "tz", "vd", "vd", "AZ", "XI", "ado", "", ""}[idx]; // in WeatherEntryAdapter - (TextUtils.isEmpty(str)))
-            wpGetTemperatur = new String[]{"", "", "", "", "", "tx", "vb", "vb", "AX", "XG", "adm", "", ""}[idx]; // in WeatherEntryAdapter - ().length() > 3
             ssFirstHotwordHintShownAt = new String[]{"", "", "", "", "", "", "", "", "afw", "asl", "azK", "aCR", "aHi"}[idx]; // "first_hotword_hint_shown_at"
+			noOnShow = new String[]{"onShow", "p", "u", "v", "v", "x", "y", "y", "z", "A", "D", "C", "A"}[idx]; // 1. "now_overlay:views_hidden_for_search" 2. boolean paramBoolean1, boolean paramBoolean2 3. the one with isConnected
 
 			wOnLauncherTransitionEnd = new String[]{"onLauncherTransitionEnd", "a", "a", "a", "a", "a", "a", "a", "c", "c", "c", "c", "c"}[idx]; // (Launcher paramLauncher, boolean paramBoolean1, boolean paramBoolean2)
             wOnTransitionPrepare = new String[]{"onLauncherTransitionPrepare", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a"}[idx]; // Method with "if ((bool) && (" in it
 			pviApplyFromApplicationInfo = new String[]{"applyFromApplicationInfo", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a"}[idx]; // only pre GNL 4
+            lmDeleteItemsFromDatabase = new String[]{"deleteItemsFromDatabase", "b", "b", "b", "b", "c", "b", "b", "c", "c", "c", "c", "c"}[idx]; // (paramContext, localArrayList); - link to "deleting a folder"			
+			spSetProximityToNow = new String[]{"setProximityToNow", "x", "x", "x", "x", "", "", "", "", "", "", "", ""}[idx]; // (float paramFloat) with RecognizerView
+			weaAddCurrentConditions = new String[]{"addCurrentConditions", "a", "a", "a", "a", "", "", "", "", "", "", "", ""}[idx];
+            weaUpdateWeather = new String[]{"", "", "", "", "", "aCZ", "aGu", "aGu", "bfe", "biH", "bpo", "", ""}[idx]; // only "void" method
+            uIsL = new String[]{"", "", "jO", "jS", "jV", "", "", "", "", "", "", "", ""}[idx];
+			wpGetWeatherDescription = new String[]{"", "", "", "", "", "tz", "vd", "vd", "AZ", "XI", "ado", "", ""}[idx]; // in WeatherEntryAdapter - (TextUtils.isEmpty(str)))
+            wpGetTemperatur = new String[]{"", "", "", "", "", "tx", "vb", "vb", "AX", "XG", "adm", "", ""}[idx]; // in WeatherEntryAdapter - ().length() > 3
 			btvCreateGlowingOutline = new String[]{"createGlowingOutline", "a", "a", "a", "a", "", "", "", "", "", "", "", ""}[idx];
 			acpvSetAllAppsPadding = new String[]{"setAllAppsPadding", "b", "b", "b", "b", "", "", "", "", "", "", "", ""}[idx]; // .set(paramRect);
 			acthOnTabChanged = new String[]{"onTabChanged", "c", "c", "c", "c", "", "", "", "", "", "", "", ""}[idx]; // setBackgroundColor
+			lmIsShortcutInfoUpdateable = new String[]{"isShortcutInfoUpdateable", "e", "e", "e", "e", "f", "", "", "", "", "", "", ""}[idx]; // "android.intent.action.MAIN"
         }
     }
 
@@ -667,7 +660,6 @@ public class ObfuscationHelper extends HooksBaseClass {
             dpFolderBackgroundOffset = new String[]{"folderBackgroundOffset", "zZ", "BA", "Cf", "Ce", "DK", "CH", "CH", "Ik", "Ij", "Io", "Iu", "IF"}[idx]; // in FolderIcon topMargin
             dpNumCols = new String[]{"numColumns", "yy", "AX", "BC", "BB", "Dh", "Cf", "Cf", "HA", "Hz", "HE", "HK", "HV"}[idx]; // ", c: "
             dpFolderIconSize = new String[]{"folderIconSizePx", "zi", "BJ", "Co", "Cn", "DS", "CP", "CP", "Il", "Ik", "Ip", "Iv", "IG"}[idx]; // " + 2 * -"
-            clphHasPerformedLongPress = new String[]{"mHasPerformedLongPress", "wG", "zf", "zK", "zJ", "BV", "AS", "AS", "Gm", "Gl", "Gq", "Gw", "GH"}[idx]; // only boolean member
             cllpCanReorder = new String[]{"canReorder", "wf", "yE", "zj", "zi", "Bu", "Ar", "Ar", "FL", "FK", "FP", "FV", "Gg"}[idx]; // second member with "= true"
             clIsHotseat = new String[]{"mIsHotseat", "vq", "xP", "yu", "yt", "AF", "zC", "zC", "EX", "EW", "Fb", "Fh", "Fs"}[idx];
             clShortcutsAndWidgets = new String[]{"mShortcutsAndWidgets", "vp", "xO", "yt", "ys", "AE", "zB", "zB", "EW", "EV", "Fa", "Fg", "Fr"}[idx];
@@ -697,7 +689,6 @@ public class ObfuscationHelper extends HooksBaseClass {
             fiFolderInfo = fFolderInfo; // FolderIcon - same as fFolderInfo
             fiContents = new String[]{"contents", "Dt", "FW", "GB", "GE", "IA", "HA", "HA", "MW", "MV", "Na", "Ng", "Nr"}[idx]; // first ArrayList in FolderInfo
             fiOpened = new String[]{"opened", "Ds", "FV", "GA", "GD", "Iz", "Hz", "Hz", "MV", "MU", "MZ", "Nf", "Nq"}[idx]; // only boolean member
-            //fFolderIcon = new String[]{"mFolderIcon", "BL", "Ep", "EU"}[idx]; // only FolderIcon member
             fFolderEditText = new String[]{"mFolderName", "Cf", "EJ", "Fo", "Fr", "Ho", "Go", "Go", "LL", "LK", "LP", "LV", "Mg"}[idx]; // only FolderEditText member
             fMaxCountX = new String[]{"mMaxCountX", "BM", "Eq", "EV", "EY", "GV", "FV", "FV", "Ls", "Lr", "Lw", "LC", "LN"}[idx]; // Folder constructor, last line - maxNumItems = X * Y;
             fMaxCountY = new String[]{"mMaxCountY", "BN", "Er", "EW", "EZ", "GW", "FW", "FW", "Lt", "Ls", "Lx", "LD", "LO"}[idx]; // Folder constructor, last line - maxNumItems = X * Y;
@@ -715,27 +706,22 @@ public class ObfuscationHelper extends HooksBaseClass {
             iiID = new String[]{"id", "id", "id", "id", "id", "id", "id", "id", "id", "id", "id", "id", "id", "id"}[idx];
             iiScreenId = new String[]{"screenId", "vO", "yn", "yS", "yR", "Bd", "Aa", "Aa", "Ft", "Fs", "Fx", "FD", "FO"}[idx];
             iiContainer = new String[]{"container", "Eo", "GU", "Hz", "HC", "JA", "In", "In", "Fu", "Ft", "Fy", "FE", "FP"}[idx];
-            //iiTitle = new String[]{"title", "title", "title", "title"}[idx];
             ceIcon = new String[]{"icon", "DZ", "GE", "Hj", "Hm", "Jj", "HW", "HW", "Ns", "Nr", "Nw", "NC", "NN"}[idx];
             lawiProviderName = new String[]{"providerName", "GX", "JF", "Kj", "Kn", "Mp", "PL", "PL", "Rb", "Ra", "Rf", "Rl", "Rw"}[idx]; // 1. AppWidget(id= 2. only ComponentName member
             acthInTransition = new String[]{"mInTransition", "tf", "vF", "wk", "wk", "yA", "xs", "xs", "CL", "CK", "CP", "CV", "Dg"}[idx]; // only boolean member
             acthContent = new String[]{"mContent", "tD", "wd", "wI", "wI", "yV", "xN", "xN", "Dg", "Df", "Dk", "Dq", "DB"}[idx]; // .getLayoutParams in setInsets
-            //acthTabsContainer = new String[]{"mTabsContainer", "tA", "wA", "wF"}[idx]; // setAlpha
             acthAppsCustomizePane = new String[]{"mAppsCustomizePane", "tB", "wb", "wG", "wG", "", "", "", "", "", "", "", ""}[idx]; // setAlpha
             uIconWidth = new String[]{"sIconWidth", "NC", "Qm", "QN", "QS", "Tn", "WX", "WX", "Yy", "Yx", "YB", "YQ", "Zd"}[idx]; // first private static int
             uIconHeight = new String[]{"sIconHeight", "ND", "Qn", "QO", "QT", "To", "WY", "WY", "Yz", "Yy", "YC", "YR", "Ze"}[idx]; // second private static int
             acpvAllAppsNumCols = new String[]{"allAppsNumCols", "zr", "BS", "Cx", "Cw", "DZ", "CW", "CW", "Iu", "It", "Iy", "IE", "IP"}[idx]; // 1. (int paramInt1, int paramInt2) 2. localDeviceProfile
             acpvAllAppsNumRows = new String[]{"allAppsNumRows", "zq", "BR", "Cw", "Cv", "Ea", "CX", "CX", "It", "Is", "Ix", "ID", "IO"}[idx]; // 1. (int paramInt1, int paramInt2) 2. localDeviceProfile
             acpvAllApps = new String[]{"mApps", "sA", "va", "vF", "vF", "yi", "xa", "xa", "Cs", "Cr", "Cw", "CC", "CN"}[idx]; // sort
-            //acpvAllWidgets = new String[]{"mWidgets", "sB", "vb", "vG"}[idx]; // 2nd "isEmpty"
             acpvNumAppsPages = new String[]{"mNumAppsPages", "sN", "vn", "vS", "vS", "yp", "xh", "xh", "Cz", "Cy", "CD", "CJ", "CU"}[idx]; // Math.ceil
             acpvCellCountX = new String[]{"mCellCountX", "Lg", "NN", "Or", "Ov", "Qx", "TZ", "TZ", "VE", "VD", "VH", "VW", "Wj"}[idx]; // "(int)Math.ceil(this." - first
             acpvCellCountY = new String[]{"mCellCountY", "Lh", "NO", "Os", "Ow", "Qy", "Ua", "Ua", "VF", "VE", "VI", "VX", "Wk"}[idx]; // "(int)Math.ceil(this." - second
             acpvContentType = new String[]{"mContentType", "sw", "uW", "vB", "vB", "yf", "wX", "wX", "Co", "Cn", "Cs", "Cy", "CJ"}[idx]; // private oo uW = oo.vW;
             acpvContentHeight = new String[]{"mContentHeight", "sH", "vh", "vM", "vM", "yl", "xd", "xd", "Cv", "Cu", "Cz", "CF", "CQ"}[idx]; // second View.MeasureSpec.makeMeasureSpec(this.
             acpvLayoutInflater = new String[]{"mLayoutInflater", "mLayoutInflater", "mLayoutInflater", "mLayoutInflater", "mLayoutInflater", "mLayoutInflater", "mLayoutInflater", "mLayoutInflater", "Cq", "Cp", "Cu", "CA", "CL"}[idx]; // only LayoutInflater member
-            lmWorkspaceItems = new String[]{"sBgWorkspaceItems", "HG", "Ko", "KS", "KW", "MX", "QA", "QA", "RS", "RR", "RW", "Sl", "Sw"}[idx]; // "adding item: " in case 1 <field>.add
-            lmFolders = new String[]{"sBgFolders", "HF", "Kn", "KR", "KV", "MW", "Qz", "Qz", "RR", "RQ", "RV", "Sk", "Sv"}[idx]; // 1. ", not in the list of folders" 2. <field>.get(Long.valueOf(paramLong));
             acclFocusHandlerView = new String[]{"mFocusHandlerView", "", "", "", "KV", "yd", "wV", "wV", "Cm", "Cl", "Cq", "Cw", "CH"}[idx]; // localBubbleTextView.setOnFocusChangeListener
             spbMic = new String[]{"", "", "", "", "", "", "", "", "cnl", "cKX", "cWT", "bhN", "brt"}[idx]; // (enable field in search) 1. search_plate_rounded_corner_radius 2. <field>.getOpacity()
 
@@ -757,6 +743,10 @@ public class ObfuscationHelper extends HooksBaseClass {
             if (Common.IS_L_TREBUCHET) {
                 btvShadowsEnabled = "mCustomShadowsEnabled";
             }
+
+			clphHasPerformedLongPress = new String[]{"mHasPerformedLongPress", "wG", "zf", "zK", "zJ", "BV", "AS", "AS", "Gm", "Gl", "Gq", "Gw", "GH"}[idx]; // only boolean member
+			lmWorkspaceItems = new String[]{"sBgWorkspaceItems", "HG", "Ko", "KS", "KW", "MX", "QA", "QA", "RS", "RR", "RW", "Sl", "Sw"}[idx]; // "adding item: " in case 1 <field>.add
+            lmFolders = new String[]{"sBgFolders", "HF", "Kn", "KR", "KV", "MW", "Qz", "Qz", "RR", "RQ", "RV", "Sk", "Sv"}[idx]; // 1. ", not in the list of folders" 2. <field>.get(Long.valueOf(paramLong));
         }
     }
 }
