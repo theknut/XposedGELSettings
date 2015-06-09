@@ -140,6 +140,13 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
                             id = resources.getIdentifier("clear_or_voice_button", "id", Common.HOOKED_PACKAGE);
                             if (id != 0) {
                                 View clearOrVoiceButton = searchPlate.findViewById(id);
+
+                                if (Common.GNL_VERSION == ObfuscationHelper.GNL_4_7_12) {
+                                    callMethod(clearOrVoiceButton, "Uk");
+                                    callMethod(clearOrVoiceButton, "Ul");
+                                    callMethod(clearOrVoiceButton, "Um");
+                                }
+
                                 ((Paint) getObjectField(clearOrVoiceButton, Fields.covbFields[0])).setColor(darkerColor);
                                 ((Drawable) getObjectField(clearOrVoiceButton, Fields.covbFields[1])).setColorFilter(color, PorterDuff.Mode.MULTIPLY);
                                 ((Drawable) getObjectField(clearOrVoiceButton, Fields.covbFields[2])).setColorFilter(color, PorterDuff.Mode.MULTIPLY);

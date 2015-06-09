@@ -13,14 +13,14 @@ ADDED from AndroidManifest.xml:2:1
 		INJECTED from AndroidManifest.xml:0:0
 uses-sdk
 ADDED from AndroidManifest.xml:7:5
-MERGED from com.android.support:appcompat-v7:22.1.1:20:5
-MERGED from com.android.support:support-v4:22.1.1:20:5
-MERGED from com.afollestad:material-dialogs:0.7.4.1:8:5
-MERGED from com.android.support:support-v4:22.1.1:20:5
-MERGED from com.android.support:appcompat-v7:22.1.1:20:5
-MERGED from com.android.support:support-v4:22.1.1:20:5
-MERGED from com.android.support:recyclerview-v7:22.1.1:20:5
-MERGED from com.android.support:support-v4:22.1.1:20:5
+MERGED from com.android.support:appcompat-v7:22.2.0:20:5
+MERGED from com.android.support:support-v4:22.2.0:20:5
+MERGED from com.afollestad:material-dialogs:0.7.5.5:8:5
+MERGED from com.android.support:support-v4:22.2.0:20:5
+MERGED from com.android.support:appcompat-v7:22.2.0:20:5
+MERGED from com.android.support:support-v4:22.2.0:20:5
+MERGED from com.android.support:recyclerview-v7:22.2.0:20:5
+MERGED from com.android.support:support-v4:22.2.0:20:5
 	android:targetSdkVersion
 		ADDED from AndroidManifest.xml:9:9
 	android:minSdkVersion
@@ -43,14 +43,13 @@ ADDED from AndroidManifest.xml:14:5
 		ADDED from AndroidManifest.xml:14:22
 application
 ADDED from AndroidManifest.xml:16:5
-MERGED from com.android.support:appcompat-v7:22.1.1:22:5
-MERGED from com.android.support:support-v4:22.1.1:22:5
-MERGED from com.afollestad:material-dialogs:0.7.4.1:12:5
-MERGED from com.android.support:support-v4:22.1.1:22:5
-MERGED from com.android.support:appcompat-v7:22.1.1:22:5
-MERGED from com.android.support:support-v4:22.1.1:22:5
-MERGED from com.android.support:recyclerview-v7:22.1.1:22:5
-MERGED from com.android.support:support-v4:22.1.1:22:5
+MERGED from com.android.support:appcompat-v7:22.2.0:22:5
+MERGED from com.android.support:support-v4:22.2.0:22:5
+MERGED from com.afollestad:material-dialogs:0.7.5.5:12:5
+MERGED from com.android.support:support-v4:22.2.0:22:5
+MERGED from com.android.support:appcompat-v7:22.2.0:22:5
+MERGED from com.android.support:support-v4:22.2.0:22:5
+MERGED from com.android.support:support-v4:22.2.0:22:5
 	android:label
 		ADDED from AndroidManifest.xml:19:9
 	android:allowBackup
@@ -185,9 +184,3 @@ ADDED from AndroidManifest.xml:111:9
 		ADDED from AndroidManifest.xml:112:13
 	android:value
 		ADDED from AndroidManifest.xml:113:13
-activity#android.support.v7.widget.TestActivity
-ADDED from com.android.support:recyclerview-v7:22.1.1:23:9
-	android:label
-		ADDED from com.android.support:recyclerview-v7:22.1.1:25:13
-	android:name
-		ADDED from com.android.support:recyclerview-v7:22.1.1:24:13
