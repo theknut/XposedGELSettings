@@ -49,6 +49,7 @@ import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelper;
 import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelperLegacy;
 import de.theknut.xposedgelsettings.hooks.common.CommonHooks;
 import de.theknut.xposedgelsettings.hooks.common.XGELSCallback;
+import de.theknut.xposedgelsettings.hooks.gestures.GestureHelper;
 import de.theknut.xposedgelsettings.hooks.homescreen.WorkspaceConstructorHook;
 import de.theknut.xposedgelsettings.hooks.icon.IconHooks;
 import de.theknut.xposedgelsettings.ui.FragmentSelectiveIcon;
@@ -404,6 +405,8 @@ public class GeneralHooks extends HooksBaseClass {
                     killLauncher();
                 } else if (intent.getAction().equals(Common.XGELS_ACTION_RELOAD_SETTINGS)) {
                     TabHelper.getInstance().updateTabs();
+                } else if (intent.getAction().equals(Common.XGELS_ACTION_OPEN_APPDRAWER)) {
+                    GestureHelper.handleGesture(Common.LAUNCHER_CONTEXT, null, "OPEN_APPDRAWER");
                 } else if (intent.getAction().equals(Common.XGELS_ACTION_UPDATE_FOLDER_ITEMS)) {
                     long folderID = intent.getLongExtra("itemid", -1);
                     View view = Common.CURRENT_CONTEXT_MENU_ITEM;

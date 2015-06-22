@@ -141,7 +141,8 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
                             if (id != 0) {
                                 View clearOrVoiceButton = searchPlate.findViewById(id);
 
-                                if (Common.GNL_VERSION == ObfuscationHelper.GNL_4_7_12) {
+                                if (Common.GNL_VERSION == ObfuscationHelper.GNL_4_7_12
+                                    || Common.GNL_VERSION == ObfuscationHelper.GNL_4_7_13) {
                                     callMethod(clearOrVoiceButton, "Uk");
                                     callMethod(clearOrVoiceButton, "Ul");
                                     callMethod(clearOrVoiceButton, "Um");

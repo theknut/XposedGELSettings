@@ -22,6 +22,7 @@ public class ObfuscationHelper extends HooksBaseClass {
     public static final int GNL_4_5_13 = 300405835;
     public static final int GNL_4_6_10 = 300407085;
     public static final int GNL_4_7_12 = 300409539;
+    public static final int GNL_4_7_13 = 300412076;
 
     public static int getVersionIndex(int version) {
 
@@ -424,7 +425,6 @@ public class ObfuscationHelper extends HooksBaseClass {
                 lSetWorkspaceBackground,
                 lGetDragLayer,
                 dlAddResizeFrame,
-                gsaShouldAlwaysShowHotwordHint,
                 btvCreateGlowingOutline,
                 lmDeleteItemsFromDatabase,
                 lmDeleteFolderContentsFromDatabase,
@@ -459,7 +459,6 @@ public class ObfuscationHelper extends HooksBaseClass {
                 clGetChildrenScale,
                 acpvRemoveAllViewsOnPage,
                 wGetChangeStateAnimation,
-                dpLayout,
                 ssFirstHotwordHintShownAt;
 
         public static void initMethodNames(int idx) {
