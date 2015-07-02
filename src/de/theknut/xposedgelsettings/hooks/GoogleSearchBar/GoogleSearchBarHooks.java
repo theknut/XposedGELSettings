@@ -98,7 +98,7 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
         if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE)) {
             if (Common.GNL_VERSION >= ObfuscationHelper.GNL_4_2_16) {
                 if (PreferencesHelper.alwaysShowSayOKGoogle) {
-                    findAndHookMethod(Classes.SearchSettings, Methods.ssFirstHotwordHintShownAt, XC_MethodReplacement.returnConstant(0L));
+                    findAndHookMethod(Classes.SearchSettings, Methods.ssHotwordUsageStats, XC_MethodReplacement.returnConstant(""));
                 }
 
                 XposedBridge.hookAllConstructors(Classes.SearchPlateBar, new XC_MethodHook() {
@@ -141,11 +141,11 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
                             if (id != 0) {
                                 View clearOrVoiceButton = searchPlate.findViewById(id);
 
-                                if (Common.GNL_VERSION == ObfuscationHelper.GNL_4_7_12
+                                if (Common.GNL_VERSION >= ObfuscationHelper.GNL_4_7_12
                                     || Common.GNL_VERSION == ObfuscationHelper.GNL_4_7_13) {
-                                    callMethod(clearOrVoiceButton, "Uk");
-                                    callMethod(clearOrVoiceButton, "Ul");
-                                    callMethod(clearOrVoiceButton, "Um");
+                                    callMethod(clearOrVoiceButton, Methods.covbMethods[0]);
+                                    callMethod(clearOrVoiceButton, Methods.covbMethods[1]);
+                                    callMethod(clearOrVoiceButton, Methods.covbMethods[2]);
                                 }
 
                                 ((Paint) getObjectField(clearOrVoiceButton, Fields.covbFields[0])).setColor(darkerColor);

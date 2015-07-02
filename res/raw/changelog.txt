@@ -27,6 +27,27 @@
   </head>
   <body>
 
+$ 2.3.10
+  % Version 2.3.10
+  _ 2015-07-02
+
+  Please consider XGELS Premium to support the development of this app!<br>Thanks so much!<br><br>Again, sorry for the delay! I've been to Croatia and the internet was a tremendously slow. I couldn't even load the Google Play Store. However, I managed to get free Wifi at some point but right after uploading the apk it completely crashed and nothing worked again. I'm home now, so everything will be fine :D<br><br>
+
+  !Added:
+  * support for Google Search 4.8.12
+
+  !Fixed:
+  * fixed "Always show 'Ok Google'"
+
+$ 2.3.9
+  % Version 2.3.9
+  _ 2015-06-29
+
+  Please consider XGELS Premium to support the development of this app!<br>Thanks so much!<br><br>Sorry for the delay! I'm currently not in the country and had to make my wifes anchient laptop run my develop environment and fix it from there.<br><br>
+
+  !Added:
+  * support for Google Search 4.8.10
+
 $ 2.3.8
   % Version 2.3.8
   _ 2015-06-22

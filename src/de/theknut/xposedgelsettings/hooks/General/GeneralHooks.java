@@ -186,7 +186,36 @@ public class GeneralHooks extends HooksBaseClass {
             };
 
             if (Common.PACKAGE_OBFUSCATED) {
-                findAndHookMethod(Classes.StartSettingsOnClick, "onClick", View.class, overriderSettingsHook);
+                if (Common.GNL_VERSION < ObfuscationHelper.GNL_4_8_10) {
+                    findAndHookMethod(Classes.StartSettingsOnClick, "onClick", View.class, overriderSettingsHook);
+                }
+                else
+                {
+                    CommonHooks.LauncherOnCreateListeners.add(new XGELSCallback() {
+                        @Override
+                        public void onAfterHookedMethod(MethodHookParam param) throws Throwable {
+                            int id = Common.LAUNCHER_CONTEXT.getResources().getIdentifier("settings_button", "id", Common.HOOKED_PACKAGE);
+                            if (id != 0) {
+                                View settingsButton = Common.LAUNCHER_INSTANCE.findViewById(id);
+                                if (settingsButton != null)
+                                {
+                                    settingsButton.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent startMain = new Intent(Intent.ACTION_MAIN);
+                                            startMain.addCategory(Intent.CATEGORY_HOME);
+                                            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            callMethod(Common.LAUNCHER_INSTANCE, "startActivity", startMain);
+
+                                            Intent LaunchIntent = Common.LAUNCHER_CONTEXT.getPackageManager().getLaunchIntentForPackage(Common.PACKAGE_NAME);
+                                            callMethod(Common.LAUNCHER_INSTANCE, "startActivity", LaunchIntent);
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    });
+                }
             } else {
                 if (!Common.IS_KK_TREBUCHET) {
                     findAndHookMethod(Classes.Launcher, "startSettings", overriderSettingsHook);
