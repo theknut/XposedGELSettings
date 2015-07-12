@@ -99,6 +99,7 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
             if (Common.GNL_VERSION >= ObfuscationHelper.GNL_4_2_16) {
                 if (PreferencesHelper.alwaysShowSayOKGoogle) {
                     findAndHookMethod(Classes.SearchSettings, Methods.ssHotwordUsageStats, XC_MethodReplacement.returnConstant(""));
+                    findAndHookMethod(Classes.SearchSettings, Methods.ssFirstHotwordHintShownAt, XC_MethodReplacement.returnConstant(0L));
                 }
 
                 XposedBridge.hookAllConstructors(Classes.SearchPlateBar, new XC_MethodHook() {

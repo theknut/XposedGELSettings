@@ -463,7 +463,8 @@ public class ObfuscationHelper extends HooksBaseClass {
                 clGetChildrenScale,
                 acpvRemoveAllViewsOnPage,
                 wGetChangeStateAnimation,
-                ssHotwordUsageStats;
+                ssHotwordUsageStats,
+                ssFirstHotwordHintShownAt;
         public static String[] covbMethods;
 
         public static void initMethodNames(int idx) {
@@ -556,6 +557,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             tmSetTransitionsEnabled = new String[]{"setTransitionsEnabled", "cG", "cY", "cZ", "cZ", "ea", "eE", "eF", "fM", "gw", "hc", "cR", "df", "dt", "dA"}[idx]; // (4)
             lasIsDisableAllApps = new String[]{"isDisableAllApps", "ha", "hS", "hW", "hX", "im", "jd", "jd", "lC", "lC", "lE", "lF", "lH", "lH", "lH"}[idx]; // launcher_noallapps
             ssHotwordUsageStats = new String[]{"", "", "", "", "", "", "", "", "afv", "ask", "azJ", "aCQ", "aHh", "aLB", "aUf"}[idx]; // "hotword_usage_stats"
+            ssFirstHotwordHintShownAt = new String[]{"", "", "", "", "", "", "", "", "afw", "asl", "azK", "aCR", "aHi", "aLC", "aUg"}[idx]; // "first_hotword_hint_shown_at"
 			noOnShow = new String[]{"onShow", "p", "u", "v", "v", "x", "y", "y", "z", "A", "D", "C", "A", "C", "F"}[idx]; // 1. "now_overlay:views_hidden_for_search" 2. boolean paramBoolean1, boolean paramBoolean2 3. the one with isConnected
 
 			wOnLauncherTransitionEnd = new String[]{"onLauncherTransitionEnd", "a", "a", "a", "a", "a", "a", "a", "c", "c", "c", "c", "c", "c", "c"}[idx]; // (Launcher paramLauncher, boolean paramBoolean1, boolean paramBoolean2)
@@ -702,7 +704,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             fiFolderInfo = fFolderInfo; // FolderIcon - same as fFolderInfo
             fiContents = new String[]{"contents", "Dt", "FW", "GB", "GE", "IA", "HA", "HA", "MW", "MV", "Na", "Ng", "Nr", "Nr", "Nq"}[idx]; // first ArrayList in FolderInfo
             fiOpened = new String[]{"opened", "Ds", "FV", "GA", "GD", "Iz", "Hz", "Hz", "MV", "MU", "MZ", "Nf", "Nq", "Nq", "Np"}[idx]; // only boolean member
-            fFolderEditText = new String[]{"mFolderName", "Cf", "EJ", "Fo", "Fr", "Ho", "Go", "Go", "LL", "LK", "LP", "LV", "Mg", "Mg", "MC"}[idx]; // only FolderEditText member
+            fFolderEditText = new String[]{"mFolderName", "Cf", "EJ", "Fo", "Fr", "Ho", "Go", "Go", "LL", "LK", "LP", "LV", "Mg", "Mg", "Mf"}[idx]; // only FolderEditText member
             fMaxCountX = new String[]{"mMaxCountX", "BM", "Eq", "EV", "EY", "GV", "FV", "FV", "Ls", "Lr", "Lw", "LC", "LN", "LN", "LM"}[idx]; // Folder constructor, last line - maxNumItems = X * Y;
             fMaxCountY = new String[]{"mMaxCountY", "BN", "Er", "EW", "EZ", "GW", "FW", "FW", "Lt", "Ls", "Lx", "LD", "LO", "LO", "LN"}[idx]; // Folder constructor, last line - maxNumItems = X * Y;
             fMaxNumItems = new String[]{"mMaxNumItems", "BO", "Es", "EX", "Fa", "GX", "FX", "FX", "Lu", "Lt", "Ly", "LE", "LP", "LP", "LO"}[idx]; // Folder constructor, last line - maxNumItems = X * Y;
