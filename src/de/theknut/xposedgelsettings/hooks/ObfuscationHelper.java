@@ -24,6 +24,7 @@ public class ObfuscationHelper extends HooksBaseClass {
     public static final int GNL_4_7_12 = 300409539;
     public static final int GNL_4_7_13 = 300412076;
     public static final int GNL_4_8_10 = 300412106;
+    public static final int GNL_4_9_22 = 300413946;
 
     public static int getVersionIndex(int version) {
 
@@ -32,7 +33,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 return 3;
             } else if (version >= GNL_4_8_10) {
                 return 14;
-            }  else if (version >= GNL_4_7_12) {
+            } else if (version >= GNL_4_7_12) {
                 return 13;
             } else if (version >= GNL_4_6_10) {
                 return 12;
@@ -142,21 +143,21 @@ public class ObfuscationHelper extends HooksBaseClass {
                 prefix = "com.android.launcher2.";
             }
 
-            LAUNCHER = new String[]{prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher"}[idx];
-            WORKSPACE = new String[]{prefix + "Workspace", prefix + "Workspace", prefix + "Workspace", prefix + "Workspace", prefix + "Workspace", prefix + "Workspace", prefix + "Workspace", prefix + "Workspace", prefix + "Workspace", prefix + "Workspace", prefix + "Workspace", prefix + "Workspace", prefix + "Workspace", prefix + "Workspace", prefix + "Workspace"}[idx];
-            CELL_LAYOUT = new String[]{prefix + "CellLayout", prefix + "CellLayout", prefix + "CellLayout", prefix + "CellLayout", prefix + "CellLayout", prefix + "CellLayout", prefix + "CellLayout", prefix + "CellLayout", prefix + "CellLayout", prefix + "CellLayout", prefix + "CellLayout", prefix + "CellLayout", prefix + "CellLayout", prefix + "CellLayout", prefix + "CellLayout"}[idx];
-            CELL_LAYOUT_LAYOUT_PARAMS = new String[]{CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams"}[idx];
-			APPS_CUSTOMIZE_PAGED_VIEW = new String[]{prefix + "AppsCustomizePagedView", prefix + "AppsCustomizePagedView", prefix + "AppsCustomizePagedView", prefix + "AppsCustomizePagedView", prefix + "AppsCustomizePagedView", prefix + "AppsCustomizePagedView", prefix + "AppsCustomizePagedView", prefix + "AppsCustomizePagedView", prefix + "AppsCustomizePagedView", prefix + "AppsCustomizePagedView", prefix + "AppsCustomizePagedView", prefix + "AppsCustomizePagedView", prefix + "AppsCustomizePagedView", prefix + "AppsCustomizePagedView", prefix + "AppsCustomizePagedView"}[idx];
-            APPS_CUSTOMIZE_TAB_HOST = new String[]{prefix + "AppsCustomizeTabHost", prefix + "AppsCustomizeTabHost", prefix + "AppsCustomizeTabHost", prefix + "AppsCustomizeTabHost", prefix + "AppsCustomizeTabHost", prefix + "AppsCustomizeTabHost", prefix + "AppsCustomizeTabHost", prefix + "AppsCustomizeTabHost", prefix + "AppsCustomizeTabHost", prefix + "AppsCustomizeTabHost", prefix + "AppsCustomizeTabHost", prefix + "AppsCustomizeTabHost", prefix + "AppsCustomizeTabHost", prefix + "AppsCustomizeTabHost", prefix + "AppsCustomizeTabHost"}[idx];
-            SEARCH_DROP_TARGET_BAR = new String[]{prefix + "SearchDropTargetBar", prefix + "SearchDropTargetBar", prefix + "SearchDropTargetBar", prefix + "SearchDropTargetBar", prefix + "SearchDropTargetBar", prefix + "SearchDropTargetBar", prefix + "SearchDropTargetBar", prefix + "SearchDropTargetBar", prefix + "SearchDropTargetBar", prefix + "SearchDropTargetBar", prefix + "SearchDropTargetBar", prefix + "SearchDropTargetBar", prefix + "SearchDropTargetBar", prefix + "SearchDropTargetBar", prefix + "SearchDropTargetBar"}[idx];
-            DRAG_LAYER = new String[]{prefix + "DragLayer", prefix + "DragLayer", prefix + "DragLayer", prefix + "DragLayer", prefix + "DragLayer", prefix + "DragLayer", prefix + "DragLayer", prefix + "DragLayer", prefix + "DragLayer", prefix + "DragLayer", prefix + "DragLayer", prefix + "DragLayer", prefix + "DragLayer", prefix + "DragLayer", prefix + "DragLayer"}[idx];
-            FOLDER = new String[]{prefix + "Folder", prefix + "Folder", prefix + "Folder", prefix + "Folder", prefix + "Folder", prefix + "Folder", prefix + "Folder", prefix + "Folder", prefix + "Folder", prefix + "Folder", prefix + "Folder", prefix + "Folder", prefix + "Folder", prefix + "Folder", prefix + "Folder"}[idx];
-            FOLDER_ICON = new String[]{prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon"}[idx];
-            HOTSEAT = new String[]{prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat"}[idx];
-            BUBBLE_TEXT_VIEW = new String[]{prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView"}[idx];
-            GEL = new String[]{"com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL"}[idx];
-            RECOGNIZER_VIEW = new String[]{"com.google.android.search.shared.ui.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.apps.gsa.searchplate.RecognizerView", "com.google.android.apps.gsa.searchplate.RecognizerView", "com.google.android.apps.gsa.searchplate.RecognizerView", "com.google.android.apps.gsa.searchplate.RecognizerView"}[idx];
-            SEARCH_PLATE = new String[]{"com.google.android.search.shared.ui.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.apps.gsa.searchplate.SearchPlate", "com.google.android.apps.gsa.searchplate.SearchPlate", "com.google.android.apps.gsa.searchplate.SearchPlate", "com.google.android.apps.gsa.searchplate.SearchPlate"}[idx];
+            LAUNCHER = new String[]{prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher"}[idx];
+            WORKSPACE = new String[]{prefix + "Workspace", prefix + "Workspace", prefix + "Workspace", prefix + "Workspace", prefix + "Workspace", prefix + "Workspace", prefix + "Workspace", prefix + "Workspace", prefix + "Workspace", prefix + "Workspace", prefix + "Workspace", prefix + "Workspace", prefix + "Workspace", prefix + "Workspace", prefix + "Workspace", prefix + "Workspace"}[idx];
+            CELL_LAYOUT = new String[]{prefix + "CellLayout", prefix + "CellLayout", prefix + "CellLayout", prefix + "CellLayout", prefix + "CellLayout", prefix + "CellLayout", prefix + "CellLayout", prefix + "CellLayout", prefix + "CellLayout", prefix + "CellLayout", prefix + "CellLayout", prefix + "CellLayout", prefix + "CellLayout", prefix + "CellLayout", prefix + "CellLayout", prefix + "CellLayout"}[idx];
+            CELL_LAYOUT_LAYOUT_PARAMS = new String[]{CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams", CELL_LAYOUT + "$LayoutParams"}[idx];
+			APPS_CUSTOMIZE_PAGED_VIEW = new String[]{prefix + "AppsCustomizePagedView", prefix + "AppsCustomizePagedView", prefix + "AppsCustomizePagedView", prefix + "AppsCustomizePagedView", prefix + "AppsCustomizePagedView", prefix + "AppsCustomizePagedView", prefix + "AppsCustomizePagedView", prefix + "AppsCustomizePagedView", prefix + "AppsCustomizePagedView", prefix + "AppsCustomizePagedView", prefix + "AppsCustomizePagedView", prefix + "AppsCustomizePagedView", prefix + "AppsCustomizePagedView", prefix + "AppsCustomizePagedView", prefix + "AppsCustomizePagedView", prefix + "AppsCustomizePagedView"}[idx];
+            APPS_CUSTOMIZE_TAB_HOST = new String[]{prefix + "AppsCustomizeTabHost", prefix + "AppsCustomizeTabHost", prefix + "AppsCustomizeTabHost", prefix + "AppsCustomizeTabHost", prefix + "AppsCustomizeTabHost", prefix + "AppsCustomizeTabHost", prefix + "AppsCustomizeTabHost", prefix + "AppsCustomizeTabHost", prefix + "AppsCustomizeTabHost", prefix + "AppsCustomizeTabHost", prefix + "AppsCustomizeTabHost", prefix + "AppsCustomizeTabHost", prefix + "AppsCustomizeTabHost", prefix + "AppsCustomizeTabHost", prefix + "AppsCustomizeTabHost", prefix + "AppsCustomizeTabHost"}[idx];
+            SEARCH_DROP_TARGET_BAR = new String[]{prefix + "SearchDropTargetBar", prefix + "SearchDropTargetBar", prefix + "SearchDropTargetBar", prefix + "SearchDropTargetBar", prefix + "SearchDropTargetBar", prefix + "SearchDropTargetBar", prefix + "SearchDropTargetBar", prefix + "SearchDropTargetBar", prefix + "SearchDropTargetBar", prefix + "SearchDropTargetBar", prefix + "SearchDropTargetBar", prefix + "SearchDropTargetBar", prefix + "SearchDropTargetBar", prefix + "SearchDropTargetBar", prefix + "SearchDropTargetBar", prefix + "SearchDropTargetBar"}[idx];
+            DRAG_LAYER = new String[]{prefix + "DragLayer", prefix + "DragLayer", prefix + "DragLayer", prefix + "DragLayer", prefix + "DragLayer", prefix + "DragLayer", prefix + "DragLayer", prefix + "DragLayer", prefix + "DragLayer", prefix + "DragLayer", prefix + "DragLayer", prefix + "DragLayer", prefix + "DragLayer", prefix + "DragLayer", prefix + "DragLayer", prefix + "DragLayer"}[idx];
+            FOLDER = new String[]{prefix + "Folder", prefix + "Folder", prefix + "Folder", prefix + "Folder", prefix + "Folder", prefix + "Folder", prefix + "Folder", prefix + "Folder", prefix + "Folder", prefix + "Folder", prefix + "Folder", prefix + "Folder", prefix + "Folder", prefix + "Folder", prefix + "Folder", prefix + "Folder"}[idx];
+            FOLDER_ICON = new String[]{prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon"}[idx];
+            HOTSEAT = new String[]{prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat"}[idx];
+            BUBBLE_TEXT_VIEW = new String[]{prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView"}[idx];
+            GEL = new String[]{"com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL"}[idx];
+            RECOGNIZER_VIEW = new String[]{"com.google.android.search.shared.ui.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.apps.gsa.searchplate.RecognizerView", "com.google.android.apps.gsa.searchplate.RecognizerView", "com.google.android.apps.gsa.searchplate.RecognizerView", "com.google.android.apps.gsa.searchplate.RecognizerView", "com.google.android.apps.gsa.searchplate.RecognizerView"}[idx];
+            SEARCH_PLATE = new String[]{"com.google.android.search.shared.ui.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.apps.gsa.searchplate.SearchPlate", "com.google.android.apps.gsa.searchplate.SearchPlate", "com.google.android.apps.gsa.searchplate.SearchPlate", "com.google.android.apps.gsa.searchplate.SearchPlate", "com.google.android.apps.gsa.searchplate.SearchPlate"}[idx];
             DEVICE_PROFILE = new String[]{prefix + "DeviceProfile", "mz", "qi", "rj", "rj", "tu", "vg", "vg", prefix + "bq", prefix + "bq", prefix + "bq", prefix + "br", prefix + "br", prefix + "br", prefix + "ar"}[idx]; // All Device Profiles must have
             DYNAMIC_GRID = new String[]{prefix + "DynamicGrid", "nw", "rf", "sg", "sg", "ur", "wd", "wd", prefix + "cn", prefix + "cn", prefix + "cn", prefix + "co", prefix + "co", prefix + "co", prefix + "bf"}[idx]; // --------
             CELL_LAYOUT_CELL_INFO = new String[]{CELL_LAYOUT + "$CellInfo", "lz", "pi", "qj", "qj", "sy", "ue", "ue", prefix + "al", prefix + "al", prefix + "al", prefix + "am", prefix + "am", prefix + "am", prefix + "y"}[idx]; // Cell[view=
@@ -199,6 +200,14 @@ public class ObfuscationHelper extends HooksBaseClass {
             ADB = new String[]{"com.android.launcher3.compat.LauncherActivityInfoCompat", "", "adb", "aed", "aee", "ahh", "aiw", "aiw", prefix + "b.d", prefix + "b.d", prefix + "b.d", prefix + "b.d", prefix + "b.d", prefix + "b.d", prefix + "b.d"}[idx];
             USER_HANDLE = new String[]{"com.android.launcher3.compat.UserHandleCompat", "", "adl", "aen", "aeo", "ahw", "ajm", "ajm", prefix + "b.u", prefix + "b.u", prefix + "b.u", prefix + "b.u", prefix + "b.u", prefix + "b.u", prefix + "b.q"}[idx]; // last parameter in IconCache "cacheLocked"
 			WEATHER_POINT = new String[]{"com.google.geo.sidekick.Sidekick.WeatherEntry.WeatherPoint", "him", "ich", "ilp", "ilp", "aps", "aps", "ara", "com.google.android.apps.sidekick.e.ca", "com.google.android.apps.sidekick.e.ca", "com.google.android.apps.sidekick.e.ca", "", "", "", ""}[idx]; // getLocation in WeatherEntryAdapter // since GS 4.0 it's not the same class anymore but it does the same
+
+            if (Common.GNL_VERSION == GNL_4_9_22)
+            {
+                NOW_OVERLAY = "com.google.android.sidekick.shared.legacyclient.m";
+                SEARCH_OVERLAY_IMPL = "com.google.android.apps.gsa.search.shared.overlay.m";
+                GSA_CONFIG_FLAGS = "com.google.android.apps.gsa.search.core.b.n";
+                SEARCH_SETTINGS = "com.google.android.apps.gsa.search.core.b.u";
+            }
         }
     }
 
@@ -580,6 +589,17 @@ public class ObfuscationHelper extends HooksBaseClass {
                     {"Uk", "Ul", "Um"},
                     {"aai", "aaj", "aak"}
             }[idx]; // com.google.android.apps.gsa.searchplate.ClearOrVoiceButton
+
+            if (Common.GNL_VERSION == ObfuscationHelper.GNL_4_9_22)
+            {
+                covbMethods = new String[] {"aov", "aow", "aox"};
+                ssHotwordUsageStats = "XF";
+                ssFirstHotwordHintShownAt = "XG";
+                noOnShow = "I";
+                spOnModeChanged = "bh";
+                tmSetTransitionsEnabled = "eM";
+                wMoveToDefaultScreen = "aN";
+            }
         }
     }
 
@@ -759,6 +779,12 @@ public class ObfuscationHelper extends HooksBaseClass {
 
             if (Common.IS_L_TREBUCHET) {
                 btvShadowsEnabled = "mCustomShadowsEnabled";
+            }
+
+            if (Common.GNL_VERSION == ObfuscationHelper.GNL_4_9_22)
+            {
+                covbFields = new String[] {"rk", "ccE", "ccG", "ccH"};
+                spbMic = "cfv";
             }
 
 			clphHasPerformedLongPress = new String[]{"mHasPerformedLongPress", "wG", "zf", "zK", "zJ", "BV", "AS", "AS", "Gm", "Gl", "Gq", "Gw", "GH", "GH", "GG"}[idx]; // only boolean member
