@@ -599,6 +599,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 spOnModeChanged = "bh";
                 tmSetTransitionsEnabled = "eM";
                 wMoveToDefaultScreen = "aN";
+                soiSetSearchStarted = "ei";
             }
         }
     }
