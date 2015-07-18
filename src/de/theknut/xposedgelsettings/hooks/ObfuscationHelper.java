@@ -101,7 +101,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 FOLDER,
                 FOLDER_ICON,
                 HOTSEAT,
-                START_SETTINGS_ONCLICK,
+                START_SETTINGS_ON_CLICK,
                 DRAG_SOURCE,
                 ITEM_INFO,
                 APP_INFO,
@@ -114,7 +114,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 FOLDER_INFO,
                 LAUNCHER_MODEL,
                 APP_WIDGET_RESIZE_FRAME,
-                ITEM_CONFIGURATION,
+                CELL_LAYOUT_ITEM_CONFIGURATION,
                 LAUNCHER_APPWIDGET_INFO,
                 DRAG_LAYER,
                 LAUNCHER_APP_WIDGET_HOST_VIEW,
@@ -128,7 +128,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 RECOGNIZER_VIEW,
                 SEARCH_PLATE,
                 GEL_SEARCH_PLATE_CONTAINER,
-                TRANSITIONS_MANAGER,
+                SEARCH_PLATE_TRANSITIONS_MANAGER,
                 WEATHER_ENTRY_ADAPTER,
                 SEARCH_SETTINGS,
                 SEARCH_PLATE_BAR,
@@ -163,7 +163,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             CELL_LAYOUT_CELL_INFO = new String[]{CELL_LAYOUT + "$CellInfo", "lz", "pi", "qj", "qj", "sy", "ue", "ue", prefix + "al", prefix + "al", prefix + "al", prefix + "am", prefix + "am", prefix + "am", prefix + "y"}[idx]; // Cell[view=
             PAGED_VIEW_WITH_DRAGGABLE_ITEMS = new String[]{prefix + "PagedViewWithDraggableItems", "vl", "yw", "zy", "zy", "acr", "aed", "aed", prefix + "kx", prefix + "kx", prefix + "kx", prefix + "la", prefix + "la", prefix + "la", prefix + "en"}[idx]; // AppsCustomizePagedView extends
             WALLPAPER_OFFSET_INTERPOLATOR = new String[]{WORKSPACE + "$WallpaperOffsetInterpolator", "zd", "acp", "adr", "ads", "agt", "aih", "aih", prefix + "pa", prefix + "pa", prefix + "pa", prefix + "pc", prefix + "pc", prefix + "pc", prefix + "gj"}[idx]; // Error updating wallpaper offset
-            START_SETTINGS_ONCLICK = new String[]{ "", "pu", "td", "ue", "ue", "wt", "xz", "xz", prefix + "ek", prefix + "ek", prefix + "ek", prefix + "el", prefix + "el", prefix + "el", ""}[idx]; // in onCreate: "View localView3 = findViewById("
+            START_SETTINGS_ON_CLICK = new String[]{ "", "pu", "td", "ue", "ue", "wt", "xz", "xz", prefix + "ek", prefix + "ek", prefix + "ek", prefix + "el", prefix + "el", prefix + "el", ""}[idx]; // in onCreate: "View localView3 = findViewById("
             ITEM_INFO = new String[]{prefix + "ItemInfo", "pr", "ta", "ub", "ub", "wq", "xx", "xx", prefix + "ei", prefix + "ei", prefix + "ei", prefix + "ej", prefix + "ej", prefix + "ej", prefix + "ca"}[idx]; // Item(id=
             APP_INFO = new String[]{prefix + "AppInfo", "kr", "ob", "pc", "pc", "rr", "sx", "sx", prefix + "d", prefix + "d", prefix + "d", prefix + "d", prefix + "d", prefix + "d", prefix + "d"}[idx]; // ApplicationInfo
             SHORTCUT_INFO = new String[]{prefix + "ShortcutInfo", "vz", "zl", "aan", "aan", "ade", "aeq", "aeq", prefix + "li", prefix + "li", prefix + "li", prefix + "ll", prefix + "ll", prefix + "ll", prefix + "ex"}[idx]; // ShortcutInfo(title=
@@ -188,9 +188,9 @@ public class ObfuscationHelper extends HooksBaseClass {
             CACHE_ENTRY = new String[]{ICON_CACHE + "$CacheEntry", "pl", "st", "tu", "tu", "wj", "xp", "xp", prefix + "ea", prefix + "ea", prefix + "ea", prefix + "eb", prefix + "eb", prefix + "eb", prefix + "bt"}[idx]; // new HashMap(50)
             APP_WIDGET_RESIZE_FRAME = new String[]{prefix + "AppWidgetResizeFrame", "ks", "oc", "pd", "pd", "rs", "sy", "sy", prefix + "e", prefix + "e", prefix + "e", prefix + "e", prefix + "e", prefix + "e", prefix + "e"}[idx]; // in AppsCustomizePagedView first line below "if (i >= 17)"member initialization from Enum
 			PAGED_VIEW_CELL_LAYOUT = new String[]{prefix + "PagedViewCellLayout", "vd", "yo", "zq", "zq", "acl", "adx", "adx", prefix + "kr", prefix + "kr", prefix + "kr", prefix + "ku", prefix + "ku", prefix + "ku", prefix + "eh"}[idx]; // CellLayout cannot have UNSPECIFIED dimensions" the one with more members
-			ITEM_CONFIGURATION = new String[]{CELL_LAYOUT + "$ItemConfiguration", "ma", "pj", "qk", "qk", "sz", "uf", "uf", prefix + "am", prefix + "am", prefix + "am", prefix + "an", prefix + "an", prefix + "an", prefix + "z"}[idx]; // in CellLayout Math.abs(paramArrayOfInt[0]) last interface parameter
+            CELL_LAYOUT_ITEM_CONFIGURATION = new String[]{CELL_LAYOUT + "$ItemConfiguration", "ma", "pj", "qk", "qk", "sz", "uf", "uf", prefix + "am", prefix + "am", prefix + "am", prefix + "an", prefix + "an", prefix + "an", prefix + "z"}[idx]; // in CellLayout Math.abs(paramArrayOfInt[0]) last interface parameter
 			LAUNCHER_APP_WIDGET_HOST_VIEW = new String[]{prefix + "LauncherAppWidgetHostView", "ru", "ve", "wg", "wg", "yw", "aag", "aag", prefix + "gu", prefix + "gu", prefix + "gu", prefix + "gv", prefix + "gv", prefix + "gv", prefix + "cp"}[idx]; // in Workspace "getAppWidgetInfo"
-			TRANSITIONS_MANAGER = new String[]{"com.google.android.search.shared.ui.SearchPlate$TransitionsManager", "cen", "cog", "cwb", "cwb", "dsi", "egu", "egu", "com.google.android.search.searchplate.af", "com.google.android.search.searchplate.af", "com.google.android.search.searchplate.af", "com.google.android.apps.gsa.searchplate.ah", "com.google.android.apps.gsa.searchplate.ai", "com.google.android.apps.gsa.searchplate.ah", "com.google.android.apps.gsa.searchplate.l"}[idx]; // in SearchPlate: "(this, this);" "com.google.android.search.searchplate"
+            SEARCH_PLATE_TRANSITIONS_MANAGER = new String[]{"com.google.android.search.shared.ui.SearchPlate$TransitionsManager", "cen", "cog", "cwb", "cwb", "dsi", "egu", "egu", "com.google.android.search.searchplate.af", "com.google.android.search.searchplate.af", "com.google.android.search.searchplate.af", "com.google.android.apps.gsa.searchplate.ah", "com.google.android.apps.gsa.searchplate.ai", "com.google.android.apps.gsa.searchplate.ah", "com.google.android.apps.gsa.searchplate.l"}[idx]; // in SearchPlate: "(this, this);" "com.google.android.search.searchplate"
 
 			GEL_SEARCH_PLATE_CONTAINER = new String[]{"com.google.android.search.gel.GelSearchPlateContainer", "com.google.android.search.gel.GelSearchPlateContainer", "com.google.android.search.gel.GelSearchPlateContainer", "com.google.android.search.gel.GelSearchPlateContainer", "com.google.android.search.gel.GelSearchPlateContainer", "", "", "", "", "", "", "", "", "", ""}[idx];
 			PAGED_VIEW_ICON = new String[]{prefix + "PagedViewIcon", prefix + "PagedViewIcon", prefix + "PagedViewIcon", prefix + "PagedViewIcon", prefix + "PagedViewIcon", prefix + "PagedViewIcon", "", "", "", "", "", "", "", "", "", ""}[idx];
@@ -305,7 +305,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             FolderInfo = findClass(ClassNames.FOLDER_INFO, lpparam.classLoader);
             LauncherModel = findClass(ClassNames.LAUNCHER_MODEL, lpparam.classLoader);
             AppWidgetResizeFrame = findClass(ClassNames.APP_WIDGET_RESIZE_FRAME, lpparam.classLoader);
-            ItemConfiguration = findClass(ClassNames.ITEM_CONFIGURATION, lpparam.classLoader);
+            ItemConfiguration = findClass(ClassNames.CELL_LAYOUT_ITEM_CONFIGURATION, lpparam.classLoader);
             LauncherAppWidgetInfo = findClass(ClassNames.LAUNCHER_APPWIDGET_INFO, lpparam.classLoader);
             DragLayer = findClass(ClassNames.DRAG_LAYER, lpparam.classLoader);
             LauncherAppWidgetHostView = findClass(ClassNames.LAUNCHER_APP_WIDGET_HOST_VIEW, lpparam.classLoader);
@@ -328,7 +328,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 NowOverlay = findClass(ClassNames.NOW_OVERLAY, lpparam.classLoader);
                 SearchOverlayImpl = findClass(ClassNames.SEARCH_OVERLAY_IMPL, lpparam.classLoader);
                 GSAConfigFlags = findClass(ClassNames.GSA_CONFIG_FLAGS, lpparam.classLoader);
-                TransitionsManager = findClass(ClassNames.TRANSITIONS_MANAGER, lpparam.classLoader);
+                TransitionsManager = findClass(ClassNames.SEARCH_PLATE_TRANSITIONS_MANAGER, lpparam.classLoader);
                 RecognizerView = findClass(ClassNames.RECOGNIZER_VIEW, lpparam.classLoader);
                 SearchPlate = findClass(ClassNames.SEARCH_PLATE, lpparam.classLoader);
 
@@ -360,7 +360,7 @@ public class ObfuscationHelper extends HooksBaseClass {
 
                     if (Common.GNL_VERSION >= ObfuscationHelper.GNL_3_4_15
                             && Common.GNL_VERSION < ObfuscationHelper.GNL_4_8_10) {
-                        StartSettingsOnClick = findClass(ClassNames.START_SETTINGS_ONCLICK, lpparam.classLoader);
+                        StartSettingsOnClick = findClass(ClassNames.START_SETTINGS_ON_CLICK, lpparam.classLoader);
                     }
                 }
             }
