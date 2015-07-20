@@ -42,6 +42,7 @@ public class QuickSettingsL extends HooksBaseClass {
         try {
             // dirty, don't look at this...
             final Class<?> QSTile = findClass("com.android.systemui.qs.tiles.RotationLockTile", lpparam.classLoader);
+            final Class<?> AnimationIcon = findClass("com.android.systemui.qs.QSTile$ResourceIcon", lpparam.classLoader);
             final Class<?> QSTileHost = findClass("com.android.systemui.statusbar.phone.QSTileHost", lpparam.classLoader);
 
             XposedBridge.hookAllConstructors(QSTileHost, new XC_MethodHook() {
@@ -58,6 +59,7 @@ public class QuickSettingsL extends HooksBaseClass {
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     if (param.args[0].equals(LOCKDESKTOPTILE_KEY)) {
                         Object lockDesktopTile = newInstance(QSTile, param.thisObject);
+                        setAdditionalInstanceField(lockDesktopTile, LOCKDESKTOPTILE_KEY, true);
                         setAdditionalInstanceField(lockDesktopTile, LOCKDESKTOPTILE_KEY, true);
                         param.setResult(lockDesktopTile);
                     }
@@ -102,13 +104,39 @@ public class QuickSettingsL extends HooksBaseClass {
                                     ? R.string.quicksettings_desktop_locked
                                     : R.string.quicksettings_desktop_unlocked));
                     setObjectField(param.args[0], "contentDescription", getObjectField(param.args[0], "label"));
-                    setObjectField(param.args[0], "icon", XGELSResources.getDrawable(PreferencesHelper.lockHomescreen
-                            ? R.drawable.ic_qs_desktop_locked
-                            : R.drawable.ic_qs_desktop_unlocked_l));
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
+                        setObjectField(param.args[0], "icon", XGELSResources.getDrawable(PreferencesHelper.lockHomescreen
+                                ? R.drawable.ic_qs_desktop_locked
+                                : R.drawable.ic_qs_desktop_unlocked_l));
+                    }
+                    else {
+                        Object icon = getObjectField(param.args[0], "icon");
+                        if (icon == null) {
+                            Object animationIcon = newInstance(AnimationIcon, 0);
+                            setAdditionalInstanceField(animationIcon, LOCKDESKTOPTILE_KEY, true);
+                            setObjectField(param.args[0], "icon", animationIcon);
+                        }
+                    }
 
                     param.setResult(null);
                 }
             });
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                findAndHookMethod(AnimationIcon, "getDrawable", Context.class, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        if (getAdditionalInstanceField(param.thisObject, LOCKDESKTOPTILE_KEY) == null) {
+                            return;
+                        }
+
+                        param.setResult(XGELSResources.getDrawable(PreferencesHelper.lockHomescreen
+                                ? R.drawable.ic_qs_desktop_locked
+                                : R.drawable.ic_qs_desktop_unlocked_l));
+                    }
+                });
+            }
+
         } catch (Error cnfe) {
             log("That didn't work " + cnfe);
         } catch (Exception cnfe) {
