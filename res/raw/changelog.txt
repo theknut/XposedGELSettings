@@ -27,11 +27,24 @@
   </head>
   <body>
 
+$ 2.3.13
+  % Version 2.3.13
+  _ 2015-07-20
+
+  Please consider XGELS Premium to support the development of this app!<br>Thanks so much!<br><br>
+
+  !Improvement:
+    * support for Google Search 4.9.22
+
+  !Fixes for Android 5.1:
+    * invisible checkbox in app info
+    * lock desktop quick settings tile
+
 $ 2.3.12
   % Version 2.3.12
   _ 2015-07-16
 
-  Please consider XGELS Premium to support the development of this app!<br>Thanks so much!<br><br>Again, sorry for the delay! I've been to Croatia and the internet was a tremendously slow. I couldn't even load the Google Play Store. However, I managed to get free Wifi at some point but right after uploading the apk it completely crashed and nothing worked again. I'm home now, so everything will be fine :D<br><br>
+  Please consider XGELS Premium to support the development of this app!<br>Thanks so much!<br><br>
 
   !Added:
     * support for Google Search 4.9.22
@@ -39,7 +52,7 @@ $ 2.3.12
 % Version 2.3.11
   _ 2015-07-12
 
-  Please consider XGELS Premium to support the development of this app!<br>Thanks so much!<br><br>Again, sorry for the delay! I've been to Croatia and the internet was a tremendously slow. I couldn't even load the Google Play Store. However, I managed to get free Wifi at some point but right after uploading the apk it completely crashed and nothing worked again. I'm home now, so everything will be fine :D<br><br>
+  Please consider XGELS Premium to support the development of this app!<br>Thanks so much!<br><br>
 
   !Fixed:
   * fixed folder preview in app drawer
