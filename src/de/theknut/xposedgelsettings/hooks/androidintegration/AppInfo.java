@@ -7,11 +7,11 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.RelativeLayout;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -67,8 +67,9 @@ public class AppInfo extends HooksBaseClass {
                 CheckBox mNotificationSwitch = (CheckBox) getObjectField(param.thisObject, "mNotificationSwitch");
                 ViewGroup parent = (ViewGroup) mNotificationSwitch.getParent();
 
-                RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.androidsettingscheckbox, parent, true);
-                CheckBox checkbox = (CheckBox) view.findViewById(R.id.hide_app_switch);
+                CheckBox checkbox = new CheckBox(parent.getContext());
+                checkbox.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+                checkbox.setText(XGELSContext.getResources().getString(R.string.hide_app_switch_label));
                 checkbox.setTag(launchIntent.getComponent().flattenToString());
                 checkbox.setChecked(hiddenApps.contains(checkbox.getTag()));
                 checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -94,6 +95,8 @@ public class AppInfo extends HooksBaseClass {
                         Utils.saveToSettings(SettingsContext, key, hiddenApps, true);
                     }
                 });
+
+                parent.addView(checkbox);
             }
         });
     }
