@@ -27,6 +27,26 @@
   </head>
   <body>
 
+$ 2.3.15
+  % Version 2.3.15
+  _ 2015-08-08
+
+  My honest apologies to everyone who got an "Invalid purchase detected" message after buying XGELS Premium. Google has changed their IAP responses and I have noticed it just now. This would not have been necessary if people wouldn't try to hack XGELS. So again, my apologies!<br><br><b>Please update your Google Play review!</b><br><br>
+  Please consider XGELS Premium to support the development of this app!<br>Thanks so much!<br><br>
+
+  !Added:
+      * support for Google Search 5.1.15
+
+$ 2.3.14
+  % Version 2.3.14
+  _ 2015-08-05
+
+  My honest apologies to everyone who got an "Invalid purchase detected" message after buying XGELS Premium. Google has changed their IAP responses and I have noticed it just now. This would not have been necessary if people wouldn't try to hack XGELS. So again, my apologies! Please update your Google Play review!<br><br>
+  Please consider XGELS Premium to support the development of this app!<br>Thanks so much!<br><br>
+
+  !Fixed:
+    * IAP validation
+
 $ 2.3.13
   % Version 2.3.13
   _ 2015-07-20
