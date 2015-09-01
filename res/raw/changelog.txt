@@ -27,6 +27,16 @@
   </head>
   <body>
 
+$ 2.3.16
+  % Version 2.3.16
+  _ 2015-09-02
+
+  This is only a partial update to support the latest version of Google App. Due to changes on the search bar I'll have to dig deeper to restore full functionality. Stay tuned!<br><br>
+  Please consider XGELS Premium to support the development of this app!<br>Thanks so much!<br><br>
+
+  !Added:
+      * partial support for Google Search 5.2.33
+
 $ 2.3.15
   % Version 2.3.15
   _ 2015-08-08

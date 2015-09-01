@@ -77,13 +77,15 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
                     // show Google Search Bar on GEL sidekick - needed if GNow isn't accessed from the homescreen
                     CommonHooks.OnNowShowListeners.add(new OnShowNowOverlayHook());
 
-                    // avoid that nasty animation when showing the search bar again
-                    findAndHookMethod(Classes.TransitionsManager, Methods.tmSetTransitionsEnabled, boolean.class, new XC_MethodHook() {
-                        @Override
-                        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                            param.args[0] = false;
-                        }
-                    });
+                    if (Common.GNL_VERSION < ObfuscationHelper.GNL_5_2_33) {
+                        // avoid that nasty animation when showing the search bar again
+                        findAndHookMethod(Classes.TransitionsManager, Methods.tmSetTransitionsEnabled, boolean.class, new XC_MethodHook() {
+                            @Override
+                            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                                param.args[0] = false;
+                            }
+                        });
+                    }
                 }
 
                 // show when doing a Google search
@@ -97,7 +99,7 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
 
         if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE)) {
             if (Common.GNL_VERSION >= ObfuscationHelper.GNL_4_2_16) {
-                if (PreferencesHelper.alwaysShowSayOKGoogle) {
+                if (false && PreferencesHelper.alwaysShowSayOKGoogle) {
                     findAndHookMethod(Classes.SearchSettings, Methods.ssHotwordUsageStats, XC_MethodReplacement.returnConstant(""));
                     findAndHookMethod(Classes.SearchSettings, Methods.ssFirstHotwordHintShownAt, XC_MethodReplacement.returnConstant(0L));
                 }
