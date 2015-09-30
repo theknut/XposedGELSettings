@@ -62,7 +62,7 @@ public class FragmentSearchbar extends FragmentBase {
             int versionCode = mContext.getPackageManager().getPackageInfo(Common.GEL_PACKAGE, 0).versionCode;
             if (versionCode == ObfuscationHelper.GNL_4_1_21) {
                 getPreferenceScreen().removePreference(findPreference("searchbarstyle"));
-            } else if (versionCode >= ObfuscationHelper.GNL_4_0_26) {
+            } else if (versionCode >= ObfuscationHelper.GNL_4_0_26 && versionCode < ObfuscationHelper.GNL_5_3_23) {
                 getPreferenceScreen().removePreference(findPreference("searchbarstyle"));
             } else if (versionCode < ObfuscationHelper.GNL_4_2_16) {
                 getPreferenceScreen().removePreference(findPreference("searchbarprimarycolor"));

@@ -82,10 +82,10 @@ public class ContextMenu extends HooksBaseClass{
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     int WIDGET = 0;
-                    if ((Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION >= ObfuscationHelper.GNL_4_2_16)
+                    if ((Common.PACKAGE_OBFUSCATED && Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_4_2_16)
                             || !Common.PACKAGE_OBFUSCATED) {
                         WIDGET = 1;
-                    } else if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION < ObfuscationHelper.GNL_4_2_16) {
+                    } else if (Common.PACKAGE_OBFUSCATED && Common.GNL_PACKAGE_INFO.versionCode < ObfuscationHelper.GNL_4_2_16) {
                         WIDGET = 0;
                     }
 
@@ -101,9 +101,12 @@ public class ContextMenu extends HooksBaseClass{
                 }
             };
 
-            if (Common.GNL_VERSION >= ObfuscationHelper.GNL_4_2_16) {
+            if (Common.IS_GNL && Common.IS_M_GNL) {
+
+            } else if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_4_2_16) {
                 findAndHookMethod(Classes.DragLayer, Methods.dlAddResizeFrame, Classes.ItemInfo, Classes.LauncherAppWidgetHostView, Classes.CellLayout, addResizeFrameHook);
-            } else if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION < ObfuscationHelper.GNL_4_2_16) {
+            }
+            else if (Common.PACKAGE_OBFUSCATED && Common.GNL_PACKAGE_INFO.versionCode < ObfuscationHelper.GNL_4_2_16) {
                 findAndHookMethod(Classes.DragLayer, Methods.dlAddResizeFrame, Classes.LauncherAppWidgetHostView, Classes.CellLayout, addResizeFrameHook);
             } else {
                 findAndHookMethod(Classes.DragLayer, Methods.dlAddResizeFrame, Classes.ItemInfo, Classes.LauncherAppWidgetHostView, Classes.CellLayout, addResizeFrameHook);
@@ -560,7 +563,7 @@ public class ContextMenu extends HooksBaseClass{
 
                 setAdditionalInstanceField(longPressedItem, "resize", true);
 
-                if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION < ObfuscationHelper.GNL_4_2_16) {
+                if (Common.PACKAGE_OBFUSCATED && Common.GNL_PACKAGE_INFO.versionCode < ObfuscationHelper.GNL_4_2_16) {
                     callMethod(getDragLayer(), Methods.dlAddResizeFrame, longPressedItem, longPressedItem.getParent().getParent());
                 } else {
                     callMethod(getDragLayer(), Methods.dlAddResizeFrame, longPressedItem.getTag(), longPressedItem, longPressedItem.getParent().getParent());
@@ -745,7 +748,7 @@ public class ContextMenu extends HooksBaseClass{
     }
 
     private static ViewGroup getDragLayer() {
-        return (ViewGroup) callMethod(Common.LAUNCHER_INSTANCE, Methods.lGetDragLayer);
+        return Common.DRAG_LAYER;
     }
 
     private static void removeContextMenu() {

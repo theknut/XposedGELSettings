@@ -61,6 +61,7 @@
     <string-array name="searchbarstyle_entries">
         <item>Predvolený</item>
         <item>Štýl Androidu L</item>
+        <item>Štýl Androidu M</item>
     </string-array>
     
     <string-array name="contextmenu_mode_entries">

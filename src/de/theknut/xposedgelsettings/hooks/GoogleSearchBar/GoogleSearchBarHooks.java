@@ -33,6 +33,7 @@ import de.theknut.xposedgelsettings.hooks.googlesearchbar.weatherwidget.WeatherW
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
+import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
 public class GoogleSearchBarHooks extends HooksBaseClass {
 
@@ -77,7 +78,7 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
                     // show Google Search Bar on GEL sidekick - needed if GNow isn't accessed from the homescreen
                     CommonHooks.OnNowShowListeners.add(new OnShowNowOverlayHook());
 
-                    if (Common.GNL_VERSION < ObfuscationHelper.GNL_5_2_33) {
+                    if (Common.GNL_PACKAGE_INFO.versionCode < ObfuscationHelper.GNL_5_2_33) {
                         // avoid that nasty animation when showing the search bar again
                         findAndHookMethod(Classes.TransitionsManager, Methods.tmSetTransitionsEnabled, boolean.class, new XC_MethodHook() {
                             @Override
@@ -98,10 +99,14 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
         }
 
         if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE)) {
-            if (Common.GNL_VERSION >= ObfuscationHelper.GNL_4_2_16) {
-                if (false && PreferencesHelper.alwaysShowSayOKGoogle) {
-                    findAndHookMethod(Classes.SearchSettings, Methods.ssHotwordUsageStats, XC_MethodReplacement.returnConstant(""));
-                    findAndHookMethod(Classes.SearchSettings, Methods.ssFirstHotwordHintShownAt, XC_MethodReplacement.returnConstant(0L));
+            final int color = Color.WHITE;
+            final int darkerColor = 0xFFF4F4F4;
+
+            if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_4_2_16) {
+                if (PreferencesHelper.alwaysShowSayOKGoogle
+                        && Common.GNL_PACKAGE_INFO.versionCode < ObfuscationHelper.GNL_5_2_33
+                        && Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23) {
+                    findAndHookMethod(Classes.SearchSettings, Methods.ssFirstHotwordHintShownAt, XC_MethodReplacement.returnConstant(true));
                 }
 
                 XposedBridge.hookAllConstructors(Classes.SearchPlateBar, new XC_MethodHook() {
@@ -112,23 +117,50 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
                     }
                 });
 
+                findAndHookMethod(Classes.SearchPlate, "onFinishInflate", new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        int logoid = 0;
+                        ViewGroup searchPlate = (ViewGroup) param.thisObject;
+                        Resources resources = searchPlate.getContext().getResources();
+
+                        ImageView logo = (ImageView) searchPlate.findViewById(resources.getIdentifier("launcher_search_button", "id", Common.HOOKED_PACKAGE));
+                        ImageView mic = (ImageView) searchPlate.findViewById(resources.getIdentifier("clear_or_voice_button", "id", Common.HOOKED_PACKAGE));
+
+                        switch (PreferencesHelper.searchbarStyle) {
+                            case 1:
+                                logoid = R.drawable.ic_searchbox_google;
+                                Drawable d = Common.XGELSCONTEXT.getResources().getDrawable(R.drawable.ic_mic_dark);
+
+                                if (Utils.getContrastColor(PreferencesHelper.searchbarPrimaryColor) == Color.WHITE) {
+                                    logoid = R.drawable.ic_google_small_light;
+                                    d = Common.XGELSCONTEXT.getResources().getDrawable(R.drawable.ic_mic_m_white);
+                                    setObjectField(mic, Fields.covbFields[2], d);
+                                    setObjectField(mic, Fields.covbFields[3], d);
+                                }
+
+                                mic.setImageDrawable(d);
+                                break;
+                            case 2:
+                                logoid = R.drawable.ic_google_logo_m;
+                                mic.setImageDrawable(Common.XGELSCONTEXT.getResources().getDrawable(R.drawable.ic_mic_m));
+                                break;
+                        }
+
+                        logo.setImageDrawable(Common.XGELSCONTEXT.getResources().getDrawable(logoid));
+                        setObjectField(mic, Fields.covbFields[3], mic.getDrawable());
+                    }
+                });
+
                 if (Utils.getContrastColor(PreferencesHelper.searchbarPrimaryColor) == Color.WHITE) {
 
-                    final int color = Color.WHITE;
-                    final int darkerColor = 0xFFF4F4F4;
-
-                    findAndHookMethod(Classes.SearchPlate, "onFinishInflate", new XC_MethodHook() {
+                    findAndHookMethod(Classes.SearchPlate, "onFinishInflate", new XC_MethodHook(PRIORITY_HIGHEST) {
                         @Override
                         protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                             ViewGroup searchPlate = (ViewGroup) param.thisObject;
                             Resources resources = searchPlate.getContext().getResources();
 
-                            int id = resources.getIdentifier("launcher_search_button", "id", Common.HOOKED_PACKAGE);
-                            if (id != 0) {
-                                ((ImageView) searchPlate.findViewById(id)).setImageDrawable(Common.XGELSCONTEXT.getResources().getDrawable(R.drawable.ic_google_small_light));
-                            }
-
-                            id = resources.getIdentifier("search_box", "id", Common.HOOKED_PACKAGE);
+                            int id = resources.getIdentifier("search_box", "id", Common.HOOKED_PACKAGE);
                             if (id != 0) {
                                 EditText simpleSearchText = (EditText) searchPlate.findViewById(id);
                                 simpleSearchText.setTextColor(color);
@@ -140,21 +172,25 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
                                 ((TextView) searchPlate.findViewById(id)).setTextColor(darkerColor);
                             }
 
-                            id = resources.getIdentifier("clear_or_voice_button", "id", Common.HOOKED_PACKAGE);
-                            if (id != 0) {
-                                View clearOrVoiceButton = searchPlate.findViewById(id);
+                            if (Common.GNL_PACKAGE_INFO.versionCode < ObfuscationHelper.GNL_5_3_23) {
+                                id = resources.getIdentifier("clear_or_voice_button", "id", Common.HOOKED_PACKAGE);
+                                if (id != 0) {
+                                    View clearOrVoiceButton = searchPlate.findViewById(id);
 
-                                if (Common.GNL_VERSION >= ObfuscationHelper.GNL_4_7_12
-                                    || Common.GNL_VERSION == ObfuscationHelper.GNL_4_7_13) {
-                                    callMethod(clearOrVoiceButton, Methods.covbMethods[0]);
-                                    callMethod(clearOrVoiceButton, Methods.covbMethods[1]);
-                                    callMethod(clearOrVoiceButton, Methods.covbMethods[2]);
+                                    if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_4_7_12
+                                            || Common.GNL_PACKAGE_INFO.versionCode == ObfuscationHelper.GNL_4_7_13) {
+                                        callMethod(clearOrVoiceButton, Methods.covbMethods[0]);
+                                        callMethod(clearOrVoiceButton, Methods.covbMethods[1]);
+                                        callMethod(clearOrVoiceButton, Methods.covbMethods[2]);
+                                    }
+
+                                    Paint paint = (Paint) getObjectField(clearOrVoiceButton, Fields.covbFields[0]);
+                                    if (paint != null)
+                                        paint.setColor(darkerColor);
+                                    ((Drawable) getObjectField(clearOrVoiceButton, Fields.covbFields[1])).setColorFilter(color, PorterDuff.Mode.MULTIPLY);
+                                    ((Drawable) getObjectField(clearOrVoiceButton, Fields.covbFields[2])).setColorFilter(color, PorterDuff.Mode.MULTIPLY);
+                                    ((Drawable) getObjectField(clearOrVoiceButton, Fields.covbFields[3])).setColorFilter(color, PorterDuff.Mode.MULTIPLY);
                                 }
-
-                                ((Paint) getObjectField(clearOrVoiceButton, Fields.covbFields[0])).setColor(darkerColor);
-                                ((Drawable) getObjectField(clearOrVoiceButton, Fields.covbFields[1])).setColorFilter(color, PorterDuff.Mode.MULTIPLY);
-                                ((Drawable) getObjectField(clearOrVoiceButton, Fields.covbFields[2])).setColorFilter(color, PorterDuff.Mode.MULTIPLY);
-                                ((Drawable) getObjectField(clearOrVoiceButton, Fields.covbFields[3])).setColorFilter(color, PorterDuff.Mode.MULTIPLY);
                             }
                         }
                     });
@@ -177,7 +213,7 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
                 findAndHookMethod(Classes.GelSearchPlateContainer, Methods.spSetProximityToNow, float.class, proximityToNowHook);
             }
 
-            if (Common.GNL_VERSION > ObfuscationHelper.GNL_4_0_26) {
+            if (Common.GNL_PACKAGE_INFO.versionCode > ObfuscationHelper.GNL_4_0_26) {
                 WeatherWidget.initAllHooks(lpparam);
             }
         }
@@ -213,7 +249,7 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
         // Layout the search bar
         View qsbBar;
 
-        if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION >= ObfuscationHelper.GNL_4_1_21) {
+        if (Common.PACKAGE_OBFUSCATED && Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_4_1_21) {
             qsbBar = (View) getObjectField(searchBar, Fields.sdtbQsbBar);
         } else {
             qsbBar = (View) callMethod(Common.LAUNCHER_INSTANCE, Methods.lGetQsbBar);

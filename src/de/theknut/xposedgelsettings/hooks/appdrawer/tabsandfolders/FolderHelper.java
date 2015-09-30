@@ -361,9 +361,8 @@ public final class FolderHelper {
     }
 
     public Folder findOpenFolder() {
-        ViewGroup dragLayer = (ViewGroup) callMethod(Common.LAUNCHER_INSTANCE, Methods.lGetDragLayer);
-        for (int i = 0; i < dragLayer.getChildCount(); i++) {
-            View child = dragLayer.getChildAt(i);
+        for (int i = 0; i < Common.DRAG_LAYER.getChildCount(); i++) {
+            View child = Common.DRAG_LAYER.getChildAt(i);
             if (child.getClass().equals(Classes.Folder)) {
                 long id = getLongField(getObjectField(child, Fields.fFolderInfo), Fields.iiID);
                 return FolderHelper.getInstance().getFolder(id);

@@ -25,11 +25,13 @@ import java.util.ArrayList;
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.Utils;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
+import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
 public class NotificationBadgesHelper extends HooksBaseClass {
 
@@ -137,7 +139,7 @@ public class NotificationBadgesHelper extends HooksBaseClass {
                 protected Void doInBackground(Void... params) {
                     ArrayList cellLayouts = (ArrayList) callMethod(Common.WORKSPACE_INSTANCE, Methods.wGetWorkspaceAndHotseatCellLayouts);
                     for (Object layoutParent : cellLayouts) {
-                        ViewGroup layout = (ViewGroup) callMethod(layoutParent, Methods.clGetShortcutsAndWidgets);
+                        ViewGroup layout = (ViewGroup) getObjectField(layoutParent, Fields.clShortcutsAndWidgets);
                         int childCount = layout.getChildCount();
                         for (int i = 0; i < childCount; ++i) {
                             layout.getChildAt(i).postInvalidate();

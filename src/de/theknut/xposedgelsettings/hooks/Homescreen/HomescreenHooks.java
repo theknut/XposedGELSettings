@@ -36,7 +36,11 @@ public class HomescreenHooks extends HooksBaseClass {
         findAndHookMethod(Classes.Workspace, Methods.wMoveToDefaultScreen, boolean.class,new MoveToDefaultScreenHook());
 
         // modify homescreen grid
-        CommonHooks.DeviceProfileConstructorListeners.add(new DeviceProfileConstructorHook());
+        CommonHooks.DeviceProfileConstructorListeners.add(
+                Common.IS_GNL && Common.IS_M_GNL
+                        ? new DeviceProfileMConstructorHook()
+                        : new DeviceProfileLConstructorHook()
+        );
 
         if (!Common.IS_PRE_GNL_4) {
             findAndHookMethod(Classes.Folder, "onFinishInflate", new XC_MethodHook() {
@@ -102,8 +106,14 @@ public class HomescreenHooks extends HooksBaseClass {
             XposedBridge.hookAllMethods(Classes.Launcher, "onFinishBindingItems", new FinishBindingItemsHook());
         }
         else {
-            // move to default homescreen after workspace has finished loading
-            findAndHookMethod(Classes.Launcher, Methods.lFinishBindingItems, boolean.class, new FinishBindingItemsHook());
+            if (Common.IS_GNL && Common.IS_M_GNL){
+                // move to default homescreen after workspace has finished loading
+                findAndHookMethod(Classes.Launcher, Methods.lFinishBindingItems, new FinishBindingItemsHook());
+            }
+            else {
+                // move to default homescreen after workspace has finished loading
+                findAndHookMethod(Classes.Launcher, Methods.lFinishBindingItems, boolean.class, new FinishBindingItemsHook());
+            }
         }
 
         if (PreferencesHelper.smartFolderMode != 0) {
@@ -116,15 +126,22 @@ public class HomescreenHooks extends HooksBaseClass {
             XposedBridge.hookAllConstructors(Classes.Folder, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    float countX;
 
-                    setIntField(param.thisObject, Fields.fMaxCountX, Math.round(getFloatField(Common.DEVICE_PROFIL, Fields.dpNumCols)));
+                    if (Common.IS_M_GNL) {
+                        countX = getFloatField(getObjectField(Common.DEVICE_PROFIL, "inv"), Fields.dpNumCols);
+                    } else {
+                        countX = getFloatField(Common.DEVICE_PROFIL, Fields.dpNumCols);
+                    }
+
+                    setIntField(param.thisObject, Fields.fMaxCountX, Math.round(countX));
                     setIntField(param.thisObject, Fields.fMaxCountY, Integer.MAX_VALUE);
                     setIntField(param.thisObject, Fields.fMaxNumItems, Integer.MAX_VALUE);
                 }
             });
 
             // very dirty hack :(
-            if (!Common.IS_KK_TREBUCHET) {
+            if (false && !Common.IS_KK_TREBUCHET) {
                 findAndHookMethod(Classes.Folder, "onMeasure", Integer.TYPE, Integer.TYPE, new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {

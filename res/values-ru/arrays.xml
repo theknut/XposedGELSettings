@@ -53,6 +53,7 @@
     <string-array name="searchbarstyle_entries">
         <item>По умолчанию</item>
         <item>Android L стиль</item>
+        <item>Android M стиль</item>
     </string-array>
     <string-array name="smartfoldermode_entries">
         <item>Отключено</item>

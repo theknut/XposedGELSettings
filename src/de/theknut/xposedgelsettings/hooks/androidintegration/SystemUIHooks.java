@@ -292,7 +292,7 @@ public class SystemUIHooks extends HooksBaseClass {
             }
         });
 
-        findAndHookMethod(Classes.Launcher, Methods.lShowWorkspace, boolean.class, Runnable.class, new XC_MethodHook() {
+        XC_MethodHook hook = new XC_MethodHook() {
 
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
@@ -326,7 +326,13 @@ public class SystemUIHooks extends HooksBaseClass {
                     Common.LAUNCHER_CONTEXT.sendBroadcast(myIntent);
                 }
             }
-        });
+        };
+
+        if (Common.IS_GNL && Common.IS_M_GNL) {
+            findAndHookMethod(Classes.Launcher, Methods.lShowWorkspace, Integer.TYPE, boolean.class, Runnable.class, hook);
+        } else {
+            findAndHookMethod(Classes.Launcher, Methods.lShowWorkspace, boolean.class, Runnable.class, hook);
+        }
 
         XposedBridge.hookAllMethods(Classes.Launcher, Methods.wMoveToCustomContentScreen, new XC_MethodHook() {
 

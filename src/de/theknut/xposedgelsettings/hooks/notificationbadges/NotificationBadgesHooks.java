@@ -81,7 +81,12 @@ public class NotificationBadgesHooks extends NotificationBadgesHelper {
         };
 
         findAndHookMethod(Classes.Workspace, Methods.wOnDragEnd, requestCountersHook);
-        findAndHookMethod(Classes.Launcher, Methods.lFinishBindingItems, boolean.class, requestCountersHook);
+        if (Common.IS_GNL && Common.IS_M_GNL) {
+            findAndHookMethod(Classes.Launcher, Methods.lFinishBindingItems, requestCountersHook);
+        } else
+        {
+            findAndHookMethod(Classes.Launcher, Methods.lFinishBindingItems, boolean.class, requestCountersHook);
+        }
 
         CommonHooks.OnLauncherTransitionEndListeners.add(new XGELSCallback() {
 

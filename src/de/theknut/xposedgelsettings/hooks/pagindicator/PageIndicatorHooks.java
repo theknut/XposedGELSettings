@@ -15,7 +15,6 @@ import de.theknut.xposedgelsettings.hooks.Utils;
 import de.theknut.xposedgelsettings.hooks.common.CommonHooks;
 import de.theknut.xposedgelsettings.hooks.common.XGELSCallback;
 
-import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
@@ -62,10 +61,9 @@ public class PageIndicatorHooks {
                 CommonHooks.LauncherOnCreateListeners.add(new XGELSCallback() {
                     @Override
                     public void onAfterHookedMethod(MethodHookParam param) throws Throwable {
-                        ViewGroup dragLayer = (ViewGroup) callMethod(Common.LAUNCHER_INSTANCE, Methods.lGetDragLayer);
                         int id = Common.LAUNCHER_CONTEXT.getResources().getIdentifier("page_indicator", "id", Common.HOOKED_PACKAGE);
                         if (id != 0) {
-                            dragLayer.findViewById(id).getLayoutParams().height = 0;
+                            Common.DRAG_LAYER.findViewById(id).getLayoutParams().height = 0;
                         }
                     }
                 });
@@ -80,7 +78,7 @@ public class PageIndicatorHooks {
                 // reduce the bottom margin height in app drawer
                 if (Common.IS_KK_TREBUCHET) {
                     findAndHookMethod(Classes.AppsCustomizeLayout, Methods.acthSetInsets, Rect.class, new SetInsetsHook(true));
-                } else if (Common.GNL_VERSION < ObfuscationHelper.GNL_4_0_26) {
+                } else if (Common.GNL_PACKAGE_INFO.versionCode < ObfuscationHelper.GNL_4_0_26) {
                     findAndHookMethod(Classes.AppsCustomizeTabHost, Methods.acthSetInsets, Rect.class, new SetInsetsHook(false));
                 }
             break;

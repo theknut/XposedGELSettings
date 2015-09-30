@@ -32,7 +32,7 @@ public abstract class TabHelper extends HooksBaseClass {
     abstract public boolean handleScroll(float overscroll);
 
     public void updateTabs() {
-        if (Common.IS_KK_TREBUCHET) return;
+        if (Common.IS_KK_TREBUCHET || (Common.IS_GNL && Common.IS_M_GNL)) return;
 
         for (Tab tab : tabs) {
             tab.update();

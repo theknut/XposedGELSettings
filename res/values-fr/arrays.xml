@@ -30,6 +30,7 @@
     <string-array name="searchbarstyle_entries">
         <item>Défaut</item>
         <item>Style Android L</item>
+        <item>Style Android M</item>
     </string-array>
 
     <string-array name="gesture_actions_entries">

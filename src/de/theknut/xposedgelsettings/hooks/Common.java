@@ -2,7 +2,9 @@ package de.theknut.xposedgelsettings.hooks;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,6 +50,8 @@ public final class Common {
 
     // the name of the settings file
     public static final String PREFERENCES_NAME = Common.PACKAGE_NAME + "_preferences";
+    public static boolean IS_GNL;
+    public static boolean IS_M_GNL = false;
 
     // the package we are currently hooked to
     public static String HOOKED_PACKAGE;
@@ -57,6 +61,7 @@ public final class Common {
     public static Object WORKSPACE_INSTANCE;
     public static Object HOTSEAT_INSTANCE;
     public static View APP_DRAWER_INSTANCE;
+    public static ViewGroup DRAG_LAYER;
 
     public static Context LAUNCHER_CONTEXT;
     public static Context XGELSCONTEXT;
@@ -76,7 +81,6 @@ public final class Common {
     public static int APPDRAWER_LAST_TAB_POSITION = 0;
 
     public static boolean PACKAGE_OBFUSCATED;
-    public static int GNL_VERSION;
 
     public static final List<String> PACKAGE_NAMES = new ArrayList<String>(Arrays.asList("com.android.launcher3", Common.GEL_PACKAGE, Common.TREBUCHET_PACKAGE));
 
@@ -97,4 +101,5 @@ public final class Common {
     public static int APP_DRAWER_ICON_SIZE = -1;
     public static Object DEVICE_PROFIL;
     public static ArrayList ALL_APPS;
+    public static PackageInfo GNL_PACKAGE_INFO;
 }

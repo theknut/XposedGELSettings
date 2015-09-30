@@ -31,6 +31,7 @@
     <string-array name="searchbarstyle_entries">
         <item>默认</item>
         <item>Android L 样式</item>
+        <item>Android M 样式</item>
     </string-array>
 
 

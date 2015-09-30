@@ -30,6 +30,7 @@
     <string-array name="searchbarstyle_entries">
         <item>Varsayılan</item>
         <item>Android L tarzı</item>
+        <item>Android M tarzı</item>
     </string-array>
 
     <string-array name="gesture_actions_entries">

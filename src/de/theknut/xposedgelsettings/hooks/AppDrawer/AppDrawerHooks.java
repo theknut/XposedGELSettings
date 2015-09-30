@@ -91,7 +91,7 @@ public class AppDrawerHooks extends HooksBaseClass {
             }
         }
 
-        if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION < ObfuscationHelper.GNL_5_2_33) {
+        if (Common.PACKAGE_OBFUSCATED && Common.GNL_PACKAGE_INFO.versionCode < ObfuscationHelper.GNL_5_2_33) {
             // possible fix for folder not completely opening
             findAndHookMethod(Classes.Folder, "b", Classes.Folder, new XC_MethodHook() {
                 @Override

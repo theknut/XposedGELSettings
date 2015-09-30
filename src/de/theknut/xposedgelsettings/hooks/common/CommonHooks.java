@@ -54,7 +54,7 @@ public class CommonHooks {
         }
 
         if (OnDragStartListeners.size() != 0) {
-            if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION >= ObfuscationHelper.GNL_4_2_16) {
+            if (Common.PACKAGE_OBFUSCATED && Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_4_2_16) {
                 // this is actually not DragSource but the parameter type is unknown as of now
                 findAndHookMethod(Classes.SearchDropTargetBar, Methods.sdtbOnDragStart, Classes.DragSource, Object.class, Integer.TYPE, new XGELSHook(OnDragStartListeners));
             } else if (Common.PACKAGE_OBFUSCATED) {
@@ -79,7 +79,11 @@ public class CommonHooks {
             findAndHookMethod(Classes.Launcher, "onStart", new XGELSHook(LauncherOnStartListeners));
         }
         if (LauncherFinishBindingItems.size() != 0) {
-            findAndHookMethod(Classes.Launcher, Methods.lFinishBindingItems, boolean.class, new XGELSHook(LauncherFinishBindingItems));
+            if (Common.IS_GNL && Common.IS_M_GNL) {
+                findAndHookMethod(Classes.Launcher, Methods.lFinishBindingItems, new XGELSHook(LauncherFinishBindingItems));
+            } else {
+                findAndHookMethod(Classes.Launcher, Methods.lFinishBindingItems, boolean.class, new XGELSHook(LauncherFinishBindingItems));
+            }
         }
         if (LauncherOnCreateListeners.size() != 0) {
             XposedBridge.hookAllMethods(Classes.Launcher, "onCreate", new XGELSHook(LauncherOnCreateListeners));
@@ -106,7 +110,10 @@ public class CommonHooks {
             findAndHookMethod(Classes.NowOverlay, Methods.noOnShow, boolean.class, boolean.class, new XGELSHook(OnNowShowListeners));
         }
         if (GetWorkspacePaddingListeners.size() != 0) {
-            findAndHookMethod(Classes.DeviceProfile, Methods.dpGetWorkspacePadding, Integer.TYPE, new XGELSHook(GetWorkspacePaddingListeners));
+            if (Common.IS_GNL && Common.IS_M_GNL)
+                findAndHookMethod(Classes.DeviceProfile, Methods.dpGetWorkspacePadding, boolean.class, new XGELSHook(GetWorkspacePaddingListeners));
+            else
+                findAndHookMethod(Classes.DeviceProfile, Methods.dpGetWorkspacePadding, Integer.TYPE, new XGELSHook(GetWorkspacePaddingListeners));
         }
         if (FolderIconDispatchDrawListeners.size() != 0) {
             findAndHookMethod(Classes.FolderIcon, "dispatchDraw", Canvas.class, new XGELSHook(FolderIconDispatchDrawListeners));

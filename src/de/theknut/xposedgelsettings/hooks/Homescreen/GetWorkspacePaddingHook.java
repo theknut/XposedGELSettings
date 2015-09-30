@@ -8,6 +8,7 @@ import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.common.XGELSCallback;
 
 import static de.robv.android.xposed.XposedHelpers.getIntField;
+import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setIntField;
 
 public class GetWorkspacePaddingHook extends XGELSCallback {
@@ -30,13 +31,14 @@ public class GetWorkspacePaddingHook extends XGELSCallback {
 
     @Override
     public void onAfterHookedMethod(MethodHookParam param) throws Throwable {
-
         // 0 = landscape
         // 1 = portrait
         int orientation;
 
         if (param.args.length == 0) {
             orientation = 1;
+        } else if (param.args[0] instanceof Boolean) {
+            orientation = (!(Boolean) getObjectField(param.thisObject, "isLandscape")) ? 1 : 0;
         } else {
             orientation = (Integer) param.args[0];
         }

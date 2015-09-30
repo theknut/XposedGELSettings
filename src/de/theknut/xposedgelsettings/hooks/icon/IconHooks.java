@@ -167,6 +167,7 @@ public class IconHooks extends HooksBaseClass {
 
             final int COMPONENTNAME = 0;
             final int LABELCACHE = 2;
+            final int LAUNCHERACTIVITYINFO = 1;
             long time;
 
             @Override
@@ -174,7 +175,6 @@ public class IconHooks extends HooksBaseClass {
                 time = System.currentTimeMillis();
                 if (!initIconPack(param)) return;
 
-                HashMap<Object, String> labelCache = (HashMap<Object, String>) param.args[LABELCACHE];
                 ComponentName cmpName = ((ComponentName) param.args[COMPONENTNAME]);
                 String appName = cmpName.flattenToString();
                 Drawable icon = iconPack.loadIcon(appName);
@@ -192,12 +192,12 @@ public class IconHooks extends HooksBaseClass {
                     Icon newIcon = new Icon(appName, new BitmapDrawable(iconPack.getResources(), tmpFinalIcon));
                     iconPack.getIcons().add(newIcon);
 
-                    Object cacheEntry = createCacheEntry(labelCache, cmpName, pkgMgr, tmpFinalIcon);
+                    Object cacheEntry = createCacheEntry(param.args[Common.IS_M_GNL ? LAUNCHERACTIVITYINFO : LABELCACHE], cmpName, pkgMgr, tmpFinalIcon);
                     param.setResult(cacheEntry);
                     if (DEBUG) log("CacheLocked: Loaded Themed Icon Replacement for " + appName + " took " + (System.currentTimeMillis() - time) + "ms");
                 } else {
                     Bitmap replacedIcon = (Bitmap) callStaticMethod(Classes.Utilities, Methods.uCreateIconBitmap, icon, iconPack.getContext());
-                    Object cacheEntry = createCacheEntry(labelCache, cmpName, pkgMgr, replacedIcon);
+                    Object cacheEntry = createCacheEntry(param.args[Common.IS_M_GNL ? LAUNCHERACTIVITYINFO : LABELCACHE], cmpName, pkgMgr, replacedIcon);
                     if (cacheEntry != null) {
                         param.setResult(cacheEntry);
                         if (DEBUG) log("CacheLocked: Loaded Icon Replacement for " + appName + " took " + (System.currentTimeMillis() - time) + "ms");
@@ -205,12 +205,17 @@ public class IconHooks extends HooksBaseClass {
                 }
             }
 
-            private Object createCacheEntry(HashMap<Object, String> labelCache, ComponentName cmpName, PackageManager pkgMgr, Bitmap tmpFinalIcon) {
+            private Object createCacheEntry(Object labelCacheOrActivityInfo, ComponentName cmpName, PackageManager pkgMgr, Bitmap tmpFinalIcon) {
                 Object cacheEntry = newInstance(Classes.CacheEntry);
                 setObjectField(cacheEntry, Fields.ceIcon, tmpFinalIcon);
 
-                String title;
-                ActivityInfo info = null;
+                if (labelCacheOrActivityInfo != null && labelCacheOrActivityInfo.getClass().equals(Classes.LauncherActivityInfoCompat)) {
+                    setObjectField(cacheEntry, "title", getObjectField(labelCacheOrActivityInfo, "getLabel"));
+                    return cacheEntry;
+                }
+
+                ActivityInfo info;
+
                 try {
                     info = pkgMgr.getActivityInfo(cmpName, 0);
                 } catch (NameNotFoundException e) {
@@ -218,28 +223,19 @@ public class IconHooks extends HooksBaseClass {
                     return null;
                 }
 
-                if (labelCache != null && labelCache.containsKey(cmpName)) {
-                    setObjectField(cacheEntry, "title", labelCache.get(cmpName).toString());
-                } else {
-                    title = info.loadLabel(pkgMgr).toString();
-                    setObjectField(cacheEntry, "title", title);
-                    if (labelCache != null) {
-                        labelCache.put(cmpName, title);
-                    }
-                }
-                if (getObjectField(cacheEntry, "title") == null) {
-                    setObjectField(cacheEntry, "title", info.loadLabel(pkgMgr));
-                }
+                setObjectField(cacheEntry, "title", info.loadLabel(pkgMgr));
                 return cacheEntry;
             }
         };
 
         if (Common.IS_L_TREBUCHET) {
-            findAndHookMethod(Classes.IconCache, Methods.icCacheLocked, ComponentName.class, Classes.Adb, HashMap.class, Classes.UserHandle, boolean.class, Integer.TYPE, cacheLockedHook);
+            findAndHookMethod(Classes.IconCache, Methods.icCacheLocked, ComponentName.class, Classes.LauncherActivityInfoCompat, HashMap.class, Classes.UserHandle, boolean.class, Integer.TYPE, cacheLockedHook);
+        } else if (Common.PACKAGE_OBFUSCATED && Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23) {
+            findAndHookMethod(Classes.IconCache, Methods.icCacheLocked, ComponentName.class, Classes.LauncherActivityInfoCompat, Classes.UserHandle, boolean.class, boolean.class, cacheLockedHook);
         } else if (!Common.IS_PRE_GNL_4 && !Common.IS_KK_TREBUCHET) {
-            findAndHookMethod(Classes.IconCache, Methods.icCacheLocked, ComponentName.class, Classes.Adb, HashMap.class, Classes.UserHandle, boolean.class, cacheLockedHook);
-        } else if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION >= ObfuscationHelper.GNL_3_5_14) {
-            findAndHookMethod(Classes.IconCache, Methods.icCacheLocked, ComponentName.class, Classes.Adb, HashMap.class, Classes.UserHandle, cacheLockedHook);
+            findAndHookMethod(Classes.IconCache, Methods.icCacheLocked, ComponentName.class, Classes.LauncherActivityInfoCompat, HashMap.class, Classes.UserHandle, boolean.class, cacheLockedHook);
+        } else if (Common.PACKAGE_OBFUSCATED && Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_3_5_14) {
+            findAndHookMethod(Classes.IconCache, Methods.icCacheLocked, ComponentName.class, Classes.LauncherActivityInfoCompat, HashMap.class, Classes.UserHandle, cacheLockedHook);
         } else {
             findAndHookMethod(Classes.IconCache, Methods.icCacheLocked, ComponentName.class, ResolveInfo.class, HashMap.class, cacheLockedHook);
         }
@@ -296,7 +292,7 @@ public class IconHooks extends HooksBaseClass {
             }
         });
 
-        if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION < ObfuscationHelper.GNL_4_1_21) {
+        if (Common.PACKAGE_OBFUSCATED && Common.GNL_PACKAGE_INFO.versionCode < ObfuscationHelper.GNL_4_1_21) {
             findAndHookMethod(Classes.LauncherModel, Methods.lmIsShortcutInfoUpdateable, Classes.ItemInfo, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
@@ -635,7 +631,7 @@ public class IconHooks extends HooksBaseClass {
         callMethod(Common.LAUNCHER_INSTANCE, Methods.lBindAppsUpdated, appsToUpdate);
         if (DEBUG) log("updateIcons took " + (System.currentTimeMillis() - time) + "ms");
 
-        if (Common.GNL_VERSION >= ObfuscationHelper.GNL_4_2_16) {
+        if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_4_2_16) {
             new AsyncTask<Void, Void, Void>() {
                 ArrayList<View> viewToUpdate = new ArrayList<View>();
 

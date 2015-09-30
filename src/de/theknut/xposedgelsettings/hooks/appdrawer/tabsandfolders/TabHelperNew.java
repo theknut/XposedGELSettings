@@ -262,7 +262,7 @@ public final class TabHelperNew extends TabHelper implements View.OnClickListene
             tabView.setBackground(tabView.getContext().getResources().getDrawable(R.drawable.tab_indicator_background_bottom));
         }
 
-        if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION >= ObfuscationHelper.GNL_4_0_26
+        if (Common.PACKAGE_OBFUSCATED && Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_4_0_26
                 && Color.alpha(tab.getPrimaryColor()) == 0) {
 
             tabView.setBackground(tabView.getContext().getResources().getDrawable(R.drawable.tab_indicator));

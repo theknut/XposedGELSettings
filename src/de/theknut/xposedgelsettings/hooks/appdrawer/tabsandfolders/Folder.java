@@ -95,7 +95,7 @@ public class Folder extends AppDrawerItem implements View.OnLongClickListener, V
             setObjectField(folderInfo, Fields.iiContainer, -101);
             setObjectField(folderInfo, Fields.iiID, getId());
 
-            if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION >= ObfuscationHelper.GNL_4_2_16) {
+            if (Common.PACKAGE_OBFUSCATED && Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_4_2_16) {
                 folderIcon = (View) callStaticMethod(Classes.FolderIcon, Methods.fiFromXml, id, Common.LAUNCHER_INSTANCE, appsCustomizeCellLayout, folderInfo, getObjectField(Common.LAUNCHER_INSTANCE, Fields.lIconCache));
             } else if (Common.PACKAGE_OBFUSCATED) {
                 folderIcon = (View) callStaticMethod(Classes.FolderIcon, Methods.fiFromXml, id, Common.LAUNCHER_INSTANCE, appsCustomizeCellLayout, folderInfo);
@@ -220,9 +220,8 @@ public class Folder extends AppDrawerItem implements View.OnLongClickListener, V
     }
 
     public boolean isOpen() {
-        ViewGroup dragLayer = (ViewGroup) callMethod(Common.LAUNCHER_INSTANCE, Methods.lGetDragLayer);
-        for (int i = 0; i < dragLayer.getChildCount(); i++) {
-            View child = dragLayer.getChildAt(i);
+        for (int i = 0; i < Common.DRAG_LAYER.getChildCount(); i++) {
+            View child = Common.DRAG_LAYER.getChildAt(i);
             if (child.getClass().equals(Classes.Folder)) {
                 return getLongField(getObjectField(child, Fields.fFolderInfo), Fields.iiID) == getId();
             }

@@ -45,6 +45,7 @@
     <string-array name="searchbarstyle_entries">
         <item>Standard</item>
         <item>Android L Style</item>
+        <item>Android M Style</item>
     </string-array>
 
     <string-array name="contextmenu_mode_entries">

@@ -194,7 +194,9 @@ public class GestureHelper extends HooksBaseClass {
                 Common.LAUNCHER_INSTANCE.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION >= ObfuscationHelper.GNL_4_1_21) {
+                        if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23) {
+                            callMethod(getObjectField(Common.LAUNCHER_INSTANCE, "mLauncherCallbacks"), "onClickAllAppsButton", getObjectField(Common.LAUNCHER_INSTANCE, "mAllAppsButton"));
+                        } else if (Common.PACKAGE_OBFUSCATED && Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_4_1_21) {
                             Object objectField = getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizeTabHost);
                             try {
                                 method.invoke(Common.LAUNCHER_INSTANCE, true, callMethod(objectField, ObfuscationHelper.Methods.acthGetContentTypeForTabTag, "APPS"), false);

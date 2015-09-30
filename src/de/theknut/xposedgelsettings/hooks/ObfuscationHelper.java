@@ -17,7 +17,7 @@ public class ObfuscationHelper extends HooksBaseClass {
     public static final int GNL_4_1_29 = 300401290;
     public static final int GNL_4_2_16 = 300403094;
     public static final int GNL_4_3_10 = 300403395;
-    public static final int GNL_4_4_9  = 300404573;
+    public static final int GNL_4_4_09 = 300404573;
     public static final int GNL_4_5_12 = 300405825;
     public static final int GNL_4_5_13 = 300405835;
     public static final int GNL_4_6_10 = 300407085;
@@ -27,17 +27,20 @@ public class ObfuscationHelper extends HooksBaseClass {
     public static final int GNL_4_9_22 = 300413946;
     public static final int GNL_5_1_15 = 300420096;
     public static final int GNL_5_2_33 = 300441146;
+    public static final int GNL_5_3_23 = 300515416;
 
     public static int getVersionIndex(int version) {
 
         if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE)) {
             if (version >= GNL_3_6_16 && version < GNL_3_9_00) {
                 return 3;
+            } else if (version >= GNL_5_3_23) {
+                return 18;
             } else if (version >= GNL_5_2_33) {
                 return 17;
-            }  else if (version >= GNL_5_1_15) {
+            } else if (version >= GNL_5_1_15) {
                 return 16;
-            }  else if (version >= GNL_4_9_22) {
+            } else if (version >= GNL_4_9_22) {
                 return 15;
             } else if (version >= GNL_4_8_10) {
                 return 14;
@@ -47,7 +50,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 return 12;
             } else if (version >= GNL_4_5_12) {
                 return 11;
-            } else if (version >= GNL_4_4_9) {
+            } else if (version >= GNL_4_4_09) {
                 return 10;
             } else if (version >= GNL_4_3_10) {
                 return 9;
@@ -128,7 +131,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 LAUNCHER_APP_WIDGET_HOST_VIEW,
                 BUBBLE_TEXT_VIEW,
                 USER_HANDLE,
-                ADB,
+                LAUNCHER_ACTIVITY_INFO_COMPAT,
                 GELCLASS,
                 NOW_OVERLAY,
                 SEARCH_OVERLAY_IMPL,
@@ -147,8 +150,24 @@ public class ObfuscationHelper extends HooksBaseClass {
         public static void initNames(int idx) {
 
             String prefix = "com.android.launcher3.";
-            if (Common.HOOKED_PACKAGE.equals("com.android.launcher2")) {
-                prefix = "com.android.launcher2.";
+
+            RECOGNIZER_VIEW = new String[]{"com.google.android.search.shared.ui.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.apps.gsa.searchplate.RecognizerView", "com.google.android.apps.gsa.searchplate.RecognizerView", "com.google.android.apps.gsa.searchplate.RecognizerView", "com.google.android.apps.gsa.searchplate.RecognizerView", "com.google.android.apps.gsa.searchplate.RecognizerView", "com.google.android.apps.gsa.searchplate.RecognizerView", "com.google.android.apps.gsa.searchplate.RecognizerView", "com.google.android.apps.gsa.searchplate.RecognizerView"}[idx];
+            SEARCH_PLATE = new String[]{"com.google.android.search.shared.ui.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.apps.gsa.searchplate.SearchPlate", "com.google.android.apps.gsa.searchplate.SearchPlate", "com.google.android.apps.gsa.searchplate.SearchPlate", "com.google.android.apps.gsa.searchplate.SearchPlate", "com.google.android.apps.gsa.searchplate.SearchPlate", "com.google.android.apps.gsa.searchplate.SearchPlate", "com.google.android.apps.gsa.searchplate.SearchPlate", "com.google.android.apps.gsa.searchplate.SearchPlate"}[idx];
+            NOW_OVERLAY = new String[]{"com.google.android.sidekick.shared.client.NowOverlay", "dzk", "enc", "evx", "evx", "fma", "gen", "gen", "com.google.android.sidekick.shared.client.aj", "com.google.android.sidekick.shared.client.aj", "com.google.android.sidekick.shared.client.ak", "com.google.android.sidekick.shared.client.aj", "com.google.android.sidekick.shared.client.ak", "com.google.android.sidekick.shared.client.am", "com.google.android.sidekick.shared.client.v", "com.google.android.sidekick.shared.legacyclient.m", "com.google.android.sidekick.shared.legacyclient.m", "com.google.android.sidekick.shared.legacyclient.c", "com.google.android.sidekick.shared.legacyclient.c"}[idx]; // now_overlay:card_view_state
+            SEARCH_OVERLAY_IMPL = new String[]{"com.google.android.search.gel.SearchOverlayImpl", "ccu", "cmh", "cuc", "cuc", "ebj", "erb", "erb", "com.google.android.search.shared.overlay.u", "com.google.android.search.shared.overlay.u", "com.google.android.search.shared.overlay.u", "com.google.android.search.shared.overlay.u", "com.google.android.search.shared.overlay.s", "com.google.android.search.shared.overlay.s", "com.google.android.search.shared.overlay.m", "com.google.android.apps.gsa.search.shared.overlay.m", "com.google.android.apps.gsa.search.shared.overlay.m", "com.google.android.apps.gsa.search.shared.overlay.j", "com.google.android.apps.gsa.search.shared.overlay.l"}[idx]; // search_overlay_impl:search_box_stats
+            GSA_CONFIG_FLAGS = new String[]{"com.google.android.search.core.GsaConfigFlags", "ayc", "bgr", "bnj", "bnj", "chh", "cug", "cug", "com.google.android.search.core.av", "com.google.android.search.core.au", "com.google.android.search.core.ak", "com.google.android.search.core.as", "com.google.android.search.core.aq", "com.google.android.search.core.ao", "com.google.android.search.core.v", "com.google.android.apps.gsa.search.core.b.n", "com.google.android.apps.gsa.search.core.b.o", "com.google.android.apps.gsa.search.core.config.GsaConfigFlags", "com.google.android.apps.gsa.search.core.config.GsaConfigFlags"}[idx]; // "int array"
+
+            SEARCH_SETTINGS = new String[]{"", "", "", "", "", "", "", "", "com.google.android.search.core.dx", "com.google.android.search.core.dz", "com.google.android.search.core.dz", "com.google.android.search.core.eb", "com.google.android.search.core.eb", "com.google.android.search.core.eh", "com.google.android.search.core.ch", "com.google.android.apps.gsa.search.core.b.u", "com.google.android.apps.gsa.search.core.b.x", "com.google.android.apps.gsa.search.core.config.t", "com.google.android.search.core.state.h"}[idx]; // QSB.SearchSettings
+            SEARCH_PLATE_BAR = new String[]{"", "", "", "", "", "", "", "", "com.google.android.search.searchplate.an", "com.google.android.search.searchplate.an", "com.google.android.search.searchplate.an", "com.google.android.apps.gsa.searchplate.ap", "com.google.android.apps.gsa.searchplate.aq", "com.google.android.apps.gsa.searchplate.ap", "com.google.android.apps.gsa.searchplate.o", "com.google.android.apps.gsa.searchplate.o", "com.google.android.apps.gsa.searchplate.o", "com.google.android.apps.gsa.searchplate.n", "com.google.android.apps.gsa.searchplate.n"}[idx]; // search_plate_rounded_corner_radius
+            SEARCH_PLATE_TRANSITIONS_MANAGER = new String[]{"com.google.android.search.shared.ui.SearchPlate$TransitionsManager", "cen", "cog", "cwb", "cwb", "dsi", "egu", "egu", "com.google.android.search.searchplate.af", "com.google.android.search.searchplate.af", "com.google.android.search.searchplate.af", "com.google.android.apps.gsa.searchplate.ah", "com.google.android.apps.gsa.searchplate.ai", "com.google.android.apps.gsa.searchplate.ah", "com.google.android.apps.gsa.searchplate.l", "com.google.android.apps.gsa.searchplate.l", "com.google.android.apps.gsa.searchplate.l", "com.google.android.apps.gsa.searchplate.k", "com.google.android.apps.gsa.searchplate.k"}[idx]; // in SearchPlate: "(this, this);" "com.google.android.search.searchplate"
+            GELCLASS = new String[]{"com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL"}[idx];
+            GEL_SEARCH_PLATE_CONTAINER = new String[]{"com.google.android.search.gel.GelSearchPlateContainer", "com.google.android.search.gel.GelSearchPlateContainer", "com.google.android.search.gel.GelSearchPlateContainer", "com.google.android.search.gel.GelSearchPlateContainer", "com.google.android.search.gel.GelSearchPlateContainer", "", "", "", "", "", "", "", "", "", "", "", "", "", ""}[idx];
+            URI_LOADER = new String[]{"com.google.android.shared.util.UriLoader", "cxw", "eno", "dtb", "dtb", "", "", "", "", "", "", "", "", "", "", "", "", "", ""}[idx];
+            WEATHER_POINT = new String[]{"com.google.geo.sidekick.Sidekick.WeatherEntry.WeatherPoint", "him", "ich", "ilp", "ilp", "aps", "aps", "ara", "com.google.android.apps.sidekick.e.ca", "com.google.android.apps.sidekick.e.ca", "com.google.android.apps.sidekick.e.ca", "", "", "", "", "", "", "", ""}[idx]; // getLocation in WeatherEntryAdapter // since GS 4.0 it's not the same class anymore but it does the same
+            WEATHER_ENTRY_ADAPTER = new String[]{"com.google.android.sidekick.shared.cards.WeatherEntryAdapter", "dye", "elt", "euo", "euo", "fzq", "gtm", "gtm", "com.google.android.sidekick.shared.ui.qp.id", "com.google.android.sidekick.shared.ui.qp.ie", "com.google.android.sidekick.shared.ui.qp.im", "", "", "", "", "", "", "", ""}[idx]; // empty text -> "  "
+
+            if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23 && Common.GNL_PACKAGE_INFO.applicationInfo.targetSdkVersion >= 19) {
+                idx = 0;
             }
 
             LAUNCHER = new String[]{prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher"}[idx];
@@ -163,9 +182,6 @@ public class ObfuscationHelper extends HooksBaseClass {
             FOLDER_ICON = new String[]{prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon", prefix + "FolderIcon"}[idx];
             HOTSEAT = new String[]{prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat", prefix + "Hotseat"}[idx];
             BUBBLE_TEXT_VIEW = new String[]{prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView", prefix + "BubbleTextView"}[idx];
-            GELCLASS = new String[]{"com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL"}[idx];
-            RECOGNIZER_VIEW = new String[]{"com.google.android.search.shared.ui.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.search.searchplate.RecognizerView", "com.google.android.apps.gsa.searchplate.RecognizerView", "com.google.android.apps.gsa.searchplate.RecognizerView", "com.google.android.apps.gsa.searchplate.RecognizerView", "com.google.android.apps.gsa.searchplate.RecognizerView", "com.google.android.apps.gsa.searchplate.RecognizerView", "com.google.android.apps.gsa.searchplate.RecognizerView", "com.google.android.apps.gsa.searchplate.RecognizerView"}[idx];
-            SEARCH_PLATE = new String[]{"com.google.android.search.shared.ui.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.search.searchplate.SearchPlate", "com.google.android.apps.gsa.searchplate.SearchPlate", "com.google.android.apps.gsa.searchplate.SearchPlate", "com.google.android.apps.gsa.searchplate.SearchPlate", "com.google.android.apps.gsa.searchplate.SearchPlate", "com.google.android.apps.gsa.searchplate.SearchPlate", "com.google.android.apps.gsa.searchplate.SearchPlate", "com.google.android.apps.gsa.searchplate.SearchPlate"}[idx];
             DEVICE_PROFILE = new String[]{prefix + "DeviceProfile", "mz", "qi", "rj", "rj", "tu", "vg", "vg", prefix + "bq", prefix + "bq", prefix + "bq", prefix + "br", prefix + "br", prefix + "br", prefix + "ar", prefix + "ar", prefix + "ar", prefix + "ar"}[idx]; // All Device Profiles must have
             DYNAMIC_GRID = new String[]{prefix + "DynamicGrid", "nw", "rf", "sg", "sg", "ur", "wd", "wd", prefix + "cn", prefix + "cn", prefix + "cn", prefix + "co", prefix + "co", prefix + "co", prefix + "bf", prefix + "bf", prefix + "bf", prefix + "bf"}[idx]; // --------
             CELL_LAYOUT_CELL_INFO = new String[]{CELL_LAYOUT + "$CellInfo", "lz", "pi", "qj", "qj", "sy", "ue", "ue", prefix + "al", prefix + "al", prefix + "al", prefix + "am", prefix + "am", prefix + "am", prefix + "y", prefix + "y", prefix + "y", prefix + "y"}[idx]; // Cell[view=
@@ -182,13 +198,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             FOLDER_INFO = new String[]{prefix + "FolderInfo", "oz", "sh", "ti", "ti", "vy", "xj", "xj", prefix + "dt", prefix + "dt", prefix + "dt", prefix + "du", prefix + "du", prefix + "du", prefix + "bn", prefix + "bn", prefix + "bn", prefix + "bn"}[idx]; // FolderInfo(id=
             LAUNCHER_APP_STATE = new String[]{prefix + "LauncherAppState", "rr", "vb", "wd", "wd", "yt", "aad", "aad", prefix + "gr", prefix + "gr", prefix + "gr", prefix + "gs", prefix + "gs", prefix + "gs", prefix + "cn", prefix + "cn", prefix + "cn", prefix + "cn"}[idx]; // "LauncherAppState inited"
             LAUNCHER_APPWIDGET_INFO = new String[]{prefix + "LauncherAppWidgetInfo", "rv", "vf", "wh", "wh", "yx", "aah", "aah", prefix + "gv", prefix + "gv", prefix + "gv", prefix + "gw", prefix + "gw", prefix + "gw", prefix + "cq", prefix + "cq", prefix + "cq", prefix + "cq"}[idx]; // AppWidget(id=
-            NOW_OVERLAY = new String[]{"com.google.android.sidekick.shared.client.NowOverlay", "dzk", "enc", "evx", "evx", "fma", "gen", "gen", "com.google.android.sidekick.shared.client.aj", "com.google.android.sidekick.shared.client.aj", "com.google.android.sidekick.shared.client.ak", "com.google.android.sidekick.shared.client.aj", "com.google.android.sidekick.shared.client.ak", "com.google.android.sidekick.shared.client.am", "com.google.android.sidekick.shared.client.v", "com.google.android.sidekick.shared.legacyclient.m", "com.google.android.sidekick.shared.legacyclient.m", "com.google.android.sidekick.shared.legacyclient.c"}[idx]; // now_overlay:card_view_state
-            SEARCH_OVERLAY_IMPL = new String[]{"com.google.android.search.gel.SearchOverlayImpl", "ccu", "cmh", "cuc", "cuc", "ebj", "erb", "erb", "com.google.android.search.shared.overlay.u", "com.google.android.search.shared.overlay.u", "com.google.android.search.shared.overlay.u", "com.google.android.search.shared.overlay.u", "com.google.android.search.shared.overlay.s", "com.google.android.search.shared.overlay.s", "com.google.android.search.shared.overlay.m", "com.google.android.apps.gsa.search.shared.overlay.m", "com.google.android.apps.gsa.search.shared.overlay.m", "com.google.android.apps.gsa.search.shared.overlay.j"}[idx]; // search_overlay_impl:search_box_stats
-            GSA_CONFIG_FLAGS = new String[]{"com.google.android.search.core.GsaConfigFlags", "ayc", "bgr", "bnj", "bnj", "chh", "cug", "cug", "com.google.android.search.core.av", "com.google.android.search.core.au", "com.google.android.search.core.ak", "com.google.android.search.core.as", "com.google.android.search.core.aq", "com.google.android.search.core.ao", "com.google.android.search.core.v", "com.google.android.apps.gsa.search.core.b.n", "com.google.android.apps.gsa.search.core.b.o", "com.google.android.apps.gsa.search.core.config.GsaConfigFlags"}[idx]; // "int array"
-            WEATHER_ENTRY_ADAPTER = new String[]{"com.google.android.sidekick.shared.cards.WeatherEntryAdapter", "dye", "elt", "euo", "euo", "fzq", "gtm", "gtm", "com.google.android.sidekick.shared.ui.qp.id", "com.google.android.sidekick.shared.ui.qp.ie", "com.google.android.sidekick.shared.ui.qp.im", "", "", "", "", "", "", ""}[idx]; // empty text -> "  "
-            SEARCH_SETTINGS = new String[]{"", "", "", "", "", "", "", "", "com.google.android.search.core.dx", "com.google.android.search.core.dz", "com.google.android.search.core.dz", "com.google.android.search.core.eb", "com.google.android.search.core.eb", "com.google.android.search.core.eh", "com.google.android.search.core.ch", "com.google.android.apps.gsa.search.core.b.u", "com.google.android.apps.gsa.search.core.b.x", "com.google.android.apps.gsa.search.core.config.t"}[idx]; // QSB.SearchSettings
-            SEARCH_PLATE_BAR = new String[]{"", "", "", "", "", "", "", "", "com.google.android.search.searchplate.an", "com.google.android.search.searchplate.an", "com.google.android.search.searchplate.an", "com.google.android.apps.gsa.searchplate.ap", "com.google.android.apps.gsa.searchplate.aq", "com.google.android.apps.gsa.searchplate.ap", "com.google.android.apps.gsa.searchplate.o", "com.google.android.apps.gsa.searchplate.o", "com.google.android.apps.gsa.searchplate.o", "com.google.android.apps.gsa.searchplate.n"}[idx]; // search_plate_rounded_corner_radius
-			PAGED_VIEW = new String[]{prefix + "PagedView", prefix + "PagedView", prefix + "PagedView", prefix + "PagedView", prefix + "PagedView", prefix + "PagedView", prefix + "PagedView", prefix + "PagedView", prefix + "kg", prefix + "kg", prefix + "kg", prefix + "kj", prefix + "kj", prefix + "kj", prefix + "ed", prefix + "ed", prefix + "ed", prefix + "ed"}[idx];
+            PAGED_VIEW = new String[]{prefix + "PagedView", prefix + "PagedView", prefix + "PagedView", prefix + "PagedView", prefix + "PagedView", prefix + "PagedView", prefix + "PagedView", prefix + "PagedView", prefix + "kg", prefix + "kg", prefix + "kg", prefix + "kj", prefix + "kj", prefix + "kj", prefix + "ed", prefix + "ed", prefix + "ed", prefix + "ed"}[idx];
 			WORKSPACE_STATE = new String[]{WORKSPACE + "$State", "zc", "aco", "adq", "adr", "ags", "aig", "aig", prefix + "oz", prefix + "oz", prefix + "oz", prefix + "pb", prefix + "pb", prefix + "pb", prefix + "gi", prefix + "eh", prefix + "gi", prefix + "gi", prefix + "gj"}[idx]; // CellLayout cannot have UNSPECIFIED dimensions" the one with more members
             APPS_CUSTOMIZE_CELL_LAYOUT = new String[]{prefix + "AppsCustomizeCellLayout", "kw", "yr", "zt", "zt", "rw", "tc", "tc", prefix + "i", prefix + "i", prefix + "i", prefix + "j", prefix + "j", prefix + "j", prefix + "g", prefix + "g", prefix + "g", prefix + "g"}[idx]; // "getContext().getResources().getDrawable" new <>(localContext) - the one above
             APPS_CUSTOMIZE_CONTENT_TYPE = new String[]{APPS_CUSTOMIZE_PAGED_VIEW + "$ContentType", "lf", "oo", "pp", "pp", "se", "tk", "tk", prefix + "q", prefix + "q", prefix + "q", prefix + "s", prefix + "s", prefix + "s", prefix + "h", prefix + "h", prefix + "h", prefix + "h"}[idx];
@@ -198,16 +208,10 @@ public class ObfuscationHelper extends HooksBaseClass {
 			PAGED_VIEW_CELL_LAYOUT = new String[]{prefix + "PagedViewCellLayout", "vd", "yo", "zq", "zq", "acl", "adx", "adx", prefix + "kr", prefix + "kr", prefix + "kr", prefix + "ku", prefix + "ku", prefix + "ku", prefix + "eh", prefix + "eh", prefix + "eh", prefix + "eh"}[idx]; // CellLayout cannot have UNSPECIFIED dimensions" the one with more members
             CELL_LAYOUT_ITEM_CONFIGURATION = new String[]{CELL_LAYOUT + "$ItemConfiguration", "ma", "pj", "qk", "qk", "sz", "uf", "uf", prefix + "am", prefix + "am", prefix + "am", prefix + "an", prefix + "an", prefix + "an", prefix + "z", prefix + "z", prefix + "z", prefix + "z"}[idx]; // in CellLayout Math.abs(paramArrayOfInt[0]) last interface parameter
 			LAUNCHER_APP_WIDGET_HOST_VIEW = new String[]{prefix + "LauncherAppWidgetHostView", "ru", "ve", "wg", "wg", "yw", "aag", "aag", prefix + "gu", prefix + "gu", prefix + "gu", prefix + "gv", prefix + "gv", prefix + "gv", prefix + "cp", prefix + "cp", prefix + "cp", prefix + "cp"}[idx]; // in Workspace "getAppWidgetInfo"
-            SEARCH_PLATE_TRANSITIONS_MANAGER = new String[]{"com.google.android.search.shared.ui.SearchPlate$TransitionsManager", "cen", "cog", "cwb", "cwb", "dsi", "egu", "egu", "com.google.android.search.searchplate.af", "com.google.android.search.searchplate.af", "com.google.android.search.searchplate.af", "com.google.android.apps.gsa.searchplate.ah", "com.google.android.apps.gsa.searchplate.ai", "com.google.android.apps.gsa.searchplate.ah", "com.google.android.apps.gsa.searchplate.l", "com.google.android.apps.gsa.searchplate.l", "com.google.android.apps.gsa.searchplate.l", "com.google.android.apps.gsa.searchplate.k"}[idx]; // in SearchPlate: "(this, this);" "com.google.android.search.searchplate"
-
-			GEL_SEARCH_PLATE_CONTAINER = new String[]{"com.google.android.search.gel.GelSearchPlateContainer", "com.google.android.search.gel.GelSearchPlateContainer", "com.google.android.search.gel.GelSearchPlateContainer", "com.google.android.search.gel.GelSearchPlateContainer", "com.google.android.search.gel.GelSearchPlateContainer", "", "", "", "", "", "", "", "", "", "", "", "", ""}[idx];
-			PAGED_VIEW_ICON = new String[]{prefix + "PagedViewIcon", prefix + "PagedViewIcon", prefix + "PagedViewIcon", prefix + "PagedViewIcon", prefix + "PagedViewIcon", prefix + "PagedViewIcon", "", "", "", "", "", "", "", "", "", "", "", "", ""}[idx];
-			URI_LOADER = new String[]{"com.google.android.shared.util.UriLoader", "cxw", "eno", "dtb", "dtb", "", "", "", "", "", "", "", "", "", "", "", "", ""}[idx];
-			
+            PAGED_VIEW_ICON = new String[]{prefix + "PagedViewIcon", prefix + "PagedViewIcon", prefix + "PagedViewIcon", prefix + "PagedViewIcon", prefix + "PagedViewIcon", prefix + "PagedViewIcon", "", "", "", "", "", "", "", "", "", "", "", "", ""}[idx];
 			APPS_CUSTOMIZE_LAYOUT = new String[]{prefix + "AppsCustomizeLayout", prefix + "AppsCustomizeLayout", prefix + "AppsCustomizeLayout", prefix + "AppsCustomizeLayout", prefix + "AppsCustomizeLayout", prefix + "AppsCustomizeLayout", prefix + "AppsCustomizeLayout", prefix + "AppsCustomizeLayout", prefix + "AppsCustomizeLayout", prefix + "AppsCustomizeLayout", prefix + "AppsCustomizeLayout", prefix + "AppsCustomizeLayout", prefix + "AppsCustomizeLayout", prefix + "AppsCustomizeLayout", prefix + "AppsCustomizeLayout", prefix + "AppsCustomizeLayout", prefix + "AppsCustomizeLayout", prefix + "AppsCustomizeLayout"}[idx]; // Trebuchet only
-            ADB = new String[]{"com.android.launcher3.compat.LauncherActivityInfoCompat", "", "adb", "aed", "aee", "ahh", "aiw", "aiw", prefix + "b.d", prefix + "b.d", prefix + "b.d", prefix + "b.d", prefix + "b.d", prefix + "b.d", prefix + "b.d", prefix + "b.d", prefix + "b.d", prefix + "b.d"}[idx];
+            LAUNCHER_ACTIVITY_INFO_COMPAT = new String[]{"com.android.launcher3.compat.LauncherActivityInfoCompat", "", "adb", "aed", "aee", "ahh", "aiw", "aiw", prefix + "b.d", prefix + "b.d", prefix + "b.d", prefix + "b.d", prefix + "b.d", prefix + "b.d", prefix + "b.d", prefix + "b.d", prefix + "b.d", prefix + "b.d"}[idx];
             USER_HANDLE = new String[]{"com.android.launcher3.compat.UserHandleCompat", "", "adl", "aen", "aeo", "ahw", "ajm", "ajm", prefix + "b.u", prefix + "b.u", prefix + "b.u", prefix + "b.u", prefix + "b.u", prefix + "b.u", prefix + "b.q", prefix + "b.q", prefix + "b.q", prefix + "b.q"}[idx]; // last parameter in IconCache "cacheLocked"
-			WEATHER_POINT = new String[]{"com.google.geo.sidekick.Sidekick.WeatherEntry.WeatherPoint", "him", "ich", "ilp", "ilp", "aps", "aps", "ara", "com.google.android.apps.sidekick.e.ca", "com.google.android.apps.sidekick.e.ca", "com.google.android.apps.sidekick.e.ca", "", "", "", "", "", "", ""}[idx]; // getLocation in WeatherEntryAdapter // since GS 4.0 it's not the same class anymore but it does the same
         }
     }
 
@@ -225,7 +229,6 @@ public class ObfuscationHelper extends HooksBaseClass {
                 AppsCustomizeTabHost,
                 Folder,
                 FolderIcon,
-                PagedViewWithDraggableItems,
                 PagedView,
                 GELClass,
                 NowOverlay,
@@ -249,7 +252,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 AppWidgetResizeFrame,
                 ItemConfiguration,
                 UserHandle,
-                Adb,
+                LauncherActivityInfoCompat,
                 LauncherAppWidgetInfo,
                 DragLayer,
                 LauncherAppWidgetHostView,
@@ -271,26 +274,34 @@ public class ObfuscationHelper extends HooksBaseClass {
         public static void hookAllClasses(LoadPackageParam lpparam) {
             Launcher = findClass(ClassNames.LAUNCHER, lpparam.classLoader);
             Workspace = findClass(ClassNames.WORKSPACE, lpparam.classLoader);
-            AppsCustomizePagedView = findClass(ClassNames.APPS_CUSTOMIZE_PAGED_VIEW, lpparam.classLoader);
-            AppsCustomizeCellLayout = findClass(ClassNames.APPS_CUSTOMIZE_CELL_LAYOUT, lpparam.classLoader);
+
+            if (Common.GNL_PACKAGE_INFO.versionCode < ObfuscationHelper.GNL_5_3_23) {
+                AppsCustomizePagedView = findClass(ClassNames.APPS_CUSTOMIZE_PAGED_VIEW, lpparam.classLoader);
+                AppsCustomizeCellLayout = findClass(ClassNames.APPS_CUSTOMIZE_CELL_LAYOUT, lpparam.classLoader);
+                AppsCustomizeContentType = findClass(ClassNames.APPS_CUSTOMIZE_CONTENT_TYPE, lpparam.classLoader);
+            }
+
             CellLayout = findClass(ClassNames.CELL_LAYOUT, lpparam.classLoader);
             CellLayoutLayoutParams = findClass(ClassNames.CELL_LAYOUT_LAYOUT_PARAMS, lpparam.classLoader);
             WallpaperOffsetInterpolator = findClass(ClassNames.WALLPAPER_OFFSET_INTERPOLATOR, lpparam.classLoader);
             PagedView = findClass(ClassNames.PAGED_VIEW, lpparam.classLoader);
             DeviceProfile = findClass(ClassNames.DEVICE_PROFILE, lpparam.classLoader);
-            DynamicGrid = findClass(ClassNames.DYNAMIC_GRID, lpparam.classLoader);
+
             AppInfo = findClass(ClassNames.APP_INFO, lpparam.classLoader);
+
+            if (Common.GNL_PACKAGE_INFO.versionCode < ObfuscationHelper.GNL_5_3_23)
+                DynamicGrid = findClass(ClassNames.DYNAMIC_GRID, lpparam.classLoader);
 
             if (Common.IS_KK_TREBUCHET) {
                 AppsCustomizeLayout = findClass(ClassNames.APPS_CUSTOMIZE_LAYOUT, lpparam.classLoader);
             } else {
-                AppsCustomizeTabHost = findClass(ClassNames.APPS_CUSTOMIZE_TAB_HOST, lpparam.classLoader);
+                if (Common.GNL_PACKAGE_INFO.versionCode < ObfuscationHelper.GNL_5_3_23)
+                    AppsCustomizeTabHost = findClass(ClassNames.APPS_CUSTOMIZE_TAB_HOST, lpparam.classLoader);
             }
 
             CellLayoutCellInfo = findClass(ClassNames.CELL_LAYOUT_CELL_INFO, lpparam.classLoader);
-            AppsCustomizeContentType = findClass(ClassNames.APPS_CUSTOMIZE_CONTENT_TYPE, lpparam.classLoader);
+
             Folder = findClass(ClassNames.FOLDER, lpparam.classLoader);
-            PagedViewWithDraggableItems = findClass(ClassNames.PAGED_VIEW_WITH_DRAGGABLE_ITEMS, lpparam.classLoader);
 
             FolderIcon = findClass(ClassNames.FOLDER_ICON, lpparam.classLoader);
             Hotseat = findClass(ClassNames.HOTSEAT, lpparam.classLoader);
@@ -320,7 +331,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             if (Common.IS_L_TREBUCHET) {
                 WorkspaceState = findClass(ClassNames.WORKSPACE_STATE, lpparam.classLoader);
                 UserHandle = findClass(ClassNames.USER_HANDLE, lpparam.classLoader);
-                Adb = findClass(ClassNames.ADB, lpparam.classLoader);
+                LauncherActivityInfoCompat = findClass(ClassNames.LAUNCHER_ACTIVITY_INFO_COMPAT, lpparam.classLoader);
             }
 
             if (lpparam.packageName.equals(Common.GEL_PACKAGE)) {
@@ -335,12 +346,12 @@ public class ObfuscationHelper extends HooksBaseClass {
                 if (Common.PACKAGE_OBFUSCATED) {
                     WorkspaceState = findClass(ClassNames.WORKSPACE_STATE, lpparam.classLoader);
 
-                    if (Common.GNL_VERSION >= GNL_4_2_16) {
+                    if (Common.GNL_PACKAGE_INFO.versionCode >= GNL_4_2_16) {
                         SearchSettings = findClass(ClassNames.SEARCH_SETTINGS, lpparam.classLoader);
                         SearchPlateBar = findClass(ClassNames.SEARCH_PLATE_BAR, lpparam.classLoader);
                     }
 
-                    if (Common.GNL_VERSION >= GNL_4_0_26 && Common.GNL_VERSION < GNL_4_5_12) {
+                    if (Common.GNL_PACKAGE_INFO.versionCode >= GNL_4_0_26 && Common.GNL_PACKAGE_INFO.versionCode < GNL_4_5_12) {
                         WeatherEntryAdapter = findClass(ClassNames.WEATHER_ENTRY_ADAPTER, lpparam.classLoader);
                         WeatherPoint = findClass(ClassNames.WEATHER_POINT, lpparam.classLoader);
                     }
@@ -348,18 +359,18 @@ public class ObfuscationHelper extends HooksBaseClass {
                     if (Common.IS_PRE_GNL_4) {
                         // GelSearchPlateContainer was removed in Google Search 4.0
                         GelSearchPlateContainer = findClass(ClassNames.GEL_SEARCH_PLATE_CONTAINER, lpparam.classLoader);
-                        if (Common.GNL_VERSION != GNL_3_6_16) WeatherEntryAdapter = findClass(ClassNames.WEATHER_ENTRY_ADAPTER, lpparam.classLoader);
+                        if (Common.GNL_PACKAGE_INFO.versionCode != GNL_3_6_16) WeatherEntryAdapter = findClass(ClassNames.WEATHER_ENTRY_ADAPTER, lpparam.classLoader);
                         UriLoader = findClass(ClassNames.URI_LOADER, lpparam.classLoader);
                         WeatherPoint = findClass(ClassNames.WEATHER_POINT, lpparam.classLoader);
                     }
 
-                    if (Common.GNL_VERSION >= ObfuscationHelper.GNL_3_5_14) {
+                    if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_3_5_14) {
                         UserHandle = findClass(ClassNames.USER_HANDLE, lpparam.classLoader);
-                        Adb = findClass(ClassNames.ADB, lpparam.classLoader);
+                        LauncherActivityInfoCompat = findClass(ClassNames.LAUNCHER_ACTIVITY_INFO_COMPAT, lpparam.classLoader);
                     }
 
-                    if (Common.GNL_VERSION >= ObfuscationHelper.GNL_3_4_15
-                            && Common.GNL_VERSION < ObfuscationHelper.GNL_4_8_10) {
+                    if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_3_4_15
+                            && Common.GNL_PACKAGE_INFO.versionCode < ObfuscationHelper.GNL_4_8_10) {
                         StartSettingsOnClick = findClass(ClassNames.START_SETTINGS_ON_CLICK, lpparam.classLoader);
                     }
                 }
@@ -477,6 +488,38 @@ public class ObfuscationHelper extends HooksBaseClass {
         public static String[] covbMethods;
 
         public static void initMethodNames(int idx) {
+
+            soiSetSearchStarted = new String[]{"setSearchStarted", "cs", "cI", "cI", "cI", "eG", "fg", "fh", "gt", "hc", "hG", "hN", "io", "iM", "je", "ei", "ey", "eU", "ef"}[idx]; // 1. "search_overlay_impl:search_started" 2. onResume before cancel()
+            spOnModeChanged = new String[]{"onModeChanged", "", "", "", "", "av", "aA", "aA", "bf", "bE", "bJ", "aR", "aR", "aU", "ba", "bh", "bm", "bl", "aJ"}[idx]; // 1. com.google.android.apps.gsa.searchplate.SearchPlate 2. "if ((paramInt1 == 0) && ((paramInt2 & 0x4) != 0))"
+            tmSetTransitionsEnabled = new String[]{"setTransitionsEnabled", "cG", "cY", "cZ", "cZ", "ea", "eE", "eF", "fM", "gw", "hc", "cR", "df", "dt", "dA", "eM", "fc", "fy", "fy"}[idx]; // (4)
+            ssHotwordUsageStats = new String[]{"", "", "", "", "", "", "", "", "afv", "ask", "azJ", "aCQ", "aHh", "aLB", "aUf", "XF", "Zl", "Zl", ""}[idx]; // "hotword_usage_stats"
+            ssFirstHotwordHintShownAt = new String[]{"", "", "", "", "", "", "", "", "afw", "asl", "azK", "aCR", "aHi", "aLC", "aUg", "XG", "Zm", "", "bcW"}[idx]; // "first_hotword_hint_shown_at"
+            noOnShow = new String[]{"onShow", "p", "u", "v", "v", "x", "y", "y", "z", "A", "D", "C", "A", "C", "F", "I", "I", "G", "E"}[idx]; // 1. "now_overlay" 2. boolean paramBoolean1, boolean paramBoolean2 3. the one with isConnected
+            spSetProximityToNow = new String[]{"setProximityToNow", "x", "x", "x", "x", "", "", "", "", "", "", "", "", "", "", "", "", "", ""}[idx]; // (float paramFloat) with RecognizerView
+            weaAddCurrentConditions = new String[]{"addCurrentConditions", "a", "a", "a", "a", "", "", "", "", "", "", "", "", "", "", "", "", "", ""}[idx];
+            weaUpdateWeather = new String[]{"", "", "", "", "", "aCZ", "aGu", "aGu", "bfe", "biH", "bpo", "", "", "", "", "", "", "", ""}[idx]; // only "void" method
+            wpGetWeatherDescription = new String[]{"", "", "", "", "", "tz", "vd", "vd", "AZ", "XI", "ado", "", "", "", "", "", "", "", ""}[idx]; // in WeatherEntryAdapter - (TextUtils.isEmpty(str)))
+            wpGetTemperatur = new String[]{"", "", "", "", "", "tx", "vb", "vb", "AX", "XG", "adm", "", "", "", "", "", "", "", ""}[idx]; // in WeatherEntryAdapter - ().length() > 3
+
+            covbMethods = new String[][]{
+                    {"", "", ""}, {"", "", ""}, {"", "", ""}, {"", "", ""}, {"", "", ""}, {"", "", ""}, {"", "", ""}, {"", "", ""}, {"", "", ""}, {"", "", ""}, {"", "", ""}, {"", "", ""}, {"", "", ""},
+                    {"Uk", "Ul", "Um"},
+                    {"aai", "aaj", "aak"},
+                    {"aov", "aow", "aox"},
+                    {"asA", "asB", "asz"},
+                    {"awu", "awv", "awv"},
+                    {"aqG", "aqE", "aqH"}
+            }[idx]; // com.google.android.apps.gsa.searchplate.ClearOrVoiceButton
+
+            if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23 && Common.GNL_PACKAGE_INFO.applicationInfo.targetSdkVersion >= 19) {
+                idx = 0;
+                lIsAllAppsVisible = "isAppsViewVisible";
+            }
+            else
+            {
+                lIsAllAppsVisible = new String[]{"isAllAppsVisible", "gs", "hh", "hq", "hr", "hI", "iD", "iD", "kv", "kv", "ky", "ky", "kA", "kA", "kA", "kA", "kB", "jk"}[idx]; // onBackPressed second if clause method call
+            }
+
             lOpenFolder = new String[]{"openFolder", "i", "i", "i", "i", "i", "i", "i", "k", "k", "k", "k", "k", "k", "k", "k", "k", "c"}[idx]; // "Opening folder ("
             lHideAppsCustomizeHelper = new String[]{"hideAppsCustomizeHelper", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a"}[idx]; // config_appsCustomizeConcealTime
             lShowWorkspace = new String[]{"showWorkspace", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a"}[idx]; // boolean paramBoolean, Runnable paramRunnable
@@ -485,7 +528,6 @@ public class ObfuscationHelper extends HooksBaseClass {
             lBindAppsUpdated = new String[]{"bindAppsUpdated", "l", "l", "l", "l", "l", "l", "l", "l", "l", "l", "l", "l", "l", "l", "l", "l", "k"}[idx]; // "(this, paramArrayList), false));"
             lGetQsbBar = new String[]{"getQsbBar", "gw", "hl", "hu", "hv", "hM", "", "", "", "", "", "", "", "", "", "", "", ""}[idx]; // "public View "
             lHasCustomContentToLeft = new String[]{"hasCustomContentToLeft", "fL", "gA", "gJ", "gK", "hc", "ib", "ib", "jM", "jM", "jP", "jP", "jS", "jS", "jR", "jR", "jS", "iI"}[idx]; // "()) || (!"
-            lIsAllAppsVisible = new String[]{"isAllAppsVisible", "gs", "hh", "hq", "hr", "hI", "iD", "iD", "kv", "kv", "ky", "ky", "kA", "kA", "kA", "kA", "kB", "jk"}[idx]; // onBackPressed second if clause method call
             lFinishBindingItems = new String[]{"finishBindingItems", "U", "Z", "Z", "Z", "ac", "aa", "aa", "au", "av", "av", "av", "av", "av", "av", "au", "au", "aq"}[idx]; // hasFocus()
             lCloseFolder = new String[]{"closeFolder", "gr", "hg", "hp", "hq", "hH", "iC", "iC", "ku", "ku", "kx", "kx", "kz", "kz", "kz", "kz", "kA", "jj"}[idx]; // if (localFolder != null)
             lSetWorkspaceBackground = new String[]{"setWorkspaceBackground", "N", "S", "S", "S", "V", "W", "W", "ao", "ap", "ap", "ap", "ap", "ap", "ap", "ap", "ap", "al"}[idx]; // localView.setBackground(localDrawable);
@@ -560,38 +602,18 @@ public class ObfuscationHelper extends HooksBaseClass {
 			lmDeleteFolderContentsFromDatabase = new String[]{"deleteFolderContentsFromDatabase", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a"}[idx]; // (Context paramContext, FolderInfo paramsh)
 			lmCheckItemPlacement = new String[]{"checkItemPlacement", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a"}[idx]; // "Error loading shortcut into "
             dlAddResizeFrame = new String[]{"addResizeFrame", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a"}[idx]; // ", CellLayout paramCellLayout)"
-            soiSetSearchStarted = new String[]{"setSearchStarted", "cs", "cI", "cI", "cI", "eG", "fg", "fh", "gt", "hc", "hG", "hN", "io", "iM", "je", "ei", "ey", "eU"}[idx]; // 1. "search_overlay_impl:search_started" 2. onResume before cancel()
-            woiSyncWithScroll = new String[]{"syncWithScroll", "kf", "la", "lf", "lk", "lC", "mM", "mM", "pZ", "pZ", "qb", "qf", "qh", "qi", "qi", "qi", "qh", "nW"}[idx]; // computeScroll in Workspace
-            spOnModeChanged = new String[]{"onModeChanged", "", "", "", "", "av", "aA", "aA", "bf", "bE", "bJ", "aR", "aR", "aU", "ba", "bh", "bm", "bl"}[idx]; // 1. com.google.android.apps.gsa.searchplate.SearchPlate 2. "if ((paramInt1 == 0) && ((paramInt2 & 0x4) != 0))"
-            tmSetTransitionsEnabled = new String[]{"setTransitionsEnabled", "cG", "cY", "cZ", "cZ", "ea", "eE", "eF", "fM", "gw", "hc", "cR", "df", "dt", "dA", "eM", "fc", "fy"}[idx]; // (4)
             lasIsDisableAllApps = new String[]{"isDisableAllApps", "ha", "hS", "hW", "hX", "im", "jd", "jd", "lC", "lC", "lE", "lF", "lH", "lH", "lH", "lH", "lI", "kc"}[idx]; // launcher_noallapps
-            ssHotwordUsageStats = new String[]{"", "", "", "", "", "", "", "", "afv", "ask", "azJ", "aCQ", "aHh", "aLB", "aUf", "XF", "Zl", "Zl"}[idx]; // "hotword_usage_stats"
-            ssFirstHotwordHintShownAt = new String[]{"", "", "", "", "", "", "", "", "afw", "asl", "azK", "aCR", "aHi", "aLC", "aUg", "XG", "Zm", "Zm"}[idx]; // "first_hotword_hint_shown_at"
-			noOnShow = new String[]{"onShow", "p", "u", "v", "v", "x", "y", "y", "z", "A", "D", "C", "A", "C", "F", "I", "I", "G"}[idx]; // 1. "now_overlay:views_hidden_for_search" 2. boolean paramBoolean1, boolean paramBoolean2 3. the one with isConnected
+            woiSyncWithScroll = new String[]{"syncWithScroll", "kf", "la", "lf", "lk", "lC", "mM", "mM", "pZ", "pZ", "qb", "qf", "qh", "qi", "qi", "qi", "qh", "nW"}[idx]; // computeScroll in Workspace
 
-			wOnLauncherTransitionEnd = new String[]{"onLauncherTransitionEnd", "a", "a", "a", "a", "a", "a", "a", "c", "c", "c", "c", "c", "c", "c", "a", "a", "c"}[idx]; // (Launcher paramLauncher, boolean paramBoolean1, boolean paramBoolean2)
+            wOnLauncherTransitionEnd = new String[]{"onLauncherTransitionEnd", "a", "a", "a", "a", "a", "a", "a", "c", "c", "c", "c", "c", "c", "c", "a", "a", "c"}[idx]; // (Launcher paramLauncher, boolean paramBoolean1, boolean paramBoolean2)
             wOnTransitionPrepare = new String[]{"onLauncherTransitionPrepare", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a"}[idx]; // Method with "if ((bool) && (" in it
 			pviApplyFromApplicationInfo = new String[]{"applyFromApplicationInfo", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a"}[idx]; // only pre GNL 4
             lmDeleteItemsFromDatabase = new String[]{"deleteItemsFromDatabase", "b", "b", "b", "b", "c", "b", "b", "c", "c", "c", "c", "c", "c", "c", "c", "c", "c"}[idx]; // (paramContext, localArrayList); - link to "deleting a folder"
-			spSetProximityToNow = new String[]{"setProximityToNow", "x", "x", "x", "x", "", "", "", "", "", "", "", "", "", "", "", "", ""}[idx]; // (float paramFloat) with RecognizerView
-			weaAddCurrentConditions = new String[]{"addCurrentConditions", "a", "a", "a", "a", "", "", "", "", "", "", "", "", "", "", "", "", ""}[idx];
-            weaUpdateWeather = new String[]{"", "", "", "", "", "aCZ", "aGu", "aGu", "bfe", "biH", "bpo", "", "", "", "", "", "", ""}[idx]; // only "void" method
             uIsL = new String[]{"", "", "jO", "jS", "jV", "", "", "", "", "", "", "", "", "", "", "", "", ""}[idx];
-			wpGetWeatherDescription = new String[]{"", "", "", "", "", "tz", "vd", "vd", "AZ", "XI", "ado", "", "", "", "", "", "", ""}[idx]; // in WeatherEntryAdapter - (TextUtils.isEmpty(str)))
-            wpGetTemperatur = new String[]{"", "", "", "", "", "tx", "vb", "vb", "AX", "XG", "adm", "", "", "", "", "", "", ""}[idx]; // in WeatherEntryAdapter - ().length() > 3
 			btvCreateGlowingOutline = new String[]{"createGlowingOutline", "a", "a", "a", "a", "", "", "", "", "", "", "", "", "", "", "", "", ""}[idx];
 			acpvSetAllAppsPadding = new String[]{"setAllAppsPadding", "b", "b", "b", "b", "", "", "", "", "", "", "", "", "", "", "", "", ""}[idx]; // .set(paramRect);
 			acthOnTabChanged = new String[]{"onTabChanged", "c", "c", "c", "c", "", "", "", "", "", "", "", "", "", "", "", "", ""}[idx]; // setBackgroundColor
 			lmIsShortcutInfoUpdateable = new String[]{"isShortcutInfoUpdateable", "e", "e", "e", "e", "f", "", "", "", "", "", "", "", "", "", "", "", ""}[idx]; // "android.intent.action.MAIN"
-
-            covbMethods = new String[][]{
-                    {"", "", ""}, {"", "", ""}, {"", "", ""}, {"", "", ""}, {"", "", ""}, {"", "", ""}, {"", "", ""}, {"", "", ""}, {"", "", ""}, {"", "", ""}, {"", "", ""}, {"", "", ""}, {"", "", ""},
-                    {"Uk", "Ul", "Um"},
-                    {"aai", "aaj", "aak"},
-                    {"aov", "aow", "aox"},
-                    {"asA", "asB", "asz"},
-                    {"awu", "awv", "awv"}
-            }[idx]; // com.google.android.apps.gsa.searchplate.ClearOrVoiceButton
         }
     }
 
@@ -677,6 +699,33 @@ public class ObfuscationHelper extends HooksBaseClass {
         public static String[] covbFields;
 
         public static void initFieldNames(int idx) {
+
+            spbMic = new String[]{"", "", "", "", "", "", "", "", "cnl", "cKX", "cWT", "bhN", "brt", "bAy", "bKi", "cfv", "cnJ", "czP", "cgX"}[idx]; // (enable field in search) 1. search_plate_rounded_corner_radius 2. <field>.getOpacity()
+            covbFields = new String[][]{
+                    {"", "", "", ""}, {"", "", "", ""}, {"", "", "", ""}, {"", "", "", ""}, {"", "", "", ""}, {"", "", "", ""}, {"", "", "", ""}, {"", "", "", ""},
+                    {"qW", "ckE", "ckG", "ckH"},
+                    {"qW", "cIq", "cIs", "cIt"},
+                    {"ra", "cUk", "cUm", "cUn"},
+                    {"rf", "beZ", "bfb", "bfc"},
+                    {"rl", "boB", "boD", "boE"},
+                    {"rl", "bxK", "bxM", "bxN"},
+                    {"rk", "bHs", "bHu", "bHv"},
+                    {"rk", "ccE", "ccG", "ccH"},
+                    {"rk", "ckT", "ckU", "ckR"},
+                    {"sz", "cwX", "cwY", "cwZ"},
+                    {"tR", "cef", "ceh", "ceg"}
+            }[idx]; // com.google.android.apps.gsa.searchplate.ClearOrVoiceButton
+
+            if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_4_5_13
+                    && Common.GNL_PACKAGE_INFO.versionCode < ObfuscationHelper.GNL_4_6_10) {
+                covbFields = new String[]{"rf", "beY", "bfa", "bfb"};
+                spbMic = "bhM";
+            }
+
+            if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23 && Common.GNL_PACKAGE_INFO.applicationInfo.targetSdkVersion >= 19) {
+                idx = 0;
+            }
+
             dpHotseatAllAppsRank = new String[]{"hotseatAllAppsRank", "zp", "BQ", "Cv", "Cu", "DY", "CV", "CV", "Is", "Ir", "Iw", "IC", "IN", "IN", "IM", "IM", "IM", "JX"}[idx]; // only / 2 operation
             dpNumHotseatIcons = new String[]{"numHotseatIcons", "yz", "AY", "BD", "BC", "Di", "Cg", "Cg", "HB", "HA", "HF", "HL", "HW", "HW", "HV", "HV", "HV", "Jg"}[idx]; // toString of DynamicGrid ", hc: "
             dpHotseatBarHeightPx = new String[]{"hotseatBarHeightPx", "zo", "BP", "Cu", "Ct", "DX", "CU", "CU", "Ir", "Iq", "Iv", "IB", "IM", "IM", "IL", "IL", "IL", "JW"}[idx]; // 4 * ...
@@ -750,27 +799,6 @@ public class ObfuscationHelper extends HooksBaseClass {
             acpvContentHeight = new String[]{"mContentHeight", "sH", "vh", "vM", "vM", "yl", "xd", "xd", "Cv", "Cu", "Cz", "CF", "CQ", "CQ", "CP", "CP", "CP", "Ea"}[idx]; // second View.MeasureSpec.makeMeasureSpec(this.
             acpvLayoutInflater = new String[]{"mLayoutInflater", "mLayoutInflater", "mLayoutInflater", "mLayoutInflater", "mLayoutInflater", "mLayoutInflater", "mLayoutInflater", "mLayoutInflater", "Cq", "Cp", "Cu", "CA", "CL", "CL", "CK", "CK", "CK", "DV"}[idx]; // only LayoutInflater member
             acclFocusHandlerView = new String[]{"mFocusHandlerView", "", "", "", "KV", "yd", "wV", "wV", "Cm", "Cl", "Cq", "Cw", "CH", "CH", "CG", "CG", "CG", "DR"}[idx]; // localBubbleTextView.setOnFocusChangeListener
-            spbMic = new String[]{"", "", "", "", "", "", "", "", "cnl", "cKX", "cWT", "bhN", "brt", "bAy", "bKi", "cfv", "cnJ", "czP"}[idx]; // (enable field in search) 1. search_plate_rounded_corner_radius 2. <field>.getOpacity()
-
-            covbFields = new String[][]{
-                    {"", "", "", ""}, {"", "", "", ""}, {"", "", "", ""}, {"", "", "", ""}, {"", "", "", ""}, {"", "", "", ""}, {"", "", "", ""}, {"", "", "", ""},
-                    {"qW", "ckE", "ckG", "ckH"},
-                    {"qW", "cIq", "cIs", "cIt"},
-                    {"ra", "cUk", "cUm", "cUn"},
-                    {"rf", "beZ", "bfb", "bfc"},
-                    {"rl", "boB", "boD", "boE"},
-                    {"rl", "bxK", "bxM", "bxN"},
-                    {"rk", "bHs", "bHu", "bHv"},
-                    {"rk", "ccE", "ccG", "ccH"},
-                    {"rk", "ckT", "ckU", "ckR"},
-                    {"sz", "cwX", "cwY", "cwZ"}
-            }[idx]; // com.google.android.apps.gsa.searchplate.ClearOrVoiceButton
-
-            if (Common.GNL_VERSION >= ObfuscationHelper.GNL_4_5_13
-                    && Common.GNL_VERSION < ObfuscationHelper.GNL_4_6_10) {
-                covbFields = new String[]{"rf", "beY", "bfa", "bfb"};
-                spbMic = "bhM";
-            }
 
             if (Common.IS_L_TREBUCHET) {
                 btvShadowsEnabled = "mCustomShadowsEnabled";

@@ -27,6 +27,19 @@
   </head>
   <body>
 
+$ 2.3.17
+  % Version 2.3.17
+  _ 2015-09-29
+
+  Please consider XGELS Premium to support the development of this app!<br>Thanks so much!<br><br>
+
+  !Added:
+      * partly support Google Search 5.3.23 (everything app drawer related will NOT work)
+      * <b>Search bar:</b> Google Searchbar style (L or M)
+
+  !Fixed:
+      * kill launcher bug introduced by Google hotfix for Android 5.1.1Gen
+
 $ 2.3.16
   % Version 2.3.16
   _ 2015-09-02

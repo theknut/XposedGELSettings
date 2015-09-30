@@ -19,6 +19,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Environment;
 import android.view.View;
 import android.widget.ImageView;
@@ -225,23 +226,29 @@ public class CommonUI {
         String msg = CONTEXT.getString(R.string.killed);
         boolean neededRoot = false;
 
-        List<RunningAppProcessInfo> processes = am.getRunningAppProcesses();
-        for (RunningAppProcessInfo process : processes) {
-            if (Common.PACKAGE_NAMES.contains(process.processName)) {
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP_MR1) {
+            for (String packageName : Common.PACKAGE_NAMES) {
+                am.killBackgroundProcesses(packageName);
+            }
+        } else {
+            List<RunningAppProcessInfo> processes = am.getRunningAppProcesses();
+            for (RunningAppProcessInfo process : processes) {
+                if (Common.PACKAGE_NAMES.contains(process.processName)) {
 
-                am.killBackgroundProcesses(process.processName);
-                List<RunningAppProcessInfo> processesAfterKill = am.getRunningAppProcesses();
-                for (RunningAppProcessInfo processAfterKill : processesAfterKill) {
-                    if (processAfterKill.pid == process.pid) {
-                        // process wasn't killed for some reason
-                        // kill it with fire
-                        neededRoot = true;
-                        CommonUI.openRootShell(new String[]{"su","kill -9 " + processAfterKill.pid});
+                    am.killBackgroundProcesses(process.processName);
+                    List<RunningAppProcessInfo> processesAfterKill = am.getRunningAppProcesses();
+                    for (RunningAppProcessInfo processAfterKill : processesAfterKill) {
+                        if (processAfterKill.pid == process.pid) {
+                            // process wasn't killed for some reason
+                            // kill it with fire
+                            neededRoot = true;
+                            CommonUI.openRootShell(new String[]{"su", "kill -9 " + processAfterKill.pid});
+                        }
                     }
-                }
 
-                if (!neededRoot) {
-                    msg += process.processName + "\n";
+                    if (!neededRoot) {
+                        msg += process.processName + "\n";
+                    }
                 }
             }
         }

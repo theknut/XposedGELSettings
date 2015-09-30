@@ -44,7 +44,9 @@ public class ResourceReplacements extends XC_MethodHook implements IXposedHookIn
 
             resparam.res.setReplacement(pkg, "color", "outline_color", glowColor);
             resparam.res.setReplacement(pkg, "bool", "allow_rotation", prefs.getBoolean("enablerotation", false));
-            resparam.res.setReplacement(pkg, "integer", "config_tabTransitionDuration", 0);
+
+            if (resparam.res.getIdentifier("config_tabTransitionDuration", "integer", pkg) != 0)
+                resparam.res.setReplacement(pkg, "integer", "config_tabTransitionDuration", 0);
 
             applyPageIndicatorColor(pkg, resparam.res);
         }

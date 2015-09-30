@@ -37,13 +37,11 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
 
         // only hook to supported launchers
         if (lpparam.packageName.equals(Common.PACKAGE_NAME)) {
-
             // tells the UI that the module is active and running
             findAndHookMethod(Common.PACKAGE_NAME + ".ui.FragmentWelcome", lpparam.classLoader, "isXGELSActive", XC_MethodReplacement.returnConstant(true));
             return;
 
         } else if (lpparam.packageName.equals("com.android.systemui")) {
-
             PreferencesHelper.init();
             SystemUIReceiver.initAllHooks(lpparam);
 
@@ -53,15 +51,9 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
                 QuickSettingsL.initAllHooks(lpparam);
             }
 
-//            try {
-//                findAndHookMethod("com.android.systemui.SearchPanelView", lpparam.classLoader, "show", boolean.class, boolean.class, XC_MethodReplacement.DO_NOTHING);
-//                findAndHookMethod("com.android.systemui.SearchPanelView", lpparam.classLoader, "startAssistActivity", XC_MethodReplacement.DO_NOTHING);
-//            } catch (Error e) { }
-//              catch (Exception e) { }
             return;
 
         } else if (lpparam.packageName.equals("com.android.settings")) {
-
             PreferencesHelper.init();
             AppInfo.initAllHooks(lpparam);
             return;
@@ -75,23 +67,23 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
         if (PreferencesHelper.Debug) XposedBridge.log("XGELS: GELSettings.handleLoadPackage: hooked package -> " + lpparam.packageName);
 
         try {
-            ////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             // thanks to KeepChat for the following snippet:
             // http://git.io/JJZPaw
             Object activityThread = callStaticMethod(findClass("android.app.ActivityThread", null), "currentActivityThread");
             Context context = (Context) callMethod(activityThread, "getSystemContext");
-            ///////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE)) {
-                String versionName = context.getPackageManager().getPackageInfo(lpparam.packageName, 0).versionName;
-                int versionCode = Common.GNL_VERSION = context.getPackageManager().getPackageInfo(lpparam.packageName, 0).versionCode;
-
-                versionIdx = ObfuscationHelper.getVersionIndex(versionCode);
+                Common.IS_GNL = true;
+                Common.GNL_PACKAGE_INFO = context.getPackageManager().getPackageInfo(lpparam.packageName, 0);
+                versionIdx = ObfuscationHelper.getVersionIndex(Common.GNL_PACKAGE_INFO.versionCode);
                 if (versionIdx > 0) Common.PACKAGE_OBFUSCATED = true;
-                if (versionCode >= ObfuscationHelper.GNL_4_0_26) Common.IS_PRE_GNL_4 = false;
+                if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_4_0_26) Common.IS_PRE_GNL_4 = false;
+                if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23) Common.IS_M_GNL = true;
 
                 if (PreferencesHelper.Debug)
-                    XposedBridge.log("XGELS: " + Common.HOOKED_PACKAGE + " V" + versionName + "(" + versionCode + ")");
+                    XposedBridge.log("XGELS: " + Common.HOOKED_PACKAGE + " V" + Common.GNL_PACKAGE_INFO.versionName + "(" + Common.GNL_PACKAGE_INFO.versionCode + ") Target SDK " + Common.GNL_PACKAGE_INFO.applicationInfo.targetSdkVersion);
             } else {
                 Common.IS_PRE_GNL_4 = false;
                 Common.IS_TREBUCHET = Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE);
@@ -121,7 +113,7 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
         HomescreenHooks.initAllHooks(lpparam);
         SystemUIHooks.initAllHooks(lpparam);
         SystemBars.initAllHooks(lpparam);
-        AppDrawerHooks.initAllHooks(lpparam);
+        if (!Common.IS_M_GNL) AppDrawerHooks.initAllHooks(lpparam);
         GestureHooks.initAllHooks(lpparam);
         NotificationBadgesHooks.initAllHooks(lpparam);
         IconHooks.initAllHooks(lpparam);

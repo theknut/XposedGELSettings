@@ -56,6 +56,7 @@ import de.theknut.xposedgelsettings.ui.FragmentSelectiveIcon;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
+import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getLongField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
@@ -63,33 +64,11 @@ import static de.robv.android.xposed.XposedHelpers.newInstance;
 
 public class GeneralHooks extends HooksBaseClass {
 
-    static Unhook unhook;
-
-    public static class Stat {
-        String pkg = null;
-        int count;
-
-        public Stat(String intent, int count) {
-            this.count = count;
-            String[] split = intent.split(";");
-            for (int i = split.length - 1; i >= 0; i--) {
-                if (split[i].contains("component") || split[i].contains("package")) {
-                    this.pkg = split[i];
-                }
-            }
-            if (pkg == null) {
-                this.pkg = "Unknown";
-            }
-        }
-    }
-
     public static void initAllHooks(final LoadPackageParam lpparam) {
-        //final ArrayList<Stat> stats = new ArrayList<Stat>();
         findAndHookMethod(Classes.Launcher, "onCreate", Bundle.class, new XC_MethodHook() {
 
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-
                 // save the launcher instance and the context
                 Common.LAUNCHER_INSTANCE = (Activity) param.thisObject;
                 Common.LAUNCHER_CONTEXT = (Context) callMethod(Common.LAUNCHER_INSTANCE, "getApplicationContext");
@@ -107,35 +86,24 @@ public class GeneralHooks extends HooksBaseClass {
                 } catch (Exception e) { }
             }
 
-//            @Override
-//            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-//                Object mStats = getObjectField(param.thisObject, "IS");
-//                ArrayList<String> mIntents = (ArrayList<String>) getObjectField(mStats, "QG");
-//                ArrayList<Integer> mHistogram = (ArrayList<Integer>) getObjectField(mStats, "QH");
-//
-//                for (int i = 0; i < mIntents.size(); i++) {
-//                    stats.add(new Stat(mIntents.get(i), mHistogram.get(i)));
-//                }
-//
-//                Collections.sort(stats, new Comparator<Stat>() {
-//                    @Override
-//                    public int compare(Stat lhs, Stat rhs) {
-//                        return rhs.count-lhs.count;
-//                    }
-//                });
-//
-//                for (Stat stat : stats) {
-//                    log(stat.pkg + " " + stat.count);
-//                }
-//            }
-        });
-
-        XposedBridge.hookAllConstructors(Classes.DynamicGrid, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                Common.DEVICE_PROFIL = callMethod(param.thisObject, Methods.dgGetDeviceProfile);
+                int id = Common.LAUNCHER_INSTANCE.getResources().getIdentifier("drag_layer", "id", Common.LAUNCHER_INSTANCE.getPackageName());
+                if (id != 0)
+                {
+                    Common.DRAG_LAYER = (ViewGroup) Common.LAUNCHER_INSTANCE.findViewById(id);
+                }
             }
         });
+
+        if (Common.IS_GNL && !Common.IS_M_GNL) {
+            XposedBridge.hookAllConstructors(Classes.DynamicGrid, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    Common.DEVICE_PROFIL = callMethod(param.thisObject, Methods.dgGetDeviceProfile);
+                }
+            });
+        }
 
         try {
             if (PreferencesHelper.enableLLauncher && Common.IS_PRE_GNL_4) {
@@ -159,12 +127,8 @@ public class GeneralHooks extends HooksBaseClass {
                 });
             }
         } catch (ClassNotFoundError cnfe) {
-
         } catch (NoSuchMethodError nsme) {
-
-        } catch (Exception e) {
-
-        }
+        } catch (Exception e) {}
 
         // save the workspace instance
         XposedBridge.hookAllConstructors(Classes.Workspace, new WorkspaceConstructorHook());
@@ -186,7 +150,7 @@ public class GeneralHooks extends HooksBaseClass {
             };
 
             if (Common.PACKAGE_OBFUSCATED) {
-                if (Common.GNL_VERSION < ObfuscationHelper.GNL_4_8_10) {
+                if (Common.GNL_PACKAGE_INFO.versionCode < ObfuscationHelper.GNL_4_8_10) {
                     findAndHookMethod(Classes.StartSettingsOnClick, "onClick", View.class, overriderSettingsHook);
                 }
                 else
@@ -212,6 +176,10 @@ public class GeneralHooks extends HooksBaseClass {
                                         }
                                     });
                                 }
+                            }
+
+                            if (Common.IS_M_GNL) {
+                                Common.DEVICE_PROFIL = getObjectField(param.thisObject, "mDeviceProfile");
                             }
                         }
                     });
@@ -266,8 +234,9 @@ public class GeneralHooks extends HooksBaseClass {
         };
 
         findAndHookMethod(Classes.Folder, "onLongClick", View.class, drag);
-        findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvBeginDragging, View.class, drag);
-        findAndHookMethod(Classes.Workspace, Methods.wStartDrag, Classes.CellLayoutCellInfo, drag);
+        if (Common.IS_GNL && !Common.IS_M_GNL) findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvBeginDragging, View.class, drag);
+        if (Common.IS_GNL && Common.IS_M_GNL) findAndHookMethod(Classes.Workspace, Methods.wStartDrag, Classes.CellLayoutCellInfo, boolean.class, drag);
+        else findAndHookMethod(Classes.Workspace, Methods.wStartDrag, Classes.CellLayoutCellInfo, drag);
 
         if (PreferencesHelper.overlappingWidgets) {
             findAndHookMethod(Classes.CellLayout, Methods.clMarkCellsForView, Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, boolean[][].class, boolean.class, new XC_MethodHook() {
@@ -317,7 +286,9 @@ public class GeneralHooks extends HooksBaseClass {
             });
 
             if (Common.PACKAGE_OBFUSCATED) {
-                if (Common.GNL_VERSION >= ObfuscationHelper.GNL_4_1_21) {
+                if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23) {
+                    findAndHookMethod(Classes.LoaderTask, Methods.lmCheckItemPlacement, findClass("com.android.launcher3.util.LongArrayMap", lpparam.classLoader), Classes.ItemInfo, checkItemPlacementHook);
+                } else if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_4_1_21) {
                     findAndHookMethod(Classes.LoaderTask, Methods.lmCheckItemPlacement, HashMap.class, Classes.ItemInfo, checkItemPlacementHook);
                 } else {
                     findAndHookMethod(Classes.LoaderTask, Methods.lmCheckItemPlacement, HashMap.class, Classes.ItemInfo, AtomicBoolean.class, checkItemPlacementHook);
@@ -354,7 +325,7 @@ public class GeneralHooks extends HooksBaseClass {
 
         // hiding widgets
         if (Common.PACKAGE_OBFUSCATED) {
-            findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvOnPackagesUpdated, ArrayList.class, new OnPackagesUpdatedHook());
+            if (Common.IS_GNL && !Common.IS_M_GNL) findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvOnPackagesUpdated, ArrayList.class, new OnPackagesUpdatedHook());
         } else {
             XposedBridge.hookAllMethods(Classes.AppsCustomizePagedView, Methods.acpvOnPackagesUpdated, new OnPackagesUpdatedHook());
         }
@@ -600,7 +571,7 @@ public class GeneralHooks extends HooksBaseClass {
                         protected void onPostExecute(Void aVoid) {
                             if (mode == FragmentSelectiveIcon.MODE_PICK_SHORTCUT_ICON) {
                                 isFolder = icon.getParent().getParent().getClass().equals(Classes.Folder);
-                                if (Common.GNL_VERSION >= ObfuscationHelper.GNL_3_9_00) {
+                                if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_3_9_00) {
                                     callMethod(icon, Methods.btvApplyFromShortcutInfo, icon.getTag(), getObjectField(Common.LAUNCHER_INSTANCE, Fields.lIconCache), !isFolder);
                                 } else {
                                     callMethod(icon, Methods.btvApplyFromShortcutInfo, icon.getTag(), getObjectField(Common.LAUNCHER_INSTANCE, Fields.lIconCache));

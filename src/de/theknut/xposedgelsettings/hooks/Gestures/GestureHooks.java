@@ -86,7 +86,18 @@ public class GestureHooks extends GestureHelper {
             };
 
             if (Common.PACKAGE_OBFUSCATED) {
-                if (Common.GNL_VERSION >= ObfuscationHelper.GNL_4_2_16) {
+                if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23) {
+                    findAndHookMethod(Classes.Launcher, Methods.lShowWorkspace, Integer.TYPE, boolean.class, Runnable.class, new XC_MethodHook() {
+
+                        @Override
+                        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                            if (DEBUG) log("GestureHooks: lHideAppsCustomizeHelper");
+                            if ((Integer) param.args[0] == -1) {
+                                hideAppdock(FORCEHIDE);
+                            }
+                        }
+                    });
+                } else if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_4_2_16) {
                     findAndHookMethod(Classes.Launcher, Methods.lHideAppsCustomizeHelper, Classes.WorkspaceState, boolean.class, boolean.class, Runnable.class, hideAppsCustomizeHelper);
                 } else {
                     findAndHookMethod(Classes.Launcher, Methods.lHideAppsCustomizeHelper, Classes.WorkspaceState, boolean.class, Runnable.class, hideAppsCustomizeHelper);
@@ -373,7 +384,9 @@ public class GestureHooks extends GestureHelper {
             }
         };
 
-        if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION >= ObfuscationHelper.GNL_4_1_21) {
+        if (Common.PACKAGE_OBFUSCATED
+                && Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_4_1_21
+                && Common.GNL_PACKAGE_INFO.versionCode < ObfuscationHelper.GNL_5_3_23) {
             method = XposedHelpers.findMethodBestMatch(Classes.Launcher, "a", boolean.class, Classes.AppsCustomizeContentType, boolean.class);
         }
 
