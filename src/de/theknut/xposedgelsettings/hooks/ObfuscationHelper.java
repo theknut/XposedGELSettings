@@ -145,7 +145,8 @@ public class ObfuscationHelper extends HooksBaseClass {
                 SEARCH_PLATE_BAR,
                 URI_LOADER,
                 WEATHER_POINT,
-                LAUNCHER_APP_STATE;
+                LAUNCHER_APP_STATE,
+                FOLDER_PAGED_VIEW;
 
         public static void initNames(int idx) {
 
@@ -168,6 +169,7 @@ public class ObfuscationHelper extends HooksBaseClass {
 
             if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23 && Common.GNL_PACKAGE_INFO.applicationInfo.targetSdkVersion >= 19) {
                 idx = 0;
+                FOLDER_PAGED_VIEW = prefix + "FolderPagedView";
             }
 
             LAUNCHER = new String[]{prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher"}[idx];
@@ -269,11 +271,16 @@ public class ObfuscationHelper extends HooksBaseClass {
                 WeatherEntryAdapter,
                 WeatherPoint,
                 SearchSettings,
-                UriLoader;
+                UriLoader,
+                FolderPagedView;
 
         public static void hookAllClasses(LoadPackageParam lpparam) {
             Launcher = findClass(ClassNames.LAUNCHER, lpparam.classLoader);
             Workspace = findClass(ClassNames.WORKSPACE, lpparam.classLoader);
+
+            if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23) {
+                FolderPagedView = findClass(ClassNames.FOLDER_PAGED_VIEW, lpparam.classLoader);
+            }
 
             if (Common.GNL_PACKAGE_INFO.versionCode < ObfuscationHelper.GNL_5_3_23) {
                 AppsCustomizePagedView = findClass(ClassNames.APPS_CUSTOMIZE_PAGED_VIEW, lpparam.classLoader);
@@ -491,7 +498,7 @@ public class ObfuscationHelper extends HooksBaseClass {
 
             soiSetSearchStarted = new String[]{"setSearchStarted", "cs", "cI", "cI", "cI", "eG", "fg", "fh", "gt", "hc", "hG", "hN", "io", "iM", "je", "ei", "ey", "eU", "ef"}[idx]; // 1. "search_overlay_impl:search_started" 2. onResume before cancel()
             spOnModeChanged = new String[]{"onModeChanged", "", "", "", "", "av", "aA", "aA", "bf", "bE", "bJ", "aR", "aR", "aU", "ba", "bh", "bm", "bl", "aJ"}[idx]; // 1. com.google.android.apps.gsa.searchplate.SearchPlate 2. "if ((paramInt1 == 0) && ((paramInt2 & 0x4) != 0))"
-            tmSetTransitionsEnabled = new String[]{"setTransitionsEnabled", "cG", "cY", "cZ", "cZ", "ea", "eE", "eF", "fM", "gw", "hc", "cR", "df", "dt", "dA", "eM", "fc", "fy", "fy"}[idx]; // (4)
+            tmSetTransitionsEnabled = new String[]{"setTransitionsEnabled", "cG", "cY", "cZ", "cZ", "ea", "eE", "eF", "fM", "gw", "hc", "cR", "df", "dt", "dA", "eM", "fc", "fy", "eK"}[idx]; // (4)
             ssHotwordUsageStats = new String[]{"", "", "", "", "", "", "", "", "afv", "ask", "azJ", "aCQ", "aHh", "aLB", "aUf", "XF", "Zl", "Zl", ""}[idx]; // "hotword_usage_stats"
             ssFirstHotwordHintShownAt = new String[]{"", "", "", "", "", "", "", "", "afw", "asl", "azK", "aCR", "aHi", "aLC", "aUg", "XG", "Zm", "", "bcW"}[idx]; // "first_hotword_hint_shown_at"
             noOnShow = new String[]{"onShow", "p", "u", "v", "v", "x", "y", "y", "z", "A", "D", "C", "A", "C", "F", "I", "I", "G", "E"}[idx]; // 1. "now_overlay" 2. boolean paramBoolean1, boolean paramBoolean2 3. the one with isConnected
@@ -741,7 +748,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             clShortcutsAndWidgets = new String[]{"mShortcutsAndWidgets", "vp", "xO", "yt", "ys", "AE", "zB", "zB", "EW", "EV", "Fa", "Fg", "Fr", "Fr", "Fq", "Fq", "Fq", "GB"}[idx];
             sawIsHotseat = new String[]{"mIsHotseatLayout", "Ng", "PQ", "Qr", "Qu", "SP", "Wx", "Wx", "XW", "XV", "XZ", "Yo", "YB", "YB", "YA", "YA", "YB", "ZD"}[idx];
             sdtbIsSearchBarHidden = new String[]{"mIsSearchBarHidden", "MV", "PF", "Qg", "Qj", "SE", "Wn", "Wn", "XL", "XK", "XO", "Yd", "Yq", "Yq", "Yp", "Yp", "Yq", "Zs"}[idx]; // under ValueAnimator
-            sdtbQsbBar = new String[]{"mQSBSearchBar", "MW", "PG", "Qh", "Qk", "SF", "Wo", "Wo", "XM", "XL", "XP", "Ye", "Yr", "Yr", "Yq", "Yq", "Yr", "Zt"}[idx]; // under sdtbIsSearchBarHidden
+            sdtbQsbBar = new String[]{"mQSB", "MW", "PG", "Qh", "Qk", "SF", "Wo", "Wo", "XM", "XL", "XP", "Ye", "Yr", "Yr", "Yq", "Yq", "Yr", "Zt"}[idx]; // under sdtbIsSearchBarHidden
             wCustomContentShowing = new String[]{"mCustomContentShowing", "PV", "SH", "Ti", "Ti", "VF", "Zo", "Zo", "aaV", "aaU", "aaY", "abn", "abA", "abA", "abz", "abz", "abx", "acz"}[idx]; // "() == 0) || (!this.<fieldName>"
             wState = new String[]{"mState", "Qj", "SV", "Tw", "Tw", "VT", "ZC", "ZC", "abk", "abj", "abn", "abC", "abP", "abP", "abO", "abO", "abM", "acO"}[idx]; // WorkspaceState member
             wDefaultPage = new String[]{"mDefaultPage", "PI", "Su", "SV", "SV", "Vs", "Zb", "Zb", "aaI", "aaH", "aaL", "aba", "abn", "abn", "abm", "abm", "abk", "acm"}[idx];  // "Expected custom content screen to exist", member gets decreased by one // "(-1 + this."

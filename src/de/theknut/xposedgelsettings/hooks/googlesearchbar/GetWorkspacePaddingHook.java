@@ -18,7 +18,7 @@ public class GetWorkspacePaddingHook extends XGELSCallback {
         // 1 = portrait
         int orientation;
 
-        if (param.args.length == 0) {
+        if (param.args[0] instanceof Boolean) {
             orientation = 1;
         } else {
             orientation = (Integer) param.args[0];

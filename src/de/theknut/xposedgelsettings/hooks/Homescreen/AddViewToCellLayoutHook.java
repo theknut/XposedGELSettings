@@ -33,30 +33,31 @@ public final class AddViewToCellLayoutHook extends XGELSCallback {
     @Override
     public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
         View child = (View) param.args[0];
+        Class<?> parent = ((View) param.thisObject).getParent().getClass();
 
         if (child.getClass().equals(Classes.BubbleTextView)) {
-            if (param.thisObject.getClass().equals(Classes.AppsCustomizeCellLayout)) {
+            if (parent.equals(Classes.AppsCustomizeCellLayout)) {
                 callMethod(child, "setTextColor", PreferencesHelper.hideIconLabelApps ? Color.TRANSPARENT : PreferencesHelper.appdrawerIconLabelColor);
                 maybeHideShadow(child, !PreferencesHelper.appdrawerIconLabelShadow || PreferencesHelper.hideIconLabelApps);
-            } else if (((View) param.thisObject).getParent().getClass().equals(ScrollView.class)) {
+            } else if (parent.equals(ScrollView.class) || parent.equals(Classes.FolderPagedView)) {
                 // apps inside folders are added to a ScrollView
                 if (PreferencesHelper.homescreenFolderSwitch) {
                     callMethod(child, "setTextColor", PreferencesHelper.homescreenFolderNoLabel ? Color.TRANSPARENT : PreferencesHelper.homescreenFolderAppTextColor);
                 }
-            } else if (((View) param.thisObject).getParent().getClass().equals(Classes.Workspace)) {
+            } else if (parent.equals(Classes.Workspace)) {
                 if (PreferencesHelper.iconSettingsSwitchHome) {
                     callMethod(child, "setTextColor", PreferencesHelper.hideIconLabelHome ? Color.TRANSPARENT : PreferencesHelper.homescreenIconLabelColor);
                     maybeHideShadow(child, !PreferencesHelper.homescreenIconLabelShadow || PreferencesHelper.hideIconLabelHome);
                 }
                 iconPadding = ((TextView) child).getCompoundDrawablePadding();
-            } else if (((View) param.thisObject).getParent().getClass().equals(Classes.Hotseat)) {
+            } else if (parent.equals(Classes.Hotseat)) {
                 if (PreferencesHelper.iconSettingsSwitchHome) {
                     callMethod(child, "setTextColor", PreferencesHelper.hideIconLabelHome ? Color.TRANSPARENT : PreferencesHelper.homescreenIconLabelColor);
                     maybeHideShadow(child, !PreferencesHelper.homescreenIconLabelShadow || PreferencesHelper.hideIconLabelHome);
                 }
             }
         } else if (child.getClass().equals(Classes.FolderIcon)) {
-            boolean isAppDrawerFolder = ((View) param.thisObject).getParent().getClass().equals(Classes.AppsCustomizePagedView);
+            boolean isAppDrawerFolder = parent.equals(Classes.AppsCustomizePagedView);
             Object folderName = getObjectField(child, Fields.fiFolderName);
 
             if (isAppDrawerFolder) {
@@ -69,7 +70,7 @@ public final class AddViewToCellLayoutHook extends XGELSCallback {
                     callMethod(folderName, "setTextColor", PreferencesHelper.hideIconLabelHome ? Color.TRANSPARENT : PreferencesHelper.homescreenIconLabelColor);
                     maybeHideShadow(folderName, !PreferencesHelper.homescreenIconLabelShadow || PreferencesHelper.hideIconLabelHome);
                     if (PreferencesHelper.appdockShowLabels
-                            && ((View) param.thisObject).getParent().getClass().equals(Classes.Hotseat)) {
+                            && parent.equals(Classes.Hotseat)) {
                         ((View) folderName).setVisibility(View.VISIBLE);
                     }
                 }

@@ -32,12 +32,12 @@ import de.theknut.xposedgelsettings.hooks.googlesearchbar.weatherwidget.WeatherW
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
+import static de.robv.android.xposed.XposedHelpers.findClass;
+import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
 public class GoogleSearchBarHooks extends HooksBaseClass {
-
-    private static View qsb;
 
     public static void initAllHooks(final LoadPackageParam lpparam) {
 
@@ -55,13 +55,7 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
                 CommonHooks.PageEndMovingListeners.add(new OnPageEndMovingHook());
 
                 if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE)) {
-                    // avoid that nasty animation when showing the search bar again
-                    findAndHookMethod(Classes.TransitionsManager, Methods.tmSetTransitionsEnabled, boolean.class, new XC_MethodHook() {
-                        @Override
-                        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                            param.args[0] = false;
-                        }
-                    });
+                    blockSearchbarTransitions(lpparam);
                 }
             }
 
@@ -78,15 +72,7 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
                     // show Google Search Bar on GEL sidekick - needed if GNow isn't accessed from the homescreen
                     CommonHooks.OnNowShowListeners.add(new OnShowNowOverlayHook());
 
-                    if (Common.GNL_PACKAGE_INFO.versionCode < ObfuscationHelper.GNL_5_2_33) {
-                        // avoid that nasty animation when showing the search bar again
-                        findAndHookMethod(Classes.TransitionsManager, Methods.tmSetTransitionsEnabled, boolean.class, new XC_MethodHook() {
-                            @Override
-                            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                                param.args[0] = false;
-                            }
-                        });
-                    }
+                    blockSearchbarTransitions(lpparam);
                 }
 
                 // show when doing a Google search
@@ -216,6 +202,37 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
             if (Common.GNL_PACKAGE_INFO.versionCode > ObfuscationHelper.GNL_4_0_26) {
                 WeatherWidget.initAllHooks(lpparam);
             }
+        }
+    }
+
+    private static void blockSearchbarTransitions(LoadPackageParam lpparam) {
+        if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23) {
+            // avoid that nasty animation when showing the search bar again
+            findAndHookMethod(Classes.TransitionsManager, Methods.tmSetTransitionsEnabled, boolean.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    param.args[0] = false;
+                }
+            });
+            findAndHookMethod(findClass("com.google.android.apps.gsa.searchplate.HintTextView", lpparam.classLoader), "eC", boolean.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    int page = getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage);
+                    boolean shouldShow = (page == 0 && PreferencesHelper.autoHideSearchBar) || (PreferencesHelper.searchBarOnDefaultHomescreen && page == (PreferencesHelper.defaultHomescreen - 1));
+                    // show the search bar as soon as the page has stopped moving and the GNow overlay is visible
+                    if ((Common.IS_KK_TREBUCHET || (Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lHasCustomContentToLeft)) && shouldShow) {
+                        param.args[0] = false;
+                    }
+                }
+            });
+        } else {
+            // avoid that nasty animation when showing the search bar again
+            findAndHookMethod(Classes.TransitionsManager, Methods.tmSetTransitionsEnabled, boolean.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    param.args[0] = false;
+                }
+            });
         }
     }
 

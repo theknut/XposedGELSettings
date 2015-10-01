@@ -582,16 +582,23 @@ public class IconHooks extends HooksBaseClass {
             return;
         }
 
-        Bitmap bitmap = ((BitmapDrawable) icon).getBitmap();
-        icon = new BitmapDrawable(
-                Common.LAUNCHER_CONTEXT.getResources(),
-                Bitmap.createScaledBitmap(
-                        bitmap,
-                        getStaticIntField(ObfuscationHelper.Classes.Utilities, Fields.uIconWidth),
-                        getStaticIntField(ObfuscationHelper.Classes.Utilities, Fields.uIconHeight),
-                        true
-                )
-        );
+        if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23) {
+            icon = new BitmapDrawable(
+                    Common.LAUNCHER_CONTEXT.getResources(),
+                    (Bitmap) callStaticMethod(ObfuscationHelper.Classes.Utilities, "createIconBitmap", icon, Common.LAUNCHER_CONTEXT)
+            );
+        } else {
+            Bitmap bitmap = ((BitmapDrawable) icon).getBitmap();
+            icon = new BitmapDrawable(
+                    Common.LAUNCHER_CONTEXT.getResources(),
+                    Bitmap.createScaledBitmap(
+                            bitmap,
+                            getStaticIntField(ObfuscationHelper.Classes.Utilities, Fields.uIconWidth),
+                            getStaticIntField(ObfuscationHelper.Classes.Utilities, Fields.uIconHeight),
+                            true
+                    )
+            );
+        }
 
         prevBackground.setScaleType(ImageView.ScaleType.CENTER);
         prevBackground.setImageDrawable(icon);

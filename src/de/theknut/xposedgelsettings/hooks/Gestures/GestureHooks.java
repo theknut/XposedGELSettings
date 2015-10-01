@@ -47,7 +47,6 @@ public class GestureHooks extends GestureHelper {
     static boolean isScheduledOrRunning = false;
 
     public static void initAllHooks(LoadPackageParam lpparam) {
-
         if (PreferencesHelper.appdockSettingsSwitch && autoHideAppDock) {
 
             XposedBridge.hookAllMethods(Classes.Launcher, "showHotseat", new XC_MethodHook() {

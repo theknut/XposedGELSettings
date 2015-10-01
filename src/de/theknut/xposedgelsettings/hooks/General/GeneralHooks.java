@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -55,6 +56,7 @@ import de.theknut.xposedgelsettings.hooks.icon.IconHooks;
 import de.theknut.xposedgelsettings.ui.FragmentSelectiveIcon;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
+import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
@@ -179,7 +181,14 @@ public class GeneralHooks extends HooksBaseClass {
                             }
 
                             if (Common.IS_M_GNL) {
-                                Common.DEVICE_PROFIL = getObjectField(param.thisObject, "mDeviceProfile");
+                                Object launcherAppState = callStaticMethod(Classes.LauncherAppState, "getInstance");
+                                Object InvDevPro = getObjectField(launcherAppState, "mInvariantDeviceProfile");
+                                if (Common.LAUNCHER_CONTEXT.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                                    Common.DEVICE_PROFIL = getObjectField(InvDevPro, "landscapeProfile");
+                                } else {
+
+                                    Common.DEVICE_PROFIL = getObjectField(InvDevPro, "portraitProfile");
+                                }
                             }
                         }
                     });

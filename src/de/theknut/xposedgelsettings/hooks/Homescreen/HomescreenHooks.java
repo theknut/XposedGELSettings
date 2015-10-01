@@ -13,6 +13,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
@@ -23,6 +24,7 @@ import de.theknut.xposedgelsettings.hooks.general.MoveToDefaultScreenHook;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.getFloatField;
+import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setBooleanField;
 import static de.robv.android.xposed.XposedHelpers.setIntField;
@@ -71,13 +73,24 @@ public class HomescreenHooks extends HooksBaseClass {
                 XposedBridge.hookAllConstructors(Classes.Hotseat, new HotseatConstructorHook());
 
                 if (PreferencesHelper.appdockShowLabels) {
-                    findAndHookMethod(Classes.CellLayout, Methods.clSetIsHotseat, boolean.class, new XC_MethodHook() {
-                        @Override
-                        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                            setBooleanField(param.thisObject, Fields.clIsHotseat, false);
-                            setBooleanField(getObjectField(param.thisObject, Fields.clShortcutsAndWidgets), Fields.sawIsHotseat, false);
-                        }
-                    });
+                    if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23) {
+                        findAndHookMethod(Classes.Hotseat, "resetLayout", new XC_MethodHook() {
+                            @Override
+                            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                                Object mContent = getObjectField(param.thisObject, "mContent");
+                                setBooleanField(mContent, Fields.clIsHotseat, false);
+                                setBooleanField(getObjectField(mContent, Fields.clShortcutsAndWidgets), Fields.sawIsHotseat, false);
+                            }
+                        });
+                    } else {
+                        findAndHookMethod(Classes.CellLayout, Methods.clSetIsHotseat, boolean.class, new XC_MethodHook() {
+                            @Override
+                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                                setBooleanField(param.thisObject, Fields.clIsHotseat, false);
+                                setBooleanField(getObjectField(param.thisObject, Fields.clShortcutsAndWidgets), Fields.sawIsHotseat, false);
+                            }
+                        });
+                    }
                 }
 
                 findAndHookMethod(Classes.Hotseat, "onFinishInflate", new XC_MethodHook() {
@@ -129,7 +142,7 @@ public class HomescreenHooks extends HooksBaseClass {
                     float countX;
 
                     if (Common.IS_M_GNL) {
-                        countX = getFloatField(getObjectField(Common.DEVICE_PROFIL, "inv"), Fields.dpNumCols);
+                        countX = getIntField(Common.DEVICE_PROFIL, Fields.dpNumCols);
                     } else {
                         countX = getFloatField(Common.DEVICE_PROFIL, Fields.dpNumCols);
                     }

@@ -46,6 +46,7 @@ import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.getAdditionalInstanceField;
+import static de.robv.android.xposed.XposedHelpers.getBooleanField;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getLongField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
@@ -230,14 +231,29 @@ public class ContextMenu extends HooksBaseClass{
             }
         });
 
-        hookAllMethods(Classes.PagedView, Methods.pvPageBeginMoving, new XC_MethodHook() {
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                if (isOpen) {
-                    closeAndRemove();
+        XC_MethodHook hook;
+        if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23) {
+            hook = new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    // onDragEnd will move the page, so check whether we are moving or not
+                    if (isOpen && !getBooleanField(Common.WORKSPACE_INSTANCE, "mIsDragOccuring")) {
+                        closeAndRemove();
+                    }
                 }
-            }
-        });
+            };
+        } else {
+            hook = new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    if (isOpen) {
+                        closeAndRemove();
+                    }
+                }
+            };
+        }
+
+        hookAllMethods(Classes.PagedView, Methods.pvPageBeginMoving, hook);
     }
 
     public static int getStatusBarHeight() {

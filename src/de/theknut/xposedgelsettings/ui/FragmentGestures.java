@@ -148,9 +148,8 @@ public class FragmentGestures extends FragmentBase {
                     return true;
                 }
             });
-        }
-        else {
-            //getPreferenceScreen().removePreference(this.findPreference("needsDonate"));
+        } else {
+            getPreferenceScreen().removePreference(this.findPreference("needsDonate"));
         }
 
         rootView = CommonUI.setBackground(rootView, R.id.prefbackground);
