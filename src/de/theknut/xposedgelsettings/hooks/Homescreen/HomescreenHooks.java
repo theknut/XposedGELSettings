@@ -24,7 +24,6 @@ import de.theknut.xposedgelsettings.hooks.general.MoveToDefaultScreenHook;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.getFloatField;
-import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setBooleanField;
 import static de.robv.android.xposed.XposedHelpers.setIntField;
@@ -135,19 +134,11 @@ public class HomescreenHooks extends HooksBaseClass {
 
         CommonHooks.MoveToDefaultScreenListeners.add(new MoveToDefaultScreenHook());
 
-        if (PreferencesHelper.unlimitedFolderSize) {
+        if (PreferencesHelper.unlimitedFolderSize && !Common.IS_M_GNL) {
             XposedBridge.hookAllConstructors(Classes.Folder, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    float countX;
-
-                    if (Common.IS_M_GNL) {
-                        countX = getIntField(Common.DEVICE_PROFIL, Fields.dpNumCols);
-                    } else {
-                        countX = getFloatField(Common.DEVICE_PROFIL, Fields.dpNumCols);
-                    }
-
-                    setIntField(param.thisObject, Fields.fMaxCountX, Math.round(countX));
+                    setIntField(param.thisObject, Fields.fMaxCountX, Math.round(getFloatField(Common.DEVICE_PROFIL, Fields.dpNumCols)));
                     setIntField(param.thisObject, Fields.fMaxCountY, Integer.MAX_VALUE);
                     setIntField(param.thisObject, Fields.fMaxNumItems, Integer.MAX_VALUE);
                 }

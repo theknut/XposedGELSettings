@@ -114,6 +114,8 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
                         ImageView mic = (ImageView) searchPlate.findViewById(resources.getIdentifier("clear_or_voice_button", "id", Common.HOOKED_PACKAGE));
 
                         switch (PreferencesHelper.searchbarStyle) {
+                            case 0:
+                                return;
                             case 1:
                                 logoid = R.drawable.ic_searchbox_google;
                                 Drawable d = Common.XGELSCONTEXT.getResources().getDrawable(R.drawable.ic_mic_dark);

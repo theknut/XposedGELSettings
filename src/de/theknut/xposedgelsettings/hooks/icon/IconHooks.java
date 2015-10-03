@@ -583,9 +583,11 @@ public class IconHooks extends HooksBaseClass {
         }
 
         if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23) {
+            int iconSize = getIntField(getObjectField(Common.LAUNCHER_INSTANCE, "mDeviceProfile"), "iconSizePx");
+            Bitmap bitmap = ((BitmapDrawable) icon).getBitmap();
             icon = new BitmapDrawable(
                     Common.LAUNCHER_CONTEXT.getResources(),
-                    (Bitmap) callStaticMethod(ObfuscationHelper.Classes.Utilities, "createIconBitmap", icon, Common.LAUNCHER_CONTEXT)
+                    Bitmap.createScaledBitmap(bitmap, iconSize, iconSize, true)
             );
         } else {
             Bitmap bitmap = ((BitmapDrawable) icon).getBitmap();

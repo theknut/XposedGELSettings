@@ -37,6 +37,7 @@ import de.theknut.xposedgelsettings.hooks.icon.IconPack;
 import de.theknut.xposedgelsettings.ui.CommonUI;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
+import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.getLongField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.newInstance;
@@ -253,19 +254,34 @@ public class Utils {
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         intent.setComponent(ComponentName.unflattenFromString(componentName));
 
-        if (Common.PACKAGE_OBFUSCATED) {
+        if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23) {
+            Object myUser = callStaticMethod(ObfuscationHelper.Classes.UserHandle, "myUserHandle");
+            Object launcherApps = callStaticMethod(ObfuscationHelper.Classes.LauncherAppsCompat, "getInstance", Common.LAUNCHER_CONTEXT);
+            Object activityInfo = callMethod(launcherApps, "resolveActivity", intent, myUser);
+            if (activityInfo == null) {
+                return null;
+            }
+            Object appInfo = newInstance(
+                    ObfuscationHelper.Classes.AppInfo,
+                    Common.LAUNCHER_INSTANCE,
+                    activityInfo,
+                    myUser,
+                    getObjectField(Common.LAUNCHER_INSTANCE, Fields.lIconCache),
+                    null);
+            return callMethod(appInfo, Methods.aiMakeShortcut);
+        } else if (Common.PACKAGE_OBFUSCATED) {
             return callMethod(callMethod(Common.LAUNCHER_INSTANCE, Methods.lCreateAppDragInfo, intent), Methods.aiMakeShortcut);
+        } else {
+            PackageManager pm = Common.LAUNCHER_CONTEXT.getPackageManager();
+            Object appInfo = newInstance(
+                    ObfuscationHelper.Classes.AppInfo,
+                    pm,
+                    pm.resolveActivity(intent, 0),
+                    getObjectField(Common.LAUNCHER_INSTANCE, Fields.lIconCache),
+                    new HashMap<Object, CharSequence>()
+            );
+            return callMethod(appInfo, Methods.aiMakeShortcut);
         }
-
-        PackageManager pm = Common.LAUNCHER_CONTEXT.getPackageManager();
-        Object appInfo = newInstance(
-                ObfuscationHelper.Classes.AppInfo,
-                pm,
-                pm.resolveActivity(intent, 0),
-                getObjectField(Common.LAUNCHER_INSTANCE, Fields.lIconCache),
-                new HashMap<Object, CharSequence>()
-        );
-        return callMethod(appInfo, Methods.aiMakeShortcut);
     }
 
     public static List<ResolveInfo> getAllApps() {

@@ -73,6 +73,7 @@ public class ContextMenu extends HooksBaseClass{
     static final int WIDGET_ONLY = 2;
     static final int SHORTCUT_WIDGET = 3;
     static ClassLoader classLoader;
+    static Object dragObject;
 
     public static void initAllHooks(final LoadPackageParam lpparam) {
         classLoader = lpparam.classLoader;
@@ -521,7 +522,7 @@ public class ContextMenu extends HooksBaseClass{
                 Common.LAUNCHER_CONTEXT.startActivity(intent);
             }
         });
-        show = isFolder;
+        show = isFolder && (Common.GNL_PACKAGE_INFO.versionCode < ObfuscationHelper.GNL_5_3_23);
         manageFolder.setVisibility(show ? View.VISIBLE : View.GONE);
 
         ImageView sort = (ImageView) contextMenuHolder.findViewById(R.id.sortapps);
@@ -577,16 +578,22 @@ public class ContextMenu extends HooksBaseClass{
             public void onClick(View v) {
                 closeAndRemove();
 
-                setAdditionalInstanceField(longPressedItem, "resize", true);
-
-                if (Common.PACKAGE_OBFUSCATED && Common.GNL_PACKAGE_INFO.versionCode < ObfuscationHelper.GNL_4_2_16) {
-                    callMethod(getDragLayer(), Methods.dlAddResizeFrame, longPressedItem, longPressedItem.getParent().getParent());
+                if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23) {
+                    setAdditionalInstanceField(longPressedItem.getTag(), "resize", true);
+                    callMethod(Common.WORKSPACE_INSTANCE, "onDrop", dragObject);
+                    setObjectField(getObjectField(Common.WORKSPACE_INSTANCE, "mDragController"), "mDragging", false);
                 } else {
-                    callMethod(getDragLayer(), Methods.dlAddResizeFrame, longPressedItem.getTag(), longPressedItem, longPressedItem.getParent().getParent());
+                    setAdditionalInstanceField(longPressedItem, "resize", true);
+
+                    if (Common.PACKAGE_OBFUSCATED && Common.GNL_PACKAGE_INFO.versionCode < ObfuscationHelper.GNL_4_2_16) {
+                        callMethod(getDragLayer(), Methods.dlAddResizeFrame, longPressedItem, longPressedItem.getParent().getParent());
+                    } else {
+                        callMethod(getDragLayer(), Methods.dlAddResizeFrame, longPressedItem.getTag(), longPressedItem, longPressedItem.getParent().getParent());
+                    }
                 }
             }
         });
-        show = isWidget;
+        show = isWidget && (Common.GNL_PACKAGE_INFO.versionCode < ObfuscationHelper.GNL_5_3_23);
         resize.setVisibility(show ? View.VISIBLE : View.GONE);
 
         ImageView layerUp = (ImageView) contextMenuHolder.findViewById(R.id.layerup);

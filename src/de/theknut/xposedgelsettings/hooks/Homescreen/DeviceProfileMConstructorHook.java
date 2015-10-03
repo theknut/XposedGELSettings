@@ -28,7 +28,6 @@ public final class DeviceProfileMConstructorHook extends XGELSCallback {
         }
 
         if (PreferencesHelper.iconSettingsSwitchHome) {
-
             // calculating custom sizes
             float newIconSize = (float) (Math.ceil((Float) getObjectField(InvDevProf, "iconSize") * (PreferencesHelper.iconSize / 100.0)));
             float newIconTextSize = (float) (Math.ceil((Float) getObjectField(InvDevProf, "iconTextSize") * (PreferencesHelper.iconTextSize / 100.0)));
@@ -54,7 +53,6 @@ public final class DeviceProfileMConstructorHook extends XGELSCallback {
             // some validation
             if (newHotseatIconSize > 0.0) {
                 setObjectField(InvDevProf, "hotseatIconSize", newHotseatIconSize);
-                //setObjectField(param.thisObject, "hotseatCellWidthPx", );
             } else {
                 log("Didn't change hotseat icon size! Value was " + newHotseatIconSize);
             }

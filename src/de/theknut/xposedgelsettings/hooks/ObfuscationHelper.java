@@ -146,7 +146,8 @@ public class ObfuscationHelper extends HooksBaseClass {
                 URI_LOADER,
                 WEATHER_POINT,
                 LAUNCHER_APP_STATE,
-                FOLDER_PAGED_VIEW;
+                FOLDER_PAGED_VIEW,
+                LAUNCHER_APPS_COMPAT;
 
         public static void initNames(int idx) {
 
@@ -170,6 +171,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23 && Common.GNL_PACKAGE_INFO.applicationInfo.targetSdkVersion >= 19) {
                 idx = 0;
                 FOLDER_PAGED_VIEW = prefix + "FolderPagedView";
+                LAUNCHER_APPS_COMPAT = prefix + "compat.LauncherAppsCompat";
             }
 
             LAUNCHER = new String[]{prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher"}[idx];
@@ -272,7 +274,8 @@ public class ObfuscationHelper extends HooksBaseClass {
                 WeatherPoint,
                 SearchSettings,
                 UriLoader,
-                FolderPagedView;
+                FolderPagedView,
+                LauncherAppsCompat;
 
         public static void hookAllClasses(LoadPackageParam lpparam) {
             Launcher = findClass(ClassNames.LAUNCHER, lpparam.classLoader);
@@ -280,6 +283,7 @@ public class ObfuscationHelper extends HooksBaseClass {
 
             if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23) {
                 FolderPagedView = findClass(ClassNames.FOLDER_PAGED_VIEW, lpparam.classLoader);
+                LauncherAppsCompat = findClass(ClassNames.LAUNCHER_APPS_COMPAT, lpparam.classLoader);
             }
 
             if (Common.GNL_PACKAGE_INFO.versionCode < ObfuscationHelper.GNL_5_3_23) {
@@ -748,7 +752,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             clShortcutsAndWidgets = new String[]{"mShortcutsAndWidgets", "vp", "xO", "yt", "ys", "AE", "zB", "zB", "EW", "EV", "Fa", "Fg", "Fr", "Fr", "Fq", "Fq", "Fq", "GB"}[idx];
             sawIsHotseat = new String[]{"mIsHotseatLayout", "Ng", "PQ", "Qr", "Qu", "SP", "Wx", "Wx", "XW", "XV", "XZ", "Yo", "YB", "YB", "YA", "YA", "YB", "ZD"}[idx];
             sdtbIsSearchBarHidden = new String[]{"mIsSearchBarHidden", "MV", "PF", "Qg", "Qj", "SE", "Wn", "Wn", "XL", "XK", "XO", "Yd", "Yq", "Yq", "Yp", "Yp", "Yq", "Zs"}[idx]; // under ValueAnimator
-            sdtbQsbBar = new String[]{"mQSB", "MW", "PG", "Qh", "Qk", "SF", "Wo", "Wo", "XM", "XL", "XP", "Ye", "Yr", "Yr", "Yq", "Yq", "Yr", "Zt"}[idx]; // under sdtbIsSearchBarHidden
+            sdtbQsbBar = new String[]{"mQSBSearchBar", "MW", "PG", "Qh", "Qk", "SF", "Wo", "Wo", "XM", "XL", "XP", "Ye", "Yr", "Yr", "Yq", "Yq", "Yr", "Zt"}[idx]; // under sdtbIsSearchBarHidden
             wCustomContentShowing = new String[]{"mCustomContentShowing", "PV", "SH", "Ti", "Ti", "VF", "Zo", "Zo", "aaV", "aaU", "aaY", "abn", "abA", "abA", "abz", "abz", "abx", "acz"}[idx]; // "() == 0) || (!this.<fieldName>"
             wState = new String[]{"mState", "Qj", "SV", "Tw", "Tw", "VT", "ZC", "ZC", "abk", "abj", "abn", "abC", "abP", "abP", "abO", "abO", "abM", "acO"}[idx]; // WorkspaceState member
             wDefaultPage = new String[]{"mDefaultPage", "PI", "Su", "SV", "SV", "Vs", "Zb", "Zb", "aaI", "aaH", "aaL", "aba", "abn", "abn", "abm", "abm", "abk", "acm"}[idx];  // "Expected custom content screen to exist", member gets decreased by one // "(-1 + this."
@@ -814,6 +818,11 @@ public class ObfuscationHelper extends HooksBaseClass {
 			clphHasPerformedLongPress = new String[]{"mHasPerformedLongPress", "wG", "zf", "zK", "zJ", "BV", "AS", "AS", "Gm", "Gl", "Gq", "Gw", "GH", "GH", "GG", "GG", "GG", "HR"}[idx]; // only boolean member
 			lmWorkspaceItems = new String[]{"sBgWorkspaceItems", "HG", "Ko", "KS", "KW", "MX", "QA", "QA", "RS", "RR", "RW", "Sl", "Sw", "Sw", "Sv", "Sv", "Sw", "Ty"}[idx]; // "adding item: " in case 1 <field>.add
             lmFolders = new String[]{"sBgFolders", "HF", "Kn", "KR", "KV", "MW", "Qz", "Qz", "RR", "RQ", "RV", "Sk", "Sv", "Sv", "Su", "Su", "Sv", "Tx"}[idx]; // 1. ", not in the list of folders" 2. <field>.get(Long.valueOf(paramLong));
+
+            if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23) {
+                btvShadowsEnabled = "mCustomShadowsEnabled";
+                sdtbQsbBar = "mQSB";
+            }
         }
     }
 }

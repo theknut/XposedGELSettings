@@ -15,14 +15,15 @@
 
 package de.theknut.xposedgelsettings.ui;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
 import android.webkit.WebView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
@@ -159,23 +160,89 @@ public class Changelog {
                     @Override
                     public void onPositive(MaterialDialog materialDialog) {
                         updateVersionInPreferences();
+                        showSupportDialog(context);
                     }
-                })
-                .build();
+                }).build();
+    }
+
+    public void showSupportDialog(final Context context) {
+        MaterialDialog.Builder dialog = new MaterialDialog.Builder(context)
+                .theme(Theme.DARK)
+                .autoDismiss(true)
+                .title("I need your support!")
+                .content("Please consider XGELS Premium to support the development of this app! Thanks so much!")
+                .neutralText(android.R.string.ok)
+                .positiveText("Donate")
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog materialDialog) {
+                        final String[] entries = context.getResources().getStringArray(R.array.donationArray);
+                        try {
+                            InAppPurchase.mHelper.getPrices(entries, false);
+                        } catch (Exception ex) {
+                            Toast.makeText(context, R.string.toast_getprices_fail, Toast.LENGTH_LONG).show();
+                            Log.w("XGELS", "Something went wrong when trying to get the prices");
+                            ex.printStackTrace();
+                        }
+
+                        new MaterialDialog.Builder(context)
+                                .theme(Theme.DARK)
+                                .title("Support me! Buy me")
+                                .items(entries)
+                                .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
+                                    @Override
+                                    public boolean onSelection(MaterialDialog materialDialog, View view, int i, CharSequence sku) {
+                                        InAppPurchase.launchPurchaseFlow(context.getResources().getStringArray(R.array.donationValues)[i]);
+                                        return true;
+                                    }
+                                })
+                                .build()
+                                .show();
+                    }
+
+                    @Override
+                    public void onNegative(MaterialDialog materialDialog) {
+                        final String[] entries = context.getResources().getStringArray(R.array.premiumArray);
+                        try {
+                            InAppPurchase.mHelper.getPrices(entries, true);
+                        } catch (Exception ex) {
+                            Toast.makeText(context, R.string.toast_getprices_fail, Toast.LENGTH_LONG).show();
+                            Log.w("XGELS", "Something went wrong when trying to get the prices");
+                            ex.printStackTrace();
+                        }
+
+                        new MaterialDialog.Builder(context)
+                                .theme(Theme.DARK)
+                                .title("Support me! Buy me")
+                                .items(entries)
+                                .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
+                                    @Override
+                                    public boolean onSelection(MaterialDialog materialDialog, View view, int i, CharSequence sku) {
+                                        InAppPurchase.launchPurchaseFlow(context.getResources().getStringArray(R.array.premiumValues)[i]);
+                                        return true;
+                                    }
+                                })
+                                .build()
+                                .show();
+                    }
+
+                    @Override
+                    public void onNeutral(MaterialDialog materialDialog) {
+                    }
+                });
+
+        if (!InAppPurchase.isPremium) {
+            dialog.negativeText("Go Premium");
+        }
+
+        dialog.build().show();
     }
 
     private void updateVersionInPreferences() {
         // save new version number to preferences
-        SharedPreferences sp = PreferenceManager
-                .getDefaultSharedPreferences(context);
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(VERSION_KEY, thisVersion);
-        // // on SDK-Versions > 9 you should use this:
-        // if(Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
-        // editor.commit();
-        // } else {
-        // editor.apply();
-        // }
         editor.commit();
     }
 

@@ -63,6 +63,7 @@ import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getLongField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.newInstance;
+import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
 public class GeneralHooks extends HooksBaseClass {
 
@@ -201,6 +202,15 @@ public class GeneralHooks extends HooksBaseClass {
         }
 
         if (PreferencesHelper.resizeAllWidgets) {
+            if (Common.IS_M_GNL) {
+                findAndHookMethod(findClass("com.android.launcher3.LauncherAppWidgetProviderInfo", lpparam.classLoader), "initSpans", new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        setObjectField(param.thisObject, "minSpanX", 1);
+                        setObjectField(param.thisObject, "minSpanY", 1);
+                    }
+                });
+            }
             // manipulate the widget settings to make them resizeable
             findAndHookMethod(Classes.CellLayout, Methods.clAddViewToCellLayout, View.class, Integer.TYPE, Integer.TYPE, Classes.CellLayoutLayoutParams, boolean.class, new AddViewToCellLayoutHook());
 
@@ -228,7 +238,6 @@ public class GeneralHooks extends HooksBaseClass {
         }
 
         // prevent dragging
-
         XC_MethodHook drag = new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
@@ -288,7 +297,6 @@ public class GeneralHooks extends HooksBaseClass {
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     View view = (View) param.args[0];
                     if (view.getTag() != null && PreferencesHelper.layerPositions.contains("" + getLongField(view.getTag(), Fields.iiID))) {
-                        log("Front " + view.getTag());
                         view.bringToFront();
                     }
                 }
@@ -324,12 +332,21 @@ public class GeneralHooks extends HooksBaseClass {
 
         if (PreferencesHelper.hideWorkspaceShadow) {
 
-            findAndHookMethod(Classes.Launcher, Methods.lSetWorkspaceBackground, boolean.class, new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    param.args[0] = false;
-                }
-            });
+            if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23) {
+                findAndHookMethod(Classes.Launcher, Methods.lSetWorkspaceBackground, Integer.TYPE, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        param.args[0] = 1;
+                    }
+                });
+            } else {
+                findAndHookMethod(Classes.Launcher, Methods.lSetWorkspaceBackground, boolean.class, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        param.args[0] = false;
+                    }
+                });
+            }
         }
 
         // hiding widgets
