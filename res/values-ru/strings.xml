@@ -360,4 +360,21 @@
   <string name="pref_searchbar_weather_widget_summary">Отобразить текущее местоположение и погоду под строкой Google Поиска (только Google Старт)</string>
   <string name="pref_app_drawer_folderstyle_background_color_title">Фоновый цвет папки</string>
   <string name="pref_app_drawer_folderstyle_background_color_summary">Фон меню приложений в стиле папки (Google Поиск ≥ 4.0)</string>
+
+    <!-- 2.2 -->
+    <string name="pref_grid_size_vert_summary">Выберите вертикальный размер сетки</string>
+    <string name="menu_hide_apps_used_in_tabs">Скрыть уже выбранные приложения</string>
+    <string name="pref_app_drawer_hide_from_home_title">Скрыть приложения рабочего стола</string>
+    <string name="pref_app_drawer_hide_from_home_summary">(Experimental)\nАвтоматически скрывать приложения в меню приложений если они есть на рабочем столе. Требуется перезапуск лаунчера.</string>
+
+    <string name="cancel">Отмена</string>
+    <string name="save">Сохранить</string>
+    <string name="saving_image">Сохранение изображения</string>
+    <string name="preparing_card">Подготовка накопителя</string>
+    <string name="no_storage_card">Нету накопителя</string>
+    <string name="not_enough_space">Недостаточно места</string>
+
+    <!-- 2.3 -->
+    <string name="pref_searchbar_color_title">Цвет поисковой строки</string>
+    <string name="pref_rename_apps_title">Переименовать приложения</string>
 </resources>
