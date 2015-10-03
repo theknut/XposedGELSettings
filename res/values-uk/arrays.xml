@@ -85,4 +85,11 @@
         <item>по даті встановлення</item>
         <item>останнє оновлення</item>
     </string-array>
+ 
+    <string-array name="notificationbadge_position_entries">
+        <item>Верх ліво</item>
+        <item>Верх право</item>
+        <item>Низ ліво</item>
+        <item>Низ право</item>
+    </string-array>
 </resources>
