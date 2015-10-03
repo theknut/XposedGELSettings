@@ -318,4 +318,58 @@
     <string name="pref_tabsandfolders_title">Вкладки та папки</string>
     <string name="pref_tab_type_title">Тип вкладки</string>
     <string name="toast_tab_delete">Нажміть і втримуйте для видалення вкладки</string>
+    <string name="pref_notificationbadge_position_title">Позиція</string>
+    <string name="pref_cat_app_drawer_settings_title">Налаштування</string>
+    <string name="pref_switch_enable_tabs_title">Увімкнути</string>
+    <string name="pref_appdrawer_clear_tabs_title">Стерти дані вкладок</string>
+    <string name="pref_appdrawer_clear_tabs_summary">Натисніть тут, щоб видалити всі дані вкладок</string>
+    <string name="alert_appdrawer_clear_tabs_title">Увага!</string>
+    <string name="alert_appdrawer_clear_tabs_summary">Ви дійсно бажаєте видалити всі вкладки з меню програм?</string>
+    <string name="alert_appdrawer_clear_tabs_success">Налаштування вкладок видалені!</string>
+    <string name="pref_appdrawer_tabs_instructions_summary">!!Google Старт та ≥ Android 4.2!!\nВкладки програм можуть бути добавлені з меню програм. Налаштування вкладок здійснюється утримуванням</string>
+    <string name="pref_notificationbadge_noappdrawer_title">Сховати з меню програм</string>
+    <string name="toast_appdrawer_tabadded_title">Утримуйте вкладку нажату для виклику налаштувань</string>
+    <string name="pref_reverseengineering_rate_title">Оцінити XGELS!</string>
+    <string name="pref_reverseengineering_rate_summary">Покажіть вашу підтримку та залиште мені відгук в Google Play. Відмінна репутація буде мотивувати інших користувачів також випробувати XGELS. Натисніть тут для оцінки XGELS в Google Play!</string>
+  <!-- V2.1 -->
+  <string name="pref_notificationbadge_keepsize_title">Зберегти розмір</string>
+  <string name="pref_notificationbadge_keepsize_summary">Не змінювати розмір нотифікацій, коли присутні дві цифри</string>
+  <string name="pref_pageindicator_color_title">Колір індикатора сторінок</string>
+  <string name="pref_pageindicator_color_summary">Виберіть колір індикатора сторінок</string>
+  <string name="pref_tabs_bottom_title">Вкладки знизу</string>
+  <string name="pref_tabs_bottom_summary">Перемістити вкладки на низ екрану</string>
+  <string name="toast_appdrawer_folderadded_title">Довге нажаття на папці для налаштувань</string>
+  <string name="alert_folder_hint_text_title">Ім\'я папки</string>
+  <string name="pref_appdrawer_folders_title">Папки</string>
+  <string name="pref_appdrawer_folders_summary">Натисніть, щоб добавити папку в меню програм</string>
+  <string name="toast_appdrawer_folder_minimum_app">Папка повинна містити як мінімум два елементи</string>
+  <string name="pref_appdock_show_labels_title">Показувати підписи</string>
+  <string name="pref_appdockrect_title">Відступи зліва/зправа в док-панелі</string>
+  <string name="pref_appdockrect_summary">Виберіть величину відступів зліва та справа в док-панелі</string>
+  <string name="pref_grid_size_title">Розмір сітки</string>
+  <string name="pref_grid_size_summary">Виберіть кількість рядків і стовпчиків</string>
+  <string name="pref_switch_swipe_tabs_title">Свайп між вкладками</string>
+  <string name="pref_switch_swipe_tabs_summary">Переключення на наступну вкладку при прокрутці меню програм</string>
+  <!-- 2.1.2. -->
+  <string name="pref_searchbar_weather_widget_title">Віджет погоди</string>
+  <string name="pref_searchbar_weather_widget_summary">Відображати поточне місцезнаходження та погоду під панеллю Google Пошуку (тільки Google Старт)</string>
+  <string name="pref_app_drawer_folderstyle_background_color_title">Фоновий колір папки</string>
+  <string name="pref_app_drawer_folderstyle_background_color_summary">Фон меню програм в стилі папки (Google Поиск ≥ 4.0)</string>
+
+    <!-- 2.2 -->
+    <string name="pref_grid_size_vert_summary">Виберіть вертикальний розмір сітки</string>
+    <string name="menu_hide_apps_used_in_tabs">Сховати вже вибрані програми</string>
+    <string name="pref_app_drawer_hide_from_home_title">Сховати програми робочого столу</string>
+    <string name="pref_app_drawer_hide_from_home_summary">(Experimental)\nАвтоматично ховати програми в меню програм, якщо вони є на робочому столі. Потрібен перезапуск лаунчера.</string>
+
+    <string name="cancel">Відміна</string>
+    <string name="save">Зберегти</string>
+    <string name="saving_image">Збереження зображення</string>
+    <string name="preparing_card">Підготовка накопичувача</string>
+    <string name="no_storage_card">Немає накопичувача</string>
+    <string name="not_enough_space">Недостатньо місця</string>
+
+    <!-- 2.3 -->
+    <string name="pref_searchbar_color_title">Колір пошукової строки</string>
+    <string name="pref_rename_apps_title">Перейменувати програми</string>
 </resources>
