@@ -102,4 +102,5 @@ public final class Common {
     public static Object DEVICE_PROFIL;
     public static ArrayList ALL_APPS;
     public static PackageInfo GNL_PACKAGE_INFO;
+    public static int GNL_VERSION;
 }

@@ -31,6 +31,7 @@
         <item>Default</item>
         <item>Android L style</item>
         <item>Android M style</item>
+        <item>Android M monochrome</item>
     </string-array>
 
     <string-array name="gesture_actions_entries">

@@ -26,7 +26,7 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
-import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelperNew;
+import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelperL;
 import de.theknut.xposedgelsettings.hooks.general.ContextMenu;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
@@ -85,7 +85,7 @@ public class GestureHooks extends GestureHelper {
             };
 
             if (Common.PACKAGE_OBFUSCATED) {
-                if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23) {
+                if (Common.GNL_VERSION >= ObfuscationHelper.GNL_5_3_23) {
                     findAndHookMethod(Classes.Launcher, Methods.lShowWorkspace, Integer.TYPE, boolean.class, Runnable.class, new XC_MethodHook() {
 
                         @Override
@@ -96,7 +96,7 @@ public class GestureHooks extends GestureHelper {
                             }
                         }
                     });
-                } else if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_4_2_16) {
+                } else if (Common.GNL_VERSION >= ObfuscationHelper.GNL_4_2_16) {
                     findAndHookMethod(Classes.Launcher, Methods.lHideAppsCustomizeHelper, Classes.WorkspaceState, boolean.class, boolean.class, Runnable.class, hideAppsCustomizeHelper);
                 } else {
                     findAndHookMethod(Classes.Launcher, Methods.lHideAppsCustomizeHelper, Classes.WorkspaceState, boolean.class, Runnable.class, hideAppsCustomizeHelper);
@@ -360,7 +360,7 @@ public class GestureHooks extends GestureHelper {
                                     tabhost.setCurrentTab(tabIdx == tabhost.getTabWidget().getTabCount() ? 0 : tabIdx);
                                 } else {
                                     if (PreferencesHelper.enableAppDrawerTabs) {
-                                        TabHelperNew.getInstance().setNextTab();
+                                        TabHelperL.getInstance().setNextTab();
                                     } else {
                                         Object contentType;
                                         if (getObjectField(Common.APP_DRAWER_INSTANCE, Fields.acpvContentType).toString().equals("Widgets")) {
@@ -384,8 +384,8 @@ public class GestureHooks extends GestureHelper {
         };
 
         if (Common.PACKAGE_OBFUSCATED
-                && Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_4_1_21
-                && Common.GNL_PACKAGE_INFO.versionCode < ObfuscationHelper.GNL_5_3_23) {
+                && Common.GNL_VERSION >= ObfuscationHelper.GNL_4_1_21
+                && Common.GNL_VERSION < ObfuscationHelper.GNL_5_3_23) {
             method = XposedHelpers.findMethodBestMatch(Classes.Launcher, "a", boolean.class, Classes.AppsCustomizeContentType, boolean.class);
         }
 

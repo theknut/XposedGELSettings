@@ -95,7 +95,7 @@ public class Folder extends AppDrawerItem implements View.OnLongClickListener, V
             setObjectField(folderInfo, Fields.iiContainer, -101);
             setObjectField(folderInfo, Fields.iiID, getId());
 
-            if (Common.PACKAGE_OBFUSCATED && Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_4_2_16) {
+            if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION >= ObfuscationHelper.GNL_4_2_16) {
                 folderIcon = (View) callStaticMethod(Classes.FolderIcon, Methods.fiFromXml, id, Common.LAUNCHER_INSTANCE, appsCustomizeCellLayout, folderInfo, getObjectField(Common.LAUNCHER_INSTANCE, Fields.lIconCache));
             } else if (Common.PACKAGE_OBFUSCATED) {
                 folderIcon = (View) callStaticMethod(Classes.FolderIcon, Methods.fiFromXml, id, Common.LAUNCHER_INSTANCE, appsCustomizeCellLayout, folderInfo);

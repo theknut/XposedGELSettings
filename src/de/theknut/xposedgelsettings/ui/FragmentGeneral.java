@@ -198,12 +198,12 @@ public class FragmentGeneral extends FragmentBase {
         });
 
         try {
-            int versionCode = mContext.getPackageManager().getPackageInfo(Common.GEL_PACKAGE, 0).versionCode;
-            if (versionCode >= ObfuscationHelper.GNL_4_0_26) {
-                getPreferenceScreen().removePreference(this.findPreference("enablellauncher"));
-            } else if (versionCode >= ObfuscationHelper.GNL_4_1_21) {
+            int version = CommonUI.getGNLVersion(mContext);
+            if (version >= ObfuscationHelper.GNL_4_1_21) {
                 getPreferenceScreen().removePreference(this.findPreference("enablellauncher"));
                 getPreferenceScreen().removePreference(this.findPreference("glowcolor"));
+            } else if (version >= ObfuscationHelper.GNL_4_0_26) {
+                getPreferenceScreen().removePreference(this.findPreference("enablellauncher"));
             }
         } catch (Exception e) {
             e.printStackTrace();

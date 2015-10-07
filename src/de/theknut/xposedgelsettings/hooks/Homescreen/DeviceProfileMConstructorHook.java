@@ -10,6 +10,8 @@ import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
 public final class DeviceProfileMConstructorHook extends XGELSCallback {
 
+    public static Float originalIconSize;
+
     @Override
     public void onAfterHookedMethod(MethodHookParam param) throws Throwable {
 
@@ -29,7 +31,8 @@ public final class DeviceProfileMConstructorHook extends XGELSCallback {
 
         if (PreferencesHelper.iconSettingsSwitchHome) {
             // calculating custom sizes
-            float newIconSize = (float) (Math.ceil((Float) getObjectField(InvDevProf, "iconSize") * (PreferencesHelper.iconSize / 100.0)));
+            originalIconSize = (Float) getObjectField(InvDevProf, "iconSize");
+            float newIconSize = (float) (Math.ceil(originalIconSize * (PreferencesHelper.iconSize / 100.0)));
             float newIconTextSize = (float) (Math.ceil((Float) getObjectField(InvDevProf, "iconTextSize") * (PreferencesHelper.iconTextSize / 100.0)));
 
             // some validation

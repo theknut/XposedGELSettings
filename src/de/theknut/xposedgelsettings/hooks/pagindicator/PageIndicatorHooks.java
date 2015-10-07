@@ -78,7 +78,7 @@ public class PageIndicatorHooks {
                 // reduce the bottom margin height in app drawer
                 if (Common.IS_KK_TREBUCHET) {
                     findAndHookMethod(Classes.AppsCustomizeLayout, Methods.acthSetInsets, Rect.class, new SetInsetsHook(true));
-                } else if (Common.GNL_PACKAGE_INFO.versionCode < ObfuscationHelper.GNL_4_0_26) {
+                } else if (Common.GNL_VERSION < ObfuscationHelper.GNL_4_0_26) {
                     findAndHookMethod(Classes.AppsCustomizeTabHost, Methods.acthSetInsets, Rect.class, new SetInsetsHook(false));
                 }
             break;

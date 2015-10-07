@@ -14,7 +14,6 @@ import de.theknut.xposedgelsettings.hooks.androidintegration.QuickSettingsPreL;
 import de.theknut.xposedgelsettings.hooks.androidintegration.SystemBars;
 import de.theknut.xposedgelsettings.hooks.androidintegration.SystemUIHooks;
 import de.theknut.xposedgelsettings.hooks.androidintegration.SystemUIReceiver;
-import de.theknut.xposedgelsettings.hooks.appdrawer.AppDrawerHooks;
 import de.theknut.xposedgelsettings.hooks.common.CommonHooks;
 import de.theknut.xposedgelsettings.hooks.general.ContextMenu;
 import de.theknut.xposedgelsettings.hooks.general.GeneralHooks;
@@ -77,13 +76,14 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
             if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE)) {
                 Common.IS_GNL = true;
                 Common.GNL_PACKAGE_INFO = context.getPackageManager().getPackageInfo(lpparam.packageName, 0);
-                versionIdx = ObfuscationHelper.getVersionIndex(Common.GNL_PACKAGE_INFO.versionCode);
+                Common.GNL_VERSION = Common.GNL_PACKAGE_INFO.versionCode;
+                versionIdx = ObfuscationHelper.getVersionIndex(Common.GNL_VERSION);
                 if (versionIdx > 0) Common.PACKAGE_OBFUSCATED = true;
-                if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_4_0_26) Common.IS_PRE_GNL_4 = false;
-                if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23) Common.IS_M_GNL = true;
+                if (Common.GNL_VERSION >= ObfuscationHelper.GNL_4_0_26) Common.IS_PRE_GNL_4 = false;
+                if (Common.GNL_VERSION >= ObfuscationHelper.GNL_5_3_23) Common.IS_M_GNL = true;
 
                 if (PreferencesHelper.Debug)
-                    XposedBridge.log("XGELS: " + Common.HOOKED_PACKAGE + " V" + Common.GNL_PACKAGE_INFO.versionName + "(" + Common.GNL_PACKAGE_INFO.versionCode + ") Target SDK " + Common.GNL_PACKAGE_INFO.applicationInfo.targetSdkVersion);
+                    XposedBridge.log("XGELS: " + Common.HOOKED_PACKAGE + " V" + Common.GNL_PACKAGE_INFO.versionName + "(" + Common.GNL_VERSION + ") Target SDK " + Common.GNL_PACKAGE_INFO.applicationInfo.targetSdkVersion);
             } else {
                 Common.IS_PRE_GNL_4 = false;
                 Common.IS_TREBUCHET = Common.HOOKED_PACKAGE.equals(Common.TREBUCHET_PACKAGE);
@@ -113,7 +113,7 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
         HomescreenHooks.initAllHooks(lpparam);
         SystemUIHooks.initAllHooks(lpparam);
         SystemBars.initAllHooks(lpparam);
-        if (!Common.IS_M_GNL) AppDrawerHooks.initAllHooks(lpparam);
+        //AppDrawerMHooks.initAllHooks(lpparam);
         GestureHooks.initAllHooks(lpparam);
         NotificationBadgesHooks.initAllHooks(lpparam);
         IconHooks.initAllHooks(lpparam);

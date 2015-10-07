@@ -303,8 +303,6 @@ public final class FolderHelper {
 
     public ArrayList<String> getAppsToHide() {
         ArrayList apps = new ArrayList();
-        if (Common.IS_KK_TREBUCHET) return apps;
-
         for (Folder folder : folders) {
             if (folder.hideFromAppsPage()) {
                 apps.addAll(folder.getRawData());
@@ -372,6 +370,7 @@ public final class FolderHelper {
     }
 
     public void updateFolders(String pkg) {
+        if (Common.IS_M_GNL) return;
         for (Folder folder : folders) {
             if (folder.contains(pkg)) {
                 folder.invalidate();

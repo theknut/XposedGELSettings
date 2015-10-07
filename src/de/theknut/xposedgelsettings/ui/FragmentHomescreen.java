@@ -13,6 +13,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 
 import de.theknut.xposedgelsettings.R;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
 import de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory;
 import de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen;
 
@@ -346,6 +347,16 @@ public class FragmentHomescreen extends FragmentBase {
             }
         });
         smartFolderMode.setSummary(getResources().getStringArray(R.array.smartfoldermode_entries)[modeIdx]);
+
+        try {
+            int version = CommonUI.getGNLVersion(mContext);
+            if (version >= ObfuscationHelper.GNL_5_3_23) {
+                MyPreferenceCategory cat = (MyPreferenceCategory) this.findPreference("folders");
+                cat.removePreference(this.findPreference("unlimitedfoldersize"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         if (!InAppPurchase.isPremium) {
             findPreference("unlimitedfoldersize").setEnabled(false);

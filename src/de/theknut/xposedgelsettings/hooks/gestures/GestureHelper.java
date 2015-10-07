@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.net.Uri;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
@@ -194,9 +193,9 @@ public class GestureHelper extends HooksBaseClass {
                 Common.LAUNCHER_INSTANCE.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23) {
-                            callMethod(getObjectField(Common.LAUNCHER_INSTANCE, "mLauncherCallbacks"), "onClickAllAppsButton", getObjectField(Common.LAUNCHER_INSTANCE, "mAllAppsButton"));
-                        } else if (Common.PACKAGE_OBFUSCATED && Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_4_1_21) {
+                        if (Common.GNL_VERSION >= ObfuscationHelper.GNL_5_3_23) {
+                            callMethod(Common.LAUNCHER_INSTANCE, "onClick", getObjectField(Common.LAUNCHER_INSTANCE, "mAllAppsButton"));
+                        } else if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION >= ObfuscationHelper.GNL_4_1_21) {
                             Object objectField = getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizeTabHost);
                             try {
                                 method.invoke(Common.LAUNCHER_INSTANCE, true, callMethod(objectField, ObfuscationHelper.Methods.acthGetContentTypeForTabTag, "APPS"), false);
@@ -420,11 +419,5 @@ public class GestureHelper extends HooksBaseClass {
 
             mHotseat.setLayoutParams(lp);
         }
-    }
-
-    static void iconGesture() {
-        Intent intent = new Intent(Intent.ACTION_CALL);
-        intent.setData(Uri.parse("tel:" + 2));
-        Common.LAUNCHER_INSTANCE.startActivity(intent);
     }
 }

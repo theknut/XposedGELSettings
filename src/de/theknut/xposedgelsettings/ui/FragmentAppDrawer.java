@@ -171,10 +171,66 @@ public class FragmentAppDrawer extends FragmentBase {
         });
 
         try {
-            int version = mContext.getPackageManager().getPackageInfo(Common.GEL_PACKAGE, 0).versionCode;
+            int version = CommonUI.getGNLVersion(mContext);
+
+            if (version < ObfuscationHelper.GNL_5_3_23) {
+                getPreferenceScreen().removePreference(this.findPreference("warning"));
+            }
+
             if (version < ObfuscationHelper.GNL_4_0_26) {
-                MyPreferenceCategory cat = (MyPreferenceCategory) this.findPreference("settings");
-                cat.removePreference(this.findPreference("appdrawerfolderstylebackgroundcolor"));
+                ((MyPreferenceCategory) this.findPreference("settings")).removePreference(this.findPreference("appdrawerfolderstylebackgroundcolor"));
+            } else if (version >= ObfuscationHelper.GNL_5_3_23) {
+                ((MyPreferenceCategory) this.findPreference("tabsfolders")).setEnabled(false);
+                ((MyPreferenceCategory) this.findPreference("settings")).setEnabled(false);
+                ((MyPreferenceCategory) this.findPreference("tabsfolders")).removePreference(this.findPreference("appdrawerswipetabs"));
+                ((MyPreferenceCategory) this.findPreference("settings")).removePreference(this.findPreference("appdrawerrememberlastposition"));
+
+                findPreference("gridsize").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        final ViewGroup numberPickerView = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.grid_number_picker, null);
+
+                        int minValue = 3, maxValue = 15;
+                        final NumberPicker nphc = (NumberPicker) numberPickerView.findViewById(R.id.numberPickerHorizontalColumn);
+                        nphc.setMinValue(minValue);
+                        nphc.setMaxValue(maxValue);
+                        nphc.setValue(Integer.parseInt(sharedPrefs.getString("xcountallappshorizontal", "" + 6)));
+
+                        final NumberPicker npvc = (NumberPicker) numberPickerView.findViewById(R.id.numberPickerVerticalColumn);
+                        npvc.setMinValue(minValue);
+                        npvc.setMaxValue(maxValue);
+                        npvc.setValue(Integer.parseInt(sharedPrefs.getString("xcountallapps", "" + 4)));
+
+                        ViewGroup parent = (ViewGroup) numberPickerView.findViewById(R.id.horizontallayout);
+                        parent.removeView(parent.findViewById(R.id.numberPickerHorizontalRow));
+                        parent.removeView(parent.findViewById(R.id.horizontalgridnumberpickerx));
+                        parent = (ViewGroup) numberPickerView.findViewById(R.id.verticallayout);
+                        parent.removeView(parent.findViewById(R.id.numberPickerVerticalRow));
+                        parent.removeView(parent.findViewById(R.id.verticalgridnumberpickerx));
+
+                        new MaterialDialog.Builder(mActivity)
+                                .title(R.string.pref_grid_size_summary)
+                                .customView(numberPickerView, true)
+                                .cancelable(false)
+                                .theme(Theme.DARK)
+                                .positiveText(android.R.string.ok)
+                                .callback(new MaterialDialog.ButtonCallback() {
+                                    @Override
+                                    public void onPositive(MaterialDialog materialDialog) {
+                                        // due to legacy reasons we need to save them as strings... -.-
+                                        sharedPrefs.edit()
+                                                .putString("xcountallapps", "" + npvc.getValue())
+                                                .putString("xcountallappshorizontal", "" + nphc.getValue())
+                                                .apply();
+
+                                        materialDialog.dismiss();
+                                    }
+                                })
+                                .build()
+                                .show();
+                        return true;
+                    }
+                });
             } else if (version >= ObfuscationHelper.GNL_4_0_26) {
                 findPreference("movetabhostbottom").setEnabled(false);
             }

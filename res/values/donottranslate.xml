@@ -3,6 +3,8 @@
     <string name="changelog_full_title">Changelog</string>
     <string name="changelog_title">What\'s New</string>
     <string name="changelog_show_full">more&#8230;</string>
+    <string name="warningtitle">CURRENTLY ALL FEATURES ARE BROKEN</string>
+    <string name="warning">This is due to huge changes to the app drawer. I\'m currently working on it and will release an update in a few days.</string>
 
     <string-array name="notificationbadge_presets_entries">
         <item>Custom</item>

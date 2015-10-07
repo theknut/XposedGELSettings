@@ -28,6 +28,7 @@
             android:orientation="vertical" />
 
         <TextView
+            android:id="@+id/verticalgridnumberpickerx"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="x"
@@ -67,6 +68,7 @@
             android:orientation="vertical" />
 
         <TextView
+            android:id="@+id/horizontalgridnumberpickerx"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="x"

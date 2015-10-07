@@ -47,7 +47,7 @@ import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.Folder;
 import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.FolderHelper;
 import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.Tab;
 import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelper;
-import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelperLegacy;
+import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelperKK;
 import de.theknut.xposedgelsettings.hooks.common.CommonHooks;
 import de.theknut.xposedgelsettings.hooks.common.XGELSCallback;
 import de.theknut.xposedgelsettings.hooks.gestures.GestureHelper;
@@ -153,7 +153,7 @@ public class GeneralHooks extends HooksBaseClass {
             };
 
             if (Common.PACKAGE_OBFUSCATED) {
-                if (Common.GNL_PACKAGE_INFO.versionCode < ObfuscationHelper.GNL_4_8_10) {
+                if (Common.GNL_VERSION < ObfuscationHelper.GNL_4_8_10) {
                     findAndHookMethod(Classes.StartSettingsOnClick, "onClick", View.class, overriderSettingsHook);
                 }
                 else
@@ -252,9 +252,14 @@ public class GeneralHooks extends HooksBaseClass {
         };
 
         findAndHookMethod(Classes.Folder, "onLongClick", View.class, drag);
-        if (Common.IS_GNL && !Common.IS_M_GNL) findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvBeginDragging, View.class, drag);
-        if (Common.IS_GNL && Common.IS_M_GNL) findAndHookMethod(Classes.Workspace, Methods.wStartDrag, Classes.CellLayoutCellInfo, boolean.class, drag);
-        else findAndHookMethod(Classes.Workspace, Methods.wStartDrag, Classes.CellLayoutCellInfo, drag);
+
+        if (Common.GNL_VERSION >= ObfuscationHelper.GNL_5_3_23) {
+            findAndHookMethod(Classes.AllAppsContainerView, "onLongClick", View.class, drag);
+            findAndHookMethod(Classes.Workspace, Methods.wStartDrag, Classes.CellLayoutCellInfo, boolean.class, drag);
+        } else {
+            findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvBeginDragging, View.class, drag);
+            findAndHookMethod(Classes.Workspace, Methods.wStartDrag, Classes.CellLayoutCellInfo, drag);
+        }
 
         if (PreferencesHelper.overlappingWidgets) {
             findAndHookMethod(Classes.CellLayout, Methods.clMarkCellsForView, Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, boolean[][].class, boolean.class, new XC_MethodHook() {
@@ -303,9 +308,9 @@ public class GeneralHooks extends HooksBaseClass {
             });
 
             if (Common.PACKAGE_OBFUSCATED) {
-                if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23) {
+                if (Common.GNL_VERSION >= ObfuscationHelper.GNL_5_3_23) {
                     findAndHookMethod(Classes.LoaderTask, Methods.lmCheckItemPlacement, findClass("com.android.launcher3.util.LongArrayMap", lpparam.classLoader), Classes.ItemInfo, checkItemPlacementHook);
-                } else if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_4_1_21) {
+                } else if (Common.GNL_VERSION >= ObfuscationHelper.GNL_4_1_21) {
                     findAndHookMethod(Classes.LoaderTask, Methods.lmCheckItemPlacement, HashMap.class, Classes.ItemInfo, checkItemPlacementHook);
                 } else {
                     findAndHookMethod(Classes.LoaderTask, Methods.lmCheckItemPlacement, HashMap.class, Classes.ItemInfo, AtomicBoolean.class, checkItemPlacementHook);
@@ -332,7 +337,7 @@ public class GeneralHooks extends HooksBaseClass {
 
         if (PreferencesHelper.hideWorkspaceShadow) {
 
-            if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23) {
+            if (Common.GNL_VERSION >= ObfuscationHelper.GNL_5_3_23) {
                 findAndHookMethod(Classes.Launcher, Methods.lSetWorkspaceBackground, Integer.TYPE, new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
@@ -482,7 +487,7 @@ public class GeneralHooks extends HooksBaseClass {
                 } else if (intent.getAction().equals(Common.XGELS_ACTION_MODIFY_TAB)) {
                     if (intent.getBooleanExtra("add", false)) {
                         if (Common.IS_PRE_GNL_4) {
-                            TabHelperLegacy.getInstance().addTab(new Tab(intent, true));
+                            TabHelperKK.getInstance().addTab(new Tab(intent, true));
                         } else {
                             new Tab(intent, true, true);
                         }
@@ -597,7 +602,7 @@ public class GeneralHooks extends HooksBaseClass {
                         protected void onPostExecute(Void aVoid) {
                             if (mode == FragmentSelectiveIcon.MODE_PICK_SHORTCUT_ICON) {
                                 isFolder = icon.getParent().getParent().getClass().equals(Classes.Folder);
-                                if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_3_9_00) {
+                                if (Common.GNL_VERSION >= ObfuscationHelper.GNL_3_9_00) {
                                     callMethod(icon, Methods.btvApplyFromShortcutInfo, icon.getTag(), getObjectField(Common.LAUNCHER_INSTANCE, Fields.lIconCache), !isFolder);
                                 } else {
                                     callMethod(icon, Methods.btvApplyFromShortcutInfo, icon.getTag(), getObjectField(Common.LAUNCHER_INSTANCE, Fields.lIconCache));

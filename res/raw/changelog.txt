@@ -27,6 +27,26 @@
   </head>
   <body>
 
+$ 2.3.18
+  % Version 2.3.18
+  _ 2015-10-08
+
+  Obviously, this took longer than usual. I was on holidays when the 5.3.23 was released, came back a week ago and spent the whole week fixing it. Many things have changed, every feature which is related to the app drawer/widget will not work. All features have to be rewritten, which I will do in the coming days!<br><br>
+
+  !Added:
+      * partly support Google Search 5.3.26 (everything app drawer related will NOT work)
+      * <b>Search bar:</b> Google Searchbar style (L, M or M monochrome)
+
+  !Fixed:
+      * Trebuchet
+      * open app drawer gesture
+      * lock desktop in app drawer
+      * kill launcher bug introduced by Google hotfix for Android 5.1.1
+      * resize widget
+
+  !XGELS UI:
+      * updated translations
+
 $ 2.3.17
   % Version 2.3.17
   _ 2015-10-03

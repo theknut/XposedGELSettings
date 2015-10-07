@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
@@ -15,8 +16,24 @@ import de.theknut.xposedgelsettings.ui.SaveActivity;
  */
 public abstract class TabHelper extends HooksBaseClass {
 
+    public abstract Comparator getAppNameComparator();
+
+    public enum ContentType {
+        Applications,
+        User,
+        Xposed,
+        Google,
+        Widgets,
+        IconPacks,
+        NewUpdated,
+        NewApps
+    }
+
     public static TabHelper getInstance() {
-        return Common.IS_PRE_GNL_4 ? TabHelperLegacy.getInstance() : TabHelperNew.getInstance();
+        if (Common.IS_M_GNL) {
+            return TabHelperM.getInstance();
+        }
+        return Common.IS_PRE_GNL_4 ? TabHelperKK.getInstance() : TabHelperL.getInstance();
     }
 
     protected ArrayList<Tab> tabs;
@@ -32,8 +49,7 @@ public abstract class TabHelper extends HooksBaseClass {
     abstract public boolean handleScroll(float overscroll);
 
     public void updateTabs() {
-        if (Common.IS_KK_TREBUCHET || (Common.IS_GNL && Common.IS_M_GNL)) return;
-
+        if (Common.IS_M_GNL) return;
         for (Tab tab : tabs) {
             tab.update();
         }

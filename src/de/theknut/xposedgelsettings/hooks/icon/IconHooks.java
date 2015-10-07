@@ -230,11 +230,11 @@ public class IconHooks extends HooksBaseClass {
 
         if (Common.IS_L_TREBUCHET) {
             findAndHookMethod(Classes.IconCache, Methods.icCacheLocked, ComponentName.class, Classes.LauncherActivityInfoCompat, HashMap.class, Classes.UserHandle, boolean.class, Integer.TYPE, cacheLockedHook);
-        } else if (Common.PACKAGE_OBFUSCATED && Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23) {
+        } else if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION >= ObfuscationHelper.GNL_5_3_23) {
             findAndHookMethod(Classes.IconCache, Methods.icCacheLocked, ComponentName.class, Classes.LauncherActivityInfoCompat, Classes.UserHandle, boolean.class, boolean.class, cacheLockedHook);
         } else if (!Common.IS_PRE_GNL_4 && !Common.IS_KK_TREBUCHET) {
             findAndHookMethod(Classes.IconCache, Methods.icCacheLocked, ComponentName.class, Classes.LauncherActivityInfoCompat, HashMap.class, Classes.UserHandle, boolean.class, cacheLockedHook);
-        } else if (Common.PACKAGE_OBFUSCATED && Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_3_5_14) {
+        } else if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION >= ObfuscationHelper.GNL_3_5_14) {
             findAndHookMethod(Classes.IconCache, Methods.icCacheLocked, ComponentName.class, Classes.LauncherActivityInfoCompat, HashMap.class, Classes.UserHandle, cacheLockedHook);
         } else {
             findAndHookMethod(Classes.IconCache, Methods.icCacheLocked, ComponentName.class, ResolveInfo.class, HashMap.class, cacheLockedHook);
@@ -292,7 +292,7 @@ public class IconHooks extends HooksBaseClass {
             }
         });
 
-        if (Common.PACKAGE_OBFUSCATED && Common.GNL_PACKAGE_INFO.versionCode < ObfuscationHelper.GNL_4_1_21) {
+        if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION < ObfuscationHelper.GNL_4_1_21) {
             findAndHookMethod(Classes.LauncherModel, Methods.lmIsShortcutInfoUpdateable, Classes.ItemInfo, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
@@ -582,7 +582,7 @@ public class IconHooks extends HooksBaseClass {
             return;
         }
 
-        if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23) {
+        if (Common.GNL_VERSION >= ObfuscationHelper.GNL_5_3_23) {
             int iconSize = getIntField(getObjectField(Common.LAUNCHER_INSTANCE, "mDeviceProfile"), "iconSizePx");
             Bitmap bitmap = ((BitmapDrawable) icon).getBitmap();
             icon = new BitmapDrawable(
@@ -640,7 +640,7 @@ public class IconHooks extends HooksBaseClass {
         callMethod(Common.LAUNCHER_INSTANCE, Methods.lBindAppsUpdated, appsToUpdate);
         if (DEBUG) log("updateIcons took " + (System.currentTimeMillis() - time) + "ms");
 
-        if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_4_2_16) {
+        if (Common.GNL_VERSION >= ObfuscationHelper.GNL_4_2_16) {
             new AsyncTask<Void, Void, Void>() {
                 ArrayList<View> viewToUpdate = new ArrayList<View>();
 

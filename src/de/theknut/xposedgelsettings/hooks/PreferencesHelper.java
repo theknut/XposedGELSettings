@@ -38,6 +38,7 @@ public class PreferencesHelper {
     public static boolean continuousScrollWithAppDrawer;
     public static boolean closeAppdrawerAfterAppStarted;
     public static boolean noAllAppsButton;
+    public static boolean noAllAppsPredictions;
 
     public static boolean hideClock;
     public static boolean dynamicHomebutton;
@@ -177,6 +178,7 @@ public class PreferencesHelper {
         continuousScrollWithAppDrawer = prefs.getBoolean("continuousscrollwithappdrawer", false);
         closeAppdrawerAfterAppStarted = prefs.getBoolean("closeappdrawerafterappstarted", false);
         noAllAppsButton = prefs.getBoolean("noallappsbutton", false);
+        noAllAppsPredictions = prefs.getBoolean("noallappspredictions", false);
 
         hideClock = prefs.getBoolean("hideclock", false);
         dynamicHomebutton = prefs.getBoolean("dynamichomebutton", false);

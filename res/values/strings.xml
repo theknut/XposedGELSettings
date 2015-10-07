@@ -401,4 +401,8 @@
     <string name="pref_searchbar_color_title">Search bar color</string>
     <string name="pref_rename_apps_title">Rename apps</string>
 
+    <!-- 2.4 -->
+    <string name="pref_allapps_predictions_title">App predictions</string>
+    <string name="pref_allapps_predictions_summary">Hide app predictions</string>
+
 </resources>

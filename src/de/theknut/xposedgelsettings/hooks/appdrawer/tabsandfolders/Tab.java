@@ -17,7 +17,7 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.Utils;
-import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelperLegacy.ContentType;
+import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelper.ContentType;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
@@ -124,7 +124,7 @@ public class Tab extends AppDrawerItem {
                 callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSetApps, allApps);
 
                 if (add) {
-                    TabHelperNew.getInstance().addTab(tab);
+                    TabHelperL.getInstance().addTab(tab);
                 }
                 else if (TabHelper.getInstance().getCurrentTabData().equals(this)) {
                     TabHelper.getInstance().invalidate();

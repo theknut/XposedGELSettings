@@ -9,13 +9,10 @@ import java.util.Comparator;
 import java.util.HashSet;
 
 import de.theknut.xposedgelsettings.hooks.Common;
-import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
-import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.Utils;
 
-import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.getLongField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
@@ -142,7 +139,7 @@ public class AppDrawerItem {
                 }
             };
         } else {
-            return (Comparator) callStaticMethod(Classes.LauncherModel, Methods.lmGetAppNameComparator);
+            return TabHelper.getInstance().getAppNameComparator();
         }
     }
 

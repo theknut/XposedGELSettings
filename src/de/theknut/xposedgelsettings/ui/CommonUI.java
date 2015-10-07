@@ -365,4 +365,8 @@ public class CommonUI {
                     }
                 });
     }
+
+    public static int getGNLVersion(Context context) throws NameNotFoundException {
+        return context.getPackageManager().getPackageInfo(Common.GEL_PACKAGE, 0).versionCode;
+    }
 }

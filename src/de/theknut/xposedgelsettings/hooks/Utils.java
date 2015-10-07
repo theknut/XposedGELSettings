@@ -175,7 +175,7 @@ public class Utils {
     }
 
     public static void startActivity(Intent intent) {
-        if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_3_5_14) {
+        if (Common.GNL_VERSION >= ObfuscationHelper.GNL_3_5_14) {
             Resources res = Common.LAUNCHER_CONTEXT.getResources();
             int task_open_enter = res.getIdentifier("task_open_enter", "anim", Common.GEL_PACKAGE);
             int no_anim = res.getIdentifier("no_anim", "anim", Common.GEL_PACKAGE);
@@ -254,7 +254,7 @@ public class Utils {
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         intent.setComponent(ComponentName.unflattenFromString(componentName));
 
-        if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23) {
+        if (Common.GNL_VERSION >= ObfuscationHelper.GNL_5_3_23) {
             Object myUser = callStaticMethod(ObfuscationHelper.Classes.UserHandle, "myUserHandle");
             Object launcherApps = callStaticMethod(ObfuscationHelper.Classes.LauncherAppsCompat, "getInstance", Common.LAUNCHER_CONTEXT);
             Object activityInfo = callMethod(launcherApps, "resolveActivity", intent, myUser);

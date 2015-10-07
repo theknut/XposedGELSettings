@@ -28,6 +28,7 @@ public class ObfuscationHelper extends HooksBaseClass {
     public static final int GNL_5_1_15 = 300420096;
     public static final int GNL_5_2_33 = 300441146;
     public static final int GNL_5_3_23 = 300515416;
+    public static final int GNL_5_3_26 = 300515596;
 
     public static int getVersionIndex(int version) {
 
@@ -147,7 +148,10 @@ public class ObfuscationHelper extends HooksBaseClass {
                 WEATHER_POINT,
                 LAUNCHER_APP_STATE,
                 FOLDER_PAGED_VIEW,
-                LAUNCHER_APPS_COMPAT;
+                LAUNCHER_APPS_COMPAT,
+                ALL_APPS_CONTAINER_VIEW,
+                ALPHABETICAL_APPS_LIST,
+                APP_NAME_COMPARATOR;
 
         public static void initNames(int idx) {
 
@@ -159,7 +163,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             SEARCH_OVERLAY_IMPL = new String[]{"com.google.android.search.gel.SearchOverlayImpl", "ccu", "cmh", "cuc", "cuc", "ebj", "erb", "erb", "com.google.android.search.shared.overlay.u", "com.google.android.search.shared.overlay.u", "com.google.android.search.shared.overlay.u", "com.google.android.search.shared.overlay.u", "com.google.android.search.shared.overlay.s", "com.google.android.search.shared.overlay.s", "com.google.android.search.shared.overlay.m", "com.google.android.apps.gsa.search.shared.overlay.m", "com.google.android.apps.gsa.search.shared.overlay.m", "com.google.android.apps.gsa.search.shared.overlay.j", "com.google.android.apps.gsa.search.shared.overlay.l"}[idx]; // search_overlay_impl:search_box_stats
             GSA_CONFIG_FLAGS = new String[]{"com.google.android.search.core.GsaConfigFlags", "ayc", "bgr", "bnj", "bnj", "chh", "cug", "cug", "com.google.android.search.core.av", "com.google.android.search.core.au", "com.google.android.search.core.ak", "com.google.android.search.core.as", "com.google.android.search.core.aq", "com.google.android.search.core.ao", "com.google.android.search.core.v", "com.google.android.apps.gsa.search.core.b.n", "com.google.android.apps.gsa.search.core.b.o", "com.google.android.apps.gsa.search.core.config.GsaConfigFlags", "com.google.android.apps.gsa.search.core.config.GsaConfigFlags"}[idx]; // "int array"
 
-            SEARCH_SETTINGS = new String[]{"", "", "", "", "", "", "", "", "com.google.android.search.core.dx", "com.google.android.search.core.dz", "com.google.android.search.core.dz", "com.google.android.search.core.eb", "com.google.android.search.core.eb", "com.google.android.search.core.eh", "com.google.android.search.core.ch", "com.google.android.apps.gsa.search.core.b.u", "com.google.android.apps.gsa.search.core.b.x", "com.google.android.apps.gsa.search.core.config.t", "com.google.android.search.core.state.h"}[idx]; // QSB.SearchSettings
+            SEARCH_SETTINGS = new String[]{"", "", "", "", "", "", "", "", "com.google.android.search.core.dx", "com.google.android.search.core.dz", "com.google.android.search.core.dz", "com.google.android.search.core.eb", "com.google.android.search.core.eb", "com.google.android.search.core.eh", "com.google.android.search.core.ch", "com.google.android.apps.gsa.search.core.b.u", "com.google.android.apps.gsa.search.core.b.x", "com.google.android.apps.gsa.search.core.config.t", "com.google.android.search.core.state.h"}[idx]; // first_hotword_hint_shown_at
             SEARCH_PLATE_BAR = new String[]{"", "", "", "", "", "", "", "", "com.google.android.search.searchplate.an", "com.google.android.search.searchplate.an", "com.google.android.search.searchplate.an", "com.google.android.apps.gsa.searchplate.ap", "com.google.android.apps.gsa.searchplate.aq", "com.google.android.apps.gsa.searchplate.ap", "com.google.android.apps.gsa.searchplate.o", "com.google.android.apps.gsa.searchplate.o", "com.google.android.apps.gsa.searchplate.o", "com.google.android.apps.gsa.searchplate.n", "com.google.android.apps.gsa.searchplate.n"}[idx]; // search_plate_rounded_corner_radius
             SEARCH_PLATE_TRANSITIONS_MANAGER = new String[]{"com.google.android.search.shared.ui.SearchPlate$TransitionsManager", "cen", "cog", "cwb", "cwb", "dsi", "egu", "egu", "com.google.android.search.searchplate.af", "com.google.android.search.searchplate.af", "com.google.android.search.searchplate.af", "com.google.android.apps.gsa.searchplate.ah", "com.google.android.apps.gsa.searchplate.ai", "com.google.android.apps.gsa.searchplate.ah", "com.google.android.apps.gsa.searchplate.l", "com.google.android.apps.gsa.searchplate.l", "com.google.android.apps.gsa.searchplate.l", "com.google.android.apps.gsa.searchplate.k", "com.google.android.apps.gsa.searchplate.k"}[idx]; // in SearchPlate: "(this, this);" "com.google.android.search.searchplate"
             GELCLASS = new String[]{"com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL", "com.google.android.launcher.GEL"}[idx];
@@ -168,10 +172,13 @@ public class ObfuscationHelper extends HooksBaseClass {
             WEATHER_POINT = new String[]{"com.google.geo.sidekick.Sidekick.WeatherEntry.WeatherPoint", "him", "ich", "ilp", "ilp", "aps", "aps", "ara", "com.google.android.apps.sidekick.e.ca", "com.google.android.apps.sidekick.e.ca", "com.google.android.apps.sidekick.e.ca", "", "", "", "", "", "", "", ""}[idx]; // getLocation in WeatherEntryAdapter // since GS 4.0 it's not the same class anymore but it does the same
             WEATHER_ENTRY_ADAPTER = new String[]{"com.google.android.sidekick.shared.cards.WeatherEntryAdapter", "dye", "elt", "euo", "euo", "fzq", "gtm", "gtm", "com.google.android.sidekick.shared.ui.qp.id", "com.google.android.sidekick.shared.ui.qp.ie", "com.google.android.sidekick.shared.ui.qp.im", "", "", "", "", "", "", "", ""}[idx]; // empty text -> "  "
 
-            if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23 && Common.GNL_PACKAGE_INFO.applicationInfo.targetSdkVersion >= 19) {
+            if (Common.GNL_VERSION >= ObfuscationHelper.GNL_5_3_23 && Common.GNL_PACKAGE_INFO.applicationInfo.targetSdkVersion >= 19) {
                 idx = 0;
                 FOLDER_PAGED_VIEW = prefix + "FolderPagedView";
                 LAUNCHER_APPS_COMPAT = prefix + "compat.LauncherAppsCompat";
+                ALL_APPS_CONTAINER_VIEW = prefix + "allapps.AllAppsContainerView";
+                ALPHABETICAL_APPS_LIST = prefix + "allapps.AlphabeticalAppsList";
+                APP_NAME_COMPARATOR = prefix + "model.AppNameComparator";
             }
 
             LAUNCHER = new String[]{prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher"}[idx];
@@ -225,6 +232,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 Workspace,
                 AppInfo,
                 AppsCustomizePagedView,
+                AllAppsContainerView,
                 CellLayout,
                 WallpaperOffsetInterpolator,
                 PagedViewIcon,
@@ -275,18 +283,21 @@ public class ObfuscationHelper extends HooksBaseClass {
                 SearchSettings,
                 UriLoader,
                 FolderPagedView,
-                LauncherAppsCompat;
+                LauncherAppsCompat,
+                AlphabeticalAppsList,
+                AppNameComparator;
 
         public static void hookAllClasses(LoadPackageParam lpparam) {
             Launcher = findClass(ClassNames.LAUNCHER, lpparam.classLoader);
             Workspace = findClass(ClassNames.WORKSPACE, lpparam.classLoader);
 
-            if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23) {
+            if (Common.GNL_VERSION >= ObfuscationHelper.GNL_5_3_23) {
                 FolderPagedView = findClass(ClassNames.FOLDER_PAGED_VIEW, lpparam.classLoader);
                 LauncherAppsCompat = findClass(ClassNames.LAUNCHER_APPS_COMPAT, lpparam.classLoader);
-            }
-
-            if (Common.GNL_PACKAGE_INFO.versionCode < ObfuscationHelper.GNL_5_3_23) {
+                AllAppsContainerView = findClass(ClassNames.ALL_APPS_CONTAINER_VIEW, lpparam.classLoader);
+                AlphabeticalAppsList = findClass(ClassNames.ALPHABETICAL_APPS_LIST, lpparam.classLoader);
+                AppNameComparator = findClass(ClassNames.APP_NAME_COMPARATOR, lpparam.classLoader);
+            } else {
                 AppsCustomizePagedView = findClass(ClassNames.APPS_CUSTOMIZE_PAGED_VIEW, lpparam.classLoader);
                 AppsCustomizeCellLayout = findClass(ClassNames.APPS_CUSTOMIZE_CELL_LAYOUT, lpparam.classLoader);
                 AppsCustomizeContentType = findClass(ClassNames.APPS_CUSTOMIZE_CONTENT_TYPE, lpparam.classLoader);
@@ -300,13 +311,13 @@ public class ObfuscationHelper extends HooksBaseClass {
 
             AppInfo = findClass(ClassNames.APP_INFO, lpparam.classLoader);
 
-            if (Common.GNL_PACKAGE_INFO.versionCode < ObfuscationHelper.GNL_5_3_23)
+            if (Common.GNL_VERSION < ObfuscationHelper.GNL_5_3_23)
                 DynamicGrid = findClass(ClassNames.DYNAMIC_GRID, lpparam.classLoader);
 
             if (Common.IS_KK_TREBUCHET) {
                 AppsCustomizeLayout = findClass(ClassNames.APPS_CUSTOMIZE_LAYOUT, lpparam.classLoader);
             } else {
-                if (Common.GNL_PACKAGE_INFO.versionCode < ObfuscationHelper.GNL_5_3_23)
+                if (Common.GNL_VERSION < ObfuscationHelper.GNL_5_3_23)
                     AppsCustomizeTabHost = findClass(ClassNames.APPS_CUSTOMIZE_TAB_HOST, lpparam.classLoader);
             }
 
@@ -357,12 +368,12 @@ public class ObfuscationHelper extends HooksBaseClass {
                 if (Common.PACKAGE_OBFUSCATED) {
                     WorkspaceState = findClass(ClassNames.WORKSPACE_STATE, lpparam.classLoader);
 
-                    if (Common.GNL_PACKAGE_INFO.versionCode >= GNL_4_2_16) {
+                    if (Common.GNL_VERSION >= GNL_4_2_16) {
                         SearchSettings = findClass(ClassNames.SEARCH_SETTINGS, lpparam.classLoader);
                         SearchPlateBar = findClass(ClassNames.SEARCH_PLATE_BAR, lpparam.classLoader);
                     }
 
-                    if (Common.GNL_PACKAGE_INFO.versionCode >= GNL_4_0_26 && Common.GNL_PACKAGE_INFO.versionCode < GNL_4_5_12) {
+                    if (Common.GNL_VERSION >= GNL_4_0_26 && Common.GNL_VERSION < GNL_4_5_12) {
                         WeatherEntryAdapter = findClass(ClassNames.WEATHER_ENTRY_ADAPTER, lpparam.classLoader);
                         WeatherPoint = findClass(ClassNames.WEATHER_POINT, lpparam.classLoader);
                     }
@@ -370,18 +381,18 @@ public class ObfuscationHelper extends HooksBaseClass {
                     if (Common.IS_PRE_GNL_4) {
                         // GelSearchPlateContainer was removed in Google Search 4.0
                         GelSearchPlateContainer = findClass(ClassNames.GEL_SEARCH_PLATE_CONTAINER, lpparam.classLoader);
-                        if (Common.GNL_PACKAGE_INFO.versionCode != GNL_3_6_16) WeatherEntryAdapter = findClass(ClassNames.WEATHER_ENTRY_ADAPTER, lpparam.classLoader);
+                        if (Common.GNL_VERSION != GNL_3_6_16) WeatherEntryAdapter = findClass(ClassNames.WEATHER_ENTRY_ADAPTER, lpparam.classLoader);
                         UriLoader = findClass(ClassNames.URI_LOADER, lpparam.classLoader);
                         WeatherPoint = findClass(ClassNames.WEATHER_POINT, lpparam.classLoader);
                     }
 
-                    if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_3_5_14) {
+                    if (Common.GNL_VERSION >= ObfuscationHelper.GNL_3_5_14) {
                         UserHandle = findClass(ClassNames.USER_HANDLE, lpparam.classLoader);
                         LauncherActivityInfoCompat = findClass(ClassNames.LAUNCHER_ACTIVITY_INFO_COMPAT, lpparam.classLoader);
                     }
 
-                    if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_3_4_15
-                            && Common.GNL_PACKAGE_INFO.versionCode < ObfuscationHelper.GNL_4_8_10) {
+                    if (Common.GNL_VERSION >= ObfuscationHelper.GNL_3_4_15
+                            && Common.GNL_VERSION < ObfuscationHelper.GNL_4_8_10) {
                         StartSettingsOnClick = findClass(ClassNames.START_SETTINGS_ON_CLICK, lpparam.classLoader);
                     }
                 }
@@ -522,12 +533,10 @@ public class ObfuscationHelper extends HooksBaseClass {
                     {"aqG", "aqE", "aqH"}
             }[idx]; // com.google.android.apps.gsa.searchplate.ClearOrVoiceButton
 
-            if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23 && Common.GNL_PACKAGE_INFO.applicationInfo.targetSdkVersion >= 19) {
+            if (Common.GNL_VERSION >= ObfuscationHelper.GNL_5_3_23) {
                 idx = 0;
                 lIsAllAppsVisible = "isAppsViewVisible";
-            }
-            else
-            {
+            } else {
                 lIsAllAppsVisible = new String[]{"isAllAppsVisible", "gs", "hh", "hq", "hr", "hI", "iD", "iD", "kv", "kv", "ky", "ky", "kA", "kA", "kA", "kA", "kB", "jk"}[idx]; // onBackPressed second if clause method call
             }
 
@@ -625,6 +634,10 @@ public class ObfuscationHelper extends HooksBaseClass {
 			acpvSetAllAppsPadding = new String[]{"setAllAppsPadding", "b", "b", "b", "b", "", "", "", "", "", "", "", "", "", "", "", "", ""}[idx]; // .set(paramRect);
 			acthOnTabChanged = new String[]{"onTabChanged", "c", "c", "c", "c", "", "", "", "", "", "", "", "", "", "", "", "", ""}[idx]; // setBackgroundColor
 			lmIsShortcutInfoUpdateable = new String[]{"isShortcutInfoUpdateable", "e", "e", "e", "e", "f", "", "", "", "", "", "", "", "", "", "", "", ""}[idx]; // "android.intent.action.MAIN"
+
+            if (Common.GNL_VERSION >= ObfuscationHelper.GNL_5_3_26) {
+                ssFirstHotwordHintShownAt = "bcU";
+            }
         }
     }
 
@@ -724,16 +737,16 @@ public class ObfuscationHelper extends HooksBaseClass {
                     {"rk", "ccE", "ccG", "ccH"},
                     {"rk", "ckT", "ckU", "ckR"},
                     {"sz", "cwX", "cwY", "cwZ"},
-                    {"tR", "cef", "ceh", "ceg"}
+                    {"tR", "cef", "ceg", "ceh"}
             }[idx]; // com.google.android.apps.gsa.searchplate.ClearOrVoiceButton
 
-            if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_4_5_13
-                    && Common.GNL_PACKAGE_INFO.versionCode < ObfuscationHelper.GNL_4_6_10) {
+            if (Common.GNL_VERSION >= ObfuscationHelper.GNL_4_5_13
+                    && Common.GNL_VERSION < ObfuscationHelper.GNL_4_6_10) {
                 covbFields = new String[]{"rf", "beY", "bfa", "bfb"};
                 spbMic = "bhM";
             }
 
-            if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23 && Common.GNL_PACKAGE_INFO.applicationInfo.targetSdkVersion >= 19) {
+            if (Common.GNL_VERSION >= ObfuscationHelper.GNL_5_3_23 && Common.GNL_PACKAGE_INFO.applicationInfo.targetSdkVersion >= 19) {
                 idx = 0;
             }
 
@@ -819,9 +832,14 @@ public class ObfuscationHelper extends HooksBaseClass {
 			lmWorkspaceItems = new String[]{"sBgWorkspaceItems", "HG", "Ko", "KS", "KW", "MX", "QA", "QA", "RS", "RR", "RW", "Sl", "Sw", "Sw", "Sv", "Sv", "Sw", "Ty"}[idx]; // "adding item: " in case 1 <field>.add
             lmFolders = new String[]{"sBgFolders", "HF", "Kn", "KR", "KV", "MW", "Qz", "Qz", "RR", "RQ", "RV", "Sk", "Sv", "Sv", "Su", "Su", "Sv", "Tx"}[idx]; // 1. ", not in the list of folders" 2. <field>.get(Long.valueOf(paramLong));
 
-            if (Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_5_3_23) {
+            if (Common.GNL_VERSION >= ObfuscationHelper.GNL_5_3_23) {
                 btvShadowsEnabled = "mCustomShadowsEnabled";
                 sdtbQsbBar = "mQSB";
+            }
+
+            if (Common.GNL_VERSION >= ObfuscationHelper.GNL_5_3_26) {
+                covbFields = new String[]{"tR", "ceg", "ceh", "cei"};
+                spbMic = "cgY";
             }
         }
     }

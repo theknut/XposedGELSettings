@@ -54,7 +54,7 @@ public class CommonHooks {
         }
 
         if (OnDragStartListeners.size() != 0) {
-            if (Common.PACKAGE_OBFUSCATED && Common.GNL_PACKAGE_INFO.versionCode >= ObfuscationHelper.GNL_4_2_16) {
+            if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION >= ObfuscationHelper.GNL_4_2_16) {
                 // this is actually not DragSource but the parameter type is unknown as of now
                 findAndHookMethod(Classes.SearchDropTargetBar, Methods.sdtbOnDragStart, Classes.DragSource, Object.class, Integer.TYPE, new XGELSHook(OnDragStartListeners));
             } else if (Common.PACKAGE_OBFUSCATED) {
