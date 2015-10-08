@@ -27,7 +27,6 @@ import static de.robv.android.xposed.XposedHelpers.getFloatField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setBooleanField;
 import static de.robv.android.xposed.XposedHelpers.setIntField;
-import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
 public class HomescreenHooks extends HooksBaseClass {
 
@@ -43,18 +42,6 @@ public class HomescreenHooks extends HooksBaseClass {
                         ? new DeviceProfileMConstructorHook()
                         : new DeviceProfileLConstructorHook()
         );
-
-        if (Common.GNL_VERSION >= ObfuscationHelper.GNL_5_3_23
-                && PreferencesHelper.iconSettingsSwitchHome
-                && (PreferencesHelper.appdockIconSize != 100
-                    || PreferencesHelper.iconSize != 100)) {
-            XposedBridge.hookAllConstructors(Classes.CellLayout, new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    setObjectField(param.thisObject, "mHotseatScale", 1.0F);
-                }
-            });
-        }
 
         if (!Common.IS_PRE_GNL_4) {
             findAndHookMethod(Classes.Folder, "onFinishInflate", new XC_MethodHook() {

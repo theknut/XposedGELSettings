@@ -359,7 +359,8 @@ public class FragmentHomescreen extends FragmentBase {
         }
 
         if (!InAppPurchase.isPremium) {
-            findPreference("unlimitedfoldersize").setEnabled(false);
+            Preference pref = findPreference("unlimitedfoldersize");
+            if (pref != null) pref.setEnabled(false);
         } else {
             MyPreferenceCategory cat = (MyPreferenceCategory) this.findPreference("folders");
             cat.removePreference(this.findPreference("needsDonate"));

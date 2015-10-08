@@ -95,15 +95,13 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
                     findAndHookMethod(Classes.SearchSettings, Methods.ssFirstHotwordHintShownAt, XC_MethodReplacement.returnConstant(true));
                 }
 
-                if (PreferencesHelper.searchbarStyle != 3) {
-                    XposedBridge.hookAllConstructors(Classes.SearchPlateBar, new XC_MethodHook() {
-                        @Override
-                        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                            Drawable searchBg = (Drawable) getObjectField(param.thisObject, Fields.spbMic);
-                            searchBg.setColorFilter(PreferencesHelper.searchbarPrimaryColor, PorterDuff.Mode.MULTIPLY);
-                        }
-                    });
-                }
+                XposedBridge.hookAllConstructors(Classes.SearchPlateBar, new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        Drawable searchBg = (Drawable) getObjectField(param.thisObject, Fields.spbMic);
+                        searchBg.setColorFilter(PreferencesHelper.searchbarPrimaryColor, PorterDuff.Mode.MULTIPLY);
+                    }
+                });
 
                 findAndHookMethod(Classes.SearchPlate, "onFinishInflate", new XC_MethodHook() {
                     @Override

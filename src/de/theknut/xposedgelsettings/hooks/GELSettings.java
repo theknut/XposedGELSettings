@@ -14,6 +14,7 @@ import de.theknut.xposedgelsettings.hooks.androidintegration.QuickSettingsPreL;
 import de.theknut.xposedgelsettings.hooks.androidintegration.SystemBars;
 import de.theknut.xposedgelsettings.hooks.androidintegration.SystemUIHooks;
 import de.theknut.xposedgelsettings.hooks.androidintegration.SystemUIReceiver;
+import de.theknut.xposedgelsettings.hooks.appdrawer.AppDrawerLHooks;
 import de.theknut.xposedgelsettings.hooks.common.CommonHooks;
 import de.theknut.xposedgelsettings.hooks.general.ContextMenu;
 import de.theknut.xposedgelsettings.hooks.general.GeneralHooks;
@@ -113,7 +114,7 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
         HomescreenHooks.initAllHooks(lpparam);
         SystemUIHooks.initAllHooks(lpparam);
         SystemBars.initAllHooks(lpparam);
-        //AppDrawerMHooks.initAllHooks(lpparam);
+        if (!Common.IS_M_GNL) AppDrawerLHooks.initAllHooks(lpparam);
         GestureHooks.initAllHooks(lpparam);
         NotificationBadgesHooks.initAllHooks(lpparam);
         IconHooks.initAllHooks(lpparam);
