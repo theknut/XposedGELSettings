@@ -161,7 +161,7 @@ public class ContextMenu extends HooksBaseClass{
                 final ViewGroup dragLayer = getDragLayer();
                 ViewGroup contextMenuHolder = setupContextMenu(longPressedItem);
                 closeAndRemove();
-                dragLayer.addView(contextMenuHolder);
+                dragLayer.addView(contextMenuHolder, 0);
                 animateOpen(contextMenuHolder);
             }
 
@@ -215,6 +215,7 @@ public class ContextMenu extends HooksBaseClass{
 
         findAndHookMethod(Classes.DragLayer, "onTouchEvent", MotionEvent.class, new XC_MethodHook() {
             final int INVALID = -1;
+
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 MotionEvent ev = (MotionEvent) param.args[0];
@@ -253,8 +254,36 @@ public class ContextMenu extends HooksBaseClass{
                 }
             };
         }
-
         hookAllMethods(Classes.PagedView, Methods.pvPageBeginMoving, hook);
+
+        if (Common.GNL_VERSION >= ObfuscationHelper.GNL_5_4_24) {
+            hook = new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    switch (param.method.getName()) {
+                        case "onClick":
+                            if (isOpen && param.args[0].getClass().equals(Classes.CellLayout)) {
+                                closeAndRemove();
+                            }
+                            break;
+                        case "showOverviewMode":
+                            if (isOpen) {
+                                closeAndRemove();
+                            }
+                            break;
+                        case "handleTouchDown":
+                            if (isOpen && callMethod(Common.WORKSPACE_INSTANCE, Methods.wGetOpenFolder) != null) {
+                                closeAndRemove();
+                            }
+                            break;
+                    }
+                }
+            };
+
+            findAndHookMethod(Classes.Launcher, "onClick", View.class, hook);
+            findAndHookMethod(Classes.Launcher, "showOverviewMode", boolean.class, hook);
+            findAndHookMethod(Classes.DragLayer, "handleTouchDown", MotionEvent.class, boolean.class, hook);
+        }
     }
 
     public static int getStatusBarHeight() {
@@ -362,7 +391,7 @@ public class ContextMenu extends HooksBaseClass{
                 removeContextMenu();
 
                 final String curName = String.valueOf(getObjectField(tag, "title"));
-                final AlertDialog editNameDialog = new AlertDialog.Builder(Common.LAUNCHER_INSTANCE).create();
+                final AlertDialog editNameDialog = new AlertDialog.Builder(Common.LAUNCHER_INSTANCE, AlertDialog.THEME_DEVICE_DEFAULT_DARK).create();
                 final ViewGroup editNameView = (ViewGroup) LayoutInflater.from(XGELSContext).inflate(R.layout.edit_app_name, null);
                 final EditText editText = (EditText) editNameView.findViewById(R.id.edit_app_name_edittext);
                 editText.setHint(curName);
@@ -441,6 +470,7 @@ public class ContextMenu extends HooksBaseClass{
                         && intent.getComponent() != null) {
                     title = String.valueOf(pm.resolveActivity(intent, 0).activityInfo.loadLabel(pm));
                 }
+
 
                 editNameDialog.setTitle(title);
                 editNameDialog.show();
@@ -771,7 +801,9 @@ public class ContextMenu extends HooksBaseClass{
     }
 
     private static ViewGroup getDragLayer() {
-        return Common.DRAG_LAYER;
+        return Common.GNL_VERSION >= ObfuscationHelper.GNL_5_3_23
+                ? ((ViewGroup) Common.DRAG_LAYER.getParent())
+                : Common.DRAG_LAYER;
     }
 
     private static void removeContextMenu() {

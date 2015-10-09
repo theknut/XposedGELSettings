@@ -28,6 +28,23 @@
   <body>
 
 $ 2.3.18
+  % Version 2.3.19
+  _ 2015-10-09
+
+  Please consider XGELS Premium to support the development of this app!<br>Thanks so much!<br><br>
+
+  !Added:
+      * partly support for Google Search 5.4.24 (everything app drawer related will NOT work)
+
+  !Fixed:
+      * context menu opening behind open folder
+      * monochrome searchbar only allowing white background
+      * open app drawer gesture not working when button is hidden
+
+  !XGELS UI:
+      * updated translations
+
+$ 2.3.18
   % Version 2.3.18
   _ 2015-10-08
 

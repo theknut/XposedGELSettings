@@ -279,7 +279,7 @@ public class GeneralHooks extends HooksBaseClass {
 
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    if (param.args[3] != null && param.args[3].getClass().equals(Classes.LauncherAppWidgetHostView)){
+                    if (param.args[3] != null && param.args[3].getClass().equals(Classes.LauncherAppWidgetHostView)) {
                         param.setResult(true);
                     }
                 }
@@ -308,7 +308,9 @@ public class GeneralHooks extends HooksBaseClass {
             });
 
             if (Common.PACKAGE_OBFUSCATED) {
-                if (Common.GNL_VERSION >= ObfuscationHelper.GNL_5_3_23) {
+                if (Common.GNL_VERSION >= ObfuscationHelper.GNL_5_4_24) {
+                    findAndHookMethod(Classes.LoaderTask, Methods.lmCheckItemPlacement, findClass("com.android.launcher3.util.LongArrayMap", lpparam.classLoader), Classes.ItemInfo, ArrayList.class, checkItemPlacementHook);
+                } else if (Common.GNL_VERSION >= ObfuscationHelper.GNL_5_3_23) {
                     findAndHookMethod(Classes.LoaderTask, Methods.lmCheckItemPlacement, findClass("com.android.launcher3.util.LongArrayMap", lpparam.classLoader), Classes.ItemInfo, checkItemPlacementHook);
                 } else if (Common.GNL_VERSION >= ObfuscationHelper.GNL_4_1_21) {
                     findAndHookMethod(Classes.LoaderTask, Methods.lmCheckItemPlacement, HashMap.class, Classes.ItemInfo, checkItemPlacementHook);
