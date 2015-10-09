@@ -27,6 +27,7 @@
         <item>デフォルト</item>
         <item>Android Lスタイル</item>
         <item>Android Mスタイル</item>
+        <item>Android M monchrome スタイル</item>
     </string-array>
 
     <string-array name="gesture_actions_entries">

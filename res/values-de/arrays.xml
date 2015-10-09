@@ -46,6 +46,7 @@
         <item>Standard</item>
         <item>Android L Style</item>
         <item>Android M Style</item>
+        <item>Android M Monochrom</item>
     </string-array>
 
     <string-array name="contextmenu_mode_entries">

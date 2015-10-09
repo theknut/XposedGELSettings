@@ -62,6 +62,7 @@
         <item>Predvolený</item>
         <item>Štýl Androidu L</item>
         <item>Štýl Androidu M</item>
+        <item>Štýl Androidu M monochrome</item>
     </string-array>
     
     <string-array name="contextmenu_mode_entries">

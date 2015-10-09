@@ -54,6 +54,7 @@
         <item>Стандартно</item>
         <item>Android L стиль</item>
         <item>Android M стиль</item>
+        <item>Android M monochrome стиль</item>
     </string-array>
     <string-array name="smartfoldermode_entries">
         <item>Відключено</item>
