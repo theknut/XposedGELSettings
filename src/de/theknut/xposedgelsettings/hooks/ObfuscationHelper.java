@@ -154,7 +154,8 @@ public class ObfuscationHelper extends HooksBaseClass {
                 LAUNCHER_APPS_COMPAT,
                 ALL_APPS_CONTAINER_VIEW,
                 ALPHABETICAL_APPS_LIST,
-                APP_NAME_COMPARATOR;
+                APP_NAME_COMPARATOR,
+                HINT_TEXT_VIEW;
 
         public static void initNames(int idx) {
 
@@ -165,6 +166,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             NOW_OVERLAY = new String[]{"com.google.android.sidekick.shared.client.NowOverlay", "dzk", "enc", "evx", "evx", "fma", "gen", "gen", "com.google.android.sidekick.shared.client.aj", "com.google.android.sidekick.shared.client.aj", "com.google.android.sidekick.shared.client.ak", "com.google.android.sidekick.shared.client.aj", "com.google.android.sidekick.shared.client.ak", "com.google.android.sidekick.shared.client.am", "com.google.android.sidekick.shared.client.v", "com.google.android.sidekick.shared.legacyclient.m", "com.google.android.sidekick.shared.legacyclient.m", "com.google.android.sidekick.shared.legacyclient.c", "com.google.android.sidekick.shared.legacyclient.c", "com.google.android.apps.gsa.sidekick.shared.overlay.c"}[idx]; // now_overlay:card_view_state
             SEARCH_OVERLAY_IMPL = new String[]{"com.google.android.search.gel.SearchOverlayImpl", "ccu", "cmh", "cuc", "cuc", "ebj", "erb", "erb", "com.google.android.search.shared.overlay.u", "com.google.android.search.shared.overlay.u", "com.google.android.search.shared.overlay.u", "com.google.android.search.shared.overlay.u", "com.google.android.search.shared.overlay.s", "com.google.android.search.shared.overlay.s", "com.google.android.search.shared.overlay.m", "com.google.android.apps.gsa.search.shared.overlay.m", "com.google.android.apps.gsa.search.shared.overlay.m", "com.google.android.apps.gsa.search.shared.overlay.j", "com.google.android.apps.gsa.search.shared.overlay.l", "com.google.android.apps.gsa.search.shared.overlay.n"}[idx]; // search_overlay_impl:search_box_stats
             GSA_CONFIG_FLAGS = new String[]{"com.google.android.search.core.GsaConfigFlags", "ayc", "bgr", "bnj", "bnj", "chh", "cug", "cug", "com.google.android.search.core.av", "com.google.android.search.core.au", "com.google.android.search.core.ak", "com.google.android.search.core.as", "com.google.android.search.core.aq", "com.google.android.search.core.ao", "com.google.android.search.core.v", "com.google.android.apps.gsa.search.core.b.n", "com.google.android.apps.gsa.search.core.b.o", "com.google.android.apps.gsa.search.core.config.GsaConfigFlags", "com.google.android.apps.gsa.search.core.config.GsaConfigFlags", "com.google.android.apps.gsa.search.core.config.GsaConfigFlags"}[idx]; // "int array"
+            HINT_TEXT_VIEW = new String[]{"com.google.android.apps.gsa.searchplate.HintTextView", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "com.google.android.apps.gsa.searchplate.HintTextView", "com.google.android.apps.gsa.searchplate.HintTextView"}[idx]; // "say_ok_google_x_translation"
 
             SEARCH_SETTINGS = new String[]{"", "", "", "", "", "", "", "", "com.google.android.search.core.dx", "com.google.android.search.core.dz", "com.google.android.search.core.dz", "com.google.android.search.core.eb", "com.google.android.search.core.eb", "com.google.android.search.core.eh", "com.google.android.search.core.ch", "com.google.android.apps.gsa.search.core.b.u", "com.google.android.apps.gsa.search.core.b.x", "com.google.android.apps.gsa.search.core.config.t", "com.google.android.search.core.state.h", "com.google.android.apps.gsa.search.core.state.s"}[idx]; // first_hotword_hint_shown_at
             SEARCH_PLATE_BAR = new String[]{"", "", "", "", "", "", "", "", "com.google.android.search.searchplate.an", "com.google.android.search.searchplate.an", "com.google.android.search.searchplate.an", "com.google.android.apps.gsa.searchplate.ap", "com.google.android.apps.gsa.searchplate.aq", "com.google.android.apps.gsa.searchplate.ap", "com.google.android.apps.gsa.searchplate.o", "com.google.android.apps.gsa.searchplate.o", "com.google.android.apps.gsa.searchplate.o", "com.google.android.apps.gsa.searchplate.n", "com.google.android.apps.gsa.searchplate.n", "com.google.android.apps.gsa.searchplate.n"}[idx]; // search_plate_rounded_corner_radius
@@ -288,6 +290,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 FolderPagedView,
                 LauncherAppsCompat,
                 AlphabeticalAppsList,
+                HintTextView,
                 AppNameComparator;
 
         public static void hookAllClasses(LoadPackageParam lpparam) {
@@ -300,6 +303,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 AllAppsContainerView = findClass(ClassNames.ALL_APPS_CONTAINER_VIEW, lpparam.classLoader);
                 AlphabeticalAppsList = findClass(ClassNames.ALPHABETICAL_APPS_LIST, lpparam.classLoader);
                 AppNameComparator = findClass(ClassNames.APP_NAME_COMPARATOR, lpparam.classLoader);
+                HintTextView = findClass(ClassNames.HINT_TEXT_VIEW, lpparam.classLoader);
             } else {
                 AppsCustomizePagedView = findClass(ClassNames.APPS_CUSTOMIZE_PAGED_VIEW, lpparam.classLoader);
                 AppsCustomizeCellLayout = findClass(ClassNames.APPS_CUSTOMIZE_CELL_LAYOUT, lpparam.classLoader);
@@ -509,7 +513,8 @@ public class ObfuscationHelper extends HooksBaseClass {
                 acpvRemoveAllViewsOnPage,
                 wGetChangeStateAnimation,
                 ssHotwordUsageStats,
-                ssFirstHotwordHintShownAt;
+                ssFirstHotwordHintShownAt,
+                htvAnimateHotword;
         public static String[] covbMethods;
 
         public static void initMethodNames(int idx) {
@@ -519,6 +524,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             tmSetTransitionsEnabled = new String[]{"setTransitionsEnabled", "cG", "cY", "cZ", "cZ", "ea", "eE", "eF", "fM", "gw", "hc", "cR", "df", "dt", "dA", "eM", "fc", "fy", "eK", "ft"}[idx]; // (4)
             ssHotwordUsageStats = new String[]{"", "", "", "", "", "", "", "", "afv", "ask", "azJ", "aCQ", "aHh", "aLB", "aUf", "XF", "Zl", "Zl", "", ""}[idx]; // "hotword_usage_stats"
             ssFirstHotwordHintShownAt = new String[]{"", "", "", "", "", "", "", "", "afw", "asl", "azK", "aCR", "aHi", "aLC", "aUg", "XG", "Zm", "", "bcW", "aim"}[idx]; // "first_hotword_hint_shown_at"
+            htvAnimateHotword = new String[]{"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "eC", "fl"}[idx]; // ".setFloatValues(new float[] { 0.0F, 1.0F });"
             noOnShow = new String[]{"onShow", "p", "u", "v", "v", "x", "y", "y", "z", "A", "D", "C", "A", "C", "F", "I", "I", "G", "E", "z"}[idx]; // 1. "now_overlay" 2. boolean paramBoolean1, boolean paramBoolean2 3. the one with isConnected
             spSetProximityToNow = new String[]{"setProximityToNow", "x", "x", "x", "x", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""}[idx]; // (float paramFloat) with RecognizerView
             weaAddCurrentConditions = new String[]{"addCurrentConditions", "a", "a", "a", "a", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""}[idx];

@@ -32,7 +32,6 @@ import de.theknut.xposedgelsettings.hooks.googlesearchbar.weatherwidget.WeatherW
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
-import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setObjectField;
@@ -61,11 +60,10 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
 
             // only do the following changes if we have the actual GEL launcher with GNow
             if (Common.HOOKED_PACKAGE.equals(Common.GEL_PACKAGE)) {
+                // hide search bar when the page is beeing moved
+                CommonHooks.PageBeginMovingListeners.add(new OnPageBeginMovingHook());
 
                 if (PreferencesHelper.autoHideSearchBar) {
-
-                    // hide search bar when the page is beeing moved
-                    CommonHooks.PageBeginMovingListeners.add(new OnPageBeginMovingHook());
                     // show search bar if GNow is visible
                     CommonHooks.PageEndMovingListeners.add(new OnPageEndMovingHook());
 
@@ -108,6 +106,7 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                         ViewGroup searchPlate = (ViewGroup) param.thisObject;
                         Resources resources = searchPlate.getContext().getResources();
+                        Drawable dMic = null, dLogo = null;
 
                         ImageView logo = (ImageView) searchPlate.findViewById(resources.getIdentifier("launcher_search_button", "id", Common.HOOKED_PACKAGE));
                         ImageView mic = (ImageView) searchPlate.findViewById(resources.getIdentifier("clear_or_voice_button", "id", Common.HOOKED_PACKAGE));
@@ -116,33 +115,23 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
                             case 0:
                                 return;
                             case 1:
-                                logo.setImageDrawable(Common.XGELSCONTEXT.getResources().getDrawable(R.drawable.ic_searchbox_google));
-                                Drawable d = Common.XGELSCONTEXT.getResources().getDrawable(R.drawable.ic_mic_dark);
-
-                                if (Utils.getContrastColor(PreferencesHelper.searchbarPrimaryColor) == Color.WHITE) {
-                                    logo.setImageDrawable(Common.XGELSCONTEXT.getResources().getDrawable(R.drawable.ic_google_small_light));
-                                    d = Common.XGELSCONTEXT.getResources().getDrawable(R.drawable.ic_mic_m_white);
-                                    setObjectField(mic, Fields.covbFields[2], d);
-                                    setObjectField(mic, Fields.covbFields[3], d);
-                                }
-
-                                mic.setImageDrawable(d);
+                                boolean useWhite = Utils.getContrastColor(PreferencesHelper.searchbarPrimaryColor) == Color.WHITE;
+                                dLogo = Common.XGELSCONTEXT.getResources().getDrawable(useWhite ? R.drawable.ic_google_small_light : R.drawable.ic_searchbox_google);
+                                dMic = Common.XGELSCONTEXT.getResources().getDrawable(useWhite ? R.drawable.ic_mic_m_white : R.drawable.ic_mic_dark);
                                 break;
                             case 2:
-                                logo.setImageDrawable(Common.XGELSCONTEXT.getResources().getDrawable(R.drawable.ic_google_logo_m));
-                                d = Common.XGELSCONTEXT.getResources().getDrawable(R.drawable.ic_mic_m);
-                                setObjectField(mic, Fields.covbFields[2], d);
-                                setObjectField(mic, Fields.covbFields[3], d);
+                                dLogo = Common.XGELSCONTEXT.getResources().getDrawable(R.drawable.ic_searchbox_google_m);
+                                dMic = Common.XGELSCONTEXT.getResources().getDrawable(R.drawable.ic_mic_m);
                                 break;
                             case 3:
-                                logo.setImageDrawable(Common.XGELSCONTEXT.getResources().getDrawable(R.drawable.ic_google_logo_m_monochrome));
-                                d = Common.XGELSCONTEXT.getResources().getDrawable(R.drawable.ic_mic_monochrome);
-                                setObjectField(mic, Fields.covbFields[2], d);
-                                setObjectField(mic, Fields.covbFields[3], d);
+                                dLogo = Common.XGELSCONTEXT.getResources().getDrawable(R.drawable.ic_searchbox_google_m_monochrome);
+                                dMic = Common.XGELSCONTEXT.getResources().getDrawable(R.drawable.ic_mic_m_monochrome);
                                 break;
                         }
 
-                        setObjectField(mic, Fields.covbFields[3], mic.getDrawable());
+                        logo.setImageDrawable(dLogo);
+                        setObjectField(mic, Fields.covbFields[2], dMic);
+                        setObjectField(mic, Fields.covbFields[3], dMic);
                     }
                 });
 
@@ -168,7 +157,7 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
                             }
 
                             if (Common.GNL_VERSION < ObfuscationHelper.GNL_5_3_23) {
-                                id = resources.getIdentifier("clear_or_voice_button", "id", Common.HOOKED_PACKAGE);
+                                id = resources.getIdentifier("clear_or_voice_butpeton", "id", Common.HOOKED_PACKAGE);
                                 if (id != 0) {
                                     View clearOrVoiceButton = searchPlate.findViewById(id);
 
@@ -223,7 +212,7 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
                     param.args[0] = false;
                 }
             });
-            findAndHookMethod(findClass("com.google.android.apps.gsa.searchplate.HintTextView", lpparam.classLoader), "eC", boolean.class, new XC_MethodHook() {
+            findAndHookMethod(Classes.HintTextView, Methods.htvAnimateHotword, boolean.class, new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     int page = getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage);
