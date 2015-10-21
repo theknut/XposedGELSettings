@@ -10,18 +10,23 @@ import android.os.AsyncTask;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.Utils;
 import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelper.ContentType;
+import de.theknut.xposedgelsettings.ui.CommonUI;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
+import static de.robv.android.xposed.XposedHelpers.getStaticObjectField;
+import static de.robv.android.xposed.XposedHelpers.newInstance;
 
 /**
  * Created by Alexander Schulz on 21.08.2014.
@@ -37,6 +42,7 @@ public class Tab extends AppDrawerItem {
     private ContentType contentType = ContentType.User;
     private int color = DEFAULT_COLOR;
     private boolean initialized = false;
+    private Object GelAppFilter;
 
     public Tab(String tabCfg) {
         this(tabCfg, true);
@@ -93,6 +99,7 @@ public class Tab extends AppDrawerItem {
     }
 
     public void initData(final boolean add) {
+        GelAppFilter = Common.IS_M_GNL ? newInstance(ObfuscationHelper.Classes.GelAppFilter) : null;
         initialized = false;
         final Tab tab = this;
         new AsyncTask<Void, Void, Void>() {
@@ -111,17 +118,89 @@ public class Tab extends AppDrawerItem {
                 } else if (isNewUpdatedTab()) {
                     data = getNewUpdatedApps();
                     setSortType(SortType.LastUpdate);
+                    sort(data);
                 } else if (isNewAppsTab()) {
                     data = getNewApps();
                     setSortType(SortType.LastInstall);
+                    sort(data);
+                } else if (Common.IS_M_GNL && isAppsTab()) {
+                    data = new ArrayList(Common.ALL_APPS);
+                    setSortType(getSortType());
+                    sort(data);
+                    removeAppsToHide();
                 }
+
                 return null;
+            }
+
+            private void removeAppsToHide() {
+                List<String> packages = new ArrayList<String>();
+                if (PreferencesHelper.iconPackHide) {
+                    packages = CommonUI.getIconPacks(Common.LAUNCHER_CONTEXT);
+                }
+
+                ArrayList<String> appsToHide = new ArrayList<String>(PreferencesHelper.hiddenApps);
+                appsToHide.addAll(TabHelper.getInstance().getAppsToHide());
+                appsToHide.addAll(FolderHelper.getInstance().getAppsToHide());
+                appsToHide.addAll(getWorkspaceIcons());
+
+                Iterator it = data.iterator();
+
+                while(it.hasNext()) {
+                    Object appInfo = it.next();
+                    ComponentName componentName = (ComponentName) getObjectField(appInfo, Fields.aiComponentName);
+                    if (appsToHide.contains(componentName.flattenToString())
+                            || packages.contains(componentName.getPackageName())) {
+                        // remove it from the allAppsList if it is in our list
+                        it.remove();
+                    }
+                }
+            }
+
+            private ArrayList<String> getWorkspaceIcons() {
+                ArrayList<String> appsToHide = new ArrayList<String>();
+
+                if (PreferencesHelper.autoHideHomeIcons) {
+                    ArrayList workspaceItems = (ArrayList) getStaticObjectField(ObfuscationHelper.Classes.LauncherModel, Fields.lmWorkspaceItems);
+                    for (Object workspaceItem : workspaceItems) {
+                        if (workspaceItem.getClass().equals(ObfuscationHelper.Classes.ShortcutInfo)) {
+                            Intent i = (Intent) callMethod(workspaceItem, "getIntent");
+                            if (i != null && i.getComponent() != null) {
+                                appsToHide.add(i.getComponent().flattenToString());
+                            }
+                        }
+                    }
+
+                    Iterator it = (Iterator) callMethod(getStaticObjectField(ObfuscationHelper.Classes.LauncherModel, Fields.lmFolders), "iterator");
+                    while(it.hasNext()) {
+                        Object item = it.next();
+                        if (!item.getClass().equals(ObfuscationHelper.Classes.FolderInfo)) continue;
+                        for (Object folderItem : ((ArrayList) getObjectField(item, Fields.fiContents))) {
+                            if (folderItem.getClass().equals(ObfuscationHelper.Classes.ShortcutInfo)) {
+                                Intent i = (Intent) callMethod(folderItem, "getIntent");
+                                if (i != null && i.getComponent() != null) {
+                                    appsToHide.add(i.getComponent().flattenToString());
+                                }
+                            }
+                        }
+                    }
+                }
+                return appsToHide;
             }
 
             @Override
             protected void onPostExecute(Void aVoid) {
-                ArrayList allApps = (ArrayList) getObjectField(Common.APP_DRAWER_INSTANCE, Fields.acpvAllApps);
-                callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSetApps, allApps);
+                if (Common.IS_M_GNL) {
+                    if (add) TabHelperM.getInstance().addTab(tab);
+
+                    if (TabHelper.getInstance().getCurrentTabData().equals(tab)) {
+                        TabHelperM.getInstance().setCurrentTab(tab);
+                    }
+                    return;
+                } else {
+                    ArrayList allApps = (ArrayList) getObjectField(Common.APP_DRAWER_INSTANCE, Fields.acpvAllApps);
+                    callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSetApps, allApps);
+                }
 
                 if (add) {
                     TabHelperL.getInstance().addTab(tab);
@@ -230,17 +309,23 @@ public class Tab extends AppDrawerItem {
             if (app.metaData != null && app.metaData.getBoolean("xposedmodule", false)) {
                 Intent i = pm.getLaunchIntentForPackage(app.packageName);
                 if (i != null) {
-                    if (!shouldShowAppInTab(i.getComponent().flattenToString())) continue;
-                    modules.add(Utils.createAppInfo(i.getComponent()));
+                    if (!shouldShowAppInTab(i.getComponent())) continue;
+                    Object module = Utils.createAppInfo(i.getComponent());
+                    if (module == null) continue;
+
+                    modules.add(module);
                     rawData.add(i.getComponent().flattenToString());
                 }
             }
         }
 
         Intent i = pm.getLaunchIntentForPackage("de.robv.android.xposed.installer");
-        if (i != null && shouldShowAppInTab(i.getComponent().flattenToString())) {
-            modules.add(Utils.createAppInfo(i.getComponent()));
-            rawData.add(i.getComponent().flattenToString());
+        if (i != null && shouldShowAppInTab(i.getComponent())) {
+            Object module = Utils.createAppInfo(i.getComponent());
+            if (module != null) {
+                modules.add(module);
+                rawData.add(i.getComponent().flattenToString());
+            }
         }
 
         sort(modules);
@@ -257,8 +342,11 @@ public class Tab extends AppDrawerItem {
             String pkg = app.activityInfo.packageName;
             if (pkg.contains("com.google.android.") || google.contains(pkg) && !exclude.contains(pkg)) {
                 ComponentName cmp = new ComponentName(pkg, app.activityInfo.name);
-                if (!shouldShowAppInTab(cmp.flattenToString())) continue;
-                modules.add(Utils.createAppInfo(cmp));
+                if (!shouldShowAppInTab(cmp)) continue;
+                Object module = Utils.createAppInfo(cmp);
+                if (module == null) continue;
+
+                modules.add(module);
                 rawData.add(cmp.flattenToString());
             }
         }
@@ -273,8 +361,11 @@ public class Tab extends AppDrawerItem {
 
         for (ResolveInfo app : Utils.getAllApps()) {
             ComponentName cmp = new ComponentName(app.activityInfo.packageName, app.activityInfo.name);
-            if (!shouldShowAppInTab(cmp.flattenToString())) continue;
-            apps.add(Utils.createAppInfo(cmp));
+            if (!shouldShowAppInTab(cmp)) continue;
+            Object module = Utils.createAppInfo(cmp);
+            if (module == null) continue;
+
+            apps.add(module);
             rawData.add(cmp.flattenToString());
         }
 
@@ -287,8 +378,11 @@ public class Tab extends AppDrawerItem {
 
         for (ResolveInfo app : Utils.getAllApps()) {
             ComponentName cmp = new ComponentName(app.activityInfo.packageName, app.activityInfo.name);
-            if (!shouldShowAppInTab(cmp.flattenToString())) continue;
-            apps.add(Utils.createAppInfo(cmp));
+            if (!shouldShowAppInTab(cmp)) continue;
+            Object module = Utils.createAppInfo(cmp);
+            if (module == null) continue;
+
+            apps.add(module);
             rawData.add(cmp.flattenToString());
         }
 
@@ -332,12 +426,14 @@ public class Tab extends AppDrawerItem {
 
         for (String pkg : packages) {
             Intent li = packageManager.getLaunchIntentForPackage(pkg);
-            if (li != null && shouldShowAppInTab(li.getComponent().flattenToString())) {
-                apps.add(Utils.createAppInfo(li.getComponent()));
+            if (li != null && shouldShowAppInTab(li.getComponent())) {
+                Object app = Utils.createAppInfo(li.getComponent());
+                if (app == null) continue;
+
+                apps.add(app);
                 rawData.add(li.getComponent().flattenToString());
             }
         }
-
         return apps;
     }
 
@@ -358,8 +454,9 @@ public class Tab extends AppDrawerItem {
         return 3;
     }
 
-    private boolean shouldShowAppInTab(String pkg) {
-        return !PreferencesHelper.hiddenApps.contains(pkg);
+    private boolean shouldShowAppInTab(ComponentName cmp) {
+        return !PreferencesHelper.hiddenApps.contains(cmp.flattenToString())
+                || (Boolean) callMethod(GelAppFilter, "shouldShowApp", cmp);
     }
 
     public void update() {

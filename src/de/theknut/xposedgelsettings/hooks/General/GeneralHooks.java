@@ -504,7 +504,9 @@ public class GeneralHooks extends HooksBaseClass {
                         TabHelper tabHelper = TabHelper.getInstance();
                         Tab tab = tabHelper.getCurrentTabData();
 
-                        if (tab.isAppsTab()) {
+                        if (Common.IS_M_GNL) {
+                            TabHelper.getInstance().updateTabs();
+                        } else if (tab.isAppsTab()) {
                             ArrayList allApps = (ArrayList) getObjectField(Common.APP_DRAWER_INSTANCE, Fields.acpvAllApps);
                             for (String app : intent.getStringArrayListExtra("additems")) {
                                 allApps.add(Utils.createAppInfo(ComponentName.unflattenFromString(app)));

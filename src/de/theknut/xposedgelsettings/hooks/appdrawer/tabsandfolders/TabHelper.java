@@ -49,7 +49,6 @@ public abstract class TabHelper extends HooksBaseClass {
     abstract public boolean handleScroll(float overscroll);
 
     public void updateTabs() {
-        if (Common.IS_M_GNL) return;
         for (Tab tab : tabs) {
             tab.update();
         }

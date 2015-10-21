@@ -728,15 +728,6 @@ public final class TabHelperL extends TabHelper implements View.OnClickListener,
 
         callMethod(thisObject, Methods.acpvEnableHwLayersOnVisiblePages);
     }
-//
-//    public void setContentType(Object thisObject) {
-//        Tab tab = getCurrentTabData();
-//        setObjectField(thisObject, Fields.acpvContentType, callMethod(tabHost, Methods.acthGetContentTypeForTabTag, tab.isWidgetsTab() ? "WIDGETS" : "APPS"));
-//        setTabColor(getCurrentTabData().getPrimaryColor());
-//        Object mAppsCustomizePane = getObjectField(tabHost, Fields.acthAppsCustomizePane);
-//        callMethod(mAppsCustomizePane, Methods.acpvInvalidatePageData, 0, true);
-//        scroll();
-//    }
 
     @Override
     public ArrayList<String> getAppsToHide() {

@@ -40,6 +40,10 @@ public class ResourceReplacements extends XC_MethodHook implements IXposedHookIn
             if (resparam.packageName.equals(Common.GEL_PACKAGE)
                     && Utils.getContrastColor(PreferencesHelper.searchbarPrimaryColor) == Color.WHITE) {
                 resparam.res.setReplacement(pkg, "color", "navigation_button_color", 0xfff4f4f4);
+
+                if (resparam.res.getIdentifier("search_plate_text_color", "color", pkg) != 0) {
+                    resparam.res.setReplacement(pkg, "color", "search_plate_text_color", Color.WHITE);
+                }
             }
 
             resparam.res.setReplacement(pkg, "color", "outline_color", glowColor);

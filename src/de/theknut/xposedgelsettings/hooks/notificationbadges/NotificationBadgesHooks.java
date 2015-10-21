@@ -108,8 +108,9 @@ public class NotificationBadgesHooks extends NotificationBadgesHelper {
 
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                Class parent = ((View) param.thisObject).getParent().getParent().getClass();
                 if (PreferencesHelper.hideBadgesFromAppDrawer
-                        && ((View) param.thisObject).getParent().getParent().getClass().equals(Classes.AppsCustomizeCellLayout)) {
+                        && (parent.equals(Classes.AppsCustomizeCellLayout) || parent.equals(Classes.AllAppsRecyclerViewContainerView))) {
                     return;
                 }
 
