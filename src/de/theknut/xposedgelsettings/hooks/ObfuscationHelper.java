@@ -30,7 +30,7 @@ public class ObfuscationHelper extends HooksBaseClass {
     public static final int GNL_5_3_23 = 300515416;
     public static final int GNL_5_3_26 = 300515596;
     public static final int GNL_5_4_24 = 300522076;
-    public static final int GNL_5_5_26 = 300441146;
+    public static final int GNL_5_5_26 = 300552016;
 
     public static int getVersionIndex(int version) {
 
@@ -332,9 +332,7 @@ public class ObfuscationHelper extends HooksBaseClass {
             }
 
             CellLayoutCellInfo = findClass(ClassNames.CELL_LAYOUT_CELL_INFO, lpparam.classLoader);
-
             Folder = findClass(ClassNames.FOLDER, lpparam.classLoader);
-
             FolderIcon = findClass(ClassNames.FOLDER_ICON, lpparam.classLoader);
             Hotseat = findClass(ClassNames.HOTSEAT, lpparam.classLoader);
             DragSource = findClass(ClassNames.DRAG_SOURCE, lpparam.classLoader);
