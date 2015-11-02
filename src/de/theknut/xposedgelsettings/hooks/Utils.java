@@ -229,7 +229,7 @@ public class Utils {
     }
 
     public static Object createAppInfo(Intent intent) {
-        for (Object appInfo : Common.ALL_APPS) {
+        for (Object appInfo : new ArrayList<>(Common.ALL_APPS)) {
             try {
                 if (intent.getComponent().equals(((Intent) callMethod(appInfo, "getIntent")).getComponent())) {
                     return appInfo;

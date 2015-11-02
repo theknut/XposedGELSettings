@@ -45,6 +45,7 @@
         <item>Stand-by</item>
         <item>Passa al dock</item>
         <item>Apri app</item>
+        <item>App drawer search</item>
     </string-array>
 
     <string-array name="gesture_actions_entries_limited">

@@ -17,6 +17,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -358,7 +359,11 @@ public class GeneralHooks extends HooksBaseClass {
 
         // hiding widgets
         if (Common.PACKAGE_OBFUSCATED) {
-            if (Common.IS_GNL && !Common.IS_M_GNL) findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvOnPackagesUpdated, ArrayList.class, new OnPackagesUpdatedHook());
+            if (Common.IS_M_GNL) {
+                findAndHookMethod(Classes.WidgetsModel, "setWidgetsAndShortcuts", ArrayList.class, new OnPackagesUpdatedHook());
+            } else if (Common.IS_GNL) {
+                findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvOnPackagesUpdated, ArrayList.class, new OnPackagesUpdatedHook());
+            }
         } else {
             XposedBridge.hookAllMethods(Classes.AppsCustomizePagedView, Methods.acpvOnPackagesUpdated, new OnPackagesUpdatedHook());
         }
@@ -428,144 +433,196 @@ public class GeneralHooks extends HooksBaseClass {
 
         @Override
         public void onReceive(final Context context, final Intent intent) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Log.e("XGELS", "joooo");
+                    PreferencesHelper.init();
+                    PreferencesHelper.initDefaultHomescreen();
 
-            PreferencesHelper.init();
-            PreferencesHelper.initDefaultHomescreen();
-
-            if (DEBUG) log("Launcher: Settings reloaded");
-            try {
-                if (intent.getAction().equals(Common.XGELS_ACTION_RESTART_LAUNCHER)) {
-                    killLauncher();
-                } else if (intent.getAction().equals(Common.XGELS_ACTION_RELOAD_SETTINGS)) {
-                    TabHelper.getInstance().updateTabs();
-                } else if (intent.getAction().equals(Common.XGELS_ACTION_OPEN_APPDRAWER)) {
-                    GestureHelper.handleGesture(Common.LAUNCHER_CONTEXT, null, "OPEN_APPDRAWER");
-                } else if (intent.getAction().equals(Common.XGELS_ACTION_UPDATE_FOLDER_ITEMS)) {
-                    long folderID = intent.getLongExtra("itemid", -1);
-                    View view = Common.CURRENT_CONTEXT_MENU_ITEM;
-
-                    if (view.getClass() == Classes.FolderIcon) {
-                        if (getLongField(view.getTag(), Fields.iiID) != folderID) return;
-
-                        Object mFolder = getObjectField(view, Fields.fiFolder);
-                        for (String newItem : intent.getStringArrayListExtra("additems")) {
-                            Object shortcutInfo = Utils.createShortcutInfo(newItem);
-                            callMethod(getObjectField(mFolder, Fields.fFolderInfo), Methods.fiAdd, shortcutInfo);
-                        }
-
-                        ArrayList<View> folderItems = new ArrayList<View>((ArrayList<View>) callMethod(mFolder, Methods.fGetItemsInReadingOrder));
-                        for (String removeItem : intent.getStringArrayListExtra("removeitems")) {
-                            ComponentName currCmp = ComponentName.unflattenFromString(removeItem);
-
-                            Iterator<View> it = folderItems.iterator();
-                            while (it.hasNext()) {
-                                View item = it.next();
-                                if (currCmp.equals(((Intent) callMethod(item.getTag(), "getIntent")).getComponent())) {
-                                    callMethod(getObjectField(mFolder, Fields.fFolderInfo), Methods.fiRemove, item.getTag());
-                                }
-                            }
-                        }
-
-                        Folder folder = FolderHelper.getInstance().getFolder(getLongField(view.getTag(), Fields.iiID));
-                        if (folder != null) {
-                            if (folder.hideFromAppsPage()) {
-                                Object mAppsCustomizePane = getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizePagedView);
-                                ArrayList allApps = (ArrayList) getObjectField(mAppsCustomizePane, Fields.acpvAllApps);
-                                folder.invalidateRawData();
-                                for (String app : folder.getRawData()) {
-                                    allApps.add(Utils.createAppInfo(ComponentName.unflattenFromString(app)));
-                                }
-
-                                for (String removeItem : intent.getStringArrayListExtra("removeitems")) {
-                                    allApps.add(Utils.createAppInfo(ComponentName.unflattenFromString(removeItem)));
-                                }
-
-                                callMethod(mAppsCustomizePane, Methods.acpvSetApps, allApps);
-                            }
-                        }
-                    }
-
-                    if (DEBUG) log("Launcher: Updated folder items");
-                } else if (intent.getAction().equals(Common.XGELS_ACTION_MODIFY_TAB)) {
-                    if (intent.getBooleanExtra("add", false)) {
-                        if (Common.IS_PRE_GNL_4) {
-                            TabHelperKK.getInstance().addTab(new Tab(intent, true));
-                        } else {
-                            new Tab(intent, true, true);
-                        }
-                    } else if (intent.getBooleanExtra("remove", false)) {
-                        TabHelper.getInstance().removeTab(TabHelper.getInstance().getCurrentTabData());
-                    } else if (intent.hasExtra("color")) {
-                        TabHelper tabHelper = TabHelper.getInstance();
-                        tabHelper.setTabColor(intent.getIntExtra("color", Color.WHITE));
-                        tabHelper.saveTabData();
-                        tabHelper.invalidate();
-                    } else {
-                        TabHelper tabHelper = TabHelper.getInstance();
-                        Tab tab = tabHelper.getCurrentTabData();
-
-                        if (Common.IS_M_GNL) {
+                    if (DEBUG) log("Launcher: Settings reloaded");
+                    log("Action: " + intent.getAction());
+                    try {
+                        if (intent.getAction().equals(Common.XGELS_ACTION_RESTART_LAUNCHER)) {
+                            killLauncher();
+                        } else if (intent.getAction().equals(Common.XGELS_ACTION_RELOAD_SETTINGS)) {
                             TabHelper.getInstance().updateTabs();
-                        } else if (tab.isAppsTab()) {
-                            ArrayList allApps = (ArrayList) getObjectField(Common.APP_DRAWER_INSTANCE, Fields.acpvAllApps);
-                            for (String app : intent.getStringArrayListExtra("additems")) {
-                                allApps.add(Utils.createAppInfo(ComponentName.unflattenFromString(app)));
-                            }
-                            callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSetApps, allApps);
-                            tabHelper.invalidate();
-                        } else {
-                            tab.initData();
-                        }
-                    }
-
-                    if (DEBUG) log("Launcher: Tab reloaded");
-                } else if (intent.getAction().equals(Common.XGELS_ACTION_MODIFY_FOLDER)) {
-                    if (intent.getBooleanExtra("add", false)) {
-                        FolderHelper.getInstance().addFolder(new Folder(intent, true));
-                    } else if (intent.getBooleanExtra("setup", false)) {
-                        FolderHelper.getInstance().setupFolderSettings(null, Tab.APPS_ID);
-                    }
-
-                    if (DEBUG) log("Launcher: Folder reloaded");
-                } else if (intent.getAction().equals(Common.XGELS_ACTION_UPDATE_ICON)) {
-                    final long itemId = intent.getLongExtra("itemid", -1);
-                    final long mode = intent.getIntExtra("mode", -1);
-                    final boolean isDefault = intent.getBooleanExtra("default", false);
-                    final Drawable[] background = new Drawable[1];
-
-                    new AsyncTask<Void, Void, Void>() {
-                        View icon;
-                        boolean isFolder;
-
-                        @Override
-                        protected Void doInBackground(Void... params) {
-
+                        } else if (intent.getAction().equals(Common.XGELS_ACTION_OPEN_APPDRAWER)) {
+                            GestureHelper.handleGesture(Common.LAUNCHER_CONTEXT, null, "OPEN_APPDRAWER");
+                        } else if (intent.getAction().equals(Common.XGELS_ACTION_UPDATE_FOLDER_ITEMS)) {
+                            long folderID = intent.getLongExtra("itemid", -1);
                             View view = Common.CURRENT_CONTEXT_MENU_ITEM;
-                            if (view != null && itemId == getLongField(view.getTag(), Fields.iiID)) {
-                                icon = view;
-                                return null;
+
+                            if (view.getClass() == Classes.FolderIcon) {
+                                if (getLongField(view.getTag(), Fields.iiID) != folderID) return;
+
+                                Object mFolder = getObjectField(view, Fields.fiFolder);
+                                for (String newItem : intent.getStringArrayListExtra("additems")) {
+                                    Object shortcutInfo = Utils.createShortcutInfo(newItem);
+                                    callMethod(getObjectField(mFolder, Fields.fFolderInfo), Methods.fiAdd, shortcutInfo);
+                                }
+
+                                ArrayList<View> folderItems = new ArrayList<View>((ArrayList<View>) callMethod(mFolder, Methods.fGetItemsInReadingOrder));
+                                for (String removeItem : intent.getStringArrayListExtra("removeitems")) {
+                                    ComponentName currCmp = ComponentName.unflattenFromString(removeItem);
+
+                                    Iterator<View> it = folderItems.iterator();
+                                    while (it.hasNext()) {
+                                        View item = it.next();
+                                        if (currCmp.equals(((Intent) callMethod(item.getTag(), "getIntent")).getComponent())) {
+                                            callMethod(getObjectField(mFolder, Fields.fFolderInfo), Methods.fiRemove, item.getTag());
+                                        }
+                                    }
+                                }
+
+                                Folder folder = FolderHelper.getInstance().getFolder(getLongField(view.getTag(), Fields.iiID));
+                                if (folder != null) {
+                                    if (folder.hideFromAppsPage()) {
+                                        Object mAppsCustomizePane = getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizePagedView);
+                                        ArrayList allApps = (ArrayList) getObjectField(mAppsCustomizePane, Fields.acpvAllApps);
+                                        folder.invalidateRawData();
+                                        for (String app : folder.getRawData()) {
+                                            allApps.add(Utils.createAppInfo(ComponentName.unflattenFromString(app)));
+                                        }
+
+                                        for (String removeItem : intent.getStringArrayListExtra("removeitems")) {
+                                            allApps.add(Utils.createAppInfo(ComponentName.unflattenFromString(removeItem)));
+                                        }
+
+                                        callMethod(mAppsCustomizePane, Methods.acpvSetApps, allApps);
+                                    }
+                                }
                             }
 
-                            // fallback if we don't have any view saved but that shouldn't happen...
-                            ArrayList cellLayouts = (ArrayList) callMethod(Common.WORKSPACE_INSTANCE, Methods.wGetWorkspaceAndHotseatCellLayouts);
-                            for (Object layoutParent : cellLayouts) {
-                                ViewGroup layout = (ViewGroup) callMethod(layoutParent, Methods.clGetShortcutsAndWidgets);
-                                int childCount = layout.getChildCount();
-                                for (int i = 0; i < childCount; ++i) {
-                                    view = layout.getChildAt(i);
-                                    Object tag = view.getTag();
-                                    if (tag == null) continue;
+                            if (DEBUG) log("Launcher: Updated folder items");
+                        } else if (intent.getAction().equals(Common.XGELS_ACTION_MODIFY_TAB)) {
+                            if (intent.getBooleanExtra("add", false)) {
+                                if (Common.IS_PRE_GNL_4) {
+                                    TabHelperKK.getInstance().addTab(new Tab(intent, true));
+                                } else {
+                                    new Tab(intent, true, true);
+                                }
+                            } else if (intent.getBooleanExtra("remove", false)) {
+                                TabHelper.getInstance().removeTab(TabHelper.getInstance().getCurrentTabData());
+                            } else if (intent.hasExtra("color")) {
+                                TabHelper tabHelper = TabHelper.getInstance();
+                                tabHelper.setTabColor(intent.getIntExtra("color", Color.WHITE));
+                                tabHelper.saveTabData();
+                                tabHelper.invalidate();
+                            } else {
+                                TabHelper tabHelper = TabHelper.getInstance();
+                                Tab tab = tabHelper.getCurrentTabData();
 
-                                    if (mode == FragmentSelectiveIcon.MODE_PICK_FOLDER_ICON
-                                            && view.getClass().equals(Classes.FolderIcon)
-                                            && getLongField(tag, Fields.iiID) == itemId) {
+                                if (Common.IS_M_GNL) {
+                                    TabHelper.getInstance().updateTabs();
+                                } else if (tab.isAppsTab()) {
+                                    ArrayList allApps = (ArrayList) getObjectField(Common.APP_DRAWER_INSTANCE, Fields.acpvAllApps);
+                                    for (String app : intent.getStringArrayListExtra("additems")) {
+                                        allApps.add(Utils.createAppInfo(ComponentName.unflattenFromString(app)));
+                                    }
+                                    callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSetApps, allApps);
+                                    tabHelper.invalidate();
+                                } else {
+                                    tab.initData();
+                                }
+                            }
+
+                            if (DEBUG) log("Launcher: Tab reloaded");
+                        } else if (intent.getAction().equals(Common.XGELS_ACTION_MODIFY_FOLDER)) {
+                            if (intent.getBooleanExtra("add", false)) {
+                                FolderHelper.getInstance().addFolder(new Folder(intent, true));
+                            } else if (intent.getBooleanExtra("setup", false)) {
+                                FolderHelper.getInstance().setupFolderSettings(null, Tab.APPS_ID);
+                            }
+
+                            if (DEBUG) log("Launcher: Folder reloaded");
+                        } else if (intent.getAction().equals(Common.XGELS_ACTION_UPDATE_ICON)) {
+                            final long itemId = intent.getLongExtra("itemid", -1);
+                            final long mode = intent.getIntExtra("mode", -1);
+                            final boolean isDefault = intent.getBooleanExtra("default", false);
+                            final Drawable[] background = new Drawable[1];
+
+                            new AsyncTask<Void, Void, Void>() {
+                                View icon;
+                                boolean isFolder;
+
+                                @Override
+                                protected Void doInBackground(Void... params) {
+
+                                    View view = Common.CURRENT_CONTEXT_MENU_ITEM;
+                                    if (view != null && itemId == getLongField(view.getTag(), Fields.iiID)) {
                                         icon = view;
                                         return null;
-                                    } else if (mode == FragmentSelectiveIcon.MODE_PICK_SHORTCUT_ICON
-                                            && view.getClass().equals(Classes.BubbleTextView)
-                                            && getLongField(tag, Fields.iiID) == itemId) {
+                                    }
 
+                                    // fallback if we don't have any view saved but that shouldn't happen...
+                                    ArrayList cellLayouts = (ArrayList) callMethod(Common.WORKSPACE_INSTANCE, Methods.wGetWorkspaceAndHotseatCellLayouts);
+                                    for (Object layoutParent : cellLayouts) {
+                                        ViewGroup layout = (ViewGroup) callMethod(layoutParent, Methods.clGetShortcutsAndWidgets);
+                                        int childCount = layout.getChildCount();
+                                        for (int i = 0; i < childCount; ++i) {
+                                            view = layout.getChildAt(i);
+                                            Object tag = view.getTag();
+                                            if (tag == null) continue;
+
+                                            if (mode == FragmentSelectiveIcon.MODE_PICK_FOLDER_ICON
+                                                    && view.getClass().equals(Classes.FolderIcon)
+                                                    && getLongField(tag, Fields.iiID) == itemId) {
+                                                icon = view;
+                                                return null;
+                                            } else if (mode == FragmentSelectiveIcon.MODE_PICK_SHORTCUT_ICON
+                                                    && view.getClass().equals(Classes.BubbleTextView)
+                                                    && getLongField(tag, Fields.iiID) == itemId) {
+
+                                                if (isDefault) {
+                                                    int id = Common.LAUNCHER_CONTEXT.getResources().getIdentifier("portal_ring_inner_holo", "drawable", Common.HOOKED_PACKAGE);
+                                                    if (id != 0) {
+                                                        Bitmap bitmap = ((BitmapDrawable) Common.LAUNCHER_CONTEXT.getResources().getDrawable(id)).getBitmap();
+                                                        background[0] = new BitmapDrawable(
+                                                                Common.LAUNCHER_CONTEXT.getResources(),
+                                                                Bitmap.createScaledBitmap(
+                                                                        bitmap,
+                                                                        getIntField(Common.DEVICE_PROFIL, Fields.dpFolderIconSize),
+                                                                        getIntField(Common.DEVICE_PROFIL, Fields.dpFolderIconSize),
+                                                                        true
+                                                                )
+                                                        );
+                                                    }
+                                                    return null;
+                                                }
+
+                                                if (Common.PACKAGE_OBFUSCATED) {
+                                                    icon = (View) callMethod(Common.LAUNCHER_INSTANCE, Methods.lCreateAppDragInfo, callMethod(tag, "getIntent"));
+                                                } else {
+                                                    PackageManager pm = Common.LAUNCHER_CONTEXT.getPackageManager();
+                                                    icon = (View) newInstance(
+                                                            Classes.AppInfo,
+                                                            pm,
+                                                            pm.resolveActivity((Intent) callMethod(tag, "getIntent"), 0),
+                                                            getObjectField(Common.LAUNCHER_INSTANCE, Fields.lIconCache),
+                                                            new HashMap<Object, CharSequence>()
+                                                    );
+                                                }
+
+                                                return null;
+                                            }
+                                        }
+                                    }
+                                    return null;
+                                }
+
+                                @Override
+                                protected void onPostExecute(Void aVoid) {
+                                    if (mode == FragmentSelectiveIcon.MODE_PICK_SHORTCUT_ICON) {
+                                        isFolder = icon.getParent().getParent().getClass().equals(Classes.Folder);
+                                        if (Common.GNL_VERSION >= ObfuscationHelper.GNL_3_9_00) {
+                                            callMethod(icon, Methods.btvApplyFromShortcutInfo, icon.getTag(), getObjectField(Common.LAUNCHER_INSTANCE, Fields.lIconCache), !isFolder);
+                                        } else {
+                                            callMethod(icon, Methods.btvApplyFromShortcutInfo, icon.getTag(), getObjectField(Common.LAUNCHER_INSTANCE, Fields.lIconCache));
+                                        }
+                                    } else if (mode == FragmentSelectiveIcon.MODE_PICK_FOLDER_ICON) {
                                         if (isDefault) {
+                                            ImageView prevBackground = (ImageView) getObjectField(icon, Fields.fiPreviewBackground);
                                             int id = Common.LAUNCHER_CONTEXT.getResources().getIdentifier("portal_ring_inner_holo", "drawable", Common.HOOKED_PACKAGE);
                                             if (id != 0) {
                                                 Bitmap bitmap = ((BitmapDrawable) Common.LAUNCHER_CONTEXT.getResources().getDrawable(id)).getBitmap();
@@ -579,65 +636,22 @@ public class GeneralHooks extends HooksBaseClass {
                                                         )
                                                 );
                                             }
-                                            return null;
-                                        }
-
-                                        if (Common.PACKAGE_OBFUSCATED) {
-                                            icon = (View) callMethod(Common.LAUNCHER_INSTANCE, Methods.lCreateAppDragInfo, callMethod(tag, "getIntent"));
+                                            background[0].setColorFilter(Color.parseColor(ColorPickerPreference.convertToARGB(PreferencesHelper.homescreenFolderPreviewColor)), PorterDuff.Mode.MULTIPLY);
+                                            prevBackground.setImageDrawable(background[0]);
                                         } else {
-                                            PackageManager pm = Common.LAUNCHER_CONTEXT.getPackageManager();
-                                            icon = (View) newInstance(
-                                                    Classes.AppInfo,
-                                                    pm,
-                                                    pm.resolveActivity((Intent) callMethod(tag, "getIntent"), 0),
-                                                    getObjectField(Common.LAUNCHER_INSTANCE, Fields.lIconCache),
-                                                    new HashMap<Object, CharSequence>()
-                                            );
+                                            IconHooks.setFolderIcon(icon);
                                         }
-
-                                        return null;
+                                        icon.postInvalidate();
                                     }
                                 }
-                            }
-                            return null;
+                            }.execute();
                         }
-
-                        @Override
-                        protected void onPostExecute(Void aVoid) {
-                            if (mode == FragmentSelectiveIcon.MODE_PICK_SHORTCUT_ICON) {
-                                isFolder = icon.getParent().getParent().getClass().equals(Classes.Folder);
-                                if (Common.GNL_VERSION >= ObfuscationHelper.GNL_3_9_00) {
-                                    callMethod(icon, Methods.btvApplyFromShortcutInfo, icon.getTag(), getObjectField(Common.LAUNCHER_INSTANCE, Fields.lIconCache), !isFolder);
-                                } else {
-                                    callMethod(icon, Methods.btvApplyFromShortcutInfo, icon.getTag(), getObjectField(Common.LAUNCHER_INSTANCE, Fields.lIconCache));
-                                }
-                            } else if (mode == FragmentSelectiveIcon.MODE_PICK_FOLDER_ICON) {
-                                if (isDefault) {
-                                    ImageView prevBackground = (ImageView) getObjectField(icon, Fields.fiPreviewBackground);
-                                    int id = Common.LAUNCHER_CONTEXT.getResources().getIdentifier("portal_ring_inner_holo", "drawable", Common.HOOKED_PACKAGE);
-                                    if (id != 0) {
-                                        Bitmap bitmap = ((BitmapDrawable) Common.LAUNCHER_CONTEXT.getResources().getDrawable(id)).getBitmap();
-                                        background[0] = new BitmapDrawable(
-                                                Common.LAUNCHER_CONTEXT.getResources(),
-                                                Bitmap.createScaledBitmap(
-                                                        bitmap,
-                                                        getIntField(Common.DEVICE_PROFIL, Fields.dpFolderIconSize),
-                                                        getIntField(Common.DEVICE_PROFIL, Fields.dpFolderIconSize),
-                                                        true
-                                                )
-                                        );
-                                    }
-                                    background[0].setColorFilter(Color.parseColor(ColorPickerPreference.convertToARGB(PreferencesHelper.homescreenFolderPreviewColor)), PorterDuff.Mode.MULTIPLY);
-                                    prevBackground.setImageDrawable(background[0]);
-                                } else {
-                                    IconHooks.setFolderIcon(icon);
-                                }
-                                icon.postInvalidate();
-                            }
-                        }
-                    }.execute();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    Log.e("XGELS", "joooo");
                 }
-            } catch (Exception e) {}
+            }, 1000);
         }
     };
 

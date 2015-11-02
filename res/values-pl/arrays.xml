@@ -18,6 +18,7 @@
         <item>Uśpij</item>
         <item>Pokaż dock</item>
         <item>Otwóz aplikację</item>
+        <item>App drawer search</item>
     </string-array>
 
     <string-array name="fragmenttitles_array">

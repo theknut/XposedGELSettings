@@ -10,9 +10,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
 import android.graphics.drawable.LayerDrawable;
-import android.os.Build;
 import android.os.Handler;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +39,6 @@ import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
-import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.Utils;
@@ -95,10 +92,11 @@ public final class TabHelperM extends TabHelper implements View.OnClickListener,
             initTabs();
         }
 
-        addTabBar(PreferencesHelper.moveTabHostBottom);
-        addTabs(false);
-
-        showTabBar();
+        if (PreferencesHelper.enableAppDrawerTabs) {
+            addTabBar(PreferencesHelper.moveTabHostBottom);
+            addTabs(false);
+            showTabBar();
+        }
     }
 
     public void showTabBar() {
@@ -174,15 +172,11 @@ public final class TabHelperM extends TabHelper implements View.OnClickListener,
             }
         }
 
-        boolean hasApps = false;
-        for (Tab tab : tabs) {
-            if (tab.isAppsTab()) {
-                hasApps = true;
-            }
-        }
+        tabs.remove(getTabById(Tab.WIDGETS_ID));
 
-        if (!hasApps) {
+        if (getTabById(Tab.APPS_ID) == null) {
             String appsTabName;
+
             int id = Common.LAUNCHER_CONTEXT.getResources().getIdentifier("all_apps_button_label", "string", Common.HOOKED_PACKAGE);
             if (id != 0) {
                 appsTabName = Common.LAUNCHER_CONTEXT.getResources().getString(id);
@@ -380,6 +374,11 @@ public final class TabHelperM extends TabHelper implements View.OnClickListener,
     public void setCurrentTab(int layoutId, boolean onlySetInternal) {
         currentTabId = layoutId;
 
+        if (!PreferencesHelper.enableAppDrawerTabs) {
+            loadTabApps(getTabById(Tab.APPS_ID));
+            return;
+        }
+
         View tabView = tabsContainer.findViewById(layoutId);
         if (tabView == null) return;
 
@@ -400,10 +399,25 @@ public final class TabHelperM extends TabHelper implements View.OnClickListener,
         scroll();
         hsv.setTranslationX(0);
 
-        Object mApps = getObjectField(getObjectField(Common.LAUNCHER_INSTANCE, "mAppsView"), "mApps");
-        ((HashMap) getObjectField(mApps, "mComponentToAppMap")).clear();
-        callMethod(mApps, "updateApps", tab.getData());
+        loadTabApps(tab);
         TabHelperM.getInstance().setBackgroundColor(tab);
+    }
+
+    private void loadTabApps(Tab tab) {
+        Object mApps = getObjectField(getAllAppsCountainerView(), "mApps");
+        HashMap mComponentToAppMap = (HashMap) getObjectField(mApps, "mComponentToAppMap");
+        mComponentToAppMap.clear();
+
+        tab.sort();
+        Iterator localIterator = tab.getData().iterator();
+        while (localIterator.hasNext())
+        {
+            Object localAppInfo = localIterator.next();
+            mComponentToAppMap.put(callMethod(localAppInfo, "toComponentKey"), localAppInfo);
+        }
+
+        log("Size2 " + tab.getData().size());
+        callMethod(mApps, "onAppsUpdated");
     }
 
     @Override
@@ -541,8 +555,10 @@ public final class TabHelperM extends TabHelper implements View.OnClickListener,
 
     @Override
     public Tab getCurrentTabData() {
+        if (!PreferencesHelper.enableAppDrawerTabs) return getTabById(Tab.APPS_ID);
+
         View curTab = tabsContainer.findViewById(currentTabId);
-        return curTab == null ? null : (Tab) curTab.getTag();
+        return curTab == null ? getTabById(Tab.APPS_ID) : (Tab) curTab.getTag();
     }
 
     @Override
@@ -715,14 +731,9 @@ public final class TabHelperM extends TabHelper implements View.OnClickListener,
                         tab.setHideFromAppsPage(isChecked);
                         Intent intent = getBaseIntent(false, tab.getId(), tab.getTitle());
                         Common.LAUNCHER_CONTEXT.startActivity(intent);
+                        Utils.saveToSettings(Common.LAUNCHER_CONTEXT, "hideiconpacks", isChecked);
 
-                        ArrayList allApps = (ArrayList) getObjectField(Common.APP_DRAWER_INSTANCE, Fields.acpvAllApps);
-                        if (!isChecked) {
-                            allApps.addAll(tab.getData());
-                        }
-
-                        callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSetApps, allApps);
-                        invalidate();
+                        TabHelper.getInstance().getTabById(Tab.APPS_ID).update();
                     }
                 });
             } else {
@@ -742,10 +753,6 @@ public final class TabHelperM extends TabHelper implements View.OnClickListener,
                         if (tab.getSortType().equals(sortType)) return;
 
                         tab.setSortType(sortType);
-                        if (tab.isAppsTab()) {
-                            callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSetApps, getObjectField(Common.APP_DRAWER_INSTANCE, Fields.acpvAllApps));
-                        }
-
                         invalidate();
 
                         Intent intent = getBaseIntent(false, tab.getId(), null);
@@ -753,8 +760,7 @@ public final class TabHelperM extends TabHelper implements View.OnClickListener,
                     }
 
                     @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-                    }
+                    public void onNothingSelected(AdapterView<?> parent) { }
                 });
             } else {
                 tabSort.setVisibility(View.GONE);

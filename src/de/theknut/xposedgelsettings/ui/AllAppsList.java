@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -293,13 +292,7 @@ public class AllAppsList extends ActionBarListActivity {
                 if (resolveInfo.activityInfo.packageName.equals(Common.TREBUCHET_PACKAGE)) {
                     CommonUI.restartLauncher(false);
                 } else {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            sendBroadcast(new Intent(Common.XGELS_ACTION_RELOAD_SETTINGS));
-                            sendBroadcast(responseIntent);
-                        }
-                    }, 1000);
+                    sendBroadcast(responseIntent);
                 }
 
                 finish();

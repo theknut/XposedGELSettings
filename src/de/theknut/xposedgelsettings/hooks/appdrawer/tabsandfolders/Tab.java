@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import de.robv.android.xposed.XposedBridge;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
@@ -125,6 +126,7 @@ public class Tab extends AppDrawerItem {
                     sort(data);
                 } else if (Common.IS_M_GNL && isAppsTab()) {
                     data = new ArrayList(Common.ALL_APPS);
+                    XposedBridge.log("Size " + data.size());
                     setSortType(getSortType());
                     sort(data);
                     removeAppsToHide();
@@ -193,7 +195,7 @@ public class Tab extends AppDrawerItem {
                 if (Common.IS_M_GNL) {
                     if (add) TabHelperM.getInstance().addTab(tab);
 
-                    if (TabHelper.getInstance().getCurrentTabData().equals(tab)) {
+                    if (TabHelper.getInstance().getCurrentTabData().getId() == tab.getId()) {
                         TabHelperM.getInstance().setCurrentTab(tab);
                     }
                     return;
@@ -205,7 +207,7 @@ public class Tab extends AppDrawerItem {
                 if (add) {
                     TabHelperL.getInstance().addTab(tab);
                 }
-                else if (TabHelper.getInstance().getCurrentTabData().equals(this)) {
+                else if (TabHelper.getInstance().getCurrentTabData().equals(tab)) {
                     TabHelper.getInstance().invalidate();
                 }
                 initialized = true;
@@ -461,6 +463,12 @@ public class Tab extends AppDrawerItem {
 
     public void update() {
         initData();
+    }
+
+    @Override
+    public boolean hideFromAppsPage() {
+        return super.hideFromAppsPage()
+                || (isIconPacksTab() && PreferencesHelper.iconPackHide);
     }
 
     @Override

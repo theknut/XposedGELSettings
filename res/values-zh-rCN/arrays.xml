@@ -42,11 +42,12 @@
         <item>快速设置</item>
         <item>应用抽屉</item>
         <item>最近任务</item>
-        <item>显示最新任务</item>  <!-- NEW -->
+        <item>显示最新任务</item>
         <item>系统设置</item>
         <item>睡眠</item>
         <item>切换托盘</item>
         <item>打开应用</item>
+        <item>App drawer search</item>
     </string-array>
     <string-array name="gesture_actions_entries_limited">
         <item>无</item>

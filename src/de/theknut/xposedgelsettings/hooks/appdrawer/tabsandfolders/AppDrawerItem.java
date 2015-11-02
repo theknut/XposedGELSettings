@@ -109,6 +109,10 @@ public class AppDrawerItem {
         sort(data);
     }
 
+    protected void sort() {
+        Collections.sort(getData(), getSortComparator());
+    }
+
     protected void sort(final ArrayList apps) {
         Collections.sort(apps, getSortComparator());
     }

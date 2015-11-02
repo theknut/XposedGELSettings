@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
@@ -98,6 +99,10 @@ public class AppDrawerMHooks extends HooksBaseClass {
             XposedBridge.hookAllConstructors(Classes.FullMergeAlgorithm, new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    if (PreferencesHelper.xCountAllAppsHorizontal == -1
+                            || PreferencesHelper.xCountAllAppsVertical == -1)
+                        return;
+
                     if (Common.LAUNCHER_CONTEXT.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                         setObjectField(Common.APP_DRAWER_INSTANCE, "mNumAppsPerRow", PreferencesHelper.xCountAllAppsHorizontal);
                         setObjectField(Common.APP_DRAWER_INSTANCE, "mNumPredictedAppsPerRow", PreferencesHelper.xCountAllAppsHorizontal);
@@ -110,16 +115,25 @@ public class AppDrawerMHooks extends HooksBaseClass {
         }
 
         // hiding apps from the app drawer
-        findAndHookMethod(Classes.AlphabeticalAppsList, "onAppsUpdated", new XC_MethodHook() {
-            boolean done=false;
+        findAndHookMethod(Classes.AlphabeticalAppsList, "updateApps", List.class, new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                Common.ALL_APPS = new ArrayList(((HashMap) getObjectField(param.thisObject, "mComponentToAppMap")).values());
-log("Apps " + Common.ALL_APPS);
-                if (!done) {
-                    done = true;
-                    TabHelper.getInstance().updateTabs();
+                HashMap mComponentToAppMap = (HashMap) getObjectField(param.thisObject, "mComponentToAppMap");
+                if (mComponentToAppMap.isEmpty()) {
+                    Common.ALL_APPS = new ArrayList((ArrayList) param.args[0]);
+                } else {
+                    Common.ALL_APPS.addAll(new ArrayList((ArrayList) param.args[0]));
                 }
+
+                TabHelper.getInstance().updateTabs();
+            }
+        });
+
+        findAndHookMethod(Classes.AlphabeticalAppsList, "removeApps", List.class, new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                Common.ALL_APPS.removeAll(new ArrayList((ArrayList) param.args[0]));
+                TabHelper.getInstance().updateTabs();
             }
         });
 

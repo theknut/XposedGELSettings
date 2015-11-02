@@ -31,6 +31,7 @@ public class ObfuscationHelper extends HooksBaseClass {
     public static final int GNL_5_3_26 = 300515596;
     public static final int GNL_5_4_24 = 300522076;
     public static final int GNL_5_5_26 = 300552016;
+    public static final int GNL_5_5_28 = 300552106;
 
     public static int getVersionIndex(int version) {
 
@@ -161,6 +162,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 HINT_TEXT_VIEW,
                 LAUNCHER_CALLBACKS_IMPL,
                 FULL_MERGE_ALGORITHM,
+                WIDGETS_MODEL,
                 ALL_APPS_RECYCLER_VIEW,
                 ALL_APPS_RECYCLER_VIEW_CONTAINER_VIEW;
 
@@ -195,6 +197,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 ALL_APPS_RECYCLER_VIEW = prefix + "allapps.AllAppsRecyclerView";
                 ALL_APPS_RECYCLER_VIEW_CONTAINER_VIEW = prefix + "allapps.AllAppsRecyclerViewContainerView";
                 FULL_MERGE_ALGORITHM = prefix + "allapps.FullMergeAlgorithm";
+                WIDGETS_MODEL = prefix + "model.WidgetsModel";
             }
 
             LAUNCHER = new String[]{prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher", prefix + "Launcher"}[idx];
@@ -307,6 +310,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 AppNameComparator,
                 FullMergeAlgorithm,
                 GelAppFilter,
+                WidgetsModel,
                 LauncherCallbacksImpl;
 
         public static void hookAllClasses(LoadPackageParam lpparam) {
@@ -324,6 +328,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 AllAppsRecyclerView = findClass(ClassNames.ALL_APPS_RECYCLER_VIEW, lpparam.classLoader);
                 AllAppsRecyclerViewContainerView = findClass(ClassNames.ALL_APPS_RECYCLER_VIEW_CONTAINER_VIEW, lpparam.classLoader);
                 FullMergeAlgorithm = findClass(ClassNames.FULL_MERGE_ALGORITHM, lpparam.classLoader);
+                WidgetsModel = findClass(ClassNames.WIDGETS_MODEL, lpparam.classLoader);
 
                 if (Common.GNL_VERSION >= ObfuscationHelper.GNL_5_5_26) {
                     GelAppFilter = findClass("com.google.android.apps.gsa.launcher.GelAppFilter", lpparam.classLoader);

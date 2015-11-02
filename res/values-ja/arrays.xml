@@ -41,6 +41,7 @@
         <item>スリープ</item>
         <item>ドックを切り替える</item>
         <item>アプリを開く</item>
+        <item>App drawer search</item>
     </string-array>
 
     <string-array name="gesture_actions_entries_limited">

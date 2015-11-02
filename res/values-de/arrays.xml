@@ -28,6 +28,7 @@
         <item>Display ausschalten</item>
         <item>Toggle Dock</item>
         <item>App öffnen</item>
+        <item>App-Übersicht durchsuchen</item>
     </string-array>
 
     <string-array name="gesture_actions_entries_limited">

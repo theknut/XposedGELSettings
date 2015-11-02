@@ -45,6 +45,7 @@
         <item>Mettre en veille</item>
         <item>Afficher/Masquer le dock</item>
         <item>Ouvrir une appli</item>
+        <item>App drawer search</item>
     </string-array>
 
     <string-array name="gesture_actions_entries_limited">
