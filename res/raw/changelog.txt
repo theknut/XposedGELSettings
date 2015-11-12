@@ -27,6 +27,32 @@
   </head>
   <body>
 
+$ B3.0 Build 2
+  % Version 3.0 Build 2
+  _ 2015-11-17
+
+  I'm still having issues with folders in app drawer, it's more difficult than expected :(<br><br>
+  Please consider XGELS Premium to support the development of this app!<br>Thanks so much!<br><br>
+
+  !Fixed:
+    * duplicate apps in app drawer
+
+  !Known issues:
+    * app drawer open and close animation broken
+    * horizontal app drawer padding is bugged
+    * app drawer folders not supported yet
+    * move tabs to bottom does not work
+
+$ 2.3.21
+  % Version 2.3.21
+  _ 2015-11-17
+
+  I'm not completely done with the new app drawer implementation. It's coming!<br><a href="http:/forum.xda-developers.com/showpost.php?s=8bf2f9a482137f0721338b0e3edd63e1&p=63420715&postcount=5470">Here</a> is a preview :)<br><br>
+  Please consider XGELS Premium to support the development of this app!<br>Thanks so much!<br><br>
+
+  !Added:
+      * partly support for Google Search 5.6.22 (everything app drawer related will NOT work)
+
 $ B3.0
   % Version 3.0 Build 1
   _ 2015-11-02

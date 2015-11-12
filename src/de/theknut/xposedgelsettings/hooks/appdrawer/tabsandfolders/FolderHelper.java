@@ -54,7 +54,7 @@ public final class FolderHelper {
     public void init() {
         this.XGELSContext = Common.XGELSCONTEXT;
         this.folders = new ArrayList<Folder>();
-        initFolders();
+        //initFolders();
     }
 
     private void initFolders() {

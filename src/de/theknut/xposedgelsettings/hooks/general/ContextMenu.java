@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
@@ -281,8 +282,8 @@ public class ContextMenu extends HooksBaseClass{
             };
 
             findAndHookMethod(Classes.Launcher, "onClick", View.class, hook);
-            findAndHookMethod(Classes.Launcher, "showOverviewMode", boolean.class, hook);
             findAndHookMethod(Classes.DragLayer, "handleTouchDown", MotionEvent.class, boolean.class, hook);
+            XposedBridge.hookAllMethods(Classes.Launcher, "showOverviewMode", hook);
         }
     }
 

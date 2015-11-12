@@ -18,6 +18,7 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
@@ -90,7 +91,7 @@ public class NotificationBadgesHooks extends NotificationBadgesHelper {
 
         CommonHooks.OnLauncherTransitionEndListeners.add(new XGELSCallback() {
 
-            int TOWORKSPACE = 2;
+            int TOWORKSPACE = Common.GNL_VERSION >= ObfuscationHelper.GNL_5_6_22 ? 0 : 2;
 
             @Override
             public void onAfterHookedMethod(MethodHookParam param) throws Throwable {

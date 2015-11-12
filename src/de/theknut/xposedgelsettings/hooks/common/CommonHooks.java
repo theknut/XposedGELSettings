@@ -4,6 +4,7 @@ import android.animation.TimeInterpolator;
 import android.graphics.Canvas;
 import android.view.View;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import de.robv.android.xposed.XposedBridge;
@@ -98,7 +99,19 @@ public class CommonHooks {
             findAndHookMethod(Classes.Workspace, Methods.wMoveToDefaultScreen, boolean.class, new XGELSHook(MoveToDefaultScreenListeners));
         }
         if (OnLauncherTransitionEndListeners.size() != 0) {
-            findAndHookMethod(Classes.Workspace, Methods.wOnLauncherTransitionEnd, Classes.Launcher, boolean.class, boolean.class, new XGELSHook(OnLauncherTransitionEndListeners));
+            if (Common.GNL_VERSION >= ObfuscationHelper.GNL_5_6_22) {
+                String methodName = Methods.wOnLauncherTransitionEnd + "$";
+                for (Method method : Classes.Workspace.getDeclaredMethods()) {
+                    if (method.getName().contains(methodName)) {
+                        if (method.getParameterTypes().length == 1) {
+                            XposedBridge.hookMethod(method, new XGELSHook(OnLauncherTransitionEndListeners));
+                            break;
+                        }
+                    }
+                }
+            } else {
+                findAndHookMethod(Classes.Workspace, Methods.wOnLauncherTransitionEnd, Classes.Launcher, boolean.class, boolean.class, new XGELSHook(OnLauncherTransitionEndListeners));
+            }
         }
         if (OpenFolderListeners.size() != 0) {
             findAndHookMethod(Classes.Launcher, Methods.lOpenFolder, Classes.FolderIcon, new XGELSHook(OpenFolderListeners));

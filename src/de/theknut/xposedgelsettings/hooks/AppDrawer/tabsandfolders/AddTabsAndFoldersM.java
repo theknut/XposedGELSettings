@@ -117,7 +117,7 @@ public class AddTabsAndFoldersM extends HooksBaseClass {
                 }
             }
         });
-
+/*
         XposedBridge.hookAllMethods(Classes.FolderIcon, "dispatchDraw", new XC_MethodHook() {
 
             @Override
@@ -127,7 +127,7 @@ public class AddTabsAndFoldersM extends HooksBaseClass {
                 log("mAnimating " + getObjectField(param.thisObject, "mAnimating"));
                 log("Parent " + ((View) param.thisObject).getParent());
             }
-        });
+        });*/
 
         if (true) return;
         findAndHookMethod(Classes.Launcher, "startWorkspaceStateChangeAnimation", Classes.WorkspaceState, Integer.TYPE, boolean.class, HashMap.class, new XC_MethodHook() {

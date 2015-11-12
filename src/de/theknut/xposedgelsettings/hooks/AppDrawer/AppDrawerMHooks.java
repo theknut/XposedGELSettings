@@ -32,7 +32,6 @@ import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelperM;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
-import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
@@ -60,7 +59,7 @@ public class AppDrawerMHooks extends HooksBaseClass {
         }
 
         if (Utils.getContrastColor(PreferencesHelper.searchbarPrimaryColor) == Color.WHITE) {
-            findAndHookMethod(findClass("com.google.android.launcher.i", lpparam.classLoader), "getView", ViewGroup.class, new XC_MethodHook() {
+            findAndHookMethod(Classes.AllAppsSearchBarControllerImpl, "getView", ViewGroup.class, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     View mSearchBarView = (View) param.getResult();
