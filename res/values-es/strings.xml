@@ -305,7 +305,7 @@
 
     <!-- V1.9 -->
     <string name="pref_hide_workspace_shadow_title">Sombra de la pantalla de inicio</string>
-    <string name="pref_hide_workspace_shadow_summary">Oculatar la sombra de la pantalla de inicio (visible in modo inmersivo)</string>
+    <string name="pref_hide_workspace_shadow_summary">Ocultar la sombra de la pantalla de inicio (visible in modo inmersivo)</string>
     <string name="pref_switch_unlimited_folder_size_title">Tamaño ilimitado de la carpeta</string>
     <string name="pref_always_show_ok_google_title">Ok Google</string>
     <string name="pref_always_show_ok_google_summary">Mostrar siempre \"Ok Google\"</string>
@@ -352,7 +352,7 @@
     <string name="alert_appdrawer_clear_tabs_summary">Está a punto de borrar todas las pestañas del Cajón de aplicaciones creadas! Continuar?</string>
     <string name="alert_appdrawer_clear_tabs_success">Pestañas del Cajón de aplicaciones borradas!</string>
     <string name="pref_appdrawer_tabs_instructions_summary">!!Google Now Launcher y ≥ Android 4.2 únicamente!!\nLas pestañas del Cajón de aplicaciones pueden ser agregadas directamente del Cajón de aplicaciones. Los ajustes de las pestañas pueden abrirse presionando y manteniendo sobre la pestaña.</string>
-    <string name="pref_notificationbadge_noappdrawer_title">Oculatar del Cajón de aplicaciones</string>
+    <string name="pref_notificationbadge_noappdrawer_title">Ocultar del Cajón de aplicaciones</string>
     <string name="toast_appdrawer_tabadded_title">Presionar largo una pestaña y abre los ajustes</string>
 
     <string name="pref_reverseengineering_rate_title">Califique XGELS!</string>

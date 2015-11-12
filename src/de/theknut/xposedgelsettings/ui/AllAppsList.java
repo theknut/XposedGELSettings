@@ -258,7 +258,7 @@ public class AllAppsList extends ActionBarListActivity {
                             if (mode == MODE_MANAGE_TAB) {
                                 order.remove(new Tab(getIntent(), false).toString());
                             } else if (mode == MODE_MANAGE_TAB) {
-                                order.remove(new Folder(getIntent(), false).toString());
+                                order.remove((new Folder(getIntent(), false)).toString());
                             }
                             editor.remove(prefix + itemID).commit();
                         } else {
@@ -271,7 +271,7 @@ public class AllAppsList extends ActionBarListActivity {
                             if (mode == MODE_MANAGE_TAB) {
                                 order.add(new Tab(getIntent(), false).toString());
                             } else if (mode == MODE_MANAGE_FOLDER) {
-                                order.add(new Folder(getIntent(), false).toString());
+                                order.add((new Folder(getIntent(), false)).toString());
                             }
                         }
 

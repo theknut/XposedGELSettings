@@ -59,7 +59,7 @@ public final class FolderHelper {
 
     private void initFolders() {
         for (String item : PreferencesHelper.appdrawerFolderData) {
-            folders.add(new Folder(item));
+            folders.add(Common.IS_M_GNL ? new FolderM(item) : new FolderL(item));
         }
 
         Collections.sort(folders, new Comparator<Folder>() {
@@ -68,6 +68,11 @@ public final class FolderHelper {
                 return lhs.getIndex() - rhs.getIndex();
             }
         });
+
+        for (Folder folder : folders) {
+            folder.initData();
+            folder.makeFolderIcon((ViewGroup) getObjectField(Common.APP_DRAWER_INSTANCE, "mAppsRecyclerView"));
+        }
     }
 
     public boolean hasFolder() {

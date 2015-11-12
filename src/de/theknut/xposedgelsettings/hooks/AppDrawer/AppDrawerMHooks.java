@@ -25,6 +25,7 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.Utils;
 import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.AddTabsAndFoldersM;
+import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.FolderHelper;
 import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.Tab;
 import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelper;
 import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelperM;
@@ -121,6 +122,7 @@ public class AppDrawerMHooks extends HooksBaseClass {
                 HashMap mComponentToAppMap = (HashMap) getObjectField(param.thisObject, "mComponentToAppMap");
                 if (mComponentToAppMap.isEmpty()) {
                     Common.ALL_APPS = new ArrayList((ArrayList) param.args[0]);
+                    FolderHelper.getInstance().init();
                 } else {
                     Common.ALL_APPS.addAll(new ArrayList((ArrayList) param.args[0]));
                 }

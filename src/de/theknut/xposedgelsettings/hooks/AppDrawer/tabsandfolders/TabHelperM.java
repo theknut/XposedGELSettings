@@ -172,8 +172,6 @@ public final class TabHelperM extends TabHelper implements View.OnClickListener,
             }
         }
 
-        tabs.remove(getTabById(Tab.WIDGETS_ID));
-
         if (getTabById(Tab.APPS_ID) == null) {
             String appsTabName;
 
@@ -210,11 +208,18 @@ public final class TabHelperM extends TabHelper implements View.OnClickListener,
         organizeTabs();
     }
 
-    public void addTab(Tab tab) {
+    public void addTab(Tab tab, boolean focusTab, boolean showToast) {
         tabs.add(tab);
-        addTabInternal(tab, true);
-        Toast.makeText(allAppsCountainerView.getContext(), XGELSContext.getString(R.string.toast_appdrawer_tabadded_title), Toast.LENGTH_LONG).show();
-        Toast.makeText(allAppsCountainerView.getContext(), XGELSContext.getString(R.string.toast_appdrawer_tabadded_title), Toast.LENGTH_LONG).show();
+        addTabInternal(tab, focusTab);
+
+        if (showToast) {
+            Toast.makeText(allAppsCountainerView.getContext(), XGELSContext.getString(R.string.toast_appdrawer_tabadded_title), Toast.LENGTH_LONG).show();
+            Toast.makeText(allAppsCountainerView.getContext(), XGELSContext.getString(R.string.toast_appdrawer_tabadded_title), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void addTab(Tab tab) {
+        addTab(tab, true, true);
     }
 
     private void addTabInternal(final Tab tab, boolean focus) {
@@ -384,6 +389,22 @@ public final class TabHelperM extends TabHelper implements View.OnClickListener,
 
         Tab tab = (Tab) tabView.getTag();
 
+        if (tab.isWidgetsTab()) {
+            callMethod(Common.LAUNCHER_INSTANCE, "showWorkspace", -1, true, new Runnable() {
+                @Override
+                public void run() {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            callMethod(Common.LAUNCHER_INSTANCE, "showWidgetsView", true, !PreferencesHelper.appdrawerRememberLastPosition);
+                        }
+                    }, 500);
+                }
+            });
+
+            return;
+        }
+
         tabView.bringToFront();
         setTabColor(tabs.get(tab.getIndex()).getPrimaryColor());
 
@@ -416,7 +437,6 @@ public final class TabHelperM extends TabHelper implements View.OnClickListener,
             mComponentToAppMap.put(callMethod(localAppInfo, "toComponentKey"), localAppInfo);
         }
 
-        log("Size2 " + tab.getData().size());
         callMethod(mApps, "onAppsUpdated");
     }
 
@@ -639,7 +659,6 @@ public final class TabHelperM extends TabHelper implements View.OnClickListener,
                             Common.LAUNCHER_CONTEXT.startActivity(intent);
                         } else {
                             if (tab.isWidgetsTab()) {
-                                //setCurrentTab(tab);
                                 Intent startMain = new Intent(Intent.ACTION_MAIN);
                                 startMain.addCategory(Intent.CATEGORY_HOME);
                                 startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -800,28 +819,46 @@ public final class TabHelperM extends TabHelper implements View.OnClickListener,
                     ContentType contentType = ContentType.valueOf(XGELSContext.getResources().getStringArray(R.array.tabcontent_values)[spinner.getSelectedItemPosition()]);
                     int tabindex = tabsContainer.getChildCount();
 
-                    int color = Utils.getRandomColor();
                     if (spinner.getSelectedItemPosition() != 0) {
+                        final Tab tab = new Tab(
+                                "idx=" + tabindex
+                                        + "|id=" + itemId
+                                        + "|contenttype=" + contentType
+                                        + "|title=" + newTabName
+                                        + "|hide=" + false
+                                        + "|color=" + Utils.getRandomColor()
+                                , false);
+
                         if (spinner.getSelectedItemPosition() == 1) {
-                            color = Color.parseColor("#263238"); // Blue Grey 900
+                            tab.setColor(Color.parseColor("#263238")); // Blue Grey 900
+
+                            callMethod(Common.LAUNCHER_INSTANCE, "showWorkspace", -1, true, new Runnable() {
+                                @Override
+                                public void run() {
+                                    TabHelperM.getInstance().addTab(tab, false, false);
+                                    Intent saveIntent = getBaseIntent(tab.isUserTab(), tab.getId(), tab.getTitle());
+                                    saveIntent.putExtra("contenttype", tab.getContentType().toString());
+                                    saveIntent.putExtra("new", true);
+                                    saveIntent.putExtra("index", tab.getIndex());
+                                    Common.LAUNCHER_CONTEXT.startActivity(saveIntent);
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            callMethod(Common.LAUNCHER_INSTANCE, "showWidgetsView", true, !PreferencesHelper.appdrawerRememberLastPosition);
+                                        }
+                                    }, 500);
+                                }
+                            });
+                        } else {
+                            tab.initData(true);
                         }
-
-                        Tab tab = new Tab(
-                              "idx=" + tabindex
-                            + "|id=" + itemId
-                            + "|contenttype=" + contentType
-                            + "|title=" + newTabName
-                            + "|hide=" + false
-                            + "|color=" + color
-                            , false);
-                        tab.initData(true);
+                    } else {
+                        Intent intent = getBaseIntent(contentType == ContentType.User, itemId, newTabName);
+                        intent.putExtra("contenttype", contentType.toString());
+                        intent.putExtra("new", true);
+                        intent.putExtra("index", tabindex);
+                        Common.LAUNCHER_CONTEXT.startActivity(intent);
                     }
-
-                    Intent intent = getBaseIntent(contentType == ContentType.User, itemId, newTabName);
-                    intent.putExtra("contenttype", contentType.toString());
-                    intent.putExtra("new", true);
-                    intent.putExtra("index", tabindex);
-                    Common.LAUNCHER_CONTEXT.startActivity(intent);
                 }
             });
 

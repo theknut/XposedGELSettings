@@ -158,6 +158,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 LAUNCHER_APPS_COMPAT,
                 ALL_APPS_CONTAINER_VIEW,
                 ALPHABETICAL_APPS_LIST,
+                ALL_APPS_GRID_ADAPTER,
                 APP_NAME_COMPARATOR,
                 HINT_TEXT_VIEW,
                 LAUNCHER_CALLBACKS_IMPL,
@@ -193,6 +194,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 LAUNCHER_APPS_COMPAT = prefix + "compat.LauncherAppsCompat";
                 ALL_APPS_CONTAINER_VIEW = prefix + "allapps.AllAppsContainerView";
                 ALPHABETICAL_APPS_LIST = prefix + "allapps.AlphabeticalAppsList";
+                ALL_APPS_GRID_ADAPTER = prefix + "allapps.AllAppsGridAdapter";
                 APP_NAME_COMPARATOR = prefix + "model.AppNameComparator";
                 ALL_APPS_RECYCLER_VIEW = prefix + "allapps.AllAppsRecyclerView";
                 ALL_APPS_RECYCLER_VIEW_CONTAINER_VIEW = prefix + "allapps.AllAppsRecyclerViewContainerView";
@@ -306,6 +308,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 FolderPagedView,
                 LauncherAppsCompat,
                 AlphabeticalAppsList,
+                AllAppsGridAdapter,
                 HintTextView,
                 AppNameComparator,
                 FullMergeAlgorithm,
@@ -322,6 +325,7 @@ public class ObfuscationHelper extends HooksBaseClass {
                 LauncherAppsCompat = findClass(ClassNames.LAUNCHER_APPS_COMPAT, lpparam.classLoader);
                 AllAppsContainerView = findClass(ClassNames.ALL_APPS_CONTAINER_VIEW, lpparam.classLoader);
                 AlphabeticalAppsList = findClass(ClassNames.ALPHABETICAL_APPS_LIST, lpparam.classLoader);
+                AllAppsGridAdapter = findClass(ClassNames.ALL_APPS_GRID_ADAPTER, lpparam.classLoader);
                 AppNameComparator = findClass(ClassNames.APP_NAME_COMPARATOR, lpparam.classLoader);
                 HintTextView = findClass(ClassNames.HINT_TEXT_VIEW, lpparam.classLoader);
                 LauncherCallbacksImpl = findClass(ClassNames.LAUNCHER_CALLBACKS_IMPL, lpparam.classLoader);

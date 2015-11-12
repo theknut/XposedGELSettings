@@ -46,6 +46,8 @@ import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.Utils;
 import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.Folder;
 import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.FolderHelper;
+import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.FolderL;
+import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.FolderM;
 import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.Tab;
 import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelper;
 import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelperKK;
@@ -530,7 +532,7 @@ public class GeneralHooks extends HooksBaseClass {
                             if (DEBUG) log("Launcher: Tab reloaded");
                         } else if (intent.getAction().equals(Common.XGELS_ACTION_MODIFY_FOLDER)) {
                             if (intent.getBooleanExtra("add", false)) {
-                                FolderHelper.getInstance().addFolder(new Folder(intent, true));
+                                FolderHelper.getInstance().addFolder(Common.IS_M_GNL ? new FolderM(intent, true) : new FolderL(intent, true));
                             } else if (intent.getBooleanExtra("setup", false)) {
                                 FolderHelper.getInstance().setupFolderSettings(null, Tab.APPS_ID);
                             }

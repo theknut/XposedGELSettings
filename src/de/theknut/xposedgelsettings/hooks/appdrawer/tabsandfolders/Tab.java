@@ -11,9 +11,10 @@ import android.os.AsyncTask;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
-import de.robv.android.xposed.XposedBridge;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
@@ -126,11 +127,16 @@ public class Tab extends AppDrawerItem {
                     sort(data);
                 } else if (Common.IS_M_GNL && isAppsTab()) {
                     data = new ArrayList(Common.ALL_APPS);
-                    XposedBridge.log("Size " + data.size());
                     setSortType(getSortType());
                     sort(data);
                     removeAppsToHide();
                 }
+
+                // remove duplicates
+                Set<String> hs = new LinkedHashSet<>();
+                hs.addAll(data);
+                data.clear();
+                data.addAll(hs);
 
                 return null;
             }
@@ -193,11 +199,19 @@ public class Tab extends AppDrawerItem {
             @Override
             protected void onPostExecute(Void aVoid) {
                 if (Common.IS_M_GNL) {
-                    if (add) TabHelperM.getInstance().addTab(tab);
-
                     if (TabHelper.getInstance().getCurrentTabData().getId() == tab.getId()) {
                         TabHelperM.getInstance().setCurrentTab(tab);
                     }
+
+                    if (add) {
+                        TabHelperM.getInstance().addTab(tab);
+                        Intent saveIntent = TabHelper.getInstance().getBaseIntent(tab.isUserTab(), tab.getId(), tab.getTitle());
+                        saveIntent.putExtra("contenttype", tab.getContentType().toString());
+                        saveIntent.putExtra("new", true);
+                        saveIntent.putExtra("index", tab.getIndex());
+                        Common.LAUNCHER_CONTEXT.startActivity(saveIntent);
+                    }
+
                     return;
                 } else {
                     ArrayList allApps = (ArrayList) getObjectField(Common.APP_DRAWER_INSTANCE, Fields.acpvAllApps);
