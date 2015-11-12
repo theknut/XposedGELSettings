@@ -157,7 +157,7 @@ public class AppDrawerLHooks extends HooksBaseClass {
 
         CommonHooks.OnLauncherTransitionEndListeners.add(new XGELSCallback() {
 
-            int TOWORKSPACE = 2;
+            int TOWORKSPACE = Common.GNL_VERSION >= ObfuscationHelper.GNL_5_6_22 ? 0 : 2;
 
             @Override
             public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
