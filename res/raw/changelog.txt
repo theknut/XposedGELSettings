@@ -27,9 +27,23 @@
   </head>
   <body>
 
+$ B3.0 Build 3
+  % Version 3.0 Build 3
+  _ 2015-11-13
+
+  !Fixed:
+    * widgets tab
+    * fix hide Google Search bar
+
+  !Known issues:
+    * app drawer open and close animation broken
+    * horizontal app drawer padding is bugged
+    * app drawer folders not supported yet
+    * move tabs to bottom does not work
+
 $ B3.0 Build 2
   % Version 3.0 Build 2
-  _ 2015-11-17
+  _ 2015-11-12
 
   I'm still having issues with folders in app drawer, it's more difficult than expected :(<br><br>
   Please consider XGELS Premium to support the development of this app!<br>Thanks so much!<br><br>

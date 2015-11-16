@@ -132,11 +132,13 @@ public class Tab extends AppDrawerItem {
                     removeAppsToHide();
                 }
 
-                // remove duplicates
-                Set<String> hs = new LinkedHashSet<>();
-                hs.addAll(data);
-                data.clear();
-                data.addAll(hs);
+                if (data != null) {
+                    // remove duplicates
+                    Set<String> hs = new LinkedHashSet<>();
+                    hs.addAll(data);
+                    data.clear();
+                    data.addAll(hs);
+                }
 
                 return null;
             }

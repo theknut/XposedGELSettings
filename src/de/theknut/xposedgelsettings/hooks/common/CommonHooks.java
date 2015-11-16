@@ -55,7 +55,17 @@ public class CommonHooks {
         }
 
         if (OnDragStartListeners.size() != 0) {
-            if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION >= ObfuscationHelper.GNL_4_2_16) {
+            if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION >= ObfuscationHelper.GNL_5_6_22) {
+                String methodName = Methods.sdtbOnDragStart + "$";
+                for (Method method : Classes.SearchDropTargetBar.getDeclaredMethods()) {
+                    if (method.getName().contains(methodName)) {
+                        if (method.getParameterTypes().length == 2) {
+                            XposedBridge.hookMethod(method, new XGELSHook(OnDragStartListeners));
+                            break;
+                        }
+                    }
+                }
+            } else if (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION >= ObfuscationHelper.GNL_4_2_16) {
                 // this is actually not DragSource but the parameter type is unknown as of now
                 findAndHookMethod(Classes.SearchDropTargetBar, Methods.sdtbOnDragStart, Classes.DragSource, Object.class, Integer.TYPE, new XGELSHook(OnDragStartListeners));
             } else if (Common.PACKAGE_OBFUSCATED) {
