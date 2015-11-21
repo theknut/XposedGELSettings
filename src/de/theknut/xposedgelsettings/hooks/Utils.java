@@ -1,8 +1,11 @@
 package de.theknut.xposedgelsettings.hooks;
 
+import android.app.Activity;
 import android.app.ActivityOptions;
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -15,6 +18,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
+import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
@@ -188,7 +192,7 @@ public class Utils {
     public static void showPremiumOnly() {
         Toast.makeText(
                 Common.LAUNCHER_CONTEXT,
-                Common.XGELSCONTEXT.getResources().getString(R.string.toast_donate_only),
+                Common.XGELS_CONTEXT.getResources().getString(R.string.toast_donate_only),
                 Toast.LENGTH_LONG
         ).show();
     }
@@ -345,5 +349,18 @@ public class Utils {
         states.addState(new int[] { }, icon);
 
         view.setImageDrawable(states);
+    }
+
+    public static void requestPermission(final Activity activity, final String[] permissions, final int requestCode) {
+        new AlertDialog.Builder(activity)
+                .setTitle(Common.XGELS_CONTEXT.getResources().getString(R.string.alert_grant_permission_title))
+                .setMessage(Common.XGELS_CONTEXT.getResources().getString(R.string.alert_grant_permission_summary))
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ActivityCompat.requestPermissions(activity, permissions, requestCode);
+                        dialog.cancel();
+                    }
+                }).show();
     }
 }

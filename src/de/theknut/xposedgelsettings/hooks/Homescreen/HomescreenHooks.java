@@ -47,7 +47,7 @@ public class HomescreenHooks extends HooksBaseClass {
             findAndHookMethod(Classes.Folder, "onFinishInflate", new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    ((View) param.thisObject).setBackground(Common.XGELSCONTEXT.getResources().getDrawable(R.drawable.quantum_panel));
+                    ((View) param.thisObject).setBackground(Common.XGELS_CONTEXT.getResources().getDrawable(R.drawable.quantum_panel));
                 }
             });
         }

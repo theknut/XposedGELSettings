@@ -19,7 +19,6 @@ import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,7 +45,6 @@ import de.theknut.xposedgelsettings.ui.AllAppsList;
 import de.theknut.xposedgelsettings.ui.AllWidgetsList;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
-import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.newInstance;
@@ -85,7 +83,7 @@ public final class TabHelperM extends TabHelper implements View.OnClickListener,
 
     public void init(LinearLayout tabhost) {
 
-        XGELSContext = Common.XGELSCONTEXT;
+        XGELSContext = Common.XGELS_CONTEXT;
         inflater = LayoutInflater.from(XGELSContext);
         inactiveTabTranslationX = XGELSContext.getResources().getDimension(R.dimen.tabhost_overlap);
 

@@ -69,7 +69,7 @@ public class WeatherWidget extends HooksBaseClass {
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                         maybeAddWidget();
 
-                        final Animation fadeOut = AnimationUtils.loadAnimation(Common.XGELSCONTEXT, R.anim.weather_fade_out);
+                        final Animation fadeOut = AnimationUtils.loadAnimation(Common.XGELS_CONTEXT, R.anim.weather_fade_out);
                         fadeOut.setAnimationListener(new Animation.AnimationListener() {
                             @Override
                             public void onAnimationStart(Animation animation) {
@@ -80,7 +80,7 @@ public class WeatherWidget extends HooksBaseClass {
                             public void onAnimationEnd(Animation animation) {
                                 widget.setVisibility(View.VISIBLE);
                                 updateWeatherContent();
-                                widget.startAnimation(AnimationUtils.loadAnimation(Common.XGELSCONTEXT, R.anim.weather_fade_in));
+                                widget.startAnimation(AnimationUtils.loadAnimation(Common.XGELS_CONTEXT, R.anim.weather_fade_in));
                             }
 
                             @Override
@@ -224,7 +224,7 @@ public class WeatherWidget extends HooksBaseClass {
 
     private static void addWeatherWidget(ViewGroup searchBar) {
         ViewGroup parent = ((ViewGroup) searchBar.getParent());
-        widget = (LinearLayout) LayoutInflater.from(Common.XGELSCONTEXT).inflate(R.layout.qsb_weather_widget, null, true);
+        widget = (LinearLayout) LayoutInflater.from(Common.XGELS_CONTEXT).inflate(R.layout.qsb_weather_widget, null, true);
         widget.setPadding(searchBar.getPaddingLeft(), searchBar.getHeight() - Utils.dpToPx(8), searchBar.getPaddingRight(), parent.getPaddingBottom());
 
         widgetContentHolder = (LinearLayout) widget.findViewById(R.id.weathercontentview);
@@ -266,7 +266,7 @@ public class WeatherWidget extends HooksBaseClass {
     }
 
     private static TextView getTextView(WidgetSettings widgetSettings, int content) {
-        TextView textView = new TextView(Common.XGELSCONTEXT);
+        TextView textView = new TextView(Common.XGELS_CONTEXT);
         textView.setTag(content);
         textView.setTextColor(widgetSettings.textColor);
         if (widgetSettings.textSize != -1) {

@@ -39,6 +39,7 @@ import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.ui.StatusBarTintApi;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
+import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.getStaticObjectField;
@@ -70,6 +71,7 @@ public class SystemUIReceiver extends HooksBaseClass {
     public static boolean TMP_CLOCK_VISIBILITY;
 
     public static Object PHONE_STATUSBAR_OBJECT;
+    public static Object ICON_CONTROLLER;
     public static View STATUS_BAR_VIEW;
     public static View NAVIGATION_BAR_VIEW;
 
@@ -83,6 +85,17 @@ public class SystemUIReceiver extends HooksBaseClass {
     public static Context systemUIContext;
 
     public static void initAllHooks(LoadPackageParam lpparam) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            findAndHookMethod("com.android.systemui.statusbar.phone.PanelView", lpparam.classLoader, "fling", float.class, boolean.class, float.class, boolean.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    if (!(Boolean) callMethod(param.thisObject, "isFullyExpanded")) {
+                        param.args[3] = true;
+                    }
+                }
+            });
+        }
 
         if (DEBUG) log("SystemUIReceiver: found SystemUI " + lpparam.packageName);
 
@@ -115,6 +128,11 @@ public class SystemUIReceiver extends HooksBaseClass {
 
                 long time = System.currentTimeMillis();
                 PHONE_STATUSBAR_OBJECT = param.thisObject;
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    ICON_CONTROLLER = getObjectField(param.thisObject, "mIconController");
+                }
+
                 STATUS_BAR_VIEW = (View) getObjectField(PHONE_STATUSBAR_OBJECT, "mStatusBarView");
                 NAVIGATION_BAR_VIEW = (View) getObjectField(PHONE_STATUSBAR_OBJECT, "mNavigationBarView");
 
@@ -552,6 +570,10 @@ public class SystemUIReceiver extends HooksBaseClass {
         if (PHONE_STATUSBAR_OBJECT == null) return;
         IS_CLOCK_VISIBLE = show;
         if (DEBUG) log("SystemUIReceiver: " + (show ? "Show" : "Hide") + " clock");
-        callMethod(PHONE_STATUSBAR_OBJECT, "showClock", show);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            callMethod(ICON_CONTROLLER, "setClockVisibility", show);
+        } else {
+            callMethod(PHONE_STATUSBAR_OBJECT, "showClock", show);
+        }
     }
 }

@@ -64,7 +64,7 @@ public final class Common {
     public static ViewGroup DRAG_LAYER;
 
     public static Context LAUNCHER_CONTEXT;
-    public static Context XGELSCONTEXT;
+    public static Context XGELS_CONTEXT;
 
     // saved messures of the search bar
     public static int SEARCH_BAR_SPACE_HEIGHT = -1;
@@ -103,4 +103,7 @@ public final class Common {
     public static ArrayList ALL_APPS;
     public static PackageInfo GNL_PACKAGE_INFO;
     public static int GNL_VERSION;
+
+    public static final int PERMISSION_REQUEST_ICON = 88;
+    public static final int PERMISSION_REQUEST_RESTART = 89;
 }

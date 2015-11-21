@@ -10,6 +10,7 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import de.theknut.xposedgelsettings.hooks.androidintegration.AppInfo;
 import de.theknut.xposedgelsettings.hooks.androidintegration.QuickSettingsL;
+import de.theknut.xposedgelsettings.hooks.androidintegration.QuickSettingsM;
 import de.theknut.xposedgelsettings.hooks.androidintegration.QuickSettingsPreL;
 import de.theknut.xposedgelsettings.hooks.androidintegration.SystemBars;
 import de.theknut.xposedgelsettings.hooks.androidintegration.SystemUIHooks;
@@ -45,10 +46,12 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
             PreferencesHelper.init();
             SystemUIReceiver.initAllHooks(lpparam);
 
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                QuickSettingsPreL.initAllHooks(lpparam);
-            } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                QuickSettingsM.initAllHooks(lpparam);
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 QuickSettingsL.initAllHooks(lpparam);
+            } else {
+                QuickSettingsPreL.initAllHooks(lpparam);
             }
 
             return;
@@ -96,7 +99,7 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
                 versionIdx = 0;
             }
 
-            Common.XGELSCONTEXT = context.createPackageContext(Common.PACKAGE_NAME, Context.CONTEXT_IGNORE_SECURITY);
+            Common.XGELS_CONTEXT = context.createPackageContext(Common.PACKAGE_NAME, Context.CONTEXT_IGNORE_SECURITY);
         } catch (Exception e) {
             XposedBridge.log("XGELS: exception while trying to get version info. (" + e.getMessage() + ")");
             return;

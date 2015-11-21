@@ -488,7 +488,7 @@ public class ContextMenu extends HooksBaseClass{
                 closeAndRemove();
 
                 try {
-                    Animation animation = AnimationUtils.loadAnimation(Common.XGELSCONTEXT, R.anim.delete_item_anim);
+                    Animation animation = AnimationUtils.loadAnimation(Common.XGELS_CONTEXT, R.anim.delete_item_anim);
                     animation.setAnimationListener(new Animation.AnimationListener() {
                         @Override
                         public void onAnimationStart(Animation animation) { }

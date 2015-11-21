@@ -27,9 +27,23 @@
   </head>
   <body>
 
+$ 2.3.22
+  % Version 2.3.22
+  _ 2015-11-18
+
+  Please consider XGELS Premium to support the development of this app!<br>Thanks so much!<br><br>
+
+  !Added:
+    * support for Android Marshmallow (mainly Android Integration features)
+    * partly support for Google Search 5.7.11 (everything app drawer related will NOT work)
+
+  !Fixed:
+    * search bar not hiding
+    * reboot launcher
+
 $ 2.3.21
   % Version 2.3.21
-  _ 2015-11-17
+  _ 2015-11-12
 
   I'm not completely done with the new app drawer implementation. It's coming!<br><a href="http:/forum.xda-developers.com/showpost.php?s=8bf2f9a482137f0721338b0e3edd63e1&p=63420715&postcount=5470">Here</a> is a preview :)<br><br>
   Please consider XGELS Premium to support the development of this app!<br>Thanks so much!<br><br>

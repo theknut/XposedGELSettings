@@ -1,5 +1,6 @@
 package de.theknut.xposedgelsettings.ui;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -13,8 +14,10 @@ import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -64,6 +67,7 @@ public class FragmentSelectiveIcon extends ActionBarActivity implements ActionBa
 
     Intent intent;
 
+    int STORAGE_PERMISSION_RC = 8;
     static Activity mActivity;
     static int tabCount;
     static List<String> tags;
@@ -228,6 +232,22 @@ public class FragmentSelectiveIcon extends ActionBarActivity implements ActionBa
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == STORAGE_PERMISSION_RC) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Intent intent = new Intent(Common.XGELS_ACTION_UPDATE_ICON);
+                intent.putExtra("mode", mode);
+                intent.putExtra("itemid", itemID);
+                intent.putExtra("default", false);
+                mActivity.sendBroadcast(intent);
+            } else {
+                Toast.makeText(this, "Okay, whatever...", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -280,6 +300,15 @@ public class FragmentSelectiveIcon extends ActionBarActivity implements ActionBa
                 Toast.makeText(this, "Couldn't load image. Please send a bug report from the XGELS settings menu!", Toast.LENGTH_LONG).show();
             }
         } else if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CROP_PICTURE) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                &&  ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                ||  ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                Common.XGELS_CONTEXT = this;
+                Utils.requestPermission(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 89);
+                return;
+            }
+
             FileOutputStream out = null;
             File dst;
             if (mode == MODE_PICK_APPDRAWER_ICON) {

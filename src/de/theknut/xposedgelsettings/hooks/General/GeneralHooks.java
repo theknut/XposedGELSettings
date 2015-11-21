@@ -1,5 +1,6 @@
 package de.theknut.xposedgelsettings.hooks.general;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -15,8 +16,10 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -67,6 +70,8 @@ import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
 public class GeneralHooks extends HooksBaseClass {
 
+    static AsyncTask<Void, Void, Void> PendingAsyncTask;
+
     public static void initAllHooks(final LoadPackageParam lpparam) {
         findAndHookMethod(Classes.Launcher, "onCreate", Bundle.class, new XC_MethodHook() {
 
@@ -85,7 +90,7 @@ public class GeneralHooks extends HooksBaseClass {
                 Common.LAUNCHER_CONTEXT.registerReceiver(broadcastReceiver, filter);
 
                 try {
-                    Common.XGELSCONTEXT = Common.LAUNCHER_CONTEXT.createPackageContext(Common.PACKAGE_NAME, Context.CONTEXT_IGNORE_SECURITY);
+                    Common.XGELS_CONTEXT = Common.LAUNCHER_CONTEXT.createPackageContext(Common.PACKAGE_NAME, Context.CONTEXT_IGNORE_SECURITY);
                 } catch (Exception e) { }
             }
 
@@ -104,6 +109,33 @@ public class GeneralHooks extends HooksBaseClass {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     Common.DEVICE_PROFIL = callMethod(param.thisObject, Methods.dgGetDeviceProfile);
+                }
+            });
+        }
+
+        if (Common.GNL_VERSION >= ObfuscationHelper.GNL_5_4_24) {
+            findAndHookMethod(Classes.Launcher, "onRequestPermissionsResult", Integer.TYPE, String[].class, int[].class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+
+                    int[] grantResults = (int[]) param.args[2];
+                    for (int result : grantResults) {
+                        if (result != PackageManager.PERMISSION_GRANTED) {
+                            Toast.makeText(Common.LAUNCHER_CONTEXT, "Okay, whatever...", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                    }
+
+                    switch ((Integer) param.args[0]) {
+                        case Common.PERMISSION_REQUEST_ICON:
+                            if (PendingAsyncTask != null) {
+                                PendingAsyncTask.execute();
+                            }
+                            break;
+                        case Common.PERMISSION_REQUEST_RESTART:
+                            killLauncher();
+                            break;
+                    }
                 }
             });
         }
@@ -531,7 +563,7 @@ public class GeneralHooks extends HooksBaseClass {
                     final boolean isDefault = intent.getBooleanExtra("default", false);
                     final Drawable[] background = new Drawable[1];
 
-                    new AsyncTask<Void, Void, Void>() {
+                    PendingAsyncTask = new AsyncTask<Void, Void, Void>() {
                         View icon;
                         boolean isFolder;
 
@@ -633,7 +665,15 @@ public class GeneralHooks extends HooksBaseClass {
                                 icon.postInvalidate();
                             }
                         }
-                    }.execute();
+                    };
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                        &&  (ActivityCompat.checkSelfPermission(Common.LAUNCHER_CONTEXT, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                        ||  ActivityCompat.checkSelfPermission(Common.LAUNCHER_CONTEXT, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
+                        Utils.requestPermission(Common.LAUNCHER_INSTANCE, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, Common.PERMISSION_REQUEST_ICON);
+                    } else {
+                        PendingAsyncTask.execute();
+                    }
                 }
             } catch (Exception e) {}
         }

@@ -24,7 +24,7 @@ public class HooksBaseClass extends XC_MethodHook {
 
     public static boolean checkPremium() {
         try {
-            return InAppPurchase.checkPremium(Common.XGELSCONTEXT);
+            return InAppPurchase.checkPremium(Common.XGELS_CONTEXT);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
             return false;

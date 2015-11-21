@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -56,6 +57,7 @@ public class XGELSReceiver extends BroadcastReceiver {
             if (type.equals("boolean")) {
                 editor.putBoolean(key, intent.getBooleanExtra(key, false)).commit();
             } else if (type.equals("arraylist")) {
+                ArrayList<String> d = intent.getStringArrayListExtra(key);
                 editor.putStringSet(key, new HashSet(intent.getStringArrayListExtra(key))).commit();
             }
 

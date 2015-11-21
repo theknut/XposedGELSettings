@@ -226,7 +226,7 @@ public class CommonUI {
         String msg = CONTEXT.getString(R.string.killed);
         boolean neededRoot = false;
 
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP_MR1) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
             for (String packageName : Common.PACKAGE_NAMES) {
                 am.killBackgroundProcesses(packageName);
             }
