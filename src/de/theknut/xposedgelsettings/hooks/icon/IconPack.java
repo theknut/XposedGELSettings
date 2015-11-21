@@ -1,6 +1,8 @@
 package de.theknut.xposedgelsettings.hooks.icon;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
@@ -14,6 +16,8 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -34,6 +38,7 @@ import java.util.Random;
 import java.util.Set;
 
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.Utils;
 import de.theknut.xposedgelsettings.ui.CommonUI;
 
 public class IconPack {
@@ -319,6 +324,14 @@ public class IconPack {
                 e.printStackTrace();
             }
         } else if (iconPackPackageName.equals("sdcard")) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                    &&  (ActivityCompat.checkSelfPermission(Common.LAUNCHER_CONTEXT, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                    ||  ActivityCompat.checkSelfPermission(Common.LAUNCHER_CONTEXT, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
+                Utils.requestPermission(Common.LAUNCHER_INSTANCE, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, Common.PERMISSION_REQUEST_RESTART);
+                return null;
+            }
+
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
             Bitmap bitmap = BitmapFactory.decodeFile("/mnt/sdcard/XposedGELSettings/icons/" + drawableName + ".png", options);

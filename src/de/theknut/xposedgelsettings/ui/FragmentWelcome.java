@@ -56,8 +56,9 @@ public class FragmentWelcome extends FragmentBase {
         super.onCreateView(inflater, container, savedInstanceState);
 
         rootView = inflater.inflate(R.layout.welcome, container, false);
-/*
+
         rootView.findViewById(R.id.madeingermany).setOnTouchListener(new View.OnTouchListener() {
+
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getPointerCount() == 2) {
@@ -68,7 +69,7 @@ public class FragmentWelcome extends FragmentBase {
                 }
                 return true;
             }
-        });*/
+        });
 
         rootView.findViewById(R.id.welcometext).setOnClickListener(new View.OnClickListener() {
             @Override

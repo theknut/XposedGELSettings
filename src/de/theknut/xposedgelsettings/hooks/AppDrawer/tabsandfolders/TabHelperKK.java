@@ -84,7 +84,7 @@ public final class TabHelperKK extends TabHelper implements View.OnClickListener
 
     public void init(TabHost tabhost) {
 
-        XGELSContext = Common.XGELSCONTEXT;
+        XGELSContext = Common.XGELS_CONTEXT;
 
         this.tabHost = tabhost;
         this.tabs = new ArrayList<Tab>();

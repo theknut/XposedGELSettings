@@ -712,9 +712,9 @@ public class IconHooks extends HooksBaseClass {
     }
 
     public static List<ResolveInfo> getCalendars() {
-        if (Common.XGELSCONTEXT == null) return new ArrayList<ResolveInfo>();
+        if (Common.XGELS_CONTEXT == null) return new ArrayList<ResolveInfo>();
 
-        PackageManager packageManager = Common.XGELSCONTEXT.getPackageManager();
+        PackageManager packageManager = Common.XGELS_CONTEXT.getPackageManager();
         Intent calendarIntent = new Intent(Intent.ACTION_MAIN);
         calendarIntent.addCategory("android.intent.category.LAUNCHER");
         calendarIntent.addCategory("android.intent.category.APP_CALENDAR");

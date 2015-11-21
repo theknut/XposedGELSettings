@@ -27,7 +27,7 @@
         android:textSize="30sp"
         android:textStyle="bold" />
 
-    <!--<TextView
+    <TextView
         android:id="@+id/madeingermany"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,28 +38,6 @@
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />-->
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="50sp"
-        android:layout_marginBottom="40dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" >
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="@drawable/germanflag" />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:src="@drawable/heart" />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="@drawable/franceflag" />
-    </LinearLayout>
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

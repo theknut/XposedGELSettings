@@ -298,8 +298,8 @@ public class NotificationBadgesHelper extends HooksBaseClass {
         leftRightPadding = Utils.dpToPx(PreferencesHelper.notificationBadgeLeftRightPadding, displayMetrics);
         topBottomPadding = Utils.dpToPx(PreferencesHelper.notificationBadgeTopBottomPadding, displayMetrics);
 
-        folderMarginLeftRight = Math.round(Common.XGELSCONTEXT.getResources().getDimension(R.dimen.notificationbadgemarginleftright));
-        folderMarginTopBottom = Math.round(Common.XGELSCONTEXT.getResources().getDimension(R.dimen.notificationbadgemargintopbottom));
+        folderMarginLeftRight = Math.round(Common.XGELS_CONTEXT.getResources().getDimension(R.dimen.notificationbadgemarginleftright));
+        folderMarginTopBottom = Math.round(Common.XGELS_CONTEXT.getResources().getDimension(R.dimen.notificationbadgemargintopbottom));
 
         frameSize = Utils.dpToPx(PreferencesHelper.notificationBadgeFrameSize, displayMetrics);
 

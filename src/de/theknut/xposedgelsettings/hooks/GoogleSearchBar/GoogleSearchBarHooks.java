@@ -121,16 +121,16 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
                                 return;
                             case 1:
                                 boolean useWhite = Utils.getContrastColor(PreferencesHelper.searchbarPrimaryColor) == Color.WHITE;
-                                dLogo = Common.XGELSCONTEXT.getResources().getDrawable(useWhite ? R.drawable.ic_google_small_light : R.drawable.ic_searchbox_google);
-                                dMic = Common.XGELSCONTEXT.getResources().getDrawable(useWhite ? R.drawable.ic_mic_m_white : R.drawable.ic_mic_dark);
+                                dLogo = Common.XGELS_CONTEXT.getResources().getDrawable(useWhite ? R.drawable.ic_google_small_light : R.drawable.ic_searchbox_google);
+                                dMic = Common.XGELS_CONTEXT.getResources().getDrawable(useWhite ? R.drawable.ic_mic_m_white : R.drawable.ic_mic_dark);
                                 break;
                             case 2:
-                                dLogo = Common.XGELSCONTEXT.getResources().getDrawable(R.drawable.ic_searchbox_google_m);
-                                dMic = Common.XGELSCONTEXT.getResources().getDrawable(R.drawable.ic_mic_m);
+                                dLogo = Common.XGELS_CONTEXT.getResources().getDrawable(R.drawable.ic_searchbox_google_m);
+                                dMic = Common.XGELS_CONTEXT.getResources().getDrawable(R.drawable.ic_mic_m);
                                 break;
                             case 3:
-                                dLogo = Common.XGELSCONTEXT.getResources().getDrawable(R.drawable.ic_searchbox_google_m_monochrome);
-                                dMic = Common.XGELSCONTEXT.getResources().getDrawable(R.drawable.ic_mic_m_monochrome);
+                                dLogo = Common.XGELS_CONTEXT.getResources().getDrawable(R.drawable.ic_searchbox_google_m_monochrome);
+                                dMic = Common.XGELS_CONTEXT.getResources().getDrawable(R.drawable.ic_mic_m_monochrome);
                                 break;
                         }
 

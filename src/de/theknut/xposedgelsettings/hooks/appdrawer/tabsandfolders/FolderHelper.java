@@ -52,7 +52,7 @@ public final class FolderHelper {
     }
 
     public void init() {
-        this.XGELSContext = Common.XGELSCONTEXT;
+        this.XGELSContext = Common.XGELS_CONTEXT;
         this.folders = new ArrayList<Folder>();
         //initFolders();
     }
@@ -131,7 +131,7 @@ public final class FolderHelper {
 
     public void setupFolderSettings(final Folder folder, final long tabId) {
         boolean newFolder = folder == null;
-        final ViewGroup folderSettingsView = (ViewGroup) LayoutInflater.from(Common.XGELSCONTEXT).inflate(R.layout.folder_settings_view, null);
+        final ViewGroup folderSettingsView = (ViewGroup) LayoutInflater.from(Common.XGELS_CONTEXT).inflate(R.layout.folder_settings_view, null);
         final EditText editText = (EditText) folderSettingsView.findViewById(R.id.foldername);
 
         if (newFolder) {

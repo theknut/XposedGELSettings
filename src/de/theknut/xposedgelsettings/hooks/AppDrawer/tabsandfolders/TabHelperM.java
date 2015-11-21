@@ -81,7 +81,7 @@ public final class TabHelperM extends TabHelper implements View.OnClickListener,
 
     public void init(LinearLayout tabhost) {
 
-        XGELSContext = Common.XGELSCONTEXT;
+        XGELSContext = Common.XGELS_CONTEXT;
         inflater = LayoutInflater.from(XGELSContext);
         inactiveTabTranslationX = XGELSContext.getResources().getDimension(R.dimen.tabhost_overlap);
         tabTranslationY = XGELSContext.getResources().getDimension(R.dimen.tabhost_translationY);
