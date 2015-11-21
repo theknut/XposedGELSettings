@@ -26,8 +26,8 @@ public final class Common {
     public static final String XGELS_ACTION_SAVE_ICONPACK = XGELS_INTENT + ".SAVE_ICONPACK";
     public static final String XGELS_ACTION_SAVE_LAYER_POSITIONS = XGELS_INTENT + ".SAVE_LAYER_POSITIONS";
     public static final String XGELS_ACTION_SAVE_SETTING = XGELS_INTENT + ".SAVE_SETTING";
-    public static final String XGELS_ACTION_OPEN_APPDRAWER = XGELS_INTENT + ".RELOAD_SETTINGS";
-    public static final String XGELS_ACTION_RELOAD_SETTINGS = XGELS_INTENT + ".OPEN_APPDRAWER";
+    public static final String XGELS_ACTION_OPEN_APPDRAWER = XGELS_INTENT + ".OPEN_APPDRAWER";
+    public static final String XGELS_ACTION_RELOAD_SETTINGS = XGELS_INTENT + ".RELOAD_SETTINGS";
     public static final String XGELS_ACTION_RESTART_LAUNCHER = XGELS_INTENT + ".RESTART_LAUNCHER";
     public static final String XGELS_ACTION_UPDATE_FOLDER_ITEMS = XGELS_INTENT + ".UPDATE_FOLDER_ITEMS";
     public static final String XGELS_ACTION_MODIFY_TAB = XGELS_INTENT + ".MODIFY_TAB";
