@@ -11,12 +11,15 @@ import android.widget.TextView;
 import java.lang.reflect.Method;
 
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
+import de.theknut.xposedgelsettings.hooks.Utils;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
+import static de.robv.android.xposed.XposedHelpers.getFloatField;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.newInstance;
@@ -113,7 +116,11 @@ public class FolderM extends Folder implements View.OnLongClickListener, View.On
 
             TextView t = ((TextView) getObjectField(folderIcon, Fields.fiFolderName));
             t.setCompoundDrawablePadding(0);
-            t.setTextSize(0, getIntField(Common.DEVICE_PROFIL, Fields.dpIconTextSize));
+            if (Common.GNL_VERSION < ObfuscationHelper.GNL_5_8_45) {
+                t.setTextSize(0, getIntField(Common.DEVICE_PROFIL, Fields.dpIconTextSize));
+            } else {
+                t.setTextSize(0, Utils.dpToPx(Math.round(getFloatField(Common.DEVICE_PROFIL, "allAppsIconTextSizeSp"))));
+            }
             ((ViewGroup.MarginLayoutParams) t.getLayoutParams()).topMargin = Common.APP_DRAWER_ICON_SIZE + (padding * -1);
 
             addItems();
