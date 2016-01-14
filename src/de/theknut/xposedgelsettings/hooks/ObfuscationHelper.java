@@ -34,6 +34,7 @@ public class ObfuscationHelper extends HooksBaseClass {
     public static final int GNL_5_6_22 = 300562346;
     public static final int GNL_5_6_23 = 300562436;
     public static final int GNL_5_7_11 = 300571176;
+    public static final int GNL_5_8_45 = 300584626;
 
     public static int getVersionIndex(int version) {
 

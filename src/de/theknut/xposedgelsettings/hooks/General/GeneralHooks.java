@@ -433,6 +433,16 @@ public class GeneralHooks extends HooksBaseClass {
             findAndHookMethod(Classes.LauncherModel, Methods.lmDeleteItemsFromDatabase, Context.class, ArrayList.class, hook);
         }
 
+        /*
+        XposedBridge.hookAllMethods(findClass("com.google.android.apps.gsa.searchplate.SimpleSearchText", lpparam.classLoader), "onTextChanged", new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                log("Change: " + param.args[0]);
+                callMethod(param.thisObject, "gf", false);
+                //com.google.android.apps.gsa.searchbox.ui.suggestions
+            }
+        });*/
+
         findAndHookMethod(Classes.LauncherModel, Methods.lmDeleteFolderContentsFromDatabase, Context.class, Classes.FolderInfo, new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
@@ -489,7 +499,12 @@ public class GeneralHooks extends HooksBaseClass {
 
                                 Object mFolder = getObjectField(view, Fields.fiFolder);
                                 for (String newItem : intent.getStringArrayListExtra("additems")) {
-                                    Object shortcutInfo = Utils.createShortcutInfo(newItem);
+                                    Object shortcutInfo;
+                                    if (Common.IS_M_GNL) {
+                                        shortcutInfo = callMethod(Utils.createAppInfo(ComponentName.unflattenFromString(newItem)), Methods.aiMakeShortcut);
+                                    } else {
+                                        shortcutInfo = Utils.createShortcutInfo(newItem);
+                                    }
                                     callMethod(getObjectField(mFolder, Fields.fFolderInfo), Methods.fiAdd, shortcutInfo);
                                 }
 
@@ -508,19 +523,27 @@ public class GeneralHooks extends HooksBaseClass {
 
                                 Folder folder = FolderHelper.getInstance().getFolder(getLongField(view.getTag(), Fields.iiID));
                                 if (folder != null) {
+                                    FolderHelper.getInstance().getFolder(folder.getId()).invalidate();
+
                                     if (folder.hideFromAppsPage()) {
-                                        Object mAppsCustomizePane = getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizePagedView);
-                                        ArrayList allApps = (ArrayList) getObjectField(mAppsCustomizePane, Fields.acpvAllApps);
-                                        folder.invalidateRawData();
-                                        for (String app : folder.getRawData()) {
-                                            allApps.add(Utils.createAppInfo(ComponentName.unflattenFromString(app)));
-                                        }
+                                        if (Common.IS_M_GNL) {
+                                            //Object tmpFolder = getObjectField(folder.getFolderIcon(), Fields.fiFolder);
+                                            //callMethod(tmpFolder, Methods.fBind, getObjectField(tmpFolder, Fields.fFolderInfo));
+                                            TabHelper.getInstance().updateTabs();
+                                        } else {
+                                            Object mAppsCustomizePane = getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizePagedView);
+                                            ArrayList allApps = (ArrayList) getObjectField(mAppsCustomizePane, Fields.acpvAllApps);
+                                            folder.invalidateRawData();
+                                            for (String app : folder.getRawData()) {
+                                                allApps.add(Utils.createAppInfo(ComponentName.unflattenFromString(app)));
+                                            }
 
-                                        for (String removeItem : intent.getStringArrayListExtra("removeitems")) {
-                                            allApps.add(Utils.createAppInfo(ComponentName.unflattenFromString(removeItem)));
-                                        }
+                                            for (String removeItem : intent.getStringArrayListExtra("removeitems")) {
+                                                allApps.add(Utils.createAppInfo(ComponentName.unflattenFromString(removeItem)));
+                                            }
 
-                                        callMethod(mAppsCustomizePane, Methods.acpvSetApps, allApps);
+                                            callMethod(mAppsCustomizePane, Methods.acpvSetApps, allApps);
+                                        }
                                     }
                                 }
                             }

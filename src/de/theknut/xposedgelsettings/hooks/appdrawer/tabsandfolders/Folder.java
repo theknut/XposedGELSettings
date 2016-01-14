@@ -61,7 +61,6 @@ public class Folder extends AppDrawerItem implements View.OnLongClickListener, V
         if (initData) initData();
     }
 
-    public void invalidate() {}
     protected void addItems() {}
     protected void addItem(Object shortcutInfo) {}
     public View makeFolderIcon(ViewGroup appsCustomizeCellLayout) { return null; }
@@ -133,5 +132,10 @@ public class Folder extends AppDrawerItem implements View.OnLongClickListener, V
             if (cmp.contains(o)) return true;
         }
         return false;
+    }
+
+    public void invalidate() {
+        ((ViewGroup) folderIcon.getParent()).removeView(folderIcon);
+        folderIcon = null;
     }
 }

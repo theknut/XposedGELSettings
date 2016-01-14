@@ -368,6 +368,11 @@ public final class TabHelperM extends TabHelper implements View.OnClickListener,
         setCurrentTab(tabs.get(tabIdx >= tabs.size() ? 0 : tabIdx));
     }
 
+    public void setPreviousTab() {
+        int tabIdx = getCurrentTabData().getIndex() - 1;
+        setCurrentTab(tabs.get(tabIdx < 0 ? 0 : tabIdx));
+    }
+
     public void setCurrentTab(Tab tab) {
         setCurrentTab(tab.getLayoutId());
     }

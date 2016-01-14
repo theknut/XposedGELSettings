@@ -27,6 +27,7 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelperL;
+import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelperM;
 import de.theknut.xposedgelsettings.hooks.general.ContextMenu;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
@@ -299,17 +300,9 @@ public class GestureHooks extends GestureHelper {
                         break;
                     default: break;
                 }
-
+                DEBUG=true;
                 switch (ev.getAction() & MotionEvent.ACTION_MASK) {
-                    case MotionEvent.ACTION_MOVE:
-                        if (DEBUG) log("MOVE: " + ev.getRawY());
 
-                        if (!isDown) {
-                            downY = ev.getRawY();
-                            downX = ev.getRawX();
-                        }
-
-                        break;
                     case MotionEvent.ACTION_DOWN:
                         if (DEBUG) log("DOWN: " + ev.getRawY());
 
@@ -320,6 +313,15 @@ public class GestureHooks extends GestureHelper {
 
                         if (ContextMenu.isOpen()) {
                             ContextMenu.closeAndRemove();
+                        }
+
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        if (DEBUG) log("MOVE: " + ev.getRawY());
+
+                        if (!isDown) {
+                            downY = ev.getRawY();
+                            downX = ev.getRawX();
                         }
 
                         break;
@@ -338,10 +340,22 @@ public class GestureHooks extends GestureHelper {
                         if (System.currentTimeMillis() - lastTouchTime < 400) return;
                         lastTouchTime = System.currentTimeMillis();
 
-                        // user probably switched pages
-                        if (getBooleanField(getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizeTabHost), Fields.acthInTransition)
-                                || Math.abs(downX - ev.getRawX()) > GestureHelper.gestureDistance) {
+                        if (Common.IS_M_GNL) {
+                            if (ev.getRawX() != downX && Math.abs(ev.getRawY() - downY) < gestureDistance) {
+                                if (ev.getRawX() - downX < gestureDistance) {
+                                    TabHelperM.getInstance().setNextTab();
+                                } else if (ev.getRawX() - downX > gestureDistance) {
+                                    TabHelperM.getInstance().setPreviousTab();
+                                }
+                            }
+
                             return;
+                        } else {
+                            // user probably switched pages
+                            if (getBooleanField(getObjectField(Common.LAUNCHER_INSTANCE, Fields.lAppsCustomizeTabHost), Fields.acthInTransition)
+                                    || Math.abs(downX - ev.getRawX()) > GestureHelper.gestureDistance) {
+                                return;
+                            }
                         }
 
                         if ((ev.getRawY() - downY) > gestureDistance) {
@@ -391,6 +405,10 @@ public class GestureHooks extends GestureHelper {
 
         XposedBridge.hookAllMethods(Classes.PagedView, "onTouchEvent", gestureHook);
         XposedBridge.hookAllMethods(Classes.PagedView, "onInterceptTouchEvent", gestureHook);
+
+        if (Common.IS_M_GNL) {
+            XposedBridge.hookAllMethods(Classes.DragLayer, "onInterceptTouchEvent", gestureHook);
+        }
 
         if (!PreferencesHelper.gesture_double_tap.equals("NONE")) {
 

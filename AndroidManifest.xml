@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.theknut.xposedgelsettings"
-    android:versionCode="172"
-    android:versionName="3.0 Build 4" >
+    android:versionCode="173"
+    android:versionName="3.0 Build 5" >
 
     <uses-sdk
         android:minSdkVersion="16"
@@ -97,6 +97,11 @@
 		        <category android:name="android.intent.category.DEFAULT" />
 		    </intent-filter>
 		</receiver>
+
+        <provider
+            android:authorities="de.theknut.xposedgelsettings"
+            android:exported="true"
+            android:name=".contentprovider.XGELSContentProvider" />
 		
 		<meta-data
 		    android:name="override_tinted_status_bar_defaults"

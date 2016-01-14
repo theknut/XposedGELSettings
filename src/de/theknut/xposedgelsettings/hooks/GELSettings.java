@@ -118,8 +118,10 @@ public class GELSettings extends XC_MethodHook implements IXposedHookLoadPackage
         HomescreenHooks.initAllHooks(lpparam);
         SystemUIHooks.initAllHooks(lpparam);
         SystemBars.initAllHooks(lpparam);
-        if (Common.GNL_VERSION < ObfuscationHelper.GNL_5_3_23) AppDrawerLHooks.initAllHooks(lpparam);
-        else AppDrawerMHooks.initAllHooks(lpparam);
+        if (Common.GNL_VERSION < ObfuscationHelper.GNL_5_3_23)
+            AppDrawerLHooks.initAllHooks(lpparam);
+        else
+            AppDrawerMHooks.initAllHooks(lpparam);
         GestureHooks.initAllHooks(lpparam);
         NotificationBadgesHooks.initAllHooks(lpparam);
         IconHooks.initAllHooks(lpparam);

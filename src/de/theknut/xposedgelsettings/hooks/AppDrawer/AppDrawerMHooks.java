@@ -32,7 +32,9 @@ import de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders.TabHelperM;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
+import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
+import static de.robv.android.xposed.XposedHelpers.setIntField;
 import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
 public class AppDrawerMHooks extends HooksBaseClass {
@@ -95,12 +97,42 @@ public class AppDrawerMHooks extends HooksBaseClass {
             });
         }
 
+        // Fix setSpanCount = 0 bug
+        XposedBridge.hookAllConstructors(Classes.FullMergeAlgorithm, new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                if ((Integer) getObjectField(Common.APP_DRAWER_INSTANCE, "mNumAppsPerRow") < 1) {
+                    if (DEBUG) log("Fix mNumAppsPerRow < 1");
+                    setObjectField(Common.APP_DRAWER_INSTANCE, "mNumAppsPerRow", 1);
+                }
+            }
+        });
+
+        findAndHookMethod(Classes.BubbleTextView, "applyFromApplicationInfo", Classes.AppInfo, new XC_MethodHook() {
+            int mIconSize = -1;
+
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                if (PreferencesHelper.iconSettingsSwitchApps) {
+                    mIconSize = getIntField(param.thisObject, "mIconSize");
+                    setIntField(param.thisObject, "mIconSize", Common.APP_DRAWER_ICON_SIZE);
+                }
+            }
+
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                if (mIconSize == -1) {
+                    setIntField(param.thisObject, "mIconSize", mIconSize);
+                    mIconSize = -1;
+                }
+            }
+        });
+
         if (PreferencesHelper.changeGridSizeApps) {
             XposedBridge.hookAllConstructors(Classes.FullMergeAlgorithm, new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    if (PreferencesHelper.xCountAllAppsHorizontal == -1
-                            || PreferencesHelper.xCountAllAppsVertical == -1)
+                    if (PreferencesHelper.xCountAllAppsHorizontal == -1 || PreferencesHelper.xCountAllAppsVertical == -1)
                         return;
 
                     if (Common.LAUNCHER_CONTEXT.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {

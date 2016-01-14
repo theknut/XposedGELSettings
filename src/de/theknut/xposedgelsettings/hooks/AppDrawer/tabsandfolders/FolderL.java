@@ -154,11 +154,6 @@ public class FolderL extends Folder implements View.OnLongClickListener, View.On
         }
     }
 
-    public void invalidate() {
-        ((ViewGroup) folderIcon.getParent()).removeView(folderIcon);
-        folderIcon = null;
-    }
-
     public void closeFolder() {
         callMethod(Common.LAUNCHER_INSTANCE, Methods.lCloseFolder);
     }

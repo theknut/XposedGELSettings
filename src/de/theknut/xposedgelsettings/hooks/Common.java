@@ -3,6 +3,7 @@ package de.theknut.xposedgelsettings.hooks;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
+import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -36,6 +37,9 @@ public final class Common {
     public static final String XGELS_ACTION_CONVERT_SETTING = XGELS_INTENT + ".CONVERT_SETTING";
     public static final String XGELS_ACTION_RECEIVER_RUNNING = XGELS_INTENT + ".RECEIVER_RUNNING";
 
+    public static final Uri URI_BASE = Uri.parse("content://" + Common.PACKAGE_NAME);
+    public static final Uri URI_SETTINGS_BASE = URI_BASE.buildUpon().path("settings").build();
+
     // MissedIt intent
     public static final String MISSEDIT_INTENT = "net.igecelabs.android.MissedIt.";
     public static final String MISSEDIT_ACTION_INTENT = MISSEDIT_INTENT + "action.";
@@ -61,6 +65,7 @@ public final class Common {
     public static Object WORKSPACE_INSTANCE;
     public static Object HOTSEAT_INSTANCE;
     public static View APP_DRAWER_INSTANCE;
+    public static Object ALPHABETICAL_APPS_LIST;
     public static ViewGroup DRAG_LAYER;
 
     public static Context LAUNCHER_CONTEXT;

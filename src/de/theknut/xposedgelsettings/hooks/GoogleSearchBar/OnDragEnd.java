@@ -3,6 +3,7 @@ package de.theknut.xposedgelsettings.hooks.googlesearchbar;
 import android.view.View;
 
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.common.XGELSCallback;
 
@@ -16,6 +17,7 @@ public final class OnDragEnd extends XGELSCallback {
 
     @Override
     public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
+        if (Common.GNL_VERSION >= ObfuscationHelper.GNL_5_4_24) return;
         // set the search bar hidden so that the animation wouldn't be shown (fade out)
         setBooleanField(param.thisObject, Fields.sdtbIsSearchBarHidden, true);
     }

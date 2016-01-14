@@ -114,9 +114,7 @@ public class AllAppsList extends ActionBarListActivity {
             responseIntent.putExtra("tabid", intent.getLongExtra("tabid", Tab.APPS_ID)); // Tab id of the a Folder
         }
 
-        if (mode == MODE_SELECT_FOLDER_APPS) {
-            getSupportActionBar().setTitle(intent.getStringExtra("foldername"));
-        } else if (mode == MODE_MANAGE_TAB || mode == MODE_MANAGE_FOLDER || mode == MODE_SELECT_FOLDER_APPS) {
+        if (mode == MODE_MANAGE_TAB || mode == MODE_MANAGE_FOLDER || mode == MODE_SELECT_FOLDER_APPS) {
             getSupportActionBar().setTitle(itemName);
         }
 

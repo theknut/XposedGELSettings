@@ -27,6 +27,22 @@
   </head>
   <body>
 
+$ B3.0 Build 5
+  % Version 3.0 Build 5
+  _ 2015-12-03
+
+  !Added:
+    * support for folders in app drawer
+    * hide App option in App info for Android Marshmallow
+
+  !Misc:
+    * many internal restructures
+
+  !Known issues:
+    * app drawer open and close animation broken
+    * horizontal app drawer padding is bugged
+    * move tabs to bottom does not work
+
 $ B3.0 Build 4
   % Version 3.0 Build 4
   _ 2015-11-21

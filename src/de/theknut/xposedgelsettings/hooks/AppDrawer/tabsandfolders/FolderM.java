@@ -1,12 +1,15 @@
 package de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import de.robv.android.xposed.XposedBridge;
+import java.lang.reflect.Method;
+
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
@@ -14,6 +17,7 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
+import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.newInstance;
 import static de.robv.android.xposed.XposedHelpers.setBooleanField;
@@ -23,6 +27,8 @@ import static de.robv.android.xposed.XposedHelpers.setObjectField;
  * Created by Alexander Schulz on 22.09.2014.
  */
 public class FolderM extends Folder implements View.OnLongClickListener, View.OnClickListener {
+
+    public static int FOLDER_ITEM_ID = 0xF01DE5;
 
     public FolderM(String folderCfg) {
         this(folderCfg, true);
@@ -51,14 +57,19 @@ public class FolderM extends Folder implements View.OnLongClickListener, View.On
         initData();
         int id = Common.LAUNCHER_CONTEXT.getResources().getIdentifier("folder_icon", "layout", Common.HOOKED_PACKAGE);
         if (id != 0) {
-            XposedBridge.log("Make folder icon");
             Object folderInfo = newInstance(Classes.FolderInfo);
             setObjectField(folderInfo, "title", getTitle());
             setObjectField(folderInfo, Fields.iiScreenId, FOLDER_ID);
             setObjectField(folderInfo, Fields.iiContainer, -101);
             setObjectField(folderInfo, Fields.iiID, getId());
 
-            folderIcon = (View) callStaticMethod(Classes.FolderIcon, Methods.fiFromXml, id, Common.LAUNCHER_INSTANCE, appsCustomizeCellLayout, folderInfo, getObjectField(Common.LAUNCHER_INSTANCE, Fields.lIconCache));
+            String methodName = Methods.fiFromXml + "$";
+            for (Method method : Classes.FolderIcon.getDeclaredMethods()) {
+                if (method.getName().contains(methodName)) {
+                    folderIcon = (View) callStaticMethod(Classes.FolderIcon, method.getName(), id, Common.LAUNCHER_INSTANCE, appsCustomizeCellLayout, folderInfo);
+                    break;
+                }
+            }
 
             TextView folderName = (TextView) getObjectField(folderIcon, Fields.fiFolderName);
             setBooleanField(folderName, Fields.btvShadowsEnabled, false);
@@ -79,25 +90,32 @@ public class FolderM extends Folder implements View.OnLongClickListener, View.On
 
             folderIcon.setOnLongClickListener(this);
             folderIcon.setOnClickListener(this);
-/*
+
             ImageView background = (ImageView) getObjectField(folderIcon, Fields.fiPreviewBackground);
             ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) background.getLayoutParams();
+
+            Object launcherAppState = callStaticMethod(Classes.LauncherAppState, "getInstance");
+            Object InvDevPro = getObjectField(launcherAppState, "mInvariantDeviceProfile");
+            if (Common.LAUNCHER_CONTEXT.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                Common.DEVICE_PROFIL = getObjectField(InvDevPro, "landscapeProfile");
+            } else {
+
+                Common.DEVICE_PROFIL = getObjectField(InvDevPro, "portraitProfile");
+            }
 
             int padding = getIntField(Common.DEVICE_PROFIL, Fields.dpFolderBackgroundOffset);
             background.setPadding(0, -padding, 0, 0);
             folderIcon.setPadding(0, -padding, 0, 0);
-            layoutParams.topMargin = getIntField(Common.DEVICE_PROFIL, Fields.dpFolderBackgroundOffset);
+            layoutParams.topMargin = padding;
 
-            int folderIconSize = Common.APP_DRAWER_ICON_SIZE + (2 * - getIntField(Common.DEVICE_PROFIL, Fields.dpFolderBackgroundOffset));
+            int folderIconSize = Common.APP_DRAWER_ICON_SIZE + (2 * - padding);
             layoutParams.height = layoutParams.width = folderIconSize;
 
-            callMethod(callMethod(appsCustomizeCellLayout, Methods.clGetShortcutsAndWidgets), Methods.sawMeasureChild, folderIcon);
             TextView t = ((TextView) getObjectField(folderIcon, Fields.fiFolderName));
             t.setCompoundDrawablePadding(0);
             t.setTextSize(0, getIntField(Common.DEVICE_PROFIL, Fields.dpIconTextSize));
-            ((ViewGroup.MarginLayoutParams) t.getLayoutParams()).topMargin = Common.APP_DRAWER_ICON_SIZE + getIntField(Common.DEVICE_PROFIL, Fields.dpIconDrawablePaddingPx);
-*/
-            XposedBridge.log("add items");
+            ((ViewGroup.MarginLayoutParams) t.getLayoutParams()).topMargin = Common.APP_DRAWER_ICON_SIZE + (padding * -1);
+
             addItems();
         }
     }
@@ -110,17 +128,11 @@ public class FolderM extends Folder implements View.OnLongClickListener, View.On
 
     public void addItem(Object shortcutInfo) {
         if (folderIcon != null && shortcutInfo != null) {
-            XposedBridge.log("add "+ shortcutInfo);
             callMethod(folderIcon, Methods.fiAddItem, shortcutInfo);
         }
     }
 
-    public void invalidate() {
-        ((ViewGroup) folderIcon.getParent()).removeView(folderIcon);
-        folderIcon = null;
-    }
-
     public void closeFolder() {
-        callMethod(Common.LAUNCHER_INSTANCE, Methods.lCloseFolder);
+        callMethod(Common.LAUNCHER_INSTANCE, Methods.lCloseFolder, getObjectField(folderIcon, "mFolder"), true);
     }
 }
