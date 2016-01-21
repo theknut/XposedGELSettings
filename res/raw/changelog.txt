@@ -27,6 +27,15 @@
   </head>
   <body>
 
+$ 2.3.24
+  % Version 2.3.24
+  _ 2016-01-21
+
+  Please consider XGELS Premium to support the development of this app!<br>Thanks so much!<br><br>
+
+  !Added:
+    * partly support for Google Search 5.8.50 (everything app drawer related will NOT work)
+
 $ 2.3.23
   % Version 2.3.23
   _ 2016-01-14
