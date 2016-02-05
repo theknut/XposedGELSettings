@@ -27,6 +27,27 @@
   </head>
   <body>
 
+$ B3.0 Build 7
+  % Version 3.0 Build 7
+  _ 2016-02-05
+
+  !Fixed:
+    * improved swipe through tabs gesture
+
+  !Known issues:
+    * app drawer open and close animation broken
+    * horizontal app drawer padding is bugged
+    * move tabs to bottom does not work
+
+$ 2.3.25
+  % Version 2.3.25
+  _ 2016-02-05
+
+  Please consider XGELS Premium to support the development of this app!<br>Thanks so much!<br><br>
+
+  !Added:
+    * partly support for Google Search 5.9.26 (everything app drawer related will NOT work)
+
 $ 2.3.24
   % Version 2.3.24
   _ 2016-01-21

@@ -304,7 +304,7 @@ public class GestureHooks extends GestureHelper {
                 switch (ev.getAction() & MotionEvent.ACTION_MASK) {
 
                     case MotionEvent.ACTION_DOWN:
-                        if (DEBUG) log("DOWN: " + ev.getRawY());
+                        if (DEBUG) log("DOWN: " + ev.getRawX());
 
                         downY = ev.getRawY();
                         downX = ev.getRawX();
@@ -317,16 +317,31 @@ public class GestureHooks extends GestureHelper {
 
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        if (DEBUG) log("MOVE: " + ev.getRawY());
+                        if (DEBUG) log("MOVE: " + ev.getRawX());
 
                         if (!isDown) {
                             downY = ev.getRawY();
                             downX = ev.getRawX();
                         }
 
+                        if (Common.IS_M_GNL) {
+                            if (ev.getRawX() != downX && Math.abs(ev.getRawY() - downY) < gestureDistance) {
+                                if (ev.getRawX() - downX > gestureDistance) {
+                                    TabHelperM.getInstance().setNextTab();
+                                    isDown = false;
+                                } else if ((ev.getRawX() - downX) * -1 > gestureDistance) {
+                                    TabHelperM.getInstance().setPreviousTab();
+                                    isDown = false;
+                                }
+                            }
+
+                            return;
+                        }
+
                         break;
                     case MotionEvent.ACTION_UP:
-                        if (DEBUG) log("UP: " + ev.getRawY());
+                        if (DEBUG) log("UP: " + ev.getRawX());
+                        if (!isDown) return;
 
                         isDown = false;
 
@@ -342,13 +357,12 @@ public class GestureHooks extends GestureHelper {
 
                         if (Common.IS_M_GNL) {
                             if (ev.getRawX() != downX && Math.abs(ev.getRawY() - downY) < gestureDistance) {
-                                if (ev.getRawX() - downX < gestureDistance) {
+                                if (ev.getRawX() - downX > gestureDistance) {
                                     TabHelperM.getInstance().setNextTab();
-                                } else if (ev.getRawX() - downX > gestureDistance) {
+                                } else if ((ev.getRawX() - downX) * -1 > gestureDistance) {
                                     TabHelperM.getInstance().setPreviousTab();
                                 }
                             }
-
                             return;
                         } else {
                             // user probably switched pages
