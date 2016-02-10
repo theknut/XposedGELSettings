@@ -300,7 +300,7 @@ public class GestureHooks extends GestureHelper {
                         break;
                     default: break;
                 }
-                DEBUG=true;
+
                 switch (ev.getAction() & MotionEvent.ACTION_MASK) {
 
                     case MotionEvent.ACTION_DOWN:
@@ -327,10 +327,10 @@ public class GestureHooks extends GestureHelper {
                         if (Common.IS_M_GNL) {
                             if (ev.getRawX() != downX && Math.abs(ev.getRawY() - downY) < gestureDistance) {
                                 if (ev.getRawX() - downX > gestureDistance) {
-                                    TabHelperM.getInstance().setNextTab();
+                                    TabHelperM.getInstance().setPreviousTab();
                                     isDown = false;
                                 } else if ((ev.getRawX() - downX) * -1 > gestureDistance) {
-                                    TabHelperM.getInstance().setPreviousTab();
+                                    TabHelperM.getInstance().setNextTab();
                                     isDown = false;
                                 }
                             }

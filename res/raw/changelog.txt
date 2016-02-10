@@ -27,6 +27,19 @@
   </head>
   <body>
 
+$ B3.0 Build 8
+  % Version 3.0 Build 8
+  _ 2016-02-10
+
+  !Fixed:
+    * inverted swipe through tabs gesture
+    * removed Xposed loggings
+
+  !Known issues:
+    * app drawer open and close animation broken
+    * horizontal app drawer padding is bugged
+    * move tabs to bottom does not work
+
 $ B3.0 Build 7
   % Version 3.0 Build 7
   _ 2016-02-05
