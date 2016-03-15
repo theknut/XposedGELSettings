@@ -40,6 +40,7 @@ public class ObfuscationHelper extends HooksBaseClass {
     public static final int GNL_5_9_29 = 300601089;
     public static final int GNL_5_10_22 = 300612136;
     public static final int GNL_5_10_23 = 300612169;
+    public static final int GNL_5_10_25 = 300612289;
 
     public static int getVersionIndex(int version) {
 
@@ -848,6 +849,18 @@ public class ObfuscationHelper extends HooksBaseClass {
             {
                 covbFields = new String[]{"", "dQn", "dQn", "dQn"};
                 spbMic = "dTj";
+            }
+
+            if (Common.GNL_VERSION >= ObfuscationHelper.GNL_5_10_25)
+            {
+                covbFields = new String[]{"", "dQo", "dQo", "dQo"};
+                spbMic = "dTk";
+            }
+
+            if (Common.GNL_VERSION >= ObfuscationHelper.GNL_5_10_25)
+            {
+                covbFields = new String[]{"", "dQr", "dQr", "dQr"};
+                spbMic = "dTn";
             }
 
             if (Common.GNL_VERSION >= ObfuscationHelper.GNL_5_3_23 && Common.GNL_PACKAGE_INFO.applicationInfo.targetSdkVersion >= 19) {

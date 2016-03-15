@@ -32,6 +32,7 @@ import de.theknut.xposedgelsettings.hooks.googlesearchbar.weatherwidget.WeatherW
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
+import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
@@ -211,18 +212,20 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
                     param.args[0] = false;
                 }
             });
-            /*
-            findAndHookMethod(Classes.HintTextView, Methods.htvAnimateHotword, boolean.class, new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    int page = getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage);
-                    boolean shouldShow = (page == 0 && PreferencesHelper.autoHideSearchBar) || (PreferencesHelper.searchBarOnDefaultHomescreen && page == (PreferencesHelper.defaultHomescreen - 1));
-                    // show the search bar as soon as the page has stopped moving and the GNow overlay is visible
-                    if ((Common.IS_KK_TREBUCHET || (Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lHasCustomContentToLeft)) && shouldShow) {
-                        param.args[0] = false;
+
+            if (Common.GNL_VERSION < ObfuscationHelper.GNL_5_10_22) {
+                findAndHookMethod(Classes.HintTextView, Methods.htvAnimateHotword, boolean.class, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        int page = getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage);
+                        boolean shouldShow = (page == 0 && PreferencesHelper.autoHideSearchBar) || (PreferencesHelper.searchBarOnDefaultHomescreen && page == (PreferencesHelper.defaultHomescreen - 1));
+                        // show the search bar as soon as the page has stopped moving and the GNow overlay is visible
+                        if ((Common.IS_KK_TREBUCHET || (Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lHasCustomContentToLeft)) && shouldShow) {
+                            param.args[0] = false;
+                        }
                     }
-                }
-            });*/
+                });
+            }
         } else {
             // avoid that nasty animation when showing the search bar again
             findAndHookMethod(Classes.TransitionsManager, Methods.tmSetTransitionsEnabled, boolean.class, new XC_MethodHook() {

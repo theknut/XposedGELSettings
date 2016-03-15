@@ -29,12 +29,14 @@
 
 $ 2.3.26
   % Version 2.3.26
-  _ 2016-02-29
+  _ 2016-03-15
+
+  I'm very sorry for the horrible delay. Each of those little Google updates broke XGELS and I had very little time the last few days. I sincerly apologize and set a 15% discount on XGELS Premium for the next 62 hours.<br><br>
 
   Please consider XGELS Premium to support the development of this app!<br>Thanks so much!<br><br>
 
   !Added:
-    * partly support for Google Search 5.9.29 and 5.10.22/23 (everything app drawer related will NOT work)
+    * partly support for Google Search 5.9.29 and 5.10.22/23/25 (everything app drawer related will NOT work)
 
 $ 2.3.25
   % Version 2.3.25

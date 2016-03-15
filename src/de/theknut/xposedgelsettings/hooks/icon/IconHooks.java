@@ -619,6 +619,7 @@ public class IconHooks extends HooksBaseClass {
 
     @SuppressWarnings({ "rawtypes", "rawtypes", "unchecked" })
     static void updateIcons() {
+        if (true) return;
         long time = System.currentTimeMillis();
         final List<ResolveInfo> calendars = getCalendars();
         List<Object> appsToUpdate = new ArrayList<Object>();
