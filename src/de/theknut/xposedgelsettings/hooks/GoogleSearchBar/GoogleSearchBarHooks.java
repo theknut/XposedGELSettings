@@ -218,7 +218,7 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
             });
 
             if (Common.GNL_VERSION < ObfuscationHelper.GNL_5_10_22) {
-                findAndHookMethod(Classes.HintTextView, Methods.htvShowHotword, boolean.class, new XC_MethodHook() {
+                findAndHookMethod(Classes.HintTextView, Methods.htvAnimateHotword, boolean.class, new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                         int page = getIntField(Common.WORKSPACE_INSTANCE, Fields.pvCurrentPage);
@@ -227,25 +227,6 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
                         if ((Common.IS_KK_TREBUCHET || (Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lHasCustomContentToLeft)) && shouldShow) {
                             param.args[0] = false;
                         }
-                    }
-                });
-            } else {
-                findAndHookMethod(Classes.HintTextView, "aai", new XC_MethodHook() {
-                    @Override
-                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-
-                        log("in");
-                        callMethod(param.thisObject, "onFinishInflate");
-                        param.setResult(null);
-                    }
-                });
-
-                findAndHookMethod(Classes.HintTextView, "aaj", new XC_MethodHook() {
-                    @Override
-                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-
-                        log("asd");
-                        //param.setResult(null);
                     }
                 });
             }

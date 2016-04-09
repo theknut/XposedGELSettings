@@ -4,7 +4,6 @@
     android:versionCode="183"
     android:versionName="3.0" >
 
-
     <uses-sdk
         android:minSdkVersion="16"
         android:targetSdkVersion="23" />
