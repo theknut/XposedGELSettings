@@ -20,6 +20,7 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.HooksBaseClass;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
@@ -60,7 +61,7 @@ public class AppDrawerMHooks extends HooksBaseClass {
             findAndHookMethod(Classes.AllAppsRecyclerView, "scrollToTop", XC_MethodReplacement.DO_NOTHING);
         }
 
-        if (Utils.getContrastColor(PreferencesHelper.searchbarPrimaryColor) == Color.WHITE) {
+        if (Common.GNL_VERSION < ObfuscationHelper.GNL_5_10_22 && Utils.getContrastColor(PreferencesHelper.searchbarPrimaryColor) == Color.WHITE) {
             findAndHookMethod(Classes.AllAppsSearchBarControllerImpl, "getView", ViewGroup.class, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
@@ -74,12 +75,21 @@ public class AppDrawerMHooks extends HooksBaseClass {
             });
         }
 
-        findAndHookMethod(Classes.AllAppsContainerView, "onUpdateBackgroundAndPaddings", Rect.class, Rect.class, new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                TabHelperM.getInstance().setBackgroundColor(TabHelperM.getInstance().getTabById(Tab.APPS_ID));
-            }
-        });
+        try {
+            findAndHookMethod(Classes.AllAppsContainerView, "onUpdateBackgroundAndPaddings", Rect.class, Rect.class, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    TabHelperM.getInstance().setBackgroundColor(TabHelperM.getInstance().getTabById(Tab.APPS_ID));
+                }
+            });
+        } catch (NoSuchMethodError nsme) {
+            findAndHookMethod(Classes.AllAppsContainerView, "onUpdateBgPadding", Rect.class, Rect.class, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    TabHelperM.getInstance().setBackgroundColor(TabHelperM.getInstance().getTabById(Tab.APPS_ID));
+                }
+            });
+        }
 
         if (PreferencesHelper.closeAppdrawerAfterAppStarted) {
             findAndHookMethod(Classes.Launcher, "onClick", View.class, new XC_MethodHook() {

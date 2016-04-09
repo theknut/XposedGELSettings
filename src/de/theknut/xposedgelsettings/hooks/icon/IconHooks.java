@@ -21,6 +21,7 @@ import android.graphics.drawable.StateListDrawable;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.LongSparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -31,6 +32,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
@@ -623,21 +625,32 @@ public class IconHooks extends HooksBaseClass {
         final List<ResolveInfo> calendars = getCalendars();
         List<Object> appsToUpdate = new ArrayList<Object>();
         for (ResolveInfo r : calendars) {
-            if (Common.PACKAGE_OBFUSCATED || Common.IS_L_TREBUCHET) {
-                Intent i = Common.LAUNCHER_CONTEXT.getPackageManager().getLaunchIntentForPackage(r.activityInfo.packageName);
-                appsToUpdate.add(callMethod(Common.LAUNCHER_INSTANCE, Methods.lCreateAppDragInfo, i));
+            log(calendars.size() + "calendar " + r.activityInfo.packageName);
+            if (Common.GNL_VERSION >= ObfuscationHelper.GNL_5_10_22) {
+                for (Object info : Common.ALL_APPS) {
+                    ComponentName cmp = ((Intent) callMethod(info, "getIntent")).getComponent();
+                    if (cmp.getPackageName().equals(r.activityInfo.packageName)) {
+                        appsToUpdate.add(Utils.createAppInfo(((Intent) callMethod(info, "getIntent")).getComponent()));
+                        break;
+                    }
+                }
             } else {
-                appsToUpdate.add(newInstance(
-                                Classes.AppInfo,
-                                iconPack.getContext().getPackageManager(),
-                                r,
-                                getObjectField(Common.LAUNCHER_INSTANCE, Fields.lIconCache),
-                                new HashMap<Object, CharSequence>())
-                );
+                if (Common.PACKAGE_OBFUSCATED || Common.IS_L_TREBUCHET) {
+                    Intent i = Common.LAUNCHER_CONTEXT.getPackageManager().getLaunchIntentForPackage(r.activityInfo.packageName);
+                    appsToUpdate.add(callMethod(Common.LAUNCHER_INSTANCE, Methods.lCreateAppDragInfo, i));
+                } else {
+                    appsToUpdate.add(newInstance(
+                                    Classes.AppInfo,
+                                    iconPack.getContext().getPackageManager(),
+                                    r,
+                                    getObjectField(Common.LAUNCHER_INSTANCE, Fields.lIconCache),
+                                    new HashMap<Object, CharSequence>())
+                    );
+                }
             }
         }
 
-        callMethod(Common.LAUNCHER_INSTANCE, Methods.lBindAppsUpdated, appsToUpdate);
+        callMethod(Common.LAUNCHER_INSTANCE, Methods.lBindAppsUpdated, Common.ALL_APPS);
         if (DEBUG) log("updateIcons took " + (System.currentTimeMillis() - time) + "ms");
 
         if (Common.GNL_VERSION >= ObfuscationHelper.GNL_4_2_16) {
@@ -653,7 +666,7 @@ public class IconHooks extends HooksBaseClass {
 
                     ArrayList cellLayouts = (ArrayList) callMethod(Common.WORKSPACE_INSTANCE, Methods.wGetWorkspaceAndHotseatCellLayouts);
                     for (Object layoutParent : cellLayouts) {
-                        ViewGroup layout = (ViewGroup) callMethod(layoutParent, Methods.clGetShortcutsAndWidgets);
+                        ViewGroup layout = (ViewGroup) getObjectField(layoutParent, Fields.clShortcutsAndWidgets);
                         int childCount = layout.getChildCount();
                         for (int i = 0; i < childCount; ++i) {
                             View child = layout.getChildAt(i);
@@ -672,25 +685,54 @@ public class IconHooks extends HooksBaseClass {
                         }
                     }
 
-                    Map<Long, Object> map = (HashMap<Long, Object>) getStaticObjectField(Classes.LauncherModel, Fields.lmFolders);
-                    for (ResolveInfo calendar : calendars) {
-                        for (Long key : map.keySet()) {
-                            Object item = map.get(key);
-                            if (!item.getClass().equals(Classes.FolderInfo)) continue;
+                    if (Common.GNL_VERSION >= ObfuscationHelper.GNL_5_10_22) {
+                        LongSparseArray ma2p = (LongSparseArray) getStaticObjectField(Classes.LauncherModel, Fields.lmFolders);
 
-                            Object folderIcon = callMethod(Common.WORKSPACE_INSTANCE, Methods.wGetViewForTag, item);
-                            if (folderIcon == null) continue;
+                        for (ComponentName calendar : calendarComponents) {
+                            for (int i = 0; i < ma2p.size(); i++) {
+                                Object item = ma2p.keyAt(i);
+                                if (!item.getClass().equals(Classes.FolderInfo)) continue;
 
-                            Object folder = getObjectField(folderIcon, Fields.fiFolder);
-                            ViewGroup mContents = (ViewGroup) callMethod(getObjectField(folder, Fields.fContent), Methods.clGetShortcutsAndWidgets);
+                                Object folderIcon = callMethod(Common.WORKSPACE_INSTANCE, Methods.wGetViewForTag, item);
+                                if (folderIcon == null) continue;
 
-                            for (int i = 0; i < mContents.getChildCount(); i++) {
-                                View child = mContents.getChildAt(i);
-                                if (child.getTag() == null) continue;
-                                Intent intent = (Intent) callMethod(child.getTag(), "getIntent");
-                                if (intent != null && intent.getComponent() != null
-                                        && intent.getComponent().getPackageName().equals(calendar.activityInfo.packageName)) {
-                                    viewToUpdate.add(child);
+                                Object folder = getObjectField(folderIcon, Fields.fiFolder);
+                                ViewGroup mContents = (ViewGroup) callMethod(getObjectField(folder, Fields.fContent), Methods.clGetShortcutsAndWidgets);
+
+                                for (int f = 0; f < mContents.getChildCount(); f++) {
+                                    View child = mContents.getChildAt(f);
+                                    if (child.getTag() == null) continue;
+                                    Intent intent = (Intent) callMethod(child.getTag(), "getIntent");
+                                    if (intent != null && intent.getComponent() != null
+                                            && intent.getComponent().getPackageName().equals(calendar.getPackageName())) {
+                                        viewToUpdate.add(child);
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        Map<Long, Object> map = (HashMap<Long, Object>) getStaticObjectField(Classes.LauncherModel, Fields.lmFolders);
+                        Set<Long> keys = map.keySet();
+
+                        for (ComponentName calendar : calendarComponents) {
+                            for (Long key : keys) {
+                                Object item = callMethod(map, "get", key);
+                                if (!item.getClass().equals(Classes.FolderInfo)) continue;
+
+                                Object folderIcon = callMethod(Common.WORKSPACE_INSTANCE, Methods.wGetViewForTag, item);
+                                if (folderIcon == null) continue;
+
+                                Object folder = getObjectField(folderIcon, Fields.fiFolder);
+                                ViewGroup mContents = (ViewGroup) callMethod(getObjectField(folder, Fields.fContent), Methods.clGetShortcutsAndWidgets);
+
+                                for (int i = 0; i < mContents.getChildCount(); i++) {
+                                    View child = mContents.getChildAt(i);
+                                    if (child.getTag() == null) continue;
+                                    Intent intent = (Intent) callMethod(child.getTag(), "getIntent");
+                                    if (intent != null && intent.getComponent() != null
+                                            && intent.getComponent().getPackageName().equals(calendar.getPackageName())) {
+                                        viewToUpdate.add(child);
+                                    }
                                 }
                             }
                         }
