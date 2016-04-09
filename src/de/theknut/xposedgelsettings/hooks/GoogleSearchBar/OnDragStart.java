@@ -3,6 +3,7 @@ package de.theknut.xposedgelsettings.hooks.googlesearchbar;
 import android.view.View;
 
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.common.XGELSCallback;
 
@@ -20,6 +21,8 @@ public final class OnDragStart extends XGELSCallback {
         // make the search bar invisible
         View qsb = (View) getObjectField(param.thisObject, Fields.sdtbQsbBar);
         qsb.setAlpha(0f);
+
+        if (Common.GNL_VERSION >= ObfuscationHelper.GNL_5_4_24) return;
 
         // set the search bar to hidden
         setBooleanField(param.thisObject, Fields.sdtbIsSearchBarHidden, true);

@@ -241,6 +241,8 @@ public class GestureHelper extends HooksBaseClass {
                     hideAppdock(animateDuration);
                 }
             }
+        } else if (action.equals("DRAWER_SEARCH")) {
+            callMethod(Common.LAUNCHER_INSTANCE, "showAppsView", true, false, true, true);
         } else if (action.contains("APP")) {
             String pkg = PreferencesHelper.prefs.getString(gestureKey + "_launch", "");
             if (!pkg.equals("")) {

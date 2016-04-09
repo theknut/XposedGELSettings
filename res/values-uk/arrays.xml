@@ -39,6 +39,7 @@
         <item>Виключить екран</item>
         <item>Док панель</item>
         <item>Відкрити програму</item>
+        <item>App drawer search</item>
     </string-array>
     <string-array name="notificationbadge_presets_entries">
         <item>Вручну</item>

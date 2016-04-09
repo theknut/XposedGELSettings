@@ -12,6 +12,7 @@
         <item>Prejsť do spánku</item>
         <item>Prepnúť dok</item>
         <item>Otvoriť aplikáciu</item>
+        <item>App drawer search</item>
     </string-array>
 
     <string-array name="gesture_actions_entries_limited">

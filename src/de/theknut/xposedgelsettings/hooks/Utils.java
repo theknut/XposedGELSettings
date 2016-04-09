@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import de.robv.android.xposed.XposedBridge;
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
@@ -232,12 +233,17 @@ public class Utils {
     }
 
     public static Object createAppInfo(Intent intent) {
-        for (Object appInfo : Common.ALL_APPS) {
+        for (Object appInfo : new ArrayList<>(Common.ALL_APPS)) {
             try {
                 if (intent.getComponent().equals(((Intent) callMethod(appInfo, "getIntent")).getComponent())) {
                     return appInfo;
                 }
             } catch (NoSuchMethodError nsme) { }
+        }
+
+        if (Common.IS_M_GNL) {
+            XposedBridge.log("Bail app " + intent.getComponent().flattenToString());
+            return null;
         }
 
         if (Common.PACKAGE_OBFUSCATED) {
@@ -294,7 +300,6 @@ public class Utils {
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         final List<ResolveInfo> apps = pm.queryIntentActivities(mainIntent, 0);
         Collections.sort(apps, new ResolveInfo.DisplayNameComparator(pm));
-
         return apps;
     }
 

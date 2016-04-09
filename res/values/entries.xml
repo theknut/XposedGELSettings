@@ -197,6 +197,7 @@
         <item>SCREEN_OFF</item>
         <item>TOGGLE_DOCK</item>
         <item>APP</item>
+        <item>DRAWER_SEARCH</item>
     </string-array>
     <string-array name="gesture_actions_values_limited">
         <item>NONE</item>

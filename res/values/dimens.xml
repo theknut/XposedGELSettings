@@ -16,4 +16,5 @@
     <dimen name="notificationbadgemargintopbottom">3dp</dimen>
     <dimen name="tabhost_margin">8dp</dimen>
     <dimen name="tabhost_overlap">0.5dp</dimen>
+    <dimen name="tabhost_translationY">2dp</dimen>
 </resources>

@@ -1,14 +1,18 @@
 package de.theknut.xposedgelsettings.ui;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceScreen;
+import android.support.v4.app.ActivityCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +30,7 @@ import java.util.List;
 
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
+import de.theknut.xposedgelsettings.hooks.Utils;
 
 @SuppressLint("SdCardPath")
 public class FragmentBackupRestore extends FragmentBase {
@@ -45,6 +50,15 @@ public class FragmentBackupRestore extends FragmentBase {
         	
             @SuppressLint("WorldReadableFiles")
 			public boolean onPreferenceClick(Preference preference) {
+
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+						&&  ActivityCompat.checkSelfPermission(mContext, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+						||  ActivityCompat.checkSelfPermission(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+					Common.XGELS_CONTEXT = mActivity;
+					Utils.requestPermission(mActivity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 55);
+					return false;
+				}
+
             	String path = getExternalSDCardDirectory();            	
             	String sd_trebuchet = path + "XposedGELSettings/Trebuchet/";
             	String data_trebuchet = "/data/data/" + Common.TREBUCHET_PACKAGE + "/";
@@ -215,6 +229,14 @@ public class FragmentBackupRestore extends FragmentBase {
             @SuppressLint("WorldReadableFiles")
             public boolean onPreferenceClick(Preference preference) {
 
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+						&&  ActivityCompat.checkSelfPermission(mContext, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+						||  ActivityCompat.checkSelfPermission(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+					Common.XGELS_CONTEXT = mActivity;
+					Utils.requestPermission(mActivity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 55);
+					return false;
+				}
+
                 File sdcard = new File(Environment.getExternalStorageDirectory().getPath() + "/XposedGELSettings/" + Common.PREFERENCES_NAME + ".xml");
                 File data = new File(mContext.getFilesDir(), "../shared_prefs/"+ Common.PREFERENCES_NAME + ".xml");
 
@@ -262,7 +284,6 @@ public class FragmentBackupRestore extends FragmentBase {
                     }
                 }
                 else if (preference.getKey().contains("resetsettings")) {
-                    // reset your settings, I mean you wanted that so lets do it!
                     boolean success = mContext.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE).edit().clear().commit();
 
                     if (success) {

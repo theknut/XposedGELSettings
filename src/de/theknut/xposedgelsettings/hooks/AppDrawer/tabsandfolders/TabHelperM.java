@@ -8,8 +8,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.InsetDrawable;
 import android.graphics.drawable.LayerDrawable;
-import android.os.Build;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,13 +32,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
-import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.Utils;
@@ -45,10 +46,8 @@ import de.theknut.xposedgelsettings.ui.AllAppsList;
 import de.theknut.xposedgelsettings.ui.AllWidgetsList;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
-import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.newInstance;
-import static de.robv.android.xposed.XposedHelpers.setIntField;
 
 /**
  * Created by Alexander Schulz on 06.10.2015.
@@ -68,10 +67,9 @@ public final class TabHelperM extends TabHelper implements View.OnClickListener,
     private LayoutInflater inflater;
 
     int currentTabId;
-    float inactiveTabTranslationX;
-
-    boolean tabsInitialized = false;
+    float inactiveTabTranslationX, tabTranslationY;
     private Object appNameComparator;
+    private RelativeLayout XGELSTabHost;
 
     public static TabHelperM getInstance() {
         return INSTANCE;
@@ -86,19 +84,19 @@ public final class TabHelperM extends TabHelper implements View.OnClickListener,
         XGELSContext = Common.XGELS_CONTEXT;
         inflater = LayoutInflater.from(XGELSContext);
         inactiveTabTranslationX = XGELSContext.getResources().getDimension(R.dimen.tabhost_overlap);
+        tabTranslationY = XGELSContext.getResources().getDimension(R.dimen.tabhost_translationY);
 
         this.allAppsCountainerView = tabhost;
 
-        if (!tabsInitialized) {
-            this.tabs = new ArrayList<>();
+        if (this.tabs == null) {
             initTabs();
-            tabsInitialized = true;
         }
-if (true) return;
-        addTabBar(PreferencesHelper.moveTabHostBottom);
-        addTabs(false);
 
-        showTabBar();
+        if (PreferencesHelper.enableAppDrawerTabs) {
+            addTabBar(PreferencesHelper.moveTabHostBottom);
+            addTabs(false);
+            showTabBar();
+        }
     }
 
     public void showTabBar() {
@@ -135,35 +133,22 @@ if (true) return;
     }
 
     private void addTabBar(boolean alignBottom) {
-        ViewGroup rl = (ViewGroup) inflater.inflate(R.layout.tab_host, allAppsCountainerView, true);
-        hsv = (HorizontalScrollView) rl.findViewById(R.id.horizontalScrollView);
+        FrameLayout contents = (FrameLayout) getObjectField(allAppsCountainerView, "mRevealView");
 
-        int topPadding;
-        if (PreferencesHelper.enableAppDrawerTabs) {
-            int resourceId = XGELSContext.getResources().getIdentifier("status_bar_height", "dimen", "android");
-            if (resourceId > 0) {
-                topPadding = XGELSContext.getResources().getDimensionPixelSize(resourceId);
-            } else {
-                topPadding = Utils.dpToPx(25);
-            }
-        } else {
-            topPadding = Utils.dpToPx(6);
-        }
-        rl.setPadding(0, topPadding, 0, 0);
-if (true) return;
-        tabsContainer = (RelativeLayout) rl.findViewById(R.id.tabscontainer);
+        XGELSTabHost = (RelativeLayout) inflater.inflate(R.layout.tab_host, allAppsCountainerView, false);
+        tabsContainer = (RelativeLayout) XGELSTabHost.findViewById(R.id.tabscontainer);
+        hsv = (HorizontalScrollView) XGELSTabHost.findViewById(R.id.horizontalScrollView);
+        XGELSTabHost.setTranslationY(tabTranslationY);
 
-        View contents = (View) getObjectField(allAppsCountainerView, "mContainerView");
-        allAppsCountainerView.removeView(contents);
-        ((ViewGroup) rl.findViewById(R.id.appdrawer_contents)).addView(contents);
+        ViewGroup parent = (ViewGroup) contents.getParent();
+        parent.removeView(contents);
+        ((ViewGroup) XGELSTabHost.findViewById(R.id.appdrawer_contents)).addView(contents);
         hsv.bringToFront();
 
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
-            contents.setLayoutDirection(XGELSContext.getResources().getConfiguration().getLayoutDirection());
-            tabsContainer.setLayoutDirection(XGELSContext.getResources().getConfiguration().getLayoutDirection());
-        }
+        contents.setLayoutDirection(XGELSContext.getResources().getConfiguration().getLayoutDirection());
+        tabsContainer.setLayoutDirection(XGELSContext.getResources().getConfiguration().getLayoutDirection());
 
-        addButton = (ImageView) rl.findViewById(R.id.addbutton);
+        addButton = (ImageView) XGELSTabHost.findViewById(R.id.addbutton);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -175,24 +160,21 @@ if (true) return;
             }
         });
         addButton.setTranslationY(hsv.getHeight() * 1.5f);
+
+        allAppsCountainerView.addView(XGELSTabHost, 1);
     }
 
     public void initTabs() {
+        this.tabs = new ArrayList<>();
         if (PreferencesHelper.enableAppDrawerTabs) {
             for (String item : PreferencesHelper.appdrawerTabData) {
                 tabs.add(new Tab(item, false));
             }
         }
 
-        boolean hasApps = false;
-        for (Tab tab : tabs) {
-            if (tab.isAppsTab()) {
-                hasApps = true;
-            }
-        }
-
-        if (!hasApps) {
+        if (getTabById(Tab.APPS_ID) == null) {
             String appsTabName;
+
             int id = Common.LAUNCHER_CONTEXT.getResources().getIdentifier("all_apps_button_label", "string", Common.HOOKED_PACKAGE);
             if (id != 0) {
                 appsTabName = Common.LAUNCHER_CONTEXT.getResources().getString(id);
@@ -226,11 +208,18 @@ if (true) return;
         organizeTabs();
     }
 
-    public void addTab(Tab tab) {
+    public void addTab(Tab tab, boolean focusTab, boolean showToast) {
         tabs.add(tab);
-        addTabInternal(tab, true);
-        Toast.makeText(allAppsCountainerView.getContext(), XGELSContext.getString(R.string.toast_appdrawer_tabadded_title), Toast.LENGTH_LONG).show();
-        Toast.makeText(allAppsCountainerView.getContext(), XGELSContext.getString(R.string.toast_appdrawer_tabadded_title), Toast.LENGTH_LONG).show();
+        addTabInternal(tab, focusTab);
+
+        if (showToast) {
+            Toast.makeText(allAppsCountainerView.getContext(), XGELSContext.getString(R.string.toast_appdrawer_tabadded_title), Toast.LENGTH_LONG).show();
+            Toast.makeText(allAppsCountainerView.getContext(), XGELSContext.getString(R.string.toast_appdrawer_tabadded_title), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void addTab(Tab tab) {
+        addTab(tab, true, true);
     }
 
     private void addTabInternal(final Tab tab, boolean focus) {
@@ -345,16 +334,33 @@ if (true) return;
 
     @Override
     public void invalidate() {
-        setTabColor(getCurrentTabData().getPrimaryColor());
-        callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvInvalidatePageData, PreferencesHelper.appdrawerRememberLastPosition ? Common.APPDRAWER_LAST_PAGE_POSITION : 0, true);
+        setCurrentTab(getCurrentTabData());
     }
 
     @Override
     public void setTabColor(int color) {
-        getCurrentTabData().setColor(color);
+        Tab tab = getCurrentTabData();
+        tab.setColor(color);
         tabsContainer.findViewById(currentTabId).getBackground().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
         ((TextView) tabsContainer.findViewById(currentTabId)).setTextColor(Utils.getContrastColor(color));
         addButton.setColorFilter(color, PorterDuff.Mode.MULTIPLY);
+
+        setBackgroundColor(tab);
+    }
+
+    public void setBackgroundColor(Tab tab) {
+        if (tab == null) return;
+
+        Common.APP_DRAWER_INSTANCE.setBackgroundColor(PreferencesHelper.appdrawerBackgroundColor);
+        int color = PreferencesHelper.enableAppDrawerTabs
+                ? tab.getPrimaryColor()
+                : PreferencesHelper.appdrawerFolderStyleBackgroundColor;
+
+        String[] fields = {"mContainerView", "mRevealView"};
+        for (String field : fields) {
+            InsetDrawable background = (InsetDrawable) ((View) getObjectField(Common.APP_DRAWER_INSTANCE, field)).getBackground();
+            background.setColorFilter(color, PorterDuff.Mode.MULTIPLY);
+        }
     }
 
     public void setNextTab() {
@@ -362,8 +368,12 @@ if (true) return;
         setCurrentTab(tabs.get(tabIdx >= tabs.size() ? 0 : tabIdx));
     }
 
+    public void setPreviousTab() {
+        int tabIdx = getCurrentTabData().getIndex() - 1;
+        setCurrentTab(tabs.get(tabIdx < 0 ? 0 : tabIdx));
+    }
+
     public void setCurrentTab(Tab tab) {
-        setContentType(tab);
         setCurrentTab(tab.getLayoutId());
     }
 
@@ -374,26 +384,65 @@ if (true) return;
     public void setCurrentTab(int layoutId, boolean onlySetInternal) {
         currentTabId = layoutId;
 
+        if (!PreferencesHelper.enableAppDrawerTabs) {
+            loadTabApps(getTabById(Tab.APPS_ID));
+            return;
+        }
+
         View tabView = tabsContainer.findViewById(layoutId);
         if (tabView == null) return;
 
+        Tab tab = (Tab) tabView.getTag();
+
+        if (tab.isWidgetsTab()) {
+            callMethod(Common.LAUNCHER_INSTANCE, "showWorkspace", -1, true, new Runnable() {
+                @Override
+                public void run() {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            callMethod(Common.LAUNCHER_INSTANCE, "showWidgetsView", true, !PreferencesHelper.appdrawerRememberLastPosition);
+                        }
+                    }, 500);
+                }
+            });
+
+            return;
+        }
+
         tabView.bringToFront();
-        setTabColor(tabs.get(((Tab) tabView.getTag()).getIndex()).getPrimaryColor());
+        setTabColor(tabs.get(tab.getIndex()).getPrimaryColor());
 
         if (onlySetInternal) {
-            callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvInvalidatePageData, 0, false);
             organizeTabs();
             scroll();
             return;
         }
 
         hsv.bringToFront();
-        callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSyncPages);
-        callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvInvalidatePageData, 0, false);
 
         organizeTabs();
         scroll();
         hsv.setTranslationX(0);
+
+        loadTabApps(tab);
+        TabHelperM.getInstance().setBackgroundColor(tab);
+    }
+
+    private void loadTabApps(Tab tab) {
+        Object mApps = getObjectField(getAllAppsCountainerView(), "mApps");
+        HashMap mComponentToAppMap = (HashMap) getObjectField(mApps, "mComponentToAppMap");
+        mComponentToAppMap.clear();
+
+        tab.sort();
+        Iterator localIterator = tab.getData().iterator();
+        while (localIterator.hasNext())
+        {
+            Object localAppInfo = localIterator.next();
+            mComponentToAppMap.put(callMethod(localAppInfo, "toComponentKey"), localAppInfo);
+        }
+
+        callMethod(mApps, "onAppsUpdated");
     }
 
     @Override
@@ -516,16 +565,6 @@ if (true) return;
         setCurrentTab(tab);
     }
 
-    private void setContentType(Tab tab) {
-        Object contentType;
-        if (tab.isWidgetsTab()) {
-            contentType = callMethod(allAppsCountainerView, Methods.acthGetContentTypeForTabTag, "WIDGETS");
-        } else {
-            contentType = callMethod(allAppsCountainerView, Methods.acthGetContentTypeForTabTag, "APPS");
-        }
-        callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSetContentType, contentType);
-    }
-
     @Override
     public boolean onLongClick(View v) {
         if (checkPremium()) {
@@ -539,134 +578,12 @@ if (true) return;
         return false;
     }
 
-    public int setNumberOfPages(Object thisObject) {
-        Tab curTab = getCurrentTabData();
-        if (curTab == null) return -1;
-
-        int numAppPages = getIntField(thisObject, Fields.acpvNumAppsPages);
-        if ((curTab.isAppsTab() || curTab.isUserTab()) && FolderHelper.getInstance().hasFolder()) {
-            int mCellCountX = getIntField(thisObject, Fields.acpvCellCountX);
-            int mCellCountY = getIntField(thisObject, Fields.acpvCellCountY);
-            int itemCnt = FolderHelper.getInstance().getFoldersForTab(curTab.getId()).size();
-            itemCnt += curTab.isAppsTab() ? FolderHelper.getInstance().getAllApps().size() : curTab.getData().size();
-            setIntField(thisObject, Fields.acpvNumAppsPages, (int) Math.ceil((float) itemCnt / (mCellCountX * mCellCountY)));
-            return numAppPages;
-        } else if (curTab.isCustomTab() && curTab.getData() != null) {
-            int mCellCountX = getIntField(thisObject, Fields.acpvCellCountX);
-            int mCellCountY = getIntField(thisObject, Fields.acpvCellCountY);
-            setIntField(thisObject, Fields.acpvNumAppsPages, (int) Math.ceil((float) curTab.getData().size() / (mCellCountX * mCellCountY)));
-            return numAppPages;
-        } else if (curTab.isNewAppsTab() || curTab.isNewUpdatedTab()) {
-            setIntField(thisObject, Fields.acpvNumAppsPages, 1);
-            return numAppPages;
-        }
-
-        return -1;
-    }
-
     @Override
     public Tab getCurrentTabData() {
+        if (!PreferencesHelper.enableAppDrawerTabs) return getTabById(Tab.APPS_ID);
+
         View curTab = tabsContainer.findViewById(currentTabId);
-        return curTab == null ? null : (Tab) curTab.getTag();
-    }
-
-    public boolean loadTabPage(Object thisObject, int page) {
-        Tab curTab = getCurrentTabData();
-        if (curTab == null) return false;
-
-        if ((curTab.isAppsTab() || curTab.isUserTab()) && FolderHelper.getInstance().hasFolder()) {
-            ArrayList items;
-            if (curTab.isAppsTab()) {
-                items = new ArrayList(FolderHelper.getInstance().getAllApps());
-            } else if (curTab.isUserTab() && curTab.getData() != null) {
-                items = new ArrayList(curTab.getData());
-            } else {
-                return false;
-            }
-
-            items.addAll(0, FolderHelper.getInstance().getFoldersForTab(curTab.getId()));
-            syncAppsPageItems(thisObject, items, page);
-            return true;
-        } else if (curTab.isCustomTab() && curTab.getData() != null) {
-            syncAppsPageItems(thisObject, curTab.getData(), page);
-            return true;
-        } else if (curTab.isAppsTab()) {
-            syncAppsPageItems(thisObject, new ArrayList(FolderHelper.getInstance().getAllApps()), page);
-            return true;
-        }
-
-        if (curTab.isAppsTab()) {
-            ViewGroup appsCustomizeCellLayout = (ViewGroup) callMethod(thisObject, Methods.pvGetPageAt, page);
-            appsCustomizeCellLayout.getBackground().setColorFilter(curTab.getPrimaryColor(), PorterDuff.Mode.MULTIPLY);
-        }
-
-        return false;
-    }
-
-    private void syncAppsPageItems(Object thisObject, ArrayList apps, int page) {
-        final boolean isRtl = (Boolean) callMethod(thisObject, Methods.pvIsLayoutRtl);
-        Tab currTab = getCurrentTabData();
-        LayoutInflater mLayoutInflater = (LayoutInflater) getObjectField(thisObject, Fields.acpvLayoutInflater);
-
-        int mCellCountX = getIntField(thisObject, Fields.acpvCellCountX);
-        int mCellCountY = getIntField(thisObject, Fields.acpvCellCountY);
-        int apps_customize_application = Common.LAUNCHER_CONTEXT.getResources().getIdentifier("apps_customize_application", "layout", Common.HOOKED_PACKAGE);
-
-        int numCells = mCellCountX * mCellCountY;
-        int startIndex = page * numCells;
-        int endIndex = Math.min(startIndex + numCells, apps.size());
-        ViewGroup appsCustomizeCellLayout = (ViewGroup) callMethod(thisObject, Methods.pvGetPageAt, page);
-        appsCustomizeCellLayout.getBackground().setColorFilter(currTab.getPrimaryColor(), PorterDuff.Mode.MULTIPLY);
-
-        callMethod(appsCustomizeCellLayout, Methods.acpvRemoveAllViewsOnPage);
-        for (int i = startIndex; i < endIndex; ++i) {
-            Object info = apps.get(i);
-            View icon;
-
-            int index = i - startIndex;
-            int x = index % mCellCountX;
-            int y = index / mCellCountX;
-            if (isRtl) {
-                x = mCellCountX - x - 1;
-            }
-
-            if (info instanceof Folder) {
-                icon = ((Folder) info).makeFolderIcon(appsCustomizeCellLayout);
-                if (icon == null) continue;
-            } else {
-                icon = mLayoutInflater.inflate(apps_customize_application, appsCustomizeCellLayout, false);
-                callMethod(icon, Methods.btvApplyFromApplicationInfo, info);
-                icon.setOnClickListener((View.OnClickListener) Common.LAUNCHER_INSTANCE);
-                icon.setOnLongClickListener((View.OnLongClickListener) thisObject);
-                icon.setOnTouchListener((View.OnTouchListener) thisObject);
-                icon.setOnKeyListener((View.OnKeyListener) thisObject);
-                icon.setOnFocusChangeListener((View.OnFocusChangeListener) getObjectField(appsCustomizeCellLayout, Fields.acclFocusHandlerView));
-            }
-
-            callMethod(appsCustomizeCellLayout, Methods.clAddViewToCellLayout, icon, -1, i, newInstance(Classes.CellLayoutLayoutParams, x, y, 1, 1), false);
-
-            if (!PreferencesHelper.hideIconLabelApps) {
-                TextView iconName;
-                if (!(info instanceof Folder)) {
-                    iconName = (TextView) icon;
-                } else {
-                    iconName = (TextView) getObjectField(icon, Fields.fiFolderName);
-                }
-
-                if (PreferencesHelper.iconSettingsSwitchApps) {
-                    iconName.setTextColor(PreferencesHelper.appdrawerIconLabelColor);
-                } else {
-                    int color = currTab.getPrimaryColor();
-                    if (color >= Tab.DEFAULT_COLOR || color == Color.WHITE) {
-                        iconName.setTextColor(Tab.DEFAULT_TEXT_COLOR);
-                    } else {
-                        iconName.setTextColor(currTab.getContrastColor());
-                    }
-                }
-            }
-        }
-
-        callMethod(thisObject, Methods.acpvEnableHwLayersOnVisiblePages);
+        return curTab == null ? getTabById(Tab.APPS_ID) : (Tab) curTab.getTag();
     }
 
     @Override
@@ -681,7 +598,6 @@ if (true) return;
     }
 
     private void setupTabSettings(final Tab tab) {
-
         final boolean newTab = tab == null;
 
         final ViewGroup tabSettingsView = (ViewGroup) LayoutInflater.from(XGELSContext).inflate(R.layout.tab_settings_view, null);
@@ -694,7 +610,7 @@ if (true) return;
         if (!newTab) editText.setText(tab.getTitle());
 
         int padding = Math.round(XGELSContext.getResources().getDimension(R.dimen.tab_menu_padding));
-        tabSettingsDialog = new AlertDialog.Builder(Common.LAUNCHER_INSTANCE).create();
+        tabSettingsDialog = new AlertDialog.Builder(Common.LAUNCHER_INSTANCE, AlertDialog.THEME_DEVICE_DEFAULT_DARK).create();
         tabSettingsDialog.setView(tabSettingsView, padding, padding, padding, padding);
 
         if (!newTab) {
@@ -748,7 +664,6 @@ if (true) return;
                             Common.LAUNCHER_CONTEXT.startActivity(intent);
                         } else {
                             if (tab.isWidgetsTab()) {
-                                //setCurrentTab(tab);
                                 Intent startMain = new Intent(Intent.ACTION_MAIN);
                                 startMain.addCategory(Intent.CATEGORY_HOME);
                                 startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -840,14 +755,9 @@ if (true) return;
                         tab.setHideFromAppsPage(isChecked);
                         Intent intent = getBaseIntent(false, tab.getId(), tab.getTitle());
                         Common.LAUNCHER_CONTEXT.startActivity(intent);
+                        Utils.saveToSettings(Common.LAUNCHER_CONTEXT, "hideiconpacks", isChecked);
 
-                        ArrayList allApps = (ArrayList) getObjectField(Common.APP_DRAWER_INSTANCE, Fields.acpvAllApps);
-                        if (!isChecked) {
-                            allApps.addAll(tab.getData());
-                        }
-
-                        callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSetApps, allApps);
-                        invalidate();
+                        TabHelper.getInstance().getTabById(Tab.APPS_ID).update();
                     }
                 });
             } else {
@@ -867,10 +777,6 @@ if (true) return;
                         if (tab.getSortType().equals(sortType)) return;
 
                         tab.setSortType(sortType);
-                        if (tab.isAppsTab()) {
-                            callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSetApps, getObjectField(Common.APP_DRAWER_INSTANCE, Fields.acpvAllApps));
-                        }
-
                         invalidate();
 
                         Intent intent = getBaseIntent(false, tab.getId(), null);
@@ -878,8 +784,7 @@ if (true) return;
                     }
 
                     @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-                    }
+                    public void onNothingSelected(AdapterView<?> parent) { }
                 });
             } else {
                 tabSort.setVisibility(View.GONE);
@@ -897,8 +802,7 @@ if (true) return;
                 }
 
                 @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                }
+                public void onNothingSelected(AdapterView<?> parent) { }
             });
             spinner.setVisibility(View.VISIBLE);
 
@@ -920,27 +824,46 @@ if (true) return;
                     ContentType contentType = ContentType.valueOf(XGELSContext.getResources().getStringArray(R.array.tabcontent_values)[spinner.getSelectedItemPosition()]);
                     int tabindex = tabsContainer.getChildCount();
 
-                    int color = Utils.getRandomColor();
                     if (spinner.getSelectedItemPosition() != 0) {
-                        if (spinner.getSelectedItemPosition() == 1) {
-                            color = Color.parseColor("#263238"); // Blue Grey 900
-                        }
-
-                        addTab(new Tab("idx=" + tabindex
+                        final Tab tab = new Tab(
+                                "idx=" + tabindex
                                         + "|id=" + itemId
                                         + "|contenttype=" + contentType
                                         + "|title=" + newTabName
                                         + "|hide=" + false
-                                        + "|color=" + color
-                                        , true)
-                        );
-                    }
+                                        + "|color=" + Utils.getRandomColor()
+                                , false);
 
-                    Intent intent = getBaseIntent(contentType == ContentType.User, itemId, newTabName);
-                    intent.putExtra("contenttype", contentType.toString());
-                    intent.putExtra("new", true);
-                    intent.putExtra("index", tabindex);
-                    Common.LAUNCHER_CONTEXT.startActivity(intent);
+                        if (spinner.getSelectedItemPosition() == 1) {
+                            tab.setColor(Color.parseColor("#263238")); // Blue Grey 900
+
+                            callMethod(Common.LAUNCHER_INSTANCE, "showWorkspace", -1, true, new Runnable() {
+                                @Override
+                                public void run() {
+                                    TabHelperM.getInstance().addTab(tab, false, false);
+                                    Intent saveIntent = getBaseIntent(tab.isUserTab(), tab.getId(), tab.getTitle());
+                                    saveIntent.putExtra("contenttype", tab.getContentType().toString());
+                                    saveIntent.putExtra("new", true);
+                                    saveIntent.putExtra("index", tab.getIndex());
+                                    Common.LAUNCHER_CONTEXT.startActivity(saveIntent);
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            callMethod(Common.LAUNCHER_INSTANCE, "showWidgetsView", true, !PreferencesHelper.appdrawerRememberLastPosition);
+                                        }
+                                    }, 500);
+                                }
+                            });
+                        } else {
+                            tab.initData(true);
+                        }
+                    } else {
+                        Intent intent = getBaseIntent(contentType == ContentType.User, itemId, newTabName);
+                        intent.putExtra("contenttype", contentType.toString());
+                        intent.putExtra("new", true);
+                        intent.putExtra("index", tabindex);
+                        Common.LAUNCHER_CONTEXT.startActivity(intent);
+                    }
                 }
             });
 
@@ -969,5 +892,9 @@ if (true) return;
             appNameComparator = newInstance(Classes.AppNameComparator, Common.LAUNCHER_CONTEXT);
         }
         return (Comparator) getObjectField(appNameComparator, "mAppInfoComparator");
+    }
+
+    public HorizontalScrollView getTabHost() {
+        return hsv;
     }
 }

@@ -87,10 +87,15 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
             final int darkerColor = 0xFFF4F4F4;
 
             if (Common.GNL_VERSION >= ObfuscationHelper.GNL_4_2_16) {
-                if (PreferencesHelper.alwaysShowSayOKGoogle
-                        && (Common.GNL_VERSION < ObfuscationHelper.GNL_5_2_33
-                        || Common.GNL_VERSION >= ObfuscationHelper.GNL_5_3_23)) {
-                    findAndHookMethod(Classes.SearchSettings, Methods.ssFirstHotwordHintShownAt, XC_MethodReplacement.returnConstant(true));
+                if (Common.GNL_VERSION < ObfuscationHelper.GNL_5_2_33 || Common.GNL_VERSION >= ObfuscationHelper.GNL_5_3_23) {
+                    findAndHookMethod(Classes.SearchSettings, Methods.ssFirstHotwordHintShownAt, XC_MethodReplacement.returnConstant(PreferencesHelper.alwaysShowSayOKGoogle));
+                    findAndHookMethod(Classes.HintTextView, Methods.htvAnimateHotword, new XC_MethodHook() {
+                        @Override
+                        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                            ((View) param.thisObject).setAlpha(0.0F);
+                            param.setResult(null);
+                        }
+                    });
                 }
 
                 XposedBridge.hookAllConstructors(Classes.SearchPlateBar, new XC_MethodHook() {
@@ -136,8 +141,7 @@ public class GoogleSearchBarHooks extends HooksBaseClass {
                 });
 
                 if (PreferencesHelper.searchbarStyle != 3
-                        && Utils.getContrastColor(PreferencesHelper.searchbarPrimaryColor) == Color.WHITE) {
-
+                    && Utils.getContrastColor(PreferencesHelper.searchbarPrimaryColor) == Color.WHITE) {
                     findAndHookMethod(Classes.SearchPlate, "onFinishInflate", new XC_MethodHook(PRIORITY_HIGHEST) {
                         @Override
                         protected void afterHookedMethod(MethodHookParam param) throws Throwable {

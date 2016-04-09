@@ -180,10 +180,7 @@ public class FragmentAppDrawer extends FragmentBase {
             if (version < ObfuscationHelper.GNL_4_0_26) {
                 ((MyPreferenceCategory) this.findPreference("settings")).removePreference(this.findPreference("appdrawerfolderstylebackgroundcolor"));
             } else if (version >= ObfuscationHelper.GNL_5_3_23) {
-                ((MyPreferenceCategory) this.findPreference("tabsfolders")).setEnabled(false);
-                ((MyPreferenceCategory) this.findPreference("settings")).setEnabled(false);
                 ((MyPreferenceCategory) this.findPreference("tabsfolders")).removePreference(this.findPreference("appdrawerswipetabs"));
-                ((MyPreferenceCategory) this.findPreference("settings")).removePreference(this.findPreference("appdrawerrememberlastposition"));
 
                 findPreference("gridsize").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override

@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -115,9 +114,7 @@ public class AllAppsList extends ActionBarListActivity {
             responseIntent.putExtra("tabid", intent.getLongExtra("tabid", Tab.APPS_ID)); // Tab id of the a Folder
         }
 
-        if (mode == MODE_SELECT_FOLDER_APPS) {
-            getSupportActionBar().setTitle(intent.getStringExtra("foldername"));
-        } else if (mode == MODE_MANAGE_TAB || mode == MODE_MANAGE_FOLDER || mode == MODE_SELECT_FOLDER_APPS) {
+        if (mode == MODE_MANAGE_TAB || mode == MODE_MANAGE_FOLDER || mode == MODE_SELECT_FOLDER_APPS) {
             getSupportActionBar().setTitle(itemName);
         }
 
@@ -259,7 +256,7 @@ public class AllAppsList extends ActionBarListActivity {
                             if (mode == MODE_MANAGE_TAB) {
                                 order.remove(new Tab(getIntent(), false).toString());
                             } else if (mode == MODE_MANAGE_TAB) {
-                                order.remove(new Folder(getIntent(), false).toString());
+                                order.remove((new Folder(getIntent(), false)).toString());
                             }
                             editor.remove(prefix + itemID).commit();
                         } else {
@@ -272,7 +269,7 @@ public class AllAppsList extends ActionBarListActivity {
                             if (mode == MODE_MANAGE_TAB) {
                                 order.add(new Tab(getIntent(), false).toString());
                             } else if (mode == MODE_MANAGE_FOLDER) {
-                                order.add(new Folder(getIntent(), false).toString());
+                                order.add((new Folder(getIntent(), false)).toString());
                             }
                         }
 
@@ -293,13 +290,7 @@ public class AllAppsList extends ActionBarListActivity {
                 if (resolveInfo.activityInfo.packageName.equals(Common.TREBUCHET_PACKAGE)) {
                     CommonUI.restartLauncher(false);
                 } else {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            sendBroadcast(new Intent(Common.XGELS_ACTION_RELOAD_SETTINGS));
-                            sendBroadcast(responseIntent);
-                        }
-                    }, 1000);
+                    sendBroadcast(responseIntent);
                 }
 
                 finish();

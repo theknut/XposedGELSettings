@@ -59,7 +59,7 @@ public final class FolderHelper {
 
     private void initFolders() {
         for (String item : PreferencesHelper.appdrawerFolderData) {
-            folders.add(new Folder(item));
+            folders.add(Common.IS_M_GNL ? new FolderM(item) : new FolderL(item));
         }
 
         Collections.sort(folders, new Comparator<Folder>() {
@@ -68,6 +68,13 @@ public final class FolderHelper {
                 return lhs.getIndex() - rhs.getIndex();
             }
         });
+
+        if (Common.IS_M_GNL) {
+            for (Folder folder : folders) {
+                folder.initData();
+                folder.makeFolderIcon((ViewGroup) getObjectField(Common.APP_DRAWER_INSTANCE, "mAppsRecyclerView"));
+            }
+        }
     }
 
     public boolean hasFolder() {
@@ -137,7 +144,7 @@ public final class FolderHelper {
         }
 
         int padding = Math.round(XGELSContext.getResources().getDimension(R.dimen.folder_menu_padding));
-        folderSettingsDialog = new AlertDialog.Builder(Common.LAUNCHER_INSTANCE).create();
+        folderSettingsDialog = new AlertDialog.Builder(Common.LAUNCHER_INSTANCE, AlertDialog.THEME_DEVICE_DEFAULT_DARK).create();
         folderSettingsDialog.setView(folderSettingsView, padding, padding, padding, padding);
 
         if (!newFolder) {
@@ -208,7 +215,11 @@ public final class FolderHelper {
 
                     removeFolder(folder);
 
-                    TabHelper.getInstance().invalidate();
+                    if (Common.IS_M_GNL) {
+                        TabHelper.getInstance().updateTabs();
+                    } else {
+                        TabHelper.getInstance().invalidate();
+                    }
 
                     Intent intent = getBaseIntent(false, itemid, null);
                     Common.LAUNCHER_CONTEXT.startActivity(intent);
@@ -226,13 +237,17 @@ public final class FolderHelper {
                     Intent intent = getBaseIntent(false, folder.getId(), folder.getTitle());
                     Common.LAUNCHER_CONTEXT.startActivity(intent);
 
-                    ArrayList allApps = (ArrayList) getObjectField(Common.APP_DRAWER_INSTANCE, Fields.acpvAllApps);
-                    for (String app : folder.getRawData()) {
-                        allApps.add(Utils.createAppInfo(ComponentName.unflattenFromString(app)));
-                    }
+                    if (Common.IS_M_GNL) {
+                        TabHelper.getInstance().updateTabs();
+                    } else {
+                        ArrayList allApps = (ArrayList) getObjectField(Common.APP_DRAWER_INSTANCE, Fields.acpvAllApps);
+                        for (String app : folder.getRawData()) {
+                            allApps.add(Utils.createAppInfo(ComponentName.unflattenFromString(app)));
+                        }
 
-                    callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSetApps, allApps);
-                    TabHelper.getInstance().invalidate();
+                        callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSetApps, allApps);
+                        TabHelper.getInstance().invalidate();
+                    }
                 }
             });
         } else {
@@ -291,12 +306,16 @@ public final class FolderHelper {
             folders.remove(folder);
 
             if (folder.hideFromAppsPage()) {
-                ArrayList allApps = (ArrayList) getObjectField(Common.APP_DRAWER_INSTANCE, Fields.acpvAllApps);
-                for (String app : folder.getRawData()) {
-                    allApps.add(Utils.createAppInfo(ComponentName.unflattenFromString(app)));
-                }
+                if (Common.IS_M_GNL) {
+                    TabHelper.getInstance().updateTabs();
+                } else {
+                    ArrayList allApps = (ArrayList) getObjectField(Common.APP_DRAWER_INSTANCE, Fields.acpvAllApps);
+                    for (String app : folder.getRawData()) {
+                        allApps.add(Utils.createAppInfo(ComponentName.unflattenFromString(app)));
+                    }
 
-                callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSetApps, allApps);
+                    callMethod(Common.APP_DRAWER_INSTANCE, Methods.acpvSetApps, allApps);
+                }
             }
         }
     }
@@ -370,7 +389,6 @@ public final class FolderHelper {
     }
 
     public void updateFolders(String pkg) {
-        if (Common.IS_M_GNL) return;
         for (Folder folder : folders) {
             if (folder.contains(pkg)) {
                 folder.invalidate();

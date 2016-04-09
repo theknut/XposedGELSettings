@@ -1,10 +1,14 @@
 package de.theknut.xposedgelsettings.hooks.androidintegration;
 
 import android.annotation.TargetApi;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -14,8 +18,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Set;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
@@ -36,7 +40,7 @@ public class AppInfo extends HooksBaseClass {
     static Context SettingsContext;
     static Context XGELSContext;
     static LayoutInflater inflater;
-    static Set<String> hiddenApps;
+    static ArrayList<String> hiddenApps;
 
     public static void initAllHooks(LoadPackageParam lpparam) {
 
@@ -56,7 +60,7 @@ public class AppInfo extends HooksBaseClass {
                     }
 
                     final SharedPreferences prefs = XGELSContext.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
-                    hiddenApps = prefs.getStringSet(key, new HashSet<String>());
+                    hiddenApps = new ArrayList<>(prefs.getStringSet(key, new HashSet<String>()));
 
                     Object mAppEntry = getObjectField(param.thisObject, "mAppEntry");
                     ApplicationInfo info = (ApplicationInfo) getObjectField(mAppEntry, "info");
@@ -80,7 +84,7 @@ public class AppInfo extends HooksBaseClass {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                            hiddenApps = prefs.getStringSet(key, new HashSet<String>());
+                            hiddenApps = new ArrayList<>(prefs.getStringSet(key, new HashSet<String>()));
                             if (isChecked) {
                                 if (!hiddenApps.contains(buttonView.getTag())) {
                                     // app is not in the list, so lets add it
@@ -100,7 +104,7 @@ public class AppInfo extends HooksBaseClass {
                     parent.addView(checkbox);
                 }
             });
-        } else if (false) {
+        } else {
             findAndHookMethod("com.android.settings.applications.InstalledAppDetails", lpparam.classLoader, "onActivityCreated", Bundle.class, new XC_MethodHook() {
 
                 @Override
@@ -113,13 +117,21 @@ public class AppInfo extends HooksBaseClass {
                         inflater = (LayoutInflater) XGELSContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     }
 
-                    final SharedPreferences prefs = XGELSContext.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
-                    hiddenApps = prefs.getStringSet(key, new HashSet<String>());
+                    final ContentResolver contentResolver = XGELSContext.getContentResolver();
+                    final Uri hiddenAppsUri = Common.URI_SETTINGS_BASE.buildUpon().query("hiddenapps").build();
+                    Cursor cursor = contentResolver.query(hiddenAppsUri, null, null, null, null);
+                    if (cursor == null) return;
+                    ArrayList<String> hiddenApps = new ArrayList<>();
+                    while(cursor.moveToNext()) {
+                        hiddenApps.add(cursor.getString(0));
+                    }
+                    cursor.close();
 
                     Object mAppEntry = getObjectField(param.thisObject, "mAppEntry");
                     ApplicationInfo info = (ApplicationInfo) getObjectField(mAppEntry, "info");
-                    // Application doesn't have a launch intent, nothing to do
+
                     Intent launchIntent = SettingsContext.getPackageManager().getLaunchIntentForPackage(info.packageName);
+                    // Application doesn't have a launch intent, nothing to do
                     if (launchIntent == null) {
                         return;
                     }
@@ -131,7 +143,6 @@ public class AppInfo extends HooksBaseClass {
                     checkbox.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
                     checkbox.setText(XGELSContext.getResources().getString(R.string.hide_app_switch_label));
                     checkbox.setTag(launchIntent.getComponent().flattenToString());
-                    log("hiddenApps: " + hiddenApps);
                     checkbox.setChecked(hiddenApps.contains(checkbox.getTag()));
                     checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -139,7 +150,14 @@ public class AppInfo extends HooksBaseClass {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                            hiddenApps = prefs.getStringSet(key, new HashSet<String>());
+                            Cursor tmpCursor = contentResolver.query(hiddenAppsUri, null, null, null, null);
+                            if (tmpCursor == null) return;
+                            ArrayList<String> hiddenApps = new ArrayList<>();
+                            while(tmpCursor.moveToNext()) {
+                                hiddenApps.add(tmpCursor.getString(0));
+                            }
+                            tmpCursor.close();
+
                             if (isChecked) {
                                 if (!hiddenApps.contains(buttonView.getTag())) {
                                     // app is not in the list, so lets add it
@@ -152,7 +170,12 @@ public class AppInfo extends HooksBaseClass {
                                 }
                             }
 
-                            Utils.saveToSettings(SettingsContext, key, hiddenApps, true);
+                            ContentValues values = new ContentValues();
+                            values.put("type", hiddenApps.getClass().toString());
+                            values.put("value", hiddenApps.toString());
+                            contentResolver.update(hiddenAppsUri, values, null, null);
+
+                            SettingsContext.sendBroadcast(new Intent(Common.XGELS_ACTION_RELOAD_SETTINGS));
                         }
                     });
 

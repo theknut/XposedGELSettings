@@ -1,10 +1,15 @@
 package de.theknut.xposedgelsettings.hooks.appdrawer.tabsandfolders;
 
+import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.Rect;
+import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityEvent;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
@@ -16,82 +21,148 @@ import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Classes;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Methods;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
-import de.theknut.xposedgelsettings.hooks.Utils;
 import de.theknut.xposedgelsettings.hooks.common.CommonHooks;
 import de.theknut.xposedgelsettings.hooks.common.XGELSCallback;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
-import static de.robv.android.xposed.XposedHelpers.getIntField;
-import static de.robv.android.xposed.XposedHelpers.getLongField;
+import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
-import static de.robv.android.xposed.XposedHelpers.setIntField;
+import static de.robv.android.xposed.XposedHelpers.newInstance;
+import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
 public class AddTabsAndFoldersM extends HooksBaseClass {
 
-    public static void initAllHooks(LoadPackageParam lpparam) {
+    public static void initAllHooks(final LoadPackageParam lpparam) {
 
         PreferencesHelper.moveTabHostBottom = false;
         findAndHookMethod(Classes.AllAppsContainerView, "onFinishInflate", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(final MethodHookParam param) throws Throwable {
-                FolderHelper.getInstance().init();
                 TabHelperM.getInstance().init((LinearLayout) param.thisObject);
             }
         });
 
-        if (true) return;
-        findAndHookMethod(Classes.AppsCustomizeTabHost, Methods.acthSetInsets, Rect.class, new XC_MethodHook() {
+        findAndHookMethod(Classes.AlphabeticalAppsList, "getFiltersAppInfos", new XC_MethodHook() {
             @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                if (PreferencesHelper.enableAppDrawerTabs) {
-                    ((FrameLayout.LayoutParams) ((View) getObjectField(param.thisObject, Fields.acthContent)).getLayoutParams()).topMargin = Utils.dpToPx(0);
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                if (getObjectField(param.thisObject, "mSearchResults") != null) return;
+
+                Tab tab = TabHelper.getInstance().getCurrentTabData();
+                if (tab != null && tab.getData() != null) {
+                    ArrayList data = new ArrayList(tab.getData());
+                    ArrayList<Folder> foldersForTab = FolderHelper.getInstance().getFoldersForTab(tab.id);
+
+                    if (foldersForTab != null) {
+                        for (Folder folder : foldersForTab) {
+                            Object appInfo = newInstance(Classes.AppInfo);
+                            setObjectField(appInfo, "itemType", FolderM.FOLDER_ITEM_ID + Math.round(folder.getId()));
+                            setObjectField(appInfo, "title", folder.getTitle());
+                            data.add(0, appInfo);
+                        }
+                    }
+                    param.setResult(data);
                 }
             }
         });
 
-        XC_MethodHook syncAppsPageItemsHook = new XC_MethodHook() {
-            final int PAGE = 0;
+        findAndHookMethod(Classes.BubbleTextView, "applyFromApplicationInfo", Classes.AppInfo, new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                TextView iconName = (TextView) param.thisObject;
 
-                if (TabHelperL.getInstance().loadTabPage(param.thisObject, (Integer) param.args[PAGE])) {
+                if (PreferencesHelper.iconSettingsSwitchApps) {
+                    if (PreferencesHelper.hideIconLabelApps) {
+                        iconName.setTextColor(Color.TRANSPARENT);
+                        return;
+                    }
+
+                    iconName.setTextColor(PreferencesHelper.appdrawerIconLabelColor);
+                } else {
+                    Tab tab = TabHelperM.getInstance().getCurrentTabData();
+                    if (tab.getPrimaryColor() >= Tab.DEFAULT_COLOR || tab.getPrimaryColor() == Color.WHITE) {
+                        iconName.setTextColor(Tab.DEFAULT_TEXT_COLOR);
+                    } else {
+                        iconName.setTextColor(tab.getContrastColor());
+                    }
+                }
+            }
+        });
+
+        findAndHookMethod(Classes.AllAppsGridAdapter, "getItemViewType", Integer.TYPE, new XC_MethodHook() {
+
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                ArrayList adapterItems = (ArrayList) getObjectField(Common.ALPHABETICAL_APPS_LIST, "mAdapterItems");
+                Object appInfo = getObjectField(adapterItems.get((Integer) param.args[0]), "appInfo");
+
+                if (appInfo == null) return;
+
+                Integer viewType = (Integer) getObjectField(appInfo, "itemType");
+                if (viewType >= FolderM.FOLDER_ITEM_ID) {
+                    param.setResult(viewType);
+                }
+            }
+        });
+
+        XposedBridge.hookAllMethods(Classes.AllAppsGridAdapter, "onCreateViewHolder", new XC_MethodHook() {
+
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                int viewType = (Integer) param.args[1];
+                if (viewType >= FolderM.FOLDER_ITEM_ID) {
+                    param.setResult(newInstance(
+                            findClass(ObfuscationHelper.ClassNames.ALL_APPS_GRID_ADAPTER + "$ViewHolder", lpparam.classLoader),
+                            FolderHelper.getInstance().getFolder(viewType - FolderM.FOLDER_ITEM_ID).makeFolderIcon((ViewGroup) param.args[0])
+                    ));
+                }
+            }
+        });
+
+        XposedBridge.hookAllMethods(Classes.AllAppsGridAdapter, "onBindViewHolder", new XC_MethodHook() {
+            Object mSearchResults = null;
+            ArrayList adapterItems = null;
+
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                if (mSearchResults == null) {
+                    mSearchResults = getObjectField(Common.ALPHABETICAL_APPS_LIST, "mSearchResults");
+                    adapterItems = (ArrayList) getObjectField(Common.ALPHABETICAL_APPS_LIST, "mAdapterItems");
+                }
+
+                if (mSearchResults != null) return;
+
+                Object adapterItem = adapterItems.get((Integer) param.args[1]);
+                Object appInfo = getObjectField(adapterItem, "appInfo");
+                if (appInfo == null) return;
+
+                if ((Integer) getObjectField(appInfo, "itemType") >= FolderM.FOLDER_ITEM_ID) {
+                    View folderIcon = (View) getObjectField(param.args[0], "mContent");
+
+                    TextView folderName = (TextView) getObjectField(folderIcon, Fields.fiFolderName);
+                    if (PreferencesHelper.iconSettingsSwitchApps) {
+                        folderName.setTextColor(PreferencesHelper.hideIconLabelApps ? Color.TRANSPARENT : PreferencesHelper.appdrawerIconLabelColor);
+                    } else {
+                        Tab tab = TabHelperM.getInstance().getCurrentTabData();
+                        if (tab.getPrimaryColor() >= Tab.DEFAULT_COLOR || tab.getPrimaryColor() == Color.WHITE) {
+                            folderName.setTextColor(Tab.DEFAULT_TEXT_COLOR);
+                        } else {
+                            folderName.setTextColor(tab.getContrastColor());
+                        }
+                    }
+                    
                     param.setResult(null);
                 }
             }
-        };
+        });
 
-        if (Common.IS_L_TREBUCHET
-                || (Common.PACKAGE_OBFUSCATED && Common.GNL_VERSION >= ObfuscationHelper.GNL_4_2_16)) {
-            findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvSyncAppsPageItems, Integer.TYPE, boolean.class, syncAppsPageItemsHook);
-        } else {
-            findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvSyncAppsPageItems, Integer.TYPE, syncAppsPageItemsHook);
-        }
-
-        findAndHookMethod(Classes.AppsCustomizePagedView, Methods.acpvSyncPages, new XC_MethodHook() {
-
-            int numAppPages;
-            int contentHeight = -1;
-            int orientation;
+        findAndHookMethod(findClass(ObfuscationHelper.ClassNames.ALL_APPS_GRID_ADAPTER + "$GridSpanSizer", lpparam.classLoader), "getSpanSize", Integer.TYPE, new XC_MethodHook() {
 
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-//                if (PreferencesHelper.enableAppDrawerTabs && PreferencesHelper.moveTabHostBottom) {
-//                    int currOrientation = Common.LAUNCHER_CONTEXT.getResources().getConfiguration().orientation;
-//                    if (contentHeight == -1 || orientation != currOrientation) {
-//                        orientation = currOrientation;
-//                        contentHeight = getIntField(param.thisObject, ObfuscationHelper.Fields.acpvContentHeight);
-//                    }
-//                    setIntField(param.thisObject, ObfuscationHelper.Fields.acpvContentHeight, contentHeight - Utils.dpToPx(52));
-//                }
-                numAppPages = TabHelperL.getInstance().setNumberOfPages(param.thisObject);
-            }
-
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                if (numAppPages != -1) {
-                    setIntField(param.thisObject, Fields.acpvNumAppsPages, numAppPages);
-                }
+                ArrayList adapterItems = (ArrayList) getObjectField(Common.ALPHABETICAL_APPS_LIST, "mAdapterItems");
+                Integer viewType = (Integer) getObjectField(adapterItems.get((Integer) param.args[0]), "viewType");
+                if (viewType >= FolderM.FOLDER_ITEM_ID) param.setResult(1);
             }
         });
 
@@ -112,50 +183,36 @@ public class AddTabsAndFoldersM extends HooksBaseClass {
         XposedBridge.hookAllMethods(Classes.Launcher, "onNewIntent", closeHook);
         XposedBridge.hookAllMethods(Classes.Launcher, "onBackPressed", closeHook);
 
-        findAndHookMethod(Classes.Workspace, Methods.wGetScreenWithId, long.class, new XC_MethodHook() {
-
+        CommonHooks.OpenFolderListeners.add(new XGELSCallback() {
             @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                if ((Long) param.args[0] == -1) {
-                    param.setResult(callMethod(Common.APP_DRAWER_INSTANCE, Methods.pvGetPageAt, 0));
+            public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
+                if (!(Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lIsAllAppsVisible))
+                    return;
+
+                Object folderIcon = param.args[0];
+                View folder = (View) getObjectField(folderIcon, "mFolder");
+                Object openFolder = Common.WORKSPACE_INSTANCE != null ? callMethod(Common.WORKSPACE_INSTANCE, "getOpenFolder") : null;
+                if (openFolder != null && openFolder != folder) {
+                    callMethod(Common.LAUNCHER_INSTANCE, Methods.lCloseFolder);
                 }
+
+                setObjectField(getObjectField(folder, "mInfo"), "opened", true);
+                if (folder.getParent() == null) {
+                    Common.DRAG_LAYER.addView(folder);
+                    callMethod(getObjectField(Common.LAUNCHER_INSTANCE, "mDragController"), "addDropTarget", folder);
+                } else {
+                    Log.w("XGELS", "Opening folder (" + folder + ") which already has a parent (" +
+                            folder.getParent() + ").");
+                }
+                callMethod(folder, "animateOpen");
+
+                folder.sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
+                Common.DRAG_LAYER.sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED);
+                param.setResult(null);
             }
         });
 
-        findAndHookMethod(Classes.Workspace, Methods.wGetViewForTag, Object.class, new XC_MethodHook() {
-
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                if(getLongField(param.args[0], Fields.iiScreenId) == Folder.FOLDER_ID) {
-                    Folder folder = FolderHelper.getInstance().findOpenFolder();
-                    if (folder != null) {
-                        param.setResult(folder.getFolderIcon());
-                    }
-                }
-            }
-        });
-
-        findAndHookMethod(Classes.Workspace, Methods.wGetFolderForTag, Object.class, new XC_MethodHook() {
-
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                if(getLongField(param.args[0], Fields.iiScreenId) == Folder.FOLDER_ID) {
-                    Folder folder = FolderHelper.getInstance().findOpenFolder();
-                    if (folder != null) {
-                        param.setResult(getObjectField(folder.getFolderIcon(), Fields.fiFolder));
-                    }
-                }
-            }
-        });
-
-        CommonHooks.AppsCustomizePagedViewOverScrollListeners.add(new XGELSCallback() {
-            @Override
-            public void onAfterHookedMethod(MethodHookParam param) throws Throwable {
-                if ((Boolean) callMethod(Common.LAUNCHER_INSTANCE, Methods.lIsAllAppsVisible)) {
-                    TabHelperL.getInstance().handleOverscroll(getIntField(param.thisObject, Fields.pvOverscrollX));
-                }
-            }
-        });
+        if (true) return;
 
         findAndHookMethod(Classes.Launcher, Methods.lDispatchOnLauncherTransitionStart, View.class, boolean.class, boolean.class, new XC_MethodHook() {
             @Override
@@ -191,20 +248,5 @@ public class AddTabsAndFoldersM extends HooksBaseClass {
                 ((View) param.args[0]).getBackground().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
             }
         });
-
-        if (PreferencesHelper.enableAppDrawerTabs && PreferencesHelper.appdrawerSwipeTabs
-                && (!PreferencesHelper.continuousScroll || !PreferencesHelper.continuousScrollWithAppDrawer)) {
-            // open app drawer on overscroll of last page
-            CommonHooks.AppsCustomizePagedViewOverScrollListeners.add(new XGELSCallback() {
-                final int OVERSCROLL = 0;
-                @Override
-                public void onBeforeHookedMethod(MethodHookParam param) throws Throwable {
-                    if (!Common.APP_DRAWER_PAGE_SWITCHED
-                            && TabHelper.getInstance().handleScroll((Float) param.args[OVERSCROLL])) {
-                        Common.APP_DRAWER_PAGE_SWITCHED = true;
-                    }
-                }
-            });
-        }
     }
 }

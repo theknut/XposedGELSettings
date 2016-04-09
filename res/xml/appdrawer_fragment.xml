@@ -5,11 +5,6 @@
         android:title="@string/pref_limited_title"
         android:summary="@string/pref_limited_summary"
         android:selectable="false"/>
-    <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen
-        android:key="warning"
-        android:title="@string/warningtitle"
-        android:summary="@string/warning"
-        android:selectable="false" />
     <de.theknut.xposedgelsettings.ui.preferences.MyPreferenceCategory
         android:key="tabsfolders"
         android:title="@string/pref_cat_tabs_and_folders_title">
@@ -52,10 +47,10 @@
                 android:targetPackage="de.theknut.xposedgelsettings"
                 android:targetClass="de.theknut.xposedgelsettings.ui.AllAppsList" />
         </de.theknut.xposedgelsettings.ui.preferences.MyPreferenceScreen>
-        <!--<de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
+        <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
             android:key="noallappspredictions"
             android:title="@string/pref_allapps_predictions_title"
-            android:summary="@string/pref_allapps_predictions_summary" />-->
+            android:summary="@string/pref_allapps_predictions_summary" />
         <de.theknut.xposedgelsettings.ui.preferences.SwitchCompatPreference
             android:key="changegridsizeapps"
             android:title="@string/pref_switch_enable_grid_size_title"

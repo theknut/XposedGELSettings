@@ -55,6 +55,7 @@ import java.util.TreeSet;
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.Utils;
+import de.theknut.xposedgelsettings.hooks.general.GeneralHooks;
 import de.theknut.xposedgelsettings.hooks.icon.IconPack;
 import de.theknut.xposedgelsettings.hooks.icon.IconPreview;
 import de.theknut.xposedgelsettings.ui.preferences.MyGridView;
@@ -68,6 +69,7 @@ public class FragmentSelectiveIcon extends ActionBarActivity implements ActionBa
     Intent intent;
 
     int STORAGE_PERMISSION_RC = 8;
+    AsyncTask<Void, Void, Void> PendingSaveTask;
     static Activity mActivity;
     static int tabCount;
     static List<String> tags;
@@ -234,13 +236,9 @@ public class FragmentSelectiveIcon extends ActionBarActivity implements ActionBa
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == STORAGE_PERMISSION_RC) {
+        if (requestCode == 55) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Intent intent = new Intent(Common.XGELS_ACTION_UPDATE_ICON);
-                intent.putExtra("mode", mode);
-                intent.putExtra("itemid", itemID);
-                intent.putExtra("default", false);
-                mActivity.sendBroadcast(intent);
+                PendingSaveTask.execute();
             } else {
                 Toast.makeText(this, "Okay, whatever...", Toast.LENGTH_SHORT).show();
             }
@@ -248,7 +246,7 @@ public class FragmentSelectiveIcon extends ActionBarActivity implements ActionBa
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_PICK_PICTURE) {
@@ -301,38 +299,51 @@ public class FragmentSelectiveIcon extends ActionBarActivity implements ActionBa
             }
         } else if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CROP_PICTURE) {
 
+            PendingSaveTask = new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... params) {
+                    FileOutputStream out = null;
+                    File dst;
+                    if (mode == MODE_PICK_APPDRAWER_ICON) {
+                        dst = new File("/mnt/sdcard/XposedGELSettings/icons/all_apps_button_icon.png");
+                    } else {
+                        dst = new File("/mnt/sdcard/XposedGELSettings/icons/" + itemID + ".png");
+                    }
+                    dst.getParentFile().mkdirs();
+                    try {
+                        out = new FileOutputStream(dst);
+                        ((Bitmap) data.getParcelableExtra(CropImage.RETURN_DATA_AS_BITMAP)).compress(Bitmap.CompressFormat.PNG, 100, out);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            if (out != null) {
+                                out.flush();
+                                out.close();
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    saveExternalIcon();
+                }
+            };
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                 &&  ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
                 ||  ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 Common.XGELS_CONTEXT = this;
-                Utils.requestPermission(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 89);
+                Utils.requestPermission(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 55);
                 return;
             }
 
-            FileOutputStream out = null;
-            File dst;
-            if (mode == MODE_PICK_APPDRAWER_ICON) {
-                dst = new File("/mnt/sdcard/XposedGELSettings/icons/all_apps_button_icon.png");
-            } else {
-                dst = new File("/mnt/sdcard/XposedGELSettings/icons/" + itemID + ".png");
-            }
-            dst.getParentFile().mkdirs();
-            try {
-                out = new FileOutputStream(dst);
-                ((Bitmap) data.getParcelableExtra(CropImage.RETURN_DATA_AS_BITMAP)).compress(Bitmap.CompressFormat.PNG, 100, out);
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    if (out != null) {
-                        out.flush();
-                        out.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            saveExternalIcon();
+            PendingSaveTask.execute();
         }
     }
 

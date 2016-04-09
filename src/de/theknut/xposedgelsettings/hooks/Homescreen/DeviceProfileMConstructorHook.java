@@ -1,9 +1,11 @@
 package de.theknut.xposedgelsettings.hooks.homescreen;
 
+import de.theknut.xposedgelsettings.hooks.Common;
 import de.theknut.xposedgelsettings.hooks.ObfuscationHelper.Fields;
 import de.theknut.xposedgelsettings.hooks.PreferencesHelper;
 import de.theknut.xposedgelsettings.hooks.common.XGELSCallback;
 
+import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setIntField;
 import static de.robv.android.xposed.XposedHelpers.setObjectField;
@@ -74,6 +76,18 @@ public final class DeviceProfileMConstructorHook extends XGELSCallback {
 
         if (PreferencesHelper.appDockCount != -1) {
             setIntField(InvDevProf, Fields.dpNumHotseatIcons, PreferencesHelper.appDockCount);
+        }
+
+        if (Common.APP_DRAWER_ICON_SIZE == -1) {
+            if (PreferencesHelper.iconSettingsSwitchApps) {
+                Common.APP_DRAWER_ICON_SIZE = (int) Math.round(getIntField(param.thisObject, Fields.dpAllAppsIconSize) * (PreferencesHelper.iconSizeAppDrawer / 100.0));
+            } else {
+                Common.APP_DRAWER_ICON_SIZE = getIntField(param.thisObject, Fields.dpAllAppsIconSize);
+            }
+        }
+
+        if (PreferencesHelper.iconSettingsSwitchApps) {
+            setIntField(param.thisObject, Fields.dpAllAppsIconSize, Common.APP_DRAWER_ICON_SIZE);
         }
     }
 }

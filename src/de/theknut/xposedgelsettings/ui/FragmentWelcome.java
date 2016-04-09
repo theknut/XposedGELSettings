@@ -1,19 +1,13 @@
 package de.theknut.xposedgelsettings.ui;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,17 +20,11 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import de.theknut.xposedgelsettings.R;
 import de.theknut.xposedgelsettings.hooks.Common;
-import eu.janmuller.android.simplecropimage.CropImage;
 
 @SuppressLint("WorldReadableFiles")
 public class FragmentWelcome extends FragmentBase {
@@ -48,27 +36,25 @@ public class FragmentWelcome extends FragmentBase {
     boolean cancel;
     View rootView;
 
-    private static int REQUEST_PICK_PICTURE = 10;
-    private static int REQUEST_CROP_PICTURE = 11;
-
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-
         rootView = inflater.inflate(R.layout.welcome, container, false);
 
-        /*rootView.findViewById(R.id.madeingermany).setOnTouchListener(new View.OnTouchListener() {
+        rootView.findViewById(R.id.madeingermany).setOnTouchListener(new View.OnTouchListener() {
+
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getPointerCount() == 2) {
                     if (InAppPurchase.checkFreedom()) return false;
                     try {
                         InAppPurchase.purchaseSpecialOffer();
-                    } catch (Exception e) {}
+                    } catch (Exception e) {
+                    }
                 }
                 return true;
             }
-        });*/
+        });
 
         rootView.findViewById(R.id.welcometext).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,86 +66,6 @@ public class FragmentWelcome extends FragmentBase {
         });
 
         return CommonUI.setBackground(rootView, R.id.welcomebackground);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_PICK_PICTURE) {
-            InputStream imageStream;
-            Bitmap yourSelectedImage = null;
-
-            try {
-                imageStream = mActivity.getContentResolver().openInputStream(data.getData());
-                yourSelectedImage = BitmapFactory.decodeStream(imageStream);
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-
-            FileOutputStream out = null;
-            File file = new File("/mnt/sdcard/XposedGELSettings/icons/test.png");
-            file.getParentFile().mkdirs();
-            try {
-                out = new FileOutputStream(file);
-                yourSelectedImage.compress(Bitmap.CompressFormat.PNG, 100, out);
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    if (out != null) {
-                        out.flush();
-                        out.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            // create explicit intent
-            Intent intent = new Intent(mContext, CropImage.class);
-            intent.putExtra(CropImage.IMAGE_PATH, file.getAbsolutePath());
-            intent.putExtra(CropImage.SCALE, true);
-            intent.putExtra(CropImage.ASPECT_X, 1);
-            intent.putExtra(CropImage.ASPECT_Y, 1);
-            intent.putExtra(CropImage.OUTPUT_X, 192);
-            intent.putExtra(CropImage.OUTPUT_Y, 192);
-            startActivityForResult(intent, REQUEST_CROP_PICTURE);
-        } else if (resultCode == Activity.RESULT_OK && requestCode == 1 && data != null) {
-            Uri uri = data.getData();
-
-            if (uri != null) {
-                Cursor c = null;
-                try {
-                    c = mContext.getContentResolver().query(uri, new String[]{
-                                    ContactsContract.CommonDataKinds.Phone.NUMBER,
-                                    ContactsContract.CommonDataKinds.Phone.TYPE },
-                            null, null, null);
-
-                    if (c != null && c.moveToFirst()) {
-                        String number = c.getString(0);
-                        Intent intent = new Intent(Intent.ACTION_CALL);
-                        intent.setData(Uri.parse("tel:" + number));
-                        mContext.startActivity(intent);
-                    }
-                } finally {
-                    if (c != null) {
-                        c.close();
-                    }
-                }
-            }
-        }
-    }
-
-    public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
-        int width = bm.getWidth();
-        int height = bm.getHeight();
-        float scaleWidth = ((float) newWidth) / width;
-        float scaleHeight = ((float) newHeight) / height;
-        Matrix matrix = new Matrix();
-        matrix.postScale(scaleWidth, scaleHeight);
-        return Bitmap.createBitmap(bm, 0, 0, width, height, matrix, false);
     }
 
     @SuppressWarnings("deprecation")

@@ -45,6 +45,7 @@
         <item>Dormir</item>
         <item>Alternar Barra de Aplicativos</item>
         <item>Abrir Aplicativo</item>
+        <item>App drawer search</item>
     </string-array>
 
     <string-array name="gesture_actions_entries_limited">
