@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="changelog_full_title">Log de mudanças</string>
+    <string name="changelog_title">O que há de novo</string>
+    <string name="changelog_show_full">mais&#8230;</string>
+
+    <string-array name="notificationbadge_presets_entries">
+        <item>Personalizado</item>
+        <item>Estilo G+</item>
+        <item>Estilo G+ (Semi-Transparente)</item>
+        <item>Magnum Steel</item>
+        <item>Vinil</item>
+        <item>Preto e Branco</item>
+        <item>Round clean</item>
+        <item>Round glass</item>
+    </string-array>
+
+    <string-array name="premiumArray">
+        <item>a Paulaner beer</item>
+        <item>two German Bratwursts</item>
+        <item>a Schnitzel with fries</item>
+    </string-array>
+
+    <string-array name="donationArray">
+        <item>a Pretzel</item>
+        <item>a Pretzel with butter</item>
+        <item>a Paulaner beer</item>
+        <item>two German Bratwursts</item>
+        <item>a Schnitzel with fries</item>
+    </string-array>
+
+    <string name="pref_force_english_locale_title">Mudar idioma para inglês</string>
+
+    <string name="pref_reverseengineering_cat_title">Engenharia Reversa</string>
+    <string name="pref_reverseengineering_explain_title">Olá, bem-vindo!</string>
+    <string name="pref_reverseengineering_explain_summary">Como você deve ter notado a atualização recente GNL quebrou todas as funcionalidades de XGELS. Isto é devido ao ofuscamento completo do APK GNL. Para fazer XGELS trabalhar novamente eu tive que fazer engenharia reversa de cada recurso de XGELS e, basicamente, teve que passar por toda a minha e até mesmo o código-fonte GNL novamente. Felizmente foi capaz de restaurar 99% dos recursos!</string>
+    <string name="pref_reverseengineering_conclusion_title">O que isso significa?</string>
+    <string name="pref_reverseengineering_conclusion_summary">Supõe-se que o Google ofusca GNL com cada versão lançada (3.x), o que significa que XGELS vai quebrar novamente. Mas desta vez eu estou preparado e para restaurar a mesma funcionalidade dentro de algumas horas!</string>
+    <string name="pref_reverseengineering_what_to_do_title">O que posso fazer?</string>
+    <string name="pref_reverseengineering_what_to_do_summary">Se você não quer GNL/Pesquisa do Google você pode ir para o Google Play Store e desativar as atualizações automáticas. GNL/Pesquisa do Google utiliza lançamentos, o que significa que, em alguns casos XGELS é atualizado antes mesmo de receber atualização oficial da GNL/Pesquisa do Google. Você pode clicar aqui para abrir o Play Store e desativar a atualização automática agora mesmo!</string>
+    <string name="pref_reverseengineering_bugs_title">Erros</string>
+    <string name="pref_reverseengineering_bugs_summary">Devido à engenharia reversa ainda pode haver alguns erros aqui e ali. Por favor, seja um pouco mais paciente. Use a função "Enviar relatório de erro" no menu de Configurações. Obrigado!</string>
+    <string name="pref_reverseengineering_support_cat">Precisa de ajuda?</string>
+    <string name="pref_reverseengineering_support_title">Apoio</string>
+    <string name="pref_reverseengineering_support_summary">!!Isso não vai desbloquear a versão premium!!\nÉ uma incrível quantidade de trabalho para me manter XGELS e dar um bom suporte. Se você sentir vontade de doar, clique aqui!</string>
+
+    <string name="full_reboot">Reiniciar</string>
+    <string name="hot_reboot">Reiniciar suave</string>
+    <string name="launcher_reboot">Reiniciar Launcher</string>
+    <string name="killed">Interrompido:\n</string>
+    <string name="missing_framework">Faltando Xposed Framework!</string>
+    <string name="missing_framework_msg">O Xposed Framework não está instalado. Este aplicativo não funcionará sem o mesmo!</string>
+    <string name="go_to_framework">Ir para Xposed Framework</string>
+    <string name="exit">Sair</string>
+    <string name="module_not_active">Módulo não está ativo!</string>
+    <string name="module_not_active_msg">XGELS não está ativo. Por favor, ative o módulo em Xposed Framework -> Módulos</string>
+    <string name="open_xposed_installer">Abrir Xposed Framework</string>
+    <string name="error_root_shell">Erro no comando de root: exitCode</string>
+
+</resources>
