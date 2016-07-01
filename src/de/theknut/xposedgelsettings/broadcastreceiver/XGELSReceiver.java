@@ -29,6 +29,12 @@ public class XGELSReceiver extends BroadcastReceiver {
     @SuppressWarnings("deprecation")
     @Override
     public void onReceive(Context context, Intent intent) {
+
+        if (intent.getAction().equals(Intent.ACTION_DATE_CHANGED)) {
+           context.sendBroadcast(new Intent(Common.XGELS_ACTION_RESTART_LAUNCHER));
+           return;
+        }
+
         SharedPreferences prefs = context.getSharedPreferences(Common.PREFERENCES_NAME, Context.MODE_WORLD_READABLE);
 
         if (intent.getAction().equals(Intent.ACTION_WALLPAPER_CHANGED)) {
